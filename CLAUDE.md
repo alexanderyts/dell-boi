@@ -12,19 +12,46 @@ contracts are approved and landed; Phase 1 invariants + golden fixtures are live
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
 ### State at end of session 2026-07-17
-- **Version 0.65.2** (`js/version.js` = the single source of truth; `package.json`
-  tracks it). CHANGELOG.md has the 0.65.1 and 0.65.2 entries.
+- **Version 0.65.3** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1–0.65.3 entries.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
 - **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
-- **BLOCKED ON MAINTAINER: nothing.** (Two OPEN citation TASKS remain — listed
-  below — but they are non-blocking re-rule triggers.)
-- **This session:** corpus intake (23 PDFs manifested + extracted; repo pushed to
-  GitHub `origin`) → **G-006 CLOSED** (MX7000 uplink 2× under-count, 4→8) →
-  R12 tail verified **already complete** → **G-022/R11 CLOSED** (cross-network
-  merged switch-line note now enumerates the per-network breakdown instead of
-  masking it — PowerScale backend isolation is now visible on the BOM line
-  that prices it). **Queue is now empty at the top** — next fresh session
-  starts at R16.
+- **BLOCKED ON MAINTAINER: four sweep findings awaiting triage** (not blocking
+  work, just undecided) — see "R16 reachability sweep" below. Two OPEN citation
+  TASKS also remain (listed further below) — non-blocking re-rule triggers.
+- **This session:** corpus intake → G-006 CLOSED → R12 tail reconfirmed complete →
+  G-022/R11 CLOSED → **G-023/R16 CLOSED** (refresh-mode core-uplink question wired;
+  B7's engine fix is finally reachable) → **reachability sweep run**, 4 findings
+  reported (not fixed — maintainer triage). **Next fresh session:** triage the
+  sweep findings (below), then R14.
+
+### G-023 / R16 closed 2026-07-17 — a fixed engine defect is still open if no UI reaches it
+B7 (2026-07-16) made `recommendRefresh`'s `includeCoreUplink` actually price the uplink
+cabling — but nothing in the refresh wizard ever SET it. Choosing "keep the existing
+core" promised "uplink to what is there" and priced nothing. Fixed: three questions
+(`core`/`coreVendor`/`coreReach`) reusing the main path's J2/J3 machinery verbatim,
+shown only when `distribution === 'existing'` (matching the engine's own gate).
+Deliberately did NOT add `coreFarModel`/`coreFarPort` — `recommendRefresh` never reads
+them (confirmed by reading the function, not assumed). Regression-verified: stashing
+the wizard fix alone turned 4 test-dom assertions red.
+
+### R16 reachability sweep — 4 findings reported, NOT fixed (maintainer triage needed)
+Per instruction, swept every SIZING field (INPUT-SCHEMA §1–§2) against actual code (not
+the doc, which drifts) for every mode. Findings, none touched this session:
+1. **`coreType`** (SIZING-partial: `'dci'` forces long-reach + a different optic-speed
+   floor) exists ONLY in the expert form. No wizard mode can ever select it.
+2. **Guided wizard's `category==='edge'` branch** hardcodes `poe`/`accessSpeed`/
+   `edgeUplink`/`distribution` (all SIZING) with no question AND no `assume()`
+   disclosure — unlike Express, which narrates its hardcodes. The dedicated Edge Form
+   already exposes all four.
+3. **Discovery's edge-workload branch** hardcodes the same four — lower priority,
+   Discovery is a declared guidance tool, but the specific hardcodes are undocumented.
+4. **Discovery's general path has no core/DCI-uplink question at all** — a
+   Discovery-built BOM can never price one; not declared as intentional anywhere.
+A fifth, structurally different observation: `railNicCage` is a single top-level input,
+not per-Target — a 2nd AI target can't get its own answer even with a question, because
+the engine has nowhere to put it. Missing engine capability, not missing UI.
+Full reasoning: DESIGN-LOG 2026-07-17c, GAPS G-023.
 
 ### G-022 / R11 closed 2026-07-17 — a merged BOM line must say what it merged
 `addLine()` merged same-model switch lines across networks by design (DERIVATIONS §1),
@@ -99,33 +126,36 @@ All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16
   Same uplink bandwidth either way; the phantom bought no capacity.
 
 ### QUEUE FOR NEXT SESSION — in priority order
-> **NOTE for a fresh session — this note has now been right three times; trust it.**
-> The **R12 tail**, **corpus intake**, **G-006**, and **R11/G-022** are all **DONE** as of
-> 2026-07-17 (R11 landed last, verified with a stash-based regression check — see
-> DESIGN-LOG 2026-07-17b, GAPS G-022). If you are handed a queue listing any of those as
+> **NOTE for a fresh session — this note has now been right four times; trust it.**
+> The **R12 tail**, **corpus intake**, **G-006**, **R11/G-022**, and **R16/G-023** are all
+> **DONE** as of 2026-07-17 (R16 landed last, verified with a stash-based regression check —
+> see DESIGN-LOG 2026-07-17c, GAPS G-023). If you are handed a queue listing any of those as
 > outstanding, that queue is stale — **verify against the suite before doing the work.**
-> Start at (1) = R16.
+> **New at the top: the R16 reachability sweep found 4 findings not yet triaged** (see
+> "R16 reachability sweep" above) — maintainer should pick which (if any) to act on before
+> a fresh session assumes they're out of scope. Otherwise start at (1) = R14.
 
-1. **R16** — B7 refresh `includeCoreUplink` has NO UI (unreachable). Add the
-   refresh-mode question + close the invariant gap: every SIZING field REACHABLE
-   from every mode whose engine reads it (sweep express/discovery/edge/refresh).
-2. **R14** — NVIDIA-stack BOMs must state NOS per switch (SONiC vs Cumulus; Dell AI
+0. **TRIAGE FIRST:** the 4 sweep findings above (`coreType` wizard-unreachable; guided
+   wizard's edge branch hardcodes 4 SIZING fields silently; Discovery's edge branch same,
+   lower priority; Discovery's general path has no core-uplink question at all). Not fixed;
+   decide scope with the maintainer before touching any of them.
+1. **R14** — NVIDIA-stack BOMs must state NOS per switch (SONiC vs Cumulus; Dell AI
    = SONiC); DFM auto-attach needs an applicability rule (DFM manages Dell
    Enterprise SONiC, not NVIDIA/Cumulus).
-3. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
+2. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
    the maintainer doesn't think were selected. Determine seed-default vs wizard; if
    seed, fix + make NIC defaults visible + platform-seed invariant + F710
    CITATION-LOG row. Non-blocking.
-4. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
+3. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
    R12 CORROBORATED this: the form-factor check flags SFP28 optics into the SN4700's
    QSFP-DD ports as needing QSA28 adapters that aren't quoted. Evaluate an
    SN2410-class 25G leaf; at minimum an R9-style low-util note.
-5. **Mode items** — PowerScale severity (backend "non-blocking not met" should be
+4. **Mode items** — PowerScale severity (backend "non-blocking not met" should be
    ERROR not WARN per h16346; verify which fabric trips it, may clear with R15);
    refresh cabling-compat question; new-OOB-into-existing-env (apply the R3 pattern);
    edge headroom note + access-ICL self-contradiction + the S5200-vs-S4348F
    distribution BUSINESS-RULE (log with the VENDOR-FACT vs BUSINESS-RULE distinction).
-6. **Then** resume the renderers slice (G-021 rack renderer) → validators →
+5. **Then** resume the renderers slice (G-021 rack renderer) → validators →
    G-020 teardown.
 Backtest queue detail: docs/backtests/BACKTEST-2026-07-16c.md.
 

@@ -229,6 +229,13 @@ pain/pitch input), `pains`, `timeline`.
 `swCount`/`portsPer`/`speedNow`(DISPLAY)/`targetSpeed`/`topologyNow`/`distribution`/
 `oob`→includeMgmt · `vendor` → GUIDANCE only (never read by recommendRefresh) ·
 `verity`→opts.verity.
+**R16 (2026-07-17):** `core`→includeCoreUplink+coreSpeed (same combined shape as GUIDED's
+`core`; `showIf: distribution === 'existing'`, matching the engine's own `!needSpine` gate) ·
+`coreVendor`→coreVendor · `coreReach`→coreReach (mapped `'long'→'longreach'`, else `'auto'`,
+identical to the main path). Deliberately does NOT collect `coreFarModel`/`coreFarPort` —
+`recommendRefresh`'s coreVendor handling never reads them (always resolves the Dell far side
+through `pickCoreOptic`'s matched-both-ends pattern, unlike the main path's per-model matching);
+adding those questions would build UI for values the engine discards.
 
 ---
 

@@ -853,9 +853,44 @@ leaves are meant to be "underpopulated" for an odd rack count.
   without a wrong doc code attached. This matches the existing house style at the dedicated-spine
   note (`engine.js` ~line 1343: "kept physically separate").
 
----
-
-## PROCESS GAPS (carried over from the pre-code-review pass — still open)
+### G-023 — refresh-mode `includeCoreUplink` (B7) had no UI, so the engine fix was unreachable — CLOSED 2026-07-17 (R16)
+- **Status:** CLOSED. B7's engine-side fix (2026-07-16: `recommendRefresh` prices the
+  uplink-to-existing-core through the `coreVendor` machinery instead of flipping an inert flag)
+  had no wizard question feeding it — `includeCoreUplink`, `coreSpeed`, `coreVendor`, `coreReach`
+  were never set by any refresh-mode UI. A rep choosing "No — keep the existing core for now"
+  (the `distribution: 'existing'` option, whose own label promises "uplink to what is there")
+  got a BOM with **zero uplink hardware priced** — the promise in the option text and what the
+  BOM actually contained didn't match, silently.
+- **Severity:** MEDIUM — no wrong hardware ships, but a real omission: the access switches in an
+  "existing-core" refresh have nowhere to plug in as far as the BOM is concerned. On a refresh
+  where the core uplink matters (any existing-core refresh), the quote was incomplete.
+- **Where:** `js/wizard.js` `REFRESH()` question array + the refresh branch of `go()`.
+- **Fix:** three new questions reusing the main-path J2/J3 `core`/`coreVendor`/`coreReach`
+  machinery verbatim (same ids — so `SUM_LABELS` and the `go()` translation pattern already
+  worked with zero extra plumbing), shown only when `distribution === 'existing'` (matching the
+  engine's own `!needSpine` gate — asking when it can't possibly matter would be the mirror-image
+  defect). Deliberately did NOT add `coreFarModel`/`coreFarPort` — `recommendRefresh`'s coreVendor
+  handling (unlike the main path's) never reads them; it always resolves the far side through
+  `pickCoreOptic`'s matched-both-ends pattern. Adding those questions would have created dead UI,
+  which is the opposite failure mode from the one being fixed.
+- **Test:** `tests/harness/test-dom.js`, "R16" blocks — (1) the default full-refresh path never
+  shows the question and never prices an uplink (an unreachable-by-engine question would be a
+  defect too); (2) declining ("Not now") leaves it correctly unpriced; (3) accepting with a Dell
+  far side prices both the uplink AND the matched far-side optic. **Verified as a real guard:**
+  `git stash`-ing just the `wizard.js` fix turned 4 assertions red; restoring returned to green.
+- **Reachability sweep performed (queue item 2):** before declaring R16 done, swept every
+  SIZING-classified field (INPUT-SCHEMA.md §1–§2) against every mode's actual code (not the doc,
+  which can be stale) for a UI control. Found 4 additional gaps beyond R16's own scope — **not
+  fixed here**, reported to the maintainer for triage: `coreType` (SIZING-partial: forces
+  long-reach + a different optic-speed floor when `'dci'`) exists ONLY in the expert form, absent
+  from every wizard-based mode; the guided wizard's `category === 'edge'` branch hardcodes `poe`,
+  `accessSpeed`, `edgeUplink`, `distribution` with no question and no `assume()`-style disclosure
+  (the dedicated Edge Form already exposes all four); Discovery's edge-workload branch hardcodes
+  the same four (lower priority — Discovery is a declared guidance tool); Discovery's general path
+  has no core/DCI-uplink question at all, so a Discovery-driven BOM can never price one, undeclared
+  as a simplification. A fifth, structurally different observation: `railNicCage` is a single
+  top-level engine input, not per-target, so a second AI target added via the wizard can't get its
+  own answer even if a question existed — not a missing-UI defect, a missing engine capability.
 
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now

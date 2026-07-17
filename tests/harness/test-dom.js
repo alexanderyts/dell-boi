@@ -554,6 +554,62 @@ try {
   check('refresh: migration guidance in checks', /rack-by-rack/.test(checksTxt));
 } catch (e) { check('refresh flow no exception', false, e.message); }
 
+/* ---- R16: refresh-mode core-uplink question — B7's engine fix (recommendRefresh
+ * .includeCoreUplink prices uplinks-to-existing-core) was previously UNREACHABLE from any UI.
+ * Three cases: (1) the default full-refresh path never even shows the question — a new
+ * distribution pair IS this refresh's uplink target, so asking about a further core uplink would
+ * be a dead/unreachable-by-engine question, the mirror-image defect; (2) existing-core path,
+ * declined ("Not now") — reachable but correctly still unpriced; (3) existing-core path, accepted
+ * with a Dell far side — the uplink AND the matched far-side optic are actually priced. */
+try {
+  reset();
+  $('.mode-btn[data-mode="refresh"]').click();
+  walkWizard(20);   // default distribution = 'new' (full refresh)
+  const fullRefreshBom = $('#tab-bom').textContent;
+  check('refresh/R16: full-refresh (new distribution) path never prices an existing-core uplink',
+    !/uplinks to the EXISTING core/i.test(fullRefreshBom));
+} catch (e) { check('refresh/R16 full-refresh default no exception', false, e.message); }
+
+try {
+  reset();
+  $('.mode-btn[data-mode="refresh"]').click();
+  const declinePicks = [{ q: /aggregation.core tier/, opt: /keep the existing core/ }, { q: /connect into an existing core/, opt: /Not now/ }];
+  for (let i = 0; i < 30 && !$('#wizard').hidden; i++) {
+    const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
+    const pick = declinePicks.find(p => !p.done && p.q.test(q));
+    if (pick) { const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => pick.opt.test(b.textContent)); if (btn) { btn.click(); pick.done = true; } }
+    $('#wiz-next').click();
+  }
+  check('refresh/R16 decline: both questions were reached', declinePicks.every(p => p.done), declinePicks.map(p => !!p.done));
+  const declineBom = $('#tab-bom').textContent;
+  check('refresh/R16 decline: "Not now" leaves the existing-core uplink unpriced',
+    !/uplinks to the EXISTING core/i.test(declineBom));
+} catch (e) { check('refresh/R16 decline no exception', false, e.message); }
+
+try {
+  reset();
+  $('.mode-btn[data-mode="refresh"]').click();
+  const acceptPicks = [
+    { q: /aggregation.core tier/, opt: /keep the existing core/ },
+    { q: /connect into an existing core/, opt: /100GbE to the existing core/ },
+    { q: /existing core run/, opt: /Dell PowerSwitch/ }
+  ];
+  for (let i = 0; i < 30 && !$('#wizard').hidden; i++) {
+    const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
+    const pick = acceptPicks.find(p => !p.done && p.q.test(q));
+    if (pick) { const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => pick.opt.test(b.textContent)); if (btn) { btn.click(); pick.done = true; } }
+    $('#wiz-next').click();
+  }
+  check('refresh/R16 accept: all three questions were reached (core, coreVendor shown after core≠none)',
+    acceptPicks.every(p => p.done), acceptPicks.map(p => !!p.done));
+  check('refresh/R16 accept: results rendered', !$('#results').hidden);
+  const acceptBom = $('#tab-bom').textContent;
+  check('refresh/R16 accept: the B7 engine fix is now REACHABLE — existing-core uplink is priced',
+    /uplinks to the EXISTING core/i.test(acceptBom));
+  check('refresh/R16 accept: Dell coreVendor also quotes the matched far-side optic',
+    /existing core \(far side\)/i.test(acceptBom));
+} catch (e) { check('refresh/R16 accept no exception', false, e.message); }
+
 /* ---- NEW: unlimited additional attach targets (expert form) — the real-world shape:
  * one big pool + several small pools on the SAME platform + two storage platforms. ---- */
 try {

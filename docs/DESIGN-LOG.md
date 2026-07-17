@@ -9,6 +9,78 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-17c — G-023 / R16 closed: a fixed engine defect is still a live defect if no UI can reach it
+
+**Change:** three new refresh-mode wizard questions (`core`, `coreVendor`, `coreReach`) wire
+`recommendRefresh`'s `includeCoreUplink`/`coreSpeed`/`coreVendor`/`coreReach`, closing the gap
+between B7 (fixed at the engine level 2026-07-16) and B7 actually being reachable by a rep.
+
+**What was wrong before:** B7's own fix landed cleanly — `recommendRefresh` now prices the
+uplink-to-existing-core cabling through the same `coreVendor` machinery the main path uses,
+instead of flipping `upPerSw` with no hardware line behind it. But nothing in `wizard.js`'s
+`REFRESH()` question array or its `go()` translation ever set `includeCoreUplink`. The refresh
+wizard's `distribution: 'existing'` option is labeled "Access-only refresh, uplink to what is
+there" — a promise that hardware exists connecting the new access switches somewhere — but the
+BOM behind that promise was empty. A fixed backend defect behind an unreachable front end is
+still, from the rep's chair, an open defect; the defect meter reading "B1–B7 hard guards" was
+true of the engine and false of the product.
+
+**Fix, mechanically:** reused the main path's J2/J3 `core`/`coreVendor`/`coreReach` question
+objects (same ids, same option labels, same behaviors) inside `REFRESH()`, gated behind
+`distribution === 'existing'` — the exact condition under which `recommendRefresh` itself gates
+core-uplink pricing (`!needSpine`). Asking the question when `distribution === 'new'` would create
+a question the engine can never act on — the mirror-image bug to the one being fixed, and worth
+naming explicitly since the reachability sweep (below) found instances of exactly that mirror
+image elsewhere.
+
+**Scope decision, made from reading the engine, not assumed:** the main path's core-uplink
+funnel goes four questions deep (`core` → `coreVendor` → `coreFarModel`/`coreFarPort`) when the
+vendor is Dell and the far switch is named. `recommendRefresh` does not read `coreFarModel` or
+`coreFarPort` at all — its `coreVendor === 'dell'` branch always resolves the far side through
+`pickCoreOptic`'s simpler matched-both-ends pattern (confirmed by grep: those two identifiers
+appear nowhere in the function). Adding those two extra questions to the refresh wizard would
+have "reused the machinery" more completely in one sense, but would have built UI for a value the
+engine silently discards — trading one reachability defect for its inverse. Stopped at the three
+fields the function actually consumes.
+
+**Reachability sweep (queue item 2, RESTRUCTURE-3 R16's other half):** before calling R16 done, I
+cross-checked every SIZING field in `docs/contracts/INPUT-SCHEMA.md` §1–§2 against the ACTUAL
+code (`grep` on `js/wizard.js`/`js/app.js`, not the doc's own §3 tables, since those can drift —
+and did: §3.7 predates this session's fix). Found four gaps beyond R16's own scope. Per the
+maintainer's explicit instruction, **none of these were fixed** — reported for triage instead:
+
+1. `coreType` (SIZING-partial — `'dci'` forces long-reach optics AND a different optic-speed
+   floor, confirmed by reading the `ctype === 'dci'` branches in `engine.js`) has a control ONLY
+   in the expert form (`#f-core-type`). No wizard-based mode (guided, express, discovery) can ever
+   select it — every wizard-built core uplink is `coreType: 'core'` by omission.
+2. The guided wizard's `category === 'edge'` branch hardcodes `poe: 'poe+'`, `accessSpeed: '1g'`,
+   `edgeUplink` (unset → engine default), and `distribution: 'new'` — all four SIZING per
+   `recommendEdge`'s own contract — with no question AND no `assume()` disclosure. Compare the
+   dedicated Edge Form, which exposes all four, or Express mode, which hardcodes plenty but
+   narrates every one of them in a single visible assumption line. The guided wizard's edge path
+   does neither: it's silent.
+3. Discovery's edge-workload branch hardcodes the same four fields — lower-priority than (2)
+   since Discovery's guidance-tool scope is already partially documented (INPUT-SCHEMA §3.6), but
+   the specific hardcodes were never spelled out there either.
+4. Discovery's general (non-edge) path has no core/DCI-uplink question anywhere — a
+   Discovery-originated BOM can never price one, an omission the contract doesn't currently
+   declare as intentional.
+
+A fifth observation is a different *class* of finding, not a same-shape instance: `railNicCage`
+is read as a single top-level `input.railNicCage`, not per-Target — so even if a "2nd AI target's
+rail cage" question existed, the engine has nowhere to put the answer. This isn't a missing UI
+control, it's a missing engine capability, and belongs in a separate ticket if the maintainer
+wants it pursued (multi-target AI designs with genuinely different rail-NIC generations are
+plausible but not yet modeled at the field level).
+
+**Test discipline, continuing this session's practice:** the regression test (`test-dom.js`, "R16"
+blocks) was verified against the actual defect before being trusted — stashing only the
+`wizard.js` change (leaving the test in place) turned 4 assertions red; restoring returned to
+green. A smoke script proved the DOM path worked before any test was written, so the permanent
+test was built against a *known-working* flow rather than guessed at blind.
+
+---
+
 ## 2026-07-17b — G-022 / R11 closed: a merged BOM line must say WHAT it merged, not just HOW MUCH
 
 **Change:** `addLine()` in `engine.js` now regenerates a switch line's note from structured

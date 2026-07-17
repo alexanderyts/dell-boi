@@ -5,7 +5,25 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.65.2**
+Current version: **0.65.3**
+
+---
+
+## 0.65.3 — Refresh quotes could promise a core uplink and price zero hardware for it (2026-07-17)
+
+**What this means for a quote:** in Network Refresh mode, choosing "No — keep the existing core
+for now" (access-only refresh, uplink to what is there) produced a BOM with **no uplink cabling
+priced at all** — the option text promised a connection to the existing core, but the hardware to
+make that connection was never on the quote. Fixed: three new questions ask whether to price that
+uplink, what the existing core runs (Dell or another vendor), and whether it's a short in-room run
+or a long-haul link to another building — reusing the exact same question flow the main guided
+wizard already uses for this. If you decline, nothing changes (still access-only, still unpriced
+on purpose). If you accept, the uplink cabling is priced, and if the core is Dell, the matching
+far-side optic is quoted too.
+
+**Nothing to reconfirm on past refresh quotes that included a new distribution/aggregation tier**
+— that path was never affected. This only applies to access-only refreshes that keep the
+customer's existing core.
 
 ---
 

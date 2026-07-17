@@ -620,6 +620,37 @@
         { v: 'new', label: 'Yes — include a new MC-LAG distribution pair', desc: 'Full refresh (recommended)' },
         { v: 'existing', label: 'No — keep the existing core for now', desc: 'Access-only refresh, uplink to what is there' }
       ], default: 'new' },
+      // R16 (B7 UI): keeping the existing core promised "uplink to what is there" but nothing
+      // ever primed recommendRefresh's includeCoreUplink — the uplink was quoted as if it didn't
+      // exist. Reuses the main-path J2/J3 core-uplink machinery (same ids so SUM_LABELS and the
+      // go()-translation pattern line up, same coreVendor behaviors) — only asked when it's
+      // reachable (existing-core path; a new distribution pair is refresh's own uplink target).
+      { id: 'core', type: 'choice', q: 'Does this refresh connect into an existing core — should we quote that uplink?',
+        showIf: s => s.distribution === 'existing',
+        help: 'Access-only keeps this refresh scoped to the switches being replaced; quoting the uplink prices the cabling into your existing core too.',
+        listenFor: ['core / backbone', 'aggregation layer', '“uplinks to our existing core”'],
+        options: [
+        { v: 'none', label: 'Not now', desc: 'Access-only — the uplink is not priced here' },
+        { v: '100GbE', label: 'Yes — 100GbE to the existing core', desc: '2× redundant uplinks' },
+        { v: '400GbE', label: 'Yes — 400GbE to the existing core', desc: '2× redundant uplinks' }
+      ], default: 'none' },
+      { id: 'coreVendor', type: 'choice', q: 'What does your existing core run?',
+        showIf: s => s.distribution === 'existing' && s.core && s.core !== 'none',
+        help: 'This decides whether we can quote the far-side optics too. Dell-into-Dell is fully quotable; another vendor means you supply the matching far-side optic.',
+        listenFor: ['“our core is Dell / Cisco / Arista / Juniper”', 'existing backbone'],
+        options: [
+        { v: 'dell', label: 'Dell PowerSwitch', desc: 'We quote the far-side optics too (Dell into Dell)' },
+        { v: 'other', label: 'Another vendor', desc: 'You supply the far-side optics — we quote our side, matched to the same link type' },
+        { v: 'unsure', label: 'Not sure yet', desc: 'We quote our side only and flag the far side to verify' }
+      ], default: 'unsure' },
+      { id: 'coreReach', type: 'choice', q: 'Same room / campus, or a long run to another building?',
+        showIf: s => s.distribution === 'existing' && s.core && s.core !== 'none',
+        help: 'Distance sets the optic: short-reach vs 10km long-reach single-mode.',
+        listenFor: ['“it’s in another building”', 'metro / dark fiber', 'same rack row'],
+        options: [
+        { v: 'short', label: 'Same room / campus', desc: 'Short-reach optics (default)' },
+        { v: 'long', label: 'Long run — another building / metro', desc: '10km LR single-mode' }
+      ], default: 'short' },
       { id: 'oob', type: 'choice', q: 'Include out-of-band management?',
         options: [ { v: 'yes', label: 'Yes (recommended)' }, { v: 'no', label: 'No' } ], default: 'yes' },
       { id: 'verity', type: 'choice', q: 'Lead with the management story (DFM)?',
@@ -944,8 +975,14 @@
         $('#wizard').hidden = true; $('#mode-chooser').hidden = false; return;
       }
       if (mode === 'refresh') {
+        // R16: same translation shape as the main path's core question (state.core doubles as
+        // whether+speed) — coreFarModel/coreFarPort are deliberately NOT collected here because
+        // recommendRefresh's coreVendor machinery (unlike the main path's) doesn't read them; it
+        // always uses pickCoreOptic's matched-both-ends pattern for a 'dell' far side.
         const rInput = { swCount: state.swCount, portsPer: state.portsPer, speedNow: state.speedNow,
-          targetSpeed: state.targetSpeed, topologyNow: state.topologyNow, distribution: state.distribution, includeMgmt: state.oob !== 'no' };
+          targetSpeed: state.targetSpeed, topologyNow: state.topologyNow, distribution: state.distribution, includeMgmt: state.oob !== 'no',
+          includeCoreUplink: state.core && state.core !== 'none', coreSpeed: state.core,
+          coreVendor: state.coreVendor || 'unsure', coreReach: state.coreReach === 'long' ? 'longreach' : 'auto' };
         rec('recommendRefresh', rInput, { verity: state.verity !== 'no' });
         const res = window.recommendRefresh(rInput);
         if (state.verity !== 'no') addVerity(res);
