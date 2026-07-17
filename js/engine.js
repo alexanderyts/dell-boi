@@ -347,13 +347,28 @@
   function addLine(bom, line) {
     const key = line.mergeKey || (line.category + '|' + (line.model || line.item));
     const existing = bom.find(b => (b._mk || (b.category + '|' + (b.model || b.item))) === key);
-    // On ANY second contribution, mark the note as a combined total — the per-fabric arithmetic
-    // shown (e.g. "6 leaf uplinks ÷ 4 = 2 assemblies") describes only ONE contributor, and stays
-    // silently wrong once merged if two same-size pools happen to produce byte-identical notes
-    // (multiple targets on the same platform, same units — the unlimited-target feature makes
-    // this a real, not theoretical, case). Always flag it, regardless of whether the incoming
-    // note happens to match the existing one.
-    if (existing) { existing.qty += line.qty; if (existing.note && existing.note.indexOf('; +more') < 0) existing.note += '; +more'; return; }
+    if (existing) {
+      existing.qty += line.qty;
+      // R11 (DERIVATIONS §1: switch lines merge across NETWORKS by design — the group key is
+      // (model, role), deliberately not (model, role, network) — but the note must enumerate the
+      // per-network breakdown so the merge never masks something that matters, e.g. PowerScale
+      // backend isolation ("4 total" reading as one homogeneous frontend pool when 2 of the 4 are
+      // the dedicated, physically-separate backend switches h16346 requires). Only lines that
+      // declare `line.network` opt into this — cable/uplink/edge/RA lines use distinct mergeKeys
+      // per network already and never reach this path; only switch lines fall back to the bare
+      // model key. The note is REGENERATED from structured per-network data, never string-mutated,
+      // so it can't drift from what qty shows (same discipline as §1's "notes are generated, never
+      // authored" — this is the leaf-line half of that rule; the '+more' path below is the
+      // fallback for lines that never declared a network to break down).
+      if (line.network) {
+        if (!existing._networkBreakdown) existing._networkBreakdown = [{ network: existing.network, qty: existing.qty - line.qty, dedicated: existing.dedicated }];
+        const entry = existing._networkBreakdown.find(b => b.network === line.network);
+        if (entry) entry.qty += line.qty; else existing._networkBreakdown.push({ network: line.network, qty: line.qty, dedicated: line.dedicated });
+        existing.note = `${existing.qty} total — ` + existing._networkBreakdown
+          .map(b => `${b.qty}× ${b.network}${b.dedicated ? ' (dedicated, physically separate)' : ''}`).join(', ');
+      } else if (existing.note && existing.note.indexOf('; +more') < 0) existing.note += '; +more';
+      return;
+    }
     const nl = Object.assign({ qty: 0 }, line); nl._mk = key; delete nl.mergeKey; nl.qty = line.qty;
     bom.push(nl);
   }
@@ -1043,6 +1058,10 @@
       // matching the real server count instead of double-counting same-target multi-NIC merges.
       const unitsTot = fs.converged ? [...new Set(fs._convergedFrom.map(m => m.target))].reduce((s, t) => s + t.units, 0) : fs.target.units;
       addLine(bom, { category: 'Switch', vendor: leaf.vendor, item: leaf.model, model: leaf.model, qty: fs.totalLeaves,
+        // network + dedicated: opt this line into R11's per-network breakdown (see addLine) — a
+        // same-model leaf shared by (say) PowerScale frontend AND backend must never read as one
+        // undifferentiated pool once merged; `dedicated` marks the h16346-mandated isolated network.
+        network: fs.network, dedicated: fs.network === 'backend' && fs.target.platform.backendIndependent,
         dellPN: leaf.dellPN, verify: leaf.verify, specConfirmed: leaf.specConfirmed, source: leaf.source,
         note: `Leaf/ToR — ${fam} ${fs.network} (${fs.speed}); ${fs.leavesPerFabric}/fabric × ${fs.fabricsN}` + (leaf.switchingCapacity ? ` · ${leaf.switchingCapacity}` : '') });
       // R9 (backtest 2026-07-16b): LOW-UTILIZATION note — when RACK count (not port demand) drove the

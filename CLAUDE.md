@@ -12,16 +12,31 @@ contracts are approved and landed; Phase 1 invariants + golden fixtures are live
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
 ### State at end of session 2026-07-17
-- **Version 0.65.1** (`js/version.js` = the single source of truth; `package.json`
-  tracks it). CHANGELOG.md has the 0.65.1 entry.
+- **Version 0.65.2** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1 and 0.65.2 entries.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
 - **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
 - **BLOCKED ON MAINTAINER: nothing.** (Two OPEN citation TASKS remain — listed
-  below — but they are non-blocking re-rule triggers, not gates on R11.)
+  below — but they are non-blocking re-rule triggers.)
 - **This session:** corpus intake (23 PDFs manifested + extracted; repo pushed to
-  GitHub `origin`), then **G-006 CLOSED** — MX7000 uplink count was a real 2×
-  under-count (4 → 8), fixed with a regression test. R12 tail was verified
-  **already complete** (see note below). R11 not started.
+  GitHub `origin`) → **G-006 CLOSED** (MX7000 uplink 2× under-count, 4→8) →
+  R12 tail verified **already complete** → **G-022/R11 CLOSED** (cross-network
+  merged switch-line note now enumerates the per-network breakdown instead of
+  masking it — PowerScale backend isolation is now visible on the BOM line
+  that prices it). **Queue is now empty at the top** — next fresh session
+  starts at R16.
+
+### G-022 / R11 closed 2026-07-17 — a merged BOM line must say what it merged
+`addLine()` merged same-model switch lines across networks by design (DERIVATIONS §1),
+but its only response to a second contributor was `'; +more'` — exactly the seam §1 names
+retired. Priority case: PowerScale frontend+backend leaves often land on the same model;
+the merged note described only whichever fabric ran first, so the h16346-mandated
+backend isolation was invisible on the BOM line. Confirmed general (not PowerScale-only):
+any two networks whose leaf ladder matches hit the same defect. Fix: `addLine` now
+regenerates the note from structured `{network, qty, dedicated}` data on every merge —
+"4 total — 2× frontend, 2× backend (dedicated, physically separate)" — while a
+single-network line (the common case) is untouched. Regression-verified: stashing the
+fix alone turned 6 assertions red. See DESIGN-LOG 2026-07-17b, GAPS G-022.
 
 ### G-006 closed 2026-07-17 — and the standing lesson from it
 `platforms.js` mx7000 declared 4 external uplinks/chassis while its own `portOptions`
@@ -84,39 +99,33 @@ All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16
   Same uplink bandwidth either way; the phantom bought no capacity.
 
 ### QUEUE FOR NEXT SESSION — in priority order
-> **NOTE for a fresh session — this note has now been right twice; trust it.**
-> The **R12 tail** (railNicCage wizard question, Ruling 3 both-remedies error, P13/P13b
-> splitter invariant, citation rows, docs) is **DONE** — landed 2026-07-16d, re-verified
-> empirically 2026-07-17 (ruling 9's hard error was confirmed by *running* the engine,
-> not grepping — the message doesn't contain the words you'd grep for). **Corpus intake**
-> is **DONE** 2026-07-17. **G-006** is **CLOSED** 2026-07-17.
-> If you are handed a queue listing any of those as outstanding, that queue is stale —
-> **verify against the suite before doing the work.** Start at (1) = R11.
+> **NOTE for a fresh session — this note has now been right three times; trust it.**
+> The **R12 tail**, **corpus intake**, **G-006**, and **R11/G-022** are all **DONE** as of
+> 2026-07-17 (R11 landed last, verified with a stash-based regression check — see
+> DESIGN-LOG 2026-07-17b, GAPS G-022). If you are handed a queue listing any of those as
+> outstanding, that queue is stale — **verify against the suite before doing the work.**
+> Start at (1) = R16.
 
-1. **R11** — per-network merged-note enumeration. Cross-NETWORK merged
-   switch lines enumerate only one network, masking backend isolation (PowerScale)
-   and stranding the frontend (AI). Extend the merged-note to enumerate per network:
-   "4 total — 2× frontend, 2× backend (dedicated, isolated per h16346)".
-2. **R16** — B7 refresh `includeCoreUplink` has NO UI (unreachable). Add the
+1. **R16** — B7 refresh `includeCoreUplink` has NO UI (unreachable). Add the
    refresh-mode question + close the invariant gap: every SIZING field REACHABLE
    from every mode whose engine reads it (sweep express/discovery/edge/refresh).
-3. **R14** — NVIDIA-stack BOMs must state NOS per switch (SONiC vs Cumulus; Dell AI
+2. **R14** — NVIDIA-stack BOMs must state NOS per switch (SONiC vs Cumulus; Dell AI
    = SONiC); DFM auto-attach needs an applicability rule (DFM manages Dell
    Enterprise SONiC, not NVIDIA/Cumulus).
-4. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
+3. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
    the maintainer doesn't think were selected. Determine seed-default vs wizard; if
    seed, fix + make NIC defaults visible + platform-seed invariant + F710
    CITATION-LOG row. Non-blocking.
-5. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
+4. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
    R12 CORROBORATED this: the form-factor check flags SFP28 optics into the SN4700's
    QSFP-DD ports as needing QSA28 adapters that aren't quoted. Evaluate an
    SN2410-class 25G leaf; at minimum an R9-style low-util note.
-6. **Mode items** — PowerScale severity (backend "non-blocking not met" should be
+5. **Mode items** — PowerScale severity (backend "non-blocking not met" should be
    ERROR not WARN per h16346; verify which fabric trips it, may clear with R15);
    refresh cabling-compat question; new-OOB-into-existing-env (apply the R3 pattern);
    edge headroom note + access-ICL self-contradiction + the S5200-vs-S4348F
    distribution BUSINESS-RULE (log with the VENDOR-FACT vs BUSINESS-RULE distinction).
-7. **Then** resume the renderers slice (G-021 rack renderer) → validators →
+6. **Then** resume the renderers slice (G-021 rack renderer) → validators →
    G-020 teardown.
 Backtest queue detail: docs/backtests/BACKTEST-2026-07-16c.md.
 

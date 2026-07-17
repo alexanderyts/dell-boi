@@ -9,6 +9,64 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-17b — G-022 / R11 closed: a merged BOM line must say WHAT it merged, not just HOW MUCH
+
+**Change:** `addLine()` in `engine.js` now regenerates a switch line's note from structured
+per-network data whenever a second network's contribution merges into an existing line. No SPEC
+rule changed — this implements DERIVATIONS §1's already-approved worked example ("4 total — 2×
+frontend, 2× storage") that had never actually been built.
+
+**What was wrong before:** DERIVATIONS §1 (approved 2026-07-16, with this exact amendment
+attached) says switch lines merge across networks by `(model, role)` on purpose, and "the
+generated note enumerates the per-fabric breakdown." The merge-by-model-key existed; the
+enumeration didn't. `addLine`'s only response to a second contribution was `existing.note +=
+'; +more'` — literally the seam §1 names as retired ("There is nothing to merge... no line ever
+has 'qty 8, note describes 4'"). It had silently regressed back in, on the one BOM-affecting
+line (leaf switches) that gets one `addLine` call per fabric instead of one call for an
+already-aggregated group.
+
+**Why this one mattered more than a cosmetic note:** the maintainer's named priority case is
+PowerScale. Backend must be a dedicated, physically-separate network — that's not a style
+preference, it's h16346. When PowerScale frontend and backend leaves happen to pick the same
+model (a real, common case — both often land on S5232F-ON at moderate node counts), the merged
+line read `"Leaf/ToR — ... frontend (100GbE); 1/fabric × 4"` — four switches, all apparently
+frontend, isolation nowhere visible. A rep can't defend "your backend is isolated per Dell's
+requirement" off a BOM line that doesn't mention backend exists. The qty was always right; the
+note was lying about composition, on the exact fact a compliance-sensitive customer would ask
+about.
+
+**Fix, mechanically:** `addLine` accepts an optional `line.network` (+ `line.dedicated`). On a
+second contribution carrying a network, it builds/extends `existing._networkBreakdown` (an array
+of `{network, qty, dedicated}`) and regenerates `existing.note` from that array — never string
+concatenation. A single-network line (still the common case) is byte-identical to before; only
+the moment of an actual cross-network merge changes behavior. Confirmed general (not
+PowerScale-specific): general + storage targets that both resolve to S5248F-ON hit the exact
+same defect, so the fix lives at the shared merge mechanism, not a PowerScale special case.
+
+**Scope check performed, not assumed:** before touching `addLine`, I confirmed the spine-tier
+BOM lines do NOT have this bug — `grp.fabrics` is aggregated once per spine group *before* the
+single `addLine` call for that group runs, so the spine note is already computed over the full
+membership and already says something honest and generic ("Shared spine — all non-AI,
+non-back-end leaves connect here") rather than claiming to describe only one contributor. The
+defect is specific to lines built by repeated `addLine` calls inside a per-fabric loop, which
+today is only the leaf-switch line.
+
+**Design choice — no hardcoded citation in generated text:** the `dedicated` flag is computed
+from `fs.target.platform.backendIndependent` (currently true only for `powerscale`), and the
+note text says "(dedicated, physically separate)" — not "(per h16346)". Citations belong in
+CITATION-LOG/SPEC, re-checked on a cadence; burning a doc code into generated BOM text means a
+future backend-independent platform with a *different* citation would print PowerScale's wrong
+source. This matches the existing phrasing already used at the spine-tier dedicated note
+("kept physically separate").
+
+**Test discipline:** per the G-006 lesson earlier this session, the regression test was verified
+against the actual defect, not just written and trusted — `git stash`-ing only the `addLine`
+change (leaving the test file in place) turned 6 of the 12 new assertions red; restoring it
+returned to green. A regression test that was never run against the bug it claims to catch is
+not a regression test.
+
+---
+
 ## 2026-07-17 — G-006 closed: an evidence standard that was blocking on a document that doesn't exist
 
 **Change:** MX7000 external uplink count `4` → `8` per chassis (`platforms.js` mx7000

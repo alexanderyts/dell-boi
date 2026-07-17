@@ -814,6 +814,45 @@ leaves are meant to be "underpopulated" for an odd rack count.
   test-dom assertion at that time. Tracked alongside the oooText/audit renderer migration in
   G-020's register.
 
+### G-022 — cross-network merged switch lines masked which network each unit belonged to — CLOSED 2026-07-17 (R11)
+- **Status:** CLOSED. Confirmed live and fixed. Priority case (maintainer-named): PowerScale
+  frontend + backend leaves happen to land on the same model (S5232F-ON) — a legitimate,
+  intentional merge per DERIVATIONS §1 (switch lines group by `(model, role)`, deliberately NOT
+  including network). But the note only ever described whichever fabric's `addLine` call ran
+  first: `"Leaf/ToR — ... frontend (100GbE); 1/fabric × 4"` for a line whose qty of 4 was
+  actually 2 frontend + 2 backend. The second contributor's note got silently swallowed behind
+  `'; +more'`. A rep reading the BOM saw one homogeneous 4-switch frontend pool — **the h16346
+  requirement that PowerScale's backend be a dedicated, physically-separate network was invisible
+  on the line that priced the hardware.** Confirmed as a general (non-PowerScale-specific) defect
+  too: general + storage targets whose leaf ladders both resolve to S5248F-ON merge the same way.
+- **Severity:** MEDIUM — no wrong hardware ships (qty was always correct, only the note lied
+  about composition), but a rep can't tell a customer "your backend is isolated per Dell's
+  requirement" from a BOM line that reads as one undifferentiated frontend pool. On a scale-driven
+  or compliance-sensitive quote (backend isolation is a hard requirement, not a preference) that's
+  a real gap between what shipped and what the BOM claims.
+- **Where:** `js/engine.js`, `addLine()` (the switch-line merge path) + the leaf switch-line
+  `addLine` call in the per-fabric BOM loop (`specs.forEach`).
+- **Fix:** `addLine` now accepts an optional `line.network` (+ `line.dedicated` for the
+  h16346-class case). On a SECOND contribution to an already-existing switch line, if the
+  incoming line declares a network, the note is **regenerated from structured per-network data**
+  (never string-mutated) as `"N total — X× network1, Y× network2 (dedicated, physically
+  separate)"` — matching DERIVATIONS §1's own worked example. A single-network line (the common
+  case, no merge) is untouched — same detailed note as before. Lines that never declare a network
+  (cable/edge/RA switch lines, which already use distinct per-network `mergeKey`s and never reach
+  this path) keep the old `'; +more'` fallback unchanged.
+- **Test:** `tests/unit-engine.js`, "R11" block — PowerScale case (breakdown correct, backend
+  flagged dedicated, frontend not, arithmetic sums to qty, no more `'+more'`), general+storage
+  case (same, no dedicated flag since neither network is backend-independent), and a regression
+  guard that the single-network case keeps its original detailed note untouched. **Verified as a
+  real guard:** `git stash`-ing just the `addLine` fix turned 6 assertions red; restoring it
+  returns to 294/294. Not vacuous.
+- **Design note carried into the fix:** `dedicated` reads off `fs.target.platform.backendIndependent`
+  (currently PowerScale-only) rather than hardcoding "h16346" into generated text — the citation
+  lives in CITATION-LOG/SPEC, not burned into a BOM note, so a future non-PowerScale
+  backend-independent platform gets the same generic "(dedicated, physically separate)" phrasing
+  without a wrong doc code attached. This matches the existing house style at the dedicated-spine
+  note (`engine.js` ~line 1343: "kept physically separate").
+
 ---
 
 ## PROCESS GAPS (carried over from the pre-code-review pass — still open)

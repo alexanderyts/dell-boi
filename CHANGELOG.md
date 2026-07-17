@@ -5,7 +5,23 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.65.1**
+Current version: **0.65.2**
+
+---
+
+## 0.65.2 — A merged switch line could hide that PowerScale's backend network was isolated (2026-07-17)
+
+**What this means for a quote:** if PowerScale frontend and backend leaves happened to land on
+the same switch model (common — both often size to S5232F-ON), the BOM showed one combined line
+like "4× S5232F-ON, frontend" with no mention that 2 of those 4 are the backend switches — the
+ones Dell requires to sit on their own dedicated, physically-separate network. The switch count
+was always correct; the note was silently describing only one of the two networks. Fixed: a
+merged line now reads "4 total — 2× frontend, 2× backend (dedicated, physically separate)" so the
+isolation requirement is visible on the line that prices it. Same fix applies wherever any two
+networks' leaf ladders happen to land on the same model, not just PowerScale.
+
+**Nothing to reconfirm on past quotes** — the hardware and quantities were always right; only the
+BOM line's wording is different going forward.
 
 ---
 

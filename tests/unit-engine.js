@@ -927,6 +927,57 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
     fe.map(f => f.totalLinks));
 })();
 
+/* ---- R11: cross-network merged switch lines must enumerate the breakdown (regression) ----
+ * DERIVATIONS §1: switch lines merge by (model, role) ACROSS networks on purpose — that's the
+ * correct BOM grouping — but "4 total" read as one undifferentiated pool erased which network
+ * each unit belongs to. Priority case: PowerScale frontend + backend happen to pick the same
+ * leaf model; backend MUST be a dedicated, physically-separate network (h16346) and the old
+ * merged note ("Leaf/ToR — ... frontend (100GbE); 1/fabric × 4") never mentioned backend at all
+ * — a rep reading the BOM saw one homogeneous frontend pool with no isolation visible. Same
+ * defect, non-PowerScale case: any two targets/networks whose leaf ladder lands on the same
+ * model (e.g. general + storage both sizing to S5248F-ON) merged the same way. */
+(() => {
+  // PowerScale: the maintainer's named priority case — backend isolation must survive the merge.
+  const ps = rec({ platformId: 'powerscale', units: 12, redundancy: 'dual', includeMgmt: true });
+  const psLeaf = ps.bom.find(l => l.category === 'Switch' && /S52/.test(l.model));
+  t('R11/PowerScale: frontend+backend leaves merge into one line (same model, by design)',
+    !!psLeaf, ps.bom.filter(l => l.category === 'Switch').map(l => l.model));
+  t('R11/PowerScale: merged qty = frontend + backend leaves (nothing double-counted or dropped)',
+    psLeaf && psLeaf.qty === 4, psLeaf && psLeaf.qty);
+  t('R11/PowerScale: note enumerates BOTH networks, not just whichever fabric ran first',
+    psLeaf && /frontend/.test(psLeaf.note) && /backend/.test(psLeaf.note), psLeaf && psLeaf.note);
+  t('R11/PowerScale: note states the per-network split, not a bare total', psLeaf && /2×\s*frontend/.test(psLeaf.note) && /2×\s*backend/.test(psLeaf.note), psLeaf && psLeaf.note);
+  t('R11/PowerScale: backend is flagged dedicated/isolated (h16346) — the isolation fact the old note masked',
+    psLeaf && /backend \(dedicated/.test(psLeaf.note), psLeaf && psLeaf.note);
+  t('R11/PowerScale: frontend is NOT flagged dedicated (only backend is h16346-mandated)',
+    psLeaf && !/frontend \(dedicated/.test(psLeaf.note), psLeaf && psLeaf.note);
+  t('R11/PowerScale: old masking behavior is gone — note no longer silently says "; +more"',
+    psLeaf && psLeaf.note.indexOf('+more') < 0, psLeaf && psLeaf.note);
+  // Arithmetic self-consistency: breakdown entries must sum to the printed qty (BOM-integrity
+  // discipline — a generated note can never show a different total than the qty field).
+  t('R11/PowerScale: per-network breakdown sums to the line qty',
+    psLeaf && (psLeaf.note.match(/(\d+)×/g) || []).reduce((s, m) => s + parseInt(m, 10), 0) === psLeaf.qty,
+    psLeaf && psLeaf.note);
+
+  // General case (not backend-specific): general + storage leaves landing on the same model.
+  const gs = rec({ targets: [{ platformId: 'poweredge-general', units: 20 }, { platformId: 'powerflex', units: 20 }],
+    redundancy: 'dual', includeMgmt: true, networkArch: 'separate' });
+  const gsLeaf = gs.bom.find(l => l.category === 'Switch' && /S5248F/.test(l.model));
+  t('R11/general+storage: merged leaf line enumerates both networks', gsLeaf && /frontend/.test(gsLeaf.note) && /storage/.test(gsLeaf.note), gsLeaf && gsLeaf.note);
+  t('R11/general+storage: neither network is flagged dedicated (only PowerScale-style backend is)',
+    gsLeaf && !/dedicated/.test(gsLeaf.note), gsLeaf && gsLeaf.note);
+  t('R11/general+storage: breakdown sums to qty', gsLeaf && (gsLeaf.note.match(/(\d+)×/g) || []).reduce((s, m) => s + parseInt(m, 10), 0) === gsLeaf.qty, gsLeaf && gsLeaf.note);
+
+  // Regression guard: the common case (one network, no merge) must NOT gain the terse
+  // "N total — ..." form — the detailed per-fabric note (model capacity, speed, leaves/fabric)
+  // stays exactly as before. R11 only changes behavior at the moment of an actual cross-network
+  // merge; it must not degrade the far more common single-network line.
+  const single = rec({ platformId: 'powerstore', units: 4, redundancy: 'dual', includeMgmt: true });
+  const singleLeaf = single.bom.find(l => l.category === 'Switch');
+  t('R11: single-network leaf line keeps the ORIGINAL detailed note (no regression)',
+    singleLeaf && /^Leaf\/ToR —/.test(singleLeaf.note) && !/total —/.test(singleLeaf.note), singleLeaf && singleLeaf.note);
+})();
+
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);
