@@ -150,6 +150,11 @@ In CITATION-LOG → "Optic ↔ port form factor":
 5. Out of scope, permanently (see RESTRUCTURE-3): multi-vendor support,
    JSON APIs, Visio export, trace/logging infrastructure,
    mutation/metamorphic testing, architecture-review ceremony.
+6. Every session close-out ends with commit AND push to `origin`. A commit
+   that only exists on this machine is not a backup — `corpus/` alone is
+   ~250 MB of harvested citations that would have to be re-pulled by hand.
+   Push even when the session's work is docs-only or partial; an unpushed
+   WIP commit is still worth more than a lost one.
 
 ## Test suites
 Run the full harness before and after changes. All suites are hard-fail.
