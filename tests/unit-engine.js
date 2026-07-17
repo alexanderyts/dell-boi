@@ -978,6 +978,29 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
     singleLeaf && /^Leaf\/ToR —/.test(singleLeaf.note) && !/total —/.test(singleLeaf.note), singleLeaf && singleLeaf.note);
 })();
 
+/* ---- Sweep finding #5 (2026-07-17, maintainer ruling — GAPS G-023): railNicCage is a single
+ * top-level engine input, not per-Target. Interim measure (no plumbing until a real deal demands
+ * it): warn when 2+ AI targets exist, since they silently share one cage answer. ---- */
+(() => {
+  const single = rec({ targets: [{ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, railNic: { speed: '400GbE' } }], stack: 'dell', redundancy: 'dual', includeMgmt: true });
+  t('sweep#5: 1 AI target — no shared-cage warning', !single.warnings.some(w => /rail-NIC-cage/.test(w.message)));
+
+  const two = rec({ targets: [
+    { platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, railNic: { speed: '400GbE' } },
+    { platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, railNic: { speed: '800GbE' } }
+  ], stack: 'dell', redundancy: 'dual', includeMgmt: true });
+  const w = two.warnings.find(x => /rail-NIC-cage/.test(x.message));
+  t('sweep#5: 2 AI targets — shared-cage warning present', !!w, two.warnings.map(x => x.message));
+  t('sweep#5: warning names the count and the per-target verify action', w && /^2 AI targets/.test(w.message) && /PER TARGET/.test(w.message), w && w.message);
+
+  const mixed = rec({ targets: [
+    { platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, railNic: { speed: '400GbE' } },
+    { platformId: 'powerstore', units: 4 }
+  ], stack: 'dell', redundancy: 'dual', includeMgmt: true });
+  t('sweep#5: 1 AI target + 1 non-AI target — no shared-cage warning (only AI targets count)',
+    !mixed.warnings.some(x => /rail-NIC-cage/.test(x.message)));
+})();
+
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);

@@ -12,18 +12,21 @@ contracts are approved and landed; Phase 1 invariants + golden fixtures are live
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
 ### State at end of session 2026-07-17
-- **Version 0.65.3** (`js/version.js` = the single source of truth; `package.json`
-  tracks it). CHANGELOG.md has the 0.65.1–0.65.3 entries.
+- **Version 0.65.4** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1–0.65.4 entries.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
 - **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
-- **BLOCKED ON MAINTAINER: four sweep findings awaiting triage** (not blocking
-  work, just undecided) — see "R16 reachability sweep" below. Two OPEN citation
-  TASKS also remain (listed further below) — non-blocking re-rule triggers.
+- **BLOCKED ON MAINTAINER: nothing.** All R16 sweep findings triaged and closed same
+  day. Two OPEN citation TASKS remain (listed further below) — non-blocking re-rule
+  triggers. **G-024** (railNicCage per-target) is intentionally OPEN — feature-gated,
+  not a fix-it-later gap; see below.
 - **This session:** corpus intake → G-006 CLOSED → R12 tail reconfirmed complete →
-  G-022/R11 CLOSED → **G-023/R16 CLOSED** (refresh-mode core-uplink question wired;
-  B7's engine fix is finally reachable) → **reachability sweep run**, 4 findings
-  reported (not fixed — maintainer triage). **Next fresh session:** triage the
-  sweep findings (below), then R14.
+  G-022/R11 CLOSED → G-023/R16 CLOSED (refresh core-uplink wired) → reachability sweep
+  run (4 findings) → **maintainer triaged all 5 findings same-day, all landed**:
+  coreType wizard question added; edge-branch hardcodes now disclosed (guided +
+  Discovery); Discovery's missing core question documented as intentional in SPEC;
+  railNicCage tracked as G-024 with an interim 2+-AI-target warning and an explicit
+  no-speculative-plumbing rule. **Next fresh session:** R14.
 
 ### G-023 / R16 closed 2026-07-17 — a fixed engine defect is still open if no UI reaches it
 B7 (2026-07-16) made `recommendRefresh`'s `includeCoreUplink` actually price the uplink
@@ -35,23 +38,31 @@ Deliberately did NOT add `coreFarModel`/`coreFarPort` — `recommendRefresh` nev
 them (confirmed by reading the function, not assumed). Regression-verified: stashing
 the wizard fix alone turned 4 test-dom assertions red.
 
-### R16 reachability sweep — 4 findings reported, NOT fixed (maintainer triage needed)
-Per instruction, swept every SIZING field (INPUT-SCHEMA §1–§2) against actual code (not
-the doc, which drifts) for every mode. Findings, none touched this session:
-1. **`coreType`** (SIZING-partial: `'dci'` forces long-reach + a different optic-speed
-   floor) exists ONLY in the expert form. No wizard mode can ever select it.
-2. **Guided wizard's `category==='edge'` branch** hardcodes `poe`/`accessSpeed`/
-   `edgeUplink`/`distribution` (all SIZING) with no question AND no `assume()`
-   disclosure — unlike Express, which narrates its hardcodes. The dedicated Edge Form
-   already exposes all four.
-3. **Discovery's edge-workload branch** hardcodes the same four — lower priority,
-   Discovery is a declared guidance tool, but the specific hardcodes are undocumented.
-4. **Discovery's general path has no core/DCI-uplink question at all** — a
-   Discovery-built BOM can never price one; not declared as intentional anywhere.
-A fifth, structurally different observation: `railNicCage` is a single top-level input,
-not per-Target — a 2nd AI target can't get its own answer even with a question, because
-the engine has nowhere to put it. Missing engine capability, not missing UI.
-Full reasoning: DESIGN-LOG 2026-07-17c, GAPS G-023.
+### R16 sweep triage — 5 rulings, all landed 2026-07-17 (same-day follow-up)
+1. **`coreType`** — ADDED a guided-wizard question (conditional on a core uplink
+   existing): "Is the core in the same building, or a longer run...?" → `'dci'`.
+   **Flagged, not smoothed:** the wording closely echoes the pre-existing `coreReach`
+   question — genuinely distinct engine effects (reach vs uplink class/speed floor),
+   but a rep now sees two similar-sounding reach questions back to back. Implemented
+   exactly as specified; noted for a possible future wording consolidation.
+2/3. **Guided wizard's + Discovery's edge branches** — ruled DISCLOSE not ASK. Added
+   an `assume()` line (Express's existing pattern): "Edge sized with defaults: 1G
+   PoE+ access, 100G uplinks, new redundant distribution pair — use the Edge Form for
+   full control." **Corrected, not applied verbatim:** the maintainer's proposed text
+   said "10G uplinks" — read against `recommendEdge`'s code, the actual hardcoded
+   default is the 100G rear-pair path (10G is the alternate `edgeUplink:'sfp'` class,
+   never set by these branches). Fixed to say 100G so the disclosure is true, per
+   standing rule 3.
+4. **Discovery's missing core question** — documented as INTENTIONAL in SPEC.md's
+   "Inter-network connectivity" rule, one sentence, so a future sweep reads it as a
+   decision.
+5. **Per-target `railNicCage`** — tracked as new **G-024** (a missing engine
+   capability, not a missing UI control — different class from 1–4, kept separate).
+   Interim: the engine now warns when 2+ AI targets exist, naming the count and
+   telling the rep to verify the rail splitter per target. **Feature-gated: no
+   plumbing until a real design has 2+ AI targets with different rail NICs.**
+All five regression-verified with stash-and-restore before being trusted. Full
+reasoning: DESIGN-LOG 2026-07-17d, GAPS G-023/G-024.
 
 ### G-022 / R11 closed 2026-07-17 — a merged BOM line must say what it merged
 `addLine()` merged same-model switch lines across networks by design (DERIVATIONS §1),
@@ -126,19 +137,13 @@ All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16
   Same uplink bandwidth either way; the phantom bought no capacity.
 
 ### QUEUE FOR NEXT SESSION — in priority order
-> **NOTE for a fresh session — this note has now been right four times; trust it.**
-> The **R12 tail**, **corpus intake**, **G-006**, **R11/G-022**, and **R16/G-023** are all
-> **DONE** as of 2026-07-17 (R16 landed last, verified with a stash-based regression check —
-> see DESIGN-LOG 2026-07-17c, GAPS G-023). If you are handed a queue listing any of those as
-> outstanding, that queue is stale — **verify against the suite before doing the work.**
-> **New at the top: the R16 reachability sweep found 4 findings not yet triaged** (see
-> "R16 reachability sweep" above) — maintainer should pick which (if any) to act on before
-> a fresh session assumes they're out of scope. Otherwise start at (1) = R14.
+> **NOTE for a fresh session — this note has now been right five times; trust it.**
+> The **R12 tail**, **corpus intake**, **G-006**, **R11/G-022**, **R16/G-023**, and the **R16
+> sweep triage** (all 5 rulings) are all **DONE** as of 2026-07-17 (verified with stash-based
+> regression checks throughout — see DESIGN-LOG 2026-07-17d, GAPS G-023/G-024). If you are
+> handed a queue listing any of those as outstanding, that queue is stale — **verify against
+> the suite before doing the work.** Nothing is blocked on the maintainer. Start at (1) = R14.
 
-0. **TRIAGE FIRST:** the 4 sweep findings above (`coreType` wizard-unreachable; guided
-   wizard's edge branch hardcodes 4 SIZING fields silently; Discovery's edge branch same,
-   lower priority; Discovery's general path has no core-uplink question at all). Not fixed;
-   decide scope with the maintainer before touching any of them.
 1. **R14** — NVIDIA-stack BOMs must state NOS per switch (SONiC vs Cumulus; Dell AI
    = SONiC); DFM auto-attach needs an applicability rule (DFM manages Dell
    Enterprise SONiC, not NVIDIA/Cumulus).
@@ -155,7 +160,9 @@ All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16
    refresh cabling-compat question; new-OOB-into-existing-env (apply the R3 pattern);
    edge headroom note + access-ICL self-contradiction + the S5200-vs-S4348F
    distribution BUSINESS-RULE (log with the VENDOR-FACT vs BUSINESS-RULE distinction).
-5. **Then** resume the renderers slice (G-021 rack renderer) → validators →
+5. **G-024 (railNicCage per-target)** — do NOT pick up speculatively. Feature-gated:
+   only when a real design has 2+ AI targets with genuinely different rail NICs.
+6. **Then** resume the renderers slice (G-021 rack renderer) → validators →
    G-020 teardown.
 Backtest queue detail: docs/backtests/BACKTEST-2026-07-16c.md.
 

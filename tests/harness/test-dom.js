@@ -276,7 +276,36 @@ try {
   const bom = $('#tab-bom').innerHTML;
   check('discovery-edge: BOM contains E-series access switches', /E3224F|E3248P/.test(bom));
   check('discovery-edge: BOM is NOT a general PowerEdge leaf-spine build', !/Z9432F|Z9664F|Z9864F|Z9964F/.test(bom));
+  // Sweep finding #3 (2026-07-17, maintainer ruling): Discovery's edge path hardcodes PoE
+  // class/access speed/uplink class/distribution with no question (a declared simplification —
+  // Discovery is a guidance tool) but must SAY so, same as Express's declared-defaults pattern.
+  check('discovery-edge: hardcoded sizing defaults are disclosed as an assumption',
+    /Edge sized with defaults: 1G PoE\+ access, 100G uplinks, new redundant distribution pair/.test($('#tab-checks').textContent));
 } catch (e) { check('discovery edge/IoT flow no exception', false, e.message); }
+
+/* ---- Sweep finding #2 (2026-07-17, maintainer ruling): the GUIDED wizard's own edge category
+ * hardcodes the same four SIZING fields (poe/accessSpeed/edgeUplink/distribution) with NO
+ * question — unlike Express, it never told the rep. Disclose via the same assume() pattern;
+ * the dedicated Edge Form remains the path for full control. ---- */
+try {
+  reset();
+  $('.mode-btn[data-mode="guided"]').click();
+  let pickedEdge = false;
+  for (let i = 0; i < 60 && !$('#wizard').hidden; i++) {
+    const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
+    if (/connecting to the network/.test(q) && !pickedEdge) {
+      const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => /^Edge \/ access/.test(b.textContent));
+      if (btn) { btn.click(); pickedEdge = true; }
+    }
+    $('#wiz-next').click();
+  }
+  check('guided-edge: found and selected the Edge/access category option', pickedEdge);
+  check('guided-edge: results rendered', !$('#results').hidden);
+  const bom = $('#tab-bom').innerHTML;
+  check('guided-edge: BOM contains E-series access switches', /E3224F|E3248P/.test(bom));
+  check('guided-edge: hardcoded sizing defaults are disclosed as an assumption',
+    /Edge sized with defaults: 1G PoE\+ access, 100G uplinks, new redundant distribution pair/.test($('#tab-checks').textContent));
+} catch (e) { check('guided edge disclosure no exception', false, e.message); }
 
 /* ---- REFERENCE ARCHITECTURE ---- */
 try {
@@ -609,6 +638,52 @@ try {
   check('refresh/R16 accept: Dell coreVendor also quotes the matched far-side optic',
     /existing core \(far side\)/i.test(acceptBom));
 } catch (e) { check('refresh/R16 accept no exception', false, e.message); }
+
+/* ---- Sweep finding #1 (2026-07-17, maintainer ruling): coreType was SIZING-classified
+ * ('dci' forces long-reach optics + a higher speed floor) but had a control ONLY in the expert
+ * form — no wizard mode could ever select it. Fixed: guided wizard's new `coreType` question
+ * ("Is the core in the same building, or a longer run...?"), conditional on a core uplink
+ * existing. This proves the WIZARD path reaches the DCI-class engine behavior, complementing
+ * the engine-level input-effect pair already in tests/invariants.js. ---- */
+try {
+  reset();
+  $('.mode-btn[data-mode="guided"]').click();
+  const dciPicks = [
+    { q: /Uplink to an existing core network/, opt: /100GbE to core/ },
+    { q: /What does your existing core run/, opt: /Not sure yet/ },
+    { q: /Is the core in the same building/, opt: /Longer run/ }
+  ];
+  for (let i = 0; i < 60 && !$('#wizard').hidden; i++) {
+    const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
+    const pick = dciPicks.find(p => !p.done && p.q.test(q));
+    if (pick) { const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => pick.opt.test(b.textContent)); if (btn) { btn.click(); pick.done = true; } }
+    $('#wiz-next').click();
+  }
+  check('guided/coreType: all three core questions were reached', dciPicks.every(p => p.done), dciPicks.map(p => !!p.done));
+  check('guided/coreType: results rendered', !$('#results').hidden);
+  const dciBom = $('#tab-bom').textContent;
+  check('guided/coreType: "Longer run" reaches the engine as a DCI-class uplink',
+    /second site \(DCI\)/i.test(dciBom) && /DCI: confirm distance\/optics/i.test(dciBom));
+} catch (e) { check('guided/coreType DCI no exception', false, e.message); }
+
+try {
+  reset();
+  $('.mode-btn[data-mode="guided"]').click();
+  const corePicks = [
+    { q: /Uplink to an existing core network/, opt: /100GbE to core/ },
+    { q: /What does your existing core run/, opt: /Not sure yet/ },
+    { q: /Is the core in the same building/, opt: /Same building/ }
+  ];
+  for (let i = 0; i < 60 && !$('#wizard').hidden; i++) {
+    const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
+    const pick = corePicks.find(p => !p.done && p.q.test(q));
+    if (pick) { const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => pick.opt.test(b.textContent)); if (btn) { btn.click(); pick.done = true; } }
+    $('#wiz-next').click();
+  }
+  const coreBom = $('#tab-bom').textContent;
+  check('guided/coreType: "Same building" (default) does NOT get DCI-class treatment',
+    !/second site \(DCI\)/i.test(coreBom));
+} catch (e) { check('guided/coreType core no exception', false, e.message); }
 
 /* ---- NEW: unlimited additional attach targets (expert form) — the real-world shape:
  * one big pool + several small pools on the SAME platform + two storage platforms. ---- */

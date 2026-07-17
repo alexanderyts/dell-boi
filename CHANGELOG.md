@@ -5,7 +5,29 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.65.3**
+Current version: **0.65.4**
+
+---
+
+## 0.65.4 — Guided-wizard reachability gaps closed; two hardcoded assumptions now disclosed (2026-07-17)
+
+**What this means for a quote:** four small gaps found in last session's reachability sweep are
+now closed:
+- The guided wizard can now select a **DCI-class core uplink** (a longer run to another
+  building/campus/metro) — previously only the expert form could do this, and every wizard-built
+  core uplink silently defaulted to same-building/core class.
+- The guided wizard's **Edge / access** category, and Discovery's **Edge / campus / IoT** path,
+  now **state their assumptions on the BOM** ("Edge sized with defaults: 1G PoE+ access, 100G
+  uplinks, new redundant distribution pair — use the Edge Form for full control") instead of
+  silently picking defaults with no visibility. Nothing about the hardware changed — only whether
+  the rep can see what was assumed.
+- Discovery mode's lack of a core-uplink question is now documented as intentional (SPEC.md),
+  not an open gap.
+- A new warning: designs with **2+ AI targets** now flag that the rail-NIC-cage answer is shared
+  across all of them — verify the rail splitter part per target if the GPU NIC generations differ.
+
+**Nothing to reconfirm on past quotes** — no hardware changed. This is visibility and one new
+optional question, not a BOM correction.
 
 ---
 

@@ -880,17 +880,48 @@ leaves are meant to be "underpopulated" for an odd rack count.
   `git stash`-ing just the `wizard.js` fix turned 4 assertions red; restoring returned to green.
 - **Reachability sweep performed (queue item 2):** before declaring R16 done, swept every
   SIZING-classified field (INPUT-SCHEMA.md §1–§2) against every mode's actual code (not the doc,
-  which can be stale) for a UI control. Found 4 additional gaps beyond R16's own scope — **not
-  fixed here**, reported to the maintainer for triage: `coreType` (SIZING-partial: forces
-  long-reach + a different optic-speed floor when `'dci'`) exists ONLY in the expert form, absent
-  from every wizard-based mode; the guided wizard's `category === 'edge'` branch hardcodes `poe`,
-  `accessSpeed`, `edgeUplink`, `distribution` with no question and no `assume()`-style disclosure
-  (the dedicated Edge Form already exposes all four); Discovery's edge-workload branch hardcodes
-  the same four (lower priority — Discovery is a declared guidance tool); Discovery's general path
-  has no core/DCI-uplink question at all, so a Discovery-driven BOM can never price one, undeclared
-  as a simplification. A fifth, structurally different observation: `railNicCage` is a single
-  top-level engine input, not per-target, so a second AI target added via the wizard can't get its
-  own answer even if a question existed — not a missing-UI defect, a missing engine capability.
+  which can be stale) for a UI control. Found 4 additional gaps beyond R16's own scope, reported
+  for maintainer triage. **All four ruled and closed 2026-07-17** (same day, follow-up session):
+  1. `coreType` (SIZING-partial: forces long-reach + a different optic-speed floor when `'dci'`)
+     was reachable ONLY from the expert form. **Fixed:** a new guided-wizard question ("Is the
+     core in the same building, or a longer run...?"), conditional on a core uplink existing.
+  2. The guided wizard's `category === 'edge'` branch hardcodes `poe`/`accessSpeed`/`edgeUplink`/
+     `distribution` with no disclosure. **Ruled: DISCLOSE, not ask** — the dedicated Edge Form
+     already gives full control; adding a second question set would be redundant UI. Fixed with
+     an `assume()` line on the BOM output, same pattern Express mode already uses.
+  3. Discovery's edge-workload branch hardcodes the same four. **Ruled: same disclosure, nothing
+     more** — Discovery stays a guidance tool. Fixed with the identical `assume()` line.
+  4. Discovery's general path has no core/DCI-uplink question at all. **Ruled: document as
+     INTENTIONAL, not a gap** — SPEC.md now states it explicitly so a future sweep reads it as a
+     decision.
+  A fifth, structurally different observation — `railNicCage` is a single top-level engine input,
+  not per-target — was **not** folded into this list; it's a missing engine CAPABILITY, not a
+  missing UI control, and is tracked separately as **G-024** below.
+
+### G-024 — `railNicCage` is a single top-level engine input, not per-Target — OPEN, feature-gated 2026-07-17
+- **Status:** OPEN by design — a known capability limit, not a defect being tracked toward a fix.
+  Interim mitigation landed 2026-07-17 (sweep finding #5); the real fix (per-Target rail-NIC-cage
+  plumbing) is explicitly NOT being built until the trigger condition below is met.
+- **Severity:** LOW today — every AI reference design and every real deal seen so far uses ONE
+  GPU NIC generation/connector across all AI targets in a single design. Becomes MEDIUM the
+  moment a real design genuinely mixes cages (e.g. one target on ConnectX-7/OSFP, another on
+  BlueField-3/QSFP112).
+- **Where:** `js/engine.js` — `railNicCage` is resolved ONCE, near the top of `recommend()`, from
+  the top-level `input.railNicCage`/`input.railNic.cage` (not from any per-`targets[i]` field),
+  then reused for every AI target's rail-splitter pick.
+- **Interim fix (landed, not the real fix):** when 2+ AI targets exist in one design, the engine
+  now emits a `severity: 'warn'` line naming the count and telling the rep to verify the rail
+  splitter part PER TARGET if the NIC generations differ — so a genuinely mixed-cage design is
+  flagged instead of silently trusting one shared answer. `js/engine.js`, right after `aiTargetCount`
+  is computed. Test: `tests/unit-engine.js` "sweep#5" block (1 AI target = no warning; 2 AI
+  targets = warning present and correctly worded; 1 AI + 1 non-AI target = no warning, since only
+  AI targets count). **Verified as a real guard:** stashing the `engine.js` change alone turned 2
+  assertions red.
+- **Explicit revisit trigger (feature-gate rule, maintainer ruling):** do NOT build per-Target
+  `railNicCage` plumbing speculatively. Revisit only **when a real design has 2+ AI targets with
+  genuinely different rail NICs** — at that point the interim warning has already told the rep to
+  verify manually, so nothing ships wrong in the meantime; building the plumbing before a real
+  deal demands it would be scope the maintainer explicitly declined to carry.
 
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now

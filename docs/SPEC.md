@@ -412,7 +412,8 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
   fabric / a second site (DCI)**; **L3 routed** (eBGP + BFD / OSPF / static, LACP or ECMP) or **L2
   stretched over BGP EVPN-VXLAN** (anycast gateway, storm-control — never raw STP stretch);
   **DCI** = confirm distance/optics (LR/ER/ZR/coherent) + MACsec, route don't bridge. — enforced:
-  engine core-uplink + validate #19.
+  engine core-uplink + validate #19. **Discovery omits core-uplink questions by design; resolved
+  at quote time in guided/expert paths** (maintainer ruling, sweep finding #4, 2026-07-17).
 
 ## 8. Management & operations (business layer)
 - **Dell Fabric Manager (DFM, formerly Verity)** = intent-based networking for Dell Enterprise

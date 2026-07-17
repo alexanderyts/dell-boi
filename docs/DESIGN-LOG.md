@@ -9,6 +9,69 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-17d — R16 reachability sweep triage: 5 rulings, all landed same-day
+
+**Change:** the maintainer triaged all four sweep findings from the R16 session (GAPS G-023)
+plus the adjacent railNicCage observation, in one ruling pass. All five rulings implemented in
+this session — no finding carried forward as a stale gap.
+
+1. **`coreType` — ADD the guided-wizard question.** A new conditional-reveal question ("Is the
+   core in the same building, or a longer run — different building / campus / metro?"),
+   same-building default, `showIf` gated on a core uplink existing. The longer-run answer maps to
+   `coreType: 'dci'`. Landed with wizard-level input-effect coverage (`test-dom.js`) alongside the
+   engine-level pair that already existed in `tests/invariants.js`.
+   **Implementation note surfaced, not silently absorbed:** the maintainer's specified question
+   wording closely echoes the ALREADY-EXISTING `coreReach` question ("Same room / campus, or a
+   long run to another building?"). These are genuinely distinct engine effects — `coreReach`
+   picks the optic (short vs 10km LR), `coreType==='dci'` independently forces long-reach AND
+   raises the optic-speed floor — so both questions are correct to have, but a rep now answers two
+   similarly-worded reach questions back-to-back. Implemented exactly as specified (the instruction
+   was unambiguous); flagged here per standing rule 3 rather than silently smoothing the wording,
+   in case a future session wants to consolidate the phrasing.
+2. **Guided wizard's edge branch — DISCLOSE, don't build questions.** Ruled explicitly against
+   adding a second question set (the dedicated Edge Form already exposes PoE class, access speed,
+   uplink class, and distribution reuse — building it twice would be redundant, not reachable-gap
+   closure). Fixed with an `assume()` call, the same declared-defaults mechanism Express mode
+   already uses, surfaced as a `severity: 'warn'` "Assumption:" line in Checks.
+   **Correction made and flagged, not silently applied:** the maintainer's proposed disclosure
+   text read "...1G PoE access, **10G** uplinks, redundant distribution...". Read against
+   `recommendEdge`'s actual code (`js/engine.js`, `sfpUplink = input.edgeUplink === 'sfp'`), the
+   HARDCODED default when `edgeUplink` is left unset is the **100G** rear-QSFP28-pair path, not
+   10G — 10G is only the alternate class engaged by `edgeUplink: 'sfp'`, which this branch never
+   sets. Corrected the disclosure text to "100G uplinks" so the assumption line tells the rep the
+   truth about what was actually assumed, per standing rule 3 ("never silently match a plan that
+   contradicts what the code shows"). Also added "new" ahead of "redundant distribution pair" to
+   name the fourth hardcode (`distribution: 'new'`) that the original proposed wording didn't
+   otherwise capture.
+3. **Discovery's edge branch — same disclosure, nothing more.** Identical `assume()` text at
+   Discovery's edge-workload branch. No new questions, matching the ruling.
+4. **Discovery's missing core question — documented as intentional.** One sentence added to
+   SPEC.md's "Inter-network connectivity" rule: "Discovery omits core-uplink questions by design;
+   resolved at quote time in guided/expert paths." A future sweep now reads this as a decision on
+   record, not an undocumented gap to re-flag.
+5. **Per-target `railNicCage` — GAPS entry (new G-024) with an explicit revisit trigger**, not a
+   fix. This is a genuinely different class of finding from 1–4 (a missing ENGINE capability —
+   the field is resolved once, globally, near the top of `recommend()` — not a missing UI
+   control), so it gets its own gap entry rather than folding into G-023. **Feature-gate rule,
+   maintainer-set:** no plumbing work until a real design actually has 2+ AI targets with
+   different rail NICs. Interim: the engine now warns when 2+ AI targets exist in one design,
+   naming the count and telling the rep to verify the rail splitter part per target if the NIC
+   generations differ — so a genuinely mixed-cage design surfaces the risk instead of silently
+   trusting one shared answer, without building capability nobody has asked for yet.
+
+**Test discipline, continuing this session's practice:** every code change (1, 2/3, 5) was
+verified against its own regression test with a stash-and-restore check before being trusted —
+sweep #1's wizard-level test (4 assertions), sweep #2/#3's disclosure tests (2 assertions), and
+sweep #5's engine-level warning test (2 assertions) all went red when their respective fix was
+stashed, and green when restored. Sweep #1's SMOKE-TEST FIRST discipline also caught a bug in the
+TEST script itself before it was trusted: an early draft's `/Edge/` regex matched "Power**Edge**"
+in an earlier, unrelated wizard option before ever reaching the real "Edge / access" button —
+fixed to an anchored `/^Edge \/ access/` before the assertion was written into the suite. A test
+that passes by accident is worse than no test; verifying the SELECTOR against the real DOM before
+trusting the assertion is the same discipline as verifying the assertion against the real defect.
+
+---
+
 ## 2026-07-17c — G-023 / R16 closed: a fixed engine defect is still a live defect if no UI can reach it
 
 **Change:** three new refresh-mode wizard questions (`core`, `coreVendor`, `coreReach`) wire

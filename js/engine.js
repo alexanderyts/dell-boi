@@ -514,8 +514,18 @@
     const aiStack = input.stack === 'dell' ? 'dell' : (input.stack === 'nvidia' ? 'nvidia' : null);   // AI: no default — must pick
     if (anyAi && !aiStack) throw new Error('Choose an AI fabric stack: Dell PowerSwitch or NVIDIA Spectrum (no default).');
     const allAi = targets.every(t => t.platform.workload === 'ai');
+    const aiTargetCount = targets.filter(t => t.platform.workload === 'ai').length;
 
     const bom = [], warnings = [], fabrics = [];
+    // Sweep finding #5 (2026-07-17, maintainer ruling — GAPS G-023, interim measure):
+    // `railNicCage` is a single top-level engine input, not per-Target — a 2nd AI target with a
+    // DIFFERENT rail-NIC generation (and therefore a different far-end cage: OSFP vs QSFP112)
+    // silently gets the SAME cage answer as the first. This is a missing engine capability, not
+    // a missing question, so it is NOT plumbed here — only surfaced, so a rep with a genuinely
+    // mixed-cage multi-AI-target design sees it rather than trusting a silently-shared answer.
+    if (aiTargetCount >= 2) warnings.push({ severity: 'warn',
+      message: `${aiTargetCount} AI targets in this design share ONE rail-NIC-cage answer (${railNicCage === 'unsure' ? 'not confirmed' : railNicCage.toUpperCase()}) — the engine does not yet support a different cage per target. If these AI targets use DIFFERENT GPU NIC generations/connectors (e.g. one OSFP, one QSFP112), verify the rail splitter part PER TARGET before ordering; a mismatch ships a cable that cannot plug into that target's NIC.`,
+      source: 'railNicCage — single global input, not per-Target (GAPS G-023)' });
 
     /* NIC config — the global answer describes the PRIMARY target's hosts */
     const nic = normNic(input.nic);
