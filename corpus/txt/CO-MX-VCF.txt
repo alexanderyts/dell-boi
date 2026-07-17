@@ -1,0 +1,1507 @@
+Dell PowerEdge MX Deployment with VMware Cloud Foundation
+Deployment Guide
+H19120
+March 2022
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+© 2019 - 2022 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+
+Chapter 1: Audience and Scope..................................................................................................... 6
+Chapter 2: Overview......................................................................................................................7 Dell Technologies vision..................................................................................................................................................... 7 VMware Cloud Foundation................................................................................................................................................ 7 Dell Technologies Demo Center....................................................................................................................................... 7
+Chapter 3: Hardware Overview......................................................................................................8 Dell PowerEdge MX7000 chassis.................................................................................................................................... 8 Front view of the Dell PowerEdge MX7000 chassis.............................................................................................8 Back view of the Dell PowerEdge MX7000 chassis..............................................................................................9 Logical view of the Dell PowerEdge MX7000 chassis........................................................................................ 10 Dell PowerEdge MX740c and MX750c compute sled............................................................................................... 11 Dell PowerEdge MX5016s storage sled........................................................................................................................ 12 Dell PowerEdge MX9002m management module......................................................................................................13 Dell Networking MX9116n Fabric Switching Engine.................................................................................................. 14 Dell Networking MX7116n Fabric Expander Module.................................................................................................. 14 Dell Networking MX5108n Ethernet switch................................................................................................................ 15 Dell PowerEdge MX5000s SAS switch........................................................................................................................ 16 Dell PowerSwitch S5232F-ON....................................................................................................................................... 16
+Chapter 4: Validated Components................................................................................................ 17 Hardware components......................................................................................................................................................17 Software and firmware..................................................................................................................................................... 17 Software............................................................................................................................................................................... 17
+Chapter 5: Physical Layout.......................................................................................................... 18 Configuration options........................................................................................................................................................18 Dual chassis cabling...........................................................................................................................................................18 Cabling for a dual Dell PowerEdge MX7000 enclosure configuration using Dell MX9116n Fabric Switching Engines and MX7116n Fabric Expander Modules..........................................................................18
+Chapter 6: Pre-deployment Requirements................................................................................... 21 Management host.............................................................................................................................................................. 21 Connectivity.................................................................................................................................................................. 21 Network services............................................................................................................................................................... 21 Domain Name System................................................................................................................................................ 22 Dynamic Host Configuration Protocol....................................................................................................................22 Network Time Protocol.............................................................................................................................................. 22
+Chapter 7: Networking Requirements.......................................................................................... 23 VMware Cloud Foundation networking........................................................................................................................23 Design considerations.......................................................................................................................................................23 Physical hardware............................................................................................................................................................. 25
+
+Contents
+
+3
+
+Network connectivity.......................................................................................................................................................26 VLAN and subnets for networking configuration...................................................................................................... 26 MTU settings......................................................................................................................................................................26
+Chapter 8: SmartFabric Network Configuration...........................................................................27 Create chassis groups...................................................................................................................................................... 27 Define networks.................................................................................................................................................................27 Create VLANs.................................................................................................................................................................... 28 Create the SmartFabric................................................................................................................................................... 28 Configure uplinks............................................................................................................................................................... 28 Configure jumbo frames.................................................................................................................................................. 28 Server templates............................................................................................................................................................... 28 Server profiles....................................................................................................................................................................29
+Chapter 9: VMware Cloud Foundation and SDDC Design Considerations......................................30 External services overview............................................................................................................................................. 30 Active Directory........................................................................................................................................................... 30 Dynamic Host Configuration Protocol.....................................................................................................................31 Domain Name System................................................................................................................................................. 31 Network Time Protocol...............................................................................................................................................31 Simple Mail Transfer Protocol mail relay (optional)............................................................................................. 31 Certificate Authority (optional)................................................................................................................................ 31 Physical network requirements.......................................................................................................................................31 Network pools.................................................................................................................................................................... 32 VLANs and IP subnets......................................................................................................................................................32 Host names and IP addresses........................................................................................................................................ 32 Host names and IP addresses for external services........................................................................................... 33 Host names and IP addresses for the virtual infrastructure layer...................................................................33
+Chapter 10: Deploy VMware ESXi to Cluster Nodes..................................................................... 35 Prerequisites.......................................................................................................................................................................35 Installation of VMware ESXi........................................................................................................................................... 35 Connect to iDRAC and boot installation media.................................................................................................... 35 Install VMware ESXi....................................................................................................................................................37 Configure VMware ESXi settings—using DCUI...................................................................................................38 Configure VMware ESXi settings using web interface...................................................................................... 39
+Chapter 11: VMware Cloud Builder and SDDC Deployment........................................................... 43 Deploy VMware Cloud Builder........................................................................................................................................43 Check Time Synchronization.......................................................................................................................................... 44
+Chapter 12: VMware Virtual Cloud Foundation Deployment Using Cloud Builder.......................... 45 Prerequisites.......................................................................................................................................................................45 Launch Cloud Builder web interface.............................................................................................................................45 VMware Cloud Builder deployment parameter sheet...............................................................................................46 VMware Cloud Builder parameters............................................................................................................................... 46 Management Workload tab....................................................................................................................................... 47 Users and Groups tab................................................................................................................................................. 47 Hosts and Networks tab............................................................................................................................................ 47
+
+4
+
+Contents
+
+Deploy Parameters tab...............................................................................................................................................47 Run VMware Cloud Builder Deploy SDDC................................................................................................................... 47 VMware Cloud Builder Configuration Validation........................................................................................................49 VMware SDDC bring-up.................................................................................................................................................. 50
+Chapter 13: VMware VCF Post-installation Validation.................................................................. 52 VMware Cloud Foundation cluster verification..........................................................................................................52 VMware SDDC Manager............................................................................................................................................52 VMware Customer Experience Improvement Program..................................................................................... 52 VMware vCenter......................................................................................................................................................... 53 VMware NSX-T Manager.......................................................................................................................................... 53 VMware Cloud Foundation installation complete................................................................................................ 54
+Appendix A: Troubleshooting - VMware ESXi and VCF................................................................. 55 VMware ESXi host upgrade failures.............................................................................................................................55 VMware ESXi 7.0 U2c upgrade failure with error related to i40en...................................................................... 56 VMware VCF deployment - validate configuration error........................................................................................ 56
+Appendix B: VMware ESXi CLI Commands................................................................................... 58
+Appendix C: Manual Switch Configuration (Optional).................................................................. 60 Switch operating mode....................................................................................................................................................60 VLANs and subnets for manual switch configuration.............................................................................................. 60 Uplink and VLTi ports........................................................................................................................................................61 Configure the ports for VLTi...........................................................................................................................................61 Configure VLT domain...................................................................................................................................................... 61 Verify VLT settings...................................................................................................................................................... 61 Verify the VLTi (port-channel).................................................................................................................................62 Configure the Link Aggregation Control Protocol.....................................................................................................62 Configure the host facing ports.................................................................................................................................... 63 Verify switch configuration.............................................................................................................................................63
+Appendix D: Versions Used in This Guide..................................................................................... 64
+Appendix E: References.............................................................................................................. 65 Dell Technologies documentation................................................................................................................................. 65 Dell PowerEdge MX7000 Solution Baselines........................................................................................................65 Dell Technologies Networking Infrastructure Solutions documentation........................................................65 Support and feedback......................................................................................................................................................65
+
+Contents
+
+5
+
+1
+Audience and Scope
+This deployment guide includes step-by-step instructions for deployment of VMware Cloud Foundation on Dell PowerEdge MX platform. Any deviation from the listed configurations may negatively impact functionality. This deployment guide makes certain assumptions about the prerequisite knowledge of the deployment personnel. This includes the prerequisite knowledge of: ● Dell products including the location of buttons, cables, and components in the hardware ● Functional knowledge of the items in the Dell owner's manuals for the products being used ● VMware products and the components or features of vSphere ● Data center infrastructure best practices in the areas of server, storage, networking, and environmental considerations such
+as power and cooling The scope of this document excludes existing infrastructure components outside of the specific hardware and software that is mentioned in this guide. Dell takes no responsibility for any issues that may be caused to existing infrastructure during deployment.
+
+6
+
+Audience and Scope
+
+2
+Overview
+Dell Technologies vision
+The vision at Dell Technologies is to be the essential technology company for the data era. Dell Technologies ensures modernization for today's applications and the emerging cloud-native world. Our Networking team is committed to disrupting the fundamental economics of the market with an open strategy that gives you the freedom of choice for networking operating systems and top-tier merchant silicon. The Dell Technologies strategy enables business transformations that maximize the benefits of collaborative software and standards-based hardware, including lowered costs, flexibility, freedom, and security. Dell Technologies provides further customer enablement through validated deployment guides that demonstrate these benefits while maintaining a high standard of quality, consistency, and support.
+VMware Cloud Foundation
+Deployment of VMware Cloud Foundation on the Dell PowerEdge MX platform provides a hyperconverged infrastructure solution incorporating best-in-class hardware from Dell with core VMware products including vSphere, vSAN, NSX-T, vRealize Log Insight, and SDDC Manager. Virtualization of compute, storage, and networking is delivered in a single package with VMware Cloud Foundation on the PowerEdge MX7000 chassis. Dell has determined the compatibility and established certification across hardware and software. The combination of Cloud Foundation software on the PowerEdge MX7000 chassis that is described in this document has been validated by Dell and certified by VMware. The PowerEdge MX platform systems that are described in this guide are certified as vSAN Ready Nodes, as shown in the VMware Compatibility Guide (VCG).
+NOTE: Cloud Foundation builds a strong infrastructure foundation which you can expand with additional products. You can enable a true private cloud consumption model in your environment with optional add-on products from the VMware vRealize suite of software. For more information about these products, see www.vmware.com/products/vrealizesuite.html.
+Dell Technologies Demo Center
+The Dell Technologies Demo Center is a highly scalable, cloud-based service that provides 24/7 self-service access to virtual labs, hardware labs, and interactive product simulations. Several interactive demos are available on the Demo Center for PowerEdge MX platform deployments. Go to Dell Technologies Interactive Demo: OpenManage Enterprise Modular for MX solution management to quickly become familiar with deploying MX Networks.
+
+Overview
+
+7
+
+3
+Hardware Overview
+This section provides additional information about the hardware platform used in the development of this deployment guide.
+Dell PowerEdge MX7000 chassis
+With kinetic architecture and Agile management, the Dell PowerEdge MX portfolio dynamically configures compute, storage, and fabric, increases team effectiveness, and accelerates operations. The responsive design delivers the innovation and longevity customers of all sizes need for their IT and digital business transformations. Key features of PowerEdge MX7000 chassis include: ● 7U modular enclosure with eight slots that can accommodate 2S single or four 4S double-width compute sleds and 12 Gb/s
+single-width storage sleds. ● 25 Gb Ethernet, 12 Gb SAS, and 32 Gb Fiber channel I/O options. ● Three I/O network fabrics—two for general use and one for storage only; each with redundant modules. ● Multichassis networking up to 10 chassis. ● Single management point for compute, storage, and networking. ● High-speed technology connections, now and into the future, with no mid-plane upgrade.
+Front view of the Dell PowerEdge MX7000 chassis
+The front of the Dell PowerEdge MX7000 chassis provides access to compute and storage sleds, fans, KVM, and power supplies. The configuration in the image below includes the following components: ● Four PowerEdge MX740c sleds in slots one through four ● One PowerEdge MX840C sled in slots five and six (not used in this guide) ● Two PowerEdge MX5016s sleds in slots seven and eight
+
+8
+
+Hardware Overview
+
+Figure 1. PowerEdge MX7000 chassis—front view
+Back view of the Dell PowerEdge MX7000 chassis
+The back of the Dell PowerEdge MX7000 chassis provides access to network and storage fabrics, management modules, fans, and power connections. The configuration in the image below includes the following components: ● Two Networking MX5108n Ethernet switches installed in fabric slots A1 and A2 ● Two PowerEdge MX9002m management modules that are installed in management slots MM1 and MM2 ● Two PowerEdge MX5000s SAS fabric switch modules that are installed in fabric slots C1 and C2 ● Empty or available fabric slots B1 and B2
+
+Hardware Overview
+
+9
+
+Figure 2. PowerEdge MX7000 chassis—rear view
+Logical view of the Dell PowerEdge MX7000 chassis
+Dell PowerEdge MX7000 chassis supports three fabrics: two for general use and one for storage only. All three fabrics support redundant modules.
+
+10
+
+Hardware Overview
+
+Figure 3. Logical view of the PowerEdge MX7000 chassis
+Dell PowerEdge MX740c and MX750c compute sled
+The Dell PowerEdge MX740c and MX750c are two-socket, full-height, single-width compute sleds that offer impressive performance and scalability. The MX740c and MX750c are ideal for dense virtualization environments and can serve as a foundation for collaborative workloads. An MX7000 chassis can support up to eight MX740c and MX750c sleds. Mixing compute sleds of different generations is supported.
+Key features include:
+● Single-width slot design ● One or two CPU sockets ● 24 or 32 DIMM slots of DDR4 memory (MX740c and MX750c) ● Boot options include BOSS-S1 or Internal Dual SD Modules (IDSDM) ● Up to six SAS/SATA SSD/HDD and NVMe PCIe SSDs ● Two PCIe mezzanine card slots for connecting to network Fabric A and B ● One PCIe mini-mezzanine card slot for connecting to storage Fabric C ● iDRAC with Lifecycle Controller
+
+Hardware Overview
+
+11
+
+Figure 4. PowerEdge MX740c sled with six 2.5-inch SAS drives
+Dell PowerEdge MX5016s storage sled
+The Dell PowerEdge MX5016s storage sled delivers scale-out, shared storage within the PowerEdge MX architecture. The PowerEdge MX5016s sled provides customizable 12 GB/s direct-attached SAS storage with up to 16 SAS hard drives or SSDs. Both the PowerEdge MX740c and the PowerEdge MX840c compute sleds can share drives with the PowerEdge MX5016s sled using the PowerEdge MX5000s SAS module. Internal server drives may be combined with up to seven PowerEdge MX5016s sleds in one chassis for extensive scalability. The PowerEdge MX7000 chassis supports up to seven PowerEdge MX5016s storage sleds.
+NOTE: SATA and NVMe devices are not supported in the PowerEdge MX5016s storage sled (it is SAS only). All three drive types are supported as local drives in the PowerEdge MX740c and PowerEdge MX840c compute sleds.
+
+12
+
+Hardware Overview
+
+Figure 5. PowerEdge MX5016s storage sled
+Dell PowerEdge MX9002m management module
+The Dell PowerEdge MX9002m management module controls the overall chassis power, cooling, and hosts the OpenManage Enterprise-Modular (OME-M) console. Two external 1G-BaseT Ethernet ports are provided to enable management connectivity and to connect more PowerEdge MX7000 chassis into a single logical chassis. The PowerEdge MX7000 chassis supports two PowerEdge MX9002m management modules for redundancy.
+
+Figure 6. PowerEdge MX9002 management module
+
+Hardware Overview
+
+13
+
+1. Handle release 2. Gigabit Ethernet port 1 3. Gigabit Ethernet port 2 4. ID button and health status LED 5. Power status LED 6. Micro-B USB port
+Dell Networking MX9116n Fabric Switching Engine
+The Dell Networking MX9116n Fabric Switching Engine (FSE) is a scalable, high-performance, low latency 25 GbE switch purpose-built for the PowerEdge MX platform. The MX9116n FSE provides enhanced capabilities and cost-effectiveness for enterprise, mid-market, Tier 2 cloud, and Network Functions Virtualization (NFV) service providers with demanding compute and storage traffic environments.
+In addition to 16 internal 25 GbE ports, the MX9116n FSE provides: ● Two 100 GbE QSFP28 ports ● Two 100 GbE QSFP28 unified ports ● Twelve 2x100 GbE QSFP28-Double Density (DD) ports
+The QSFP28 ports can be used for Ethernet uplink connectivity. For more information, see Management host section. The unified ports can be used for Ethernet uplink connectivity and supporting eight 32 Gb Fibre Channel (FC) ports for SAN connectivity supporting both NPIV Proxy Gateway (NPG) and direct attach FC capabilities.
+The QSFP28-DD ports provide fabric expansion connections for up to nine more PowerEdge MX7000 chassis using the MX7116n Fabric Expander Module. The QSFP28-DD ports also provide capacity for extra uplinks, VLTi links, and connections to rack servers at 10 GbE or 25 GbE using breakout cables. The PowerEdge MX7000 chassis supports up to four MX9116n FSEs in Fabric A or B, or both.
+
+Figure 7. MX9116n FSE
+1. Express service tag 3. Micro-B USB console port 5. Handle release 7. Two QSFP28 unified ports
+
+2. Storage USB port 4. Power and indicator LEDs 6. Two QSFP28 ports 8. 12 QSFP28-DD ports
+
+Dell Networking MX7116n Fabric Expander Module
+The Dell Networking MX7116n Fabric Expander Module (FEM) acts as an Ethernet repeater, taking signals from an attached compute sled and repeating them to the associated lane on the external QSFP28-DD connector. The MX7116n FEM provides two QSFP28-DD interfaces, each providing up to eight 25 GbE connections to the chassis.
+There is no operating system or switching ASIC on the MX7116n FEM, so it never requires an upgrade. There is also no management or user interface, making the MX7116n FEM maintenance-free. The PowerEdge MX7000 chassis supports up to four MX7116n FEMs in Fabric A or Fabric B, or both.
+
+14
+
+Hardware Overview
+
+Figure 8. MX7116n FEM
+1. Express service tag 3. Power and indicator LEDs 5. Two QSFP28-DD fabric expander ports
+
+2. Supported optic LED 4. Module insertion or removal latch
+
+NOTE: The MX7116n FEM cannot act as a stand-alone switch and must be connected to the MX9116n Fabric Switching Engine (FSE) to function.
+
+Dell Networking MX5108n Ethernet switch
+The Dell Networking MX5108n Ethernet switch is targeted at small PowerEdge MX7000 deployments of one or two chassis. Although not a scalable switch, it still provides high-performance and low latency with a non-blocking switching architecture. The MX5108n switch provides line-rate 25 Gbps Layer 2 and Layer 3 forwarding capacity to all connected servers with no oversubscription.
+In addition to eight internal 25 GbE ports, the MX5108n switch includes: ● One 40 GbE QSFP+ port ● Two 100 GbE QSFP28 ports ● Four 10 GbE RJ45 BASE-T ports
+The ports can be used to provide a combination of network uplinks, VLT interconnects (VLTi), or for FCoE connectivity. The MX5108n switch supports FCoE Initialization Protocol (FIP) Snooping Bridge (FSB) mode but does not support NPG or direct attach FC capabilities. The PowerEdge MX7000 chassis supports up to four MX5106n Ethernet switches in Fabric A or Fabric B, or both.
+
+Figure 9. Networking MX5108n Ethernet switch
+1. Express service tag 2. Storage USB port 3. Micro-B USB console port 4. Power and indicator LEDs 5. Module insertion or removal latch 6. One QSFP+ port 7. Two QSFP28 ports 8. Four 10GBASE-T ports
+
+Hardware Overview
+
+15
+
+Dell PowerEdge MX5000s SAS switch
+The Dell PowerEdge MX5000s SAS module supports x4 SAS internal connections to all eight front-facing slots in the PowerEdge MX7000 chassis. The PowerEdge MX5000s uses T10 SAS zoning to provide multiple SAS zones or domains for the compute sleds. Storage management is done using the OME-Modular console. PowerEdge MX5000s provides Fabric C SAS connectivity to each compute and one or more PowerEdge MX5016s storage sleds. Compute sleds connect to the PowerEdge MX5000s using either SAS Host Bus Adapters (HBA) or a PowerEdge RAID Controller (PERC) in the mini-mezzanine PCIe slot. The PowerEdge MX5000s switches are deployed as redundant pairs to offer multiple SAS paths to the individual SAS disk drives. The PowerEdge MX7000 chassis supports redundant PowerEdge MX5000s in Fabric C.
+Figure 10. PowerEdge MX5000s storage sled 1. Express service tag 2. Module insertion or removal latch 3. Power and indicator LEDs
+Dell PowerSwitch S5232F-ON
+The Dell PowerSwitch S5232F-ON is a 1U, multilayer switch with 32x 100 GbE QSFP28 ports and 2x 10 GbE SFP+ ports. This guide uses two S5232F-ON switches as leaf switches.
+Figure 11. PowerSwitch S5232F-ON
+
+16
+
+Hardware Overview
+
+4
+
+Validated Components
+
+VMware no longer maintains a VMware Compatibility Guide for Cloud Foundation. Since vSAN is an underlying requirement of Cloud Foundation, any hardware specified as a vSAN Ready Node is approved for Cloud Foundation.
+Hardware components
+The following hardware components were used in the validation of this solution. NOTE: VMware Cloud Foundation automatically configures vSAN disk groups, which requires following a few rules for drive population: ● Identical drive configurations in each target host ● There must be one size for all cache drives, as well as one size for all capacity drives ● The number of capacity drives in a host is cleanly divisible by the number of cache drives (that is, the result is a whole number)
+VMware vSAN Ready Nodes based on Dell MX740c configurations are used for the deployment of VCF 4.3.1. For the supported configurations, refer to the VMware Compatablity Guide. Here is an overview of the process: 1. Open the VMware Compatablity Guide in any web browser. 2. Select vSAN for What are you looking for" and type MX740c for Keyword. 3. Click Update and View Results.
+The options listed are all vSAN Ready Nodes based on MX740c.
+
+Software and firmware
+
+The VMware Compatibility Guide (VCG) is the system of record for versions of certain types of firmware and drivers which are certified to be compatible with vSphere and vSAN. These include server platform, vSAN disk controllers, and network interface cards. For more information on other components, see https://www.dell.com/support.
+
+Software
+
+This document is written for VMware Cloud Foundation 4.0 running on ESXi 7.0. The required build and version of ESXi is specified by the version of Cloud Foundation to be installed. It is critical that the versions of both Cloud Foundation and ESXi correspond.
+
+Table 1. Cloud Foundation components
+
+Software component Cloud Builder VM SDDC Manager vCenter Server Appliance ESXi
+
+Version 4.3.1 4.3.1 7.0 Update 2d 7.0 Update 2c
+
+Build number 18624509 18624509 18455184 18426014
+
+Validated Components
+
+17
+
+5
+Physical Layout
+You can implement multiple configurations of VMware Cloud Foundation on a Dell PowerEdge MX7000 chassis. The Cloud Foundation software addresses the host servers using their IP address. Deploying compute sleds across multiple PowerEdge MX7000 chassis has no impact on the software as long as the networking is configured properly on the PowerEdge MX I/O Modules (IOMs) and the switches to which the PowerEdge MX7000 chassis connects. The physical layout and resulting cabling is impacted by the number of PowerEdge MX7000 chassis in use, but no other changes are made in the environment.
+Configuration options
+The Dell PowerEdge MX7000 chassis can be deployed as a single chassis or in a multi-chassis group, enabling multiple chassis to be managed as if they were a single chassis. A PowerEdge MX Scalable Fabric enables multiple chassis to behave like a single chassis from a networking perspective. To learn more about the PowerEdge MX Scalable Fabric Architecture, refer to the Dell EMC PowerEdge MX Networking Deployment Guide . The PowerEdge MX I/O Guide includes detailed information on Scalable Fabric topologies and the cabling options for all configuration options.
+Dual chassis cabling
+This section provides details on the topology used in the validation of the deployment for VMware Cloud Foundation in this guide. Dell PowerEdge MX5016s storage sleds are internally cabled and the PowerEdge MX5000s SAS IOM has no impact on external cabling.
+Cabling for a dual Dell PowerEdge MX7000 enclosure configuration using Dell MX9116n Fabric Switching Engines and MX7116n Fabric Expander Modules
+The following figures show the external cabling for a multiple Dell PowerEdge MX7000 enclosure configuration when the Dell MX9116n Fabric Switching Engines (FSE) and MX7116n Fabric Expansion Modules (FEM) are used. The Customer Network Link Aggregation is shown as an example. The upper layer connection is not specified, except that it must use an LACP-enabled link aggregation group. The following diagram shows the management module cabling for a dual chassis deployment. The MX7000 chassis are daisychained, and the management modules are pictured without the full chassis.
+
+18
+
+Physical Layout
+
+Figure 12. MX9002m Management module cabling
+The following diagram shows the cabling for a dual chassis deployment with uplinks to a customer network leaf switch pair. NOTE: The customer network is represented above by two Dell PowerSwitch S5232F-ON switches. The leaf pair shown can be substituted for any standard Ethernet switch pair.
+
+Physical Layout
+
+19
+
+Figure 13. Dual chassis deployment with uplinks to a leaf pair
+
+20
+
+Physical Layout
+
+6
+Pre-deployment Requirements
+Management host
+The deployment of VMware Cloud Foundation is executed by a Cloud Builder VM that is deployed using an Open Virtualization Appliance (OVA). The virtual machine must be deployed on an ESXi host or cluster that is not a part of the Cloud Foundation cluster. If the management network is a private network ensure that the Cloud Builder VM and the Cloud Foundation management hosts have access to the same DNS and NTP services. In this example, a host in an existing vSphere environment is used to run the services that are required to install Cloud Foundation. The management VLAN and VXLAN VLAN are extended to this management host. An NTP time server is installed on the management VLAN and a DHCP server on the VXLAN VLAN.
+
+Figure 14. Management host in an existing vSphere environment
+Connectivity
+The VMware Cloud Builder VM must be able to communicate with the hosts that become the Cloud Foundation management cluster. In this example, the new cluster hosts were given IP addresses on the 172.17.11.0/24 subnet and placed on the management VLAN (1711). A port group on the management host that was tagged with VLAN 1711 was created and connected to a port on a switch that accepted (ingress) traffic. The switchports between that initial ingress port and the new hosts were tagged with VLAN 1711.
+Network services
+There are three network services that are essential for VMware Cloud Foundation deployment. NOTE: Misconfiguration or lack of one of these services causes the validation portion of the installation to fail.
+
+Pre-deployment Requirements
+
+21
+
+Domain Name System
+Domain Name System (DNS) is required to provide both forward and reverse name resolution. The IP addresses of name servers, search domains, and hostnames of all the VMware Cloud Foundation VMs must be inserted into the Cloud Builder deployment parameter sheet. Forward and reverse DNS entries of any hostname that are indicated in the parameter sheet should be tested and retested for both forward and reverse lookups. Test the DNS entries using their Fully Qualified Domain Name (FQDN) and their short name (hostname).
+NOTE: Every DNS hostname and corresponding IP address that is specified in the parameter sheet are tested during the validation phase.
+Dynamic Host Configuration Protocol
+A VTEP (VxLAN Tunnel End Point) is the software-based endpoint of a VXLAN connection that communicates over IP. The IP addresses can be provided via an IP address pool defined in the VMware Cloud Builder parameter file or via Dynamic Host Configuration Protocol (DHCP). Whenever a new cluster node is added to Cloud Foundation, a new tunnel endpoint is created which requires an IP address.
+If DHCP is selected, place the DHCP server (or VM) on a reliable and well-maintained part of your infrastructure. The validation process checks to ensure that an IP address pool is being provisioned or that a DHCP server is available on the VXLAN network as specified in the parameter sheet. Validation fails if no IP address pool is provisioned or there is no DHCP response on the VXLAN network.
+Network Time Protocol
+Time synchronization is critical to the VMware Cloud Foundation stack. All hosts and the Cloud Builder VM are synchronized to a reference time source before attempting to run the validation phase of the Cloud Builder process. Network Time Protocol (NTP) traffic is routed from client to source or it can travel over the same L2 network.
+NOTE: The NTP server must be specified by the same term for both Cloud Builder and the target ESXi hosts. If a DNS name is used to identify the NTP servers for the target hosts, then the same DNS name must be used to identify the NTP servers for the Cloud Builder VMs. If a comma separated list of IP addresses is used for one, then the same comma separated list of IP addresses should be used for the other.
+
+22
+
+Pre-deployment Requirements
+
+7
+
+Networking Requirements
+
+This chapter covers the networking requirements from both the Cloud Foundation software perspective and from a networking hardware connectivity perspective. This section also describes the options for configuring networks on a Dell PowerEdge MX7000 chassis, with a focus on the unique capabilities of the MX7000 SmartFabric and Scalable Fabric infrastructure. The actual networking configuration procedures are described in the later sections.
+
+VMware Cloud Foundation networking
+
+A successful VMware Cloud Foundation deployment relies heavily on networks that are constructed and allocated to Cloud Foundation. These networks are used by Cloud Builder during the installation and configuration process and then used by Cloud Foundation to carry out various activities. These different networks are allocated to specific purposes and have different requirements.
+Cloud Foundation requires seven networks and at least one connection to a customer network (for external access to your Cloud Foundation stack). In the following example, a private IP address range is used for all connectivity within the management stack. There is also an IP network that connects back to an external network.
+Each of these networks is propagated to the Cloud Foundation stack using tagged VLANs. Using tagged VLANs enables mapping of port groups to VLANs, allowing access to resources as needed. All of these networks are routable to and from each other. The routing task is executed at some layer above the access level switched fabric that is deployed here.
+The networks required to deploy Cloud Foundation are listed in the following table:
+
+Table 2. Networks required to deploy Cloud Foundation
+
+Network
+
+Description
+
+Management
+
+Dedicated to communication between all the deployed resources and services. When the SDDC Manager Utility needs to communicate to any other service or resource, it uses the management network.
+
+vSAN
+
+Used to communicate and synchronize vSAN storage traffic across multiple hosts to ensure data integrity and resiliency.
+
+vMotion
+
+Used to quickly redistribute virtual machine state and or storage between hosts.
+
+Host Overlay
+
+The host overlay network is used by NSX-T for control plane communication between the hosts of the Cloud Foundation cluster.
+
+Uplinks (two)
+
+The uplink networks are used by NSX-T for data traffic into and out of the cluster.
+
+Edge Overlay
+
+This network is used by the Edge Nodes in an NSX-T environment to allow the transport nodes to access the capabilities of NSX-T.
+
+Design considerations
+VMware Cloud Foundation consists of a virtual management infrastructure designed to make the deployment of vSAN clusters and resources easier and more consistent. The Dell MX7000 chassis is a compute, storage and networking platform designed to make hardware deployment easier and more consistent.
+A component of the MX7000 chassis infrastructure is SmartFabric. SmartFabric is integrated into the OS10 switch operating system and the Dell OME-Modular management software. SmartFabric provides the ability to manage the IOMs running OS10. SmartFabric provides a graphical utility for managing networks and uplinks and customizable templates. Templates are used to configure the server facing ports quickly and consistently on many switch ports. Templates are useful when deploying multiple cluster nodes which would all have the same network requirements. Templates provide value by programmatically identifying the switch ports to which a selected server is connected and configuring those ports based on the selected template. Server profiles are a combination of template and identity settings that are applied to a specific server or multiple servers. When the server template is deployed successfully, OME-M automatically creates and applies a server profile to that template. OME-M
+
+Networking Requirements
+
+23
+
+also allows you to manually create a server profile that you can apply to the designated compute sleds. Instead of deleting and recreating server templates, profiles can be used to deploy with modified attributes on server templates. A single profile can be applied to multiple server templates with modified attributes, or all attributes.
+SmartFabric provides the most common switching capabilities, such as: ● Uplink creation and configuration
+○ VLT ○ LACP link aggregation ○ Spanning Tree configuration ○ VLAN tagging (tagged and untagged) ● VLAN creation ● Server facing port configuration
+SmartFabric does not provide capabilities such as Layer 3 routing configurations. Layer 3 routing is an important topic in the VCF deployment conversation. NSX-T, which is deployed as part of VCF, works best when it can exchange routing information with an upstream BGP-enabled router.
+NOTE: With version 4.3 of VCF, the AVNs (Application Virtual Networks) can be deployed at the time of SDDC stand up or as a separate step after the initial stand up.
+The MX7000 Scalable Fabric Architecture leverages the MX9116n Fabric Switching Engine (FSE) and the MX7116n Fabric Expansion Modules (FEM). In this design the Ethernet ports are configured on the FSE and the FEMs extend those ports to their compute resources. A single FSE can support up to nine FEMs and each FEM can connect to as many as eight hosts. Configuration of these server facing ports is implemented by the templates. SmartFabric tracks the ports to which a server is connected and applies the settings defined in a template. The implementation of a template can even track the location of a server if it is moved and dynamically configure the connected switch ports when the server is inserted into a different slot in the same multi chassis group connected to the same scalable fabric.
+It is these advantages that have driven the decision to implement SmartFabric mode rather than a manually configured network environment. While manually configured IOMs provide more granular configuration capabilities, SmartFabric provides manageability, portability and scalability that match the manageability and rapid deployment capabilities of Cloud Foundation.
+NOTE: This guide only covers networking configuration from the SmartFabric mode perspective. For information about manually configuring Network IOMs, refer to the OS10 documentation available on Dell.com. This guide also highlights the use of the MX9116n Fabric Switching Engine and the MX7116n Fabric Expansion Modules. The gains in terms of fast deployment, ease of management, and scalability combine to provide the best solution when paired with the deployment capabilities of VCF. The MX5108n Ethernet IOM is fully supported and the SmartFabric mode configuration is similar to the MX9116n.
+The following figure shows the connectivity between the data center and the MX7000 chassis. The leaf switches are manually configured to connect to a scalable fabric that can contain up to 160 server facing ports. The connection between the top of rack switches and the SmartFabric is a layer 2 connection configured as either an LACP aggregated connection or a Spanning Tree managed connection. VLT is used by SmartFabric to create a robust path when an LACP aggregated connection is deployed.
+
+24
+
+Networking Requirements
+
+Figure 15. MX7000 chassis data center deployment with VCF
+In this example the leaf switches are BGP-enabled, layer 3 devices. While the leaf switches are configured manually, they need only be configured once with minor modifications as the environment expands. The SmartFabric managed IOMs connect to the leaf switches. SmartFabric templates are used to assign network profiles to the assigned servers. Templates can be assigned to follow a specific server that may get moved from one slot to another or from one chassis to another (all chassis and slots must belong to the scalable fabric).
+Using this architecture allows expansion of an 8-node cluster to a 16-node cluster by reusing the template used to deploy the first eight nodes. Templates can be cloned, and the cloned templates can be modified and saved as new templates. Using templates to deploy hosts provides fast deployment and consistent results.
+Physical hardware
+Installing physical hardware to provide additional network interfaces in an MX7000 chassis environment requires the installation of devices into the B fabric of the MX7000 chassis. More MX9116n IOMs are installed into slots B1 and B2 on the rear of the chassis. Extra network mezzanine cards are installed into the B connector of each of MX740c compute sleds to interface with the B fabric IOMs.
+
+Networking Requirements
+
+25
+
+Installing dedicated hardware provides better throughput, lower latency, and simplified monitoring of network performance and metrics.
+
+Network connectivity
+
+Deploying Dell Networking MX9116n Fabric Switching Engines (FSEs) and Networking MX7116n Fabric Expansion Modules (FEMs) is a different process. The FSEs are installed into the A1 fabric of the first chassis and the A2 fabric of the second chassis. The FEMs are distributed across both PowerEdge MX7000 chassis in the remaining A fabric slots. The FEMs connect back to the FSEs using a double data rate, 200 Gbps cable. The connection between the compute sleds and the MX modular switches do not use any kind of link aggregation protocol. Additional PowerEdge MX7000 chassis (up to 8 more) can be added and require only the MX7116n FEMs in the A1 and A2 fabric slots. The additional ports available for uplink make the MX9116n an excellent choice for the deployment of VMware NSX-T edge nodes. Since NSX-T is now a part of Cloud Foundation 4.0, we place the emphasis of this document on the MX9116n Scalable Fabric Architecture.
+The connections from the modular switches to the external network are implemented using Virtual Link Trunking (VLT) link aggregation. VLT allows you to create a single LACP-managed link aggregation from the two modular switches to an LACPmanaged aggregation in the external network. Use the link aggregation only on the link between the modular switches and the customer network.
+
+VLAN and subnets for networking configuration
+
+The following table shows the VLAN and networking data that are used for the VMware Cloud Foundation deployment. In our example, private addresses are used for Management, vSAN, vMotion, and VXLAN networks. However, this is not mandatory.
+
+Table 3. VLAN and networking data used for the Cloud Foundation deployment
+
+Name
+
+VLAN ID
+
+Subnet
+
+Netmask
+
+Default gateway
+
+Management vSAN vMotion Host Overlay Uplink1 Uplink2 Edge Overlay
+
+1711 1712 1713 1714 2711 2712 2713
+
+172.17.11.0 172.17.12.0 172.17.13.0 172.17.14.0 172.27.11.0 172.27.12.0 172.27.13.0
+
+255.255.255.0 255.255.255.0 255.255.255.0 255.255.255.0 255.255.255.0 255.255.255.0 255.255.255.0
+
+172.17.11.1 172.17.12.1 172.17.13.1 172.17.14.1 172.27.11.1 172.27.12.1 172.27.13.1
+
+MTU settings
+Configuring jumbo frames is a best practice for both VMware vMotion and vSAN networks, both of which are core components of Cloud Foundation. All the switch ports on the modular switches and up to the aggregation switches used to connect multiple Dell PowerEdge MX7000 chassis enclosures together must be configured for jumbo frames. It is also recommended to configure jumbo frames on the VXLAN network. The validation phase run as part of the Cloud Foundation installation process tests end-to-end connectivity of all specified devices, but fails if the jumbo frames are not correctly configured.
+
+26
+
+Networking Requirements
+
+8
+SmartFabric Network Configuration
+The Dell PowerEdge MX9002m management module hosts the OpenManage Enterprise Modular (OME-M) console. Creation and deployment of SmartFabric topologies is facilitated using the OME-Modular console in conjunction with the SmartFabric OS10 network operating system on the MX9116n switch. SmartFabric is a web-based mechanism to create a reusable networking template that can be applied to a PowerEdge MX7000 chassis, the IOMs (switches) and the compute sleds. SmartFabric creates and configures the switches based on networking best practices. By selecting the topology, SmartFabric creates the VLT domain and VLTi connections and creates the uplink LACP enabled link aggregations. It assigns VLANs to ports as either tagged or untagged based on the networks that are created by the administrator through the SmartFabric interface.
+NOTE: For detailed instructions to deploy a SmartFabric, refer to the Dell EMC PowerEdge MX Networking Deployment Guide.
+To deploy a SmartFabric, complete the following steps using the OME-Modular console: 1. Create chassis groups. 2. Create the networks to be used in the fabric. 3. Select IOMs and create the fabric that are based on the required physical topology. 4. Create uplinks from the fabric to the existing network and assign networks to those uplinks. 5. Deploy the appropriate server templates to the compute sleds. To create a SmartFabric using the OME-M console, follow the instructions in the Create the SmartFabric section of the Dell EMC PowerEdge MX Networking Deployment Guide.
+Create chassis groups
+About this task
+CAUTION: The firmware version of the Dell PowerEdge MX9002m management module is critical to the creation of a chassis group. Ensure that the latest version of the Management Module firmware is used. The PowerEdge MX Baseline information is available on the Networking Support & Interoperability Matrix.
+Chassis groups are defined in OME-M. Before a chassis group can be created, the chassis PowerEdge MX9002m modules must be cabled together. For details on cabling the management modules for multi-chassis deployments, see the Managing chassis section in the Dell EMC OpenManage Enterprise-Modular Edition for PowerEdge MX7000 Chassis User Guide. Cabling diagrams can also be referenced in the Dell EMC PowerEdge MX Networking Deployment Guide . For details on creating chassis groups, see the Chassis groups section in the Dell EMC OpenManage Enterprise-Modular Edition for PowerEdge MX7000 Chassis User Guide .
+Define networks
+Networks or subnets should be defined to meet the VMware Cloud Foundation requirements. The prerequisites to define networks are as follows: ● Create chassis groups ● Cloud Foundation management network ● vMotion network ● vSAN network ● VXLAN network ● Uplink1 network ● Uplink2 network
+
+SmartFabric Network Configuration
+
+27
+
+Create VLANs
+See the Dell EMC PowerEdge MX Networking Deployment Guide for instructions on how to create VLANs in OME-M. In this step, all seven networks documented in the VLAN and subnets for networking configuration are defined in OME-M. These VLANs are later used in defining networks on uplinks, and applied to server profiles and templates.
+Create the SmartFabric
+Creation of the SmartFabric depends on the IOM selected and the number of Dell PowerEdge MX7000 chassis to be installed. The devices eligible for SmartFabric deployment are: ● MX9116n Fabric Switching Engine (FSE) ● MX9116n FSE and MX7116n Fabric Expander Module (FEM) ● MX5108n When deploying the MX9116n FSE and the MX7116n FEM, the configured FSE can manage FEMs across up to 10 PowerEdge MX7000 chassis. The FSE is a single point of management and configuration and the FEMs extend the configured ports to the local PowerEdge MX7000 chassis. To create a SmartFabric using the OME-M console, follow the instructions in the Create the SmartFabric section in the SmartFabric Creation chapter of the Dell EMC PowerEdge MX Networking Deployment Guide. A SmartFabric is a logical entity that consists of a collection of physical resources (such as servers and switches) and logical resources (such as networks, templates, and uplinks). In this step, a single SmartFabric is designed for the deployment. This example with two chassis uses the design type of two MX9116n FSEs in different chassis.
+Configure uplinks
+About this task The newly created fabric requires uplinks to connect to the rest of the network. These uplinks are created as a single logical link to the upstream network using the same Virtual Link Trunking (VLT). To create an Ethernet uplink from the MX9116n Fabric Switching Engines (FSEs) to the S5232F-ON leafs, refer to the Create Ethernet – No Spanning Tree uplink section in the SmartFabric Creation chapter of the Dell EMC PowerEdge MX Networking Deployment Guide. After creating uplinks, the SmartFabric creates an uplink object and the status of the fabric turns green. This example defines Ethernet port interfaces on each MX9116n to uplink to a pair of top of rack leaf switches in the data center.
+Configure jumbo frames
+About this task VMware Cloud Foundation requires jumbo frames on all links.
+NOTE: By default, SmartFabric does not configure the jumbo MTU (frame size) on switch ports.
+To configure the MTU size, see the Optional steps > Configure Ethernet ports section in the SmartFabric Creation chapter of the Dell EMC PowerEdge MX Networking Deployment Guide. Set all network interfaces to an MTU value of 9216.
+Server templates
+A server template contains the parameters that are extracted from a reference server and allows the parameters to be quickly applied to multiple compute sleds. First, create an empty template by copying one from any existing compute sled. Then, modify the template and then apply it to new compute sleds as needed.
+
+28
+
+SmartFabric Network Configuration
+
+Create server template
+To create a server template, see the Create a server template section of the Server Deployment chapter in the Dell EMC PowerEdge MX Networking Deployment Guide.
+NOTE: Before creating the template, you must select a reference server. The server template allows an administrator to associate VLANs to compute sleds.
+Associate network with server template
+The templates that you created must be associated with the networks. VLANs set as tagged or untagged will be applied to the settings of the other compute sleds when the templates are deployed. To associate the networks with a template, see the Deploy a server template section of the Server Deployment chapter in the Dell EMC PowerEdge MX Networking Deployment Guide.
+Deploy server template
+Deploy the server templates to apply the settings and parameters to the compute sleds. After a server template deployment, the interfaces on the switch are updated automatically. SmartFabric configures each interface with untagged and tagged VLANs along with associated QoS settings. To deploy the server template, follow the instructions in the Deploy a server template section of the Server Deployment chapter in the Dell EMC PowerEdge MX Networking Deployment Guide.
+Server profiles
+A server profile is a combination of template and identity settings that are applied to a specific server or multiple servers. When the server template is deployed successfully, OME-M automatically creates and applies a server profile to that template. OME-M also allows you to manually create a server profile that you can apply to the designated compute sleds. Instead of deleting and recreating server templates, profiles can be used to deploy with modified attributes on server templates. A single profile can be applied to multiple server templates with modified attributes, or all attributes.
+Profile deployment
+PowerEdge MX environment supports Profiles with OME-M 1.30.00 and later. OME-M creates and automatically assigns a profile once the server template is deployed successfully. If the server template is not deployed, OME–M allows user to create server profiles and apply them to compute sled or slot. To create and assign a server profile, follow the instructions in the Profile deployment section of the Server Deployment chapter in the Dell EMC PowerEdge MX Networking Deployment Guide.
+
+SmartFabric Network Configuration
+
+29
+
+9
+
+VMware Cloud Foundation and SDDC Design Considerations
+
+VMware Cloud Foundation relies on a set of key infrastructure services to be made available externally. You must configure these external services before you begin deployment.
+NOTE: This section is universal for Cloud Foundation deployments regardless of hardware platform. The content in this section is also available in the VMware Cloud Foundation Planning and Preparation Guide, and is included here for reference. The original content in the VMware website includes additional sections which are not in the scope of this document.
+
+External services overview
+
+Many external services are required for the initial deployment of VMware Cloud Foundation and for the deployment of other optional components such as vRealize Operations or vRealize Automation. The following table lists the required and optional external services and dependencies:
+
+Table 4. Required and optional external services and dependencies
+
+Service
+
+Purpose
+
+Active Directory (AD)
+
+(Optional) Provides authentication and authorization.
+
+NOTE: AD is required if you are deploying vRealize Automation.
+
+Dynamic Host Configuration Protocol (DHCP)
+Domain Name Service (DNS)
+Network Time Protocol (NTP) Simple Message Transfer Protocol (SMTP) Certificate Authority (CA)
+
+Provides automated IP address allocation for VXLAN Tunnel Endpoints (TEPs) if you choose DHCP.
+Provides name resolution for the various components in the solution.
+Synchronizes time between the various components.
+(Optional) Provides method for email alerts.
+(Optional) Allows replacement of the initial self-signed certificates that are used by Cloud Foundation.
+NOTE: A CA is required if you are deploying vRealize Automation.
+
+Active Directory
+VMware Cloud Foundation uses Active Directory (AD) for authentication and authorization to resources. The AD services must be reachable by the components that are connected to the management and vRealize networks. You must configure user and group accounts in AD before adding them to the SDDC manager and assigning privileges.
+NOTE: If you plan to deploy vRealize Automation, AD services must be available. For more information on AD configuration, see the vRealize Automation documentation.
+
+30
+
+VMware Cloud Foundation and SDDC Design Considerations
+
+Dynamic Host Configuration Protocol
+VMware Cloud Foundation can use either Dynamic Host Configuration Protocol (DHCP) or static IP address pools to automatically configure each VM kernel port of an ESXi host that is used as a TEP with an IPv4 address. One DHCP scope must be defined and made available for this purpose. The DHCP scope or IP address pool that is defined should be large enough to accommodate all of the initial and future servers that are used in the Cloud Foundation solution. Each host requires two IP addresses, one for each TEP configured.
+Domain Name System
+During deployment, you must provide the DNS domain information to be used to configure the various components. The root DNS domain information is required and, optionally, you can also specify subdomain information. DNS resolution must be available for all the components that are contained within the VMware Cloud Foundation solution, which includes servers, virtual machines, and any virtual IPs that are used. For more information on the components that are required for DNS resolution before starting a Cloud Foundation deployment, see Host names and IP addresses. Ensure that both forward and reverse DNS resolutions are functional for each component before deploying Cloud Foundation or creating any workload domains.
+Network Time Protocol
+All components must be synchronized against a common time provider by using the Network Time Protocol (NTP) on all nodes. Important components of VMware Cloud Foundation, such as vCenter Single Sign-On (SSO), are sensitive to a time drift between distributed components. Synchronized time between the various components also assists with troubleshooting. Requirements for the NTP sources include the following: ● The IP addresses of two NTP sources are provided during the initial deployment. ● The NTP sources must be reachable by all the components in the Cloud Foundation solution. ● Time skew is less than 5 minutes between NTP sources.
+Simple Mail Transfer Protocol mail relay (optional)
+Certain components of the SDDC, such as VMware vCenter, Log Insight, and vRealize Automation, can send status messages to users by email. To enable this functionality, a mail relay that does not require user authentication must be available through SMTP. As a best practice, limit the relay function to the networks allocated for use by Cloud Foundation.
+Certificate Authority (optional)
+The components of the SDDC require SSL certificates for secure operation. During deployment, self-signed certificates are used for each of the deployed components. These certificates can be replaced with certificates that are signed by an internal enterprise certificate authority (CA) or by a third-party commercial CA. If you plan to replace the self-signed certificates, the CA must be able to sign a Certificate Signing Request (CSR) and return the signed certificate. All endpoints within the enterprise must also trust the root CA of the CA. If you plan to deploy vRealize Automation, a CA is required, and the certificates are required during installation.
+Physical network requirements
+Before deploying VMware Cloud Foundation, configure the physical network to enable the following features: ● VLAN Tagging (802.1Q) ● Jumbo frames
+○ A minimum MTU value of 1600 is required, however it is recommended that you set the MTU to 9216.
+
+VMware Cloud Foundation and SDDC Design Considerations
+
+31
+
+Network pools
+
+Cloud Foundation uses a construct that is called a network pool to automatically configure VM kernel ports for vSAN, NFS, and vMotion.
+Cloud Foundation uses an Internet Protocol Address Management (IPAM) solution to automate the IP configuration of VM kernel ports for vMotion, vSAN, and NFS (depending on the storage type being used).
+When a server is added to the inventory of Cloud Foundation, it goes through a process called host commissioning. During this process, the hosts are associated with an existing network pool. When the host is provisioned during the create VI workload domain, add cluster, or add host workflow, it automatically configures the VMkernel ports and allocates IP addresses for vMotion, vSAN, and NFS from the network pool the host was associated with.
+You can expand the included IP address range of a network pool at any time, however you cannot modify the other network information. Ensure that you have defined each subnet in the network pool to account for current and future growth in your environment.
+
+VLANs and IP subnets
+
+Network traffic types within VMware Cloud Foundation are isolated from each other by using VLANs. Before deploying your SDDC, you must allocate VLAN IDs and IP subnets for each required traffic type. Configure the VLAN IDs and IP subnets in your network to pass traffic through your network devices. Before you start the Cloud Foundation deployment, verify that the allocated network information is configured and does not conflict with pre-existing services before starting your Cloud Foundation deployment.
+The number and size of the subnets that are required for a deployment depends on: ● The number of workload domains that are created ● The number of clusters defined ● The optional components that are installed
+The following table lists the basic allocation of VLANs and IP subnets for a sample deployment. Use this sample to define the VLANs and IP subnets in your environment.
+
+Table 5. VLANs and IP subnets for a sample deployment
+
+Workload domain Management
+
+Cluster Cluster-01
+
+VLAN function Management
+
+VLAN ID 1711
+
+Subnet 172.17.11.0/24
+
+Gateway 172.17.11.253
+
+vMotion
+
+1712
+
+172.17.12.0/24
+
+172.17.12.253
+
+vSAN
+
+1713
+
+172.17.13.0/24
+
+172.17.13.253
+
+VXLAN (NSX-T
+
+1714
+
+VTEP)
+
+172.17.14.0/24
+
+172.17.14.253
+
+vRealize Suite
+
+1715
+
+(optional)
+
+172.17.15.0/24
+
+172.17.15.253
+
+Uplink 1
+
+2711
+
+172.27.11.0/24
+
+172.27.11.253
+
+Uplink 2
+
+2712
+
+172.27.12.0/24
+
+172.27.12.253
+
+NOTE: Cloud Foundation deploys vRealize Suite products to a dedicated VLAN-backed vSphere Distributed Port Group. The IP subnet must be routable to the Cloud Foundation management network and the firewall. Also, the networks should be disabled or configured as prescribed in the Cloud Foundation documentation.
+
+Host names and IP addresses
+
+Before deploying a VMware Cloud Foundation, or creating or expanding a workload domain, you must define the hostnames and IP addresses for various system components.
+Most of the defined hostnames and IP addresses need to exist in DNS and be resolvable, through forward and reverse lookups.
+The required hostnames and IP addresses are categorized as follows:
+
+32
+
+VMware Cloud Foundation and SDDC Design Considerations
+
+● External services—services that are external to the Cloud Foundation solution and are required for proper operation. ● Virtual infrastructure layer—components that provide for the basic foundation of the Cloud Foundation solution. ● Operations management layer—components used for day-to-day management of the environment, for example, vRealize
+Operations. ● Cloud management layer—services that use the infrastructure layer resources, for example, vRealize Automation.
+
+Host names and IP addresses for external services
+
+External services such as Active Directory (AD) and NTP must be accessible and resolvable by IP Address and Fully Qualified Domain Name (FQDN). Acquire the hostnames and IP addresses for AD and NTP before deploying Cloud Foundation.
+Allocate hostnames and IP addresses to the following components: ● NTP ● AD ● DNS ● Certificate Authority (CA)
+The following table provides sample information for the external services. This example uses a DNS domain called osevcf17.local for illustration purposes. Modify the sample information to conform to the configuration of your site.
+
+Table 6. Configuration for external services
+
+Component group
+
+Hostname
+
+DNS
+
+IP address
+
+DNS
+
+z18-infra
+
+z18-inra.hevcflab18.in 172.17.11.11
+
+NTP
+
+ntp01
+
+z18-ntp01.hevcflab18.in 172.17.11.251
+
+ntp02
+
+z18-ntp02.hevcflab18.in 172.17.11.252
+
+Description DNS & DHCP First NTP Server Second NTP server
+
+Host names and IP addresses for the virtual infrastructure layer
+
+Most of the virtual infrastructure components that are installed by VMware Cloud Foundation require their hostnames and IP addresses to be defined before deployment.
+During the initial deployment of Cloud Foundation, the management domain is created and you must define components specific to the management domain before installation.
+After the initial deployment, additional workload domains are created and you must define components specific to each additional workload domain.
+Planning ahead for the initial deployment and the workload domains to be created avoids delays in deployment.
+The following table provides an example of the information for the virtual infrastructure layer using the standard deployment model with a single workload domain. This example uses a DNS domain called osevcf17.local for illustration purposes. Modify the sample information to conform to the configuration of your site.
+
+Table 7. Configuration for the virtual infrastructure layer
+
+Workload domain Management
+
+Hostname z18-sddc-manager
+
+DNS zone
+z18-sddcmanager.hevcflab18.in
+
+IP address 172.17.11.24
+
+Description SDDC Manager
+
+z18-vc01
+
+z18-vc01.hevcflab18.in 172.17.11.23
+
+vCenter Instance (vcsa)
+
+z18-m01-nsx01
+
+z18-m01nsx01.hevcflab18.in
+
+172.17.11.26
+
+NSX-T Management Cluster
+
+z18-m01-nsx01a
+
+z18-m01nsx01a.hevcflab18.in
+
+172.17.11.27
+
+NSX-T Virtual Appliance 1
+
+z18-m01-nsx01b
+
+z18-m01nsx01b.hevcflab18.in
+
+172.17.11.28
+
+NSX-T Virtual Appliance 2
+
+VMware Cloud Foundation and SDDC Design Considerations
+
+33
+
+Table 7. Configuration for the virtual infrastructure layer (continued)
+
+Workload domain
+
+Hostname
+
+DNS zone
+
+IP address
+
+z18-m01-nsx01c
+
+z18-m01nsx01c.hevcflab18.in
+
+172.17.11.29
+
+vcfz18-host01
+
+vcfz18host01.hevcflab18.in
+
+172.17.11.111
+
+vcfz18-host02
+
+vcfz18host02.hevcflab18.in
+
+172.17.11.112
+
+vcfz18-host03
+
+vcfz18host0.hevcflab18.in
+
+172.17.11.113
+
+vcfz18-host04
+
+vcfz18host04.hevcflab18.in
+
+172.17.11.114
+
+Description
+NSX-T Virtual Appliance 3
+Management ESXi host 01
+Management ESXi host 02
+Management ESXi host 03
+Management ESXi host 04
+
+34
+
+VMware Cloud Foundation and SDDC Design Considerations
+
+10
+Deploy VMware ESXi to Cluster Nodes
+Only perform the steps listed in this section if the compute sleds were not pre-installed with VMware ESXi 7.0. If the compute sleds have been pre-installed with ESXi 7, proceed to Configure ESXi settings—using DCUI. Below are the steps to install ESXi on each of the Dell PowerEdge MX740c hosts that are part of the management cluster. This guide covers the steps to install ESXi remotely using iDRAC Virtual Console with Virtual Media. In this example, a static IP address is assigned to the management interface of the ESXi hosts, which is required for Cloud Foundation.
+NOTE: This guide assumes that the steps in this document are being followed comprehensively and sequentially. The tasks of previous sections are prerequisites for this section.
+Prerequisites
+The following items are required to complete this section of the deployment guide: ● Dell OME-Modular and iDRAC IP addresses or FQDNs ● OME-Modular and iDRAC credentials ● iDRAC Enterprise license that is applied on all nodes ● Dell-customized ESXi image ● Host names, Management VLAN ID, IP address information ● Credentials for vSphere ● Hostnames added to DNS server
+Installation of VMware ESXi
+Complete the following steps on each physical compute node targeted for VMware Cloud Foundation deployment before moving on to the next section.
+NOTE: As listed in the VCF 4.3.1 software Bill-of-Materials (BOM), you must deploy ESXi 7.0 Update 2c build #18426014. At the time of writing this guide, there is no equivalent Dell Customized ESXi 7.0 Update 2c image. However, you can deploy this update by performing the following steps:
+1. Install the ESXi 7.0 U2 A05 Dell Customized ESXi image. 2. After you deploy the ESXi 7.0 U2 A05 Dell Customized ESXi image, upgrade the ESXi host with the VMware-
+ESXi-7.0U2c-18426014-depot.zip file to achieve ESXi 7.0 Update 2c build# 18426014. You can download the relevant patches by logging into https://customerconnect.vmware.com/patch/, or you can execute the following command on the ESXi hosts:
+esxcli software profile update -p ESXi-7.0U2c-18426014-standard -d https:// hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
+Connect to iDRAC and boot installation media
+Prerequisites ● The virtual console should be in HTML5 mode, which is the default setting. ● The location of the Dell Customized ESXi image (ISO image) file should not be changed during the installation process.
+Steps 1. Using a web browser, go to the Open Manage Enterprise Modular (embedded chassis management) web interface at
+https://<OME Modular Address>. 2. Log in with your credentials.
+
+Deploy VMware ESXi to Cluster Nodes
+
+35
+
+3. From the Devices menu, click Compute. 4. Select the required compute node. 5. Click Launch Virtual Console, and then enable the support in the pop-up window for each iDRAC device.
+NOTE: When the virtual console is launched for the first time, repeating this step may be necessary due to browser pop-up blocker.
+
+Figure 16. Virtual console preview
+6. The mapping screen for the virtual media is displayed on the Virtual Media menu. 7. In the Map CD/DVD section, click Choose File. 8. Browse and select the required Dell Customized ESXi image (ISO image) file. 9. Click Map Device and then click Close.
+
+36
+
+Deploy VMware ESXi to Cluster Nodes
+
+Figure 17. Virtual media mapping page
+10. From the Virtual Console menu, click Boot, and then click Virtual CD/DVD/ISO. 11. Click Yes. 12. From the Power menu, click Power on System. 13. If the system is not turned on, click Power on System. If the system is ON, click Power Cycle System (cold boot).
+Results The server is connected to the iDRAC devices and boots into the ESXi installer.
+Install VMware ESXi
+Prerequisites Before installing VMware ESXi, you must connect to the iDRAC devices and boot into the ESXi installer. For more information, see Connect to iDRAC and boot installation media.
+Steps 1. In the Welcome to ESXi Installation window, press Enter. 2. Review the End User License Agreement (EULA), and then press F11 to accept and continue. 3. On the Select a Disk to Install or Upgrade page, select the DELLBOSS VD device, and then press Enter.
+
+Deploy VMware ESXi to Cluster Nodes
+
+37
+
+NOTE: If DELLBOSS VD device has been used for previous ESXi installation, in the ESXi/VMFS Found dialog box, choose to overwrite the existing VMFS datastore, and then press Enter.
+
+Figure 18. ESXi disk partition page
+4. Select the required keyboard layout, and then press Enter. 5. Enter the root password, and then press Enter. 6. In the Confirm Install window, press F11 to install the VMware ESXi. 7. In the Installation Complete window, press Enter to reboot the server.
+The installation completes and the server boots into ESXi. 8. From the Virtual Media menu, click Disconnect Virtual Media.
+Results VMware ESXi is installed in the server.
+Configure VMware ESXi settings—using DCUI
+About this task The Direct Console User Interface (DCUI) is a menu-based interface that is accessed from the host console and used to configure ESXi running on vSphere hosts.
+Steps 1. After the server reboots and fully loads VMware ESXi, press F2 to log in to the DCUI. 2. Enter the credentials that were created during the ESXi installation, and then press Enter. 3. From the System Customization menu, select Configure Management Network. 4. From the VLAN (Optional) menu, press Enter.
+NOTE: Although the menu name includes the term optional, this step is mandatory.
+5. Enter the required management VLAN ID, and then press Enter. 6. Select IPv4 Configuration and press Enter. 7. Select Set static IPv4 address and press the spacebar.
+
+38
+
+Deploy VMware ESXi to Cluster Nodes
+
+Figure 19. IPv4 configuration page
+8. Enter the IPv4 Address,Subnet Mask, and the Default Gateway, and then press Enter to confirm. 9. Select DNS Configuration, and then press Enter. 10. Enter the IP addresses of the DNS servers and FQDN of the host. 11. Press Esc to return to the main menu, and then press Y to confirm the changes and restart the management network. 12. From the main menu, click Test Management Network.
+The target IP addresses and DNS hostname are pre-populated. 13. Press Enter to perform the network test, and after the test is completed, press Enter to return to the main menu.
+CAUTION: If the network test fails, troubleshoot and resolve the issues before proceeding further.
+14. From the main menu, select Troubleshooting Options > Enable ESXi Shell, and then select Enable SSH (required during validation and deployment phases) to enable the ESXi shell.
+15. Press Esc to return to the main menu.
+Configure VMware ESXi settings using web interface
+Prerequisites Before configuring VMware ESXi settings using web interface, you must configure the ESXi settings using DCUI. For more information, see Configure ESXi settings—using DCUI.
+Steps 1. Using a web browser, go to the ESXi host-level management web interface at https://<ESXi Host Address>/ui. 2. Enter the credentials that were created during the ESXi installation, and then click Log in. 3. In the Navigator pane, click Networking.
+The current port groups on the host are displayed by default. One is configured with VLAN information that is entered during installation and the other is still at zero. 4. Right-click VM Network and then click Edit settings.
+
+Deploy VMware ESXi to Cluster Nodes
+
+39
+
+Figure 20. ESXi web interface—Edit settings page
+5. In the Edit Port Group window, enter the Management VLAN ID, and then click Save. CAUTION: Leaving the VLAN ID at default setting causes pre-deployment validation to fail during a later step.
+6. In the Navigator pane, click Manage to set up the NTP. 7. In the right pane, click Time & Date. 8. Click Edit Settings and then select Use Network Time Protocol (enable NTP client). 9. In the NTP Servers box, enter the NTP server IP addresses.
+NOTE: If multiple IP addresses are provided, separate the IP addresses with commas.
+10. Click Save.
+
+40
+
+Deploy VMware ESXi to Cluster Nodes
+
+Figure 21. ESXi web interface—Edit NTP Settings page
+11. In the Manage pane, select the Services tab. The resulting page is shown in the following figure:
+
+Figure 22. ESXi settings web interface—Manage pane 12. Right-click on the ntpd service and set the policy to Start and stop with the host.
+Next steps Once the policy is set, start the ntpd service. If the ntpd service is already running, restart the service.
+
+Deploy VMware ESXi to Cluster Nodes
+
+41
+
+Repeat all the steps for each host targeted for Cloud Foundation management domain deployment. Validate that each ESXi host can access the NTP servers by establishing an SSH connection to each host and executing the ntpq -p command. A refid value of .INIT. indicates that your host is not obtaining time from your specified time source.
+
+42
+
+Deploy VMware ESXi to Cluster Nodes
+
+11
+VMware Cloud Builder and SDDC Deployment
+The primary software installation tool for VMware Cloud Foundation 4.x is Cloud Builder. It is delivered as a virtual appliance in the standard OVA format. This section describes the steps to deploy the OVA. The Cloud Builder VM is a temporary tool to facilitate deployment of Cloud Foundation. It can be discarded after the deployment.
+Deploy VMware Cloud Builder
+Prerequisites The prerequisites to deploy VMware Cloud Builder are as follows: ● Cloud Builder OVA file with version and build numbers that are specified in Validated Components section ● The following must be deployed to an ESXi host outside of the Cloud Foundation target nodes and have network access to
+the Cloud Foundation Management VLAN on which the Cloud Builder VM resides ● All prior sections are reviewed and any listed steps completed
+Steps 1. Using a web browser, go to the vCenter web interface at https://<vCenter Address>. 2. In the Navigator pane, on the Hosts and Clusters tab, locate an available ESXi host. 3. Right-click the ESXi host and select Deploy OVF Template. 4. Locate the OVA file locally or from the URL, and then click Next. 5. Select the required ESXi server to host the Cloud Builder VM, and then click Next.
+NOTE: The selected EXSi server should not be targeted for Cloud Foundation deployment.
+6. Click Next. 7. Review the EULA, and if you agree, click Accept, and then click Next to continue. 8. Select the required datastore and then click Next. 9. Select the required network and then click Next. 10. In the Customize Template page, enter username, password, network IP address and subnet mask, default gateway,
+hostname, DNS, and NTP resources in the appropriate fields, and then click Next. CAUTION: You must adhere to the following password rules that are listed on the screen: ● Noncompliant passwords cause an unrecoverable error when attempting to access and use the Cloud Builder VM in the next section of the document. ● The password rules vary for different user accounts. For example, minimum 8-character rule is applicable to some users and minimum 12-character rule is applicable to other users. ● You must not enter dictionary words as passwords.
+NOTE: IP Address and related fields must align with the IP subnet of the Cloud Foundation Management VLAN.
+
+VMware Cloud Builder and SDDC Deployment
+
+43
+
+Figure 23. OVF customize template page
+11. Review the Ready to Complete final configuration page, and then click Finish. 12. In the Recent Tasks pane, check the OVA deployment status. 13. When the OVA deployment is complete start the Cloud Builder VM.
+Check Time Synchronization
+
+After the VMware Cloud Builder VM is started, it takes some time to for all the services to start and for time synchronization to complete. It is recommended that you access the command line of the Cloud Builder VM and verify time synchronization status using Linux ntpq commands.
+
+admin@cloudbuilder [ ~ ]$ ntpq -p
+
+remote
+
+refid
+
+st t when poll reach delay offset jitter
+
+============================================================================
+
+*ntp.osevcf.loca 143.166.226.32 2 u 588 1024 377
+
+0.264 -0.134 0.137
+
+44
+
+VMware Cloud Builder and SDDC Deployment
+
+12
+VMware Virtual Cloud Foundation Deployment Using Cloud Builder
+In the previous section, you deployed the VMware Cloud Builder virtual appliance. In this section, you will use the software within the virtual machine to validate the target environment and deploy the entire Cloud Foundation stack.
+NOTE: Before proceeding with the Cloud Builder validation process, take a snapshot of your Cloud Builder VM.
+Prerequisites
+The prerequisites to deploy the VMware Cloud Foundation stack are as follows: ● Cloud Builder OVA file with version and build numbers specified in the Validated components section must be deployed to an
+available ESXi host outside of the Cloud Foundation target nodes with network access to the Cloud Foundation Management VLAN. ● Target hardware certified on VMware Compatibility Guide (VCG) with appropriate firmware versions are specified in the Validated components section. ● Clean install of ESXi on each target server node, with SSH/NTP/DNS enabled and configured. ● Physical switches configured with jumbo frames and necessary VLANs. ● All prior sections are reviewed and any listed steps completed. ● A completed parameter sheet (can be downloaded during the CloudBuilder process.
+Launch Cloud Builder web interface
+About this task Complete the following steps to launch the Cloud Builder web interface:
+Steps 1. Turn on Cloud Builder VM.
+The VM must finish booting up and load the application stack. NOTE: You can monitor the progress of Cloud Builder VM from a VM console session.
+2. Using a web browser, go to the Cloud Builder web interface at https://<Cloud Builder IP Address>.
+
+VMware Virtual Cloud Foundation Deployment Using Cloud Builder
+
+45
+
+Figure 24. Cloud Builder web interface
+3. Log in using the credentials that you specified during OVA deployment. 4. Click Check All to review the checklist of pre-bring-up steps and confirm that all the steps that are completed, and then
+click Next. 5. Review the EULA, and if you agree, click Agree to End User License Agreement, and then click Next. 6. If you have not obtained and completed the Cloud Foundation Information Spreadsheet, click Download Deployment
+Parameter Sheet.
+VMware Cloud Builder deployment parameter sheet
+All parameters that are needed for VMware Cloud Builder to deploy your Cloud Foundation stack are passed to the tool using the deployment parameter sheet. It is critical that you complete the sheet fully and accurately. The configuration details that you enter into the deployment parameter sheet should be tied to existing services and records before proceeding. For example, the DNS servers you specify in the deployment parameter sheet must correspond to DNS servers running in your infrastructure.
+NOTE: This guide covers the process to deploy Cloud Foundation using a spreadsheet, for example, .xlsx format. However, Cloud Builder also supports the use of a .json file for uploading deployment parameters. The latter is outside the scope of this document.
+This worksheet is incorporated into the Cloud Builder VM and specific version of Cloud Foundation that is deployed. Save the worksheet to a safe location and edit the file modifying the information to match your deployment environment. Note the following points before deploying Cloud Foundation using the deployment parameter sheet: ● Do not deploy Cloud Foundation using the deployment parameter sheet intended for a different version of Cloud Foundation. ● Any parameter field with a yellow background indicates that data format validation rules for that field have been specified. ● If when adding information to the parameter sheet your font turns red, you have not entered the right information. ● Do not copy and paste data between fields as different fields may have different requirements. ● Copying fields can change or delete the specified input data validation for that data.
+VMware Cloud Builder parameters
+Some of the VMware Cloud Builder parameters are: ● Management Workload tab ● Users and Groups tab ● Hosts and Networks tab ● Deploy Parameters tab
+
+46
+
+VMware Virtual Cloud Foundation Deployment Using Cloud Builder
+
+Management Workload tab
+License keys are required for the following items: ● ESXi hosts ● vSAN ● vCenter ● NSX-T ● SDDC Manager Appliance
+Users and Groups tab
+In the Users and Groups tab, you can set the passwords for your initial VMware Cloud Foundation components.
+CAUTION: Do not make a mistake on this page because if any of the passwords do not meet the indicated specifications, you must redeploy your Cloud Builder VM, unless you created a snapshot after you created your VM.
+NOTE: Minimum password length should be 12 characters for NSX-T controllers.
+Hosts and Networks tab
+In the Hosts and Networks tab, perform the following steps: ● Specify the VLAN IDs, subnets, gateways, and MTU for the networks that are used for the four required VMware Cloud
+Foundation networks. ○ The MTU value should be the MTU size that can be tested during validation. For an actual MTU value of 9000 set this
+value to 9000. ● Specify the management IP addresses of the deployed hosts which are on the Cloud Foundation management VLAN. ● Specify the range of IP addresses for both the vSAN and vMotion networks. ● Host names that you enter in the Management Domain ESXi Hosts section are also auto-populated in the ESXi Host
+column of the ESXi Host Security Thumbprint section. By default, use of DSA fingerprints as a more secure method to validate a host's authenticity is optional and disabled. Unique fingerprints are automatically generated on each host during installation. You can view the fingerprints using the DCUI under View Support Information. Due to the complexity of fingerprints, it is easier to access the hosts using SSH where they can be copied and pasted into the cloud builder deployment parameter sheet. Change the Validate ESXi Thumbprints option to Yes to enable fingerprint validation.
+Deploy Parameters tab
+The Deploy Parameters tab contains all the IP addresses and hostnames that must be added to DNS. ● All the hostnames must be configured for forward and reverse look-ups. ● Test all the hostnames before attempting validation. ● Ensure that all the values provided are consistent with the values used to deploy the VMware Cloud Builder VM. ● The NTP server would have already been tested as the ESXi hosts have already been configured to this same NTP server(s). ● Change the hostnames that are listed and the domain that meets the customer required specifications. ● For a simplified network installation where a multi-tiered BGP environment is not available make sure that field K27 is set to
+No.
+Run VMware Cloud Builder Deploy SDDC
+About this task Complete the following steps to launch the VMware Cloud Builder web interface:
+
+VMware Virtual Cloud Foundation Deployment Using Cloud Builder
+
+47
+
+Steps
+1. Turn on Cloud Builder VM.
+2. The VM must finish booting up and load the application stack.
+3. Using a web browser, go to the Cloud Builder web interface at https://<Cloud Builder IP Address>.
+4. Log in using the credentials that you specified during OVA deployment.
+5. Review the EULA, and if you agree, click Agree to End User License Agreement, and then click Next.
+6. Select VMware Cloud Foundation. Be sure not to select VMware Cloud Foundation on VxRAIL.
+7. Review the list of Prerequisites and ensure that they have all been completed
+8. Place a checkmark to indicate that the prerequisites have been met and select Next
+9. If you have not obtained and completed the Cloud Foundation Information Spreadsheet, click Download Deployment Parameter Sheet. If you have the parameter sheet click Next to move forward
+10. If you have not completed your parameter sheet do it now. If the parameter sheet is complete, click Next to continue.
+11. Click Select File to browse to your completed parameter sheet.
+12. Locate your completed parameter sheet and click Open.
+13. Click Next to begin the validation phase. If validation discovers any issues in your configuration or parameter file, it shows an error and provides clear and detailed information on the issue. Read the message provided, correct the issue(s) and run the validation again. Validation can be run as many times as necessary to obtain a successful result.
+14. Once Validation has passed, and you have the green banner indicating that 'Configuration file validated successfully', click Next. A pop-up appears on the screen to Deploy SDDC Manager.
+15. Click DEPLOY SDDC to continue The deployment process begins. The deployment takes more than an hour. If the deployment completes successfully, a SDDC Deployment Complete pop-up message appears. If there were any issues, you can identify them in the VMware Cloud Foundation deployment screen.
+16. Review any task failures and correct the issue. You can restart the deployment when you have resolved the issue(s).
+17. Click LAUNCH SDDC MANAGER
+
+Figure 25. Pop-up window on successful SDDC deployment
+
+48
+
+VMware Virtual Cloud Foundation Deployment Using Cloud Builder
+
+Results VMware Cloud Foundation on Dell servers and networking hardware is now successfully deployed.
+VMware Cloud Builder Configuration Validation
+About this task The VMware Cloud Builder Configuration Validation is a critical step in the Cloud Foundation deployment process. It probes your target servers, required services, and network environment to detect potential issues.
+NOTE: The validation may fail initially and can be run as many times as necessary to address any issues.
+Steps 1. After you have completed the deployment parameter spreadsheet, click Upload, select the file, and then click Open.
+A message is displayed to acknowledge successful upload of the parameter sheet. 2. Click Validate and monitor progress on the Configuration File Validation page.
+
+Figure 26. Configure Cloud Builder validation
+NOTE: Validation may take 15 minutes or more. However, if there are issues such as the DNS server being down or if you provided a wrong IP address, validation may take longer.
+
+VMware Virtual Cloud Foundation Deployment Using Cloud Builder
+
+49
+
+NOTE: On the Validation Report page, you can access the information about previous validation attempts. Each validation attempt is tracked with an entry that is designated by the date and time of execution. 3. If the validation fails, expand the failed line item and review the detailed error messages. Some of the possible validation failures are shown in the following example.
+Figure 27. Configuration validation error messages
+4. Resolve all the reported failures within the targeted servers, required services, network environment, or parameter spreadsheet, and then re-run validation in Cloud Builder by clicking Retry.
+5. Repeat Steps 1-4, until the validation is successful.
+VMware SDDC bring-up
+About this task Perform the following steps for the VMware SDDC bring-up:
+Steps 1. In the Bringing Up the SDDC page, click Next to start the deployment of Cloud Foundation.
+NOTE: You can monitor the deployment progress on the Bringing Up the SDDC page and this deployment process may require two hours or more, depending on your environment. 2. If a bring-up failure occurs, expand the failed line item, review the detailed error messages. Depending on the nature of the error, resolve all the reported failures and click Retry. NOTE: If an unrecoverable failure occurs during SDDC bring-up, it is necessary to resolve the root cause issue, wipe the Cloud Foundation target servers including all disk partitions, and then restart from the Deploy ESXi to cluster nodes section. 3. The SDDC bring-up process is completed when the Cloud Builder reports that the SDDC has been successfully created. When the SDDC bring-up process is complete, this indicates that the Cloud Foundation is successfully deployed. 4. Access the recently deployed SDDC Manager by clicking the link on the page.
+
+50
+
+VMware Virtual Cloud Foundation Deployment Using Cloud Builder
+
+Figure 28. SDDC manager dashboard
+5. Confirm deployment of vCenter, vSAN, NSX-T, and vRealize Log Insight. NOTE: Hostnames and IP addresses are in the Cloud Foundation Deployment Parameters spreadsheet.
+The Cloud Builder VM can now be discarded.
+
+VMware Virtual Cloud Foundation Deployment Using Cloud Builder
+
+51
+
+13
+VMware VCF Post-installation Validation
+VMware Cloud Foundation cluster verification
+After installing VMware Cloud Foundation, perform the steps in the following sections to verify that the components are installed and available.
+VMware SDDC Manager
+Log in to VMware SDDC Manager using a web browser at: https://<ip address or DNS name>. The SSO user ID is administrator@vsphere.local and the password is the one you specified during installation.
+NOTE: Use the domain vsphere.local. Do not use the DNS domain that was used for the Cloud Foundation deployment.
+VMware Customer Experience Improvement Program
+Join VMware Customer Experience Improvement Program (CEIP) when prompted. CEIP provides statistical data to SDDC Manager, allowing for improved performance and troubleshooting. The following figure shows a sample SDDC Manager dashboard. In this example, the host usage is yellow because the management cluster has consumed all of the hosts currently available to Cloud Foundation.
+
+Figure 29. SDDC Manager dashboard
+
+52
+
+VMware VCF Post-installation Validation
+
+VMware vCenter
+Log in to VMware vCenter using the same SSO credentials—administrator@vsphere.local. Verify that the cluster appears healthy and that there are no warnings. Validate that the VMs created during deployment are all up and running. Validate that your VSAN is running and available. Look at the disk groups that are created and ensure they are consistent with the disks available in the hosts. Look at the virtual networking components that are deployed to vCenter.
+Figure 30. vCenter dashboard
+VMware NSX-T Manager
+Log into the VMware NSX-T Manager through a web browser using the Admin credentials set in your parameter sheet.
+
+VMware VCF Post-installation Validation
+
+53
+
+Figure 31. NSX-T dashboard
+VMware Cloud Foundation installation complete
+VMware Cloud Foundation has been successfully deployed and is ready for use. Consider performing the following tasks: ● Configure your VMware account credentials in SDDC manager ● If you chose simplified networking, configure your SDDC for VLAN backed Application Virtual Networks ● Install additional products such as:
+○ Life Cycle Manager ○ vRealize Suite ○ Other licensed bundles. ● Deploy a Workload Domain
+
+54
+
+VMware VCF Post-installation Validation
+
+A
+Troubleshooting - VMware ESXi and VCF
+Here is a list of common troubleshooting guidelines that can be used to solve common issues with VMware ESXi and VCF.
+VMware ESXi host upgrade failures
+Upgrading VMware ESXi 7.0 U2 from A05 to Patch 7.0 U2c with ESXCLI fails when you run the following command: esxcli software profile update -p ESXi-7.0U2c-18426014-standard -d https:// hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
+
+Figure 32. ESXi host upgrade failure
+
+Sample log entries:
+
+...
+
+...
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR: Traceback (most recent call last):
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR: File "/usr/lib/vmware/esxcli-
+
+software", line 794, in <module>
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR:
+
+main()
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR: File "/usr/lib/vmware/esxcli-
+
+software", line 785, in main
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR:
+
+ret = CMDTABLE[command]
+
+(options)
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR: File "/usr/lib/vmware/esxcli-
+
+software", line 252, in ProfileUpdateCmd
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR:
+
+res =
+
+t.UpdateProfileFromDepot([], opts.profile, depotUrls=depoturls,
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR: File "/lib64/python3.8/site-
+
+packages/vmware/esximage/Transaction.py", line 353, in UpdateProfileFromDepot
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR:
+
+patcherVibs =
+
+_getPatcherForProfileCmd(profileName,
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR: File "/lib64/python3.8/site-
+
+packages/vmware/esximage/Transaction.py", line 2550, in _getPatcherForProfileCmd
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR:
+
+newProfile, _ =
+
+Transaction.GetProfileAndCompsFromSources(
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR: File "/lib64/python3.8/site-
+
+packages/vmware/esximage/Transaction.py", line 1437, in GetProfileAndCompsFromSources
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR:
+
+raise
+
+Errors.NoMatchError(profilename,
+
+2021-10-27T14:01:11Z esxupdate: 2193582: root: ERROR:
+
+vmware.esximage.Errors.NoMatchError: ('VMware-ESXi-7.0U2c-18426014', "No image profile
+
+found with name 'VMware-ESXi-7.0U2c-18426014'")
+
+Resolution
+Run the following command:
+
+Troubleshooting - VMware ESXi and VCF
+
+55
+
+esxcli software profile update -p ESXi-7.0U2c-18426014-standard -d https:// hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml Alternatively, upgrade ESXi with another method, such as vLCM.
+VMware ESXi 7.0 U2c upgrade failure with error related to i40en
+While updating the VMware ESXi 7.0 U2 host to ESXi 7.0 U2c, the upgrade might fail and the following entries might be logged in the esxupdate.log file:
+2021-10-29T14:11:21Z esxupdate: 2102510: esxupdate: ERROR: File /tmp/esxupdate-2102510/lib64/python3.8/site-packages/vmware/esximage/Transaction.py, line 928, in checkBaseImageUpgrade 2021-10-29T14:11:56Z esxupdate: 2102510: esxupdate: ERROR: esximage.Errors.InstallationError: This upgrade transaction would skip ESXi Base Image VIB(s) VMW_bootbank_i40en_1.11.1.31-1vmw.703.0.0.49537716, which could cause failures post upgrade. Please use an alternative upgrade method that would install the above VIB(s). For example, use an image profile instead of VIBs to perform the upgrade.
+This is a known issue with upgrades. Refer to the following VMware knowledgebase article: https://kb.vmware.com/s/article/ 85982.
+VMware VCF deployment - validate configuration error
+While deploying VMware VCF using Cloud builder, the step Validate Configuration fails with the following error message: SSL certificate common name doesn't match ESXi FQDN.
+
+Figure 33. SSL certificate failure
+Cause
+If the FQDN hostname for ESXi was assigned or changed after deploying ESXi, the deployment fails.
+Resolution
+After changing the FQDN hostname, perform the following steps to regenerate the certificates for each host: 1. Log in to the ESXi host. 2. Run the following commands:
+
+56
+
+Troubleshooting - VMware ESXi and VCF
+
+/sbin/generate-certificates /etc/init.d/hostd restart && /etc/init.d/vpxa restart
+
+Troubleshooting - VMware ESXi and VCF
+
+57
+
+B
+
+VMware ESXi CLI Commands
+
+This section lists common commands that can be used to configure VMware ESXi hosts. You can run the commands via an SSH session.
+NTP settings
+
+Setting Stop the ntpd service Specify the NTP reference server by FQDN Specify the NTP servers by IP address
+Start the ntpd service
+
+Command esxcli system ntp set -e=no esxcli system ntp set -s=ntp.osevcf.local esxcli system ntp set -s=100.71.100.2 -s=100.71.100.3 esxcli system ntp set -e=yes
+
+NOTE: Setting the NTP reference server by either IP address or FQDN is a destructive process. The last command (NTP configuration command) executed replaces all previous commands.
+
+DNS settings
+
+Setting Add a DNS search domain Remove a DNS search domain Add a DNS server IP address Remove a DNS server IP address
+
+Command
+esxcli network ip dns search add -d rainpool.com
+esxcli network ip dns search remove -d rainpool.com
+esxcli network ip dns server add -s 100.171.204.4
+esxcli network ip dns server remove -s 100.171.204.4
+
+NOTE: DNS settings are cumulative. The last command executed adds or removes an entry from the list. Any other previous settings persist.
+
+MTU settings
+
+Setting Configure the MTU on a vSwitch
+Configure the MTU on a VM kernel
+
+Command
+esxcli network vswitch standard set -v=vSwitch0 -m 9000
+esxcli network ip interface set -m 9190 -i vmk0
+
+58
+
+VMware ESXi CLI Commands
+
+Configure VLAN ID on a portgroup
+
+Setting Set the portgroup "VM Network" to a VLAN ID of 1711
+Review the configuration of existing portgroups
+
+Command
+esxcli network vswitch standard portgroup set --portgroup-name="VM Network" -v 1711
+esxcli network vswitch standard portgroup list
+
+Enable the CEIP (Customer Experience Improvement Program)
+
+Setting
+Enable the CEIP (Customer Experience Improvement Program)
+
+Command
+esxcli system settings advanced set -o / UserVars/HostClientCEIPOptIn -i 2
+
+Install depot files
+Depot files are installed from the command line. Depot files must first be copied on to the server. There are many utilities that can be used to copy the depot file to the ESXi host. After the file has been copied, the following command will apply the updates contained in the depot file. The installation of the depot file update will not be complete until the host is rebooted. esxcli software profile update -p VMware-ESXi-7.0U2c-18426014-standard -d /vmfs/volumes/ datastore1/depot/VMware-ESXi-7.0U2c-18426014-depot.zip
+Maintenance mode
+
+Setting Enter maintenance mode
+Exit maintenance mode
+
+Command
+esxcli system maintenanceMode set -enable=true
+esxcli system maintenanceMode set -enable=false
+
+VMware ESXi CLI Commands
+
+59
+
+C
+Manual Switch Configuration (Optional)
+This section describes the configuration of the Dell MX9116n FSEs (Fabric Switching Engines) switches. Each PowerEdge MX7000 has one MX9116n and one MX7116n in the A fabric. The MX9116n in chassis 1 should be placed in the A1 slot and the MX9116n in chassis 2 should be placed in the A2 slot. This distributes the fabric's switching engines across both chassis. In the event of a loss of one of the MX9116n, only one half of the fabric is impacted. The two MX7116n expanders are installed in the remaining A fabric slots. The IP address of each switch module is assigned using the chassis management interface (MSM).
+Switch operating mode
+The MX9116n switches operate either in Full Switch or SmartFabric mode. The switch should be operating in Full Switch mode for this example.
+MX7K-IOM-A2# show switch-operating-mode MX7K-IOM-A2# Switch-Operating-Mode : Full Switch Mode
+VLANs and subnets for manual switch configuration
+Here are the VLANs created on the MX9116N switch that is required for Cloud Foundation. These VLANs and subnets are created on both switches.
+interface vlan1711 description 1711-Mgmt no shutdown mtu 9216 interface vlan1712 description 1712-VMotion no shutdown mtu 9216 interface vlan1713 description 1713-VSAN no shutdown mtu 9216 interface vlan1714 description 1714-host-overlay no shutdown mtu 9216 interface vlan2711 description 2711-Uplink1 no shutdown mtu 9216 interface vlan2712 description 2712-Uplink2 no shutdown mtu 9216 interface vlan2713 description Edge-Overlay no shutdown mtu 9216
+
+60
+
+Manual Switch Configuration (Optional)
+
+Uplink and VLTi ports
+VLT synchronizes Layer 2 table information between two switches and enables them to display as a single logical unit from outside the VLT domain. The VLT interconnect (VLTi) between two Dell Networking MX9116N switches is a port group that is generated by configuring a VLT domain and specifying the discovery interfaces. VLTi ports are specified during the configuration of the VLT domain by specifying the interconnect ports as discovery interfaces. The resulting VLTi port group cannot be managed manually. The VLT domain must be created on both VLT peer switches.
+Configure the ports for VLTi
+The VLTi ports for this example are Ethernet 1/1/37 through 1/1/40. These ports are placed into a link aggregation by the VLT configuration process. Do not create the link aggregation manually. To configure the ethernet1/1/37 through 1/1/40 ports, ensure that the: ● Ports are preconfigured correctly. ● Ports are set to the correct frame size. ● Ports are not set in any switchport (VLAN) mode. ● Ports are not shut down.
+interface ethernet1/1/40 no shutdown no switchport mtu 9216 flowcontrol receive off
+
+Configure VLT domain
+The next step is to configure a VLT domain on each switch. It contains the exact same VLT domain on each switch. In this case, create a VLT domain '10' on each switch. The backup destination for the first switch is the management IPv4 address of the second switch. Similarly, the backup destination for the second switch is the management IPv4 address of the first switch.
+MX9116-A1(config)# MX9116-A1(config)# vlt-domain 10 MX9116-A1(conf-vlt-100)# discovery-interface ethernet1/1/37,1/1/38,1/1/39,1/1/40 MX9116-A1(conf-vlt-10)# backup destination 100.71.242.220 MX9116-A1(conf-vlt-10)# exit
+
+Verify VLT settings
+
+Verify the VLT settings by running the following command:
+
+MX9116-A1# show vlt 10
+
+Domain ID
+
+: 10
+
+Unit ID
+
+:2
+
+Role
+
+: secondary
+
+Version
+
+: 2.3
+
+Local System MAC address : 3c:2c:30:80:a8:80
+
+Role priority
+
+: 32768
+
+VLT MAC address
+
+: aa:bb:cc:11:11:11
+
+IP address
+
+: fda5:74c8:b79e:1::2
+
+Delay-Restore timer
+
+: 90 seconds
+
+Peer-Routing
+
+: Disabled
+
+Peer-Routing-Timeout timer : 0 seconds
+
+VLTi Link Status
+
+port-channel1000
+
+: up
+
+VLT Peer Unit ID
+
+System MAC Address
+
+Status
+
+IP Address
+
+Version
+
+----------------------------------------------------------------------------------
+
+Manual Switch Configuration (Optional)
+
+61
+
+1
+
+3c:2c:30:80:aa:80
+
+up
+
+MX9116-A1# show port-channel summary
+
+fda5:74c8:b79e:1::1
+
+2.3
+
+Flags: D - Down
+
+I - member up but inactive
+
+P - member up and active
+
+U - Up (port-channel)
+
+F - Fallback Activated
+
+--------------------------------------------------------------------------------
+
+Group Port-Channel
+
+Type
+
+Protocol Member Ports
+
+--------------------------------------------------------------------------------
+
+1
+
+port-channel1
+
+(D)
+
+Eth
+
+DYNAMIC 1/1/41(P) 1/1/42(P)
+
+1000 port-channel1000 (U)
+
+Eth
+
+STATIC
+
+1/1/37(P) 1/1/38(P) 1/1/39(P) 1/1/40(P)
+
+Verify the VLTi (port-channel)
+
+To view the port channel summary, enter the following command:
+
+MX9116-A1# MX9116-A1# show port-channel summary
+
+Flags: D - Down
+
+I - member up but inactive
+
+P - member up and active
+
+U - Up (port-channel)
+
+F - Fallback Activated
+
+--------------------------------------------------------------------------------
+
+Group Port-Channel
+
+Type
+
+Protocol Member Ports
+
+--------------------------------------------------------------------------------
+
+1000 port-channel1000 (U)
+
+Eth
+
+STATIC
+
+1/1/37(P) 1/1/38(P) 1/1/39(P) 1/1/40(P)
+
+MX9116-A1#
+
+Configure the Link Aggregation Control Protocol
+
+After the VLT is enabled, create the uplinks to the network layer above the MX9116N switches. The connections are a Link Aggregation Control Protocol (LACP) active link aggregation of two or more ports.
+A VLT link aggregation is created by creating a VLT port channel on each of the MX9116N switches. First create the uplink VLT port channel on both switches and assign the appropriate VLANs.
+Here are the port channels that are created on switch one:
+
+MX9116-A1# show running-configuration interface port-channel 1 ! interface port-channel1
+description "Uplink to DataCenter" no shutdown switchport mode trunk switchport trunk allowed vlan 96, 1711-1714, 2711-2713 mtu 9216 vlt-port-channel 1
+
+MX9116-A1# show port-channel summary
+
+Flags: D - Down
+
+I - member up but inactive
+
+P - member up and active
+
+U - Up (port-channel)
+
+F - Fallback Activated
+
+--------------------------------------------------------------------------------
+
+Group Port-Channel
+
+Type
+
+Protocol Member Ports
+
+--------------------------------------------------------------------------------
+
+1
+
+port-channel1
+
+(D)
+
+Eth
+
+DYNAMIC 1/1/41(P) 1/1/42(P)
+
+1000 port-channel1000 (U)
+
+Eth
+
+STATIC
+
+1/1/37(P) 1/1/38(P) 1/1/39(P) 1/1/40(P)
+
+MX9116-A1#
+
+Here are the port channels that are created on switch two:
+
+MX9116-A1# show running-configuration interface port-channel 1 ! interface port-channel1
+description "Uplink to DataCenter" no shutdown switchport mode trunk switchport access vlan 1 switchport trunk allowed vlan 96, 1711-1714, 2711-2713
+
+62
+
+Manual Switch Configuration (Optional)
+
+mtu 9216 vlt-port-channel 1
+Configure the host facing ports
+To support multiple VLANs, you must place the server facing ports in trunk mode. All the VLANs assigned to the ports are tagged to allow the port groups to identify and direct traffic appropriately. On switch one:
+MX9116-A2(config)# MX9116-A2(config)# interface range ethernet 1/1/1-1/1/16 MX9116-A2(conf-range-eth1/1/1-1/1/16)# switchport mode trunk MX9116-A2(conf-range-eth1/1/1-1/1/16)# switchport trunk allowed vlan 96, 1711-1714, 2711-2713 MX9116-A2(conf-range-eth1/1/1-1/1/16)# mtu 9216 MX9116-A2(conf-range-eth1/1/1-1/1/16)# no shutdown MX9116-A2(conf-range-eth1/1/1-1/1/16)# exit MX9116-A2(config)#
+On switch two:
+MX9116-A2(config)# MX9116-A2(config)# interface range ethernet 1/1/1-1/1/16 MX9116-A2(conf-range-eth1/1/1-1/1/16)# switchport mode trunk MX9116-A2(conf-range-eth1/1/1-1/1/16)# switchport trunk allowed vlan 96, 1711-1714, 2711-2713 MX9116-A2(conf-range-eth1/1/1-1/1/16)# mtu 9216 MX9116-A2(conf-range-eth1/1/1-1/1/16)# no shutdown MX9116-A2(conf-range-eth1/1/1-1/1/16)# exit
+Save your switch configuration on each MX9116N switch using the following command:
+MX9116-A2(config)# do write mem
+Verify switch configuration
+The Dell MX9116N switches are now configured with the minimum required settings to support the deployment of VMware Cloud Foundation. Each of the following should now be configured: ● All required VLANs and subnets ● VLT Domain ● VLTi ● VLT Link Aggregations ● Link Aggregations ● Host facing ports
+
+Manual Switch Configuration (Optional)
+
+63
+
+D
+
+Versions Used in This Guide
+
+The following tables include the hardware, software, and firmware used to configure and validate the scenarios and topologies in this guide.
+
+Table 8. Dell PowerEdge MX7000 chassis and components
+
+Item
+
+Version
+
+PowerEdge MX7000 chassis
+
+N/A
+
+PowerEdge MX740c sled
+
+A01
+
+PowerEdge M9002m modules (2 per chassis)
+
+1.30.10
+
+Networking MX9116n FSE (1 per chassis)
+
+10.5.2.5
+
+Networking MX7116n FEM (1 per chassis)
+
+N/A
+
+Table 9. Dell PowerEdge MX740c compute sled details Item PowerEdge MX740c sled
+
+Firmware version 1.30.10 baseline
+
+Table 10. VMware details Item ESXi - Dell Customized ESXi depot (update) Cloud Builder
+
+Version 7.0U2, build 17867351 7.0U2, build 18426014 4.3.1.0 18624509
+
+NOTE: The Dell customized ESXi 7 installer ISO for ESXi 7.0 U2 used is: VMware-VMvisorInstaller-7.0.0.update02-17867351.x86_64-DellEMC_Customized-A05.iso.
+For more information about PowerEdge baselines, refer to Dell PowerEdge MX7000 Solution Baselines.
+
+64
+
+Versions Used in This Guide
+
+E
+References
+Dell Technologies documentation
+The following Dell Technologies documentation provides additional and relevant information. Access to these documents may depend on your log in credentials. If you do not have access to a document, contact your Dell Technologies representative. ● Dell EMC Networking Guides ● Dell EMC PowerEdge MX IO Guide ● Dell EMC SmartFabric OS10 User Guide ● Dell EMC PowerStore Guides ● Dell Technologies Interactive Demo: OpenManage Enterprise Modular for MX solution management ● Dell EMC PowerEdge MX SmartFabric and Cisco ACI Integration Guide ● Manuals and documents for Dell EMC Networking MX5108n ● Manuals and documents for Dell EMC Networking MX9116n ● Manuals and documents for Dell EMC PowerEdge MX7000 ● Manuals and documents for Dell EMC PowerSwitch S3048-ON ● Manuals and documents for Dell EMC PowerSwitch S5232-ON ● Manuals and documents for Dell EMC PowerSwitch S4148U-ON ● Fibre Channel Deployment with S4148U-ON in F_Port Mode ● FCoE-to-Fibre Channel Deployment with S4148U-ON in F_Port Mode
+Dell PowerEdge MX7000 Solution Baselines
+The Dell EMC OpenManage Enterprise-Modular Edition for PowerEdge MX7000 Chassis User's Guide provides information on new and previous versions of Dell MX7000 components. To find the version table, refer to the MX7000 Solution Baselines section in the chapter Updating firmware for PowerEdge MX solution. The MX7000 Chassis baseline information can also be found in the Networking Support & Interoperability Matrix.
+Dell Technologies Networking Infrastructure Solutions documentation
+The following documentation provides additional networking solutions information. NOTE: Access to the documentation may require user credentials. If you do not have access to a document, contact your Dell Technologies representative.
+Networking solutions: https://infohub.delltechnologies.com/t/networking-solutions-57/
+Support and feedback
+For technical support, visit https://www.dell.com/support. We encourage readers to provide feedback on the quality and usefulness of this publication by sending an email to Dell_Networking_Solutions@Dell.com.
+
+References
+
+65
+
+

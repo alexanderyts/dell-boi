@@ -1,0 +1,3159 @@
+PowerScale OneFS Supportability and Compatibility Guide
+April 2026
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+
+Chapter 1: Introduction................................................................................................................. 4 Recent changes to this guide........................................................................................................................................... 4 Terminology...........................................................................................................................................................................5 General availability and RTS releases............................................................................................................................. 5 Where to get help................................................................................................................................................................5 Additional options for getting help............................................................................................................................ 6
+Chapter 2: Software...................................................................................................................... 7 OneFS..................................................................................................................................................................................... 7 Web Browser - OneFS....................................................................................................................................................... 8 Upgrading PowerScale OneFS......................................................................................................................................... 8 InsightIQ................................................................................................................................................................................. 8 SmartSync........................................................................................................................................................................... 10 Supported cloud providers and storage types............................................................................................................10 ECS.........................................................................................................................................................................................11 SyncIQ...................................................................................................................................................................................12 Dell Technologies connectivity services....................................................................................................................... 12 Secure Remote Services (SRS) compatibility.............................................................................................................13 Authentication providers.................................................................................................................................................. 13 Supported clients............................................................................................................................................................... 14 OneFS Simulator................................................................................................................................................................ 14 OneFS Anti-virus compatibility....................................................................................................................................... 15
+Chapter 3: Protocols....................................................................................................................16 File system protocols........................................................................................................................................................ 16 HDFS (Hadoop).................................................................................................................................................................. 17 SNMP....................................................................................................................................................................................18
+Chapter 4: Hardware....................................................................................................................19 Node Service and Support Life-cycle Dates............................................................................................................... 19 OneFS and Node Compatibility.......................................................................................................................................21 Node Pool Compatibility.................................................................................................................................................. 22 Node and Drive Compatibility.........................................................................................................................................23 Node Firmware Package (NFP).....................................................................................................................................23 Drive Support Package (DSP)....................................................................................................................................... 24 Internal Network Switches and Life-cycle Dates ..................................................................................................... 24 CX6 100 GbE NIC and supported OneFS versions................................................................................................... 26 PowerScale nodes NICs and Transceivers..................................................................................................................26 Generation 6 NICs and Transceivers............................................................................................................................ 27 Generation 5 NICs and Transceivers ...........................................................................................................................27
+Chapter 5: Cloud Platforms......................................................................................................... 29 Azure.................................................................................................................................................................................... 29 AWS...................................................................................................................................................................................... 30
+
+Contents
+
+3
+
+1
+
+Introduction
+
+Topics:
+• Recent changes to this guide • Terminology • General availability and RTS releases • Where to get help
+
+Recent changes to this guide
+
+The following table lists the recent changes that were made to this guide.
+
+Table 1. Recent changes
+
+Date
+
+Changes
+
+04-29-2026
+
+InsightIQ 6.3.0 was released.
+
+04-7-2026
+
+OneFS 9.14.0.0 was released.
+
+01-14-2026
+
+InsightIQ 6.2.0 was released.
+
+12-16-2025
+
+OneFS 9.13.0.0 was released.
+
+09-02-2025
+
+InsightIQ 6.1.0 was released.
+
+08-12-2025
+
+OneFS 9.12.0.0 was released.
+
+06-30-2025
+
+InsightIQ 6.0.1 was released.
+
+05-28-2025
+
+PowerScale PA110 was released.
+
+04-30-2025
+
+InsightIQ 6.0.0 was released.
+
+04-08-2025
+
+OneFS 9.11.0.0 was released.
+
+12-11-2024
+
+InsightIQ 5.2 was released.
+
+12-10-2024
+
+OneFS 9.10.0.0 was released.
+
+08-13-2024
+
+OneFS 9.9.0.0 was released.
+
+05-30-2024
+
+InsightIQ 5.1 was released.
+
+04-09-2024
+
+OneFS 9.8.0.0 was released.
+
+12-13-2023
+
+OneFS 9.7.0.0 was released.
+
+12-12-2023
+
+InsightIQ 5.0.0 was released.
+
+05-31-2023
+
+OneFS 9.6.x.x was released.
+
+06-29-2023
+
+InsightIQ 4.4.0 was released.
+
+03-29-2023
+
+InsightIQ 4.3.0 was released.
+
+01-24-2023
+
+OneFS 9.5.0.0 was released.
+
+11-15-2022
+
+InsightIQ 4.2.0 was released.
+
+10-24-2022
+
+Updated target code to OneFS 9.4.0.x.
+
+07-07-2022
+
+DataIQ 2.2.2.0 was released.
+
+4
+
+Introduction
+
+Table 1. Recent changes (continued) Date 05-07-2022 04-12-2022 04-04-2022 03-18-2022 03-15-2022
+
+Changes Drive Support Package 1.41.1 was released. Drive Support Package 1.41 was released. OneFS 9.4.0.0 was released. Node Firmware Packages 11.4 and 10.3.8 was released. Drive Support Package 1.40.1 was released.
+
+Terminology
+The following terms are used in this document. ● Long Term Support (LTS) — Long Term Support (LTS) refers to a product lifecycle management strategy where a stable
+version of software is supported and maintained for an extended period, surpassing the duration of the standard edition. ● Ready to Ship (RTS)—Ready to Ship, also known as Ready to Sell. ● End of Life (EOL)—The date after which a product offering is discontinued and the model number of the equipment or
+software is removed from pricing and quoting systems. ● End of Service Life (EOSL)—The date after which Support is discontinued for a product offering. ● End of Standard Support (EOSS)—The date after which Standard support (Basic, ProSupport, ProSupport MC, ProSupport
+Plus) is no longer available. ● To Be Announced (TBA)—The date for a product life-cycle category is still to be announced. This guide contains information about current software releases that are available for PowerScale OneFS, OneFS software modules, and PowerScale firmware packages.
+General availability and RTS releases
+General availability (GA) or Ready to Ship (RTS) denotes OneFS releases that are available to install. A OneFS release can be installed into any production environment with hardware that supports this version. For software and hardware compatibility information, see the OneFS and Node Compatibility section. The OneFS Supported Releases table lists the release for each OneFS version that is supported. If you cannot upgrade, you should ensure that you are running the current release for the OneFS version that is installed in your environment. See the PowerScale OneFS Supportability and Compatibility Guide for information about the OneFS platform and product life cycles. For detailed information about PowerScale OneFS Long Term Support (LTS) releases, see the Reference Code Document. For detailed on PowerScale OneFS end-of-support life information, see the Dell End-of-Life Product List for Converged Infrastructure and Storag. See the PowerScale OneFS Current Patches Guide for information about available OneFS patches. See the PowerScale OneFS Info Hubs for more information.
+Where to get help
+The Dell Technologies Support site contains important information about products and services including drivers, installation packages, product documentation, knowledge base articles, and advisories. A valid support contract and account might be required to access all the available information about a specific Dell Technologies product or service.
+
+Introduction
+
+5
+
+Additional options for getting help
+
+This section contains resources for getting answers to questions about PowerScale products.
+
+Dell Technologies Support Telephone support
+PowerScale OneFS Documentation Info Hubs Dell Knowledge Base (KB) articles
+
+● Contact Technical Support
+● United States: 1-800-SVC-4EMC (1-800-782-4362) ● Canada: 1-800-543-4782 ● Worldwide: 1-312-725-5401 ● Local phone numbers for a specific country or region are available at Contact
+Technical Support.
+● PowerScale OneFS Info Hubs
+KB articles are available on the Dell Technologies support site.
+
+6
+
+Introduction
+
+2
+
+Software
+
+Topics:
+• OneFS • Web Browser - OneFS • Upgrading PowerScale OneFS • InsightIQ • SmartSync • Supported cloud providers and storage types • ECS • SyncIQ • Dell Technologies connectivity services • Secure Remote Services (SRS) compatibility • Authentication providers • Supported clients • OneFS Simulator • OneFS Anti-virus compatibility
+
+OneFS
+
+To ensure that your clusters are running the most stable and reliable version of OneFS, upgrade to the latest version of OneFS for the OneFS family that meets your business needs and install the latest rollup patches.
+
+Supportability
+
+Table 2. OneFS Supportability OneFS OneFS 9.14.0.0 OneFS 9.13.0.0 OneFS 9.12.0.0 OneFS 9.11.0.0 OneFS 9.10.0.0 OneFS 9.9.0.0 OneFS 9.8.0.0 OneFS 9.7.0.0 OneFS 9.6.0.0 OneFS 9.5.0.0 OneFS 9.4.0.0
+
+Release date 04-07-2026 12-16-2025 08-12-2025 04-08-2025 12-10-2024 08-13-2024 04-09-2024 12-13-2023 05-31-2023 01-24-2023 04-04-2022
+
+NOTE: For more information about Long Term Support (LTS), see: Reference Code Document.
+
+Software
+
+7
+
+Web Browser - OneFS
+
+The OneFS web interface supports most modern web browsers with JavaScript, cookies, and SSL enabled. The OneFS web interface was tested with the following web browsers. Exercise caution before using an unsupported browser.
+
+Table 3. Browser Compatibility Browser Chrome
+
+OneFS Compatibility Use the latest stable version of Chrome.
+
+Firefox
+
+Use the latest stable version of Firefox.
+
+Microsoft Edge
+
+Use the latest stable version of Microsoft Edge.
+
+NOTE: The OneFS web interfaces are best viewed at a screen resolution of 1024*768.
+
+Upgrading PowerScale OneFS
+Upgrading OneFS can be done using either the web interface or the command-line interface and includes a series of tasks that Administrators must perform before, during, and after the upgrade. There are two options available for upgrading your OneFS cluster: parallel upgrades or simultaneous upgrades.
+If you have Dell Technologies connectivity services that are enabled, when the cluster is upgraded to PowerScale OneFS 9.14.0.0, the legacy (XML) based license is automatically migrated to Dynamic Licensing.
+In PowerScale OneFS 9.12.0.0 and later versions, if you have Dell Technologies connectivity services that are enabled, the PowerScale OneFS cluster can subscribe to upgrade notifications. Available upgrade package names and information are managed by Dell Technologies according to cluster telemetry data and are automatically displayed in the WebUI. You can configure OneFS to automatically download the available upgrade packages and install them with one click from the WebUI or command-line interface. More information is in the PowerScale OneFS Upgrade Planning and Process Guide.
+NOTE: In PowerScale OneFS 9.11.0.0 and later versions, Dell Technologies recommends parallel nondisruptive upgrades. Rolling upgrades are deprecated in PowerScale OneFS 9.11.0.0 and later.
+For more information about how to plan, prepare, and perform an upgrade on your OneFS cluster, see the PowerScale OneFS Upgrade Planning and Process Guide.
+InsightIQ
+
+Supportability
+Table 4. InsightIQ Supportability Version InsightIQ 6.3.0 InsightIQ 6.2.0 InsightIQ 6.1.0 InsightIQ 6.0.1 InsightIQ 6.0.0 InsightIQ 5.2.0 InsightIQ 5.1.1 InsightIQ 5.1.0 InsightIQ 5.0.0
+
+RTS 04-29-2026 01-14-2026 09-02-2025 06-30-2025 04-30-2025 12-11-2024 08-29-2024 05-30-2024 12-12-2023
+
+8
+
+Software
+
+Table 4. InsightIQ Supportability (continued) Version InsightIQ 4.4.1 InsightIQ 4.4.0 InsightIQ 4.3.0
+
+RTS 10-25-2023 06-29-2023 03-29-2023
+
+Compatibility
+
+The following table shows the versions of OneFS that versions of InsightIQ can monitor.
+NOTE: InsightIQ 5.2 and higher are the only InsightIQ versions that support OneFS 9.7.1.3. For information, see KB000251368.
+
+NOTE: Azure and AWS cloud/virtual clusters are not compatible or supported by InsightIQ.
+
+● ✓: Supported
+● †: Supported with some limitations. A few complex File System Analytic (FSA) report queries can time out on large file systems. There is no workaround. As a result, occasional blank spaces may occur in FSA reports.
+● -: Unsupported
+
+Table 5. Compatibility between OneFS and InsightIQ
+
+InsightIQ OneF OneF OneF OneFS OneF OneFS OneFS S 9.4 S 9.5 S 9.6 9.7 S 9.8 9.9 9.10
+
+6.3.0
+
+†
+
+†
+
+-
+
+†
+
+†
+
+†
+
+†
+
+6.2.0
+
+†
+
+†
+
+-
+
+†
+
+†
+
+†
+
+†
+
+6.1.0
+
+†
+
+†
+
+-
+
+†
+
+†
+
+†
+
+†
+
+6.0.1
+
+†
+
+†
+
+-
+
+†
+
+†
+
+†
+
+†
+
+5.2.0
+
+†
+
+†
+
+-
+
+†
+
+†
+
+†
+
+†
+
+5.1.1
+
+†
+
+†
+
+-
+
+† but
+
+†
+
+†
+
+-
+
+not
+
+9.7.1.3
+
+5.1
+
+†
+
+†
+
+-
+
+† but
+
+†
+
+†
+
+-
+
+not
+
+9.7.1.3
+
+5.0
+
+†
+
+†
+
+-
+
+† but
+
+-
+
+-
+
+-
+
+not
+
+9.7.1.3
+
+4.4.x
+
+†
+
+†
+
+-
+
+-
+
+-
+
+-
+
+-
+
+4.3
+
+†
+
+†
+
+-
+
+-
+
+-
+
+-
+
+-
+
+OneFS 9.11 † † † † † -
+-
+-
+-
+
+OneFS 9.12 † † † † † -
+-
+-
+-
+
+OneFS 9.13 † † † † † -
+-
+-
+-
+
+OneFS 9.14 † † † † † -
+-
+-
+-
+
+Software
+
+9
+
+SmartSync
+
+This table displays SmartSync version supportability information.
+
+Supportability
+
+Table 6. SmartSync Supportability
+
+Source Cluster OneFS Version
+
+Dataset Version
+
+Target Cluster OneFS Version
+
+9.4 - 9.7
+
+9.8
+
+9.9+
+
+9.4 - 9.7
+
+-
+
+-
+
+√* 
+
+√*
+
+9.8
+
+V1
+
+√
+
+√
+
+√
+
+V2
+
+x
+
+√
+
+√
+
+9.9 +
+
+V1
+
+√
+
+√
+
+√
+
+V2
+
+x
+
+√
+
+√
+
+9.11+
+
+V1
+
+√
+
+√
+
+√
+
+V2
+
+x
+
+x*
+
+√
+
+9.12+
+
+V1
+
+√
+
+√
+
+√
+
+V2
+
+x
+
+x*
+
+√
+
+9.13+
+
+V1
+
+√
+
+√
+
+√
+
+V2
+
+x
+
+x*
+
+√
+
+9.14+
+
+V1
+
+x
+
+x
+
+√
+
+V2
+
+x
+
+x*
+
+√
+
+Cloud Version (File-to-Object Backup)
+
+9.11+
+
+9.12
+
+9.13
+
+9.14
+
+x
+
+x
+
+x
+
+x
+
+x
+
+x
+
+x
+
+x
+
+√
+
+√
+
+√
+
+√
+
+x
+
+x
+
+x
+
+x
+
+√
+
+√
+
+√
+
+√
+
+x
+
+x
+
+x
+
+x
+
+√
+
+√
+
+√
+
+√
+
+x
+
+x
+
+x
+
+x
+
+√
+
+√
+
+√
+
+√
+
+x
+
+x
+
+x
+
+x
+
+√
+
+√
+
+√
+
+√
+
+x
+
+x
+
+x
+
+x
+
+√
+
+√
+
+√
+
+√
+
+NOTE: ● 9.4 is the first release with SmartSync.  ● 9.8 introduced V2 datasets for backup to cloud . ● x = Not supported . ● ×*: OneFS does not support the File-to-Object Backup to Cloud feature in 9.8, but the generated V2 datasets are
+supported for datasets that are planned to be used in File-to-Object Backup to Cloud workflows in future releases. ● √*: These datasets do not have dataset version and are treated as V1 by the target.  ● Target Cluster OneFS Version is applicable to all OneFS Clusters . ● Target Cloud is applicable to the Cloud S3 Object target.
+The supported targets available for the File-to-Object Copy and File-to-Object Backup to Cloud workflow are ECS, AWS, S3, and AWS Glacier IR. In addition, Google Cloud (GCP) and Azure are supported cloud targets for File-to-Object Copy formats only.
+
+Supported cloud providers and storage types
+
+CloudPools supports the following cloud providers and associated storage types.
+
+Table 7. Supported Cloud Providers
+
+Cloud Provider
+
+Supported Storage Types
+
+Dell Technologies PowerScale
+
+All NOTE: CloudPools only supports RAN. OneFS S3 is not supported.
+
+10
+
+Software
+
+Table 7. Supported Cloud Providers (continued)
+
+Cloud Provider
+
+Supported Storage Types
+
+Dell Technologies ECS
+
+All
+
+Appliance
+
+Amazon S3
+
+S3 Standard storage classes NOTE: CloudPools does not support Glacier.
+
+Amazon C2S S3 Microsoft Azure
+
+S3 Standard storage classes
+Blob storage, hot access tiers NOTE: CloudPools does not support cold blobs.
+
+Google Cloud Platform
+
+Standard, Nearline, and Coldline NOTE: CloudPools does not support the Archive storage class.
+
+Alibaba Cloud
+Wasabi with Dell ObjectScale
+
+Standard OSS Wasabi Hot Cloud Storage
+
+ECS
+
+This section describes the compatibility of OneFS with the versions of Dell EMC Elastic Cloud Storage (ECS).
+The ECS S3 interface that is used for CloudPools is backward compatible with previous versions of ECS. Therefore, when ECS is upgraded to a newer version, CloudPools continues to function normally provided the OneFS version stays the same.
+This table lists the compatible versions of ECS.
+
+Table 8. ECS Compatibility
+
+OneFS ECS Versio 3.0 n
+
+ECS 3.1
+
+ECS 3.2
+
+ECS 3.3
+
+ECS 3.4
+
+ECS ECS ECS ECS ECS 3.5.0.1 3.6.1.1 3.7.0.2 3.7.0.3 3.8.1
+
+ECS ECS 3.9.0 4.1.0
+
+9.4.0 -
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+✓
+
+✓
+
+-
+
+-
+
+-
+
+-
+
+9.5.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+✓
+
+✓
+
+-
+
+-
+
+-
+
+9.6.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+9.7.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+-
+
+-
+
+-
+
+9.8.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+-
+
+-
+
+-
+
+9.9.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+✓
+
+-
+
+-
+
+9.10.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+-
+
+-
+
+9.11.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+-
+
+-
+
+9.12.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+-
+
+-
+
+9.13.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+-
+
+-
+
+9.14.0 -
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+✓
+
+✓
+
+✓
+
+● ✓ - Preferred ● * - Supported
+
+Software
+
+11
+
+SyncIQ
+
+This section describes the versions of OneFS that can be synchronized using SyncIQ. NOTE: Features available in newer versions of OneFS might not work in earlier versions of OneFS when you sync newer OneFS versions to earlier versions.
+
+For more information about SyncIQ, see the Dell PowerScale OneFS Software Features.
+Key:
+● ✓: Supported ● †: Supported with some limitations. Some features might not work, including failback. ● X: Unsupported
+
+Table 9. Compatibility
+
+Source Cluster 9.4.x
+
+OneFS9.14.x
+
+✓
+
+OneFS9.13.x
+
+✓
+
+OneFS9.12.x
+
+✓
+
+OneFS 9.11.x
+
+✓
+
+OneFS 9.10.x
+
+✓
+
+OneFS 9.9.x
+
+✓
+
+OneFS 9.8.x
+
+✓
+
+OneFS 9.7.x
+
+✓
+
+OneFS 9.6.x
+
+✓
+
+OneFS 9.5.x
+
+✓
+
+OneFS 9.4.x
+
+✓
+
+9.5.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.6.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.7.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+Target cluster running OneFS 9.8.x 9.9.x 9.10.x 9.11.x
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+✓✓
+
+9.12.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.13.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.14.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+Dell Technologies connectivity services
+
+The table lists the compatible versions of Dell Technologies connectivity services and OneFS.
+NOTE: Secure Remote Services (SRS) user, enabling Dell Technologies connectivity services on your OneFS cluster permanently disables SRS. SRS has reached end-of-service-life. It is recommended that new OneFS clusters use Dell Technologies connectivity services and the existing OneFS clusters migrate from SRS to Dell Technologies connectivity services immediately to avoid service disruption.
+
+Table 10. Dell Technologies connectivity services compatibility
+
+Dell
+
+OneFS
+
+Techno 9.4.x
+
+logies
+
+connec
+
+tivity
+
+service
+
+s
+
+OneFS 9.5.x
+
+OneFS 9.6.x
+
+OneFS 9.7.x
+
+OneFS 9.8.x
+
+OneFS 9.9.x
+
+OneFS 9.10.x
+
+Secure Not
+
+✓
+
+Not
+
+✓
+
+✓
+
+✓
+
+✓
+
+Connec Support
+
+Support
+
+t
+
+ed
+
+ed
+
+Gatewa
+
+y (IPv4)
+
+OneFS 9.11.x ✓
+
+OneFS 9.12.x ✓
+
+OneFS 9.13.x ✓
+
+OneFS 9.14.x ✓
+
+12
+
+Software
+
+Table 10. Dell Technologies connectivity services compatibility (continued)
+
+Dell
+
+OneFS
+
+Techno 9.4.x
+
+logies
+
+connec
+
+tivity
+
+service
+
+s
+
+OneFS 9.5.x
+
+OneFS 9.6.x
+
+OneFS 9.7.x
+
+OneFS 9.8.x
+
+OneFS 9.9.x
+
+OneFS 9.10.x
+
+OneFS 9.11.x
+
+Secure Not
+
+Not
+
+Not
+
+Not
+
+Not
+
+✓
+
+✓
+
+✓
+
+Connec Support Support Support Support Supporte
+
+t
+
+ed
+
+ed
+
+ed
+
+ed
+
+d
+
+Gatewa
+
+y (IPv6)
+
+Direct Not
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+Connec Support
+
+t (IPv4) ed
+
+Direct Not
+
+Not
+
+Not
+
+Not
+
+Not
+
+✓
+
+✓
+
+✓
+
+Connec Support Support Support Support Supporte
+
+t (IPv6) ed
+
+ed
+
+ed
+
+ed
+
+d
+
+OneFS 9.12.x ✓ ✓ ✓
+
+OneFS 9.13.x ✓ ✓ ✓
+
+OneFS 9.14.x ✓ ✓ ✓
+
+See the Dell Technologies connectivity services section in the General Cluster Administration chapter of the PowerScale CLI Administration Guide and PowerScale OneFS Web Administration Guide for more information.
+
+Secure Remote Services (SRS) compatibility
+
+The table lists the compatible versions of OneFS and Secure Remote Services (SRS).
+See the Secure Remote Services section of the PowerScale OneFS CLI Administration Guide's General Cluster Administration chapter for more information.
+NOTE: Secure Remote Services (SRS) users, enabling Dell Technologies connectivity services on your OneFS cluster permanently disables SRS. SRS has reached end-of-service-life. It is recommended that new OneFS clusters use Dell Technologies connectivity services. It is recommended that existing OneFS clusters migrate from SRS to Dell Technologies connectivity services immediately to avoid service disruption.
+
+Table 11. Secure Remote Services compatibility
+
+Secur e Remo te Servi ces
+
+OneFS 9.4.x
+
+OneFS 9.5.x
+
+OneFS 9.6.x
+
+OneFS 9.7.x
+
+OneFS 9.8.x
+
+OneFS OneFS 9.9.x 9.10.x
+
+OneFS 9.11.x
+
+OneFS9. OneFS9. OneFS9.
+
+12.x
+
+13.x
+
+14.x
+
+Secur
+
+✓
+
+e
+
+Remo
+
+te
+
+Servic
+
+es
+
+Gate
+
+way
+
+3.x
+
+(VE)
+
+✓
+
+Not
+
+✓
+
+Not
+
+Not Not
+
+Not
+
+Not
+
+Not
+
+Not
+
+Support
+
+Support Supporte Supporte Supporte Supporte Supporte Supporte
+
+ed
+
+ed
+
+d
+
+d
+
+d
+
+d
+
+d
+
+d
+
+Authentication providers
+The table in this section lists the remote authentication providers compatible with OneFS. OneFS supports the following remote authentication providers to verify that users attempting to access the cluster are who they claim to be. For information about how to connect OneFS to an authentication provider, see any version specific OneFS Administration Guide which is available for different versions in the OneFS Info Hub.
+
+Software
+
+13
+
+The following table compares the features that are available with each of the authentication providers that OneFS supports. In the following table, an x indicates that a feature is fully supported by a provider; an asterisk (*) indicates that additional configuration or support from another provider is required.
+
+Table 12. Authentication Provider Specifications
+
+Authentication provider Active Directory
+
+NTLM Kerberos
+
+x
+
+x
+
+User/group management
+-
+
+Netgroups -
+
+UNIX properties (RFC 2307)
+*
+
+Windows properties
+x
+
+LDAP
+
+*
+
+x
+
+-
+
+x
+
+x
+
+*
+
+NIS
+
+-
+
+-
+
+-
+
+x
+
+x
+
+-
+
+Local
+
+x
+
+-
+
+x
+
+-
+
+x
+
+x
+
+File
+
+x
+
+-
+
+-
+
+x
+
+x
+
+-
+
+MIT Kerberos
+
+-
+
+x
+
+-
+
+*
+
+*
+
+*
+
+Supported clients
+
+The table lists the clients that are supported by OneFS. OneFS supports the following clients. Clients running Operating System X can connect to a PowerScale cluster using the NFS or SMB protocol.
+Table 13. Supported Clients
+Supported Clients
+Any NFS client that complies with NFSv3 or NFSv4.0 client implementations compliant with RFC1813 and RFC3530 respectively.
+Implementations of SMB1 provided in Microsoft Windows operating systems, and SMB2/3 systems compliant with the Open Specifications document MS-SMB2.
+PowerScale tests SMB clients that are covered under the Extended Support Policy of Microsoft and the following: ● Operating system 10.9 ● Operating system 10.10 ● Operating system 10.11
+MacOS X Clients running MacOS X can connect to a PowerScale cluster using the NFS or SMB protocol. To take advantage of Applespecific SMB2 features such as color tagging, enable the Apple extensions for SMB2.
+
+OneFS Simulator
+
+This section lists the system requirements for installing OneFS Simulator virtual nodes.
+OneFS Simulator is a virtual version of the physical storage nodes that you can deploy in a physical infrastructure.
+Before you install a virtual node, verify that your system meets the requirements for the virtual version of OneFS. At least three virtual nodes are required to create an Isilon OneFS virtual cluster.
+Virtual nodes are for demonstration purposes only and are ineligible for support or repair by Dell Technologies Support Site.
+
+Table 14. Simulator Component RAM
+
+Value
+A minimum of 6 GB RAM for a virtual node is the default requirement.
+
+Notes
+Virtual nodes might not function correctly if they do not meet the recommended memory requirements.
+
+14
+
+Software
+
+Table 14. Simulator (continued) Component
+Processor Hard drive Operating system
+Virtual infrastructure
+
+Value
+6 GB RAM is recommended per virtual node per ESXi host.
+
+Notes
+NOTE: Other nodes that are added to your virtual environment to provide services, such as the Active Directory domain controller service or DNS service, have additional memory requirements.
+
+VT-capable processor
+42 GB of disk space per virtual node for a fully populated virtual cluster
+The following operating systems have been tested for and validated for the installation: ● Microsoft Windows (recommended) ● Ubuntu 16.04 and 18.04 (Linux)
+
+Virtualization technology must be enabled in the BIOS.
+N/A
+All the procedures in this guide are based on the Microsoft Windows operating system. Some of the steps in the procedure might differ based on your host operating system.
+NOTE: Other Linux versions should be supported if VMware products are supported.
+
+Standalone components: ● VMware Server ● VMware Fusion ● VMware Workstation ● VMware Player
+
+Install at least one stand-alone component.
+If you are installing VMware Workstation, VMware Player, or VMware Fusion, make certain that the external network is configured as a bridged network and not as a NAT network. This configuration allows the clients to access the virtual nodes.
+VMware Player is available at: VMware Workstation Player
+
+OneFS Anti-virus compatibility
+
+PowerScale OneFS supports all anti-virus software that follows the ICAP standard. PowerScale OneFS supports CAVA starting from 9.x
+
+Software
+
+15
+
+3
+
+Protocols
+
+Topics:
+• File system protocols • HDFS (Hadoop) • SNMP
+File system protocols
+The tables in this section list the file system protocols that are compatible with OneFS. OneFS supports the Network File System (NFS) and Server Message Block (SMB) file system protocols. For information about how to configure NFS and SMB for OneFS, see the OneFS Administration Guide on the OneFS Info Hub for your OneFS version.
+NOTE: Where provided, an exact OneFS version number indicates the minimum version of OneFS that is required.
+
+NFS
+
+NFS is a client and server application that lets users view and optionally store and update files on a network as if the files were saved in a local file directory. The NFS protocol is independent of the system, operating system, network architecture, and transport protocol.
+
+Table 15. NFS Compatibility
+
+NFS NFS 3
+NFS 4.0
+NFS4.1/ NFS4.2
+
+OneFS Compatibility
+
+9.4.0.x 9.5.0.x 9.6.x.x
+
+✓
+
+✓
+
+N/A
+
+✓
+
+✓
+
+N/A
+
+9.7.0.x ✓ ✓
+
+9.8.x ✓ ✓
+
+✓
+
+✓
+
+N/A
+
+✓
+
+✓
+
+9.9.x ✓ ✓
+✓
+
+9.10.x ✓ ✓ ✓
+
+9.11.x ✓ ✓ ✓
+
+9.12.x ✓ ✓ ✓
+
+9.13.x ✓ ✓ ✓
+
+9.14.x ✓ ✓ ✓
+
+NOTE: The NFSoRDMA feature requires that you have the Node Firmware Package (NFP) version 11.6.1 that is installed on your cluster, and the following patch for your version of OneFS: ● OneFS 9.7.x.x - no patch required ● OneFS 9.6.x.x - not supported ● OneFS 9.5.0.x - no patch required ● OneFS 9.4 - patch 9.4.0.5 or later
+
+SMB
+
+Windows systems use the SMB Internet protocol to share files, printers, and serial ports.
+
+Table 16. SMB Compatibility
+
+SMB SMB 1
+
+9.4.0.x ✓
+
+9.5.0.x ✓
+
+9.6.x.x N/A
+
+9.7.0.x ✓
+
+OneFS Compatibility 9.8.0.x 9.9.0.x 9.10.x
+
+✓
+
+✓
+
+✓
+
+9.11.x ✓
+
+9.12.x ✓
+
+9.13.x ✓
+
+9.14.x ✓
+
+16
+
+Protocols
+
+Table 16. SMB Compatibility (continued)
+
+SMB
+
+9.4.0.x 9.5.0.x 9.6.x.x 9.7.0.x
+
+SMB 2
+
+✓
+
+✓
+
+N/A
+
+✓
+
+SMB
+
+✓
+
+2.1
+
+✓
+
+N/A
+
+✓
+
+SMB
+
+✓
+
+3.x
+
+✓
+
+N/A
+
+✓
+
+OneFS Compatibility 9.8.0.x 9.9.0.x 9.10.x
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+9.11.x ✓ ✓
+✓
+
+9.12.x ✓ ✓
+✓
+
+9.13.x ✓ ✓
+✓
+
+9.14.x ✓ ✓
+✓
+
+NOTE: SMB1 is disabled by default while upgrading from a previous version of 9.6 to 9.6 or higher OneFS versions.
+
+S3
+
+S3, or Simple Storage Service, is a block-based access protocol that is optimized for database storage. S3 is a web-based protocol using standard HTTPS and a RESTful API.
+
+Table 17. S3 Compatibility
+
+S3
+
+9.4.0.x 9.5.x.x 9.6.x.x
+
+S3
+
+✓
+
+✓
+
+N/A
+
+9.7.x.x ✓
+
+OneFS Compatibility 9.8.x.x 9.9.x.x 9.10.x.x 9.11.x.x 9.12.x.x 9.13.x.x 9.14.x.x
+
+✓
+
+✓
+
+✓
+
+✓✓
+
+✓
+
+✓
+
+NOTE: The S3 service may restart unexpectedly on OneFS version 9.4.x. For more information and workaround details, see PowerScale: Isilon: S3 process coring due to Memory leak.
+
+S3A
+
+S3A is an open-source connector that allows big data applications like Apache Hadoop, Spark, and Hive to efficiently access and interact with data stored in Amazon S3 and S3 compatible storage. It uses the s3a:// URI scheme.
+
+Table 18. S3A Compatibility
+
+S3A
+
+9.11.x.x
+
+S3A
+
+✓
+
+9.12.x.x ✓
+
+OneFS Compatibility 9.13.x.x ✓
+
+9.14.x.x ✓
+
+NOTE: Some of S3A clients only work if OneFS uses MD5 as etag.
+
+HDFS (Hadoop)
+OneFS supports many distributions of the Hadoop Distributed File System (HDFS).
+Hadoop is an open-source software project that enables distributed processing of large datasets across clusters of servers. Hadoop is for situations where you want to quickly and cost-effectively run analytics that are deep and computationally extensive. Hadoop distributions are updated independently of OneFS and on their own schedules. For the latest information about Hadoop distributions that OneFS supports, see the Hadoop Information Hub.
+For information about how PowerScale Scale-out NAS can be used to support a Hadoop data analytics workflow, see Isilon Best Practices Guide for Hadoop Data Storage.
+
+Protocols
+
+17
+
+SNMP
+
+OneFS supports the Simple Network Management Protocol (SNMP). This section lists the compatible versions of SNMP and OneFS.
+Simple Network Management Protocol (SNMP) is a protocol for network management. Use SNMP to remotely monitor hardware components (for example, fans, hardware sensors, power supplies, and disks) and software or subsystems for network-connected devices (for example, network interfaces, servers, switches, and CPU use). You can enable SNMP monitoring on individual nodes on your cluster. You can also monitor cluster information from any node.
+For information about how to configure SNMP for OneFS, see the OneFS Administration Guide on the PowerScale OneFS Info Hub.
+
+Table 19. SNMP Compatibility
+SNMP SNMP 2c SNMP 3
+
+OneFS Compatibility 8.1.x ✓ ✓
+
+18
+
+Protocols
+
+4
+
+Hardware
+
+Topics:
+• Node Service and Support Life-cycle Dates • OneFS and Node Compatibility • Node Pool Compatibility • Node and Drive Compatibility • Node Firmware Package (NFP) • Drive Support Package (DSP) • Internal Network Switches and Life-cycle Dates • CX6 100 GbE NIC and supported OneFS versions • PowerScale nodes NICs and Transceivers • Generation 6 NICs and Transceivers • Generation 5 NICs and Transceivers
+
+Node Service and Support Life-cycle Dates
+
+This section lists the service and support life-cycle dates for PowerScale nodes.
+
+F-Series
+Table 20. F-Series Node F800 F810 F200 F600 F900 F210 F710 F910
+
+RTS 06-09-2017 05-03-2019 06-16-2020 06-16-2020 05-11-2021 02-20-2024 02-20-2024 05-21-2024
+
+NOTE: The F810 node is supported only on OneFS 8.1.3 and OneFS 8.2.1 and later releases.
+NOTE: The 15 TB and 30 TB QLC with noncertified SEDs for new node pools is supported for F600 and F900 in OneFS 9.4.0.9 or later. The OneFS 9.4.0.9 or later version is required for SED-Non-FIPS nodes. If a cluster is running a version earlier than 9.4.0.9, SED-Non-FIPS nodes fail to join the cluster.
+NOTE: Access to the 1 GbE Management port for F200/F600/F900 requires OneFS version 9.4.0.3 or later. If the nodes were shipped with an older OneFS version, a one-time configuration change might also be needed to enable management port access even if the node is upgraded to OneFS 9.4.0.3 or later. However, 1 GbE Management ports are not available on F200 nodes that are obtained before 6 December 2022.
+
+Hardware
+
+19
+
+H-Series
+
+Table 21. H-Series Node H400 H500 H600 H5600 H700 H7000 H710 H7100
+
+RTS 06-09-2017 06-09-2017 06-09-2017 06-17-2019 09-07-2021 09-07-2021 06-25-2025 06-25-2025
+
+NOTE: The H5600 node is supported only on OneFS 8.2.0 and later releases.
+
+A-Series
+Table 22. A-Series Node A200 -16 GB DRAM A200 - 64 GB DRAM A2000 - 16 GB DRAM A2000 - 64 GB DRAM A300 - 96 GB DRAM A3000 - 96 GB DRAM A310 A3100
+
+RTS 06-09-2017 06-09-2017 06-09-2017 06-09-2017 09-07-2021 09-07-2021 06-25-2025 06-25-2025
+
+Backup Accelerators
+Table 23. Backup Accelerators Name B100 Backup Accelerator PA110 Backup Accelerator (If the node is equipped with a Fibre Channel NIC)
+
+RTS 07-12-2021 5-28-2025
+
+Performance Accelerators
+Table 24. Performance Accelerators Name P100 Performance Accelerator
+
+RTS 07-12-2021
+
+20
+
+Hardware
+
+Table 24. Performance Accelerators (continued)
+Name
+PA110 Performance Accelerator (If the node is not equipped with a Fibre Channel NIC)
+
+RTS 5-28-2025
+
+OneFS and Node Compatibility
+
+This section lists compatible versions of OneFS and PowerScale nodes.
+
+PowerScale nodes
+
+The following are the supported PowerScale nodes:
+
+Table 25. PowerScale nodes
+
+Node A3000 A3100
+
+OneFS Compatibility
+
+9.4.x 9.5.x 9.6.x
+
+✓
+
+✓
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+9.7.x ✓ N/A
+
+A300 A310
+
+✓
+
+✓
+
+N/A
+
+✓
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+H7000
+
+✓
+
+✓
+
+N/A
+
+✓
+
+H7100
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+H700 H710
+
+✓
+
+✓
+
+N/A
+
+✓
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+F900
+
+✓
+
+✓
+
+N/A
+
+✓
+
+F600
+
+✓
+
+✓
+
+N/A
+
+✓
+
+F200
+
+✓
+
+✓
+
+N/A
+
+✓
+
+B100
+
+✓
+
+✓
+
+N/A
+
+✓
+
+P100
+
+✓
+
+✓
+
+N/A
+
+✓
+
+PA110
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+F210 F710 F910
+
+N/A
+
+N/A
+
+N/A
+
+✓
+
+N/A
+
+N/A
+
+N/A
+
+✓
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+9.8.x ✓ N/A ✓ N/A ✓ N/A ✓ N/A ✓ ✓ ✓ ✓ ✓ N/A ✓ ✓ ✓
+
+9.9.x ✓ N/A ✓ N/A ✓ N/A ✓ N/A ✓ ✓ ✓ ✓ ✓ N/A ✓ ✓ ✓
+
+9.10.x ✓ N/A ✓ N/A ✓ N/A ✓ N/A ✓ ✓ ✓ ✓ ✓ N/A ✓ ✓ ✓
+
+9.11.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.12.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.13.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.14.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+NOTE: NVMe FIPS SED drive is supported for F600 and F900 nodes in OneFS 9.3.0.0. Downgrading nodes with these drives to an earlier OneFS version renders them inoperable.
+NOTE: The 15 TB and 30 TB QLC with noncertified SEDs for new node pools is supported for F600 and F900 in OneFS 9.4.0.9 or later. The OneFS 9.4.0.9 or later version is required for SED-Non-FIPS nodes. If a cluster is running a version earlier than 9.4.0.9, SED-Non-FIPS nodes fail to join the cluster.
+NOTE: Access to the 1 GbE Management port for F200/F600/F900 requires OneFS version 9.4.0.3 or later. If the nodes were shipped with an older OneFS version, a one-time configuration change might also be required to enable management port access even if the node is upgraded to OneFS 9.4.0.3 or later. However, 1 GbE Management ports are not available on F200 nodes that are obtained before 6 December 2022.
+
+Hardware
+
+21
+
+Isilon Generation 6 nodes
+
+The following are Isilon Generation 6 platforms. Generation 6 node types require OneFS 8.1.0 and later releases.
+● F-Series (F800, F810) ● H-Series (H400, H500, H600, H5600) ● A-Series (A200, A2000)
+NOTE: An exact version number indicates the minimum version of OneFS that is required.
+
+Table 26. Isilon Generation 6 nodes
+
+OneFS Compatibility
+
+Node
+
+9.4.x 9.5.x 9.6.x 9.7.x
+
+F800
+
+✓
+
+✓
+
+N/A
+
+✓
+
+F810
+
+✓
+
+✓
+
+N/A
+
+✓
+
+H400
+
+✓
+
+✓
+
+N/A
+
+✓
+
+H500
+
+✓
+
+✓
+
+N/A
+
+✓
+
+H600
+
+✓
+
+✓
+
+N/A
+
+✓
+
+H5600
+
+✓
+
+✓
+
+N/A
+
+✓
+
+A200
+
+✓
+
+✓
+
+N/A
+
+✓
+
+A2000
+
+✓
+
+✓
+
+N/A
+
+✓
+
+9.8.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.9.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.10.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.11.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.12.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.13.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+9.14.x ✓ ✓ ✓ ✓ ✓ ✓ ✓ ✓
+
+Isilon Generation 5 nodes
+
+The following are Isilon Generation 5 platforms. ● X-Series – A balance between large capacity and high performance for high throughput and high concurrency applications.
+
+Isilon X-Series nodes
+Table 27. Isilon X-Series nodes
+
+Node X210
+
+9.4.x ✓
+
+9.5.x ✓
+
+9.6.x N/A
+
+9.7.x ✓
+
+OneFS Compatibility
+
+9.8.x 9.9.x
+
+9.10.x 9.11.x
+
+✓
+
+✓
+
+✓
+
+✓
+
+9.12.x ✓
+
+9.13.x ✓
+
+9.14.x ✓
+
+Node Pool Compatibility
+Node pool compatibility enables deployment of a newer generation node to a SmartPools node pool that contains nodes from an earlier generation.
+If the nodes are compatible, you can join a newer generation node to an existing cluster of earlier generation nodes. The newer generation node becomes a member of an existing node pool.
+For node pool compatibility, the following requirements must be met:
+● The newer-generation node must have the same node series as the earlier-generation node (S, X, A, or F). ● The newer-generation node must have the same number and layout of HDDs, SEDs, and SSDs as the earlier-generation
+node. ● If the two conditions above are met, nodes with different RAM capacities can be in the same node pool, and mixed‑memory
+configurations are supported.
+
+22
+
+Hardware
+
+Table 28. Node Pool Compatibility Node Type A A300 A2000 A300 A200 H500 H5600 F200 F900
+
+Node Type B A3000 A3000 H400 A300 H700 H7000 F210 F910
+
+NOTE: Nodes with SSDs require that L3 cache is enabled on all nodes in the node pool. L3 cache can only be enabled on nodes that have fewer than 16 SSDs and at least a 2:1 ratio of HDDs to SSDs. If SSDs are used for storage, then SSD counts must be identical on all nodes in a node pool or performance might be impacted.
+
+Table 29. Node Pool Compatibility PowerScale Archive Hybrid
+
+Gen 6
+
+MLK Archive or Hybrid
+
+A200
+
+A300/L
+
+A2000
+
+A3000/L
+
+H400
+
+A300
+
+H500
+
+H700
+
+H5600
+
+H7000
+
+H600
+
+-
+
+F800
+
+-
+
+F810
+
+-
+
+Pifano Archive or Hybrid A310/L A3100/L A310 H710 H7100 -
+
+Node and Drive Compatibility
+This section contains information about node and drive compatibility. For information about drives supported with your PowerScale node, contact your sales or technical support representative. For information about node configuration, including how to replace a drive, see the PowerScale hardware documentation for your specific node available from the Dell Online Support website.
+Node Firmware Package (NFP)
+PowerScale Technical Support provides Node Firmware Packages for download from the Dell support site. NFPs provide firmware updates to all components within your PowerScale node, except for drives. This section lists the Node Firmware Packages that are compatible with Isilon and PowerScale nodes.
+NOTE: OneFS places limitations on the minimum NFP versions that can be installed on specific OneFS versions.
+
+Hardware
+
+23
+
+Table 30. Node Firmware Package Compatibility
+
+Node Type
+
+10.x
+
+11.x
+
+PA110, A310, A3100,
+
+H710, H7100 (PowerScale
+
+N/A
+
+N/A
+
+nodes)
+
+F210,
+
+F710,
+
+F910
+
+(PowerScale nodes)
+
+N/A
+
+N/A
+
+A300, A3000, B100, F200,
+
+F600, F900, H700, H7000,
+
+N/A
+
+✓
+
+P100 (PowerScale nodes)
+
+A200, A2000, F800,
+
+F810, H400, H500, H600, H5600 (Generation 6
+
+✓
+
+✓
+
+nodes)
+
+12.x
+
+13.x
+
+14.x
+
+✓
+
+N/A
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+For more information about NFPs, see the product documentation that is available from the Dell Online Support website.
+
+Drive Support Package (DSP)
+
+PowerScale Technical Support provides Drive Support Packages for download from the Dell support site. DSPs provide firmware updates to the drives within your PowerScale node.
+PowerScale drive support packages contain drive firmware updates for Isilon clusters and PowerScale clusters. Installing the latest drive support package allows you to update the drive firmware to the latest supported revisions.
+The following nodes support the DSP:
+● A300, A310, A3000, A3100, B100, F200, F210, F600, F710, F900, F910, H700, H710, H7000, H7100, P100, PA110 (PowerScale nodes)
+● A200, A2000, F800, F810, H400, H500, H600, H5600 (Generation 6 nodes)
+For information about installing and applying drive support packages, see the hardware and firmware documentation available from the Dell Online Support website.
+
+Internal Network Switches and Life-cycle Dates
+
+This section lists the availability and support of internal network switches and the support life-cycle dates.
+
+InfiniBand Internal Network Switches and Life-cycle Dates
+
+Table 31. Intel/QLogic switches Intel/QLogic 18-Port QDR IB Switch 24-Port QDR Upgrade Leaf 36-Port QDR IB Switch 48-Port 5U-040 QDR IB Switch 96-Port 5U-120 QDR IB Switch
+
+Model No. 851-0170 851-0150 851-0214 851-0149 851-0151
+
+Table 32. Mellanox/NVIDIA switches
+
+NVIDIA
+
+Model No.
+
+08-Port QDR IB Switch
+
+210-AVYW
+
+18-Port QDR IB Switch
+
+210-AVYZ
+
+RTS 03-21-2011 05-02-2011 03-21-2011 11-03-2011 11-03-2011
+RTS 10-03-2008 05-05-2011
+
+24
+
+Hardware
+
+Table 32. Mellanox/NVIDIA switches (continued)
+
+NVIDIA
+
+Model No.
+
+36-Port QDR IB Switch
+
+210-AVZC
+
+54-port 7U QDR
+
+210-AVYY
+
+54-port 10U QDR
+
+210-AVYX
+
+18-port QDR Upgrade Leaf
+
+851-0311
+
+36-Port EDR IB Switch
+
+210-BFSK 210-BFTL 210-BFSJ
+
+40 Port HDR IB Switch
+
+851-0424 851-0425
+
+RTS 06-09-2017 03-10-2018 03-10-2018 03-10-2018 12-13-2022 2-19-2025
+
+Ethernet Internal Network Switches and Life-cycle Dates
+
+Table 33. Dell switches Dell 64-port 400GbE Z9664
+NOTE: Only supports 200GbE flat topology.
+64-port 400GbE Z9664 NOTE: Only supports 100GbE flat topology.
+32-port 100 GbE Z9100 48-port 10 GbE S4148 64-port 100 GbE Z9264 32-port 100 GbE S5232 12-port 10 GbE S4112
+
+Model No. 210-BCJH
+210-BCJH
+210-AWOV 210-AWOT 210-AWOW 210-BCVB 210-AWOS
+
+RTS 5-28-2025
+3-19-2025
+11-17-2018 11-17-2018 02-28-2019 11-09-2021 11-17-2018
+
+Table 34. Celestica switches Celestica 24-port 10 GbE 48-port 10 GbE 32-port 40 GbE
+Table 35. Arista switches Arista 48-port 10 GbE Upgrade Leaf 32-port 40 GbE Upgrade Leaf 2x 32-port 40 GbE with line cards 2x 48-port 10 GbE with line cards 32-port 100 GbE with line card 48-port 25 GbE with line card
+
+Model No. 210-AYHT 210-AYHU 210-AYHW
+Model No. 851-0283 851-0282 851-0261 851-0260 851-0422 851-0423
+
+RTS 06-09-2017 06-09-2017 06-09-2017
+RTS 06-09-2017 06-09-2017 05-04-2022 05-04-2022 02-19-2025 02-19-2025
+
+Hardware
+
+25
+
+CX6 100 GbE NIC and supported OneFS versions
+
+The CX6 100 GbE NIC is supported on the following platforms with the corresponding minimum OneFS versions:
+● A310, A3100, H710, H7100: Supported starting with OneFS 9.11.x ● F200: Supported with OneFS 9.2.1.x and later ● F210, F710: Supported starting with OneFS 9.7.x ● F910: Supported starting with OneFS 9.8.x
+NOTE: While OneFS 9.2.1.x and later generally support the CX6 NIC, platform-specific support begins with the versions listed above.
+The CX6 100 GbE NIC is supported on the F600, F900, B100, and P100 with the following minimum OneFS versions installed on the cluster:
+● OneFS 9.5.0.0 and later ● OneFS 9.4.0.15 and later ● OneFS 9.2.1.23 and later
+
+PowerScale nodes NICs and Transceivers
+
+This section lists the supported Network Interface Cards (NICs) and the supported transceivers for PowerScale nodes.
+
+Overview
+
+This section contains information about supported NICs and transceivers for PowerScale nodes, including the following:
+● B100 ● F200 ● F210 ● F600 ● F710 ● F900 ● F910 ● P100 ● PA110
+PowerScale nodes have the following supported transceivers:
+
+Table 36. PowerScale nodes supported transceivers
+
+Optic
+
+Part number
+
+8 GE SFP+ Fiber Channel Optic
+
+019-078-042
+
+Cable lengths supported 100M OM3 150M OM4
+
+16 GE SFP+ Fiber Channel Optic
+
+-
+
+100M OM3 150M OM4
+
+10 GE SFP+ Optic
+
+019-078-041
+
+100M OM3 150M OM4
+
+25 GE QSFP+ Optic
+
+105-001-327-00
+
+70M OM3 100M OM4
+
+40 GE QSFP+ Optic
+
+019-078-046
+
+100M OM3 150M OM4
+
+100 GE QSFP+ Optic
+
+-
+
+-
+
+26
+
+Hardware
+
+Generation 6 NICs and Transceivers
+
+The table below outline the supported Network Interface Cards (NICs) and transceivers for Generation 6 nodes.
+
+Overview
+
+Generation 6 nodes support the following NICs and transceivers:
+● A200 ● A2000 ● F800 ● F810 ● H400 ● H500 ● H600 ● H5600
+Generation 6 nodes have the following supported transceivers:
+
+Table 37. Generation 6 supported transceivers
+
+Optic
+
+Part number
+
+8 GE SFP+ Fiber Channel Optic
+
+019-078-042
+
+10 GE SFP+ Optic
+
+019-078-041
+
+25 GE SFP28
+
+105-001-327-00
+
+40 GE QSFP+ Optic
+
+019-078-046
+
+Cable lengths supported 100M OM3 150M OM4
+100M OM3 150M OM4
+100M OM3 150M OM4
+100M OM3 150M OM4
+
+Optional 2x10GbE + 2x8GB Fibre Channel network interface card (NIC)
+You can enable two-way NDMP sessions by configuring a node with the optional 2x10GbE + 2x8GB Fibre Channel network interface card (NIC). This special NIC is required to allow Gen6 to interface with tape libraries. A 2x10GE + 2x8GB Fibre Channel NIC is a hybrid host bus adapter (HBA) that enables two-way NDMP sessions over the Fibre Channel port. Contact Dell Professional Services to enable support for the 2x10GbE + 2x8GB Fibre Channel NIC.
+Generation 5 NICs and Transceivers
+This section lists the supported Network Interface Cards (NICs) and the supported transceivers for Generation 5 nodes.
+Overview
+This section contains information about supported NICs and transceivers for generation 5 nodes, including the following: ● X210
+
+Hardware
+
+27
+
+10 GbE NICs and Transceivers (SFP/SFP+)
+
+Generation 5 nodes have the following supported 10 GbE network interface cards (NICs):
+● QLogic ● Broadcom
+Generation 5 nodes have the following supported 10 GbE transceivers:
+
+Table 38. 10 GbE transceivers
+
+Manufacturer
+
+Isilon Part number
+
+Finisar
+
+047-0001-01
+
+Isilon Certified Yes
+
+Foxconn
+
+047-0001-01
+
+Yes
+
+Lumentum
+
+047-0001-01
+
+Yes
+
+Type Optical, Multimode Optical, Multimode Optical, Multimode
+
+NOTE: Isilon cannot test or qualify all the transceivers that are available. It is possible that some SFP/SFP+ transceivers that have been reported to work by some sources might not work in all environments. Contact your Isilon sales representative if you have any questions.
+
+40 GbE NIC and Transceivers (QSFP/QSFP+)
+
+Generation 5 nodes have the following supported 40 GbE network interface cards (NICs):
+● QLogic ● Broadcom
+Generation 5 nodes have the following supported 40 GbE transceivers:
+
+Table 39. 40 GbE transceivers
+
+Manufacturer
+
+Isilon Part number
+
+Finisar
+
+047-0002-01
+
+Foxconn
+
+047-0002-01
+
+Isilon Certified Yes Yes
+
+Type Optical, Multimode [SR] Optical, Multimode [SR]
+
+NOTE: The Cisco transceiver (part number QSFP-40G-SR-BD) is not sold by Dell Technologies. The Cisco transceiver requires the NVIDIA 40 GE NIC, the Cisco 9332PQ switch, and the following minimum firmware: ● NVIDIA2.40.5030
+NOTE: Isilon cannot test or qualify all the transceivers that are available. It is possible that some QSFP/QSFP+ transceivers that have been reported to work by some sources might not work in all environments. Contact your Isilon sales representative if you have any questions.
+
+28
+
+Hardware
+
+5
+
+Cloud Platforms
+
+Topics:
+• Azure • AWS
+
+Azure
+
+The Azure virtual cluster has the same interface as a PowerScale OneFS on-premises cluster.
+
+Supported Configuration Parameters
+
+Table 40. configuration parameters Configuration parameter Number of nodes in cluster Supported Azure instances
+Azure managed disk types (used as OneFS disks)
+Instance types per cluster Volume types per cluster Volume sizes per cluster Aggregate raw cluster capacity Default cluster protection level Volume counts per node Geo Availability
+
+Description
+Minimum 4, maximum 18 (see max scale)
+● Edv5 and Edsv5 series Azure Virtual Machines (instances sizes E32d and above
+● Ddv5 and Ddsv5 series Azure Virtual Machines (instances sizes D32d and above)
+● Premium SSDs (solid state drives) ● Standard SSDs ● Standard HDDs (hard disk drives)
+One—all nodes in a cluster must be of the same instance type
+One—all Azure managed disks must be the same type
+One—all Azure managed disks must be the same raw capacity as shown by Azure
+See individual volume type section
++2
+Multiples of 5 or 6 drives up to the max supported drive count of the VM SKU.
+Globally available
+
+Azure VM instance types
+
+General purpose and memory optimized Azure virtual machine (VM) instance types options are as follows:
+● Ddsv5-series ● Edsv5-series
+
+Table 41. Azure VM instance types
+
+Instance type vCPU count
+
+Memory (GiB) Max data disks Local instance Network storage (TB) bandwidth (Gbps)
+
+D32ds_v5
+
+32
+
+128
+
+32
+
+1.2
+
+16
+
+Data storage throughput (MBps) 865
+
+Cloud Platforms
+
+29
+
+Table 41. Azure VM instance types (continued)
+
+Instance type vCPU count
+
+Memory (GiB) Max data disks Local instance Network storage (TB) bandwidth (Gbps)
+
+D48ds_v5
+
+48
+
+192
+
+32
+
+1.8
+
+24
+
+D64ds_v5
+
+64
+
+256
+
+32
+
+2.4
+
+30
+
+D96ds_v5
+
+96
+
+384
+
+32
+
+3.6
+
+35
+
+E32ds_v5
+
+32
+
+256
+
+32
+
+1.2
+
+16
+
+E48ds_v5
+
+48
+
+384
+
+32
+
+1.8
+
+24
+
+E64ds_v5
+
+64
+
+512
+
+32
+
+2.4
+
+30
+
+E96ds_v5
+
+96
+
+672
+
+32
+
+3.6
+
+35
+
+E104ids_v5
+
+104
+
+672
+
+64
+
+3.6
+
+100
+
+Data storage throughput (MBps) 1315 1735 2600 865 1315 1735 2600 4000
+
+Azure managed disk types
+
+Table 42. Azure managed disk
+Drive family
+Premium SSD locally redundant storage (LRS)
+
+Description Locally Redundant Premium SSD
+
+Standard SSD locally redundant storage Locally Redundant Standard SSD (LRS)
+
+Standard HDD locally redundant storage Locally Redundant Standard HDD (LRS)
+
+Workflow
+High performance, low latency, input/ output (I/O)-intensive workloads. Premium SSDs are suitable for missioncritical production applications.
+Consistent performance with lower IOPS levels. Standard SSds are suitable for lightly used enterprise applications or workloads.
+Latency tolerant workloads. Development testing and less critical workloads.
+
+AWS
+
+PowerScale OneFS File Storage for AWS includes the following supported configurations:
+
+Supported Configuration Parameters
+
+Table 43. Configuration Parameters Configuration parameter Number of nodes in cluster Supported instance types
+Instance types per cluster Volume types per cluster
+
+Description
+Minimum 4, maximum 6
+● m5dn.8xlarge and up ● m6idn.8xlarge and up ● m5d.24xl* ● i3en.12xl* ● *Allowed after a successful proof of concept (POC)
+One—all nodes in the cluster must be of the same instance type
+One—all EBS drives in the cluster must be of the same EBS volume type
+
+30
+
+Cloud Platforms
+
+Table 43. Configuration Parameters (continued) Configuration parameter Supported storage Volume counts per node Volumes sizes per cluster EBS volume sizes Capacity scalability Default cluster protection level
+
+Description
+● gp3 (SSD) ● st1 (HDD)
+● 5 or 6 on st1 (HDD) ● 5, 6, 10, 12, 15, 18, or 20 on gp3 (SSD)
+One—all EBS drives in the cluster must be of the same raw capacity
+● 4 TB or 10 TB (st1) ● 1 TB to 16 TB (gp3)
+● 80 TB–360 TB on st1 (HDD) ● 20 TB to 1.6 PB on gp3 (SSD)
++2n
+
+AWS VM instance types
+
+The PowerScale OneFS File Storage for AWS supports the following EC2 instance types:
+● m5dn.8xlarge, m5dn.12xlarge, m5dn.16xlarge, m5dn.24xlarge ● m5d.24xlarge* ● i3en.12xlarge*
+All the above instance types work with st1 and gp3 type EBS volumes.
+*These instance types are allowed for Proof of Concept (POC). Talk to your account team to start a POC.
+The following table shows the regional availability of the supported EC2 instance types:
+
+Table 44. EC2 instance types regional availability
+
+Region Name
+
+m5dn
+
+NAM
+
+m5d.24xlarge*
+
+i3en.12xlarge*
+
+USA East (N.Virginia)
+
+Y
+
+Y
+
+Y
+
+USA East (Ohio)
+
+Y
+
+Y
+
+Y
+
+USA West (N. California)
+
+N
+
+Y
+
+Y
+
+USA West (Oregon)
+
+Y
+
+Y
+
+Y
+
+Canada (Central)
+
+N
+
+Y
+
+Y
+
+SAM
+
+South America (Sao Paulo) N
+
+Y
+
+Y
+
+EMEA
+
+Europe (Frankfurt)
+
+Y
+
+Y
+
+Y
+
+Europe (Ireland)
+
+Y
+
+Y
+
+Y
+
+Europe (London)
+
+N
+
+Y
+
+Y
+
+Europe (Milan)
+
+N
+
+Y
+
+Y
+
+Europe (Paris)
+
+N
+
+Y
+
+Y
+
+Europe (Spain)
+
+N
+
+Y
+
+Y
+
+Europe (Stockholm)
+
+N
+
+Y
+
+Y
+
+Europe (Zurich)
+
+N
+
+Y
+
+Y
+
+Cloud Platforms
+
+31
+
+Table 44. EC2 instance types regional availability (continued)
+
+Region Name
+
+m5dn
+
+m5d.24xlarge*
+
+Israel (Tel Aviv)
+
+N
+
+Y
+
+Middle East (Bahrain)
+
+N
+
+Y
+
+Middle East (UAE)
+
+N
+
+Y
+
+Africa (Cape Town)
+
+N
+
+Y
+
+Asia
+
+Hongkong
+
+N
+
+Y
+
+Hyderabad
+
+N
+
+Y
+
+Jakarta
+
+N
+
+Y
+
+Melbourne
+
+N
+
+Y
+
+Mumbai
+
+N
+
+Y
+
+Osaka
+
+N
+
+Y
+
+Seoul
+
+N
+
+Y
+
+Singapore
+
+Y
+
+Y
+
+Sydney
+
+N
+
+Y
+
+Tokyo
+
+Y
+
+Y
+
+For additional information, see:
+● Amazon EC2 Instance Types ● Amazon EC2 M5 Instances
+
+i3en.12xlarge* Y Y Y Y
+Y Y Y Y Y Y Y Y Y Y
+
+32
+
+Cloud Platforms
+
+

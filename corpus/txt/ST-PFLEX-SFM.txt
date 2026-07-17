@@ -1,0 +1,1072 @@
+Deployment Guide
+SONiC SmartFabric Manager for PowerFlex Deployment Guide
+Abstract
+This guide covers using Dell Technologies SONiC SmartFabric Manager to configure a PowerSwitch leaf-spine topology for single rack or multirack PowerFlex deployments. April 2026
+H04460
+
+Revisions
+Date March 2025 April 2026
+
+Description Initial release Added information in the Fabrics tab section.
+
+2
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+Table of Contents
+1 Introduction...................................................................................................................................................................5 1.1 Enterprise SONiC Distribution by Dell Technologies .........................................................................................5 1.2 SmartFabric Manager for SONiC .......................................................................................................................5 1.3 PowerFlex...........................................................................................................................................................5 1.4 Typographical conventions .................................................................................................................................6 1.5 We value your feedback .....................................................................................................................................6
+2 Hardware used in this guide.........................................................................................................................................7 2.1 Dell PowerSwitch S5248F-ON ...........................................................................................................................7 2.2 Dell PowerSwitch S5232F-ON ...........................................................................................................................7 2.3 Dell PowerSwitch S3248T-ON ...........................................................................................................................7 2.4 Dell PowerFlex appliances and custom nodes...................................................................................................8
+3 Topology.......................................................................................................................................................................9 3.1 Production topology ............................................................................................................................................9 3.2 Production topology connection details ............................................................................................................11 3.3 OOB management topology .............................................................................................................................12 3.4 OOB management connection details..............................................................................................................13
+4 Deployment Planning .................................................................................................................................................16 4.1 Minimum networking requirements...................................................................................................................16 4.2 Maximum deployment size ...............................................................................................................................17 4.3 Supported Dell PowerSwitch systems..............................................................................................................17 4.4 VLANs and IP addresses .................................................................................................................................17 4.5 LAG to VLAN mapping .....................................................................................................................................18
+5 Use SFM to create and verify the fabric .....................................................................................................................20 5.1 Prepare switches for SFM ................................................................................................................................20 5.1.1 Set a password and configure the management interface ...............................................................................20 5.1.2 Connect the switches and SFM host ................................................................................................................20 5.2 Deploy SFM ......................................................................................................................................................20 5.3 Export the PowerFlex blueprint ........................................................................................................................21 5.4 Edit the Blueprint ..............................................................................................................................................22 5.4.1 Overview tab.....................................................................................................................................................22 5.4.2 Nodes tab .........................................................................................................................................................23 5.4.3 Breakouts tab (optional) ...................................................................................................................................23 5.4.4 Fabrics tab ........................................................................................................................................................24 5.4.5 Fabrics ICLLinks tab .........................................................................................................................................25
+
+3
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+5.4.6 Tenants tab.......................................................................................................................................................26 5.4.7 Networks tab.....................................................................................................................................................27 5.4.8 ClusterProfiles tab ............................................................................................................................................27 5.4.9 ClusterProfilesNics tab .....................................................................................................................................28 5.4.10 ClusterProfilesBonds tab..........................................................................................................................29 5.4.11 Devices tab...............................................................................................................................................29 5.4.12 DeviceNics tab .........................................................................................................................................30 5.5 Import the blueprint and create the infrastructure ............................................................................................32 5.6 Validate the infrastructure.................................................................................................................................40 5.7 Deploy the infrastructure ..................................................................................................................................42 5.8 Verify the fabric.................................................................................................................................................44 6 Deploy PowerFlex ......................................................................................................................................................51 A Validated components ................................................................................................................................................52 A.1 Dell PowerSwitch systems ...............................................................................................................................52 A.2 SONiC SmartFabric Manager...........................................................................................................................52 A.3 PowerFlex nodes ..............................................................................................................................................52 A.4 PowerFlex Management Controller ..................................................................................................................53 B BGP EVPN with VXLAN overview..............................................................................................................................54 C Resources ..................................................................................................................................................................55 C.1 Dell Networking resources................................................................................................................................55 C.2 PowerFlex guides .............................................................................................................................................55 C.3 Technical support .............................................................................................................................................55
+
+© 2025 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+4
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+1
+1.1 1.2
+1.3
+
+Introduction
+This deployment guide covers Dell Technologies PowerSwitch configuration using SmartFabric Manager for SONiC (SFM) for single rack or multirack greenfield PowerFlex deployments.
+SFM automates the configuration of the leaf-spine fabric that is used in this deployment. The leaf-spine fabric uses EVPN VXLAN, which enables a virtual Layer 2 overlay network to run over a physical Layer 3 underlay network. Use of a VXLAN leaf-spine fabric is a best practice in the data center.
+Enterprise SONiC Distribution by Dell Technologies
+SONiC is an open-source, Linux-based network operating system that runs on switches from multiple vendors and ASICs. Enterprise SONiC Distribution by Dell Technologies is a hardened and validated version of SONiC that is supported on certain Dell PowerSwitch platforms. Dell Enterprise SONiC supports an intuitive command-line interface, object-based administration through a REST interface, Google’s gRPC Network Management Interface (gNMI), and SmartFabric Manager.
+SmartFabric Manager for SONiC
+SmartFabric Manager for SONiC (SFM) simplifies network setup and maintenance by automating network deployment and providing an easy-to-use web user interface.
+SFM is a virtual machine that runs on VMware ESXi, provided in OVA format, or on Linux KVM, provided in QCOW2 format. SFM configures Dell PowerSwitch systems using REST API commands and offers customizable blueprints to simplify configuration for different solutions, including PowerFlex.
+The PowerFlex deployment in this guide uses a Border Gateway Protocol (BGP) Ethernet VPN (EVPN) with Virtual Extensible LAN (VXLAN) leaf-spine fabric. Use of a VXLAN leaf-spine fabric is a best practice in the data center. Manually configuring the switches for this fabric would require hundreds of CLI commands. SFM automates the fabric creation, making it fast, easy, and with a much lower probability of errors than configuring the fabric manually.
+SFM comes with a 180-day free trial for up to 10 switches. If your PowerFlex deployment uses more than 10 switches in leaf or spine roles, you must buy a license before proceeding. See the SFM User Guide for more information about licensing.
+PowerFlex
+PowerFlex is a highly scalable compute and storage infrastructure that integrates PowerFlex software-defined storage software with Dell PowerEdge servers. PowerFlex supports a small cluster starting point of four nodes, bring-your-own networking hardware, and bring-your-own management hardware.
+PowerFlex allows growth and management of compute and storage resources together or independently depending on business needs. PowerFlex uses PowerFlex Manager for management and operations. PowerFlex Manager enables users to build, automate, and simplify implementation, expansion, and life cycle management.
+This deployment uses PowerFlex partial network automation (PNA). With PNA, PowerFlex manager automatically configures the VLANs and IP addresses on the PowerFlex nodes, but it does not configure the switches.
+
+5
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+1.4
+
+Note: PowerFlex full network automation (FNA) is not supported with Dell Technologies Enterprise SONiC or SFM.
+
+Typographical conventions
+The CLI and UI examples in this document use the following conventions:
+
+Text Style Monospace Text Bold Monospace Text
+
+Representation CLI examples
+• CLI examples which wrap the page • To highlight information in CLI output
+
+Italic Monospace Text Bold text
+
+Variables in CLI examples
+• UI fields • Information which is entered in the UI
+
+1.5
+
+We value your feedback
+Dell Technologies and the authors of this document welcome your feedback on the solution and the solution documentation. Contact the Dell Technologies Solutions team by email.
+Authors: Dell Technologies Network Solutions Engineering, Technical Marketing, and Information Design and Development teams
+
+6
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+2
+2.1
+
+Hardware used in this guide
+This section briefly describes the Dell PowerSwitch and PowerFlex hardware that is used for this PowerFlex on SONiC deployment. Validated components contains a complete listing of all hardware and software used. Supported Dell PowerSwitch systems provides a complete list of switches that are supported for this deployment.
+Dell PowerSwitch S5248F-ON
+The Dell PowerSwitch S5248F-ON is a 1-Rack Unit (1U), multilayer switch with 48x 25 GbE SFP28, 4x 100 GbE QSFP28, and 2x 200 GbE QFSP28-DD ports. This guide uses two S5248F-ON switches in each rack as leaf switches.
+
+2.2
+
+Dell PowerSwitch S5248F-ON
+Dell PowerSwitch S5232F-ON
+The Dell PowerSwitch S5232F-ON is a 1U, multilayer switch with 32x 100 GbE QSFP28 ports and 2x 10 GbE SFP+ ports. This guide uses four S5232F-ON switches as spine switches.
+
+2.3
+
+Dell PowerSwitch S5232F-ON
+Dell PowerSwitch S3248T-ON
+The Dell PowerSwitch S3248T-ON is a 1U switch with 48x 1 GbE BASE-T ports, 4x 10 GbE SFP+ ports, and 2x 100 GbE QSFP28 ports. This guide uses one S3248T-ON switch in each rack for out-of-band (OOB) management traffic.
+
+Dell PowerSwitch S3248T-ON
+Note: Other Dell switches, such as the N3248TE-ON, or third-party switches with 1 GbE BASE-T ports and 10 GbE or faster uplink ports can also be used for OOB management traffic.
+
+7
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+2.4
+
+Dell PowerFlex appliances and custom nodes
+PowerFlex R640, R650, or R660 appliances and custom nodes are supported for this deployment. PowerFlex appliances and custom nodes are built on Dell PowerEdge servers. Each PowerFlex node in this deployment requires two 25 GbE dual-port SFP28 adapters and an iDRAC. PowerFlex nodes used as PowerFlex management controllers must also have a 10 GbE or faster NIC available to connect to the OOB management switch. PowerFlex compute nodes with three 25 GbE dual-port SFP28 adapters are also supported.
+
+Dell PowerFlex node
+
+8
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+3
+3.1
+
+Topology
+The topology for this deployment is divided into two parts:
+1. Production, or in-band 2. Out-of-band (OOB) management
+The production topology contains redundant components and is used for all mission-critical and end-user network traffic. The OOB management network is an isolated network for hardware management.
+Production topology
+The production topology that is used in this guide is shown in the figure below.
+
+PowerFlex leaf-spine production topology
+
+9
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+Each rack has two leaf switches connected to each other with a multichassis link aggregation group (MCLAG) peer link. Downlinks from leaf switches to devices in the rack use LACP with MC-LAG. Every leaf switch is connected to every spine switch to form a leaf-spine topology.
+Note: Leaf switches are sometimes called top-of-rack (ToR) switches.
+In this deployment example, a three-node PowerFlex Management Controller (PFMC) 2.0 cluster is in Rack 1. The remaining nodes in Racks 1-n are compute only (CO) and storage only (SO) nodes. This deployment uses four 25 GbE network adapter ports per PowerFlex node for production network connections, as shown in the figure above.
+Note: The topology used to validate this guide consisted of four racks, eight leaf switches, and four spine switches.
+BGP EVPN with VXLAN is used to stretch Layer 2 networks across the Layer 3 leaf-spine fabric. Equal-Cost Multi-Path routing (ECMP) is enabled on the switches to use all available bandwidth on the leaf-spine connections. SFM automates the configuration of this fabric.
+The DNS/NTP server that is used for PowerFlex name resolution and time synchronization can be located anywhere that is reachable from the PowerFlex Node Management network. In this example, it is in Rack 1 and has one connection to each leaf in the rack for redundancy.
+
+10
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+3.2 Production topology connection details
+Production network connection details for this deployment example are shown in the figure below.
+
+Production network connection details
+Note: Other PowerFlex nodes, leaf switches, and spine switches that are not shown are connected in the same manner. PowerFlex node NIC locations may vary depending on the model.
+Each leaf switch has one connection to each spine switch. For this deployment, all leaf-spine connections are 100 GbE.
+All PowerFlex nodes have two connections to each leaf. The connections in this example are 25 GbE. The four 25 GbE connections from each PowerFlex node to the leaf switches are configured in two LACP link aggregation groups (LAGs). The LAGs are named Front End (FE) and Back End (BE) on the PFMC nodes and Bond0 and Bond1 on the CO and SO nodes.
+
+11
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+3.3
+
+For the MC-LAG peer link connections, two QSFP28-DD double density ports (2x 100 GbE interfaces per physical port), are available on S5248F-ON switches. They are used to create a 400 GbE port channel that is the MC-LAG peer link. This connection requires QSFP28-DD DAC cables or optics.
+Note: On leaf switches without QSFP28-DD ports, QSFP28 100 GbE or SFP28 25 GbE ports are used for peer link connections. Dell Technologies recommends using at least two physical ports on each leaf switch for the peer link. If 25 GbE ports are used, Dell Technologies recommends using at least four connections on each leaf for sufficient bandwidth. Multiple peer link connections provide redundancy and additional bandwidth if a switch is taken offline or if there is a failure. The peer link is used for data traffic only if there is a link failure that requires the peer link to reach the destination.
+OOB management topology
+The out-of-band (OOB) management network is an isolated network for remote management of hardware. This hardware includes PowerFlex nodes and PowerSwitch systems. It can also include other devices using their dedicated management ports.
+One S3248T-ON switch is typically installed in each rack for OOB management network connections, as shown in the following figure. Other Dell or third-party switches with 1 GbE BASE-T ports can also be used for OOB management traffic.
+
+OOB management network topology
+
+12
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+3.4
+
+Four 10 GbE SFP+ ports are available on each S3248T-ON. These ports are typically used as downlinks to a 10 GbE NIC on each PFMC node and as uplinks to the OOB management network core. There are also two 100 GbE QSFP28 ports available on each S3248T-ON if needed.
+The 1 GbE 1000BASE-T ports on each S3248T-ON are connected downstream to hardware management ports on each device in the rack. Those ports include the PowerSwitch management ports and PowerFlex node iDRAC ports. Dedicated management ports on other devices in the rack can also be connected to the OOB management switches.
+SFM uses the OOB management network to configure and manage the leaf and spine switches that form the production topology. The ESXi or Linux host with the SFM VM must be accessible on this network. For this reason, the host containing SFM requires a 1 GbE NIC connected to the OOB management network in addition to its iDRAC port.
+OOB management switch configuration is not detailed in this guide. The OOB management network can be Layer 2 (switched) or Layer 3 (routed) and configured as needed to suit your environment.
+Note: For reference, devices on the OOB Management network in this guide use the 100.67.0.0/16 IP address range. All addresses that are used in this guide are examples only.
+OOB management connection details
+All PowerSwitch management ports and PowerFlex node iDRACs are connected to the OOB management switch in each rack as shown below.
+
+13
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+OOB management network connection details
+The ESXi or Linux host with the SFM VM has two connections to the OOB management network: the 1 GbE iDRAC and an additional 1 GbE NIC for SFM to communicate with the PowerSwitch leaf and spine systems.
+The PowerFlex compute and storage nodes only require the iDRAC connection to the OOB network. Each PFMC node has two connections to the OOB management network: the 1 GbE iDRAC and an additional 10
+
+14
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+GbE NIC. PowerFlex Manager uses the PFMC node's 10 GbE interface to communicate with the iDRACs on the PowerFlex compute and storage nodes.
+Note: Other PowerFlex nodes, spines, and leaf switches that are not shown are connected in the same manner. NIC and iDRAC locations may vary depending on the model.
+
+15
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+4
+4.1
+
+Deployment Planning
+This chapter covers items to consider before deploying a PowerFlex network with SFM.
+Minimum networking requirements
+Note: In this guide, “single rack” means topologies with only two leaf switches. “Multirack” means topologies with four or more leaf switches.
+The minimum networking requirements for a PowerFlex on Dell Technologies Enterprise SONiC deployment with SFM include the following:
+• SFM version 1.2 or later. SFM comes with a 180-day free trial for up to 10 switches. If your PowerFlex deployment uses more than 10 switches in leaf or spine roles, you must purchase a license before proceeding. See the SFM User Guide for more information about licensing.
+• Single rack deployments require two supported Dell PowerSwitch leaf switches of the same model. • Multirack deployments require two supported Dell PowerSwitch leaf switches of the same model per
+rack, plus at least two supported Dell PowerSwitch spine switches.
+Note: For a new deployment that is done using the SFM PowerFlex blueprint as shown in this guide, all leaf switches in the initial fabric must be the same model. All spine switches in the initial fabric must also be the same model. The fabric can later be expanded using other supported PowerSwitch models.
+• All Dell PowerSwitch leaf and spine systems in the fabric must be running the same version of Dell Technologies Enterprise SONiC.
+• Dell Technologies Enterprise SONiC 4.4.1 or later is required. An Enterprise Standard or Enterprise Premium bundle is required for leaf and spine switches in this deployment.
+• One 1 GbE BASE-T switch for OOB management connections is required. Dell Technologies recommends using one PowerSwitch S3248T-ON per rack.
+• One DNS server and one NTP server that are reachable from the PowerFlex Node Management network are required.
+• Each PowerFlex node requires four 25 GbE SFP28 connections to the leaf switches. • Each leaf to spine connection requires at least one 100 GbE QSFP28 connection. Provide enough
+connections to ensure that the oversubscription ratio at the leaf switches does not exceed 2:1. • MC-LAG peer links between leaf switch pairs require at least two connections for fault tolerance.
+Each link can be 25 GbE SFP28, 100 GbE QSFP28, or 200 GbE QSFP28-DD (available on S5248FON). If 25 GbE ports are used, Dell Technologies recommends using at least four connections for sufficient bandwidth. • One 1 GbE (1000BASE-T) connection is required for each switch OOB management port. • One 1 GbE (1000BASE-T) connection is required for each PowerFlex node iDRAC port. • One 10 GbE or faster connection is required for each PFMC node to access the OOB management network in addition to the PFMC node's 1 GbE iDRAC port. • On server running ESXi 7.0 or later or Linux KVM to host the SFM VM. The server must have at least one network connection that can reach the OOB management network. This connection is used for SFM to communicate with the leaf and spine switches. The SFM VM requires 32 GB RAM, 120 GB free disk space, and 16 virtual CPUs.
+Note: See your PowerFlex documentation for additional PowerFlex node requirements.
+
+16
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+4.2 4.3
+4.4
+
+Maximum deployment size
+The maximum number of PowerSwitch systems and PowerFlex nodes that are supported for a PowerFlex on SONiC leaf-spine fabric deployment, with or without SFM, are:
+• Spine switches - 6 • Leaf switches - 32 • PowerFlex nodes - 352 (22 nodes per leaf pair)
+
+Supported Dell PowerSwitch systems
+Dell PowerSwitch systems that are supported as leaf or spine switches for a PowerFlex on Dell Technologies Enterprise SONiC deployment, with or without SFM, are shown in the table below. If you are using an SFM blueprint to configure the switches, all leaf switches in the fabric must be the same model during the initial deployment. The fabric can be expanded after initial deployment to include other supported leaf switch models.
+
+Note: The number of 100 GbE QSFP28 ports available on the leaf switches limits the maximum number of spine switches in this deployment.
+
+Switch
+
+Supported switches and roles Ports
+
+S5212F-ON
+
+12x 25 GbE SFP28 3x 100 GbE QSFP28
+
+S5224F-ON
+
+24x 25 GbE SFP28 4x 100 GbE QSFP28
+
+S5248F-ON
+
+48x 25 GbE SFP28 2x 200 GbE QSFP28-DD (See note below.) 4x 100 GbE QSFP28
+
+S5232F-ON
+
+32x 100 GbE QSFP28 2x 10 GbE SFP+
+
+Role Leaf Leaf Leaf
+Spine
+
+Note: If needed, QSFP28-DD ports on S5248F-ON switches can be used in 100 GbE mode with QSFP28 connectors for additional leaf-spine connections.
+
+For OOB management, Dell Technologies recommends one PowerSwitch S3248T-ON per rack. Other Dell or third-party switches with 1 GbE BASE-T ports and 10 GbE or faster uplink ports can also be used for OOB management traffic.
+
+VLANs and IP addresses
+In this deployment, traffic is divided into different networks as shown in the Dell PowerFlex Appliance with PowerFlex 4.x Network Planning Guide. The VLANs required may vary based on your deployment. Depending on the traffic type, some networks are Layer 2 (no gateway), and some are Layer 3 (with a gateway). The management and site replication networks must be accessible from devices on other networks, so they are Layer 3. The remaining networks are Layer 2.
+
+17
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+Note: The VLAN IDs and IP addresses used in this guide are examples only and can be changed as needed. VLAN IDs 1-3446, 3939, and 3961-3966 are available for use. SFM reserves the remaining VLAN IDs.
+
+VLAN IDs and network addresses
+
+VLAN ID Description
+
+Network Name
+
+103
+
+vCenter high availability flex-vcsa-ha-L2
+
+105
+
+Node Management
+
+flex-node-mgmt-L3
+
+106
+
+Compute vMotion
+
+flex-vmotion-L2
+
+140
+
+PFMC Management
+
+pfmc-sds-mgmt-L3
+
+141
+
+PFMC Data 1
+
+pfmc-sds-data1-L2
+
+142
+
+PFMC Data 2
+
+pfmc-sds-data2-L2
+
+143
+
+PFMC vMotion
+
+pfmc-vmotion-L2
+
+150
+
+Storage Management
+
+flex-stor-mgmt-L3
+
+151
+
+Storage Data 1
+
+flex-data1-L2
+
+152
+
+Storage Data 2
+
+flex-data2-L2
+
+161
+
+Site Replication Traffic 1 flex-repl1-L3
+
+162
+
+Site Replication Traffic 2 flex-repl2-L3
+
+Network 192.168.103.0/24 192.168.105.0/24 192.168.106.0/24 192.168.140.0/24 192.168.141.0/24 192.168.142.0/24 192.168.143.0/24 192.168.150.0/24 192.168.151.0/24 192.168.152.0/24 192.168.161.0/24 192.168.162.0/24
+
+Gateway None 192.168.105.254 None 192.168.140.254 None None None 192.168.150.254 None None 192.168.161.254 192.168.162.254
+
+4.5
+
+LAG to VLAN mapping
+Each PowerFlex node is a member of several different VLANs depending on its type. VLAN membership by node type is shown in the table below.
+
+VLAN membership by node type
+
+PowerFlex Node Type
+
+VLAN membership
+
+PowerFlex Management Controller (PFMC) 103, 105, 140-143, 150
+
+Compute Only (CO)
+
+105-106, 151-152
+
+Storage Only (SO)
+
+150-152, 161-162
+
+The four network connections from each PowerFlex node to the two leaf switches are configured in two LACP LAGs as shown in Production network connection details. On PFMC nodes running ESXi, the LAGs are named Front End (FE) and Back End (BE). On PowerFlex CO or SO nodes running the intelligent catalog embedded Linux operating system, the LAGs are named Bond0 and Bond1.
+The VLANs are distributed between the two LAGs as shown in the table below.
+
+18
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+VLAN LAG assignments by node type
+
+PowerFlex Node Type
+
+LAG 1: FE or Bond0
+
+PFMC
+
+105, 140, 150
+
+CO
+
+105-106
+
+SO
+
+150-151, 161
+
+LAG 2: BE or Bond1 103, 141-143 151-152 152,162
+
+19
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+5 Use SFM to create and verify the fabric
+This section shows how to use SFM to create and verify the fabric for this PowerFlex deployment example. For other SFM features and additional information, see the SFM User Guide.
+
+5.1
+
+Prepare switches for SFM
+Dell PowerSwitch systems that are used in leaf or spine roles in this deployment must be running Dell Technologies Enterprise SONiC 4.4.1 or later. An Enterprise Standard or Enterprise Premium bundle is required.
+
+5.1.1
+
+Set a password and configure the management interface
+For each Dell PowerSwitch that will be a leaf or a spine in the fabric, do the following:
+1. Connect to the switch using the console serial port. 2. Log in to the CLI as admin. 3. Change the admin password from the default, YourPaSsWoRd, to a secure password during the first
+login when prompted. 4. Configure the OOB management interface, named Management 0.
+SFM uses the management interface to communicate with the leaf and spine switches. For SFM, Dell Technologies recommends using a static IP address instead of DHCP on Management 0 to ensure that it does not change. Use a unique IP address on each switch. If routing is used on your OOB management network, also specify the gateway address as shown in the configuration example below.
+admin@sonic:~$ sonic-cli sonic# configure sonic(config)# interface Management 0 sonic(config-if-Management0)# ip address 100.67.100.189/24 gwaddr 100.67.100.254 sonic(config-if-Management0)# end sonic# write memory
+
+Note: If any leaf or spine switches have previously been configured (other than changing the admin password and configuring Management 0), run the write erase command and reboot each applicable switch. The admin password and Management 0 interface configuration are retained. All other configuration settings on the switch are reset to the factory defaults. The switches must be in this state for the SFM blueprint to be applied successfully.
+
+5.1.2
+
+Connect the switches and SFM host
+Make the switch and SFM host connections as shown in Production network connection details and OOB management network connection details. The PowerFlex nodes do not have to be connected now.
+
+5.2
+
+Deploy SFM
+Deploy the SFM virtual machine to a VMware ESXi or Linux host as shown in the SFM User Guide. SFM is available in OVA format for ESXi or in QCOW2 format for QEMU/KVM on Linux. The host must have network connectivity to the OOB management network so that SFM can communicate with the leaf and spine switches. Example network connections are shown in OOB management network connection details.
+
+20
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+5.3
+
+Note: SFM comes with a 180-day free trial for up to 10 switches. If your PowerFlex deployment uses more than 10 switches in leaf or spine roles, you will need to purchase a license before proceeding. See the SFM User Guide for more information on licensing.
+Export the PowerFlex blueprint
+Export the PowerFlex blueprint from SFM as follows:
+1. In a browser, connect to the SFM UI and log in. 2. In the left pane, select Blueprints. On the Blueprints page, a table of blueprints displays. 3. Click the Blueprint Type heading to sort by type.
+The Converged Infrastructure blueprint type includes two PowerFlex blueprints:
+• 4x2 PowerFlex leaf S5248F-ON and spine S5232F-ON (for a four leaf/two spine deployment) • 8x4 PowerFlex leaf S5248F-ON and spine S5232F-ON (for an eight leaf/four spine deployment).
+4. Select the PowerFlex blueprint that most closely matches the number of leaf and spine switches that are used in your deployment. The number of switches and models that are used in the blueprint name do not need to match your topology exactly. You will edit the blueprint to match your topology in subsequent steps.
+
+PowerFlex blueprint selected
+5. Click EXPORT. 6. In the confirmation dialog box, click EXPORT to download the blueprint.
+The blueprint is downloaded to your workstation in ZIP format. 7. Extract the blueprint ZIP file.
+The ZIP file contains two files in XLSX format:
+• Fabric_size_PowerFlex_leaf_S5248F_ON_and_spine_S5232F_ON.xlsx • Fabric_size_PowerFlex_leaf_S5248F_ON_and_spine_S5232F_ON_spec.xlsx
+
+21
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+The first file is known as the “blueprint file.” It is for fabric deployment and is covered in detail in this chapter. The second file is known as the “spec file.”
+Note: The spec file is not used in this deployment. See the SFM User Guide for more information about the spec file.
+
+5.4
+
+Edit the Blueprint
+This section shows how to edit the blueprint for your PowerFlex deployment. When editing the blueprint, you can add or delete rows, except the heading row, as needed. Never add or delete columns or modify the headings. Open the blueprint XLSX file (not the spec file) in a spreadsheet application such as Microsoft Excel.
+
+Note: Some heading cells have a red triangle in the upper right corner of the cell. You can hover your mouse pointer over the triangle for more information about cell formatting.
+The blueprint file has 12 tabs. The following sections begin with a screenshot of each completed tab for this deployment. Below the screenshot is a list of requirements for each column. Data is required in each column except where noted as optional.
+
+5.4.1
+
+Overview tab
+The first tab in the blueprint file is named Overview and is shown in the figure below.
+
+Overview tab
+A. Name – This cell contains the name that is displayed in the SFM blueprint list. Edit the name to be unique in SFM. If it is not unique, SFM blocks the import to prevent overwriting the original template. For this example, the name is modified by adding “Example” is added to the beginning of the name.
+B. Description (optional) – Edit this cell if needed. C. Template Version – This cell is protected and must not be changed. D. Namespace – This cell is protected and must not be changed. E. Topology Type – This cell is protected and must not be changed. F. Leaf Node Model – If you are not using the default leaf switch model, S5248F-ON, enter the leaf
+switch model that you are using. All leaf switches in the initial deployment must be the same model. Supported leaf switches are shown in Supported switches and roles. G. Spine Node Model – The only switch supported as a spine for PowerFlex on SONiC deployments is S5232F-ON. For a two-leaf fabric without spines, this cell is ignored. H. Network Type – This cell is protected and must not be changed. I. Border Leaf Node Model – Leave this cell blank. This cell is for future use.
+Note: Any leaf pair in this PowerFlex topology may be used as border leafs by creating uplinks to external switches in the SFM UI after the fabric is created.
+J. Super Spine Node Model – Leave this cell blank. Super spines are not supported in this PowerFlex deployment.
+
+22
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+5.4.2
+
+Nodes tab
+The Nodes tab is prepopulated with the number of leafs and spines that are used in the blueprint name. Add or delete rows as needed to match the number of leafs and spines that are used in your fabric.
+
+Nodes tab
+For each leaf and spine switch in the fabric, enter the following:
+A. Node Reference Key – This cell contains a unique key for each switch. If you change it from the default, Dell Technologies recommends using the same value that you use for the Node Name (column C) for simplicity.
+B. Node Role – Enter the role, Leaf, or Spine. C. Node Name – Enter a unique hostname for the switch. D. IP Address – Enter the OOB management IP address that is configured on the switch. E. Username – Enter a username with the admin role on the switch. The default is admin. F. Password – Enter the password for the admin user that is configured on the switch. G. Pod Name – Enter a numerical value for the pod. If you change it, use the same number for all
+switches in this deployment. H. Rack Name – For each leaf switch, enter a rack number. There must be exactly two leafs for each
+rack number as shown above. Leave this cell blank for spine switches. I. Service Tag (optional) – If the switch service tag is entered, SFM validates that it matches the
+service tag of the switch when SFM validates the blueprint. J. MAC Address (optional) – If the switch MAC address is entered, SFM validates that it matches the
+MAC address of the switch when SFM validates the blueprint. K. Spine Id – For each spine switch, enter a unique number. L. Super Spine Id – Leave this column blank. Super spines are not supported in this PowerFlex
+deployment.
+
+5.4.3
+
+Breakouts tab (optional)
+The Breakouts tab is not required. In this PowerFlex deployment, port breakouts should not be used for the leaf-to-spine connections or for the leaf-to-PowerFlex node connections. If breakouts are not needed, this tab can be left blank as is done in this example.
+
+Note: Only the 100 GbE ports on the switches that are listed in Supported Dell PowerSwitch systems can be broken out using this tab. If you need to change the speed of a 25 GbE port on the S52xx leaf switches, use the SFM UI after deployment. See the SFM User Guide for more information.
+
+23
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+Breakouts tab
+A. Node Reference Key – Enter the reference key for the switch. The reference key must be identical to the key used on the Nodes tab for the switch.
+B. Interface Name – Enter the interface name in the format Eth1/port_number. C. Breakout Mode – Enter the breakout mode in the format number_of_portsXspeedG. For example, to
+break out a 100 GbE port to four 25 GbE interfaces, enter 4X25G.
+Add rows to the sheet if you need to break out additional ports.
+
+5.4.4
+
+Fabrics tab
+The Fabrics tab contains information that applies to the entire fabric.
+
+Fabrics tab
+A. Name – Enter a name for your fabric. B. Fabric Type – Do not edit this cell. The fabric type must be VxLan for this deployment. C. Fabric Sub Type (optional)– The current fabric sub type is ERA (Enterprise Reference Architecture).
+This fabric sub type refers to an NVIDIA type of deployment. If the deployment is not an NVIDIA Enterprise Reference Architecture, then it should be left untouched. D. RoCE Enabled –If RoCE is needed to ensure a lossless fabric, RoCE should be set to “True”. E. Cut-through Enabled – Cut-through switching is disabled by default. F. ARS Enabled – Adaptive routing and switching is disabled by default. G. ISL Connection Policy – The ISL connection policy indicates the connection methodology between the leaf and spine switches. Currently, there are three types of connections: Auto, Ranged, and Fixed. H. STP Edge – Leave this set to Enable for PowerFlex deployments. Spanning tree is used as a precaution only. When the fabric is properly configured, there will be ports blocked by spanning tree. I. LACP Fallback Mode – Leave this set to Fallback for PowerFlex deployments. J. Anycast MAC – This setting is autoconfigured for MC-LAG deployment types. K. Startup Delay – The default delay is set to 300. This delay refers to a VTEP device in a multihoming deployment. The delay parameter is configured to prevent traffic loss from being assigned to a VTEP device that is not ready for traffic forwarding. L. MAC Holdtime – Configure a mac holdtime to wait before aging out the MAC address of a downstream device learned from a multihomed peer VTEP and it has not been used. The default holdtime is set to 1080 seconds M. Neighbor Holdtime – This setting referes N. EAD EVI Disable – This setting refers to EVPN Multihoming if it is being deployed in your environment and it is set to “False” by default, it has be to set to “True” if it is going to be deployed. O. NTP Server (optional) – Enter the FQDN or IPv4 address of the NTP server that is used by the DNS Server (optional) – Enter the IPv4 address of the DNS server used by the switches. P. sFlow Collector (optional) – SFM is the default sFlow collector. To use a different sFlow collector, enter it using the format: Management:IPv4_address:RemotePort. Valid ports are 1-65535. For example, Management:100.67.1.51:6343.
+
+24
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+Q. Log Server (optional) – SFM is the default syslog server. To use a different syslog server, enter it using the format: IPv4_address:RemotePort:MessageType:SeverityLevel. Valid ports are 1-65535. Valid message types are Log or Event. Valid severity levels are Informational, Notice, Error, Debug, Critical, Warning, Alert, or Emergency. For example, 100.67.1.52:5140:Log:Informational.
+R. Leaf ASN – This cell contains the BGP autonomous system number (ASN) used by all leafs in the fabric. Dell Technologies recommends leaving this set to 65011 unless it conflicts with your environment. Valid values are 1-4294967295. This ASN cannot be changed once the fabric is deployed.
+S. Spine ASN – This cell contains the ASN used by all spines in the fabric. Dell Technologies recommends leaving this set to 65012 unless it conflicts with your environment. Valid values are 14294967295. This ASN cannot be changed once the fabric is deployed. If you are deploying a twoleaf fabric without spines, SFM reserves this ASN for future spines. This ASN cannot be changed once the fabric is deployed.
+T. Border Leaf ASN – There are no leafs designated in SFM as border leafs in this deployment. However, SFM reserves this ASN. Dell Technologies recommends leaving this set to 65014 unless it conflicts with your environment. Valid values are 1-4294967295. This ASN cannot be changed once the fabric is deployed.
+U. Super Spine ASN – There are no super spines in this deployment. However, SFM reserves this ASN. Dell Technologies recommends leaving this set to 65013 unless it conflicts with your environment. Valid values are 1-4294967295. This ASN cannot be changed once the fabric is deployed.
+V. BGP CIDR – This cell contains the IP address block in Classless Inter-Domain Routing (CIDR) format that SFM uses for BGP router IDs. Dell Technologies recommends leaving this set to 172.16.128.0/24, unless it conflicts with your environment. Each switch in the fabric uses one address from this block for the BGP router ID. If you change the block, make sure there is enough address space to allow for future expansion of the fabric. This address block cannot be changed once the fabric is deployed.
+W. VTEP CIDR – This cell contains the IP address block in CIDR format that SFM uses for the leaf switch VTEP addresses. Dell Technologies recommends leaving this set to 172.30.0.0/16, unless it conflicts with your environment. Each leaf switch pair in the fabric consumes one address from this block for the VTEP IP address. If you change the block, make sure there is enough address space to allow for future expansion of the fabric. This address block cannot be changed once the fabric is deployed.
+X. Site ID – Leave this set to 1. The Site ID is reserved for future use.
+
+5.4.5
+
+Fabrics ICLLinks tab
+The MC-LAG peer link ports on leaf switch pairs are entered on the Fabric ICLLinks tab. Add or delete rows as needed to match your deployment. One row is used for each MC-LAG peer link.
+
+25
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+Fabrics ICLLinks tab
+A. Source Node Reference Key – Enter the reference key for the source leaf switch. The reference key must be identical to the reference key used on the Nodes tab for the switch. In this example, the switch hostname is used as the reference key.
+B. Source Interface Name – Enter the MC-LAG peer link source interface in the format Eth1/port_number.
+C. Destination Node Reference Key – Enter the reference key for the destination leaf switch. The reference key must be identical to the reference key used on the Nodes tab for the switch. In this example, the switch hostname is used as the reference key.
+D. Destination Interface Name – Enter the MC-LAG peer link destination interface in the format Eth1/port_number.
+
+5.4.6
+
+Tenants tab
+A nondefault Virtual Routing and Forwarding (VRF) for PowerFlex is defined on the Tenants tab.
+VRFs allow multiple instances of independent routing tables to co-exist within the same router simultaneously. SFM refers to VRFs as tenants.
+Using a nondefault tenant is a best practice because it enables symmetric integrated bridging and routing (IRB) with VXLAN. In symmetric IRB, both the ingress and egress VTEPs route packets to their destination. The alternative is asymmetric IRB, which does not handle routing as efficiently as symmetric IRB.
+
+Tenants tab
+A. Tenant Id – Enter a VRF name to use for the PowerFlex networks. B. Description (optional) – Enter a description of the VRF.
+
+26
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+5.4.7
+
+Networks tab
+The Networks tab is prepopulated with the example networks shown earlier in VLAN IDs and network addresses. Add or delete rows as needed to match the number of networks used in your deployment.
+
+Networks tab
+A. Network Name – Enter a name for the network. B. Tenant Id – This cell must match the Tenant ID you defined on the Tenants tab. C. Network Type – This cell must be VxLan for this deployment. D. Vlan – Enter a VLAN ID for the network. VLAN IDs 1-3446, 3939, and 3961-3966 are available for
+use. SFM reserves the remaining VLAN IDs. E. Address Family – This cell must be INET for this deployment. F. Gateway IP Address (Optional) – Enter the gateway address for the network if applicable.
+
+5.4.8
+
+ClusterProfiles tab
+The ClusterProfiles tab is used to define clusters. In SFM, PowerFlex nodes can be grouped into clusters based on their network configuration. Nodes in the same cluster use the same VLANs, NIC names, and bond names. This method simplifies configuration as a group of VLANs, NICs, and bonds can be assigned to a cluster instead of each individual node.
+
+Note: The same VLAN, NIC, and bond names can be assigned to more than one cluster. VLANs, NICs, and bonds can be edited on a node-by-node basis in the SFM UI anytime after deployment if needed.
+PowerFlex nodes are divided into clusters by node type (CO, SO, and PFMC) in this example because each node type shares the same networking information.
+
+27
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+ClusterProfiles tab
+A. Cluster Name – Enter a name for the cluster. B. Description (optional) – Enter a cluster description. C. Multi-tenancy Support – Leave this set to Enable. D. Type – Leave this set to Custom. E. Tenant Id – Enter the Tenant Id that is defined on the Tenants tab for the PowerFlex networks.
+
+5.4.9
+
+ClusterProfilesNics tab
+The ClusterProfilesNics tab is used to name NICs. Each PowerFlex node NIC port connected to a leaf switch is assigned a name. The NIC name is used to map the network connections on subsequent tabs. Each PowerFlex node uses four NICs, so there are four rows that are used for each Cluster.
+
+ClusterProfilesNics tab
+A. Cluster Name – Specify the cluster name from the ClusterProfiles tab. Use one row for each cluster’s NIC port that is connected to a leaf switch.
+B. NIC Name – Use a unique name for each NIC in a cluster. The same NIC names may be used in other clusters. This example uses the format NICslot:port <space>bond_name. You do not have to use this format, but your NIC names must be consistent on subsequent tabs as shown in the following sections.
+C. Untagged Network – Leave this column blank. Since this deployment uses LACP bonds, the networks are defined on the ClusterProfilesBonds tab.
+D. Tagged Networks – Leave this column blank for the same reason.
+
+28
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+5.4.10
+
+ClusterProfilesBonds tab
+The ClusterProfilesBonds tab is used to create the LACP bonds and assign the applicable networks to each bond.
+
+ClusterProfilesBonds tab
+A. Cluster Name – Specify the cluster name from the ClusterProfiles tab. Each node has two bonds, so two rows are used for each cluster.
+B. Type – This cell must be McLag for this deployment. C. Mode – This cell must be LACP for this deployment. D. NICs – Use a comma-separated list of NIC names that are in the bond. The names must exactly
+match the names that are entered on the ClusterProfilesNics tab. E. Bond Name – Enter a name for the bond. Use a unique name for each bond in a cluster. The same
+bond names may be used in other clusters. F. Untagged Network – You can specify one untagged network for each bond. The network name must
+match the network name that is entered on the Networks tab. Untagged networks are not used in this deployment example. G. Tagged Networks – Use a comma-separated list of networks that are in the bond. The network names must match the network names that are entered on the Networks tab.
+
+5.4.11
+
+Devices tab
+The Devices tab uses one row for every PowerFlex node in the topology. Add or delete rows as needed to match the number of PowerFlex nodes used in your deployment.
+
+29
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+Devices tab
+A. Cluster Name – Enter the cluster name from the ClusterProfiles tab that the PowerFlex node belongs to.
+B. Device Name – Enter a unique device name for the PowerFlex node. This cell can be the hostname if column C is not used.
+C. Hostname (optional) – If used, the hostname is displayed in the SFM UI device listing along with the Device Name.
+
+5.4.12
+
+DeviceNics tab
+The DeviceNics tab uses one row for every PowerFlex node NIC port that is connected to a leaf switch. Since each PowerFlex node uses four NICs, four rows are used for each node. Add or delete rows as needed to match the number of PowerFlex node NIC ports used in your deployment.
+
+30
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+DeviceNics tab
+A. Cluster Name – Enter the cluster name that the PowerFlex node belongs to. It must match a cluster name on the ClusterProfiles tab
+B. Device Name – Enter the PowerFlex node device name. It must match the name on the Devices tab. C. NIC Name – Enter the NIC name from the ClusterProfilesNics tab. Each device in this example has
+four unique NIC names. D. Node Reference Key – Enter the reference key that identifies the leaf switch that the PowerFlex NIC
+is connected to. The reference key must be identical to the key used on the Nodes tab. E. Interface Name – Enter the interface name that identifies the leaf switch port that the PowerFlex NIC
+is connected to. This cell must be in the format Eth1/port_number.
+
+31
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+5.5
+
+Import the blueprint and create the infrastructure
+Note: If you have any issues importing the blueprint, see the Blueprint Errors section of the SFM User Guide.
+To import the blueprint into SFM, do the following:
+1. In the SFM UI, go to Blueprints > Blueprint Catalog and click IMPORT. 2. In the Import template dialog box, click Choose Files. 3. Browse to the blueprint XLSX file and click Open. The blueprint filename is displayed in the dialog
+box.
+
+Import template dialog box
+
+32
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+4. Click IMPORT. A success message is displayed at the top of the screen, and the blueprint displays in the list with the Type set to UserDefined.
+
+Blueprint successfully imported
+5. On the Blueprint Catalog tab, check the box next to the blueprint name and click CREATE INFRASTRUCTURE.
+6. In the Create Infrastructure dialog box, provide an infrastructure name, as shown.
+
+Create Infrastructure dialog box
+
+33
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+7. Click SUBMIT. The Infrastructure Deploy page displays.
+
+Infrastructure Deploy page
+Some information that is imported from the blueprint XLSX file is shown under Infrastructure Details on the far right of the page. There are also tabs named Switches, Devices, and Resources that contain the remainder of the imported information.
+Note: If you leave the Infrastructure Deploy page, you can return to it by doing the following: 1. Click Blueprints > Infrastructures. 2. Click the > icon next to the infrastructure name to expand it. 3. Click the radio button next to the blueprint name 4. Click EDIT & DEPLOY to return to the Infrastructure Deploy page.
+
+34
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+8. Click the > icon next to Leaf to expand the list of leaf switches. The page displays the list of leaf switches that are imported from the blueprint.
+
+Switches tab – leaf switches
+
+35
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+9. Click the > icon next to Spine to expand the list of spine switches. The page displays the list of spine switches that are imported from the blueprint.
+Switches tab - spine switches
+
+36
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+10. Near the top of the page, click the Devices tab to view the list of PowerFlex nodes imported from the blueprint.
+
+Devices tab - PowerFlex nodes
+
+37
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+11. Below the device list, click the > icon next to Clusters to view the list of imported clusters. Devices tab – clusters
+
+38
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+12. Click the Resources tab to view the imported networks.
+
+Resources tab – networks
+
+39
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+13. At the bottom of the page, click the > icon next to Tenants to view the imported PowerFlex VRF.
+
+5.6
+
+Resources tab – PowerFlex VRF
+Validate the infrastructure
+During validation, SFM verifies that it can connect to each switch and checks the SONiC operating system version and switch model to ensure that they are compatible with SFM. SFM also checks the validity of the service tag and MAC address on each switch if these items were specified in the blueprint file.
+Note: See the SFM User Guide for more information about the checks made during the validation process.
+To validate the infrastructure, do the following: 1. At the bottom of the Infrastructure Deploy page, click VALIDATE.
+
+Validate button
+
+40
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+A message indicating Validation in Progress is displayed in the Action Status column.
+
+Validation in progress 2. Periodically click REFRESH to update the status. Validation may take a minute or two.
+When validation is complete, the Action Status column displays a message indicating either Validation Succeeded or Validation Failed.
+
+Validation succeeded
+
+Validation failed
+
+41
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+3. If validation succeeded, go to the Deploy the infrastructure section. If validation failed, click the icon in the Action Status column to open Action Messages box. Example error messages are shown below.
+
+5.7
+
+Action Messages
+4. Address any issues that are listed in the Action Messages box. Information on the Infrastructure Deploy page and tabs can be modified to address the issues using the edit buttons provided.
+5. After addressing the issues, run VALIDATE again. Repeat as needed until validation succeeds.
+Deploy the infrastructure
+Note: If you leave the Infrastructure Deploy page, you can return to it by doing the following: 1. Click Blueprints > Infrastructures. 2. Click the > icon next to the PowerFlex infrastructure name to expand it. 3. Click the radio button next to the blueprint name. 4. Click EDIT & DEPLOY to return to the Infrastructure Deploy page.
+Deploying the infrastructure configures all leaf and spine switches in the fabric. To deploy the infrastructure, do the following:
+1. At the bottom of the Infrastructure Deploy page, click DEPLOY. A confirmation dialog box displays.
+
+Deployment confirmation
+
+42
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+2. Click DEPLOY to continue. A message indicating Deployment in progress displays in the Action Status column.
+Deployment in progress Note: While deployment is in progress, you can hover your mouse pointer over the icon to view status updates.
+3. Periodically click the REFRESH button to update the status. Deployment may take about 5 minutes. When the process is complete, a message indicating either Deployment Succeeded or Deployment Failed is displayed in the Action Status column.
+
+Deployment succeeded
+
+Deployment failed
+
+43
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+5.8
+
+4. If deployment succeeded, go to the Verify the section. If deployment failed, click the icon in the Action Status column to open Action Messages box.
+5. Address any issues that may be listed in the Action Messages box. Information on the Infrastructure Deploy tabs can be changed if needed to address any issues using the edit buttons provided.
+6. After addressing the issues, run DEPLOY again. Repeat as needed until deployment succeeds.
+Verify the fabric
+After the infrastructure is deployed, it is recommended to verify that the fabric is configured to your expectations. To verify the fabric, complete the following steps:
+1. In the SFM UI, click Fabric in the left pane. The Managed Fabrics page opens in the right pane.
+
+Managed Fabrics page
+
+44
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+2. Next to the PowerFlex fabric name, click MANAGE. The Switches tab displays.
+
+Switches tab
+
+45
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+3. Ensure that all leaf and spine switches in the fabric are listed and are Online. 4. Click the >> icon next to a switch name to view more information. The right pane contains tabs that
+are named Switch Details, Interfaces, and Health, outlined in red in the figure below.
+Switch Details, Interfaces, and Health tabs On the Interfaces tab, the admin status, operational status, and other settings for each port are shown. 5. You can select and edit individual ports to change settings such as admin state, MTU, FEC, and other settings. Note: There is no need to change settings on ports that are connected to PowerFlex nodes or other switches in the fabric, unless you are doing troubleshooting.
+
+46
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+6. Click the LAG tab at the top of the Fabrics page. All LAGs in the topology are listed. The list may cover several pages for larger deployments.
+
+LAG tab
+a. Verify that all PowerFlex node LAGs have two interfaces, are configured for MC-LAG and LACP, and the Admin State is up as shown above.
+b. Click the >> icon next to a LAG name and then click the > icon next to Interfaces. More details are shown such as the switch and ports that are used in the LAG.
+
+LAG details
+
+47
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+7. Click the Topology tab at the top of the Fabrics page. The fabric topology and switch hostnames are shown.
+Topology tab a. Ensure that all leaf-leaf, and leaf-spine connections are shown. A missing connection indicates
+that a link is down or not physically connected. b. You can view switch details such as IP address and service tag by hovering your mouse pointer
+over a switch. You can view link details by hovering your mouse pointer over a link.
+
+48
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+8. Click the Downlinks tab at the top of the Fabrics page. Downlinks are the connections to the PowerFlex nodes. Each LAG is a downlink, so there should be two downlinks for every PowerFlex node.
+
+Downlinks tab
+a. Click the >> icon next to a downlink name to view additional details. The Downlink Details pane displays on the right.
+b. Click the > icon next to Tagged Networks. The list shows the tagged networks that the downlink is in.
+
+Downlink details
+
+49
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+9. Click the Health tab to display the fabric health.
+
+Health tab
+10. Ensure that the State is Good, and the Health Score is green for each switch. If any switches have a yellow or red Health Score, see the Messages column for the cause.
+
+50
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+6 Deploy PowerFlex
+After the fabric has been configured and verified, PowerFlex can be deployed according to your PowerFlex deployment and administration documentation.
+In PowerFlex Manager, be sure to use a partial network automation template, such as Compute-LinuxPartial Network or Storage-Partial Network as a starting point.
+Note: Using a PowerFlex template that does not include “Partial Network” in the name may result in deployment failures.
+
+51
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+A
+A.1 A.2
+A.3
+
+Validated components
+The following tables include the hardware, software, and firmware that is used to validate the example in this guide. Other supported hardware, software, and firmware can be used.
+
+Dell PowerSwitch systems
+
+Dell PowerSwitch models and operating systems
+
+Qty Item
+
+Role
+
+8
+
+Dell PowerSwitch S5248F-ON
+
+Leaf switch
+
+4
+
+Dell PowerSwitch S5232F-ON
+
+4
+
+Dell PowerSwitch S3248T-ON
+
+Spine switch OOB management switch
+
+SONiC version 4.4.1 Enterprise Standard 4.4.1 Enterprise Standard 4.4.1 Lite
+
+SONiC SmartFabric Manager
+
+One PowerEdge R640 server running VMware ESXi was used as the host for the SONiC SmartFabric Manager virtual machine. The software that is used is shown below.
+
+SmartFabric Manager host software
+
+Item
+
+Version
+
+VMware ESXi
+
+8.0.3 build 24280767 Dell customized A02
+
+SONiC SmartFabric Manager
+
+1.2.0
+
+PowerFlex nodes
+
+Qty per node
+
+PowerFlex R650 S custom node configuration Item
+
+2
+
+Intel Xeon Gold 6326 CPU @ 2.90 GHz, 16 cores
+
+8
+
+32 GB DDR4 DIMM (256 GB total)
+
+5
+
+3576.98 GB SATA SSD (HBA355i Fnt controller)
+
+2
+
+447.13 GB SATA SSD (BOSS-S2 controller)
+
+1
+
+Dell HBA355i Fnt Storage Controller
+
+1
+
+Boot Optimized Storage Solution (BOSS-S2) Controller
+
+2
+
+Mellanox ConnectX-5 EN 25 GbE dual-port SFP28 adapter
+
+-
+
+BIOS
+
+-
+
+CPLD
+
+Firmware version
+24.15.14.00 2.5.13.4009 16.35.10.12 1.14.1 1.1.1
+
+52
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+-
+
+iDRAC with Lifecycle Controller
+
+-
+
+Backplane
+
+7.10.50.201 7.10
+
+A.4
+
+Qty per node
+
+PowerFlex R650 C custom node configuration Item
+
+2
+
+Intel Xeon Gold 6326 CPU @ 2.90 GHz, 16 cores
+
+8
+
+32 GB DDR4 DIMM (256 GB total)
+
+2
+
+447.13 GB SATA SSD
+
+1
+
+Boot Optimized Storage Solution (BOSS-S2) Controller
+
+2
+
+Mellanox ConnectX-5 EN 25 GbE dual-port SFP28 adapter
+
+-
+
+BIOS
+
+-
+
+CPLD
+
+-
+
+iDRAC with Lifecycle Controller
+
+Firmware version
+2.5.13.4009 16.35.10.12 1.14.1 1.1.1 7.10.50.201
+
+PowerFlex Management Controller
+
+Three PowerFlex R650 S custom nodes and the software in the table below were used to build the PowerFlex Management Controller 2.0 cluster.
+
+PowerFlex Management Controller software
+
+Item
+
+Version
+
+PowerFlex Manager
+
+4.6.0.0 build 1258
+
+VMware ESXi
+
+7.0.3 build 23307199
+
+VMware vCenter Server Appliance 7.0.3 build 22837322
+
+53
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+B BGP EVPN with VXLAN overview
+BGP EVPN with VXLAN stretches virtual (overlay) Layer 2 networks across a physical (underlay) Layer 3 leaf-spine fabric. This architecture allows for the scalability of Layer 3 networks with the mobility benefits of a Layer 2 network. For example, a VM or physical host can be moved from one rack to another without the need to change its IP address and gateway information. All paths in the VXLAN fabric are active, and the spanning tree protocol does not block any paths. SFM automates the configuration of the VXLAN fabric.
+EVPN uses BGP to exchange endpoint MAC and IP address information between VXLAN tunnel endpoints (VTEPs). In this topology, each pair of leaf switches in a rack is one logical VTEP. Packets destined to a remote device are sent to the local VTEP as the first hop. The packet is encapsulated with a VXLAN header that includes the Virtual Network Identifier (VNI) and the IP address of the destination host. See the figure below.
+
+VXLAN encapsulated frame
+The destination VTEP extracts the original packet and routes it to the destination. VXLAN encapsulation adds approximately 50 bytes of overhead to each Ethernet frame. As a result, all switches in the underlay (physical) network must be configured to support an MTU of at least 1600 bytes on all participating interfaces.
+Note: In this deployment example, switch interfaces are set to their maximum supported MTU size of 9216 bytes for best performance.
+Anycast gateways with the same IP address are configured on each leaf pair. The anycast gateway IP address is set as the default gateway for all hosts and VMs on that virtual network. Hosts and VMs with anycast gateways use the same gateway information while behind different leaf pairs. This configuration replaces the Virtual Router Redundancy Protocol (VRRP) and enables hosts and VMs to migrate from one leaf pair to another without changing the network configuration.
+
+54
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+C Resources
+
+C.1
+C.2 C.3
+
+Dell Networking resources
+Dell Technologies Networking Solutions Info Hub – This site provides guides to assist with planning and deploying various solutions with Dell Networking. Dell Technologies Enterprise SONiC Distribution (account required) – This site includes SONiC user guides and software. SmartFabric Manager documentation (account required) SmartFabric Manager software (account required) Dell PowerSwitch S3248T-ON Documentation Dell PowerSwitch S5212F-ON Documentation Dell PowerSwitch S5248F-ON Documentation Dell PowerSwitch S5232F-ON Documentation Dell Networking Transceivers and Cables
+PowerFlex guides
+See your sales account representative for these guides. Dell PowerFlex Appliance with PowerFlex 4.x Network Planning Guide Dell PowerFlex Appliance with PowerFlex 4.x Deployment Guide
+Technical support
+For technical support, go to http://www.dell.com/support.
+
+55
+
+SONiC SmartFabric Manager for PowerFlex Deployment Guide | H04460
+
+

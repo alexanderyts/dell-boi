@@ -1,0 +1,67 @@
+Spec Sheet
+Enterprise SONiC Distribution by Dell Technologies
+Redefining Networking with AI-Optimized, Multi-Silicon SONiC Solutions
+IT organizations worldwide are focused on delivering exceptional value by enhancing productivity, accelerating service delivery, and staying agile amidst rapid technological change. To meet these demands, adopting innovations in automation, containerization, and cloud technology is vital. Modern workloads like virtualization, IoT, AI, and cloud applications are pushing the limits of traditional infrastructures as data grows and traffic shifts across the edge, core, and cloud. Software for Open Networking in the Cloud (SONiC), originally built for hyperscale public clouds, has emerged as a versatile and reliable networking solution now transforming enterprises, private clouds, and service providers. Enterprise SONiC Distribution by Dell Technologies enhances this open-source platform with enterprise-grade features, rigorous hardening, and global support, empowering organizations to modernize their networks and address evolving challenges with confidence. • Open source innovation – Grounded in the core principles of SONiC, Dell’s SONiC distribution builds on Dell
+Technologies’ longstanding commitment to the open-source community. With ongoing contributions and feature advancements across the protocol stack and management applications, Dell ensures innovation remains at the forefront of modern networking. • AI, Data Center, Edge and Cloud-Ready Performance – Field-tested in hyperscale environments and validated for enterprise deployment, Dell SONiC is designed for modern, AI-ready networks. It integrates seamlessly across hardware and software, supporting performance at the edge, in enterprises, and the cloud. With centralized management and a growing ecosystem of automation tools, organizations can confidently deploy AI-driven solutions, preparing their networks for intelligent, data-driven operations. • Unmatched Hardware Flexibility – Dell SONiC provides multi-silicon support, creating a flexible and unified fabric across Dell PowerSwitch solutions for AI, data center, and edge networks. Enhanced by LPO optics (Broadcom), it offers scalability, advanced connectivity, and improved power efficiency. Seamless integration with select third-party switches ensures adaptability and precision, enabling enterprises to confidently build innovative, future-ready networks.
+Enterprise SONiC Distribution by Dell Technologies © 2026 Dell Inc. or its subsidiaries.
+
+Common use cases supported by Dell SONiC
+
+GenAI (GPU to GPU) Fabric
+
+CSP Networking
+
+Enterprise Networking
+
+Layer2/3/Overlay Networking
+
+Key features and functions
+• Based on Open Source SONiC: Enterprise SONiC Distribution by Dell Technologies is built on SONiC, an open-source network operating system designed on Debian Linux with a containerized architecture. As the first SONiC distribution with security certifications such as FIPS and USGv61, Dell’s latest release marks a significant step toward achieving key industrystandard Federal Certifications, including Common Criteria and DoDIN-APL. Today, SONiC is widely deployed across Enterprises, Service Providers, Data Centers, Retailers, and AI solutions, with its user base expanding rapidly. SONiC’s thriving developer community and vendor ecosystem continue to drive its readiness for mainstream adoption.
+• AI-Driven Enhancements: Dell SONiC is designed for high-performance AI workloads, featuring end-to-end lossless fabrics and AI-optimized capabilities like real-time congestion management and advanced telemetry-driven flow control. With features such as RoCEv2, PFC and ECN for congestion management, adaptive routing, and resilient hashing for optimized traffic distribution, Dell SONiC ensures peak network performance with minimal latency.
+• Centralized Management: Manage your network seamlessly— from edge to core to cloud—with centralized management built on open industry standards like OpenConfig, REST APIs, gNMI, and streaming telemetry for advanced analytics. Dell’s SmartFabric Manager for SONiC further streamlines deployment, orchestration, monitoring, and life-cycle management of SONiC fabrics through an easy-to-use, unified interface.
+• Validated Use Cases for Modern Workloads: Dell SONiC is fully tested and validated on most Dell PowerSwitch platforms and can seamlessly support advanced workloads, including AI, VxRail, VCF, PowerFlex, PowerStore NVMe/TCP, and cloud-optimized edge use cases.
+• Dell Technologies global support & services: Enterprise SONiC Distribution by Dell Technologies is backed by a world-class supply chain and industry leading support and services spanning 170 countries and 60K+ partner professionals.
+• Enterprise SONiC Distribution by Dell Technologies 4.6 is supported on the following PowerSwitch models: • PowerSwitch Z series: Z9332F-ON, Z9264F-ON, Z9432F-ON, Z9664F-ON, Z9864F-ON • PowerSwitch S series: S5448F-ON, S4348F/T-ON, S5248F-ON, S5232F-ON, S5224F-ON, S5212F-ON, S3248T • PowerSwitch SN series: PowerSwitch SN5600, SN5610, SN4700, SN2201 • PowerSwitch N series: N3248TE-ON, N3248P • PowerSwitch E series: E3248PXE, E3248P • PowerSwitch SN series: PowerSwitch SN5600, SN5610, SN4700, SN2201 • PowerSwitch N series: N3248TE-ON, N3248P • PowerSwitch E series: E3248PXE, E3248P
+
+Edge/Data Centers Networking
+
+Management & Orchestration
+
+Plan, deploy, manage and support your IT transformation with our toprated services
+Consulting Dell Technologies Consulting Services empowers you with expert tools and experience to design and execute strategies that drive business transformation.
+Deployment Accelerate your AI infrastructure adoption with the ProDeploy Enterprise Suite. Dell’s Deployment Services simplify the implementation of advanced AI and networking solutions. Our experts assist with planning, configuration, and seamless integration, delivering optimized performance and scalability from the outset.
+Management Regain control of operations with flexible IT management options. Our Residency Services help you adopt and optimize new technologies and our Managed Services allow you to outsource portions of your environment to us.
+Support Increase productivity and reduce downtime with ProSupport Enterprise Suite. Expert support backed by proactive and predictive artificial intelligence tools.
+Education Dell Technologies Education Services help you develop the IT skills required to lead and execute transformational strategies.
+Learn More at DellTechnologies.com/Services
+
+Enterprise SONiC Distribution by Dell Technologies © 2026 Dell Inc. or its subsidiaries.
+
+Technical specifications
+• AI, Core, and Edge Features (Support dependent on switch model and supported NPUs) • Anycast Gateway • BFD • BGPv4/v6 and BGP Unnumbered • COPP • Cut-through switching* • Datacenter Interconnect Multi-Site* • DHCP with Relay Support • Dynamic port breakout • ECMP, UCMP, and Dynamic Load Balancing • EVPN with Multihoming Support • GNS3 image • IEEE 802.1x* • IP SLA* • IRB A/Symmetric • LAG, MCLAG, LACP Fallback* • Layer 2 Protocol Tunneling (L2PT)* • LLDP, LLDP-MED • Multicast (L2 & L3), IGMP, PIM-SSM, IGMP Snooping* • NAT* • NTP/PTP • OSPFv2/OSPFv3* • PFC, ECN • PoE, PoE+, UPoE* • Policy Based Routing* • Proxy ARP • PVST, RPVST+, MSTP • QinQ* • QoS, WRED • Resilient Hashing* • RoCEv2 with DCBx • Routed sub-interfaces* • SNMPv2/v3 • Static routing • Storm Control • UDF Hashing* • Unidirectional Link Detection (UDLD) • VRF • VRRPv4/v6 • VXLAN (L2 & L3)
+Security
+• L2 & L3 ACL • Secure boot and Image verification • TACACS, RADIUS, RBAC • Multi Factor Authentication (MFA)* • Syslog, RADIUS, LDAP over TLS*
+Ordering Information
+Enterprise SONiC Distribution by Dell Technologies is now available via three bundles: Enterprise, Cloud and Lite. For more information please contact your local Dell Technologies sales representative.
+*Only supported on Dell SONiC on Broadcom **Only supported on SONiC on Spectrum 1 Based on Dell analysis, April 2024. For more information see: USGv6-r1 Product Registry
+Learn More at Dell.com/EnterpriseSONiC
+
+Validated Solutions*
+• VxRail • PowerStore • PowerFlex PNA • Microsoft Azure Stack • OpenStack
+Certifications
+• FIPS 140-2* • USGv6-R1
+Management and Orchestration
+• ZTP • gNMI, REST, MF-CLI, OpenConfig models • Silicon telemetry (IFA, MOD)* • Silicon Analytics: In-band Flow Analyzer 2.0,
+Drop Monitor, Tailstamping (Only drop monitor supported on SONiC on Spectrum, rest not supported) • sFlow • RSPAN, ERSPAN/Everflo* • Dell SmartFabric Manager • Ansible Collection • Telegraf • Prometheus • BE Networks • Racksnet*
+
+Learn more about Dell solutions
+
+Contact a Dell Technologies Expert
+
+View more resources
+
+Join the conversation with #HashTag
+
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+

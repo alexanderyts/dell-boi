@@ -1,0 +1,403 @@
+Enterprise SONiC Distribution by Dell Technologies - Layer 3 Fabric
+Reference Architecture
+Abstract This document describes the high-level architecture of Enterprise SONiC Distribution, detailing BGP fabric in a leaf-spine topology.
+Dell Technologies Networking Infrastructure Solutions
+Part Number: H18364.2 February 2025
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+© 2020–2025 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+Chapter 1: Introduction................................................................................................................. 4 Dell Technologies vision..................................................................................................................................................... 4 Introduction........................................................................................................................................................................... 4 Feedback and technical support...................................................................................................................................... 4
+Chapter 2: Enterprise SONiC Distribution..................................................................................... 5 Software for Open Networking in the Cloud (SONiC)...............................................................................................5 Enterprise SONiC Distribution by Dell Technologies...................................................................................................6 Innovation........................................................................................................................................................................ 6 Reliability.......................................................................................................................................................................... 6 Scalability......................................................................................................................................................................... 7 Lifecycle management.................................................................................................................................................. 7 Enterprise SONiC offerings......................................................................................................................................... 7
+Chapter 3: Data Center Fabric Design........................................................................................... 8 Overview................................................................................................................................................................................8 Fabric topologies..................................................................................................................................................................8 Clos networks................................................................................................................................................................. 8 Design considerations....................................................................................................................................................... 10 Simplicity........................................................................................................................................................................ 10 Hardware........................................................................................................................................................................ 10 Oversubscription ratios...............................................................................................................................................10 Layer 2 versus Layer 3 fabrics...................................................................................................................................11 Single or dual attached servers................................................................................................................................. 11 Layer 3 fabric routing protocol................................................................................................................................. 12 BGP..................................................................................................................................................................................13 Connecting the data center to external networks...............................................................................................19 Data center operations..................................................................................................................................................... 19 Configuration automation...........................................................................................................................................19 Telemetry....................................................................................................................................................................... 21 Security.......................................................................................................................................................................... 22 Role-based access control........................................................................................................................................ 22 Warm boot.....................................................................................................................................................................22
+Appendix A: References...............................................................................................................23 Dell Technologies Networking Infrastructure Solutions documentation..............................................................23 SONiC documentation..................................................................................................................................................... 23 Ansible documentation.....................................................................................................................................................23
+
+Contents
+
+3
+
+1
+Introduction
+Topics:
+• Dell Technologies vision • Introduction • Feedback and technical support
+Dell Technologies vision
+The vision at Dell Technologies is to be the essential technology company for the data era. Dell Technologies ensures modernization for today's applications and the emerging cloud-native world. Our Networking team is committed to disrupting the fundamental economics of the market with an open strategy that gives you the freedom of choice for networking operating systems and top-tier merchant silicon. The Dell Technologies strategy enables business transformations that maximize the benefits of collaborative software and standards-based hardware, including lowered costs, flexibility, freedom, and security. Dell Technologies provides further customer enablement through validated deployment guides that demonstrate these benefits while maintaining a high standard of quality, consistency, and support.
+Introduction
+The networking market is transitioning from a closed, proprietary stack to open hardware that supports various operating systems. Challenging the status quo, open networking with disaggregated hardware and software is similar to the transformation that took place with x86 compute and Linux software. The next evolutionary step is to open the traditionally closed and opaque network operating system (NOS). Large organizations, such as service providers and cloud providers, are now leveraging open-source NOS for their specific needs and gain several benefits in terms of simplicity, visibility, and time to value. Arguably open solutions prove to be the best solutions, as they provide choice, flexibility, and not tied to propriety software. For Ethernet switches, there are few open network operating systems (NOS). Customers want to build and manage highperformance, highly scalable, and highly available data centers. The main requirements for their needs are: ● Use the best-of-breed switching hardware for the various tiers of the network. ● Deploy new features without impacting the end users and services. ● Roll out updates reliably and securely across the complete fabric in a minimal amount of time. ● Use automated failure mitigation and cloud-scale deep telemetry. Dell Technologies is an early pioneer in disaggregating computing hardware and software in data center network fabrics. Dell EMC Networking offers a family of switches that maximizes customer choice, flexibility, and innovation at any scale. Offering an open data center network ecosystem in which organizations can pick and choose from a selection of innovative, industrystandard network applications, network operating systems, and network hardware. This open approach enables businesses to simplify their data center networking through complete hardware and operating system disaggregation. Dell EMC Networking truly believes that our open networking solutions stimulate rapid innovation by helping our customers achieve unprecedented levels of flexibility and efficiency.
+Feedback and technical support
+We encourage readers to provide feedback on the quality and usefulness of this publication by sending an email to Dell_Networking_Solutions. For technical support, visit the Dell Support site.
+
+4
+
+Introduction
+
+2
+Enterprise SONiC Distribution
+Topics:
+• Software for Open Networking in the Cloud (SONiC) • Enterprise SONiC Distribution by Dell Technologies
+Software for Open Networking in the Cloud (SONiC)
+IT organizations around the globe strive to deliver superior business value by helping their organizations increase productivity, deploy services faster, and remain flexible by incorporating the latest technology innovations, such as automation, containers, and cloud. Also, the use of modern applications and workloads like virtualization, cloud, Internet of Things (IoT), and Artificial Intelligence (AI) is pushing the boundaries of existing data centers as more traffic moves from one edge of the network to the other. These organizations need a modern network infrastructure that can support these demands.
+SONiC is an open-source network operating system based on Debian Linux that runs on switches from multiple vendors. SONiC offers a full feature set that has been in use in the data centers of some of the largest cloud service providers. Since it is open-source, SONiC helps users leverage the collective strength and take advantage of the vast ecosystem and community.
+SONiC is designed with networking software components to meet the requirements of a cloud data center. SONiC is built on top of the Switch Abstraction Interface (SAI) layer, which defines a standardized Application Programming Interface (API) for Network Processing Units (NPUs). Network hardware companies can use SONiC to rapidly develop innovative hardware platforms using the programming interface to the application-specific integrated circuit (ASIC). As multiple vendors now support this API, SONiC can work across various ASIC platforms naturally.
+Feature velocity is the primary pillar for SONiC as it is the first solution to break monolithic switch software into multiple containerized components. SONiC allows fine-grained failure recovery and in-service upgrades. Instead of replacing the entire switch image in a issue fix, customers can now upgrade the flawed container with updated code without data plane downtime. The serviceability and scalability of the SONiC platform are crucial to data center operations.
+SONiC uses containerization enabling it to be extensible. SONiC is targeting cloud networking scenarios, where scale, simplicity, and management are the highest priority. Operators can plug in new third-party, proprietary, or open-sourced software components, with minimum effort, and tailor SONiC to their specific scenarios.
+The SONiC architecture covers various modules that interact with each other through a centralized and scalable infrastructure. This infrastructure is based on the use of a key-value database to provide a language-independent interface, a method for data persistence, replication, and multiprocess communication among all SONiC subsystems.
+The following figure displays a high-level view of the functionality enclosed within each docker-container and how these containers interact with each other.
+
+Enterprise SONiC Distribution
+
+5
+
+Figure 1. SONiC architecture
+Enterprise SONiC Distribution by Dell Technologies
+Enterprise SONiC Distribution by Dell Technologies (also known as Enterprise SONiC or Enterprise SONiC Distribution) helps IT organizations run their business with the innovation, automation, and reliability that comes from a commercial offering. Enterprise SONiC is based on the open-source SONiC operating system, which includes feature enhancements, hardening, and support targeted for the demanding data center leaf and spine fabrics while maintaining the open-source spirit.
+Innovation
+Enterprise SONiC provides the benefits of our partnering with the SONiC community on a highly scalable open-source NOS. SONiC is based on a modern containerized architecture that accelerates software innovation and evolution. The customers will also benefit from Dell Technologies enhancements, including hardening and validation of enterprise-ready data center use cases and support on the select Dell EMC PowerSwitch family of industry-leading open networking switches.
+Reliability
+Running critical business applications and workloads on a network infrastructure that provides global enterprise-class support with a choice of services that align with customer’s unique needs and environment. Take full advantage of around-the-clock, consistent, single-source support offered in 165 countries with 60,000+ Dell Technologies and partner professionals. Customers can also access proactive and preventive services from Dell Technologies Support to get ahead of issues before they impact their business, including options to monitor the events proactively.
+
+6
+
+Enterprise SONiC Distribution
+
+Scalability
+Enterprise SONiC provides many features required for large-scale Clos networks. Large-scale fabrics are possible with Layer 3 leaf-spine architectures. Enterprise SONiC provides automation to configure and upgrade large numbers of switches. Enterprise SONiC also supports the telemetry features needed to manage large-scale networks.
+
+Lifecycle management
+
+Dell Technologies delivers an innovative cloud network life solution that automates and simplifies the design, deployment, and assurance of network services in the cloud. Dell Technologies provides the benefit of partnering with VMware and offering tools that can benefit a customer’s specific needs. As Dell Technologies builds an ecosystem for lifecycle management, customers can improve network availability, monitoring, resiliency, and security; as well as scalability throughout the network.
+
+Enterprise SONiC offerings
+
+Customers can deploy the most suited offering for Enterprise SONiC based on their requirements. The following table lists the available Enterprise SONiC offerings.
+
+Table 1. Enterprise SONiC offerings
+
+Offering Cloud Standard
+
+Features included Basic Layer 2, Layer 3, BGP, VRF, VRRP
+
+Enterprise Standard
+
+Basic Layer 2, Layer 3, MCLAG, PVST, BGP, VRRP, VXLAN, VTEP, VRF, EVPN, STP, IPv4 Multicast
+
+Cloud Premium
+
+Cloud Standard plus silicon telemetry
+
+Enterprise Premium
+
+Enterprise Standard plus silicon telemetry
+
+Enterprise SONiC Distribution
+
+7
+
+3
+Data Center Fabric Design
+Topics:
+• Overview • Fabric topologies • Design considerations • Data center operations
+Overview
+Data centers (DCs) link hundreds of servers connecting internal and external users. Generally, every DC runs two kinds of traffic, with the first being client/server or north-south traffic. The source of north-south traffic is typically from external networks, both from within the organization and from the Internet. This traffic is usually between web server applications and browsers for both internal and external users. The other type of traffic is between servers within the data center and is called server-to-server or east-west traffic. The source of server-to-server traffic might be virtual machine migrations, extensive data replication, mailbox, and storage traffic. This traffic often amounts to about 80% of all DC traffic.
+Fabric topologies
+Legacy data centers were designed mostly for server-to-user traffic, using a hierarchical three-tier design called accessaggregation-core networks. Access switches connect the servers to the aggregation layer and then to the core to reach users and other aggregation networks. The access and aggregation switches are in a Layer 2 network and require a pair of large capacity chassis switches to scale the fabric. A Layer 2 network is susceptible to loops and broadcast storms and requires spanning tree protocol (STP) to prevent network loops, either limiting available bandwidth or involving complex STP algorithms. Also, a chassis switch is more complex, and there is an opportunity to fail in more ways. With a chassis, there is a tradeoff between cost and network resiliency. These systems are not horizontally scalable nor cost-effective as needed for modern server virtualization. East-west traffic also needs consistent latency, which is not possible from large-scale access-aggregation-core fabrics. Modern data center networks need the following attributes: ● Simplicity ● Cost efficiency ● Flexibility ● Reliability and redundancy ● Manageability ● Mobility ● Edge and fabric scalability ● Virtualization support ● Multitenancy Clos-based fabric with Enterprise SONiC meets all these needs, as described in the following sections.
+Clos networks
+Clos networks, also known as leaf-spine networks, simplify the design of the data center network. In a leaf-spine fabric, the core consists of two or more spines for redundancy. The number of spine interfaces determines the number of leafs the topology can
+
+8
+
+Data Center Fabric Design
+
+support. A leaf-spine fabric can consist of either two or three tiers, depending on the needed scale. Each tier shares the same attributes reducing switch model variety requirements.
+Figure 2. Two-tier leaf-spine
+In a leaf-spine network, connect every leaf switch to every spine switch. Typically, spines are of the same model and capacity. The spine tier is the backbone of the network and is responsible for interconnecting all leaf switches. Servers and other edge devices are grouped by rack and connected only to the leaf switches. The leaf switch models may vary by rack depending on server interface capacity and speed requirements. Deploy single-homed or multihomed ToRs based on server path redundancy needs. This two-layered design allows for predictable distance and latency between devices. It does not matter to which leaf switch a server is connected. Server traffic must cross the same number of devices to reach another server in another rack, as each payload must hop to a spine switch and another leaf switch to reach its destination. Another advantage of a leaf-spine topology is that it is scalable. Adding additional spine switches provides more leaf-spine bandwidth reducing the oversubscription ratio between leaf and spine as a result. Similarly, if additional edge port capacity is needed, a new rack with leaf switch can be added by connecting it to every spine resulting in additional fabric port capacity. If a single spine node failure occurs, all leaf switches retain connectivity to one another through the remaining spine or spines, albeit lower capacity. Adding leaf capacity is possible by upgrading spine switches to switches that support more ports. For example, 64-port or 128-port switches could replace 32-port spines resulting in double or quadruple the attached leaf switch capacity. Most small networks may only require the capacity of a two-tiered network. However, by adding a third tier, data centers can be scaled much larger. By reserving a few interfaces to connect to a superspine, the result is a significant increase in host capacity. For example, a two-tier 32-port spine network will support only 32 leafs. In contrast, a three-tier 32-port spine with four 32-port superspines will support 224 leafs. Typically, deploying more than three tiers, edge port capacity improvements diminish significantly. Each tier two leaf-spine is defined as a pod, with superspines connecting the pods together. See the figure below for a typical three-tier deployment.
+
+Data Center Fabric Design
+
+9
+
+Figure 3. Clos three-tier network with superspines
+Design considerations
+The data center networking design should be scalable, reliable, and easy to manage. The following sections describe best practices and design options to consider when planning a deployment.
+Simplicity
+A large data center can quickly become complex and hard to manage unless every effort is made to simplify the network topology and configurations. By using standard simple building blocks in a redundant topology, system-wide failures can be minimized. If the network consists of many devices performing similar functions, a single node failure will not impact operations.
+Hardware
+The selection of switch hardware is based on the required functionality at each tier. Leaf nodes typically attach to a rack of servers and are collocated in the same rack. Server interfaces currently range from 1 GbE to 40 GbE, with one to four interfaces per server for each server in the rack. The leaf switches are also connected to spine nodes that aggregate the traffic to the rest of the data center. The number of high-speed interfaces on the leaf will dictate the maximum number of spines used. Spine switches typically have only high-speed interfaces to carry the traffic between leaf switches and external networks. These port requirements dictate that leaf switches have both low- and high-speed ports balancing bandwidth between the servers and the spine depending on subscription rates. Reducing the variety of switches in the network will contribute to operational efficiency and simplicity. Many fabrics will only use two to four switch types.
+Oversubscription ratios
+Server bandwidth and total rack bandwidth between the leafs and spines defines the oversubscription rate as the ratio of downlink capacity to uplink capacity. For example, 32 single-homed rack servers with 25 GbE interfaces connected to a ToR could generate 800 GbE of total unidirectional traffic between the leaf and spine. For a nonblocking oversubscription ratio of 1:1, deploying eight 100 GbE spine switches is needed to carry the traffic from 32 rack servers with 25 GbE interfaces. A more reasonable oversubscription ratio of 2:1 or 4:1 with four or two spines, respectively, might be more cost-effective depending on requirements.
+
+10
+
+Data Center Fabric Design
+
+Layer 2 versus Layer 3 fabrics
+Early Layer 2 Clos implementations were used to support spanning VLANs across multiple racks. However, Layer 2 leaf-spine networks are limited to a two-tier fabric with dual spines which limit the spine expansion and bandwidth. In contrast, a Layer 3 leaf-spine may have two or three tiers with multiple spines, greatly expanding the network capacity and bandwidth. Also, broadcast domains become too large to manage in a Layer 2 fabric. By contrast, a Layer 3 fabric separates Layer 2 broadcast domains and isolates them from the fabric. Because each cluster’s VLANs are isolated from the rest of the network, this effectively increases the available subnets that the fabric can support. Sometimes Layer 2 needs to be stretched across clusters. With the introduction of Virtual Extensible Local Area Network (VXLAN) and Ethernet Virtual Private Network (EVPN), a Layer 2 overlay network may now be formed over a Layer 3 fabric. With BGP EVPN, Layer 2 can now span over many racks, overcoming any issues with finite rack capacity.
+Single or dual attached servers
+Connecting the server’s Network Interface Card (NIC) to a single leaf or pair of leafs is possible. Providing path diversity from the servers to the network offers redundancy for equipment failures, but also reduces downtime during upgrades. Path diversity may have the added benefit of increased throughput when active/active mode is used. Connecting a rack of servers to a single leaf may simplify and reduce networking costs, but the failure or upgrade of a single leaf will cause a significant capacity loss. However, very large data centers will have many racks of servers, and the loss of a rack of servers may be tolerable. Deploying single attached servers across the data center effectively cuts network costs in half.
+Multichassis link aggregation
+A ToR consisting of a pair of leaf switches may be configured with MultiChassis Link Aggregation (MCLAG) to support dual homing. MCLAG supports active/active Layer 2 connectivity with a Link Aggregation Group (LAG) between a server and a leaf pair. Leaf pairs with MCLAG appear to the NIC as a single switch. Smaller data centers may prefer dual-homing if losing a rack of servers is not tolerable. However, deploying an MCLAG adds some additional complexity to the configuration and operation.
+Layer 3 connected hosts
+Another edge hosting model uses Layer 3 links from servers to leafs. This model supports either single-homed or dual-homed servers. Dual-homed servers with Layer 3 do not require leafs to be connected. In a pure Layer 3 architecture, there is no VLAN management, and the servers are in control of the networking to the leafs. Overlay functions such as tenancy, multicast, QoS, and other L4-L7 features are performed at the server.
+
+Figure 4. Server attach methods
+
+Data Center Fabric Design
+
+11
+
+All four server attach methods can be deployed in a fabric simultaneously. The following tables highlight the advantages and disadvantages of each.
+
+Table 2. Single-homed server
+
+Advantage Reduced networking costs
+
+Disadvantage No redundancy, no path diversity
+
+Least complex
+
+Software upgrade/restart impacts full rack of servers
+
+-
+
+Only suitable in large data centers where losing a rack of
+
+servers is tolerable.
+
+Table 3. Active-standby server with Inter-Switch Link (ISL)
+
+Advantage
+
+Disadvantage
+
+Redundancy and path diversity
+
+Heavy ISL traffic; inconsistent hop counts
+
+-
+
+Active/Standby server uplinks, poor resource utilization
+
+-
+
+Dedicated interfaces for ISL
+
+Table 4. MCLAG Advantage Supports redundancy and diverse paths Supports LACP and prevents wiring errors Active/active server uplinks Supports single VTEP Servers see switch pair as a single switch
+
+Disadvantage Adds network complexity Higher networking costs Switch vendor-proprietary protocol required Dedicated interfaces for ISL -
+
+Table 5. Layer 3 connected hosts Advantage Supports redundancy and diverse paths No dedicated ISL links required
+Active/active server uplinks No VLAN management Dynamic neighbors Only requires Layer 3 fabric; tenancy, multicast, and QoS performed on servers instead of switch Supports use case for docker containers running in servers
+
+Disadvantage Adds complexity Requires host operating system to support routing protocols and other features -
+-
+
+Layer 3 fabric routing protocol
+
+For the Layer 3 fabric, routing protocols fall into three basic types; distance vector protocol, link-state protocol, or path-vector protocol. Examples of distance vector protocols are Routing Information Protocol (RIP) and Enhanced Interior Gateway Routing Protocol (EIGRP). Examples of link-state protocols are Open Shortest Path First (OSPF) and Intermediate System to Intermediate System (IS-IS). Border Gateway Protocol (BGP) is a path-vector protocol. Link-state protocols may be suitable for small networks, but for large-scale networks, BGP is the practical choice.
+BGP supports the following features crucial for data centers using virtualization:
+● Scales well from a few routers to thousands of routers. ● Low overhead for routing table updates.
+
+12
+
+Data Center Fabric Design
+
+● Fast fallover. ● Multiprotocol (IPv4, IPv6, L2VPN) address families. ● Layer 2 multirack with EVPN. ● Multitenancy with Virtual Routing and Forwarding (VRF) and EVPN. ● Supports routing policies and filtering on both incoming and outgoing packets. ● Servers with BGP routing protocol. ● Unnumbered interconnecting links. No other routing protocol has all these capabilities. Using multiple routing protocols increases unneeded complexity when BGP will do it all.
+BGP
+BGP is a path vector protocol that tracks the path a route will follow. Path tracking can be used in routing policies and filters to manage traffic in the network. BGP also runs on top of TCP, which takes care of packet fragmentation, reassembly, and retransmissions. One of the key components of SONiC is FRRouting, forked from Quagga. It is an IP routing protocol suite for UNIX and Linux platforms that include protocol daemons for BGP, OSPF, PIM, and RIP, designed to streamline the routing protocol stack. The contributors have set up 32-bit route tags that improve the route-policy maintenance and increases the interoperability in multivendor environments. Plus, the addition of RFC 5549 to BGP provides IPv4 connectivity using IPv6 native infrastructure, enabling customers to build IPv6-centric networks. Also, the warm reload feature allows users to reload their routers without reading images from storage. SONiC restores the read/write data from a previously saved copy in the RAM and by starting execution without either copying the image from flash to RAM or self-decompression of the image. Hence, the overall availability of the system improves because of the reduced time to reboot the switch.
+Autonomous System Numbers
+Every BGP speaker is assigned an Autonomous System Numbers (ASN) that are 2-byte or 4-byte numbers. Public ASNs and private ASNs identified by their numeric range. For 2-byte ASN, the public ASN range is 1 to 64511. Private ASNs range from 64512 to 65535. Private ASNs used in data centers will never propagate over the Internet. With 4-byte ASNs, the range is 1 to 42949677295 with a private ASN range of 4200000000 to 4294967294. The following explains the best practice for ASN assignments in a data center fabric:
+External BGP used between tiers
+External BGP (eBGP) is preferred over internal BGP (iBGP) due to iBGP’s complexity. Each tier should have a different ASN from its neighbor to deploy eBGP.
+Each spine in a two-tier pod shares the same ASN
+Sharing the ASN prevents path hunting and simplifies routing updates as all spine’s AS-PATH are equal. Sharing ASNs also conserves ASNs for scaling the fabric.
+Each pod assigned a unique ASN to its spines
+Each spine in a pod should share the same ASN, but the ASN should be unique from other pods to accept route advertisements from other pods.
+Superspines share the same ASN
+In a three-tier topology, the superspine tier should share ASNs, but they must be unique to the network. Sharing ASNs prevents path-hunting and simplifies routing updates.
+
+Data Center Fabric Design
+
+13
+
+Each leaf assigned a unique ASN
+External BGP has loop prevention that drops a route advertisement from its own ASN. There is a BGP feature that allows this but adds complexity. Unique leaf ASNs also simplify routing policies, filtering, and troubleshooting.
+MCLAG leaf pairs assigned the same ASN
+MCLAG leaf pairs share the same VTEP address, which requires sharing the same ASN.
+Layer 3 servers assigned a unique ASN
+If using Layer 3 connections to servers, the server network requires its own ASN. Spines in the same tier are not connected and will not route to each other. With this model, routing is simplified by sending packets up to the spine and back down without bouncing between tiers. The following figure shows an example of ASN numbering in a three-tier fabric.
+
+Figure 5. ASN numbering
+Internal BGP versus external BGP
+BGP can be broken down into iBGP and external BGP. iBGP is identified by neighbors using the same ASN. iBGP typically requires full mesh topology or use of route reflectors, adding further complexity. iBGP operations and behavior are more complex than eBGP, so it is preferred to use eBGP peering between leafs and spines. Minor timer changes are required when using eBGP in the data center since eBGP is the template for the Internet.
+Multipathing
+Equal Cost Multipathing Protocol (ECMP) should be enabled when multiple paths exist (for example, when a leaf is connected to 2-8 spines). This BGP feature provides load balancing between leafs and spines. The command to enable BGP ECMP is bestpath as-path multipath-relax.
+Peer groups
+Peer groups simplify configuration by aggregating routing attributes in a single template. Then only the peer group template is applied to each BGP neighbor with the same attributes. Configure multiple peer groups if there are neighbors with different
+
+14
+
+Data Center Fabric Design
+
+requirements. In the case of a spine with 32 leafs, implementing peer groups will significantly reduce configuration volume and complexity. See the following table for a comparison of without and with BGP peer groups.
+
+Table 6. BGP configuration without and with peer groups
+
+Without peer groups
+
+With peer groups
+
+router bgp 65000 neighbor 169.254.0.1
+remote-as 65001 timers 3 9 advertisement-interval 3 bfd address-family ipv4 unicast
+allowas-in 2 exit exit neighbor 169.254.0.3 remote-as 65002 timers 3 9 advertisement-interval 3 bfd address-family ipv4 unicast allowas-in 2 exit exit
+
+router bgp 65000 peer-group LEAF
+timers 3 9 advertisement-interval 3 bfd address-family ipv4 unicast
+allowas-in 2 exit exit neighbor 169.254.0.1 remote-as 65001 peer-group LEAF exit neighbor 169.254.0.3 remote-as 65002 peer-group LEAF exit
+
+Unnumbered BGP
+
+BGP speakers use Transmission Control Protocol (TCP) to communicate with their neighbors using IP addresses assigned at each node. In large networks, there are many configured IP addresses. The elimination of assigning IP addresses between BGP neighbors simplifies BGP configurations. By enabling IPv6 link-local addresses on a BGP neighbor’s interface, IPv6 addresses are automatically assigned. With just a few additional switch commands, routers automatically discover neighboring routers using link-local addresses. Unnumbered BGP eliminates the management of many IP addresses and ASNs, resulting in fewer potential configuration mistakes. Peer-groups can be configured with unnumbered BGP to reduce configuration volume and complexity. See the following table for a comparison of numbered verses unnumbered BGP configurations.
+
+Table 7. Numbered verses unnumbered BGP configurations
+
+Numbered BGP point-to-point
+
+Unnumbered BGP point-to-point
+
+interface Eth1/1 ip address 169.254.0.0/31 exit
+router bgp 65000 neighbor 169.254.0.1
+remote-as 65001 exit
+
+interface Eth1/1 ipv6 enable exit
+router bgp 65000 peer-group LEAF remote-as external capability extended-nexthop exit neighbor interface Eth1/1 peer-group LEAF exit
+
+Bi-directional forwarding detection
+BGP Bi-directional Forwarding Detection (BFD) actively handshakes with its neighbor in subsecond intervals. If a neighbor misses a predefined number of responses, the BGP protocol will shut down the session and allow traffic to route through an alternate path.
+
+Data Center Fabric Design
+
+15
+
+By default, when a point-to-point link fails, a BGP session is immediately shut down without waiting for the hold-down timer (fast-fallover), thus reducing traffic loss in a data center. As an added protection, BFD is enabled on BGP to provide subsecond detection to trigger a BGP session shutdown for other potential failures.
+Multi-Protocol BGP
+Multi-Protocol BGP (MP-BGP) is the most persuasive case for BGP. BGP multiprotocol support allows the Layer 3 fabric to carry IPv4, IPv6, multicast, and Layer 2 MAC addresses. These are known as address families. The address family L2VPN EVPN is used to carry Layer 2 information over a Layer 3 network using VXLAN. The L2VPN network is known as the overlay network, and the Layer 3 network is the underlay. Virtual Tunnel Endpoints (VTEPs) perform the VXLAN encapsulation, bridging the nonvirtual networks with virtual networks. Typically, the leafs perform the VTEP function in a Clos network, but this is also sometimes done on the server. EVPN supports stretching Layer 2 over the Layer 3 underlay fabric in multirack when Layer 2 connectivity is needed. EVPN also supports multitenancy, which keeps traffic separated across the fabric.
+
+Figure 6. BGP EVPN multitenancy
+The following is an example of a leaf's L3 VXLAN and BGP EVPN configuration: ip vrf Vrf1 interface Vlan60 ip vrf forwarding Vrf1 exit interface vxlan vtep1 source-ip 10.10.10.1 map vni 600 vlan 60 map vni 600 vrf Vrf1 exit router bgp 65001 peer-group SPINE remote-as 65200 timers 3 9 advertisement-interval 3 address-family ipv4 unicast activate exit address-family l2vpn evpn activate exit exit address-family ipv4 unicast redistribute connected exit address-family l2vpn evpn
+
+16
+
+Data Center Fabric Design
+
+advertise-all-vni advertise ipv4 unicast exit exit router bgp 65001 vrf Vrf1 address-family ipv4 unicast redistribute connected exit address-family l2vpn evpn advertise ipv4 unicast exit exit
+Dynamic neighbors
+BGP peering servers are now becoming a common practice. The servers with BGP sessions tend to be more dynamic than network switches causing alarms on the infrastructure. BGP dynamic neighbors allow a range of IP addresses to be used by hosts to create BGP sessions dynamically. This method of peering simplifies the configuration and management of the sessions. Leafs are configured as passive, listening for a specific range of addresses to activate a session. Also, a listening limit is applied to the leaf to limit the load. BGP dynamic neighbor configuration example
+router bgp 65001 peer-group DYNAMIC-PG
+remote-as 65200 timers 3 9 advertisement-interval 3 exit listen limit 3 listen range 172.18.100.0/24 peer-group DYNAMIC-PG
+Route maps
+Use route maps to implement routing policies and filters. They may also be used to redistribute directly connected networks from the local switch. A route map will often use a prefix-list or a community list to use as a filter for a specific action.
+IP prefix lists
+Prefix lists define a list of IPv4 or IPv6 addresses to be used by route maps to select an action for a specific network. Prefix list and route map redistribution configuration example
+ip prefix-list CONN seq 10 permit 10.0.2.0/24 ge 32 ip prefix-list CONN seq 20 permit 192.168.50.0/24 route-map REDIST permit 10
+match ip address prefix-list CONN exit router bgp 65001 address-family ipv4 unicast redistribute connected route-map REDIST exit
+BGP communities
+Use BGP communities to filter routes or to set routing policies in a BGP network. A BGP community is an optional transitive attribute that travels across multiple autonomous systems. Marking a route with a community value allows an upstream switch to apply a filter or routing policy based on a received community value. A community attribute is a 32-bit number, which is
+
+Data Center Fabric Design
+
+17
+
+typically in the form of AA:BB, where AA is a 16-bit number, and BB is a 16-bit number. This format breaks the community attribute into something that can be more easily recognized. Typically, the local ASN is assigned the AA portion to identify the community source. Setting BGP community value
+ip prefix-list SET-COMM10 seq 10 permit 10.0.2.0/24 ip prefix-list SET-COMM30 seq 20 permit 30.0.2.0/24
+route-map SET-COMM permit 10 match ip address prefix-list SET-COMM10 set community 65001:10 exit
+route-map SET-COMM permit 30 match ip address prefix-list SET-COMM30 set community 65001:30 exit
+router bgp 65001 neighbor interface Eth 1/1 address-family ipv4 unicast route-map SET-COMM in exit
+Evaluating BGP community values
+bgp community-list standard SET80 permit 65001:10 bgp community-list standard SET200 permit 65001:30
+route-map COMM-PREF permit 10 match community SET80 set local-preference 80 exit
+route-map COMM-PREF permit 30 match community SET200 set local-preference 200 exit
+router bgp 65000 neighbor interface Eth 1/1 address-family ipv4 unicast route-map COMM-PREF in exit
+BGP timers
+Unless specific times are assigned, the default BGP timers are assumed, which may not be suitable for a data center. Every BGP session sends periodic keepalive messages, and if the BGP peer does not receive a keepalive message for the hold-down interval, the session is declared dead. By default, eBGP keepalive and hold-down timers are set at 60 and 180 seconds, respectively, which is detrimental in a data center environment where fast convergence is more important than stability. Setting these timers more aggressively (3 seconds for keepalive and 9 seconds for hold-down) will lessen traffic loss in the data center when BGP connectivity is lost. The default eBGP advertisement interval is set to 30 seconds, which prevents BGP speakers from advertising updates immediately upon receipt. For a data center application, set this parameter to 1-5 seconds. To simplify repetition when configuring neighbors, Enterprise SONiC supports peer groups that scale by generating the same update to all members of the group. Assigning the BGP timers in a peer group reduces complexity and misconfiguration when there are many BGP neighbors. BGP timers for the data center
+router bgp 65000 peer-group LEAF timers 3 9
+
+18
+
+Data Center Fabric Design
+
+advertisement-interval 3 exit
+Connecting the data center to external networks
+Connecting the data center to the outside is achieved with a pair of border leaf switches that will route leaf traffic between the organization’s intranet and the Internet. This traffic is north-south traffic. The border leafs should be deployed in pairs for redundancy and connected to all spines. It is at this point in the network, other services such as firewalls may be applied to protect the data center. The border leafs typically have two VRFs assigned, one for data center traffic and another for external traffic. The firewall bridges this traffic.
+
+Figure 7. Data center border router
+Data center operations
+Many tools exist for data center operations, as outlined in the sections below.
+Configuration automation
+Enterprise SONiC offers multiple ways to automate the configuration of the network.
+Zero-touch provisioning
+Zero-touch provisioning (ZTP) is the default mode when powering up the switch when Enterprise SONiC is first installed. The switch will stay in this mode until provisioning is complete or until disabled by the user. A DHCP offer received by the switch with DHCP option 67 will start the process.
+
+Data Center Fabric Design
+
+19
+
+Figure 8. SONiC ZTP service flow
+The following is an example of a json file used to update the firmware, configure the leaf switch, reboot, and ping the hosts. ZTP json file
+{ "ztp": { "01-firmware": { "install": { "url": "http://192.168.1.1/sonic-v3.0.bin" “set-default”: true }, “reboot-on-success”: true }, "02-configdb-json": { "dynamic-url": { "source": { "prefix": "http://192.168.1.1/", "identifier": "Leaf3", "suffix": "_config db.json" } } }, "03-provisioning-script": { "plugin": { "url":"http://192.168.1.1/post_install.sh" }, "reboot-on-success": true }, "04-connectivity-check": { "ping-hosts": [ "172.16.11.1", "172.16.11.2" ] } }
+}
+
+20
+
+Data Center Fabric Design
+
+Ansible
+Ansible is a third-party DevOps tool. Ansible is a powerful, open-source IT automation engine that provides a simple way to automate application software and IT infrastructure. Ansible allows you to remove complexity from these environments and accelerate DevOps initiatives. Dell EMC Networking Ansible solutions are based on an open ecosystem that allows organizations to choose from industrystandard network applications, network operating systems, and network hardware. Use Ansible to provision and manage Dell EMC switches for rapid new device deployment and network configuration changes. Ansible also allows you to track running network device configurations against a known baseline for both Dell EMC and third-party operating systems. For details, see the Ansible Network Collection for Enterprise SONiC Distribution by Dell Technologies.
+Telemetry
+Telemetry allows gathering network information from a central location. Typically, SNMP or sFlow collects this information. The Enterprise SONiC operating systems support both of these features and others.
+SNMP
+SNMP management systems poll for data even if there is no change. Detailed counters may be accessed on demand.
+sFlow
+sFlow monitors network traffic in high-speed networks with many switches and routers. The switch sends collected data on inbound and outbound traffic at regular intervals and sampling rates to an sFlow data collector. The sFlow agent can reside anywhere within the path of a packet. The agent combines the flow samples and interface counters into sFlow datagrams and forwards them to the sFlow collector at regular intervals. The datagrams consist of information about, but not limited to, the packet header, ingress and egress interfaces, sampling parameters, and interface counters. ASICs handle the packet sampling.
+gRPC Network Management Interface
+The gRPC Network Management Interface (gNMI) allows you to configure, monitor, and stream from SONiC devices using remote procedure calls (RPCs). SONiC gNMI supports both read/write configuration, and telemetry streaming of configuration and operational data using gRPC Network Operations Interface (gNOI) RPCs. SONiC gNMI uses JavaScript Object Notation (JSON) to code data for YANG data objects and complies with RFC 7951.
+gRPC Network Operations Interface
+gRPC Network Operations Interface (gNOI) is a set of microservices that are based on gRPC that runs commands on a network device using protocol buffers. Protocol buffers are used to serialize structured data.
+NOTE: For more information, see Protocol Buffers.
+REST API
+The SONiC REST API allows applications and scripts to have complete, model-driven programmatic control over the SONiC operating system, using a standard data model and easy-to-use syntax. REST API requests use Uniform Resource Identifiers (URIs) to define the switch resources to be configured or retrieved. The SONiC REST API is enabled by default and complies with RFC 8040.
+
+Data Center Fabric Design
+
+21
+
+EverFlow
+Everflow is a network telemetry system that provides scalable and flexible access to packet-level information in large data centers. Everflow uses “match and mirror” functionality. Commodity switches can apply actions on packets that match on flexible patterns over packet headers or payloads and then mirror packets to analysis servers by the action. Everflow leverages the capability of commodity Data Center Network (DCN) switches to match based on predefined rules, and then perform specific actions like mirror and encapsulate to reduce the tracing overhead.
+Security
+Authentication, authorization, and accounting (AAA) services secure networks against unauthorized access. Besides local authentication, SONiC supports Remote Authentication Dial-in User Service (RADIUS) and Terminal Access Controller Access Control System (TACACS+) client/server authentication systems. Syslog is also supported so that unauthenticated attempts can be brought to the attention of system administrators. Secure Shell (SSH) and certificates are available on Enterprise SONiC.
+Role-based access control
+Role-based access control (RBAC) provides a control for access and authorization. Users are granted permission that is based on defined roles. The administrator can create user roles that are based on job functions to allow users appropriate system access. RBAC places limitations on each role’s permissions to allow you to partition tasks. You can assign each user only a single role. Several users can have the same role. A user role authenticates and authorizes a user at login and places the user in EXEC mode. Each user role assigns permissions that determine the commands that a user can enter and the actions a user can perform. RBAC provides an efficient way to administer user rights.
+Warm boot
+The SONiC warm boot feature allows restarts or upgrades of individual containers without affecting the data plane. CLI commands are provided to enable or disable the warm boot feature on specific processes and administrating the timers.
+
+22
+
+Data Center Fabric Design
+
+A
+References
+Topics:
+• Dell Technologies Networking Infrastructure Solutions documentation • SONiC documentation • Ansible documentation
+Dell Technologies Networking Infrastructure Solutions documentation
+The Networking Solutions InfoHub provides additional networking solutions documentation, including blogs, whitepapers, and guides.
+SONiC documentation
+The following pages provide additional information about SONiC. SONiC GitHub Management Documentation Azure GitHub SONiC Wiki page SONiC quick start guide SONiC Configuration Database Manual SONiC Command Line Interface Guide Extended SONiC Telemetry Architecture SONiC EverFlow High Level Design
+Ansible documentation
+For additional information about Ansible, see: Ansible Site
+
+References
+
+23
+
+

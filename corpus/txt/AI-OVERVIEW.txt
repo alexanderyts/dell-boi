@@ -1,0 +1,513 @@
+Dell Technologies AI Fabrics Overview
+Whitepaper
+Abstract This whitepaper introduces a general view of the different AI Ethernet Fabrics using open standards networking concepts.
+Part Number: H20082 July 2024
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+© 2024 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+Chapter 1: Introduction................................................................................................................. 4 Business challenge...............................................................................................................................................................4 Introduction........................................................................................................................................................................... 4 Terminology...........................................................................................................................................................................5
+Chapter 2: AI and Dell Technologies.............................................................................................. 7 AI overview and fabric requirements.............................................................................................................................. 7 Dell Technologies networking software......................................................................................................................... 7 Dell Technologies networking hardware........................................................................................................................ 9
+Chapter 3: Networking guide and requirements........................................................................... 12 AI Ethernet fabrics - Requirements...............................................................................................................................12 Building a GPU Cluster with the Dell PowerEdge XE9680...................................................................................... 13 Dell PowerEdge XE9680............................................................................................................................................ 13 Building a GPU cluster................................................................................................................................................ 14 AI fabrics.............................................................................................................................................................................. 15 Scale Up Fabric.............................................................................................................................................................15 Scale Out Fabric........................................................................................................................................................... 16 Front-end fabric...........................................................................................................................................................24 Management network................................................................................................................................................ 25
+Chapter 4: Dell AI Ethernet fabric – Orchestration and Monitoring.............................................. 26 Introduction........................................................................................................................................................................ 26 AI infrastructure orchestration and monitoring......................................................................................................... 26 Dell SmartFabric Manager for SONiC.................................................................................................................... 26 BE Networks - Verity..................................................................................................................................................27 Augtera.......................................................................................................................................................................... 29 Consolidated dashboard views and topology....................................................................................................... 30 AI workload orchestration and monitoring................................................................................................................... 31 Next steps...........................................................................................................................................................................32
+Chapter 5: Support and References.............................................................................................33 Feedback and technical support....................................................................................................................................33 Dell Technologies documentation..................................................................................................................................33 External documentation...................................................................................................................................................33
+
+Contents
+
+3
+
+1
+Introduction
+Topics:
+• Business challenge • Introduction • Terminology
+Business challenge
+The landscape of Artificial Intelligence (AI) is becoming the hottest segment in the technology industry. It is undergoing rapid evolution and is becoming increasingly indispensable for businesses looking to gain a competitive foothold. While the potential for building highly valuable solutions using GenAI techniques is limitless, all such solutions depend on a vast amount of knowledge in the form of training data. Gathering this data and leveraging it in AI model development requires large amounts of specialized computer resources working together in clusters to process this information into a model. This model can then be deployed in applications. Creating a high-performance connectivity fabric to allow GPU clusters to process their workloads is essential. While many organizations will leverage cloud service providers or the new class of artificial intelligence as a service (AIaaS) offering, many organizations are seeking private AI/GenAI implementations. These implementations are needed to manage the large datasets for proprietary and specialized knowledge required to train these AI/GenAI systems, as well as the relatively high expense of running such workloads in the cloud. Deploying an AI solution is a complex endeavor. The intricacies of developing and overseeing the sophisticated architectures that support AI algorithms and models pose challenges, especially for organizations lacking the necessary expertise and time to craft, implement, and manage a comprehensive AI solution stack. The scalability of AI applications is crucial for handling vast datasets and accommodating increased user demands. Maintaining optimal performance poses difficulties for enterprises without the appropriate infrastructure and surrounding ecosystem. AI workloads tend to be resource-intensive, high-performance, and depend on lossless data transmission-which contributes to elevated infrastructure and operational costs. Therefore, it becomes crucial to streamline, manage, and scale resource utilization to minimize cost while ensuring operational efficiency. Dell Technologies has the right product portfolio to deliver an AI stack consisting of networking, compute, storage, and application elements.
+Introduction
+This whitepaper describes the challenges, approaches, and general guidelines to building a high-performance Ethernet connectivity fabric suitable for AI/GenAI models training and inferencing. It presents the design challenges and resulting fabrics recommendations supporting clusters of GPU enabled hosts working cooperatively to process these new workloads (AI/GenAI) that have moved from the realm of scientific and specialized applications and have exploded into the view of the general enterprise market. Creating an infrastructure for AI/GenAI requires careful consideration. This paper highlights the cluster architecture with a focus on the unique fabric implementations that can spell the difference between a highly successful cluster and one that fails to deliver results. This architecture begins with an understanding of the dramatic pressure GenAI training workloads place on the network. These jobs require many GPUs with massive memory spaces to solve for a model and share its results to all the other GPUs in a repeated, iterative fashion until an optimal solution is achieved. This process can take days or even weeks, and each iteration moves all the data through the fabric in large, synchronized elephant flows that must complete before the next iteration can begin.
+
+4
+
+Introduction
+
+Any delay in any of these transfers, known as "tail latency" when referring to the completion time of the iteration, can result in the entire cluster being held idle and thus not performing its function. Furthermore, given every GPU is talking to every other GPU, the fabric must be able to spread traffic evenly across the fabric and avoid flow collisions. Finally, any loss of data or need for retransmission can have dramatic consequences for tail latency, and thus it should be avoided. Advanced methods for congestion management and lossless data communication techniques are used to address this. This whitepaper describes the software and hardware components as well as the processes required to build a Dell AI environment based on the Dell PowerEdge XE9680 compute node paired with the Dell PowerSwitch 800GbE and 400GbE data center product family running the Dell Enterprise Software for Open Networking in the Cloud (SONiC).
+Document purpose
+This document describes basic networking concepts and approaches for greenfield AI Ethernet fabric deployments with Dell Networking. It is not intended to provide a deep technical analysis of any given offering, nor does it imply a preference as all these fabric approaches are viable and have different merits depending on the customers' requirements. Deep dive material is available from each of the respective solution providers for their offerings and should be referred to for detailed analysis.
+Target audience
+This whitepaper is intended for AI solution architects, data engineers, IT infrastructure managers, and IT personnel who are interested in or considering implementing AI deployments.
+Disclaimer
+The whitepaper does not provide performance data or sample infrastructure configurations . The Dell Validated Designs (DVDs) and Dell Reference Designs (DRDs) provide the specific infrastructure configurations and test performance.
+Terminology
+
+The following table provides definitions for some terms used in this document.
+
+Table 1. Terminology
+
+Term GPU
+
+Definition Graphics Processing Unit
+
+CPU
+
+Central Processing Unit
+
+AI
+
+Artificial Intelligence
+
+SONiC
+
+Software for Open Networking in the Cloud
+
+Dell Enterprise SONiC
+
+Dell SONiC implementation
+
+RoCE
+
+RDMA over Converged Ethernet
+
+RDMA
+
+Remote Direct Memory Access
+
+DCQCN
+
+Data Center Quantized Congestion Notification
+
+GbE
+
+Gigabit Ethernet
+
+VLAN
+
+Virtual Local Area Network
+
+PFC
+
+Priority Flow Control
+
+BGP
+
+Border Gateway Protocol
+
+ToR
+
+Top of Rack
+
+Introduction
+
+5
+
+Table 1. Terminology (continued) Term DLB ECMP ECN
+
+Definition Dynamic Load Balancing Equal-Cost Multi-Path Explicit Congestion Notification
+
+6
+
+Introduction
+
+2
+AI and Dell Technologies
+Topics:
+• AI overview and fabric requirements • Dell Technologies networking software • Dell Technologies networking hardware
+AI overview and fabric requirements
+Many types of applications exist in a data center or network fabric. These applications can be loss-tolerant (that is, they can tolerate packet drops or are latency insensitive) or loss-intolerant (that is, they cannot tolerate packet drops or are latency sensitive). Among these applications, few are as unique as artificial intelligence (AI) whose data traffic pattern is characterized by: ● An extremely large volume of data exchanged, particularly with large language models (LLMs) and similar language models ● High-rate data exchange taking place during the initial training phase of any model ● Latency sensitive applications exchanging vast amounts of data in a feedback loop fashion ● Diverse traffic patterns (as in, predictable and somehow ordered or unpredictable) ● Heterogenous traffic size flows (such as, elephant and mouse flows) ● Chaotic and bursty dataset patterns These workload characteristics make AI different from others in the sense that it must adhere to strict infrastructure requirements to be useful to any organization. Fabrics for GenAI compute clusters are all challenged with delivering the highest bandwidth and lowest latency data transfer, while avoiding packet loss or any kind of retransmission delays. Given the massive data volumes being pushed through the fabrics in support of AI workloads, these fabrics will be operating as closely as possible to saturation characterized by highly parallelized transmission of multiple elephant flows. Finally, effective utilization of the compute resources depends on minimizing delays due to the network transfers in order to allow the parallel compute jobs to progress in a synchronized fashion. In summary, an AI fabric must be: ● Lossless ● High performing ● Scalable Dell Technologies, with its complete product portfolio, has the software and hardware component stack needed to create and deliver the necessary infrastructure and surrounding components for an AI environment.
+Dell Technologies networking software
+Dell Enterprise SONiC network operating system
+Dell Technologies has been an innovator in the open-source and disaggregation arena for many years, starting with the integration of running third-party networking operating systems on Dell branded networking equipment and, more recently, running open-source code such as SONiC. Dell Technologies has created a world-class, enterprise-grade version of the open-source SONiC stack. The Dell Enterprise SONiC stack provides a full suite of enterprise, cloud, edge, and campus features.
+
+AI and Dell Technologies
+
+7
+
+This stack delivers scalable, high-performance, multi-tenancy connections for Hyper-Converged Infrastructure (HCI), Converged Infrastructure (CI), and AI workloads.
+
+Figure 1. Dell Enterprise SONiC
+Dell Enterprise SONiC, starting with version 4.2.1 on the Z9664F-ON, has implemented a series of networking features that facilitate the deployment of a single to multi-rack GPU cluster. The following figure shows the initial Dell Enterprise SONiC for AI networking feature set. Each feature aims to address performance, quality-of-service, and ease of management for an AI deployment.
+
+Figure 2. Dell Enterprise SONiC AI feature set
+To address the high-performance requirements of an AI workload, Dell networking provides a switch product portfolio with 400GbE and 800GbE switching capacity.
+With RoCEv2, chaotic and demanding AI network traffic patterns can be guaranteed in a congested fabric. AI traffic can be classified and marked as a high strict priority traffic in the fabric. The classification as a strict priority ensures that AI traffic is assigned into a specific output queue that is serviced before any other traffic in the fabric. This first-priority classification ensures smooth data switching from end-to-end, in this case from GPU-to-GPU.
+
+8
+
+AI and Dell Technologies
+
+With cut-through switching, latency sensitive traffic such as AI is switched within the network device without waiting to receive the entire AI data packet before switching the packet to its destination. And finally, load balancing features such as enhanced hashing and dynamic load balancing address points of congestion to uniformly distribute AI traffic across multiple 400GbE ports as needed. These Dell Enterprise SONiC features create a solid foundation on which a lossless, high-performance, and scalable Ethernet fabric can be created.
+Dell Technologies networking hardware
+The hardware components of the Dell AI fabric solution design have been purpose-built for the AI world. The hardware product family is light, high-performing, efficient, and based on open-standards. These characteristics make a Dell end-to-end solution design a good fit for unique workloads that require high-performance, efficiency, and easy-to-manage deployments.
+Dell PowerSwitch
+The Dell PowerSwitch portfolio is the infrastructure that delivers the AI solution. In this whitepaper, the Z9864F, Z9664F-ON and Z9432F-ON are the primary 800GbE and 400GbE switches respectively. With up to 51.2 Terabits per second (Tbps) switching capacity, these three switches are purpose-built for any kind of AI workload. Customers looking for a high-performance, scalable, and lossless fabric for their AI environment should consider the Dell Z-Series platform.
+
+Figure 3. Dell PowerSwitch Z9864F-ON
+
+AI and Dell Technologies
+
+9
+
+Figure 4. Dell PowerSwitch Z9864F-ON
+
+Figure 5. Dell PowerSwitch Z9432F-ON
+The OOB fabric connections are all 1GbE copper based RJ45 connections. In this guide the PowerSwitch N3248TE is being used as the OOB management switch.
+
+10
+
+AI and Dell Technologies
+
+Figure 6. Dell PowerSwitch N3248TE-ON switch
+
+AI and Dell Technologies
+
+11
+
+3
+Networking guide and requirements
+Topics:
+• AI Ethernet fabrics - Requirements • Building a GPU Cluster with the Dell PowerEdge XE9680 • AI fabrics
+AI Ethernet fabrics - Requirements
+The AI Ethernet fabric must deliver key features and leverage open standards to become a compelling fabric interconnect of choice for the AI world. These are as follows:
+Interoperable
+The Dell AI fabric must operate at the highest level and leverage a well-established network ecosystem that is based on proven open standards such as Ethernet. With an Ethernet-based approach, a flexible architecture can be achieved.
+High-Performance
+AI workloads are unique in that they require specific network or fabric properties to perform optimally. With Dell Enterprise SONiC as the networking operating system, an AI-specific feature set is included such as cut-through switching, RDMA over Converged Ethernet (RoCE) version 2, dynamic load balancing (DLB), and enhanced hashing to deliver the network performance that support AI workloads. For details about these requirements, see Figure 2. In addition to the software feature set by Dell Enterprise SONiC, the PowerSwitch Z-series provides the necessary non-blocking 800GbE and 400GbE switching fabric capacity.
+Scalable
+With the Dell networking product portfolio, AI fabrics customizations enable a range of GPU cluster deployments. The requirements of AI workloads can range from a single GPU to a cluster of multiple GPUs. This whitepaper explores some relevant AI fabric topologies: single switch, TOR-wired Clos topology, Pure Rail topology, and Rail Optimized topology.
+Lossless fabric
+In order to support RoCEv2, an Ethernet fabric needs to leverage PFC to be lossless. Additional congestion control techniques, such as DCQCN, are also needed.
+Load balancing
+In a leaf and spine architecture, the fabric is Layer 3 and uses dynamic load balancing (DLB) on equal cost multi-path (ECMP) links. This results in a uniform traffic distribution across all the links between the leaf and spine switches.
+
+12
+
+Networking guide and requirements
+
+Congestion control
+DCQCN is the main congestion control networking feature set deployed on an Ethernet fabric. DCQCN uses explicit congestion notification (ECN) to implement a rate-based, flow-based end-to-end congestion control protocol. By acting on a per-flow basis, DCQCN provides fairness and significantly increases the Ethernet Fabric performances.
+Building a GPU Cluster with the Dell PowerEdge XE9680
+Dell PowerEdge XE9680
+Dell PowerEdge XE9680
+The Dell PowerEdge XE9680 is a 6U server, and it is Dell's first 8 x GPU platform. This server is engineered to significantly enhance application performance by driving the most complex AI, ML, deep learning (ML/DL), and high-performance computing workloads (HPC). The Dell PowerEdge XE9680 server features up to two 56-core 4th generation Intel Xeon Scalable processors and offers the highest GPU memory capacity and bandwidth currently available, making it capable of managing large and complex models and datasets. Each GPU in the Dell PowerEdge XE9680 is coupled through PCIe with a respective NIC that interfaces with the fabric at 400GbE speed, as shown in REF Figure 8. Direct attach copper (DACs) or fiber cablings are supported.
+
+Figure 7. Components of a Dell PowerEdge XE9680 Figure 8 shows the front of the Dell PowerEdge XE9680.
+
+Networking guide and requirements
+
+13
+
+Figure 8. Dell PowerEdge XE9680
+The NICs in the two PCIe slots located on the far right and far left are used for the front-end fabric connections, whereas the eight GPU NICs are coupled with the eight GPUs and used to connect to the Scale Out Fabric (see Building a GPU cluster).
+Building a GPU cluster
+The Dell PowerEdge XE9680 integrates eight GPUs and up to 10 NICs/DPUs. Multiple fabrics are needed to create a GPU cluster based on the XE9680, as shown in Figure 9.
+
+Figure 9. Example of a Dell PowerEdge XE9680-based GPU cluster
+
+14
+
+Networking guide and requirements
+
+The eight GPUs within an XE9680 are interconnected by an Intra-Node Scale Up Fabric that creates a GPU high bandwidth domain. Eight of the NICs/DPUs are coupled through PCIe with the eight GPUs and are used to exchange parameters among GPUs belonging to different chassis through a Scale Out Fabric. The remaining two NICs/DPUs are connected to a front-end fabric, used to deploy storage, applications, and in-band cluster management.
+Figure 9 shows the different fabrics that support the deployment of a typical AI workload:
+
+1. Scale Up Fabric
+2. Scale Out Fabric
+3. Front-End Fabric
+4. Management Network
+
+This fabric interconnects the eight GPUs to form a high bandwidth domain, usually through proprietary network technologies (e.g., NVIDIA NVLink or AMD XGMI). This fabric is used by the set of GPUs composing a GPU cluster to exchange AI workload parameters.
+This fabric supports the deployment of the storage, application, and in-band cluster management components of the AI solution. This fabric supports the overall environment management network for the solution.
+
+The terminology "Scale Up Fabric", "Scale Out Fabric", and "Front-End Fabric" is expected to become the standard terminology in the industry. However other terms are used in the industry to indicate these fabrics and are listed here for reference:
+
+Scale Up Fabric GPU Fabric, Back-End Fabric, Front-End Fabric. Scale Out Fabric Host Fabric, East-West Fabric, Back-End Fabric, Front-End Fabric. Front-End Fabric Storage/Access Fabric, North-South Fabric.
+
+We will focus on the Scale Out Fabric, that is used by all the GPUs in the cluster to exchange the parameters used in the long and intensive training jobs used to create a new model. In addition to the Scale Out Fabric, we will also consider the factors important to build a front-end fabric, which is used for storage access and application access in support of the cluster functionality.
+
+AI fabrics
+
+Scale Up Fabric
+GPUs not only provide numerous compute cores, but also their own communication capabilities. For example, an NVIDIA H100 GPU provides more than 10,000 computation cores and 18 NVLink4 interfaces, each running at 200Gb/s, for a total aggregate bandwidth of 450GB/s. The most advanced NICs run today at the speed of 400Gb/s, a single H100 GPU can drive a bandwidth of 450GB/s, more than an order of magnitude higher.
+As shown in Figure 10, the Scale Up Fabric interconnects the eight GPUs in a XE9680 to form a high bandwidth domain using the native interfaces of the GPU. This type of fabric enables efficient sharing and coordination of embedded resources, allowing multiple GPUs to work together. Scale Up Fabrics can seamlessly address complex tasks such as AI training and finetuning, and they are transparently supported by the Communication Library provided by the GPU vendor.
+
+Networking guide and requirements
+
+15
+
+Figure 10. Example of a Scale Up Fabric cluster
+A Scale Up Fabric uses different technologies depending on the vendor. NVIDIA uses switched NVLink, AMD uses a full mesh of point-to-point XGMI links, and Intel uses Ethernet. A Scale Up Fabric provides high bandwidth among the interconnected GPUs; however, it is spatially limited (that is, within a single server). A Scale Out Fabric is used to build a GPU cluster that is not limited to a single node.
+Scale Out Fabric
+As shown in Figure 11, the Scale Out Fabric interconnects the NICs coupled with the GPUs in an XE9680 to build a GPU cluster including more than a single node. The Scale Out Fabric is used by the set of GPUs composing a GPU cluster to exchange AI workload parameters.
+
+Figure 11. Example of a Scale Out Fabric cluster
+When deploying a Scale Out fabric, keep the following in mind: ● No EVPN VXLAN BGP is deployed as the networking protocol since multi-tenancy GPU service is not a requirement. It is
+best to deploy plain BGP as the network protocol in the fabric. ● Switch redundancy, such as MC-LAG is not needed. Link redundancy is achieved by multiple active links between leaf and
+spine, as well as GPU connections to multiple leaf switches.
+
+16
+
+Networking guide and requirements
+
+These are guidelines to keep in mind and it is certainly not an exhaustive networking design checklist. Fabric configuration requires detailed planning and design throughout the entire deployment cycle. Multiple topologies can be used to build a Scale Out Fabric: ● Single Switch topology ● TOR-Wired Clos topology ● Pure Rail topology ● Rail Optimized topology
+Single switch topology
+The first and simplest Scale Out Fabric topology is the single switch topology, which is the simplest instance of a TOR-Wired Clos topology. Figure 12 shows the connectivity properties of the TOR-Wired Clos topology.
+Figure 12. Single Switch TOR-Wired Clos Topology As shown in Figure 12, this topology enables direct Scale Out Fabric communication between any GPU pairs without involving the Scale Up Fabric. For example, GPU 4 on Server 1 can directly communicate through NIC 4 on Server 1 with GPU 8 on Server 2, because the single switch topology (or TOR-Wired Clos topology) enables NIC 4 on Server 1 to communicate with NIC 8 on Server 2, and NIC 8 on Server 2 is coupled with GPU 8 on Server 2. The following items characterize a single switch topology: ● Single Dell PowerSwitch Z9864 (or Z9664F-ON) switch ● 1 to 16 (or 1 to 8) Dell PowerEdge XE9680s ● 8 to 128 (or 8 to 64) GPU cluster ● Layer 2 or Layer 3 with RoCEv2
+NOTE: There is also a smaller Z-series switch (Z9432F-ON) that could be used for a smaller topology. Figure 13 shows a single switch fabric using the Dell Z9664F-ON. With a single Z9664F-ON, 64 GPUs can be clustered.
+
+Networking guide and requirements
+
+17
+
+Figure 13. Single Switch Topology
+The connections from each GPU to the switch can be 800GbE or 400GbE. The Z9864F, Z9664F, and Z9423F are the baseline switches to build a Scale Out Fabric based on this topology. Figure 13 shows a single switch using the Dell PowerSwitch Z9664F with link speeds of 400GbE supporting a 64 GPU cluster deployment.
+TOR-Wired Clos topology
+The second Scale Out Fabric topology is the TOR-Wired Clos topology. The connectivity properties of the TOR-Wired Clos topology are shown in Figure 14. This topology enables direct Scale Out Fabric communication between any GPU pairs without involving the Scale Up Fabric, but it is not the recommended topology to build a Scale Out Fabric (see Tradeoffs).
+
+18
+
+Networking guide and requirements
+
+Figure 14. ToR-Wired Clos Topology
+Figure 15 and Figure 16 show two different tier leaf and spine examples using the Dell PowerSwitch Z9664F. Each provides a common set of benefits, but they differ in the supported number of computer clusters. A two-tier leaf and spine ethernet fabric can scale up to a 2,000 GPU compute cluster, whereas with the three-tier leaf and spine architecture, using a super spine tier the compute cluster can go beyond 2,000 GPUs plus enabling the connection of separate subfabrics. Figure 16 shows two subfabrics (SubFabric_A, and SubFabric_B) interconnected through the super spines.
+
+Networking guide and requirements
+
+19
+
+Figure 15. Two-Tier TOR-Wired Clos Topology
+
+Figure 16. Scale Out - Three-Tier ToR-Wired Clos Topology
+Pure Rail topology
+Figure 17 shows the connectivity properties of the Pure Rail topology.
+
+20
+
+Networking guide and requirements
+
+Figure 17. Pure Rail Topology
+As shown in Figure 17, in this topology, each NIC is connected to a different switch (or spine-leaf network), called a rail. This topology enables direct Scale Out Fabric communication only between GPUs belonging to the same rail. The Scale Up Fabric is involved in the Scale Out Fabric communications to cross rails.
+For example, in order to communicate with GPU 8 on server 2, GPU 4 on server 1 has first to transfer its data into the memory of GPU 8 on server 1 (cross the rails), and then GPU 8 on server 1 can communicate through NIC 8 on server 1 with GPU 8 on server 2, coupled with NIC 8 on server 2.
+
+Figure 18. Scale Out Fabric - Pure Rail Topology Example
+Figure 18 shows an eight-rail topology interconnecting eight PODs. Each POD consists of 8 XE9680. Each XE9680 comes with 8 GPUS. This is a 512 GPU size fabric. Each GPU from each POD has a dedicated 400GbE connection. For example, Rail1 is a Dell Z9664F-ON switch, with 64 x 400GbE ports. POD_1 consists of eight Dell XE9680, each XE9680 has 8 GPUs, totaling 64 GPUs per POD. Each GPU 1 from each POD connects to "Rail1," then GPU 2 from each POD, connects to "Rail2," and so on. See Figure 18.
+
+Networking guide and requirements
+
+21
+
+Rail Optimized topology
+Figure 19 shows the connectivity properties of the Rail Optimized topology.
+Figure 19. Rail Optimized Topology As shown in Figure 19, in this topology each NIC is connected to a different switch (or spine-leaf network), called a rail. The rails are also interconnected at an upper tier. Therefore, this topology provides two ways to cross rails: through the Scale Up Fabric (preferred) or through the upper tier of the Scale Out topology. For example, in order to communicate with GPU 8 on server 2, GPU 4 on server 1 can either: ● Transfer its data into the memory of GPU 8 on server 1 (cross the rails), and then GPU 8 on server 1 can communicate
+through NIC 8 on server 1 with GPU 8 on server 2, coupled with NIC 8 on server 2 ● Send its data to NIC 4 on server 1, which will be able to reach through the upper tier NIC 8 on server 2, coupled with GPU 8
+on server 2. This property allows AI workloads to perform better on a Rail Optimized topology than on a Pure Rail topology, because the current Collective Communication Libraries are not yet fully optimized for the Pure Rail topology. As such, the Rail Optimized topology is the recommended topology to build a Scale Out fabric (see Tradeoffs in Scale Out Fabric). The Z9864 is the baseline switch to build a Scale Out Fabric based on this topology. Figure 20 shows an example of Rail Optimized topology with the Dell Z9664F-ON PowerSwitch.
+
+22
+
+Networking guide and requirements
+
+Figure 20. Scale Out Fabric - Rail Optimized Topology Example
+
+The Rail Optimized topology provides the same set of benefits that a Pure Rail topology does, plus scalability and connectivity through the upper tier (Spine). There are times where the GPU to GPU across different nodes may not take the optimum path (Leaf) and the upper tier (Spine) must provide connectivity between the different rails.
+For example, red GPU on NODE_1, POD_1 wishes to communicate with lightblue GPU on NODE_1, POD_3. Ideally, the data path would be for the red GPU to use the internal fabric on NODE_1 to communicate with lightblue GPU on NODE_1, and then lighblue GPU on NODE_1 would transmit this data to Rail3, however, if for some reason this data path is not available, then red GPU will transmit its data upstream towards Rail1. Rail1, will forward towards S1, where S1 will send this data downstream to Rail3.
+
+Tradeoffs
+
+The TOR-wired clos topology allows shorter cables to connect servers to leaf switches in a rack, enabling cheaper DAC cables in place of optical cables.
+On the other side, the Pure Rail and Rail Optimized topologies provide better GPU reachability (i.e., more GPUs at 1-hop distance), as shown in Table 2 for the Z9864F-ON and Z9664F-ON switches. This means that these topologies allow better performances for AI workloads, and for this reason they are recommended over the TOR-wired Clos topology.
+
+Table 2. GPU Reachability
+
+Topology
+
+High Bandwidth Domain
+
+1-Hop Away Z9664F-ON
+
+Z9864F-ON
+
+3-Hop Away Z9664F-ON
+
+Z9864F-ON
+
+TOR-Wired Clos
+
+8 GPUs (single node)
+
+32 GPUs (4 nodes)
+
+64 GPUs (8 nodes)
+
+2048 GPUs (256 nodes)
+
+8192 GPUs (1024 nodes)
+
+Networking guide and requirements
+
+23
+
+Table 2. GPU Reachability (continued)
+
+Topology
+
+High Bandwidth Domain
+
+1-Hop Away Z9664F-ON
+
+Rail
+
+8 GPUs
+
+256 GPUs
+
+(single node)
+
+(32 nodes)
+
+Z9864F-ON
+512 GPUs (64 nodes)
+
+3-Hop Away Z9664F-ON
+16384 GPUs (2048 nodes)
+
+Z9864F-ON
+65536 GPUs (8192 nodes)
+
+Front-end fabric
+The front-end fabric refers to the network infrastructure interconnecting the different functions of the AI environment. This fabric facilitates communication, compute resource sharing, and data transfer among the cluster's interconnected clusters. The front-end fabric also offers end users the necessary access to the servers and applications part of the AI environment. It also supports connectivity for network management through in-band interfaces. When integrated with the storage fabric, the front-end fabric facilitates access to the storage, leading to a comprehensive unified fabric. The bandwidth link speed from the Dell PowerEdge XE9680 to the front-end fabric is 400GbE using NICs 9 and 10 (see Figure 8), and they connect to a Dell Z9432F-ON.
+
+Figure 21. Front-End Fabric
+The front-end fabric is a converged fabric where storage, application, and in-band GPU cluster management connections take place at different speeds ranging between 400GbE - 25GbE.
+The front-end fabric uses EVPN VXLAN and standard Layer 2 or Layer 3 to provide multiple services such as multitenancy access into the AI environment, or straight access onto storage services from the GPUs as needed.
+These VLAN segments (storage, application, and in-band GPU management cluster) are then routed within the front-end fabric to reach outside the AI environment or stay isolated as a private AI environment sandbox.
+The connections from the storage, application, and in-band cluster management to the Dell PowerSwitch are Layer 2 in most cases. The different services (storage, GPU application, and in-band cluster management) are assigned a respective VLAN as it egresses the devices.
+
+24
+
+Networking guide and requirements
+
+Management network
+The management fabric provides out-of-band (OOB) management connectivity, local or remote, into the AI infrastructure (switches) and devices like storage appliances and servers. The OOB connections range from simple iDRAC connections from the servers, management interfaces from the storage appliance, and networking devices. The link speed of these connections is 1GbE using Cat-RJ45 copper cables. Figure 22 shows the OOB connections from all the devices in the Dell AI environment.
+
+Figure 22. Management Network
+The AI OOB fabric uses the PowerSwitch N3248TE-ON. This switch supports Layer 2 and Layer 3 switching, and the switch port speeds are 1GbE. The Dell PowerSwitch N3248TE-ON has four 10GbE SFP ports that can be used to uplink onto the legacy or existing network.
+The following networking guidelines can be applied when deploying the OOB Ethernet fabric:
+● Both types of fabrics (Layer 2 and/or Layer 3) are supported on the Dell PowerSwitch N3248TE-ON switch. ● If the OOB management fabric is based purely on Layer 2, then all N3248TE-ON switchports are assigned to a single VLAN
+or a small number of VLANs. These VLANs are then trunked over the 10GbE SFP uplink ports on the N3248TE-ON and transmitted upstream to be routed by a different device. ● Spanning-tree should be enabled as a best practice whenever Layer 2 is being deployed. ● If the OOB management fabric is based purely on Layer 3, then very likely the connections from the N3248TE-ON are Layer 3 point-to-point using a /31 subnet IP address scheme. These IP addresses are then routed throughout the OOB management fabric providing remote access into the AI environment.
+The 10GbE SFP uplink ports are still used to connect onto an existing network providing external access into the AI environment.
+
+Networking guide and requirements
+
+25
+
+4
+Dell AI Ethernet fabric – Orchestration and Monitoring
+Topics:
+• Introduction • AI infrastructure orchestration and monitoring • AI workload orchestration and monitoring • Next steps
+Introduction
+The Dell AI Ethernet fabric consists of two major components:
+● Infrastructure or fabric ● Workloads such as GPU, storage, and management clusters
+AI infrastructure orchestration and monitoring
+Dell Technologies offers infrastructure automation and monitoring capabilities through Ansible and Dell SmartFabric Manager. The Ansible integration leverages modules and collections with predefined networking features arranged in an Ansible playbook that is deployed at scale from a single Ansible controller. While Ansible leverages modules and collections, OpenConfig uses gRPC, an open-source Remote Procedure Call (RPC) originally developed by Google to configure and obtain information from the network infrastructure.
+Dell SmartFabric Manager for SONiC
+SmartFabric Manager (SFM) for SONiC is Dell's answer to the call for simplicity in network management. It is a tool that transforms the daunting task of network setup and maintenance into a streamlined, intuitive process. SFM for SONiC automates deployment and management, offering customizable blueprints and automated fabric discovery that reduce manual errors, cut operational costs, and enhance network reliability. SFM for SONiC is not just about simplifying network design and deployment; it is about empowering IT teams with control and visibility. It optimizes efficiency through standard APIs for seamless automation and provides a detailed performance insight through advanced analytics and monitoring. With SFM for SONiC, customers can reduce configuration errors, deploy with confidence, manage less, innovate more, and enjoy increased network availability and performance.
+
+26
+
+Dell AI Ethernet fabric – Orchestration and Monitoring
+
+Figure 23. Dell SmartFabric Manager for SONiC
+Dell SFM brings: ● Fabric Discovery, Validation & Auto Config: SFM for SONiC saves time and reduces manual errors with quick detection of
+wiring issues and no need for specialized skill sets for network configuration. ● Blueprints for Success: User-defined and predesigned blueprints for Dell Solutions and Generative AI save time and allow for
+design once, deploy n times across sites or fabrics. ● REST API Support: SFM for SONiC offers REST API for all capabilities, which customers can use to integrate fabric level
+configurations with scripting. ● Lifecycle Management: Uniform NOS version maintenance, planned and scheduled NOS upgrades, auto rollback on failure,
+and maintenance mode route around to reduce downtime. ● Advanced Analytics & Monitoring: An advanced dashboard provides a deep dive view into the fabric, quickly identifying
+problems and congestion and triggering remedial action to prevent unexpected downtime. In addition to the embedded orchestration and monitoring capabilities with Dell Enterprise SONiC, two key partnerships with BeyondEdge and Augtera further complement this offer.
+BE Networks - Verity
+BE Networks Verity is an intent-based network infrastructure orchestrator integrated with Dell Enterprise SONiC. Verity uses simple text-based network configurations created by Dell Fabric Design Center (FDC).
+Through Zero-Touch Provisioning (ZTP), Verity discovers the presence of Dell PowerSwitches and deploys at scale the network configurations obtained through FDC.
+
+Dell AI Ethernet fabric – Orchestration and Monitoring
+
+27
+
+Figure 24. BE Networks – Day 0 process
+Figure 24 shows the basic process that Verity performs during the automated orchestration of the fabric. Besides BE Networks Verity, the Dell AI infrastructure orchestration can also be deployed by Ansible. Dell Enterprise SONiC supports the latest Ansible modules and collections used to create the relevant YAML playbooks needed to automate the infrastructure.
+
+28
+
+Dell AI Ethernet fabric – Orchestration and Monitoring
+
+Figure 25. BE Verity system level detail view
+Figure 25 shows the zooming capabilities of BeyondEdge Verity, which can amplify configurations and events in the fabric.
+Augtera
+Provisioning the fabric is not enough; visibility into the solution is key. With Augtera, Dell Enterprise SONiC integrates monitoring and deep insight into the AI solution. The integration uses open-standards traffic monitoring technology such as sFlow, everFlow, SNMP tracking, and SONiC gRPC, gNMI Telemetry. Augtera SONiC AI is a multi-vendor and multi-technology solution that provides monitoring and anomaly detection of Enterprise SONiC Distribution networks in a greenfield or brownfield environment using standards-based configuration and monitoring techniques. SONiC AI uses machine learning (ML) on networking data and helps keep the focus on the business while minimizing expenses. To tackle SONiC network operations challenges, Augtera Networks tapped into AI and ML. The effort to incorporate AI and network management resulted in the industry's first AI platform for Enterprise SONiC networks called SONiC AI. SONiC AI provides a holistic solution in addressing network operations.
+
+Figure 26. Augtera Dell Enterprise SONiC AI integration
+
+Dell AI Ethernet fabric – Orchestration and Monitoring
+
+29
+
+Augtera SONiC AI brings the benefits of AI-augmented operations to physical, virtual, and cloud network environments and achieves the following outcomes:
+
+Integration and As data center networking moves towards Open Networking with the implementation of open-source validation with NOS, Augtera works with Enterprise SONiC to make it easy to configure and manage SONiC using SONiC Enterprise SONiC AI. Some key integrations include: Distribution by ● Integration with Enterprise SONiC gRPC/gNMI telemetry models for comprehensive monitoring and Dell Technologies AI-based anomaly detection
+● Integration and advanced classification of Enterprise SONiC syslog to generate alarms
+● Integration with Enterprise SONiC Everflow for on-demand flow analysis
+
+Advanced Machine Learning applications
+
+ML is suited to automatically recognize patterns from data with minimal human intervention. With network devices supporting telemetry streaming, large amounts of data are produced and collected, but the backend systems are not able to analyze this amount of data.
+
+The collected data leaves operators searching for needles in a large data haystack. However, network
+
+infrastructure is a specialized and complex source of data that makes it hard to apply ML to this data
+
+while deriving operational value.
+
+Comprehensive converged monitoring and automation solution
+
+SONiC AI can visualize the topology, metric charts, tables, and graphs of the devices, logs, and events, enabling SONiC AI to generate alerts and notifications in the network. Thus, it can substitute the functions of a traditional network management system (NMS) while providing the key differentiation of identifying highly complex correlated anomalies using AI/ML. This capability makes SONiC AI the "single pane of glass" for visibility of the entire network. Augtera pulls data not only from the network devices, but also from other tools in the environment, which helps in the consolidation of data, and prevents further tool sprawl.
+
+Consolidated dashboard views and topology
+SONiC AI provides an end-to-end view of all events, anomalies, traffic utilization, and metrics across the SONiC environment. This includes a real-time topology view of events, anomalies and metrics across the network as well as in and out traffic utilization heatmaps for the switch fabric and host interfaces.
+
+Figure 27. Augtera dashboard and multi-layer topology
+
+30
+
+Dell AI Ethernet fabric – Orchestration and Monitoring
+
+AI workload orchestration and monitoring
+The challenges of orchestrating and monitoring the resources of a dynamic environment such as an AI cluster--where CPU, memory, storage, GPU, and other compute resources spread across hundreds if not thousands of nodes--create an urgent need towards a more efficient workload orchestration and monitoring approach. The OMNIA project is an open-source initiative to make deploying consolidated workloads easy and painless. The project uses open-source and free-use software started by Dell Technologies, HPC, and AI Innovation Lab. The OMNIA software stack deploys two types of workload management software: Slurm and/or Kubernetes. Both Slurm and Kubernetes allow deployment at any scale, bringing all the compute resources into a single entity. Figure 28 and Figure 29 describe the respective workload management stacks.
+
+Figure 28. OMNIA Kubernetes stack
+
+Dell AI Ethernet fabric – Orchestration and Monitoring
+
+31
+
+Figure 29. OMNIA Slurm stack
+Dell Enterprise SONiC & Augtera SONiC AI are a very powerful combination of a highly scalable NOS for modern datacenters and a real time, enterprise grade, AI/ML-based, network configuration, anomaly detection and management solution. Dell Enterprise SONiC provides customers a standards-based, open source driven, and cost-effective way to build their network.
+Next steps
+The state of the art in the industry for host and GPU connectivity is based on RDMA (Remote Direct Memory Access) protocol, which can be implemented either via Ethernet or InfiniBand using RoCE standards. This is supported by high-speed switching, currently with 800G port speeds as current benchmark and then supported with sophisticated load balancing and congestion management techniques to ensure lossless, low latency data transfers to ensure maximum utilization of the compute resources to achieve best training times and inferencing responses. Dell Technologies currently supports and recommends three different fabric solutions, each with different trade-offs relative to the specific goals and requirements of customers. Factors that influence the final selection of a fabric technology can include the desire for multi-vendor support, open standards, cost and supply constraints, or specific performance or compatibility concerns. These solutions are Dell PowerSwitch Ethernet (based on the SONiC NOS), NVIDIA Spectrum-X switching, or finally NVIDIA InfiniBand. These options support 400G bandwidth, with the Ethernet version extending to 800G speeds with support for RDMA transmission and associated load balancing and congestion management techniques to support GenAI traffic requirements. The final recommendation of a given solution must be given in the context of the specific customer requirements. Please refer to vendor document and related whitepapers for detailed discussions of each of the specific solution options.
+
+32
+
+Dell AI Ethernet fabric – Orchestration and Monitoring
+
+5
+Support and References
+Topics:
+• Feedback and technical support • Dell Technologies documentation • External documentation
+Feedback and technical support
+We encourage readers to provide feedback on the quality and usefulness of this publication by sending an email to Dell_Networking_Solutions. For technical support, visit the Dell Support site.
+Dell Technologies documentation
+The following Dell Technologies documentation provides additional and relevant information. Access to these documents depends on your login credentials. If you do not have access to a document, contact your Dell Technologies representative. ● Dell Networking InfoHub ● Dell PowerSwitch ● Dell PowerEdge XE9680 ● Dell PowerScale ● Dell Enterprise SONiC ● Dell Technologies OMNIA Overview
+External documentation
+The following documentation provides information about partner technologies. ● BeyondEdge ● Augtera
+
+Support and References
+
+33
+
+

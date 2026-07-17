@@ -1,0 +1,832 @@
+Enterprise Sonic distribution by Dell Technologies Networking use case guidebook
+A comprehensive networking use case for the Dell SONiC network operating system
+H04693
+Abstract This whitepaper describes common networking use cases supported by the Dell Enterprise SONiC network operating system.
+Dell Technologies Solutions
+April 2026
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+
+Chapter 1: Introduction................................................................................................................. 5 Overview................................................................................................................................................................................5 SONiC.....................................................................................................................................................................................5 Terminology...........................................................................................................................................................................5
+Chapter 2: Core use cases............................................................................................................. 7 Overview................................................................................................................................................................................ 7 Layer 2 Fabric Deployment................................................................................................................................................7 Deployment Best Practices......................................................................................................................................... 8 Layer 3 Fabric Deployment................................................................................................................................................8 Deployment Best Practices......................................................................................................................................... 9 BGP EVPN VXLAN Deployments.....................................................................................................................................9 BGP EVPN VxLAN.........................................................................................................................................................9 Deployment Best Practices........................................................................................................................................ 11 Dell SONiC Data Center Interconnect (DCI)................................................................................................................11 Deployment Best Practices....................................................................................................................................... 13 Dell SONiC and EVPN Multihoming...............................................................................................................................13 Typical Deployment Use cases..................................................................................................................................14 Key EVPN Multi-homing Features Support on Dell SONiC............................................................................... 15 Deployment Best Practices....................................................................................................................................... 15 Routing on the Host.......................................................................................................................................................... 16 Deployment Best Practices........................................................................................................................................17 Weighted ECMP for Service Chaining and Bandwidth-Tiered Routing................................................................ 17 Advanced Telemetry (IFA v2, Tail-Latency Stamping, Enhanced sFlow)............................................................ 18
+Chapter 3: AI Fabrics...................................................................................................................20 Overview............................................................................................................................................................................. 20 AI Fabric Architecture...................................................................................................................................................... 20 Out-of-Band (OOB) Management Fabric.............................................................................................................. 21 Frontend or Converged Fabric..................................................................................................................................21 Backend or Scale-Out Fabric.................................................................................................................................... 21 Deployment Best Practices.......................................................................................................................................23 Dell AI Factory with NVIDIA............................................................................................................................................ 24 Networking for Dell AI Factory with NVIDIA – PowerSwitch SN/NVIDIA Spectrum with Dell SONiC.........................................................................................................................................................................24 Key AI Fabric Features Supported by Dell SONiC............................................................................................... 25 Dell AI Platform with AMD.............................................................................................................................................. 25 Networking for Dell AI Factory with AMD – PowerSwitch Z/S Series with Dell SONiC...........................26 Key AI Fabric Features Supported by Dell SONiC............................................................................................... 26
+Chapter 4: Enterprise SONiC Distribution by Dell Technologies................................................... 28
+Chapter 5: Edge/Cloud computing use cases...............................................................................29 Overview............................................................................................................................................................................. 29
+
+Contents
+
+3
+
+Edge deployment...............................................................................................................................................................29 Deployment Model...................................................................................................................................................... 29 Deployment Model...................................................................................................................................................... 30 Deployment Best Practices.......................................................................................................................................30
+Dell SONiC and OpenStack..............................................................................................................................................31 Deployment Best Practices....................................................................................................................................... 31
+Chapter 6: Telco/Service Provider.............................................................................................. 33 Overview............................................................................................................................................................................. 33 Telco/Provider Multi-tenant bridging.......................................................................................................................... 33 Deployment Best Practices.......................................................................................................................................35 Precision Time Protocol (PTP)...................................................................................................................................... 36 Deployment Best Practices.......................................................................................................................................38 Open Radio Access Network (ORAN)......................................................................................................................... 39 Deployment Best Practices.......................................................................................................................................39
+Chapter 7: Storage and Hyperconverged Use Cases.................................................................... 40 Dell SONiC and PowerFlex Partial Network Automation (PNA)........................................................................... 40 Deployment Best Practices....................................................................................................................................... 41 Dell SONiC and PowerScale............................................................................................................................................ 41 Deployment Best Practices.......................................................................................................................................42 Dell SONiC and Dell PowerStore................................................................................................................................... 42 Deployment Best Practices.......................................................................................................................................43 RDMA over Converged Ethernet (RoCE)................................................................................................................... 43 Deployment Best Practices.......................................................................................................................................45 Data Center Bridging Exchange Protocol (DCBx).................................................................................................... 46 Deployment Best Practices....................................................................................................................................... 47 VxRail deployment............................................................................................................................................................. 47 Deployment Best Practice.........................................................................................................................................48 NVMe/TCP with Dell SONiC and SmartFabric Storage Software (SFSS).........................................................49 Deployment Best Practices...................................................................................................................................... 50 Dell SONiC and Microsoft Azure....................................................................................................................................51 Deployment Best Practices....................................................................................................................................... 51
+Chapter 8: References................................................................................................................ 53 Dell Technologies documentation..................................................................................................................................53
+
+4
+
+Contents
+
+1
+
+Introduction
+
+Overview
+
+The Dell SONiC Networking use case guidebook provides information about common networking use cases or deployments with the Dell SONiC networking operating system. This document is meant to be used as a reference for anyone interested in learning more about Dell SONiC and its supported use cases, models, or deployments.
+This document is not a deployment guide, reference architecture, or configuration guide. The Dell SONiC User Guide provides the configuration commands necessary to deploy Layer 3, advanced Layer 3, edge, and miscellaneous use cases.
+
+SONiC
+
+Software for Open Networking in the Cloud or SONiC is an open-source network operating system based on Debian Linux that runs on switches from multiple vendors.
+SONiC offers a full feature set that has been in use in the data centers of some of the largest cloud service providers. Since it is open-source, SONiC helps users leverage collective strength and take advantage of the vast ecosystem and community.
+SONiC is designed with networking software components to meet the requirements of a cloud data center. SONiC is built on top of the Switch Abstraction Interface (SAI) layer, which defines a standardized Application Programming Interface (API) for Network Processing Units (NPUs).
+SONiC uses containerization enabling it to be extensible. SONiC is targeting cloud networking scenarios, where scale, simplicity, and management are the highest priority. Operators can plug in new third-party, proprietary, or open-sourced software components, with minimum effort, and tailor SONiC to their specific scenarios.
+The SONiC architecture covers various modules that interact with each other through a centralized and scalable infrastructure. This infrastructure is based on the use of a key-value database to provide a language-independent interface, a method for data persistence, replication, and multiprocess communication among all SONiC subsystems.
+
+Terminology
+
+The following table provides definitions for some of the terms that are used in this document.
+
+Table 1. Terminology Term UCMP ECMP BGP EVPN VXLAN SONiC Backend fabric Frontend fabric Out of Band management fabric LACP MC-LAG
+
+Definition Unequal Cost Multipath Equal Cost Multipath Border Gateway Protocol Ethernet Virtual Private Network Virtual Extensible LAN Software for Open Networking in the Cloud AI GPU switching fabric AI converged fabric for storage, GPU management, and GPU cluster access AI solution management fabric Link Aggregation Control Protocol Multi-Chassis Link Aggregation
+
+Introduction
+
+5
+
+Table 1. Terminology (continued) Term PFC ETS ECN IRB
+
+Definition Priority-Based Flow Control Enhanced Transmission Selection Explicit Congestion Notification Integrated Routing and Bridging
+
+6
+
+Introduction
+
+2
+Core use cases
+Overview
+Dell SONiC supports two primary deployment models — Layer 3 and Layer 2 — as a foundation on which different use cases are deployed. Data centers (DCs) serve as a connection hub for numerous servers, facilitating communication between internal and external users. Generally, every DC runs two kinds of traffic, the first being client/server or north-south traffic. The source of northsouth traffic is typically from external networks, both from within the organization and from th1e Internet. This traffic is usually between web server applications and browsers for both internal and external users. The other type of traffic is between servers within the data center and is called server-to-server or east-west traffic. The source of server-to-server traffic might be virtual machine migrations, extensive data replication, and storage traffic. This traffic often amounts to about 80% of all DC traffic.
+Layer 2 Fabric Deployment
+The Dell SONiC provides basic Layer 2 fabric deployment. Layer 2 fabric benefits: ● Simplicity ● Cost-Effectiveness ● Compatibility ● Open standards integration
+Industry Segment
+● Enterprise Data Centers ● Retail (large chains, e‑commerce) ● Healthcare ● Financial Services ● Public Sector / Government The following figure shows the leaf and spine structure to form a Layer 2 fabric. In this topology, the leaf layer facilitates Layer 2 connections to provide a scalable and flexible solution with simplified configurations, allowing for easy network management and expansion. The links between the leaf and spine switches are pure Layer 2. Spanning-tree is enabled, and the links are configured as trunks carrying tagged VLANs. Multi-chassis Link Aggregation Group (MC-LAG) peer link is deployed on the leaf pair switches. Simultaneously, default gateways for each subnet or VLAN is deployed on the leaf pair switches. The gateways are used to provide subnet or VLAN routing capabilities inside the fabric and Layer 3 connectivity with the external network. The connections from the edge or border leaf switch to the external network are Layer 3.
+
+Core use cases
+
+7
+
+Figure 1. Scalable Layer 2 fabric
+Deployment Best Practices
+Whenever deploying a Layer 2 fabric, the following best practice guidelines should be followed: ● Enable Rapid per VLAN spanning-tree (RPVST) as the spanning-tree mode. Each VLAN creates its own spanning-tree
+instance. However, if the number of VLANs grows exponentially, scalability can become an issue. ● As a minimum, two active links between leaf and spine switches should always be used to ensure link redundancy. ● Pay close attention to port channel mode (LACP or Static). The default mode is LACP. This means LACP must be configured
+at both ends of the port channel. ● When deploying the companion default gateways for each VLAN or subnet, make the description of the gateways clear. ● Configure jumbo frames (9000-9216 bytes) for fabric and host pot interfaces to address any potential issues with packet
+size. ● Configure all port channels or LAGs as trunks to carry all tagged traffic. ● Use the edge or border leaf pair as a gateway for North-South data traffic. Be aware that by using spanning-tree, network loops are avoided, however, half of the interlinks will be blocked to avoid network loops
+Layer 3 Fabric Deployment
+In addition to the Layer 2 fabric mentioned above, Layer 3 fabrics are also part of the Dell SONiC offering. Layer 3 fabric benefits include: ● Flexibility ● Reliability and redundancy ● Edge and fabric scalability ● Virtualization support ● Multitenancy
+Industry Segment
+● Enterprise Data Centers ● Retail (large chains, e‑commerce) ● Healthcare ● Financial Services ● Public Sector / Government
+
+8
+
+Core use cases
+
+The following figure shows a typical leaf and spine fabric. In this topology, the leaf layer provides Layer 2 connections downstream to the end-hosts and Layer 3 connections to the spine switches.
+
+Figure 2. Scalable Layer 3 fabric
+Deployment Best Practices
+Whenever deploying a Layer 3 fabric, the following best practice guidelines should be followed: ● Implement routing redundancy using equal cost multipathing (ECMP) between the switch interlinks, that is, leaf and spine
+links. This feature helps mitigate link congestion and provides efficient link load sharing capabilities. ● Enable "link state tracking," which helps to minimize switch fail-over time. ● As a minimum two active links between leaf and spine switches should always be used to ensure link redundancy. ● Border Gateway Protocol (BGP) scales better for cloud and large enterprise deployments. ● Configure jumbo frames to address any potential issues with packet size. For more information about a Dell SONiC Layer 3 deployment, see Enterprise SONiC Distribution by Dell Technologies- Layer 3 Fabric.
+BGP EVPN VXLAN Deployments
+As data centers are being upgraded from less reliable Layer 2 networks to new and robust leaf-spine topologies, there are still applications that use Layer 2 networks. There is a growing concern to fit such a solution that expects Layer 2 connectivity in a network that has Layer 3 as its foundation. Ethernet VPN (EVPN) solves this issue by building a virtual Layer 2 network overlay over the underlying Layer 3 network. It uses BGP as its control protocol. EVPN is a developed technology used in service provider Multiprotocol Label Switching (MPLS) networks for some time. A variation of this technology is now being adopted in the data center world using Virtual Extensible LAN (VxLAN). EVPN supports network virtualization and multitenancy which divides up a single physical network into many virtual networks. Virtualizing a physical network allows it to be shared between multiple tenants making efficient use of the network. The physical underlay network over which these virtual networks are transported is unaware that it is transporting multiple virtual overlay networks. Besides Layer 2, Layer 3 & EVPN based fabrics, the Dell SONiC OS supports advanced deployment models or solutions that extend into overlays, multisite fabrics, and Telco use cases. The following use cases highlight the capabilities of the operating system that bring unique value to our customers.
+BGP EVPN VxLAN
+As an enhancement and combination of the best of both fabrics (Layer 2 and Layer3), EVPN VxLAN is an overlay control plane technology for VxLAN. It implements an overlay that permits the extension of a Layer 2 domain across a Layer 3 fabric where virtualization and multitenancy deployments leverage Layer 2 connectivity.
+
+Core use cases
+
+9
+
+The figure below shows a BGP EVPN VxLAN fabric where Tenants A and B are being stretched across a Layer 3 fabric implemented by BGP.
+The inter-switch (leaf to spine) links are Layer 3 while the downstream connections to the end-hosts are Layer 2. MC-LAG is implemented at the leaf switch layer to provide link redundancy to the end-hosts.
+Virtual tunnel endpoints (VTEPs) are created on each leaf switch pair. These VTEPs establish the tunnels used by each tenant to create a Layer 2 connectivity across the Layer 3 fabric.
+The border leaf switch pair connected to an external router or switch may or may not have workloads connected to them.
+The links from the border leafs to the external routers are Layer 3 connections with a /31 subnet.
+There are two VxLAN deployment models: Layer 2 VxLAN and Layer 3 VxLAN
+In a Layer 2 VxLAN, all Layer 2 traffic is directed towards a single Layer 3 point. This Layer 3 point can be the edge or border leaf switches, or an external router or firewall connected to the edge or border leaf switches.
+In a Layer 3 VxLAN, tenant VRFs, an anycast gateway, and a transport VNI are configured to provide cross tenant communication while maintaining a Layer 2 domain stretched across a Layer 3 fabric.
+
+Figure 3. EVPN BGP VXLAN fabric
+Industry Segments
+● Retail (stores, distribution centers, POS continuity) ● Healthcare (hospitals, clinics, imaging centers) ● Public Sector / Government (campuses, municipal services, emergency operations) ● Financial Services (trading floors, bank branches, payment processing) ● Manufacturing & Industrial (factories, OT/IT convergence) ● Cloud Providers / Large Enterprises / Data Centers
+Key EVPN/VXLAN Features Support on Dell SONiC
+Some of the key features supported by Dell SONiC for EVPN VXLAN overlays are covered below.
+Integrated Routing and Bridging (IRB)
+Enables VRF‑based tenant routing as well as Anycast Gateway for distributed L3 gateways across VTEPs. Dell SONiC has support for: ● Symmetric IRB: Consistent routing decisions on both ingress and egress; recommended for scale. ● Asymmetric IRB: Routing decisions occur only on ingress VTEPs; egress VTEP performs bridging.
+EVPN Route Types
+● Type‑1: Ethernet Auto‑Discovery (A‑D): Required for multihoming and aliasing.
+
+10
+
+Core use cases
+
+● Type‑2: MAC/IP Advertisement: Distributes MAC & IP binding information for endpoints. ● Type‑3: Inclusive Multicast Ethernet Tag (BUM control): Handles broadcast/unknown/multicast distribution via ingress
+replication. ● Type‑5: IP Prefix Routes: Used in L3 VNI for inter‑tenant routing in symmetric IRB deployments.
+Overlay ECMP Enhancements
+● Improve VXLAN Load Distribution ● Standard ECMP for VXLAN tunnels ● Required for scalable leaf‑spine topologies. ● Weighted ECMP, Partitioned ECMP, and QPN‑Based ECMP (Especially relevant in AI fabrics.) ● BFD for Overlay ECMP (fast tunnel liveness detection)
+Anycast Gateway Support (Distributed Gateway)
+● Each VTEP uses the same virtual gateway MAC and IP within each tenant network. ● Allows seamless host mobility and consistent routing across racks.
+EVPN Based Multitenancy
+● Support for multiple VRFs and VNIs. ● Full isolation between tenant networks.
+Overlay BUM Traffic Handling
+● Uses EVPN Type‑3 routes for replication entries. ● Supports ingress replication (unicast replication).
+Deployment Best Practices
+Like all scalable high-performance fabrics where virtualization and multitenancy are key requirements, the following best practices are recommended: ● Create a Layer 3/Layer 2 demarcation point. From the leaf layer to the spine layer, Layer 3 should be implemented, in this
+case, BGP EVPN VxLAN. ● Any connections downstream from the leaf layer should be Layer 2. ● Implement switch redundancy at the leaf layer with MC-LAG. ● Symmetric IRB provides better scalability as each VTEP does not have to store information for each tenant VLAN in the
+routing table memory. ● Asymmetric IRB is better suited for small and medium-sized data centers and for deployments where there is Layer 2 VxLAN
+(no tenant data traffic routing is needed) and Layer 3 VxLAN (multiple tenants can communicate with each other). ● Broadcast, unknown unicast, and multicast traffic should be controlled whenever possible to avoid network performance
+degradation using the storm-control command. ● For simplicity, unnumbered BGP should be configured between leaf and spine links. ● Enable "neighbor suppression" on Layer 3 tenant VLANs to reduce ARP flooding in the overlay network. ● Link state tracking should be enabled on the leaf and spine interlinks. Link state tracking helps to minimize traffic loss during
+a reset or loss of a switch in the fabric. ● Enable "max-med on-startup" to allow BGP convergence to take place on the affected node (leaf or spine) before data
+traffic is allowed on the fabric.
+Dell SONiC Data Center Interconnect (DCI)
+The ability to interconnect multiple EVPN fabrics is critical to the evolution of the Dell SONiC networking operating system. With version 4.1, multiple EVPN fabrics that are geographically separated can now be interconnected.
+
+Core use cases
+
+11
+
+In a DCI deployment, Layer 2 domains stretch across Performance Optimized Datacenters (PODs) while restricting the tunnels to each VTEP within the same site. Border gateways in each site create two types of tunnels, internal and external. The internal tunnel is created between local VTEPs for intra-site traffic, and an external tunnel with a remote site for inter-site traffic.
+There are several strategic benefits that DCI provides:
+1. EVPN fabric expansion based on open standards. 2. Legacy environment integration, with EVPN, the ability for virtual environments to reach or communicate with nonvirtualized
+applications is important. DCI allows these connections while maintaining the benefits of a virtualized environment.
+Industry Segments
+● Large Enterprise Data Centers ● Cloud & Cloud Service Providers
+Any industry relying on DCI capabilities such as cross‑site workload mobility, disaster recovery, multiple data centers, high resiliency e.g. Financial Services, Healthcare, Public.
+The following figure shows one of two DCI interconnects models. This model shows the interconnect originating at the spine layer. This model allows VxLAN tunnels to stretch across multiple PODs within same or different geographic locations.
+The characteristics of this model are as follows:
+● Workload mobility across any POD ● VxLAN EVPN control plane stretching across PODs ● Sharing of Layer 4 - Layer 7 services across PODs ● Recommended for active/active data center use cases
+
+Figure 4. Dell SONiC and Data Center Interconnect – Multi POD
+MultiPOD (a.k.a. multisite fabric stretch) – a unified EVPN control plane stretched across PODs.
+● Strengths ○ Single logical fabric, simplified operations; mobility & service sharing across PODs.
+● Trade offs ○ Larger fault domain and broader blast radius (no strict fault domain boundaries between PODs). (Dell highlights the contrasting isolation benefits of Multi fabric).
+The second model in the following figure shows the interconnect originating at the leaf layer, or edge leaf switches. This model allows VxLAN tunnels to be terminated locally in each POD shown in gray. The tunnels do not exit the PODs unlike the previous model.
+The characteristics of this model are as follows:
+● Each POD is a distinct Availability Zone (AZ), providing failure domain isolation. ● Each POD runs a distinct Internal Gateway Protocol (IGP) and BGP-EVPN instance. ● Optionally, Layer 2 domains can be stretched across PODs. ● Recommended for active/backup data center use cases.
+
+12
+
+Core use cases
+
+NOTE: Multisite DCI is available only in the Enterprise Standard and Premium bundles.
+
+Figure 5. Dell SONiC and Data Center Interconnect – Multifabric
+Multi‑fabric (a.k.a. Multi‑site DCI) – distinct EVPN fabrics per POD/site with Border Leaf/Gateway nodes performing inter‑site exchange using split‑horizon tunnels (internal vs external). ● Strengths
+○ Availability Zone (AZ) / failure‑domain isolation; per‑site routing/EVPN instances; optional L2 stretch with tighter blast‑radius control
+● Trade offs ○ Slightly more configuration and conceptual complexity vs a stretched fabric.
+Industry Segments
+● Large Enterprise Data Centers ● Cloud & Cloud Service Providers Any industry relaying on DCI capabilities such as cross‑site workload mobility, disaster recovery, multiple data centers, high resiliency e.g. Financial Services, Healthcare, Public.
+Deployment Best Practices
+Whenever deploying DCI, it is best to keep the following items in mind: ● Whenever possible, always deploy multiple links from the source device towards the DCI cloud. ● The links towards the DCI cloud are always Layer 3 connections. ● Always try to summarize routes towards the DCI cloud. ● Deploy MC-LAG on the edge or border leaf switches. The border leaf switches perform a critical intersite connection;
+therefore, redundancy is important.
+Dell SONiC and EVPN Multihoming
+With EVPN multihoming, or EVPN-MH, a single end-host can connect to four distinct leaf or access switches where these leaf or access switches do not need to interconnect with each other to provide link redundancy. EVPN MH leverages the flexibility and scalability of EVPN to deliver maximum uptime while staying fully integrated with its parent EVPN stack. The following figure shows three separate hosts, each of them with separate physical connections but virtually bundled providing end-to-end connection across the EVPN fabric.
+
+Core use cases
+
+13
+
+Figure 6. Dell SONiC and EVPN multihoming
+Typical Deployment Use cases
+EVPN multi-homing is applicable to a wide variety of use cases. Some examples are covered below.
+High-Availability Server Connectivity
+● Dual‑ or quad‑homed servers (Linux, ESXi, bare metal). ● All-active use of uplinks for better throughput and no STP blocking.
+Hyperconverged Infrastructure (HCI)
+● VxRail, PowerFlex, or virtualization clusters requiring: ○ Non‑blocking east‑west communication ○ Fast convergence ○ Seamless node mobility
+Migration Away from MC-LAG
+EVPN‑MH can serve as a drop‑in replacement for MLAG: ● Eliminates MC‑LAG scaling limits (2 nodes max). ● Removes dependency on proprietary peer‑link protocols. ● Simplifies fabric design through BGP-only operation.
+Multi-Tenant and Cloud-Scale Environments
+When used with VXLAN + EVPN: ● Each multihomed segment maps to unique L2 VNIs. ● Supports multitenant cloud pods, L2 stretch segments, and VRF-segmented workloads.
+Industry segments
+● Retail (stores, distribution centers, POS continuity) ● Healthcare (hospitals, clinics, imaging centers) ● Public Sector / Government (campuses, municipal services, emergency operations)
+
+14
+
+Core use cases
+
+● Financial Services (trading floors, bank branches, payment processing) ● Manufacturing & Industrial (factories, OT/IT convergence) ● Cloud Providers / Large Enterprises / Data Centers
+Key EVPN Multi-homing Features Support on Dell SONiC
+EVPN Multi-homing supports the following features on Dell Networking PowerSwitch.
+All Active Multihoming
+● Supports up to four separate leaf switches for a single multihomed host. ● All links are active simultaneously (no blocked STP links).
+No Peer-Link Requirement
+● Unlike MC‑LAG, EVPN‑MH does not require inter‑chassis links or state synchronization.
+EVPN Route-Type Support (for MH operation)
+● Type‑1 Ethernet A‑D routes for multihoming signaling (ESI discovery, mass withdrawal). ● Type‑2 MAC/IP routes for endpoint reachability via EVPN control plane.
+Ethernet Segment Identifier (ESI) based operation
+● Uses ESI on PortChannels to represent an ES across multiple VTEPs (leaf switches).
+Load Balancing Across VTEPs
+● Traffic is distributed across all active links associated with the ESI. ● Avoids the 50% bandwidth loss commonly seen with MC‑LAG + STP.
+Fast Convergence and Failure Handling
+● EVPN MH uses mass-withdraw signaling to rapidly withdraw routes when a link or node fails.
+Fully Integrated with VXLAN Overlays
+● Works seamlessly with L2 VNIs and L3 VNIs, including symmetric or asymmetric IRB underlays.
+Deployment Best Practices
+Like all scalable high-performance fabrics where virtualization and multitenancy are key requirements, the following best practices are recommended: ● EVPN-MH should be deployed whenever the fabric is based on EVPN VXLAN. ● EVPN-MH and MC-LAG cannot be deployed on the same switch. ● EVPN-MH can be deployed across four separate switches maximum. ● Current EVPN-MH implementation is for a single site only. No cross-site support is currently available. ● VRRP over EVPN-MH is not recommended. Use static anycast gateway instead. IGMP snooping is not supported on EVPN MH interfaces.
+
+Core use cases
+
+15
+
+Routing on the Host
+Traditionally, network infrastructures have always had a clear demarcation zone between Layer 3 and Layer 2 switching.
+In a traditional deployment model, any connection from the leaf towards the spine is Layer 3 and Layer 2 from the leaf to the end-host. This means all end-hosts that need to communicate with a different end-host in a different network need to have a Layer 3 gateway as a first hop.
+In a combined switching environment, Layer 2 comes with performance and scaling limitations related to spanning-tree and the number of VLANs. To overcome these limitations, Layer 3 end-to-end should be deployed, however, this requires the end-hosts to be able to participate in the entire Layer 3 protocol stack.
+Routing on the host was introduced with BGP unnumbered interface to achieve Layer 3 end-to-end and mitigate the performance and scaling limitations created by Layer 2 deployments. Routing on the host has the following key benefits:
+● VM mobility ● Layer 3 control plane for VM discovery and reachability ● Eliminates the need for leaf interconnect links ● Layer 3 loop avoidance through Time to Live (TTL) implementation
+The following figure shows the typical Layer 3 and Layer 2 (Hybrid) deployment where all end-hosts terminate their traffic at a Layer 3 gateway.
+This gateway can be configured at the leaf switches through a virtual switch interface with an IP address, or it can be configured at the spine switches. See Layer 2 fabric deployment for additional design methodology information.
+
+Figure 7. Dell SONiC Hybrid deployment
+The following figure shows routing on the host deployment where Layer 3 end-to-end is deployed including at the end-host. With this deployment insufficient number of VLANs, limited number of MAC addresses, or inefficient use of switch interlinks are removed.
+Since Layer 3 is deployed end-to-end, the only limiting factor in this deployment is the route table size of the switch and the end-host's Layer 3 protocol stack support.
+With Dell SONiC, routing on the host is enabled by configuring BGP unnumbered on all the leaf and spine switch interfaces.
+The end-hosts running Layer 3 protocol stack advertise their own network dynamically to the directly connected leaf switches. This in turn transforms all end-hosts connections as single IP addresses that can move freely within and across the fabrics, that is, mobility.
+Another differentiator with routing on the host is the elimination of interconnect links between leaf switches that provide MC-LAG features. MC-LAG limits redundancy to two leaf switches at any given time. This creates a potential reduction performance by 50% if a leaf switch were to fail.
+With routing on the host, the host can advertise and connect to all the leaf switches thereby providing full connectivity regardless of a link failure, and through equal cost multipath (ECMP) equal load sharing is achieved.
+
+16
+
+Core use cases
+
+Figure 8. Dell SONiC – Routing on the host
+Deployment Best Practices
+Routing on the host leverages Layer 3 concepts and has similar Layer 3 deployment guidelines: ● Routing on the host uses BGP. OSPF is not supported. ● Configure /32 subnet on all end-hosts. ● Connect end-host to all leaf switches to achieve full mesh connectivity. ● Configure ECMP across all end hosts links towards the leaf switches.
+Weighted ECMP for Service Chaining and BandwidthTiered Routing
+Weighted ECMP (WCMP) extends traditional ECMP by distributing traffic proportionally based on path weight rather than equally. This allows Dell SONiC-based networks to allocate traffic according to service capacity, bandwidth tiers, or policydriven service chaining. Weighted ECMP uses BGP link‑bandwidth extended communities to assign weights to next‑hop paths. This allows traffic to be forwarded based on relative link capacity instead of equal distribution. As a result, Weighted ECMP can be used to enable traffic distribution across multiple service nodes (firewalls, load balancers, DPI appliances, VNFs) in proportion to: ● their processing capacity ● their desired traffic share ● service‑chaining policies
+Industry Segments
+● Cloud & Cloud Service Providers (service‑chaining for firewalls, load balancers, NAT gateways, and telemetry nodes) ● Telecommunications / Service Providers (CGNAT, DPI, firewalls, EPC/5GC functions, and UPF nodes) ● Enterprise Data Centers (large multi-tier environments) ● Financial Services (transaction inspection appliances, low‑latency risk analysis engines, and encrypted traffic inspection) ● Retail (large multi-site retail backbones)
+Key Features of Weighted ECMP
+● BGP link‑bandwidth extended community (network‑wide WCMP signaling) ● Route‑maps that attach link‑bandwidth attributes to specific prefixes (or anycast VIPs) ● Transitivity policies for inter‑AS and border behavior (optional)
+
+Core use cases
+
+17
+
+● Flowlet-aware adaptive routing (DLB/ARS)
+Advanced Telemetry (IFA v2, Tail-Latency Stamping, Enhanced sFlow)
+Dell SONiC includes a set of advanced telemetry capabilities intended to provide deep, real-time visibility into data‑center networks. These capabilities are available on PowerSwitch Z/S Series, and address troubleshooting, congestion detection, latency analysis, and historical/real‑time traffic insights.
+Industry Segments
+● Large Enterprise Data Centers ● Cloud & Cloud Service Providers ● Any industry operating large‑scale, mission‑critical, or cloud‑based networks (retail, healthcare, public sector, finance, etc.)
+Inband Flow Analysis (IFA) — Dell‑supported Inband Telemetry
+Inband Flow Analysis is a flow‑level, packet‑embedded telemetry system. It provides packet‑level visibility into: ● Granular latency measurement ● Path tracking (observability of per‑hop path behavior) ● Congestion analysis The following figure shows a typical leaf and spine architecture and the respective IFA roles per switches.
+
+Figure 9. Dell SONiC IFA
+Congestion Monitoring
+Performs proactive buffer monitoring to detect congestion before drops occur.
+Mirror‑on‑Drop
+Triggers notifications and mirrored samples when packets are dropped, including the reason and impacted flows.
+
+18
+
+Core use cases
+
+Enhanced sFlow for Traffic Visibility
+Dell SONiC includes sFlow v5, providing scalable, flow‑sampled visibility of L2/L3 traffic across the switch.
+Capabilities
+● Flow‑based sampling for tenant‑level visibility in multitenant fabrics ● Interface counter sampling (time‑based) for utilization analysis ● ASIC‑level packet sampling for highly accurate flow records ● Up to two sFlow collectors configurable per switch
+
+Core use cases
+
+19
+
+3
+AI Fabrics
+Overview
+Dell SONiC distribution is engineered to deliver the high‑performance, low‑latency, lossless Ethernet fabric required for AI workloads. AI training and inference depend on extremely fast and predictable communication between GPUs, storage nodes, and service layers—and Dell SONiC provides the switching, congestion control, and automation foundation to support these distributed AI systems. AI training jobs, especially large language model (LLM) training—require: ● Multi-node GPU clusters operating as a tightly coupled compute fabric ● Lossless, low-latency, high-throughput Ethernet ● Deterministic congestion handling to avoid training delays ● Massively parallel data movement between GPUs, storage, and intermediate nodes Dell SONiC addresses these needs through enhancements in RoCEv2, congestion management, hashing optimization, and cut-through switching.
+Industry segments
+● Cloud Providers & Hyperscale Data Centers (GPU clusters, High‑bandwidth fabrics) ● Large Enterprise IT & Corporate Data Centers (Internal GenAI assistants, Knowledge‑base modeling, AI‑powered automation
+and analytics) ● Telecommunications / Service Providers (Traffic modeling, AI‑powered customer experiences, Telco‑edge inference nodes) ● Healthcare (Medical imaging analysis, Clinical decisions support systems, Predictive diagnostics)
+AI Fabric Architecture
+The following figure shows the different fabrics that make up an AI solution. This figure illustrates the fabrics using a leaf and spine architecture, but this topology is not a strict requirement. Fabric topologies can vary from a single or standalone switch to a full leaf-and-spine design. Each fabric provides a different function in the AI solution.
+
+20
+
+AI Fabrics
+
+Figure 10. AI solution architecture
+Out-of-Band (OOB) Management Fabric
+This fabric refers to the overall management access into the AI environment. It typically uses 1 GbE and can be based on Layer 2 or Layer 3 features. The recommended Dell PowerSwitch is the S3248T-ON, which provides 48 x 1 GbE copper RJ45 ports and 2 x 10 GbE SFP ports for uplink connectivity.
+Frontend or Converged Fabric
+The frontend or converged fabric supports AI components such as storage, multitenancy external access, and GPU cluster application management, such as Slurm, Kubernetes, and so forth. The frontend fabric link speeds range from 400 GbE down to 25 GbE. The typical fabric design is a leaf-and-spine Clos architecture that leverages BGP EVPN VXLAN to provide multitenancy external access into the AI environment.
+Backend or Scale-Out Fabric
+The third and final fabric is the backend or scale-out GPU fabric. This fabric provides GPU interconnectivity with link speed ranging from 800 GbE and 400 GbE. Unlike the frontend or converged fabric, which uses leaf-and-spine architecture with BGP EVPN VXLAN, there are several types of backend or scale-out GPU fabrics when it comes to GenAI deployments:
+Standalone Switch Fabric
+This fabric consists of a single Dell PowerSwitch Z9664F-ON or Z9864F-ON. A single switch with 64 x 400/800 GbE provides dedicated 400/800 GbE for each GPU to communicate with other GPUs connected to the same switch.
+
+AI Fabrics
+
+21
+
+Figure 11. Single switch backend GPU fabric
+Leaf-and-Spine Fabric
+This fabric refers to a multi-tier (two-tier or three-tier) architecture consisting of leaf-and-spine switches using the Z9664F-ON or Z9864F-ON platforms. The interconnects between leaf and spine are usually oversubscribed and operate with either Layer 2 or Layer 3 features enabled. Unlike the standalone switch fabric, where all GPUs communicate within a single fabric, with a leaf-and-spine fabric, inter-GPU communication is not deterministic as data traffic can traverse multiple hops or stay within a single leaf switch.
+
+Figure 12. Leaf and Spine distributed architecture
+Pure Rail Fabric
+This fabric consists of a set of dedicated Dell PowerSwitch 400/800 GbE switches providing dedicated GPU links. It is similar to a single standalone switch fabric but supports greater scale beyond a single 64-GPU cluster.
+
+22
+
+AI Fabrics
+
+Figure 13. Pure rail fabric
+Rail-Optimized Fabric
+This fabric uses a leaf-and-spine architecture with a pure rail design. The rail-optimized fabric introduces a spine layer that allows for inter-rail GPU connectivity if the optimum dedicated rail to rail path is not available or sufficient.
+
+Figure 14. Rail optimized fabric
+Deployment Best Practices
+Unlike typical non-GenAI environments (such as storage, web traffic, virtualization, standard data traffic), a GenAI environment has specific networking requirements for the different fabrics that make up the overall design. OOB Management Fabric best practices The OOB management fabric does not require advanced networking features or high-bandwidth speed to provide management access. When deploying the OOB management fabric, the following guidelines are recommended:
+
+AI Fabrics
+
+23
+
+● Minimize the number of management subnets. Reducing the number of management subnets exposed outside the GenAI environment simplifies the OOB networking design.
+● Enable spanning-tree on all connections to the managed devices. ● Use the 10 GbE SFP uplinks on each S3248T-ON switch for external connectivity into the OOB management fabric, if
+needed. ● Consider using Layer 2 to keep the OOB management fabric as a flat network reachable through the 10 GbE SFP uplinks.
+Frontend Fabric best practices
+The frontend fabric requires careful planning to deliver performance, multitenancy access, and GPU cluster administration. The following guidelines are recommended:
+● Enable jumbo frames. ● Enable BGP EVPN VXLAN to deliver multitenancy access. ● Deploy the maximum available link speed between storage clusters and switches, typically ranging between 400 GbE to 100
+GbE. ● Deploy Layer 2 features such as spanning-tree and link-aggregation between storage systems and application servers
+running Slurm or Kubernetes. ● Configure border leaf switches to terminate VXLAN tunnels and provide external access into the frontend fabric.
+Backend GPU Fabric best practices
+The backend GPU fabric is the core engine of the entire GenAI deployment.
+This fabric has specific networking requirements such as high-performance, lossless performance, low-latency, and scalability. To achieve these requirements, follow these guidelines:
+● Enable jumbo frames across the entire fabric. ● Deploy either Layer 2 or Layer 3 connectivity between GPUs and switches. ● Configure dedicated 400 GbE or 800 GbE links between GPUs and switches. ● Enable RoCEv2 on all the switches within the fabric. ● Deploy Dynamic Load Balancing between the rail leaf and spine switches when using a rail optimized fabric. ● Enable cut-thru switching.
+Dell AI Factory with NVIDIA
+The AI Factory solution integrates Dell networking with NVIDIA GPUs, NVIDIA software, and Dell compute/storage layers.
+The AI Fabric connects PowerEdge XE9680 systems (supporting NVIDIA H100/H200/B200 or GB200 NVL72 configurations), which form the backbone of the distributed training cluster.
+Dell AI Factory integrates NVIDIA’s full software stack—NIM inference microservices, NeMo model‑building microservices, and NVIDIA AI Enterprise—over the Dell networking fabric. This enables rapid data‑to-model lifecycles within the customer’s data center. The fabric scales across multiple deployment sizes:
+● Small – Single‑switch GPU clusters ● Medium – Two‑tier (leaf–spine) AI fabrics ● Large / Extra-Large – Three‑tier AI supercomputing clusters
+Networking for Dell AI Factory with NVIDIA – PowerSwitch SN/ NVIDIA Spectrum with Dell SONiC
+Alongside the PowerSwitch Z and S Series, based on Broadcom Tomahawk and Trident ASICs, Dell SONiC is now supported on Dell PowerSwitch SN Series platforms based on NVIDIA Spectrum ASICs. NVIDIA Spectrum with Dell SONiC provides additional choice and flexibility for the customers, where Dell SONiC becomes the one Network OS available across two industry leading merchant silicon offerings.
+NVIDIA Spectrum with Dell SONiC aims to provide:
+● End‑to‑end Ethernet AI fabrics (800 GbE) optimized for LLM training, fine‑tuning, and inference. ● An open, SONiC‑based network operating system (NOS) with AI‑specific capabilities including adaptive routing, RoCE
+enhancements, weighted ECMP/UCMP. ● Validated designs and reference architectures (Dell AI Factory with NVIDIA, multiple topologies, cable/optics matrices) to
+de‑risk deployments.
+
+24
+
+AI Fabrics
+
+● Fabric automation and monitoring through BeyondEdge Verity and Dell Technologies Fabric Manager, making very large GenAI fabrics manageable.
+The External Network fabrics map to the following Dell offerings built on NVIDIA Spectrum with Dell SONiC: ● Scale‑out fabric (AI / backend fabric) – Dell PowerSwitch SN5600/SN5610 (800 GbE). ● Front‑end fabric (north–south) – Dell PowerSwitch SN5600/SN5610 (800 GbE) ● Out-Of-Band/Cluster Management – Dell PowerSwitch SN2201
+Key AI Fabric Features Supported by Dell SONiC
+Adaptive Routing for AI fabrics
+To address the limitations of static ECMP, Adaptive Routing and Switching (ARS), also known as Dynamic Load Balancing (DLB), is often recommended.
+NOTE: ARS and DLB terms are used interchangeably
+On the NVIDIA Spectrum platform, ARS operates in per-packet mode enabling: ● Selection of the highest-quality path for each packet ● Randomized path selection for each packet
+RoCEv2 for GPU‑to‑GPU fabric acceleration
+The Dell PowerSwitch SN Series supports RoCEv2, providing low-latency, high-throughput, lossless data transmission for distributed applications over Ethernet-based data center networks.
+Advanced Congestion Management (PFC, ECN, ETS)
+Dell SONiC includes multiple congestion‑mitigation mechanisms: ● Priority Flow Control (PFC) prevents packet loss for RDMA classes. ● Enhanced Transmission Selection (ETS) ensures fair bandwidth allocation across priority queues. ● Explicit Congestion Notification (ECN) marks congestion events before packet loss occurs.
+Weighted Random Early Detection (WRED)
+WRED is a congestion-avoidance mechanism that drops packets to prevent buffer exhaustion. It uses an active queue management algorithm to control congestion before a queue becomes full.
+Unequal-Cost Multipath (UCMP)
+UCMP is supported on Dell PowerSwitch SN Series with Dell SONiC. It is a Layer 3 routing feature that allows traffic to be distributed across multiple unequal-cost paths, with the same precedence, to the same destination based on their bandwidth ratios. All paths carry proportional traffic according to the bandwidth ratio to achieve optimal load balancing. Although the bandwidths of the paths may be same, UCMP can allocate weights based on the number of links to influence the effective capacity of those links.
+Dell AI Platform with AMD
+The Dell AI platform with AMD is a full‑stack, on‑premises enterprise AI solution built around: ● Dell PowerEdge XE9680 servers equipped with AMD Instinct MI300X GPUs ● Dell PowerSwitch Ethernet fabrics (400 GbE and 800 GbE) ● Dell PowerScale storage
+
+AI Fabrics
+
+25
+
+● Dell SONiC networking ● ROCm and open‑source AI frameworks
+The AI Fabric is the networking backbone that binds these components together to deliver high‑performance distributed training, inference, and multi‑node GPU scaling. The result is a scalable, modular architecture with AI‑optimized Ethernet fabrics as a core foundational element.
+The AMD MI300X accelerator is specifically designed for multi‑node training. Dell AI Factory provides high‑performance networking and open‑source ROCm frameworks to scale complex GenAI workloads.
+Networking for Dell AI Factory with AMD – PowerSwitch Z/S Series with Dell SONiC
+GenAI workloads—especially those involving LLMs, multimodal models, large GPU clusters, and high‑throughput pipelines— demand networking that is:
+● Lossless ● Low latency ● High bandwidth (200/400/800 GbE) ● Scalable from tens to thousands of GPUs ● Operationally automatable
+Dell PowerSwitch Z/S Series hardware underpins these requirements across the backend GPU fabric, frontend data and storage fabric, and management fabric. It aims to provide:
+● End‑to‑end Ethernet AI fabrics (100/400/800 GbE) tuned for LLM training, fine‑tuning, and inference. ● Open, SONiC‑based NOS with AI‑specific capabilities including adaptive routing, RoCE enhancements, weighted ECMP/
+UCMP, resilient hashing. ● Validated designs and reference architectures (including topologies, cable/optics matrices) to de‑risk deployments. ● Fabric automation and monitoring through BeyondEdge Verity and Dell SmartFabric Manager, making very large GenAI
+fabrics manageable.
+The External Network fabrics map to the following Dell offerings built on Dell PowerSwitch platforms with Dell SONiC:
+● Scale‑out fabric (AI fabric / backend) – Dell PowerSwitch Z9664F-ON/Z9864F-ON (800/400 GbE) for GPU‑to‑GPU traffic.
+● Front‑end fabric (north–south) – Dell PowerSwitch Z/S series (800/400/100/25 GbE) for ○ Client/API ingress, ○ Storage (PowerScale, PowerStore, PowerFlex), ○ Kubernetes, management, and control-plane traffic.
+● Out-Of-Band and Cluster Management - Dell PowerSwitch 1 GbE S-Series Switches for iDRAC, BMC, management nodes.
+Key AI Fabric Features Supported by Dell SONiC
+Adaptive Routing for AI fabrics
+GenAI workloads—especially large-scale GPU training—produce massive amounts of east‑west traffic across multi‑tier Ethernet fabrics. Traditional ECMP hashing alone cannot cope with the dynamic, bursty, and collective‑communication characteristics of AI pipelines. This leads to traffic polarization, link hot‑spots, tail‑latency spikes, and sub‑optimal GPU utilization.
+Dynamic Load Balancing (DLB) with Adaptive Routing, continuously monitors link conditions and dynamically shifts traffic to underutilized paths, delivering a more balanced, efficient, and deterministic GPU communication fabric. It enables real‑time path selection based on network conditions rather than static hash outputs.
+UCMP
+UCMP is supported on Dell PowerSwitch S/Z Series with Dell SONiC. It is a Layer 3 routing feature that allows traffic to be distributed across multiple unequal-cost paths, with the same precedence, to the same destination based on their bandwidth ratios.
+
+26
+
+AI Fabrics
+
+All paths carry proportional traffic according to the bandwidth ratio to achieve optimal load balancing. Although the bandwidths of the paths may be same, UCMP can allocate weights based on the number of links to influence the effective capacity of those links. The weights vary based on:
+● Link bandwidth ● Link congestion ● Hardware capabilities ● Oversubscription ratios
+RoCEv2 with Advanced Congestion Management (PFC, ECN, ETS)
+RoCEv2 allows GPUs to communicate with extremely low latency and high throughput across an Ethernet fabric. Enabling RoCE on Dell SONiC provides the required lossless and prioritized traffic flows for GPU clusters. This dramatically reduces communication overhead between nodes during training and inference workloads.
+Dell SONiC includes multiple congestion‑mitigation mechanisms:
+● PFC prevents packet loss for RDMA classes. ● ETS ensures fair bandwidth allocation across priority queues. ● ECN marks congestion events before packet loss occurs.
+
+AI Fabrics
+
+27
+
+4
+
+Enterprise SONiC Distribution by Dell Technologies
+
+The Dell SONiC Networking Operating System (NOS) is based on the open-source SONiC operating system, and includes feature enhancements, hardening, and support targeted for the demanding data center leaf and spine fabrics while maintaining the open-source spirit.
+Enterprise SONiC Distribution by Dell Technologies helps IT organizations to run their business with the innovation, automation, and reliability that comes from a commercial offering of SONiC with production-ready enterprise feature enhancements, hardening, and global support targeted for demanding cloud, data center, and edge fabrics.
+
+Open-source innovation
+Edge, Enterprise, and Cloud ready
+Flexible Hardware Options
+
+Based on SONiC, Dell SONiC builds on Dell Technologies long history of contributing with and contributing to the open-source SONiC community with new features and capabilities ranging across the protocol stack and management applications.
+Dell SONiC is enterprise-class tested and validated across hardware and software, field-tested in hyperscale environments, includes a centralized management platform, and is integrated with a growing ecosystem of partner automation and orchestration applications.
+Dell SONiC supports not only a broad portfolio of high-performance data center and edge switching options with Dell PowerSwitch but is also validated on select Dell qualified third-party switch options to provide greater choice and flexibility for your fabric architecture.
+
+28
+
+Enterprise SONiC Distribution by Dell Technologies
+
+5
+Edge/Cloud computing use cases
+Overview
+There are three Dell SONiC bundles offered: Cloud, Enterprise, and Edge bundles. The basic and advanced use cases cover Cloud, and Enterprise deployments. These new use cases extend the capabilities of the Dell SONiC into the edge and additional Enterprise space such as down to the end-hosts. With the edge and data center deployments, large enterprises looking to deploy a unified networking operating system across their entire infrastructure can now be accomplished. As a bonus, with Dell SONiC, routing on the host is now fully supported.
+Edge deployment
+The edge continues to be the last connectivity portion of any enterprise. Traditionally the edge with its many use cases such as Internet of Things (IoT), automation, 5G, and retail has always created unique challenges. The edge requires unique features that make it different from your typical data center deployment. At the edge the workloads require power, security, ease of deployment, automation, and services separation. Dell’s SONiC Edge Platforms (such as the E3200/E3248P/E3248PXE series) are designed specifically for edge environments where large numbers of PoE‑powered devices must be connected, secured, and managed with data‑center‑grade automation and reliability. These platforms provide PoE/PoE+ (30W) and PoE++/802.3bt (60–90W) for a wide range of edge devices.
+Industry segments
+● Education (Campus networks, K‑12, universities) ● Retail (Stores, Warehouses, Branches) ● Healthcare (Hospitals, Clinics, Labs) ● Public Sector & Government (Municipal facilities, public safety, education) ● Manufacturing & Industrial (Factory floors, OT/IoT environments) ● Hospitality & Entertainment (Hotels, venues, casinos)
+Use Cases
+● Wireless Access Infrastructure (Wi‑Fi 6/6E/7 Aps) ● Unified Communications (VoIP Phones / Video Endpoints) ● Security & Surveillance (IP Cameras & Access Control) ● Retail Devices (POS, kiosks, scanners)
+Deployment Model
+The following Edge model applies equally to retail, healthcare, public sector, manufacturing, education, and enterprise campuses. ● SONiC edge switches provide PoE/PoE+ downstream. ● Uplinks to the core/spine are L3 P2P links. ● MCLAG is used for redundant dual‑leaf active/active PoE switch pairs. ● Policies (802.1X, VLAN separation, QoS) protect and prioritize traffic. The following figure shows a typical leaf and spine design with Dell PowerSwitch Edge platforms (E3248PXE and E3248P) connecting back to the data center and other external environments from the spine switches.
+
+Edge/Cloud computing use cases
+
+29
+
+Figure 15. Edge deployment model
+The connections from the spine switches are all Layer 3 point-to-point connections. To achieve redundancy, multichassis link aggregation (MC-LAG) is deployed from the leaf to the spine switches. Spanning-tree "edge" port is configured on the leaf switches downstream ports. This allows end-devices to establish connectivity bypassing the spanning-tree blocking, listening, and learning phases before establishing connectivity. Several key software features are deployed to support this edge use case: ● PoE, PoE+ for devices that require power such as IP phones, cameras, scanners, wireless access points (WAPs), and others ● End-point security such as 802.1x to ensure trust connectivity into the network. ● Voice, and video specific VLANS. ● Basic Quality of Service (QoS) such as 802.1p Class of Service (CoS) to ensure proper prioritization of voice and video
+traffic. ● Basic multicast such as IGMP Snooping ● Device and link redundancy through multichassis link aggregation (MC-LAG)
+Deployment Model
+The following Edge model applies equally to retail, healthcare, public sector, manufacturing, education, and enterprise campuses. ● SONiC edge switches provide PoE/PoE+ downstream. ● Uplinks to the core/spine are L3 P2P links. ● MCLAG is used for redundant dual‑leaf active/active PoE switch pairs. ● Policies (802.1X, VLAN separation, QoS) protect and prioritize traffic.
+Deployment Best Practices
+Edge deployments have the following best practices: ● Port security is critical, therefore having 802.1x deployed is important. ● Layer 2 multicast such as IGMP Snooping should be deployed to keep multicast deployment simple. With IGMP Snooping,
+multicast trees are efficiently created throughout the infrastructure. ● Power over Ethernet (PoE) is needed for end devices such as IP phones, cameras, wireless access points, or kiosks. There
+are two categories of PoE, it is best to deploy PoE+ which provides up to 30 W of power per port. ● Assigning separate voice and video networks is recommended to keep priorities throughout the infrastructure. ● Implement MC-LAG on the leaf switches to provide device link redundancy. ● The minimum number of leaf interconnect links should be two.
+
+30
+
+Edge/Cloud computing use cases
+
+Dell SONiC and OpenStack
+Dell SONiC supports another key use case: cloud computing through the deployment of an Openstack cluster, implemented as either a single-tenant or multi-tenant option.
+Dell SONiC version 4.1 and higher implements a Dell Modular Layer 2 (ML2) plugin, which is a framework that enables Openstack networking by utilizing various Layer 2 networking technologies. This framework automates the deployment of complex realworld networks in data centers.
+OpenStack is the most widely deployed open-source cloud software platform. OpenStack provides the Neutron service Modular Layer 2 (ML2) infrastructure for integrating with networking vendor platforms or network operating systems.
+Dell’s ML2 plugin is used to provision VLANs and overlay networks based on BGP EVPN VXLAN concepts.
+The following figure shows a single-tenant Openstack topology.
+
+Figure 16. Dell SONiC Openstack – Single-Tenant The following figure shows a multi-tenant Openstack topology.
+
+Figure 17. Dell SONiC Openstack – Multi-tenant
+Deployment Best Practices
+Deploying Openstack using Dell SONiC requires the following: ● Run Dell PowerSwitch systems on Dell SONiC version 4.1 or later.
+
+Edge/Cloud computing use cases
+
+31
+
+● Configure the dedicated management port on Dell PowerSwitch systems with an IP address to communicate with the OpenStack controller.
+● Use OpenStack version 2023.1 (Antelope) or later. ● Implement link and device redundancy at the leaf layer using MC-LAG. ● Implement BGP EVPN VXLAN between the leaf and spine layers. ● Implement Layer 3 on the links to the external network if all north-south traffic terminates at the border leaf switches that
+connect to the external network. ● Implement Layer 2 on the links to the external network if all north-south traffic terminates on the external network device.
+
+32
+
+Edge/Cloud computing use cases
+
+6
+Telco/Service Provider
+Overview
+Dell’s Enterprise SONiC Distribution has evolved significantly to support modern telecommunications environments. Recent releases (notably SONiC 4.2) explicitly expand features aimed at service providers, Tier‑2 telcos, and telco cloud architectures, making SONiC viable for carrier‑grade deployments. The following sections summarize some of the telco‑relevant capabilities.
+Industry segments
+● Telecommunications & Service Providers ● Enterprise IT with Strong Segmentation Needs ● Retail chains (store segmentation, partner networks) ● Healthcare (clinical vs. administrative segmentation) ● Industrial / OT (Operational Technology) Networks (PLCs, SCADA systems etc.)
+Telco/Provider Multi-tenant bridging
+Q-in-Q and VLAN translation allows cloud providers and service providers to support many customers or tenants inside a common fabric by isolating each tenant for security and manageability benefits. With Q-in-Q, two VLAN IDs are used, a user or internal VLAN ID which carries a specific service and a service provider VLAN ID to switch or transmit the end-user data across the service or cloud provider network. VLAN translation differs from Q-in-Q in that single or double tagged customer VLAN (C-VLAN) is swapped with a service provider VLAN (S-VLAN) at the ingress provider edge device. The customer traffic is then forwarded based on the service provider VLAN in the provider infrastructure. To enable VLAN translation, VLAN stacking must be enabled first followed by a reboot on the following switches: Z9432F-ON and S5448F-ON. The configuration details can be found in the Dell SONiC 4.1 Q-in-Q VLAN Tunneling chapter. If VxLAN is used as an overlay with the service provider, the customer traffic is identified by a service provider (S-VLAN), this VLAN is then mapped to a VxLAN network identifier (VNI) and forwarded based on the VNI. The connections from the customer edge to the provider edge switches are a Layer 2 tagged link.
+Key Features of Multi-tenant Bridging in Dell SONiC
+● C‑tag / S‑tag stacking (double tagging) – Adds a service VLAN (S‑tag) on ingress while preserving the tenant’s customer VLAN (C‑tag) intact, then strips the S‑tag at egress; this is the foundation for L2 VPN‑style transport across a provider/aggregation network.
+● Per‑port “tunneling” classification – Configure specific customer‑facing ports as Q‑in‑Q tunnel interfaces so that all inner VLANs from a customer (or a defined subset) are encapsulated with the chosen S‑VLAN across the provider network.
+● Scalable multitenancy / VLAN ID expansion – By nesting VLAN tags, operators re‑use the full C‑VLAN space per tenant while using a manageable S‑VLAN index in the provider core—solving the 4,094 VLAN limit problem for large campuses/ metro or high‑density enterprise edges.
+● Transparent transport of customer control protocols (L2 protocol tunneling) – Classic Q‑in‑Q designs let you transparently carry STP/VTP/CDP/LLDP and similar L2 control frames for the tenant domain across the provider; this is often called L2PT in design guides.
+● Security & isolation benefits – By encapsulating tenants in distinct S‑VLANs, you maintain strict traffic separation across a shared network while leaving tenant C‑VLAN plans untouched—ideal for multitenant DCs, retail chains, public sector multi‑agency sites, and industrial sites
+
+Telco/Service Provider
+
+33
+
+The following figure shows two tenants, A, and B. Each tenant has been assigned a unique VLAN (100 = A, 200 = B). A common service provider VLAN 300 has been configured to transport both tenants’ data.
+Figure 18. Dell SONiC Q-in-Q Tunneling In this scenario, two use cases are shown. Use case 1 has identical services such as VoIP (Voice over IP) from each tenant but remain separate. Use case 2 has two different services for each tenant (A = VoIP, B = Video) and leverage a single service provider VLAN. The following figure shows Q-in-Q tunneling with VxLAN. In this scenario, the customer VLAN (CVLAN) is mapped to a service provider VLAN (SVLAN). The SVLAN maps to a VNI which is used inside the service provider's VxLAN infrastructure and switched across. At egress, only the customer VLAN is retained and used to reach its destination.
+
+Figure 19. Dell SONiC Q-in-Q tunneling with VXLAN
+The following figure shows VLAN translation without VxLAN overlay. In this scenario, a single or double tagged customer VLAN (CVLAN) is mapped or translated with a service provider VLAN (SVLAN). The customer traffic is switched within the service provider infrastructure using the service provider VLAN (SVLAN). Upon egress, the customer VLAN is reapplied and forwarded to the proper customer edge switch.
+
+34
+
+Telco/Service Provider
+
+Figure 20. Dell SONiC – no VXLAN
+Service provider VLAN (SVLAN 100) is then mapped to a VxLAN VNI (VNI 200) and then forwarded within the service provider infrastructure VxLAN overlay using this VNI. At the egress of the provider network, the VNI is then mapped back to a customer VLAN by the PE device and forwarded to the respective customer edge switch.
+
+Figure 21. Dell SONiC VLAN translation with VXLAN
+Deployment Best Practices
+The following guidelines should be followed when deploying Q-in-Q and VLAN translation:
+
+Telco/Service Provider
+
+35
+
+Q-in-Q guidelines
+● Configuration of the same S-VLAN for Q-in-Q and VLAN translation is not supported on an interface or port channel. ● Only Layer 2 traffic is supported on an S-VLAN; Layer 3 configuration is not supported. ● Spanning-Tree and IGMP snooping are not supported on an S-VLAN used for Q-in-Q tunneling. ● Only Tag Protocol Identifier (TPID) 0x8100 is supported. ● VLAN stacking must be enabled on the Z9432F-ON and S5448F-ON before enabling Q-in-Q. Other platforms do not require
+these steps. ● Customer edge switch ports connecting to the provider edge switch must be configured as trunk ports.
+VLAN translation guidelines
+● Configuration of the same S-VLAN for both Q-in-Q and VLAN translation is not supported on an interface or port channel. ● Configuration of an S-VLAN for more than one VLAN translation is not supported. ● Only Layer 2 traffic is supported on an S-VLAN; Layer 3 configuration is not supported. ● VLAN stacking must be enabled on the Z9432F-ON and S5448F-ON before enabling VLAN translation.
+Customer edge switch ports connecting to the provider edge switch must be configured as trunk ports.
+Precision Time Protocol (PTP)
+Dell SONiC version 4.5.0 brings PTPv2 enabling customers to implement and deliver precision timing in their infrastructure for key use cases such as power and energy, robotics, and telecommunications, which require precise and accurate clock synchronization.
+Modern distributed systems operate across many devices, each maintaining its own clock. Without tight synchronization, the following challenges emerge:
+● Out‑of‑order data processing ● Inaccurate logs or audit trails ● Faulty real‑time decisions ● Latency issues in coordinated systems
+PTP addresses these challenges by allowing clocks across the network to synchronize with sub‑microsecond accuracy, even across standard Ethernet.
+The following figure shows a typical PTP network using Dell PowerSwitch switches. The Dell PowerSwitch supports two types of PTP network designs:
+1. Boundary clock 2. End-to-end transparent clock
+
+36
+
+Telco/Service Provider
+
+Figure 22. Precision Time Protocol deployment options
+Boundary clock
+A boundary clock deployment acts as an intermediary, synchronizing with one clock and providing time to others. A boundary clock (BC) has one port in the TimeReceiver role and other ports in the TimeTransmitter role. The BC synchronizes with the clock connected to its TimeReceiver port, while the clock nodes connected to its TimeTransmitter ports synchronize with the BC. A network of BCs can select a grandmaster clock from the available grandmasters in the network, providing redundancy of clock sources. The roles of the clock ports on a BC can change when the time source switches to a different grandmaster or when there is a change in network topology.
+End-to-End Transparent clock
+A Dell PowerSwitch, when operating as an end-to-end (E-2-E) transparent clock, acts as a device that forwards PTP messages between the grandmaster clock and the ordinary clock. It adjusts the correction field by measuring the E-2-E residence time (including queuing and buffering delays).
+Industry Segments
+● Telecommunications / Mobile Networks (5G/6G) ● Power and Utility / Smart Grid Systems (substation automation, SCADA systems, PMUs, IEC 61850 time‑critical protection) ● Industrial Automation and Manufacturing (robotics, distributed sensors) ● Financial Services / Trading
+
+Telco/Service Provider
+
+37
+
+Key Features of PTP on Dell SONiC
+● Grandmaster, boundary, and transparent clock support ● Sub‑microsecond to nanosecond-level synchronization ● Hardware timestamping ● PTP profiles for industry applications ● Deterministic delay correction (delay request/response)
+
+Figure 23. End-to-End Transparent clock signal sequence
+Deployment Best Practices
+Edge deployments have the following best practices:
+● A switch supports only a single PTP clock. ● The maximum number of supported PTP ports is 40. The maximum number of supported PTP ports in dynamic and slave
+roles is 8. ● The maximum number of supported PTP unicast TimeTransmitter sessions is eight. ● The maximum number of supported PTP unicast TimeReceiver sessions is 120. ● PTP is supported only on physical ports. ● The transparent clock feature is not supported in IPv6 multicast topology due to the lack of IPv6 PIM support in Enterprise
+SONiC. ● Boundary clock multicast IPv6 is supported only for directly connected PTP nodes. ● The unicast transport method is supported only with negotiation (signaling).
+
+38
+
+Telco/Service Provider
+
+● The unicast transport method is restricted on port-channel member ports. ● The two-step time-synchronization method is not supported. ● Removing scaled PTP sessions as part of a configuration change can cause a noticeable delay in subsequent show or
+configuration commands. For example, removing 120 PTP sessions on a single port can take up to approximately two minutes.
+Open Radio Access Network (ORAN)
+Another edge use case supported by Dell SONiC is ORAN. Dell networking operates at the edge or in a remote data center, providing IP connectivity from the cellular network using open-standards networking concepts such as VLANs, or pure IP connectivity using BGP or any other routing protocols.
+The following figure shows the components of Dell Technologies infrastructure (Dell PowerEdge and Dell PowerSwitch) connecting the cellular network to the transport network provided by the service provider.
+
+Figure 24. Dell SONiC and ORAN topology
+The Dell infrastructure provides two key services: ● Cellular IP connectivity from the edge to the transport network. ● Hyperconverged cluster creation for higher-level services such as virtualization, where edge-node platform services—
+security, user plane functions, or orchestration—are delivered.
+Deployment Best Practices
+Deploying Dell networking for ORAN use cases follows basic guidelines such as: ● Deploy Layer 2 or Layer 3 links from the cell-tower controller appliance. ● For Layer 2 connections between the cellular network and Dell network, implement the following:
+○ Configure Spanning Tree basic features such as edge ports to speed up link connectivity and BPDU Guard to avoid network loops.
+○ Enable link aggregation (LAG) between the cellular network—if supported—and Dell networking to provide link redundancy.
+○ Use VLANs to segregate different cellular customer traffic from the cellular network into the Dell infrastructure. ● Enable jumbo frames on the Dell infrastructure to accommodate any large packets, if required. ● If Layer 3 is used between the Dell switching network and the transport network, implement BGP as the routing protocol.
+
+Telco/Service Provider
+
+39
+
+7
+Storage and Hyperconverged Use Cases
+Dell SONiC and PowerFlex Partial Network Automation (PNA)
+Another key Dell end-to-end storage solution that Dell SONiC supports comes in the form of Dell PowerFlex cluster deployment support.
+NOTE: Partial network automation refers to the non-integration of PowerFlex manager with the networking fabric. All configurations of the network fabric are done using CLI, in other words manually.
+Dell SONiC supports two different networking architectures: Hybrid, and a pure Layer 2. The following figure shows a hybrid network architecture, where Layer 3 (EVPN BGP VXLAN) and Layer 2 (MC-LAG) are deployed between leaf and spine and leaf switches respectively. There are key networks that must be stretched and routed from rack to rack. Using EVPN BGP VXLAN these Layer 2 networks are stretched across the EVPN fabric. As far as integrating and obtaining DNS, NTP services for the PowerFlex cluster, this is done using Layer 3 or Layer 2 uplinks from the border leaf switches. The figure below shows these uplinks coming from Leaf 1 and Leaf 2. If Layer 3 uplinks are used, then a /31 subnet is recommended as it allows for two IP addresses to be configured point-to-point. The PowerFlex networks consider the leaf switches as the gateway if these networks need to exist in the fabric. If Layer 2 uplinks are used, then the uplinks are configured as trunks carrying all the necessary PowerFlex networks up to the external network device.
+
+Figure 25. Dell SONiC and PowerFlex – Hybrid fabric
+The next option, as shown in the following figure, implements a three-tier network architecture. This option resembles a legacy or traditional architecture where an access, aggregation, and core layers are configured, and all the networks that are required by the PowerFlex cluster are carried up to the aggregation layer.
+At the aggregation layer, MC-LAG is implemented on the aggregation switches. The uplinks towards the core layer are typically Layer 3.
+At the access, traditional Layer 2 networking features such as VLANs, spanning-tree, and MC-LAG are configured. DNS or NTP services are connected through the core layer.
+
+40
+
+Storage and Hyperconverged Use Cases
+
+Figure 26. Dell SONiC and PowerFlex – Layer 2 fabric
+Deployment Best Practices
+Dell PowerFlex requires a high-performance, and low-latency fabric. To do this, the following best networking practices should be followed:
+● Implement Jumbo frames throughout the fabric. ● Implement spanning-tree basic features such as edge port to speed up link connectivity and BPDU Guard to avoid network
+loops. ● Link and device redundancy features should be enabled using MC-LAG on the switches and LAGs on the PowerFlex
+appliance. ● SNMP should be enabled with the community string set to 'public'. ● Deploy redundant links from leaf to spine or access to aggregation switches. ● The downstream links from leaf switches or access are configured as trunks.
+Dell SONiC and PowerScale
+Dell SONiC supports PowerScale deployments using multiple Layer 3 networking designs. These designs range from traditional pure BGP to BGP EVPN VXLAN architectures.
+The following figure illustrates a typical Layer 3 network architecture, deployed between leaf and spine and leaf switches respectively. There are key networks that must be stretched and routed from rack to rack. Using EVPN BGP VXLAN, these Layer 2 networks are stretched across the EVPN fabric, enabling the deployment of a single PowerScale storage cluster across two separate racks.
+It is important to note that the deployment diagram represents the frontend deployment of the PowerScale cluster. Each PowerScale appliance has a backend and frontend connection.
+● The frontend connection provides storage services access into the PowerScale cluster. ● The backend connection acts as the backplane for the PowerScale cluster. It enables each PowerScale node to act as
+a contributor in the cluster and provides node-to-node communication through a private non-configurable, high-speed, low-latency network.
+
+Storage and Hyperconverged Use Cases
+
+41
+
+Figure 27. Dell SONiC and PowerScale
+Integration with services such as DNS and NTP for the PowerFlex cluster is achieved using Layer 3 or Layer 2 uplinks from the border leaf switches. In the figure, these uplinks originate from Leaf 1 and Leaf 2. If Layer 3 uplinks are used, a /31 subnet is recommended, as it supports point-to-point connectivity with two usable IP addresses. The PowerFlex networks consider the leaf switches as the gateway if these networks need to exist in the fabric. If Layer 2 uplinks are used, the uplinks are configured as trunks carrying all the necessary PowerFlex networks up to the external network device.
+Deployment Best Practices
+Dell PowerScale frontend connection requires a high-performance, low-latency fabric. To achieve this, the following best networking practices should be followed: ● Implement jumbo frames throughout the fabric. ● Ensure that PowerScale frontend connections range between 10 GbE to 200 GbE. ● Deploy leaf-to-spine connections typically at 100 GbE. ● Deploy redundant links between leaf and spine switches, or between access and aggregation switches. ● When using BGP EVPN VXLAN, deploy EVPN multihoming at the leaf layer and deploy redundant links from each PowerScale
+appliance to the leaf switches.
+Dell SONiC and Dell PowerStore
+Dell SONiC with Dell PowerStore addresses the requirements of mid-range all-flash storage solutions. Dell SONiC supports the networking fabric needed to deploy a high-performance and scalable all-flash storage solution for enterprise organizations. The following figure illustrates a Layer 2 network architecture in which all connections from the PowerStore to the leaf switches are configured at Layer 2, using LAG and non-LAG interfaces. Multichassis LAG (MC-LAG) is deployed between the leaf switches.
+
+42
+
+Storage and Hyperconverged Use Cases
+
+Figure 28. Dell SONiC and PowerStore
+Deployment Best Practices
+To deploy Dell PowerStore with Dell SONiC, the following best networking practices are recommended: ● Implement jumbo frames throughout the fabric. ● Implement spanning-tree basic features such as edge ports to speed up uplink activation and BPDU Guard to avoid network
+loops. ● Enable link and device redundancy features using MC-LAG on the switches and LAGs on the PowerStore appliances. ● Deploy redundant links from the PowerStore appliance to the leaf switches.
+RDMA over Converged Ethernet (RoCE)
+RoCE brings application performance and efficiency improvements for customers running RDMA applications in a converged Ethernet infrastructure. In a converged Ethernet environment, storage, general user data, and RDMA traffic exist. Each traffic type is assigned a specific Class of Service (CoS) value. These values are assigned to a corresponding output queue, and each queue is processed differently by the infrastructure or fabric. The fabric operating system supporting RoCE ensures lossless RDMA traffic by implementing a comprehensive set of Quality of Service (QoS) features such as policing, marking, and specific link bandwidth allocation. With RoCEv1, all RDMA traffic is confined to a common Layer 2 domain. The client and server hosts are part of the same Layer 2 domain.
+
+Storage and Hyperconverged Use Cases
+
+43
+
+Industry Segments
+● Artificial Intelligence / Machine Learning / GenAI ● High‑Performance Computing (HPC) / Research ● Cloud Service Providers and Hyperscale Data Centers ● Financial Services (High‑frequency Trading and Real‑time Analytics) ● Media and Entertainment (rendering and real‑time content pipelines)
+Key Features of RoCEv1/v2 Fabric for Storage Deployments on Dell SONiC
+● Lossless Ethernet via Priority Flow Control (PFC) (IEEE 802.1Qbb) on RDMA‑classified traffic ● Selective no‑drop queues for RDMA classes ● Explicit Congestion Notification (ECN) Support ● Enhanced Transmission Selection (ETS) for QoS Bandwidth Partitioning ● Data Center Bridging Exchange (DCBX), enabling switches and endpoints to exchange and agree on DCB settings
+The following figure illustrates a typical converged environment that carries three types of traffic: RDMA, iSCSI, and standard local area network (LAN) traffic. Each traffic type is assigned a unique Class of Service value (using IEEE 802.1p).
+MC-LAG is configured on the leaf switches, while Link Aggregation Group (LAG) is configured on the switches and end-hosts.
+With Dell SONiC version 4.1, RoCEv1 and RoCEv2 can be enabled using a single CLI command in the configuration mode "roce enable." This command automatically configures the necessary features to deploy RoCE across the fabric.
+The autoconfiguration profile assigns:
+● RoCE traffic to 802.1p traffic class 3 ● iSCSI to traffic class 4 ● congestion notification packets (CNP) to traffic class 6 ● all other traffic to traffic class 0
+RDMA and iSCSI traffic are assigned equal weights to equally share the link bandwidth. The CNP packets are given strict priority to ensure timely congestion notifications whether congestion occurs upstream or downstream in the fabric.
+NOTE: The default RoCE configurations can be modified. However, it is the user's responsibility to remove any custom settings before reverting to the autoconfiguration mode using the "roce enable" command.
+The following figure illustrates:
+● Congestion at the spine switch. ● Congestion notification generated by the spine switch and sent towards the leaf switch connected to the RDMA client. ● Pause frames sent by the spine switch towards the leaf switch connected to the RDMA server to temporarily pause data
+traffic. ● Continued RDMA and iSCSI storage traffic flow, with both traffic types sharing bandwidth equally as configured.
+
+44
+
+Storage and Hyperconverged Use Cases
+
+Figure 29. Dell SONiC RoCEv1 deployment
+All RDMA traffic is restricted to the same subnet or broadcast domain since RoCEv1 is implemented. In contrast, iSCSI and LAN traffic can be part of different subnets if necessary.
+The following figure illustrates a RoCEv2 implementation, in which the RDMA client and server reside on different subnets or networks. The same quality-of-service settings—such as marking, classification, and congestion notification—are carried out through the IP cloud.
+The only difference is in how traffic is classified and marked. RoCEv1 uses 802.1p values for classification and marking, whereas RoCEv2 translates these 802.1p values into Differentiated Services Code Point (DSCP) values within the IP header. These DSCP values are carried across the IP cloud to ensure end-to-end lossless RoCE traffic.
+The following figure demonstrates the same outcomes as the previous figure, with the primary distinction being the use of IP ECN packets for congestion notification.
+
+Figure 30. Dell SONiC RoCEv2 deployment
+Deployment Best Practices
+Use the following best practices when implementing RoCE:
+
+Storage and Hyperconverged Use Cases
+
+45
+
+● Implement jumbo frames. ● Implement MC-LAG peer links on the leaf switches to provide workload link redundancy. ● Use a minimum of two leaf interconnect links. ● Separate RoCE from other traffic types by using their own subnets or VLANs. ● Assign a specific IEEE 802.1p Class of Service value to RoCE. ● Deploy RoCEv2 only on supported platforms: S5232F-ON, S5248F-ON, S5296F-ON, and Z9332F-ON platforms. ● When RoCEv2 uses PFC and ECN simultaneously, use ECN as the primary congestion management mechanism, while PFC
+functions as secondary. ● Configure breakout ports before enabling RoCEv2. ● Note that lossless operation is supported only for unicast traffic. The multicast traffic pause settings are not honored. ● Tag lossless traffic appropriately. Use DSCP dot1p priorities 3 and 4 for lossless traffic. When using DSCP-based PFC:
+○ Map lossless traffic with DSCP values assigned to traffic class 3 to VLAN dot1p priority 3. ○ Map lossless traffic with DSCP values assigned to traffic class 4 to VLAN dot1p priority 4. ● Configure servers to use a DSCP value of 48 for congestion notification packets (CNP), if possible. This setting allows a RoCEv2-enabled switch to prioritize the downstream server traffic it receives by applying strict-priority queuing. ● Ensure that both server and client network interface cards (NICs) support RDMA. ● Apply all quality-of-service configurations on a port channel, not the port channel member links.
+By reducing the network latency and offloading CPU resources, RoCE significantly improves performance in key applications such as search, storage, database, financial systems, and high-rate transactions.
+Furthermore, because of this efficiency and application performance improvement, energy savings and footprint reduction are achieved in Ethernet-based data centers.
+The References section of this document provides the link to the Dell SONiC RoCE configuration chapter.
+Data Center Bridging Exchange Protocol (DCBx)
+DCBx builds on the existing Dell SONiC RDMA feature set by expanding its use cases and simplifying deployment and management.
+With DCBx, RoCEv2 deployments are extended to host NIC connections. DCBx is primarily used between the switching network and a network interface card (NIC). It negotiates configuration parameters—such as PFC and ETS —between the network switch and the host NIC to ensure a lossless Ethernet fabric for converged LAN and SAN traffic.
+Without DCBx, the end-to-end switching infrastructure quality of service settings—such as PFC and ETS bandwidth allocation —must be configured manually. Manual configuration creates potential misconfigurations leading to an inefficient network.
+NOTE: DCBx is a quality-of-service (QoS) exchange mechanism between the access switch and the host NIC. To achieve consistent QoS configuration across the entire switching fabric, the same QoS configuration needs to be replicated in each switching device part of the fabric using non-DCBx or standard QoS configuration.
+The following figure illustrates a standard leaf-and-spine distributed network switching architecture with DCBx and RoCEv2.
+1. PFC and ETS are configured with their values throughout the entire fabric. 2. Using DCBx, these values (PFC and ETS) are communicated to the host NIC, informing the host of traffic priorities and the
+allocated network link bandwidth for each network. 3. The host NIC honors the values. 4. During a traffic congestion event, pause frames are generated by the host NIC onto the network. These pause frames reach
+the transmitting host, temporarily halting traffic and allowing the network fabric to address the temporary congestion traffic while prioritizing high-priority traffic.
+
+46
+
+Storage and Hyperconverged Use Cases
+
+Figure 31. Dell SONiC DCBx end-to-end deployment
+Deployment Best Practices
+Use the following best practices when implementing DCBx: ● Use DCBX-IEEE only. The DCBX-CEE version is not supported. ● Configure DCBX (like LLDP) only on physical port interfaces. ● Note that Enterprise SONiC does not modify local QoS PFC and ETS configurations based on received remote PFC or ETS
+TLVs. The availability of DCBx in the Dell SONiC network operating system addresses a vital configuration gap between the network switching fabric and the end-host NIC connections. It enables PFC and ETS configurations to be automatically propagated to end-host NICs, reducing configuration steps and minimizing errors caused by manual configuration. The References section of this document provides the link to the Dell SONiC DCBx configuration chapter.
+VxRail deployment
+Among the different key advanced solutions supported by Dell SONiC, the ability to deploy or stand up a converged or hyperconverged infrastructure in a short amount of time makes a world of difference when trying to gain a business advantage to our customers. In a converged or hyperconverged infrastructure where all three elements, compute, networking, and storage reside in a single appliance that must work seamlessly while delivering critical applications, the infrastructure design becomes the number one priority.
+Industry Segments
+● Large Enterprise Data Centers ● Retail (modern distributed applications, edge‑to‑core) ● Healthcare (clinical apps, VDI, mission‑critical workloads) ● Financial Services
+Key Features of VXRail with EVPN/VXLAN Fabric on Dell SONiC
+● Standards‑based BGP EVPN control plane for VXLAN
+
+Storage and Hyperconverged Use Cases
+
+47
+
+● VTEP roles (physical & logical) and VLAN–VNI mapping ● Integrated Routing & Bridging (IRB) with Anycast Gateway ● Multi rack (cluster spanning) deployment ● EVPN Multihoming (MH) and MC LAG based logical VTEP
+The following figure shows a standard single site multi-rack VxRail cluster deployment with the Dell SONiC NOS in a leaf and spine topology.
+
+Figure 32. Dell SONiC and VxRail deployment
+The fabric is built using BGP EVPN VxLAN to provide the capability of stretching Layer 2 across an IP fabric. This ability becomes important when the cluster is stretched across racks. The downstream connections from the leaf switches are Layer 2 dual homed for redundancy and configured as trunks. From the leaf switches, the uplink connection (L3 or L2) is deployed. The uplink connection is used to integrate with a legacy network and reach DNS and NTP services if using the external IP services option for the VxRail cluster.
+NOTE: For VxRail, DNS and NTP services can be deployed externally or within the same rack where the VxRail workloads are connected.
+The downstream connections speed range between 10 to 100 GbE. The switch interconnect speeds range between 100 to 400 GbE. Five separate networks with their respective virtual networks are configured, management, vSAN, vMotion, VxRail autodiscovery (3939), and Guest. These networks are stretched across the racks and tagged on the downstream links. The management network is the only network tagged and trunked on the external connection so it can communicate with the DNS and NTP services. The jump host connected to a leaf switch is used to connect to the VxRail manager default IP address. The VxRail cluster is deployed through the VxRail manager user interface. The connection between the jump host and the leaf switch is untagged.
+Deployment Best Practice
+Whenever deploying a VxRail environment, the following items must be considered: ● VLAN 3939 must always be present and configured for VxRail nodes to autodiscover each other. This VLAN should be
+treated as a "Reserved VLAN" inside the fabric and no other data traffic should be used on this VLAN. ● Implement Jumbo frames on the switches. ● Implement trunks and tag the networks on the downstream links connected to the VxRail cluster.
+
+48
+
+Storage and Hyperconverged Use Cases
+
+● Implement MC-LAG on the leaf switches. ● The minimum number of leaf interconnect links should be two. ● For Layer 2 uplinks to external switches, ensure that the same link aggregation mode (LACP or static) is configured on both
+ends of the links. ● Ensure the management VLAN is tagged and trunked on the uplink if Layer 2 uplink is deployed.
+NVMe/TCP with Dell SONiC and SmartFabric Storage Software (SFSS)
+The advent of flash storage media - specifically Non-Volatile Solid-State Devices (SSDs) - has changed the landscape of the enterprise data center over the last decade.
+Advances in Peripheral Component Interconnect Express (PCIe), the continued proliferation of Non-Volatile Memory Express (NVMe) storage, and the introduction of large-scale NVMe over Fabrics (NVMe-oF) infrastructures (particularly ethernet-based NVMe-oF protocols such as NVMe/TCP) will fundamentally alter the data center landscape and how enterprise applications are developed, deployed, and maintained.
+NVMe-oF enables the benefits of NVMe flash-based storage to be realized at a larger scale and no longer be limited to the confines of the internal PCIe fabric and PCIe backplane-based systems.
+Ethernet-based NVMe-oF (particularly NVMe/TCP) is the premier choice for this scale-out architecture. NVMe/TCP uses Transport Control Protocol (TCP), which is one of the most widely used protocols in modern digital network communications.
+With the introduction of NVMe/TCP and SmartFabric Storage Software (SFSS), Dell Technologies continues its long history of helping solve customer challenges with innovative solutions that are optimized, cost-effective, and easy to implement. These innovative IP SAN-based solutions are revolutionary and represent what many customers consider to be the future of storage networking.
+Industry Segments
+● Large Enterprise Data Centers ● Cloud / Cloud Service Providers ● Financial Services (high‑IOPS, low‑latency workloads) ● Healthcare (clinical systems, PACS imaging, EMR/EHR) ● Media & Entertainment (video editing, real‑time data streaming)
+Key Features of NVMe/TCP for SAN Fabrics on Dell SONiC
+NVMe/TCP requires no special network capabilities—the network only forwards IP traffic. Hosts and storage arrays (PowerStore, PowerMax) handle NVMe/TCP processing. The solution works on standard Ethernet, and there is no need for DCB/priority flow control.
+Dell’s key differentiator, the SmartFabric Storage Software (SFSS), provides
+● Centralized Discovery (CDC) ● Automated Host/SubSystem Registration ● Zoning (FC‑style fabric zoning)
+The following figure shows a basic dual air gapped infrastructure with dedicated storage traffic from server to storage array. The connections from the server can be active/active or active/standby depending on how the server is configured.
+The Dell switches running Dell SONiC do not have MC-LAG configured. Storage traffic redundancy is achieved by placing the corresponding storage traffic (SAN A, and SAN B) on redundant links towards the storage array.
+The connections on the switches from the server and storage devices are configured as trunks.
+
+Storage and Hyperconverged Use Cases
+
+49
+
+Figure 33. NVMe/TCP over Dell SONiC
+Deployment Best Practices
+Special network configuration is not required because the network transports NVMe/TCP the way it would transport any other TCP traffic, but there are some recommendations and best practices that ensure optimal performance of an NVMe/TCP network:
+● Implement Jumbo frames. ● MLAG is not recommended usually because storage networking best practice is to deploy multiple independent active paths.
+See Table 5 of the following deployment guide SmartFabric Storage Software Deployment Guide for MLAG best practice information. ● For ports connected to NVMe/TCP Endpoints, priority flow control (IEEE 802.1p) should be off for receive and transmit. ● 25 GbE is best suited for enterprise grade NVMe/TCP deployment as it presents better cost alternative to 32 GbE Fibre-Channel. ● Separate NVMe/TCP traffic from general traffic either through separate physical networks, interfaces, or VLANs. ● Whenever possible deploy a flat network to minimize latency. ● Storage traffic and SFSS control traffic must not be firewalled. Administrators may want to firewall administrator traffic to the SFSS management interface. ● Avoid congestion by leveraging the following best practices: ○ Separate switches for LAN and SAN traffic are preferred. ○ Separate broadcast domains. ○ Dedicated NVMe/TCP ports on endpoints. ○ No oversubscription - edge ports should not overload uplinks. ○ Traffic should ingress and egress at on or near line rate. ○ Ensure the network has sufficient capacity. ○ Priority Flow Control off/off (802.1p).
+Architects designing the next generation data centers are looking for lower-cost IP SAN-based solutions as an alternative to Fibre Channel (FC)-based storage area network (SAN) infrastructures.
+NVMe/TCP enables architects to build highly scalable storage environments that allow large-scale deployments and operations over distances. These architects are also looking at NVMe/TCP to reduce data center costs. NVMe/TCP infrastructures can provide equal or greater performance at a reduced cost per port when compared to traditional FC storage infrastructures.
+
+50
+
+Storage and Hyperconverged Use Cases
+
+Dell Technologies has created a robust networking operating system based on collaboration and strengthening of the ecosystem by delivering a well-rounded set of deployment models or use cases covering from the basic Layer 2 to advanced solutions such as NVMe/TCP.
+Detailed deployment guides and whitepapers are available for our customers to learn and deploy these solutions.
+Dell SONiC and Microsoft Azure
+Dell SONiC supports key solutions for all enterprises that use Microsoft Azure for services such as compute, storage, networking, AI, and DevOps amongst others to build and deploy applications on a global scale with security and flexibility.
+Dell SONiC supports a simple and efficient networking architecture based on open Layer 3 and Layer 2 networking standards such as:
+● BGP EVPN VXLAN ● Spanning Tree ● Link Aggregation ● VLANs ● Data Center Bridge Exchange (DCBx)
+The following figure illustrates a hybrid network architecture. Layer 3 features such as BGP EVPN VXLAN are deployed between leaf and spine switches, while Layer 2 features such as MC-LAG are deployed between leaf switches.
+For networks that require traffic to be stretched and routed between PODs, EVPN BGP VXLAN is used.
+Connections from the leaf switches to the external network use Layer 3 point-to-point uplinks with a /31 subnet.
+
+Figure 34. Dell SONiC and Microsoft Azure
+Connections from the leaf switches to the Microsoft Azure Stack use Layer 2 features including: ● Spanning Tree Rapid PVST ● Spanning Tree port edge ● VLANs ● Link Aggregation
+Deployment Best Practices
+Deploying Microsoft Azure Stack with Dell SONiC provides a high-performance, low-latency architecture. To achieve this, follow these best networking practices: ● Implement jumbo frames throughout the fabric. ● Implement spanning-tree basic features such as edge ports to accelerate link connectivity and BPDU Guard to avoid network
+loops.
+
+Storage and Hyperconverged Use Cases
+
+51
+
+● Enable link and device redundancy features using MC-LAG on switches and LAGs on the PowerFlex appliance. ● Enable DCBx end-to-end (on switches and Microsoft Azure nodes). ● Deploy redundant links between leaf and spine switches or between access and aggregation switches. ● Configure downstream links from leaf or access switches as trunk ports switching multiple VLANs.
+
+52
+
+Storage and Hyperconverged Use Cases
+
+8
+References
+Dell Technologies documentation
+The following Dell Technologies documentation provides additional and relevant information. Access to these documents depends on your login credentials. If you do not have access to a document, contact your Dell Technologies representative. ● Dell SONiC and VxRail deployment guide ● Dell SONiC - Layer 3 Fabric ● Dell SONiC - RoCE user guide ● Dell SONiC – DCBx user guide ● Dell SONiC - Q-n-Q VLAN Tunneling and Translation ● SmartFabric Storage Software Deployment Guide ● Dell SONiC and Openstack deployment guide
+NOTE: A valid Dell login credential is required to access the Dell SONiC user guide.
+
+References
+
+53
+
+

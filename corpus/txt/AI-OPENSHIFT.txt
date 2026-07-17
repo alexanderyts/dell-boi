@@ -1,0 +1,843 @@
+Dell AI Factory with NVDIA Including NVIDIA GPUs, OpenShift AI, and Spectrum-X Networking Platforms
+Design Guide
+Abstract Dell AI Factory with NVIDIA delivers a validated AI infrastructure reference architecture combining Dell PowerEdge servers, NVIDIA GPUs, Red Hat OpenShift AI, Spectrum‑X Ethernet networking platform, NVIDIA AI Enterprise, and Dell PowerScale storage.
+Part Number: H04724 July 2026
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+
+Chapter 1: Introduction................................................................................................................. 5 Executive summary............................................................................................................................................................. 5 Overview................................................................................................................................................................................5 Document purpose.............................................................................................................................................................. 5 Audience................................................................................................................................................................................ 5 Revision history.................................................................................................................................................................... 6
+Chapter 2: Solution architecture................................................................................................... 7 Design principles.................................................................................................................................................................. 7 Reference architecture...................................................................................................................................................... 7 Solution architecture components.................................................................................................................................. 9 NVIDIA Enterprise Reference Architecture........................................................................................................... 10 NVIDIA AI Enterprise.......................................................................................................................................................... 11 Security considerations..................................................................................................................................................... 11
+Chapter 3: Management and compute infrastructure................................................................... 12 Management server configuration.................................................................................................................................12 GPU worker node configuration.....................................................................................................................................12 PowerEdge XE9780 GPU worker node.................................................................................................................. 13 PowerEdge XE7740 / XE7745 GPU worker node................................................................................................13 PowerEdge XE9680 GPU worker node.................................................................................................................. 14 PowerEdge Datacenter servers (for inference only).......................................................................................... 15
+Chapter 4: Networking design......................................................................................................16 Traffic types........................................................................................................................................................................16 Physical network architecture........................................................................................................................................ 16 Converged Fabric Architecture.................................................................................................................................17 Dedicated GPU-network architecture for PowerEdge XE9780....................................................................... 18 Network architecture for PowerEdge Datacenter servers for inference only............................................. 20 Logical network architecture.......................................................................................................................................... 21 Cables and optics............................................................................................................................................................... 21
+Chapter 5: AI Workloads.............................................................................................................. 23 Overview............................................................................................................................................................................. 23 DataRobot........................................................................................................................................................................... 23 ClearML............................................................................................................................................................................... 23 Aible...................................................................................................................................................................................... 24 Cohere North......................................................................................................................................................................24 Dataloop...............................................................................................................................................................................24
+Chapter 6: Solution validation..................................................................................................... 25 System configuration....................................................................................................................................................... 25 NCCL validation................................................................................................................................................................. 26 Inference validation...........................................................................................................................................................26
+
+Contents
+
+3
+
+Run:ai validation.................................................................................................................................................................26
+Chapter 7: Conclusion................................................................................................................. 28 Summary..............................................................................................................................................................................28 We value your feedback.................................................................................................................................................. 28
+Chapter 8: References................................................................................................................ 29 Dell Technologies documentation..................................................................................................................................29 NVIDIA documentation.....................................................................................................................................................29
+
+4
+
+Contents
+
+1
+Introduction
+Topics:
+• Executive summary • Overview • Document purpose • Audience • Revision history
+Executive summary
+The Dell AI Factory with NVIDIA delivers a validated architecture that integrates scalable, accelerator‑optimized compute with a low‑latency, high‑performance networking platform to meet the demands of modern agentic AI workloads. It supports both Red Hat OpenShift Container Platform with OpenShift AI and upstream Kubernetes with Ubuntu, providing flexibility across enterprise and open environments. By combining Dell PowerEdge servers with NVIDIA GPUs, the NVIDIA Spectrum‑X Ethernet networking platform, NVIDIA AI Enterprise software, and Dell PowerScale storage, the solution enables enterprises to efficiently train, fine‑tune, and deploy LLMs using resilient, predictable, and cost‑effective on‑premises infrastructure. The design is also designed for streamlined deployment and management, helping organizations accelerate time to value while reducing complexity.
+Overview
+Agentic AI introduces demanding requirements for performance, scalability, and reliability as model sizes and datasets continue to grow. Achieving efficient training, fine‑tuning, and inference across distributed systems requires high‑performance GPU‑accelerated compute and low‑latency networking. This architecture defines the principles and reference design needed to support these workloads with consistent performance at scale. The solution incorporates a comprehensive AI software platform that streamlines provisioning, lifecycle management, and orchestration of GPU‑accelerated environments. It supports both Red Hat OpenShift AI on OpenShift Container Platform for an enterprise-grade, integrated MLOps experience, as well as upstream Kubernetes with Ubuntu for a more flexible, open deployment model. Together, these environments provide the runtime components, automation, and tooling required for distributed LLM training, fine‑tuning, and model deployment, while ensuring efficient resource utilization and simplified operations. This design aligns with NVIDIA’s Enterprise Reference Architecture, applying validated system configurations and best practices for building scalable, predictable, multi‑node GPU environments. By following these proven patterns across Dell PowerEdge infrastructure, the architecture ensures predictable performance, optimized networking and bandwidth utilization, and reliable operation for large‑scale AI deployments.
+Document purpose
+This document provides validated architectural guidance and configuration recommendations for deploying enterprise‑grade generative AI using Dell infrastructure with NVIDIA technologies.
+Audience
+This design guide is intended for technical professionals responsible for planning, architecting, deploying, and operating enterprise generative AI solutions. It is written for AI architects, IT infrastructure architects, system administrators, platform engineers, and operations teams who require guidance on building scalable, high‑performance environments for LLM training, fine‑tuning, and inference. The content also supports data scientists and AI engineers who need to understand the underlying
+
+Introduction
+
+5
+
+infrastructure required to run advanced GPU‑accelerated workloads effectively. A working knowledge of AI workflows, large‑scale compute environments, and core generative AI concepts is assumed.
+
+Revision history
+
+The following table lists the revision history.
+
+Table 1. Revision history
+
+Date July 2026
+
+Version H04724
+
+Change summary
+Combined the OpenShift based design guide to this document. Added support for PowerEdge XE9780 with NVIDIA HGX B300 and PowerEdge XE7740/XE7745 with NVIDIA RTX Pro 4500 Added support for Dell Automation Platform
+
+6
+
+Introduction
+
+2
+Solution architecture
+This solution architecture defines the core building blocks and design principles of the Dell AI Factory with NVIDIA, outlining the compute, networking, storage, and software components that work together to deliver a scalable, high‑performance platform for enterprise generative AI workloads.
+Topics:
+• Design principles • Reference architecture • Solution architecture components • NVIDIA AI Enterprise • Security considerations
+Design principles
+Building an effective generative AI platform requires a clear set of guiding principles that ensure the architecture delivers high performance, operational efficiency, and flexibility across different deployment sizes and workload types. The following principles are used in the design of the Dell AI Factory with NVIDIA.
+● Alignment with NVIDIA Enterprise Reference Architecture (ERA): The solution incorporates validated design patterns and configuration guidance from NVIDIA ERA to take advantage of proven methods for multi‑node GPU deployments and optimal system configuration.
+● High‑performance GPU backend (optional for inference‑only): Training and fine‑tuning workloads benefit from a dedicated GPU interconnect built on the NVIDIA Spectrum-X Ethernet platform and SuperNICs, enabling fast east‑west traffic and efficient multi‑node communication. Inference‑only environments can forgo this backend network.
+● Modular and customizable architecture: The reference design is intentionally modular, allowing organizations to adapt components such as the management stack, storage platform, or cluster size and composition. Customers can integrate Dell PowerScale storage, Dell AI Data Platform and extend the architecture as their needs evolve.
+● Container‑native, service‑oriented platform: OpenShift Container Platform or Kubernetes provides a unified orchestration layer that simplifies deployment, maintenance, and resource management. Its service‑oriented design supports flexible hosting of training, fine‑tuning, and inference workflows while enabling operational automation.
+● Enterprise‑class availability and resilience: The networking and system layout incorporate redundancy, robust failover mechanisms, and traffic separation to maintain reliability across management, storage, and GPU fabrics.
+● Support for varied workload sizes and cluster footprints: The architecture accommodates small inference clusters as well as larger multi‑node GPU environments, making it suitable for a wide range of generative AI use cases.
+● Streamlined operations and lifecycle management: Through standardized components and automated orchestration, the platform reduces administrative overhead and helps maintain uniform operational practices across the AI development and deployment lifecycle.
+Reference architecture
+The reference architecture integrates compute, networking, storage, orchestration, and AI software capabilities into a unified platform for enterprise generative AI. It supports a wide range of use cases—including RAG, AI agents, code assistants, fine‑tuning, and inference—while giving organizations the flexibility to scale their environment and adapt components to their operational needs. The following figure shows the key components of the reference architecture:
+
+Solution architecture
+
+7
+
+Figure 1. Reference architecture Dell AI Factory with NVIDIA using Spectrum-X Ethernet Networking
+Compute and management hardware
+Dell provides a range of server platforms and GPU options that can be selected based on workload requirements. High‑density, AI‑optimized servers are designed for distributed training, fine‑tuning, and other compute‑intensive tasks where a dedicated GPU backend network is beneficial. Datacenter‑class servers deliver a cost‑efficient option for inference‑only deployments that do not require backend GPU connectivity. Management and control‑plane services run on separate general‑purpose servers to ensure operational stability and clean separation of responsibilities.
+Networking
+The architecture uses the NVIDIA Spectrum‑X networking platform, built on Spectrum‑4 switches and NVIDIA SuperNICs, to deliver a single, consolidated fabric that supports both frontend and backend traffic. Frontend services—including management, storage, and application connectivity—use EVPN‑VXLAN to provide enterprise‑class segmentation, multihoming, and flexible L2/L3 connectivity across the fabric. The backend network enables high‑bandwidth, low‑latency east‑west GPU communication, supporting efficient distributed training and fine‑tuning across multi‑node environments. All switches run NVIDIA Cumulus, a Linux‑based network operating system that provides automation, telemetry, and operational consistency.
+Management and orchestration
+Dell Automation Platform deploys and configures the cluster and supported operators through blueprints. Dell Automation Platform is a unified orchestration and management solution that is designed to streamline IT operations by automating deployment, provisioning, and life cycle management of software on Dell hardware. It helps organizations tackle rising complexity from AI, edge computing, and private cloud environments by offering zero-touch hardware onboarding, centralized control, and validated blueprints. Key benefits include faster time-to-innovation, simplified operations, integrated zero trust security, and flexible software ecosystem support—all accessible by using an intuitive portal for on-premises or SaaS-based deployment. It supports the deployment of both upstream Kubernetes and OpenShift Container Platform.
+NVIDIA NetQ adds real‑time network visibility, validation, and troubleshooting capabilities, helping ensure the fabric operates reliably and according to recommended design patterns.
+Container orchestration and operators
+The design provides two options for Container Orchestration: OpenShift Container Platform and upstream Kubernetes.
+Red Hat OpenShift Container Platform provides the enterprise‑grade orchestration layer for the Dell AI Factory with NVIDIA, offering a secure, automated, and scalable environment for running GPU‑accelerated AI workloads. The platform integrates several operators, including GPU Operator for driver and runtime management, Network Operator for RDMA and GPUDirect enablement, Dell CSI Operator for storage provisioning, and Run:ai for advanced workload scheduling and GPU resource allocation. These components work together to deliver a fully cloud‑native, automated environment for training, fine‑tuning, and inference.
+
+8
+
+Solution architecture
+
+Kubernetes provides the orchestration layer for deploying and managing AI workloads across the cluster. The platform integrates several operators, including GPU Operator for driver and runtime management, Network Operator for RDMA and GPUDirect enablement, Dell CSI Operator for storage provisioning, and Run:ai for advanced workload scheduling and GPU resource allocation. These components work together to deliver a fully cloud‑native, automated environment for training, fine‑tuning, and inference.
+Storage
+This solution uses Dell PowerScale storage as a repository for datasets for model customization, models, model versioning and management, and model ensembles.
+The flexible and robust storage capabilities of PowerScale offer the scale and speed necessary for training and operationalizing AI models, providing a foundational component for AI workflow. Its capacity to handle the vast data requirements of AI, combined with its reliability and high performance, cements the crucial role that external storage plays in successfully bringing AI models from conception to application.
+There are several models used in generative AI solution architectures, such as PowerScale F710, all powered by the PowerScale OneFS operating system and supporting inline data compression and deduplication. The minimum number of PowerScale nodes per cluster is three nodes. The maximum cluster size is 252 nodes, which supports up to 186 PB of raw capacity.
+AI frameworks and models
+OpenShift AI provides a unified, enterprise‑ready platform for building, customizing, and operationalizing AI and machine‑learning models, including large language models used in generative AI workloads. It integrates NVIDIA AI Enterprise components—such as optimized GPU libraries, model‑serving runtimes, and NIM microservices—with Red Hat’s model management, pipeline automation, and experiment‑tracking capabilities. This enables organizations to fine‑tune foundation models, run distributed training jobs, and deploy inference services using standardized, cloud‑native workflows.
+For upstream Kubernetes option, the design supports a broad set of AI frameworks and model toolchains used for LLM training, fine‑tuning, and inference. These frameworks enable organizations to build, adapt, and deploy models efficiently using optimized, enterprise‑ready software components.
+Workloads and use cases
+Dell Technologies supports a comprehensive range of AI workloads through the Dell AI Factory platform, covering the full AI lifecycle from data ingestion to deployment. This includes model training and fine-tuning, inference, Retrieval-Augmented Generation (RAG), agentic AI, high-performance computing (HPC), data analytics, digital twins and physical AI, and edge/AI PC workloads. Powered by infrastructure such as Dell PowerEdge servers, PowerScale and partnerships with NVIDIA, Dell enables enterprises to build, train, and deploy AI models on-premises, in the cloud, or at the edge—offering scalable, secure, and cost-effective solutions across industries.
+
+Solution architecture components
+
+To provide a concise view of the Dell AI Factory design, the following table summarizes the key components and deployment options that make up the reference architecture. In addition to detailing the management plane, compute configurations, networking fabric, storage subsystem, orchestration layer, and software stack, the table also highlights the intended use cases for each configuration. This allows organizations to map specific AI workload requirements—such as enterprise inference, distributed training, or performance‑optimized deployments—to the most appropriate infrastructure design while maintaining flexibility and scalability.
+
+Table 2. Reference architecture summary
+
+Use Case
+
+Base configuration for enterprise inference Enterprise inference workloads
+
+Converged network configuration
+Enterprise inference and distributed AI workloads with simplified networking
+
+Dedicated GPU network configuration
+High-performance, scalable distributed AI training and inference with dedicated GPU network
+
+Management Server
+
+4 x PowerEdge R6715
+
+4 x PowerEdge R6715
+
+4 x PowerEdge R6715
+
+Compute Nodes
+
+Options include:
+
+Options include:
+
+● Up to 20 x PowerEdge XE7740 ● 2 - 16 x PowerEdge XE7740 or
+
+or XE7745
+
+XE7745
+
+● Up to 20 x PowerEdge R770 / ● 2 - 12 x PowerEdge XE9680
+
+R7725 / R7715
+
+Options include: ● 2 - 16 x PowerEdge XE9780
+
+Solution architecture
+
+9
+
+Table 2. Reference architecture summary (continued)
+
+-
+
+Base configuration for
+
+Converged network
+
+enterprise inference
+
+configuration
+
+Networking
+
+● 2 x Spectrum‑4 SN5610
+● 1 - 2 x Spectrum SN2201 (OOB management)
+
+● 2 x Spectrum‑4 SN5610 (converged - frontend and backend)
+● 1 - 2 x Spectrum SN2201 (OOB management)
+
+Storage
+
+3 - 8 x PowerScale F710
+
+Cluster Manager Dell Automation Platform
+
+Container Orchestration
+
+Upstream Kubernetes or OpenShift Container Platform
+
+AI Frameworks & NVIDIA AI Enterprise Software
+
+3 - 8 x PowerScale F710
+Dell Automation Platform
+Upstream Kubernetes or OpenShift Container Platform
+NVIDIA AI Enterprise
+
+Dedicated GPU network configuration
+● 2 x Spectrum‑4 SN5610 (backend/GPU network)
+● 2 x Spectrum‑4 SN5610 (frontend/Management and storage network)
+● 1 - 2 x Spectrum SN2201 (OOB management)
+3 - 8 x PowerScale F710
+Dell Automation Platform
+Upstream Kubernetes or OpenShift Container Platform
+NVIDIA AI Enterprise
+
+NVIDIA Enterprise Reference Architecture
+
+NVIDIA’s Enterprise Reference Architectures (ERAs) provide standardized, validated design guidance for building reliable, high‑performance AI infrastructure. They offer clear recommendations for system configuration, network design, and component selection, helping organizations reduce deployment risk and accelerate time to value. By following ERA guidance, partners and customers benefit from optimized performance, improved utilization, higher uptime, and predictable operational characteristics across AI Factory deployments.
+NVIDIA uses a structured methodology to introduce ERAs for each new technology generation—including Hopper and Blackwell GPUs, Grace CPUs, Spectrum‑X networking, and BlueField‑based platforms. Each ERA includes configuration guides and best practices to help partners design and deliver optimized systems for enterprise‑class AI workloads. All ERAs are anchored on NVIDIA‑Certified systems and follow a standardized “Reference Configuration” format based on four parameters:
+C: Number of CPU sockets G: Number of GPUs
+N: Number of network adapters (NICs)
+B: Average East-West network bandwidth per GPU (in GbE)
+This C‑G‑N‑B model simplifies system selection and ensures balanced performance across compute, networking, and I/O.
+
+Table 3. NVIDIA ERA configurations and its mapping to Dell PowerEdge servers
+
+ERA Configuration (C-G-N-B)
+
+Related Dell servers
+
+2-4-3-200
+
+PowerEdge R760xa (retired. Not in scope of this document)
+
+2-8-9-400
+
+PowerEdge XE9680
+
+2-8-5-200
+
+PowerEdge XE7740 and PowerEdge XE7745
+
+2-8-9-800 (Single and Dual Plane)
+
+PowerEdge XE9780 and PowerEdge XE9785 (Upcoming)
+
+NVIDIA review and endorsement—NVIDIA performs a vendor‑level review of partner designs to ensure alignment with ERA guidelines. When a partner’s architecture meets the required configuration, bandwidth, and system‑level criteria, NVIDIA formally endorses the design as ERA‑aligned. The Dell configurations corresponding to ERA 2‑8‑9‑400 and 2‑8‑5‑200 have been reviewed and endorsed by NVIDIA. For more information, refer to NVIDIA’s Enterprise Reference Architecture Partner Endorsed Designs.
+Inference‑only designs using Dell datacenter servers (without GPU backend networking) are not part of NVIDIA’s ERA program and therefore are not ERA‑endorsed.
+
+10
+
+Solution architecture
+
+NVIDIA AI Enterprise
+NVIDIA AI Enterprise provides the full‑stack software foundation for the Dell AI Factory, delivering an integrated suite of tools that streamline the development, customization, deployment, and operation of AI workloads. It supplies the enterprise‑grade software components needed to run training, fine‑tuning, inference, and data‑driven AI services across a standardized and operationally consistent platform.
+NVIDIA AI Enterprise also delivers Kubernetes‑native operators that automate and optimize the underlying infrastructure within the Dell AI Factory. The GPU Operator manages driver installation, CUDA runtimes, monitoring components, and GPU readiness across all nodes. The Network Operator enables advanced data‑path features such as RDMA and GPUDirect, ensuring optimal performance for multi‑node distributed training. The NIM Operator simplifies deployment of accelerated inference microservices, allowing organizations to serve optimized foundation models with minimal operational effort.
+For workload scheduling, resource allocation, and multi‑tenant sharing, Run:ai is included as part of the software stack. Within the Dell AI Factory, Run:ai enhances GPU utilization by enabling fractional GPU allocation, prioritization, and intelligent workload placement across teams and projects.
+NVIDIA NeMo Framework is a scalable and cloud-native generative AI framework that is built for researchers and developers working on Large Language Models, Multimodal, and Speech AI (for example, Automatic Speech Recognition and Text-toSpeech). It enables users to efficiently create, customize, and deploy new generative AI models by leveraging existing code and pretrained model checkpoints.
+Together, these components form the software backbone of the Dell AI Factory—providing a cloud‑native, automated, and secure operational model that accelerates enterprise adoption of generative AI while simplifying ongoing infrastructure management.
+Security considerations
+AI platforms exist at the intersection of rapidly evolving AI technology and the ever-challenging security landscape. This unique position brings both incredible opportunities and significant risks. The security of any system exists in relation to the system’s threat profile: the value of a system's assets, the likelihood of an attempted attack, and the nature of potential attackers in terms of their resources, capabilities, and incentives. Furthermore, there is often a tension between security and convenience. Extra security measures might interfere with desirable use cases or lead to false-positive results. Therefore, Dell Technologies advises customers and architects to consider their specific operational contexts and conduct appropriate analysis to validate the applicability of the recommendations in this guide. Depending on the threat profile, additional services and security measures might be advisable.
+The Dell AI Platforms security best practices guide describes some of the potential threats to an AI Platform and offers guidance on how to mitigate them. It also describes some common security configuration procedures, followed by guidance related to categories of potential threats and their respective mitigations.
+The recommendations in the security best practices guide are not a complete security evaluation of the Dell AI Platform in its entirety or its individual components, nor a complete threat and risk analysis. You can find additional information at the Dell Security and Trust Center.
+
+Solution architecture
+
+11
+
+3
+
+Management and compute infrastructure
+
+The Dell AI Factory is built on two primary compute infrastructure layers: a management plane that delivers orchestration, control, and operational services, and a set of compute nodes that provide the GPU acceleration required for training, fine‑tuning, and inference. The management hardware ensures stable cluster operations, while the compute nodes deliver the performance and scalability required for generative AI workloads.
+Topics:
+• Management server configuration • GPU worker node configuration
+
+Management server configuration
+
+The management plane is anchored by four dedicated PowerEdge servers. Three of the servers form the OpenShift Container Platform or Kubernetes control plane. The fourth server is intended to run VMware ESXi and host virtual machines that provide the operational tooling for the Dell AI Factory. These management virtual machines typically include Dell Automation Platform, NVIDIA NetQ, and other supporting components such as observability, logging, or monitoring services.
+If a customer already operates a virtual infrastructure, such as an existing VMware or similar enterprise virtualization platform, the fourth server can be used differently. It may serve as a dedicated a login or utility node for administrators, or a host for other management components depending on operational needs.
+The following table provides the recommended minimum configuration for the PowerEdge R670 head node and the control plane nodes:
+
+Table 4. Management Server configuration
+
+Component Configuration
+
+Guidance
+
+Server model 4 x PowerEdge R6715
+
+Standardized platform for management services and control plane.
+
+CPU
+
+AMD EPYC 9355P 3.55GHz, 32C/64T, 256 Cache (280W) DDR5-6400
+
+Sufficient for control‑plane and management workloads. Customers may upgrade to higher‑core or dual‑socket configurations if running a larger virtualization footprint or additional management tooling.
+
+Memory
+
+8 x 32 GB (256 GB) RDIMM, 6400MT/s, Dual Minimum recommended. Customers can increase memory
+
+Rank
+
+for expanded monitoring, logging, or VM density.
+
+Boot / OS Storage
+
+BOSS‑N1 module with 2 × 960 GB M.2 (RAID Recommended for OS resilience and simplified recovery. 1)
+
+RAID controller PERC H965i
+
+Provides resiliency for local storage. Optional if customers rely on external storage arrays for VM datastores.
+
+Local storage 3.84TB SSD SATA Read Intensive
+
+Provides capacity for container images, VM disks, and logs. Optional if external storage arrays are used.
+
+Frontend network
+
+NVIDIA Mellanox ConnectX‑6 Dx Dual‑Port 100 GbE
+
+Provides sufficient bandwidth for in‑band management and service traffic.
+
+GPU worker node configuration
+Dell Technologies provides a selection of GPU-optimized servers suitable for configuration as worker nodes for generative AI: the PowerEdge XE7740, XE7745, and PowerEdge XE9780 servers. You have the flexibility to choose one of these PowerEdge
+
+12
+
+Management and compute infrastructure
+
+servers that is based on the specific model size that you require. Larger models, characterized by a greater parameter size, require servers that are equipped with a higher GPU count and enhanced connectivity.
+The GPU-optimized servers act as worker nodes in a Kubernetes cluster. The number of servers depends on the size of the model, the customization method, and the end-user requirements for training time. Larger models, characterized by a greater parameter size, require servers that are equipped with a higher GPU count and enhanced connectivity.
+
+PowerEdge XE9780 GPU worker node
+
+The PowerEdge XE9780 is designed for high-end, large-scale AI workloads that demand maximum GPU density and performance. Built to support next-generation NVIDIA GPUs and optimized for distributed training and inference, it provides exceptional compute capacity for large language models, agentic AI, and other data-intensive applications. With its advanced architecture and support for high-bandwidth, low-latency networking, the XE9780 enables organizations to efficiently scale complex AI workloads while maintaining predictable performance and operational efficiency.
+The following table provides a recommended configuration for PowerEdge XE9780 worker node:
+
+Table 5. PowerEdge XE9780 GPU worker node
+
+Component
+
+Details
+
+Server model
+
+PowerEdge XE9780
+
+CPU
+
+Intel® Xeon® 6 Performance 6767P 2.4G, 64C/128T
+
+Memory
+
+32 x 64 GB RDIMM
+
+Boot / OS Storage BOSS‑N1 with 2 x 960 GB M.2 (RAID 1)
+
+Local storage
+
+4 x 3.84 TB NVMe SSD (Read‑intensive)
+
+GPU (accelerator) 8 x NVIDIA B300 SXM
+
+Frontend network 1 x NVIDIA BlueField‑3 Dual‑Port 400 GbE (B3240)
+
+Backend network 8 x ConnectX-8 800Gb network adapters
+
+Guidance
+AI‑optimized platforms for multi‑GPU workloads.
+Suitable for large GPU clusters. Higher‑frequency or higher‑bin CPUs may be used for preprocessing‑heavy workflows, but customers must ensure power budgets support those configurations.
+General guideline: minimum of 2 TB for 8 NVIDIA B300 SXM systems. Fully populated DIMMs improve bandwidth; customers may scale memory up or down based on pipeline needs.
+Standard resilient boot option.
+Provides fast access for local datasets, container images, temp storage, and model artifacts.
+Default option. Nvidia B200 SXM is not supported with this architecture.
+This interface is a DPU‑based adapter, enabling advanced capabilities such as security offload, firewalling, and accelerated networking services when required. If DPU‑based functionality is not needed, customers may instead choose NVIDIA ConnectX‑7 adapters as a simpler, NIC‑only option while maintaining high‑performance network connectivity.
+Integrated with NVIDIA B300 GPUs.
+
+PowerEdge XE7740 / XE7745 GPU worker node
+
+The PowerEdge XE7740 and XE7745 server is a two-socket, 4U server that is designed specifically for AI tasks. It supports eight PCIe based accelerators, ideal for machine learning and deep learning training and inferencing workloads, especially for those workloads that are training LLMs.
+The following table provides a recommended configuration for PowerEdge XE7740/XE7745 worker node:
+
+Table 6. PowerEdge XE7740 / XE7745 GPU worker node
+
+Component
+
+Details
+
+Guidance
+
+Server model
+
+PowerEdge XE7740 / XE7745
+
+AI‑optimized platforms for multi‑GPU workloads; customers may choose Intel‑ or AMD‑based variants based on preference.
+
+Management and compute infrastructure
+
+13
+
+Table 6. PowerEdge XE7740 / XE7745 GPU worker node (continued)
+
+Component
+
+Details
+
+Guidance
+
+CPU
+
+For PowerEdge XE7740: Intel® Xeon® 6
+Performance 6767P 2.4G, 64C/128T
+For PowerEdge XE7745: AMD EPYC 9335 3.0GHz, 32C/64T
+
+Suitable for large GPU clusters. Higher‑frequency or higher‑bin CPUs may be used for preprocessing‑heavy workflows, but customers must ensure power budgets support those configurations.
+
+Memory
+
+For PowerEdge XE7740: 32 x 64 GB RDIMM General guideline: minimum of 1 TB for 8‑GPU systems.
+
+For PowerEdge XE7745: 24 x 64 GB RDIMM
+
+Fully populated DIMMs improve bandwidth; customers may scale memory up or down based on pipeline needs.
+
+Boot / OS Storage BOSS‑N1 with 2 x 960 GB M.2 (RAID 1)
+
+Standard resilient boot option.
+
+Local storage
+
+2 x 3.84 TB NVMe SSD (Read‑intensive)
+
+Provides fast access for local datasets, container images, temp storage, and model artifacts.
+
+GPU (accelerator)
+
+8 x NVIDIA H200 NVL, 8 x NVIDIA RTX Pro 6000 BSE, or 8 x NVIDIA RTX Pro 4500 BSE
+
+Choose based on target workload characteristics (training, fine‑tuning, or inference). NVIDIA RTX Pro 4500 BSE is available only for inference only configuration.
+
+Frontend network 1 x NVIDIA BlueField‑3 Dual‑Port 200 GbE (B3220)
+
+This interface is a DPU‑based adapter, enabling advanced capabilities such as security offload, firewalling, and accelerated networking services when required. If DPU‑based functionality is not needed, customers may instead choose NVIDIA ConnectX‑7 adapters as a simpler, NIC‑only option while maintaining high‑performance network connectivity.
+
+Backend network 4 x NVIDIA BlueField‑3 Single‑Port 400 GbE Required for distributed training; not required for
+
+(B3140H)
+
+inference‑only deployments.
+
+PowerEdge XE9680 GPU worker node
+
+The PowerEdge XE9680 server is a two-socket, 6U server that is designed specifically for AI tasks. It supports eight accelerators, ideal for machine learning and deep learning training and inferencing workloads, especially for those workloads that are training LLMs.
+The PowerEdge XE9680 server with the NVIDIA H200 accelerator offers high-performance capabilities for enterprises seeking to unlock the value of their data and differentiate their business with customized LLMs. The following table provides a recommended configuration for a PowerEdge XE9680 GPU worker node:
+
+Table 7. PowerEdge XE9680 GPU worker node
+
+Component Details
+
+Server model PowerEdge XE9680
+
+CPU
+
+2 x Intel Xeon Platinum 8562Y+ 2.8G, 32C/64T, 20 GT/s, 60M Cache
+
+Guidance and Options
+AI‑optimized platforms for multi‑GPU workloads.
+Suitable for large GPU clusters. Higher‑frequency or higher‑bin CPUs may be used for preprocessing‑heavy workflows, but customers must ensure power budgets support those configurations.
+
+Memory
+
+16 x 128 GB RDIMM, 5600 MT/s Dual Rank
+
+Operating
+
+BOSS‑N1 with 2 × 960 GB M.2 (RAID 1)
+
+system storage
+
+Local storage 4 × 3.84 TB NVMe SSD (Read‑intensive)
+
+General guideline: minimum of 1 TB for 8‑GPU systems. Customers may scale memory up or down based on pipeline needs.
+Standard resilient boot option.
+Provides fast access for local datasets, container images, temp storage, and model artifacts.
+
+14
+
+Management and compute infrastructure
+
+Table 7. PowerEdge XE9680 GPU worker node (continued)
+
+Component Details
+
+Guidance and Options
+
+Frontend network
+
+1 × NVIDIA BlueField‑3 Dual‑Port 200 GbE (B3220)
+
+This interface is a DPU‑based adapter, enabling advanced capabilities such as security offload, firewalling, and accelerated networking services when required. If DPU‑based functionality is not needed, customers may instead choose NVIDIA ConnectX‑7 adapters as a simpler, NIC‑only option while maintaining high‑performance network connectivity.
+
+GPU (accelerator)
+Backend network
+
+8 x NVIDIA H200 SXM
+8 × NVIDIA BlueField‑3 Single‑Port 400 GbE (B3140H)
+
+Standard GPU option with the server.
+Required for distributed training; not required for inference‑only deployments.
+
+PowerEdge Datacenter servers (for inference only)
+
+Dell PowerEdge R770, R7725, and R7715 servers offer a flexible and scalable platform for AI inference workloads. These servers combine high-performance CPUs with support for GPU acceleration, enabling efficient deployment of machine learning models in production environments. The R770, powered by Intel Xeon 6 CPU, delivers balanced compute and storage for enterprise AI, while the R7725, powered by AMD EPYC processors, provides exceptional memory bandwidth and multi-GPU support for demanding inference tasks. Together, these servers are ideal for organizations looking to integrate AI inference into existing data center infrastructure without the need for specialized hardware.
+
+Table 8. PowerEdge Datacenter server GPU worker nodes
+
+Component
+
+PowerEdge R770
+
+PowerEdge R7725
+
+PowerEdge R7715
+
+CPU
+
+2 x Intel® Xeon® 6 Performance 6745P 3.1G, 32C/64T, 24GT/s, 336M Cache, Turbo, (300W) DDR5-6400
+
+2 x AMD EPYC 9335 3.0GHz, AMD EPYC 9335 3.0GHz,
+
+32C/64T, 128 Cache (210W) 32C/64T, 128 Cache (210W)
+
+DDR5-6400
+
+DDR5-6400
+
+Memory
+
+16 x 32GB RDIMM, 6400MT/s, Dual Rank
+
+16 x 32GB RDIMM, 6400MT/s, Dual Rank
+
+8 x 32GB RDIMM, 6400MT/s, Dual Rank
+
+BOSS Card Storage Frontend network GPU (accelerator)
+Backend network
+
+BOSS-N1 controller card + with 2 M.2 960 GB (RAID 1)
+
+BOSS-N1 controller card + with 2 M.2 960 GB (RAID 1)
+
+BOSS-N1 controller card + with 2 M.2 960 GB (RAID 1)
+
+4 x 480GB SSD SATA Read Intensive 6Gbps 512e 2.5in Hot-plug AG Drive, 1 DWPD
+
+4 x 480GB SSD SATA Read Intensive 6Gbps 512e 2.5in Hot-plug AG Drive, 1 DWPD
+
+4 x 480GB SSD SATA Read Intensive 6Gbps 512e 2.5in Hot-plug AG Drive, 1 DWPD
+
+1 x NVIDIA ConnectX-6 Dx Dual Port 100GbE
+
+1 x NVIDIA ConnectX-6 Dx Dual Port 100GbE
+
+1 x NVIDIA ConnectX-6 Dx Dual Port 100GbE
+
+2 x NVIDIA H200 NVL GPUs, 2 x NVIDIA RTX Pro 6000 Blackwell Server Edition GPUs, 2 x RTX Pro 4500 Blackwell Server Edition or 2 x NVIDIA L40S GPUs
+
+2 x NVIDIA H200 NVL GPUs, 2 x NVIDIA RTX Pro 6000 Blackwell Server Edition GPUs, 2 x RTX Pro 4500 Blackwell Server Edition or 2 x NVIDIA L40S GPUs
+
+2 x NVIDIA H200 NVL GPUs, 2 x RTX Pro 4500 Blackwell Server Edition or 2 x NVIDIA L40S GPUs
+
+None
+
+None
+
+None
+
+Management and compute infrastructure
+
+15
+
+4
+Networking design
+A high‑performance network fabric is one of the most critical components of any AI infrastructure, and it becomes especially important for large‑scale generative AI workloads. Distributed training, fine‑tuning, and multi‑node inference depend on predictable, low‑latency communication between GPUs and between compute, storage, and management services. The Dell AI Factory builds on the NVIDIA Spectrum‑X Ethernet Networking Platform, which is designed specifically to meet the demands of modern GPU clusters by delivering high throughput, deterministic performance, congestion‑free operation, and large‑scale efficiency—all while retaining the operational simplicity and ecosystem benefits of Ethernet.
+The network architecture adheres to NVIDIA’s Enterprise Reference Architecture (ERA) guidelines, ensuring that the fabric aligns with validated design patterns for multi‑node GPU deployments. Spectrum‑X combines a rail‑optimized topology with RoCEv2 acceleration, adaptive routing, and congestion control, enabling AI workloads to scale from a handful of nodes to multi‑rack environments without compromising performance. Together, these elements form the backbone of a converged, enterprise‑class Ethernet design suitable for data‑center‑scale AI factories.
+Topics:
+• Traffic types • Physical network architecture • Logical network architecture • Cables and optics
+Traffic types
+The Dell AI Factory network supports a diverse set of traffic flows, each with different performance, availability, and isolation requirements. The Spectrum‑X converged Ethernet fabric enables these traffic types to coexist efficiently across a shared underlay.
+● GPU compute fabric (east-west): This fabric carries distributed‑training and collective‑communication traffic between GPUs across nodes. This GPU traffic uses RoCEv2 with PFC, adaptive routing, and congestion control to ensure low‑latency, lossless east‑west communication essential for LLM training and large‑scale fine‑tuning.
+● Front‑end network traffic (north-south): Front end traffic includes storage access, application flows, and in band cluster management. Delivered over an EVPN VXLAN overlay, this traffic benefits from workload segmentation, multihoming, and scalable L2/L3 virtualization.
+● Management traffic: ○ Out‑of‑band (OOB) traffic supports iDRAC access, power management, and system‑level administration. ○ In‑band management supports Kubernetes API communication, monitoring, lifecycle operations, and operational tooling.
+● Additional traffic classes: ○ Storage traffic—Communication with PowerScale for datasets, checkpoints, and AI artifacts ○ Edge/north‑south traffic—Connectivity to upstream routers, service layers, or enterprise networks ○ EVPN‑VXLAN overlay traffic—Virtualized L2/L3 service delivery across the fabric ○ Underlay transport—BGP unnumbered and BFD that provide resilient routing and fast convergence
+Physical network architecture
+The physical network architecture of the Dell AI Factory is built on NVIDIA Spectrum‑X Ethernet and supports multiple deployment models to address varying performance, scalability, and isolation requirements. These models include a converged fabric design for simplified deployments and a dedicated dual-network design for high-performance and scalable GPU environments. Both approaches follow NVIDIA Enterprise Reference Architecture (ERA) principles to ensure deterministic performance and scalability for AI workloads.
+
+16
+
+Networking design
+
+Converged Fabric Architecture
+In the converged design, the network is built around a single pair of Spectrum‑4 SN5610 switches that carry both east‑west GPU traffic and north‑south storage, application, and management traffic. This approach simplifies deployment, reduces cabling complexity, and aligns with ERA design patterns that consolidate network tiers while still delivering predictable performance.
+At the GPU layer, compute nodes such as PowerEdge XE7740 and XE7745 connect to the fabric using 400 GbE NVIDIA BlueField‑3 SuperNICs, enabling high-bandwidth, low-latency communication required for distributed training and collective operations. These SuperNICs support RDMA/RoCEv2, Priority Flow Control (PFC), and adaptive routing to ensure deterministic performance.
+For storage and general data access, compute and management nodes also connect to the same switches using dual 200 GbE BlueField‑3 DPUs. These links provide resilient, high-throughput access to PowerScale storage, supporting dataset movement, checkpointing, and in-band management traffic.
+Kubernetes control-plane nodes and management servers connect using 100 GbE links, while PowerScale nodes attach directly to the SN5610 switches using 200 GbE connectivity. Out-of-band (OOB) management is provided through a dedicated SN2201 1 GbE switch connecting iDRAC interfaces, DPU management ports, and switch management interfaces.
+Out‑of‑band (OOB) management is handled by a dedicated SN2201 1 GbE switch, which connects all server iDRAC interfaces, BlueField DPU management ports, and switch OOB interfaces.
+The following diagram presents a high-level view of a datacenter network architecture integrating Dell and NVIDIA components. It features PowerEdge R6715 servers for management components and Kubernetes Control Plane, PowerEdge XE7740/XE7745 servers, PowerScale Storage, and Spectrum-X SN2201 for out-of-band management. Two SN5610 switches serve as the core fabric, interconnecting these elements. The network uses multiple Ethernet types, color-coded for clarity: 400 GbE GPU Ethernet (green), 200 GbE storage and access (orange), 1 GbE Out-of-Band management.
+
+Figure 2. Network configuration for a PowerEdge XE7740/XE7745-based cluster
+
+Networking design
+
+17
+
+Using similar color coding, the following figure shows the network configuration of PowerEdge XE9680-based AI Platform.
+
+Figure 3. Network configuration for a PowerEdge XE9680-based cluster
+Dedicated GPU-network architecture for PowerEdge XE9780
+The PowerEdge XE9780 platform is designed for large-scale, performance-critical AI workloads and adopts a single-plane architecture with dedicated network separation, as illustrated in the figure above. This design uses independent network fabrics to isolate GPU communication from storage, application, and management traffic, ensuring maximum performance and predictability.
+This design deploys two independent pairs of Spectrum‑4 SN5610 switches:
+● GPU / East-West Network: A dedicated pair of SN5610 switches handles east‑west GPU communication. Compute nodes connect using ConnectX-8 SuperNICs that are integrated with NVIDIA B300 SXM GPUs, enabling ultra-low-latency, high-bandwidth data exchange for distributed training, model parallelism, and large-scale collective operations. By isolating GPU communication on its own fabric, the design minimizes contention and enables deterministic, low-latency performance at scale. Technologies such as RDMA/RoCEv2, Priority Flow Control (PFC), and adaptive routing are used to optimize throughput and reduce congestion.
+● Frontend / Management and Storage Network: A separate pair of SN5610 switches is used for north‑south traffic, including storage access, cluster management, and application communication. Compute nodes connect to this network using high-speed Ethernet (NVIDIA BlueField-3 B3240 400 GbE adapters), providing reliable throughput for data ingestion, checkpointing, and inference-serving workflows.
+
+18
+
+Networking design
+
+PowerScale storage systems connect directly to the frontend fabric using 200 GbE links, ensuring high-throughput data access for training and inference workflows. Kubernetes control-plane nodes and management servers are also connected to the frontend network using 100 GbE links, enabling reliable cluster operations and orchestration.
+Out-of-band (OOB) management is isolated on a dedicated Spectrum SN2201 1 GbE switch (not shown in the main data paths), which connects server iDRAC interfaces, BlueField DPU management ports, and switch management interfaces.
+The figure highlights the clear separation of traffic types through color-coded links:
+● Green: 400 GbE GPU backend network ● Blue/Purple: Frontend network for storage, application, and management traffic ● Red: Inter-switch links (ISLs) for fabric redundancy and scalability
+By separating GPU and non-GPU traffic into dedicated fabrics, the XE9780 design aligns with NVIDIA Enterprise Reference Architecture best practices for high-end AI clusters. This approach delivers improved scalability, consistent application performance, and better fault isolation, making it well suited for large language model training, agentic AI workloads, and other distributed AI applications that require predictable high performance.
+
+Networking design
+
+19
+
+Figure 4. Network configuration for a PowerEdge XE9780-based cluster
+Network architecture for PowerEdge Datacenter servers for inference only
+Building on the GPU-based architecture described in the previous section, the network design for PowerEdge Datacenter Servers maintains the same high-performance principles while removing GPU Ethernet connectivity. This configuration uses PowerEdge R770, R7725, and R7715 servers as compute nodes, connected using 100 GbE links for storage and access using ConnectX-6 network adapters.
+
+20
+
+Networking design
+
+The architecture continues to leverage dual SN5610 switches for EVPN-based network virtualization and redundancy, while PowerScale F710 storage remains integrated through 200 GbE connections. Out-of-band management is provided via the SN2201 GbE switch at 1 GbE, and 100 GbE inband links support control plane operations. This streamlined design delivers the required connectivity for inference only workloads, without the additional GPU networking layer.
+While this architecture does not follow any NVIDIA Enterprise Reference Architecture (ERA) in its entirety, it adopts key principles from ERA for network configuration. ERA typically requires the use of NVIDIA BlueField-3 (BF3) adapters; however, these are not included in the reference design described here. Although PowerEdge servers support BF3, using these adapters consumes PCIe slots that could otherwise be allocated for GPUs. Therefore, for this configuration, we recommend using NVIDIA ConnectX-6 adapters to optimize slot utilization and maintain high network performance.
+NOTE: >A separate figure is not included because this architecture is nearly identical to the GPU-based configuration shown earlier, except for the removal of GPU Ethernet connectivity.
+Logical network architecture
+The logical network architecture for the Dell AI Factory is built on a collapsed, two‑switch EVPN‑VXLAN fabric that provides both a high‑performance GPU backend and a virtualized enterprise network overlay for storage, management, and application traffic. The solution supports both converged and dedicated GPU network deployment models; however, the underlying logical architecture remains consistent across both designs.
+In the converged configuration, a single pair of Spectrum‑X SN5610 switches carries all traffic types—GPU, storage, management, and application—within a unified fabric. In the PowerEdge XE9780 dedicated GPU network configuration, this model is extended by separating the physical fabrics into distinct frontend and backend networks. Despite this physical separation, both networks implement the same EVPN‑VXLAN framework, maintaining a common logical architecture and operational model across the environment.
+EVPN serves as the control plane, distributing MAC and IP reachability information to enable efficient forwarding for both east‑west and north‑south traffic without relying on broadcast flooding. VXLAN provides scalable L2/L3 virtualization on top of an IP underlay, allowing multiple traffic domains to coexist—whether within a single converged fabric or across separate frontend and GPU backend fabrics—without requiring changes to application or workload placement.
+The Spectrum‑X switches function as VXLAN Tunnel Endpoints (VTEPs), performing encapsulation and decapsulation while supporting ARP suppression to minimize unnecessary broadcast traffic. Active‑active multihoming enables compute and storage nodes to utilize redundant connections across switches, improving both availability and bandwidth utilization in all configurations.
+The IP underlay leverages BGP to provide stable reachability, fast convergence, and a clean separation between the overlay control plane and physical transport. In the XE9780 dedicated GPU network architecture, this approach is applied independently to both the frontend fabric, ensuring consistent behavior while preserving traffic isolation.
+Together, these capabilities create a logical network architecture that is simple to operate, resilient to failures, and optimized for the performance characteristics of modern agentic and generative AI workloads, regardless of whether a converged or dedicated network design is deployed.
+Cables and optics
+NVIDIA’s Ethernet Switch Configurator can be used to help identify and order the appropriate cables and optics for your AI fabrics. After entering your topology information into the form, it lists the available product options for your environment, along with part numbers and other information.
+For the network design that is shown in Figure 8, customers can either use Direct Attached Copper (DAC) or fiber.
+For the backend network:
+● DAC option─800 Gb/s Twin-port OSFP to 2x 400G QSFP cables are required. The 800 Gb OSFP connects to the Spectrum-X SN5610 switch while the 400G QSFP112 connects to BlueField-3 B3140H. See an example DAC Splitter cable product specification for more information.
+● Fiber option─NVIDIA 800 Gb/s OSFP twin port transceiver can be used on the switch side, NVIDIA 400 Gbps QSFP112 single port transceiver on the BlueField-3 B3140H and NVIDIA passive fiber cable (MPO12 APC to MPO12) can be used to connect them.
+● For the frontend network: ● DAC option─400 Gb/s QSFP-DD to QSFP112 cables are required. The 400G QSFP-DD connects to Spectrum-X SN5610,
+while the QSFP112 connects to BlueField-3 B3220. For more information, see the list of supported transceivers and cables.
+
+Networking design
+
+21
+
+● Fiber option─NVIDIA 400 Gbps QSFP-DD transceiver can be used on the switch side and 400 Gbps QSFP112 transceiver on the BlueField-3 B3220. NVIDIA passive fiber cable, MMF, MPO12 APC to 2 x MPO12 APC can be used to connect them.
+
+22
+
+Networking design
+
+5
+AI Workloads
+Topics:
+• Overview • DataRobot • ClearML • Aible • Cohere North • Dataloop
+Overview
+Anchored in the Dell AI Factory with NVIDIA, a modular architecture along with software tools from ISV partners offers an integrated stack to build agents that think, act, and deliver measurable business value. The platform is delivered as a set of AI solution blueprints in the Dell Automation Platform catalog. These blueprints automate the deployment of complete agent stacks — hardware, platform software, and ISV layers — in a repeatable, auditable way. Instead of stitching together drivers, containers, security policies, and CI/CD pipelines manually, IT teams deploy a blueprint that encodes best practices for the Dell AI Factory with NVIDIA.
+The following sections cover five key ISV partners: DataRobot, ClearML, Aible, Cohere North, and Dataloop.
+DataRobot
+The DataRobot platform enables organizations to create and scale AI agents that integrate directly with business processes — driving efficiency, transforming operations, and delivering real results. With built-in governance and safeguards, it helps enterprises deploy AI securely and confidently.
+Dell AI Factory with NVIDIA lays the foundation for enterprise agentic AI, while the DataRobot Agent Workforce Platform operationalizes it, unifying models, agents, tools, and data across the AI lifecycle. DataRobot on Dell AI Factory with NVIDIA is purpose-built to address every layer of the production challenge — delivered through a pre-validated DataRobot blueprint on the Dell Automation Platform that takes enterprises from bare metal to a running, governed agent workforce in hours, not months. Dell PowerEdge XE9680 and XE9780 servers with NVIDIA Blackwell GPUs, Dell PowerScale storage, and NVIDIA Spectrum-X networking provide the compute foundation. The DataRobot Agent Workforce Platform runtime, co-engineered with NVIDIA, includes NIM microservices and maximizes throughput while minimizing latency — with predictable on-premises economics replacing unpredictable cloud billing.
+ClearML
+The ClearML AI Infrastructure Platform is a three-layer solution that delivers a smooth, scalable AI workflow from development to production at enterprise scale. The Infrastructure Control Plane lets you connect and manage GPU clusters — whether on-premises, in the cloud, or both — ensuring high performance and cost optimization, with built-in security features like multi-tenancy, role-based access control, and billing. The AI Development Center provides a robust environment for developing, training, and testing AI models, accessible from anywhere. The GenAI App Engine deploys LLMs onto your clusters with a single click, while ClearML handles networking, authentication, and security. With ClearML, you can manage GPU clusters, optimize utilization, streamline AI/ML workflows, and deploy GenAI models.
+The ClearML blueprint improves agentic AI environments for enterprises with secure, efficient GPU cluster management and workload scheduling. ClearML with Dell AI Factory provides an all-in-one CSP solution — with GPUaaS, AIaaS, billing, and multi-tenancy — for a complete out-of-the-box AI service solution. The integration is deployed via the Dell Automation Platform blueprint catalog. Connecting Dell PowerScale storage to the ClearML MLOps platform uses Dell's CSI (Container Storage Interface) driver and deploys the ClearML server. This integration bridges the gap between enterprise-grade storage and modern MLOps workflows.
+
+AI Workloads
+
+23
+
+Aible
+Aible brings production-ready AI capabilities to your secure environment with lower upfront investment and reduced infrastructure requirements. Businesses of any size can quickly generate AI-driven recommendations and perform data analytics across enterprise processes and applications — including sales, marketing, supply chain, support, and more — without needing data prep or a data science team.
+Aible is a key partner in Dell's Knowledge Assistant solution, which provides the foundation for designing, deploying, and managing intelligent assistants. By integrating and reasoning over data from enterprise systems, documents, and proprietary knowledge sources, knowledge assistants provide instant, accurate answers grounded in the organization's own information. This approach reduces search fatigue and enables employees to quickly surface insights from PDFs, databases, and internal applications. Working with Aible, Dell delivers validated, end-to-end solutions to transform complex data into trusted, actionable insights.
+Cohere North
+The Cohere North platform provides an advanced framework that powers intelligent, autonomous workflows, combining AI agents with decision-making capabilities. Cohere North provides ready-to-use, agent-powered knowledge assistants that help businesses find information quickly and accurately on a global scale, supporting over 23 languages. Cohere North uses powerful search and retrieval technology to deliver precise answers, complete with source citations, through a simple chat interface.
+This end-to-end solution combines leading Dell AI infrastructure with the Cohere North platform on-premises to help organizations adopt secure AI-driven use cases, powered by customizable agentic workflows. The solution makes it easy to securely connect on-premises and public cloud data sources through a single interface and predictably scales from a single-node pilot to enterprise-wide deployments. Integrating this platform with Dell's AI-optimized PowerEdge servers, along with options for PowerScale storage and PowerSwitch networking, results in a turn-key solution. Deployment is handled via a blueprint in the Dell Automation Platform catalog.
+Dataloop
+Dataloop provides a platform designed to manage, label, and process unstructured data — such as images, video, audio, and text — used in training and deploying AI models. This capability addresses a critical gap in many enterprise AI pipelines, where raw data preparation remains a major bottleneck. Dataloop's technology helps organizations build efficient workflows for handling complex data and create information architectures suited to an era in which large-scale models require vast amounts of organized, labeled, and easily accessible datasets.
+Dell acquired Dataloop in December 2025, repurposing it into the core technology behind the Data Orchestration Engine and filling a critical gap in the AI portfolio around data preparation and pipeline management. At the heart of the Dell AI Data Platform, this no-code, low-code engine automatically discovers, labels, enriches, and transforms structured, unstructured, and multimodal data into governed, AI-ready datasets. It ships with a marketplace of more than 200 pre-built models, applications, and templates — including NVIDIA NIM microservices and AI Blueprints — so enterprises can deploy production-ready data workflows without building from scratch.
+
+24
+
+AI Workloads
+
+6
+
+Solution validation
+
+The Dell AI Platform for generative AI simplifies and accelerates the deployment of complex infrastructure for generative AI by providing the reference architecture and configurations. It helps customers by reducing the guesswork and potential risks that are associated with designing and implementing initial custom solutions.
+Topics:
+• System configuration • NCCL validation • Inference validation • Run:ai validation
+
+System configuration
+
+The following tables list the system configurations and software stack that are used for the validation efforts in this design.
+
+Table 9. System configuration
+
+Component
+
+PowerEdge XE7740/ XE7745 configuration
+
+Compute server for model customization
+
+4 x PowerEdge XE7740/ XE7745 servers
+
+GPUs per server
+
+8 x NVIDIA H200 NVL GPUs or
+8 x NVIDIA RTX Pro 6000
+
+PowerEdge XE9780 configuration 2 x PowerEdge XE9780 servers
+8 x NVIDIA B300 SXM GPUs
+
+PowerEdge R770, R7725 and R7715 configuration
+● 1 x PowerEdge R770 ● 1 x PowerEdge R7725 ● 1 x PowerEdge R7715
+For R770 and R7725, one of the following options: ● 2 x NVIDIA RTX PRO 6000 ● 2 x NVIDIA L40S GPUs
+(R770 and R7725) For R7715:
+2 x NVIDIA H200NVL
+
+Backend network adapters
+Frontend network adapters
+Storage Network switches
+
+4 x NVIDIA Bluefield-3 Single Port 400 GbE QSFP112 PCIe FH (B3140H)
+1 x NVIDIA Bluefield-3 Dual Port 200 GbE QSFP112 PCIe FH (B3220)
+PowerScale F710
+● 2 x NVIDIA Spectrum SN5610 switches
+● 1 x NVIDIA Spectrum SN2201
+
+8 x NVIDIA ConnectX-8 SuperNIC (800 Gb)
+1 x NVIDIA Bluefield-3 Dual Port 400 GbE (B3240)
+PowerScale F710
+● 2 x NVIDIA Spectrum SN5610 (North-South)
+● 2 x NVIDIA Spectrum SN5610 (East-West)
+● 1 x NVIDIA Spectrum SN2201
+
+None
+1 x NVIDIA ConnectX-6 Dx Dual Port 100GbE
+PowerScale F710 ● 2 x NVIDIA Spectrum
+SN5610 ● 1 x NVIDIA Spectrum
+SN2201
+
+Table 10. Software components and versions
+
+Component
+
+Upstream Kubernetes
+
+Operating system
+
+Ubuntu 24.04
+
+AI software platform
+
+NVIDIA AI Enterprise version 8.0
+
+OpenShift Container Platform CoreOS 4.20 ● NVIDIA AI Enterprise version 8.0
+
+Solution validation
+
+25
+
+Table 10. Software components and versions (continued)
+
+Component
+
+Upstream Kubernetes
+
+Cluster management Container Orchestration
+
+Dell Automation Platform 2.0
+Kubernetes Version 1.34.5 with: ● Network Operator: 26.01.0 ● GPU Operator: 26.03.0 ● Dell CSM Operator: 1.16
+
+OpenShift Container Platform
+● OpenShift AI 3.3
+Dell Automation Platform 2.0
+OpenShift Container Platform version 4.20 with: ● Network Operator: 26.01.0 ● GPU Operator: 26.03.0 ● Dell CSM Operator: 1.16
+
+NCCL validation
+To validate the performance and operation of our GPU cluster deployed in a Kubernetes environment, we ran NVIDIA’s nccl-tests within containerized pods across multiple nodes. These tests were orchestrated using MPI to benchmark collective communication operations such as AllReduce, Broadcast, and AllGather, allowing us to assess bandwidth, latency, and scalability under distributed workloads. Beyond verifying NCCL functionality, the tests also served to validate the underlying network stack, including backend networking configurations, SR-IOV setup, and RDMA enablement. This comprehensive validation ensured that both the software and hardware layers of our infrastructure were correctly tuned for high-performance GPU communication, laying a solid foundation for production-scale deep learning workloads.
+Inference validation
+As part of inference validation, the primary objective was to ensure the robustness, scalability, and performance of the infrastructure across a diverse set of generative AI workloads. This validation effort focused on deploying and benchmarking a range of large language and vision models—including Llama 3, Phi-3, GPT-OSS, and Gemma—across multiple GPU configurations and cluster topologies. The validation used NVIDIA AI Enterprise tools, including the NIM Operator and NIM containers, to streamline model deployment and inference. Where applicable, NVIDIA’s LLM-specific NIM containers were prioritized for their optimized performance, with fallback to NIM Multi-LLM or vLLM-based stacks when required. Tests were conducted using both single-GPU and multi-GPU configurations, depending on the model’s computational requirements. This structured and scalable approach ensures that the Dell AI Platform with NVIDIA can support a wide spectrum of inference scenarios, aligning with enterprise-grade performance expectations and enabling customers to confidently deploy productionready AI solutions.
+Run:ai validation
+We deployed and validated Run:ai on Dell AI Platform with NVIDIA. We then validated the following Run:ai version 2.21.19 capabilities:
+● GPU slicing: We conducted a series of tests using fractional GPU allocations across three workload types: development workspace, inference, and training. We created a workspace using 10 percent of an NVIDIA H200 GPU with Jupyter Notebook as the development environment. For inference, we deployed the Llama 3.1 8B model using 35 percent of a GPU, authenticated by using Hugging Face, and confirmed model responsiveness with curl. For training, we allocated 50 percent of a GPU and used JupyterLab for interactive development. We monitored each workload through the Run:ai dashboard and verified GPU use with nvidia-smi, confirming accurate resource allocation and efficient multitenant GPU sharing.
+● Memory swap: We enabled the feature on Dell infrastructure by configuring CPU memory limits (250Gi), reserving 4GiB of GPU memory for nonswappable allocations, and labeling nodes to accept swap-enabled workloads. We created a dynamic compute resource with 30 percent minimum GPU memory allocation and sufficient CPU resources to support multiple concurrent models. Using this setup, we deployed three large language models—Llama 3.1 8B, Gemma 2 9B, and Phi-3.5 MoE—each of which typically require a dedicated NVIDIA H200 GPU. Through Run:ai’s memory swap, we successfully ran all three models on a single GPU, dynamically swapping them between GPU and CPU memory. A web UI was used to interact with each model, demonstrating that while the swap introduces a few seconds of latency, it is a viable solution for low-demand environments.
+● Node pool: We created a dedicated node pool to manage a group of nodes with shared characteristics—specifically, nodes equipped with NVIDIA GPUs. Using the Run:ai platform, we defined the node pool using the Resources tab and associated it with a project by editing the project settings and assigning the node pool, which enabled scheduling of up to eight GPUs. We then validated the setup by deploying an NVIDIA NIM-based inference workload. This task involved configuring NGC
+
+26
+
+Solution validation
+
+credentials, selecting the appropriate node pool during workload creation, and confirming successful workload scheduling and execution.
+This validation demonstrated the effectiveness of node pools in targeting specific hardware resources for optimized workload placement.
+● Scheduler: We tested the scheduler's ability to manage AI workloads with fairness, efficiency, and support for complex scheduling scenarios. We evaluated key features such as quota enforcement, overquota scheduling, preemption, and prioritybased resource allocation. Our tests included deploying training and inference jobs under various quota conditions across multiple node pools. We confirmed that the scheduler correctly handled over-quota requests when idle resources were available, enforced nonpreemptive behavior for inference workloads, and prioritized high-importance jobs by preempting lower-priority ones. The scheduler’s queue fairness mechanism ensured equitable job distribution across projects, even when job submission volumes varied. These validations demonstrated the scheduler’s effectiveness in optimizing GPU utilization, maintaining workload fairness, and supporting high availability for critical inference services.
+
+Solution validation
+
+27
+
+7
+Conclusion
+Topics:
+• Summary • We value your feedback
+Summary
+The Dell AI Factory with NVIDIA provides a cohesive, validated, and enterprise‑ready foundation for building and operationalizing generative AI at scale. By combining optimized compute platforms, a high‑performance Spectrum‑X Ethernet fabric, and a full‑stack software ecosystem rooted in NVIDIA AI Enterprise, the solution delivers predictable performance and operational efficiency across training, fine‑tuning, and inference workloads. The modular design allows organizations to adapt the architecture to their existing environments, integrate their preferred management and storage platforms, and evolve their AI capabilities as requirements grow. Through alignment with NVIDIA’s Enterprise Reference Architecture and the integration of robust orchestration, lifecycle management, and virtualization technologies, the Dell AI Factory offers a streamlined path from initial deployment to production‑grade operation. This design guide provides the architectural direction, configuration guidance, and best practices needed to confidently build and scale a generative AI platform that remains manageable, efficient to operate, and capable of supporting evolving enterprise demands.
+We value your feedback
+Dell Technologies and the authors of this document welcome your feedback on this document and the information that it contains. Contact the Dell Technologies Solutions team by email.
+
+28
+
+Conclusion
+
+8
+References
+Topics:
+• Dell Technologies documentation • NVIDIA documentation
+Dell Technologies documentation
+The following Dell Technologies documentation provides additional and relevant information. Access to these documents depends on your login credentials. If you do not have access to a document, contact your Dell Technologies representative: ● Dell XE9680 Specification Sheet ● Dell R760xa Specification Sheet ● Dell PowerEdge Servers for AI ● The Dell AI Platform with NVIDIA ● Dell GenAI solutions ● Dell AI Services ● Dell Security and Trust Center ● Security Best Practices for Generative AI in the Enterprise ● Dell Info Hub
+NVIDIA documentation
+The following NVIDIA documentation provides additional and relevant information: ● NVIDIA AI Enterprise ● NVIDIA NeMo Framework ● NVIDIA Spectrum-X Networking Platform ● NVIDIA BlueField-3 Networking Platform ● NVIDIA Run:ai
+
+References
+
+29
+
+

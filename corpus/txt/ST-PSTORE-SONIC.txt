@@ -1,0 +1,723 @@
+SONiC SmartFabric Manager for PowerStore
+Deployment Guide
+Abstract This deployment guide covers using Dell Technologies SONiC SmartFabric Manager to configure a leaf-spine topology for single or multirack PowerStore NVMe/TCP storage deployments.
+Part Number: H04504 May 2025
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+© 2025 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+
+Revision history..........................................................................................................................................................................5
+Chapter 1: Introduction................................................................................................................. 6 Enterprise SONiC Distribution by Dell Technologies...................................................................................................6 SmartFabric Manager for SONiC.....................................................................................................................................6 PowerStore........................................................................................................................................................................... 6 Typographical conventions................................................................................................................................................7 We value your feedback..................................................................................................................................................... 7
+Chapter 2: Hardware used in this guide......................................................................................... 8 Dell PowerSwitch S5248F-ON.........................................................................................................................................8 Dell PowerSwitch S5232F-ON......................................................................................................................................... 8 Dell PowerSwitch S3248T-ON.........................................................................................................................................8 Dell PowerStore enterprise storage appliance............................................................................................................. 9 Dell PowerEdge server....................................................................................................................................................... 9
+Chapter 3: Topology.................................................................................................................... 10 Production topology.......................................................................................................................................................... 10 Production topology connection details........................................................................................................................11 OOB management topology............................................................................................................................................ 13 OOB management connection details...........................................................................................................................14
+Chapter 4: Deployment Planning.................................................................................................. 16 Minimum networking requirements............................................................................................................................... 16 Supported Dell PowerSwitch systems..........................................................................................................................16 PowerStore VLANs and IP addresses........................................................................................................................... 17
+Chapter 5: Configure OOB management switches........................................................................ 18
+Chapter 6: Use SFM to create the leaf-spine fabric..................................................................... 20 Prepare leaf and spine switches for SFM................................................................................................................... 20 Set the admin password and configure the management interface...............................................................20 Connect the switches and SFM host..................................................................................................................... 20 Add leaf and spine switches to SFM inventory.......................................................................................................... 21 Create the fabric............................................................................................................................................................... 24 Create a nondefault tenant.............................................................................................................................................28 Create the networks.........................................................................................................................................................29 Create the NVMe/TCP storage network.............................................................................................................. 29 Create the PowerStore cluster network............................................................................................................... 30 Create downlinks to PowerStore appliances and storage clients.......................................................................... 31 Configure NVMe/TCP network downlinks............................................................................................................ 31 Configure cluster network downlinks..................................................................................................................... 33
+Chapter 7: Configure PowerStore appliances.............................................................................. 38 Initial configuration............................................................................................................................................................38
+
+Contents
+
+3
+
+NVMe/TCP network configuration...............................................................................................................................38 Cluster network................................................................................................................................................................. 38
+Chapter 8: Verify the infrastructure............................................................................................ 39
+Chapter 9: Resources.................................................................................................................. 45 Dell Networking resources.............................................................................................................................................. 45 PowerStore resources..................................................................................................................................................... 45 Technical support..............................................................................................................................................................45
+Appendix A: Validated components.............................................................................................. 46 Dell PowerSwitch systems..............................................................................................................................................46 SONiC SmartFabric Manager.........................................................................................................................................46 PowerStore appliance software.................................................................................................................................... 46 PowerEdge servers........................................................................................................................................................... 47
+Appendix B: BGP EVPN with VXLAN overview............................................................................. 48
+
+4
+
+Contents
+
+Table 1. Document revision history
+
+Part number
+
+Release date
+
+H04504
+
+May 2025
+
+Revision history
+Description of changes Initial release.
+
+Revision history
+
+5
+
+1
+Introduction
+This deployment guide covers Dell Technologies PowerSwitch configuration using SmartFabric Manager for SONiC (SFM) for single rack or multirack greenfield PowerStore nonvolatile memory express (NVMe)/TCP storage deployments. SFM automates the configuration of the leaf-spine fabric that is used in this deployment. The leaf-spine fabric uses Virtual Extensible LAN (VXLAN), which enables a virtual Layer 2 overlay network to run over a physical Layer 3 underlay network. Use of a VXLAN leaf-spine fabric is a best practice in the data center.
+Topics:
+• Enterprise SONiC Distribution by Dell Technologies • SmartFabric Manager for SONiC • PowerStore • Typographical conventions • We value your feedback
+Enterprise SONiC Distribution by Dell Technologies
+SONiC is an open-source, Linux-based network operating system that runs on switches from multiple vendors and ASICs. Enterprise SONiC Distribution by Dell Technologies is a hardened and validated version of SONiC that is supported on Dell PowerSwitch platforms. Dell Enterprise SONiC supports an intuitive command-line interface, object-based administration through a REST interface, Google’s gRPC Network Management Interface (gNMI), and simplified configuration using SmartFabric Manager.
+SmartFabric Manager for SONiC
+SmartFabric Manager for SONiC (SFM) simplifies network configuration and maintenance by automating network deployment and providing an easy-to-use web user interface. SFM is a virtual machine that runs on VMware ESXi, provided in OVA format, or on Linux KVM, provided in QCOW2 format. SFM configures Dell PowerSwitch systems using REST API commands. The PowerStore deployment in this guide uses a Border Gateway Protocol (BGP) Ethernet VPN (EVPN) with VXLAN leaf-spine fabric. VXLAN enables a virtual Layer 2 overlay network to run over a physical Layer 3 underlay network. Use of a VXLAN leaf-spine fabric is a best practice in the data center. Manually configuring the switches for this fabric would require hundreds of CLI commands. SFM automates the fabric creation, making it fast, easy, and with a much lower probability of errors than configuring the fabric manually. SFM comes with a 180-day free trial for up to 10 switches. If your deployment uses more than 10 switches in leaf or spine roles, you must buy a license before proceeding. See the SmartFabric Manager for SONiC User Guide for more information about licensing.
+PowerStore
+Built for NVMe technology, PowerStore uses a dual-node appliance architecture that features an active/active controller configuration where both nodes service I/O simultaneously. PowerStore can scale up with single-drive granularity to over 1 PB raw storage capacity per appliance. PowerStore can also scale out to four appliances per cluster.
+
+6
+
+Introduction
+
+Typographical conventions
+
+Type Monospace text Bold monospace text
+Italic monospace text Bold text
+
+Use
+CLI examples
+● CLI examples that wrap the page ● Highlighted information in CLI output
+Variables in CLI examples
+● UI fields ● Information that is entered in the UI
+
+We value your feedback
+
+Dell Technologies and the authors of this document welcome your feedback on the solution and the solution documentation. Contact the Dell Technologies Solutions team by email.
+Authors: Dell Technologies Network Solutions Engineering, Technical Marketing, and Content Engineering and Translation teams
+
+Introduction
+
+7
+
+2
+Hardware used in this guide
+This section briefly describes the hardware that is used in the deployment example covered in this guide. Validated components contains a complete list of all hardware and software used. Supported Dell PowerSwitch systems provides a complete list of switches that are supported for this deployment.
+Topics:
+• Dell PowerSwitch S5248F-ON • Dell PowerSwitch S5232F-ON • Dell PowerSwitch S3248T-ON • Dell PowerStore enterprise storage appliance • Dell PowerEdge server
+Dell PowerSwitch S5248F-ON
+The Dell PowerSwitch S5248F-ON is a 1-Rack Unit (1U), multilayer switch with 48x 25 GbE, 4x 100 GbE, and 2x 200 GbE ports. This guide uses two S5248F-ON switches in each rack as leaf switches.
+Figure 1. Dell PowerSwitch S5248F-ON
+Dell PowerSwitch S5232F-ON
+The Dell PowerSwitch S5232F-ON is a 1U, multilayer switch with 32x 100 GbE QSFP28 ports and 2x 10 GbE SFP+ ports. This guide uses two S5232F-ON switches as spine switches.
+
+Figure 2. Dell PowerSwitch S5232F-ON
+Dell PowerSwitch S3248T-ON
+The Dell PowerSwitch S3248T-ON is a 1U, multilayer switch with 48x 1 GbE BASE-T ports, 4x 10 GbE SFP+ ports, and 2x 100 GbE QSFP28 ports. This guide uses one S3248T-ON switch in each rack for out-of-band (OOB) management traffic.
+
+Figure 3. Dell PowerSwitch S3248T-ON
+
+8
+
+Hardware used in this guide
+
+NOTE: Other Dell and third-party switches with 1 GbE BASE-T ports and 10 GbE or faster uplink ports can also be used for OOB management traffic.
+Dell PowerStore enterprise storage appliance
+This guide uses two PowerStore appliances with 25 GbE SFP28 ports for NVMe/TCP storage and cluster communication. See the Dell Technologies PowerStore web page for PowerStore appliance models and specification sheets.
+Figure 4. Dell PowerStore enterprise storage appliance
+Dell PowerEdge server
+This guide uses two PowerEdge servers with 2x 25 GbE SFP28 ports as NVMe/TCP storage clients.
+Figure 5. Dell PowerEdge R670 server
+
+Hardware used in this guide
+
+9
+
+3
+Topology
+The topology for this deployment is divided into two parts: 1. Production, or in-band 2. Out-of-band (OOB) management The production topology contains redundant components and is used for all mission-critical and end-user network traffic. The OOB management network is an isolated network for hardware and PowerStore appliance management.
+Topics:
+• Production topology • Production topology connection details • OOB management topology • OOB management connection details
+Production topology
+The production topology that is used in this guide is shown in the figure below.
+
+Figure 6. Leaf-spine production topology with PowerStore appliance cluster The production topology uses a BGP EVPN with VXLAN leaf-spine fabric for performance and scalability.
+
+10
+
+Topology
+
+VXLAN is used to stretch Layer 2 networks across the Layer 3 leaf-spine fabric. Equal-Cost Multi-Path routing (ECMP) is enabled on the switches to use all available bandwidth on the leaf-spine connections. SFM automates the configuration of this VXLAN fabric.
+NOTE: See BGP EVPN with VXLAN overview in the appendix for more information.
+Two leaf switches are used in each rack for redundancy and performance. A multichassis link aggregation group (MC-LAG) peer link connects each pair of leaf switches. Every leaf switch is connected to every spine switch to form a leaf-spine topology.
+PowerStore appliances that are in the same PowerStore cluster can be in the same rack or in different racks as shown in the figure above. PowerStore cluster network connections, which are shown in blue, use Link Aggregation Groups (LAGs) with Link Aggregation Control Protocol (LACP). If there is only one PowerStore appliance, the PowerStore cluster links shown are not required.
+The PowerStore appliance and storage client NVMe/TCP connections, which are shown in green, do not use LAGs in this deployment. There should be at least one NVMe/TCP connection from each PowerStore appliance node and storage client to each leaf switch in the rack for redundancy.
+Storage clients can be any PowerEdge or third-party server with at least two 25 GbE or faster NICs. The client operating system must support NVMe/TCP.
+NOTE: The example that is detailed in this guide uses two spine switches and the equipment that is shown in Racks 1 and 2 in the figure above. The figure shows how the topology can be scaled out to include additional switches and racks.
+Production topology connection details
+Production network connection details for this deployment example are shown in the figure below.
+
+Topology
+
+11
+
+Figure 7. Production network connection details
+NOTE: Other PowerStore appliances, leaf switches, and spine switches that are not shown are connected in the same manner. Port speeds and NIC locations vary depending on the equipment used.
+Each leaf switch has one connection to each spine switch. For this deployment example, all leaf-spine connections are 100 GbE. When cabling from the PowerStore appliance node ports to the leaf switches, the corresponding ports on Node A and Node B should connect to opposite leaf switches. Ports 0 and 1 on the PowerStore 4-port cards are preconfigured for LACP and are used for the cluster network connections, shown in blue. If you do not have a multi-appliance cluster, these connections are not required.
+NOTE: Ports 0 and 1 on the 4-port card can also be used for other traffic. For more information, see Dell PowerStore: Introduction to the Platform. If deploying a PowerStore 500T appliance, ports 2 and 3 on the 4-port card are reserved for connectivity to NVMe expansion enclosures. An expansion enclosure is not used in this example.
+For the MC-LAG peer link connections, 100 GbE or faster ports are typically used. Dell Technologies recommends using at least two physical ports on each leaf switch for the peer link. If 25 GbE ports are used for the peer link, Dell Technologies recommends using at least four connections on each leaf for sufficient bandwidth. Multiple peer link connections provide
+
+12
+
+Topology
+
+redundancy and additional bandwidth if a switch is taken offline or if there is a failure. The peer link is used for data traffic only if there is a link failure that requires the peer link to reach the destination.
+NOTE: On S5248F-ON switches, two QSFP28-DD double density ports (2 x 100 GbE interfaces per physical port), are available. They are used in this example to create a 400 GbE MC-LAG peer link. This connection requires QSFP28-DD DAC cables or optics.
+OOB management topology
+The out-of-band (OOB) management network is an isolated network for remote management of PowerStore appliances and PowerSwitch systems. It can also include other devices using their dedicated management ports. One S3248T-ON switch is typically installed in each rack for OOB management network connections, as shown in the following figure. Other Dell and third-party switches with 1 GbE BASE-T ports can also be used for OOB management traffic.
+
+Figure 8. OOB management network topology
+NOTE: If multiple PowerStore appliances are deployed in a cluster, all appliance management ports in the cluster must be untagged in the same Layer 2 VLAN. If PowerStore appliances are in different racks, you can keep them in the same VLAN by using Layer 2 uplinks to the OOB management network core switch. If you use Layer 3 uplinks to the OOB management network core switch, connect all PowerStore appliances to the same physical OOB management switch, even if the appliances are in different racks.
+Four 10 GbE SFP+ ports are available on each S3248T-ON. One or more of these ports are used as uplinks to the OOB management network core.
+
+Topology
+
+13
+
+The 1 GbE 1000BASE-T ports on each S3248T-ON are connected downstream to hardware management ports on each device in the rack. Those ports include the PowerSwitch and PowerStore management ports and the PowerEdge server iDRAC ports. Dedicated management ports on other devices in the rack can also be connected to the OOB management switches. SFM uses the OOB management network to configure and manage the leaf and spine switches that form the production topology. The ESXi or Linux host with the SFM VM must be accessible on this network. For this reason, the host that contains SFM requires a 1 GbE NIC connected to the OOB management network in addition to its iDRAC port.
+NOTE: SFM does not manage the OOB management switches.
+The OOB management network is used for initial PowerStore configuration, and to access PowerStore Manager. It is also used to discover other PowerStore appliances that will be added to a cluster. All switch ports connected to PowerStore management ports are untagged (also known as access ports) in the same VLAN as shown in Configure OOB management switches.
+NOTE: For reference, devices on the OOB Management network in this guide use the 100.67.0.0/16 IP address range. All IP addresses that are used in this guide are examples only.
+OOB management connection details
+All device management ports are connected to the OOB management switch in each rack as shown below.
+
+14
+
+Topology
+
+Figure 9. OOB management network connection details
+NOTE: Other leaf switches, spine switches, PowerStore appliances, and hosts that are not shown are connected in the same manner. Port locations will vary depending on the equipment used. The ESXi or Linux host with the SFM VM has two connections to the OOB management network: the 1 GbE iDRAC and an additional 1 GbE connection for SFM communication with the PowerSwitch leaf and spine systems. Each PowerStore appliance has two connections to the OOB management network, one for each node.
+
+Topology
+
+15
+
+4
+Deployment Planning
+This chapter covers items to consider before deploying SFM for PowerStore.
+Topics:
+• Minimum networking requirements • Supported Dell PowerSwitch systems • PowerStore VLANs and IP addresses
+Minimum networking requirements
+NOTE: In this guide, “single rack” means topologies with only two leaf switches. “Multirack” means topologies with four or more leaf switches.
+The minimum networking requirements for PowerStore deployments with SFM include the following:
+● Single rack deployments require two supported Dell PowerSwitch leaf switches of the same model. ● Multirack deployments require two supported Dell PowerSwitch leaf switches of the same model per rack, plus at least two
+supported Dell PowerSwitch spine switches. ● All Dell PowerSwitch leaf and spine switches in the fabric must be running the same version of Dell Enterprise SONiC.
+(Temporary exceptions are allowed during SONiC OS upgrades.) ● Dell Enterprise SONiC 4.4.1 or later with an Enterprise Standard or Enterprise Premium bundle is required on all leaf and
+spine switches in the fabric. ● At least one 1 GbE BASE-T switch is required for OOB management connections. Dell Technologies recommends using one
+PowerSwitch S3248T-ON per rack. If Dell PowerSwitches are used for OOB management, Dell Technologies recommends Enterprise SONiC 4.4.1 or later with the Lite bundle. ● Each PowerStore appliance requires at least one 25 GbE SFP28 or faster connection to each leaf switch in the rack for NVMe/TCP storage traffic. As a best practice, do not use a link aggregation group (LAG) for NVMe/TCP connections. ● If multiple PowerStore appliances are used in a cluster, each PowerStore appliance requires two additional 25 GbE or faster connections to each leaf switch in the rack for cluster traffic. These connections must be in a LAG with Link Aggregation Control Protocol (LACP) enabled. ● MC-LAG peer links between leaf switch pairs require at least two connections for fault tolerance. Dell Technologies recommends using 100 GbE or faster ports for these connections. If 25 GbE ports are used for the peer link, Dell Technologies recommends using at least four connections for sufficient bandwidth. ● One 1 GbE (1000BASE-T) connection is required for each OOB management port on leaf and spine switches. ● One 1 GbE (1000BASE-T) connection is required for each of the two OOB management ports on PowerStore appliances. ● If PowerEdge servers are used as storage clients, one 1 GbE (1000BASE-T) connection is recommended for each server’s iDRAC port. ● One server running ESXi 7.0 or later or Linux KVM is required to host the SFM VM. The SFM VM requires at least 32 GB RAM, 120 GB free disk space, and 16 virtual CPUs. In addition to the server’s iDRAC 1 GbE (1000BASE-T) connection, the host server must have a network connection that allows the VM to reach the OOB management network. SFM uses this connection to communicate with the leaf and spine switches.
+Supported Dell PowerSwitch systems
+Dell PowerSwitch systems that are supported as leaf or spine switches with SFM for PowerStore NVMe/TCP in VXLAN fabrics are listed in the table below.
+
+16
+
+Deployment Planning
+
+Table 2. Supported switches in leaf or spine roles in VXLAN fabrics
+
+Dell PowerSwitch model
+
+Typical role1
+
+S5212F-ON S5224F-ON S5248F-ON S5296F-ON
+
+25 GbE leaf
+
+S5232F-ON
+
+100 GbE leaf or spine
+
+S5448F-ON
+
+100 GbE leaf
+
+Z9264F-ON
+
+100 GbE spine
+
+Z9332F-ON
+
+400 GbE spine
+
+Z9432F-ON
+
+400 GbE spine
+
+Z9664F-ON
+
+400 GbE spine
+
+Notes None
+None None Z9264F-ON is not supported as a leaf. Z9332F-ON is not supported as a leaf. None Z9664F-ON is not supported as a leaf.
+
+1Any Dell PowerSwitch in the table above can be used as a leaf or a spine in a VXLAN fabric except where noted. Breakout cables and other supported port speeds can be used if needed.
+For OOB management, Dell Technologies recommends one PowerSwitch S3248T-ON per rack. Other Dell or third-party switches with 1000BASE-T ports can also be used for the OOB management network.
+
+PowerStore VLANs and IP addresses
+
+The VLAN IDs used in this guide match those used in the Dell PowerStore T and Q Models Networking Guide for Initial Deployment and Dell PowerStore T and Q Networking Guide for Storage Services. Use the worksheets provided in those guides to plan your VLANs and IP addresses.
+
+Table 3. VLANs and IP addresses that are used in this guide
+
+VLAN ID
+
+Description
+
+Where used
+
+100
+
+PowerStore
+
+OOB Management
+
+management network switch
+
+1
+
+PowerStore cluster
+
+SFM leaf-spine fabric
+
+network
+
+300
+
+PowerStore
+
+SFM leaf-spine fabric
+
+NVMe/TCP storage
+
+Switch ports Untagged (Access)
+Untagged (Access)
+Tagged (Trunk)
+
+IP address block 100.67.0.0/16
+IPv6 link local
+192.168.3.0/24
+
+NOTE: The VLAN IDs and IP addresses used in this guide are examples only and can be changed as needed. In an SFM fabric, VLAN IDs 1-3446, 3939, and 3961-3966 are available for use. SFM reserves the other VLAN IDs.
+
+Deployment Planning
+
+17
+
+5
+Configure OOB management switches
+This section shows an OOB management switch configuration example. It uses a Dell PowerSwitch S3248T-ON running Dell Enterprise SONiC 4.4.1 Lite. The switch starts at its factory default configuration.
+NOTE: OOB management switches can be Dell PowerSwitch systems or third-party switches with 1 GbE BASE-T ports. If you are using an operating system other than Dell Enterprise SONiC, refer to your operating system’s documentation for specific commands. 1. Connect to the switch using the console serial port. 2. Log in to the CLI using the default username admin and password YourPaSsWoRd. 3. Change the admin password to a secure one when prompted. 4. Run the following commands to use standard interface names and to set the hostname. admin@sonic:~$ sonic-cli sonic# configure terminal sonic(config)# interface-naming standard Broadcast message: Interface naming mode has changed. Users running 'sonic-cli' are required to restart your session. sonic(config)# hostname S3248T-OOB Broadcast message: Hostname has been changed from 'sonic' to 'S3248T-OOB'. Users running 'sonic-cli' are suggested to restart your session.
+5. Exit to apply the changes and return to the SONiC CLI. sonic(config)# exit sonic# exit admin@sonic:~$ sonic-cli S3248T-OOB#
+6. Enabling a spanning tree protocol is a best practice. Rapid per-VLAN spanning tree is enabled in this example. S3248T-OOB# configure S3248T-OOB(config)# spanning-tree mode rapid-pvst
+7. Create the OOB management VLAN. S3248T-OOB(config)# interface Vlan 100
+NOTE: VLAN ID 100 is an example. Any available VLAN ID can be used.
+8. Configure all downlink ports that will be connected to PowerStore management ports, PowerEdge server iDRACs, and other devices in the rack if applicable. Put them in the same VLAN as access (untagged) ports and bring the ports up administratively. S3248T-OOB(config)# interface range Eth 1/1-1/48 %Info: Configuring only existing interfaces in range S3248T-OOB(config-if-range-eth**)# switchport access Vlan 100 S3248T-OOB(config-if-range-eth**)# no shutdown
+9. Configure the uplink to the OOB management network core switch. Details are not shown here as the uplink can be configured using different Layer 2 or Layer 3 options. If the uplink is in Layer 3 mode, all PowerStore appliances in a cluster must be connected to the same OOB management switch (see note below).
+
+18
+
+Configure OOB management switches
+
+NOTE: If multiple PowerStore appliances are deployed in a cluster, all appliance management ports in the cluster need to be untagged in the same Layer 2 VLAN. If PowerStore appliances are in different racks, you can keep them in the same VLAN by using Layer 2 uplinks to the OOB management network core switch. If you use Layer 3 uplinks to the OOB management network core, connect all PowerStore appliances to the same physical OOB management switch, even if the appliances are in different racks.
+10. Save the configuration.
+S3248T-OOB(config-if-range-eth**)# end S3248T-OOB# write memory
+
+Configure OOB management switches
+
+19
+
+6
+Use SFM to create the leaf-spine fabric
+This chapter shows how to use SFM to create the VXLAN fabric for a PowerStore deployment. For other SFM features and additional information, see the SmartFabric Manager for SONiC User Guide.
+Topics:
+• Prepare leaf and spine switches for SFM • Add leaf and spine switches to SFM inventory • Create the fabric • Create a nondefault tenant • Create the networks • Create downlinks to PowerStore appliances and storage clients
+Prepare leaf and spine switches for SFM
+Set the admin password and configure the management interface
+For each Dell PowerSwitch that will be a leaf or a spine in the fabric, do the following: 1. Connect to the switch using the console serial port. 2. Log in to the CLI as admin. 3. Change the admin password from the default, YourPaSsWoRd, to a secure password during the first login when prompted. 4. Configure the OOB management interface (Management 0). SFM uses this interface to communicate with the leaf and spine
+switches. For SFM, Dell Technologies recommends using a static IP address instead of DHCP on Management 0 to ensure that it does not change. If routing is used on your OOB management network, also specify the gateway address as shown in the configuration example below.
+admin@sonic:~$ sonic-cli sonic# configure sonic(config)# interface Management 0 sonic(config-if-Management0)# ip address 100.67.112.13/24 gwaddr 100.67.112.254 sonic(config-if-Management0)# end sonic# write memory
+The commands above are the only ones that are required at the switch CLI when using SFM. The IP addresses used are examples only.
+NOTE: If any leaf or spine switches have previously been configured (other than changing the admin password and configuring Management 0), run the write erase command and reboot each applicable switch. The admin password and Management 0 interface configuration will be retained. All other configuration settings on the switch will be reset to the factory defaults.
+Connect the switches and SFM host
+Make the switch and SFM host connections as shown in Production topology connection details and OOB management network connection details. The PowerStore appliances and storage clients do not have to be connected now. Deploy the SFM virtual machine to a VMware ESXi or Linux host as shown in the SmartFabric Manager for SONiC User Guide. SFM is available in OVA format for ESXi or in QCOW2 format for Linux KVM.
+
+20
+
+Use SFM to create the leaf-spine fabric
+
+The host for the SFM VM must have network connectivity to the OOB management network for SFM to communicate with the leaf and spine switches. Example network connections are shown in OOB management network connection details.
+Add leaf and spine switches to SFM inventory
+1. Connect to the SFM UI in a browser and log in. 2. In the left pane, select Inventory > Switches. 3. In the right pane, click the Discovery Requests tab and click +DISCOVER. The Discover Switches dialog box opens.
+a. Next to Discovery Mode, select either Range or List. Range is selected in this example. b. Enter the OOB Management addresses of the leaf and spine switches as a range or a comma-separated list. c. (Optional) Enter a name to use as the Discovery ID. d. Leave the Port set to 443. e. Enter the Username and Password for the switches. All switches in one discovery instance must use the same
+credentials.
+
+Figure 10. Discover switches by IP address range
+4. Click DISCOVER. The discovery process completes in less than two minutes for this example. The switches are listed on the Discovered Switches tab of the Inventory page in SFM.
+
+Use SFM to create the leaf-spine fabric
+
+21
+
+Figure 11. Discovered switches
+5. Check the box next to all switches that will be in the leaf-spine fabric and then click ADD TO INVENTORY. 6. In the Add Switches to Inventory dialog box, enter a Name and Role (select Leaf or Spine) for each switch. Leave the
+Monitor Only toggle button set to the off position as shown.
+
+22
+
+Use SFM to create the leaf-spine fabric
+
+Figure 12. Add switches to inventory
+7. Click SUBMIT to add the switches to the SFM inventory. 8. The switches are listed on the Switch Inventory tab with a status of Offline. The status takes less than two minutes to
+change to Online for this example. 9. Click REFRESH to update the Status column as needed.
+
+Use SFM to create the leaf-spine fabric
+
+23
+
+Figure 13. Switch Inventory tab
+Create the fabric
+1. On the Switch Inventory tab, check the box next to each switch that will be part of the fabric.
+
+24
+
+Use SFM to create the leaf-spine fabric
+
+Figure 14. Fabric switches selected 2. Click +CREATE FABRIC. The Create Fabric dialog box opens.
+
+Use SFM to create the leaf-spine fabric
+
+25
+
+Figure 15. Create fabric dialog box
+3. In the Create Fabric dialog box, do the following:
+a. Enter a Fabric Name. b. Leave the Fabric Technology set to the default, VXLAN. c. Enter a Site name. d. Set STP Edge to Enable (recommended). This enables the Spanning Tree Protocol (STP), specifically Rapid Per-VLAN
+Spanning Tree (RPVST), on the fabric. It also configures downlink ports from leaf switches as STP edge ports. Enabling STP is a best practice against loops in case there is a misconfigured fabric. In a properly configured VXLAN fabric, all paths in the fabric are active and no connections are blocked by STP. If you do not want STP configured like this, you can set STP Edge to Switch Configured. This allows you to make custom STP settings after fabric creation using the CLI at the console of each switch. Optionally, you can select Disable. e. Set LACP Fallback mode to either Switch Configured (recommended) or Fallback None. LACP fallback is not used in PowerStore deployments. Setting it to Switch Configured allows you to configure it after fabric creation using the switch CLI if needed for other devices. Optionally, you can set it to Fallback None if you do not need the LACP fallback feature.
+4. Keep ROCE, Cut Through Switching, and ARS set to off for this VXLAN fabric. The toggle buttons for ROCE, Cut Through Switching, and ARS only apply to a traditional L3 fabric.
+5. In the right column, notice that the Leaf and Spine ASN and BGP and VTEP CIDR fields are prepopulated with default settings. Dell Technologies recommends leaving the ASNs and IP address blocks at their defaults unless the settings conflict with your existing environment.
+
+26
+
+Use SFM to create the leaf-spine fabric
+
+NOTE: Switches in the Super Spine and Border Leaf roles are not used in this deployment. 6. In the table at the bottom of the window, click the > next to Leaf. The leaf switches are listed. The MC-LAG Peer Links
+are automatically detected if they are properly connected when adding the switches to SFM. You can view the detected peer link ports by clicking VIEW in the table next to the applicable leaf switch. Optionally, the peer link ports can be edited by selecting a leaf and clicking CONFIGURE MC-LAG PEER LINK. 7. In the table at the bottom of the window, click the > next to Spine. Ensure that all spine switches are listed if applicable. 8. Click CREATE FABRIC. A green Success message displays at the top of the page. You might need to click REFRESH to see the fabric in the list.
+Figure 16. Fabric created
+9. To see the fabric layout, click MANAGE. The Fabric: Fabric Name page opens. 10. Click the Topology tab. The leaf-spine topology of the current fabric displays. Hovering your mouse pointer over a link
+provides the port numbers of the connection. Hovering your mouse pointer over a switch provides the switch details, as shown in the figure below.
+
+Figure 17. Fabric topology view
+
+Use SFM to create the leaf-spine fabric
+
+27
+
+Create a nondefault tenant
+Virtual Routing and Forwarding (VRF) allows multiple instances of independent routing tables to co-exist within the same router simultaneously. SFM refers to VRFs as tenants.
+Using at least one nondefault tenant is a best practice because it enables symmetric integrated bridging and routing (IRB) with VXLAN. In symmetric IRB, both the ingress and egress VTEPs route packets to their destination. The alternative is asymmetric IRB, which does not handle routing as efficiently as symmetric IRB.
+To create a nondefault tenant for the fabric, do the following:
+1. In the SFM left pane, click Resources. The Tenants tab is displayed. The default tenant in SFM is named Global. 2. Click +ADD. The Add Tenant dialog box displays.
+
+Figure 18. Add tenant
+3. Enter a Name for the tenant. Do not use a space in the tenant’s name. 4. Click SUBMIT. A green Success message displays, and the new tenant is listed.
+
+Figure 19. Nondefault tenant created
+NOTE: This nondefault tenant is used for all networks that are used by the PowerStore appliances and storage clients. It can also be used for any other networks in the fabric.
+
+28
+
+Use SFM to create the leaf-spine fabric
+
+Create the networks
+Create the NVMe/TCP storage network
+A network for PowerStore NVMe/TCP storage traffic is created in this section. The values shown in the figure below are from VLANs and IP addresses that are used in this guide. 1. In the SFM left pane, select Resources. 2. On the Resources page, click the Networks tab. 3. On the Networks tab, click +ADD > VxLAN Network. 4. In the Add VxLAN Network dialog box, enter a Network Name, select the nondefault Tenant that is created in the
+previous section, enter an ID in the Vlan field. NOTE: SFM reserves a range of VLAN IDs for internal use. Available VLAN ID numbers are listed below the Vlan field on the page.
+5. (Optional) Specify an anycast address for the NVMe/TCP network. This address serves as the gateway address for the network and is only needed if devices on this network need to communicate with other networks. a. Click + next to Anycast Address to expand the box. b. Enter the anycast address in CIDR format as shown. The completed page looks like the following:
+
+Figure 20. Add VXLAN Network dialog box – NVMe network 6. Click SUBMIT. A green Success message displays, and the NVMe network is listed.
+
+Use SFM to create the leaf-spine fabric
+
+29
+
+Figure 21. NVMe/TCP network created
+You can configure additional networks in the same manner if needed.
+Create the PowerStore cluster network
+The PowerStore cluster network is only used for deployments with multiple PowerStore appliances that are configured in a cluster. If you do not have a PowerStore cluster, go to Create downlinks to PowerStore appliances and storage clients. The values that are shown in the figure below are from VLANs and IP addresses that are used in this guide. 1. In the SFM left pane, select Resources. 2. On the Resources page, click the Networks tab. 3. On the Networks tab, click +ADD > VxLAN Network. 4. In the Add VxLAN Network dialog box, enter a Network Name, select the nondefault Tenant that is created in the
+previous section, enter an ID in the Vlan field. NOTE: SFM reserves a range of VLAN IDs for internal use. Available VLAN ID numbers are listed under the VLAN entry line on the page.
+5. Leave the Anycast Address field blank. It is not needed for the PowerStore cluster network. The completed page looks like the following:
+
+30
+
+Use SFM to create the leaf-spine fabric
+
+Figure 22. Add VXLAN Network dialog box – cluster network 6. Click SUBMIT. A green Success message displays, and the cluster network is added to the list.
+
+Figure 23. Cluster network created
+
+Create downlinks to PowerStore appliances and storage clients
+In this section, downlinks are configured from the leaf switches to the PowerStore appliances and storage clients.
+Configure NVMe/TCP network downlinks
+The NVMe/TCP network downlinks to PowerStore appliances and storage clients are added as follows: 1. In the SFM left pane, select Fabric. 2. In the right pane next to the fabric name, click MANAGE.
+
+Use SFM to create the leaf-spine fabric
+
+31
+
+3. On the Fabric: Fabric Name page, click the Downlinks tab.
+4. Click +ADD.
+5. In the Create Downlink dialog box, do the following:
+a. Enter a Name for the downlink. b. Next to Tenant, select the nondefault tenant that you created in Create a nondefault tenant. c. Leave Interface Type set to physical. d. Select the leaf Switch and Interface that the downlink is connected to. e. If the downlink is connected to a PowerStore, select the NVMe VLAN next to Tagged Network as shown below. If the
+downlink is connected to a storage client, and the NVMe VLAN ID is also configured on the client interface, select the NVMe VLAN next to Tagged Network. If a VLAN ID is not configured on the storage client interface, select the NVMe VLAN next to Untagged Network.
+
+Figure 24. Create Downlink dialog box f. Click SUBMIT. A green Success message displays, and the new downlink appears in the list
+
+Figure 25. Fabric downlinks tab – PowerStore downlink created
+
+32
+
+Use SFM to create the leaf-spine fabric
+
+When SFM has configured the downlink on the switches, the Status changes from In Progress, as shown, to Success. The status might take some time to change. You can click REFRESH as needed to update the status. You do not have to wait for the status to change before configuring the next downlink.
+Repeat the above steps for each link from the fabric leaf switches to PowerStore and storage client interfaces that are on the NVMe network.
+For this example, there are two PowerStore appliances (named 500T and 1000T) and two storage clients (named SC01 and SC02) with two connections each. When complete, the Downlinks page appears as shown in the figure below.
+
+Figure 26. NVMe downlinks configured for PowerStore and storage clients
+If your storage clients are connected to the leaf switches and have IP addresses configured on the storage network, they should now be able to ping each other.
+Configure cluster network downlinks
+The PowerStore cluster network is only needed for deployments with more than one PowerStore appliance. If you only have one PowerStore appliance, go to Configure PowerStore appliances. Cluster downlinks to PowerStore appliances use LAGs with LACP. To add the downlink LAGs for the PowerStore appliances, do the following 1. In the SFM left pane, select Fabric. 2. In the right pane next to the fabric name, click MANAGE. 3. On the Fabric: Fabric Name page, click the LAG tab. 4. Click +ADD. 5. In the Create LAG dialog box, do the following:
+a. Enter a Name for the LAG. b. Set the Switch Group to MC-LAG Leaf. c. Next to Switch, select the leaf switch pair and interfaces that form that LAG. d. Set the Admin State to Up, Port Channel Type to MC-LAG, and Port Channel Mode to LACP.
+
+Use SFM to create the leaf-spine fabric
+
+33
+
+Figure 27. Create LAG dialog box
+e. Click SUBMIT. A green Success message displays, and the new downlink appears in the list. NOTE: You might need to click REFRESH to see the LAG.
+
+Figure 28. Fabric LAG tab – LAG created
+Repeat the above steps for each LAG on the cluster network from the fabric leaf switches to the PowerStore appliances. There should be two LAGs per PowerStore appliance for the cluster network. For this example, there are two PowerStore appliances (named 500T and 1000T). When complete, the LAG page appears as shown in the figure below.
+
+34
+
+Use SFM to create the leaf-spine fabric
+
+Figure 29. LAGs to PowerStore appliances created
+After creating the LAGs, they are placed in the PowerStore cluster network as follows:
+1. Click the Downlinks tab. 2. Click +ADD. 3. In the Create Downlink dialog box, do the following:
+a. Enter a Name for the downlink. b. Next to Tenant, select the nondefault tenant that you created in Create a nondefault tenant. c. Set the Interface Type to LAG and select the LAG that you created for the PowerStore appliance node. d. Next to Untagged Network, select the cluster VLAN. PowerStore appliance cluster interfaces are untagged by default.
+
+Figure 30. Downlink dialog box for PowerStore cluster link e. Click SUBMIT. A green Success message displays, and the new downlink appears in the list.
+
+Use SFM to create the leaf-spine fabric
+
+35
+
+Figure 31. Fabric downlinks tab – PowerStore cluster downlink added
+When SFM has configured the downlink on the switches, the Status changes from In Progress, as shown, to Success. The status might take some time to change. You can click REFRESH as needed to update the status. You do not have to wait for the status to change before configuring the next downlink.
+Repeat the above steps for each link from the fabric leaf switches to PowerStore interfaces that are on the cluster network.
+For this example, there are two PowerStore appliances (named 500T and 1000T). When the cluster network downlinks are complete, the Downlinks tab appears as shown in the figure below. The cluster downlinks are outlined in red.
+
+36
+
+Use SFM to create the leaf-spine fabric
+
+Figure 32. PowerStore cluster downlinks configured
+
+Use SFM to create the leaf-spine fabric
+
+37
+
+7
+Configure PowerStore appliances
+If not already done, make the PowerStore appliance connections to the switches as shown in Production topology connection details and OOB management network connection details.
+Topics:
+• Initial configuration • NVMe/TCP network configuration • Cluster network
+Initial configuration
+Connect a workstation to the PowerStore appliance using the OOB management switch and run the PowerStore Initial Configuration Wizard (ICW) as shown in the Dell PowerStore T and Q Models Networking Guide for Initial Deployment.
+NVMe/TCP network configuration
+Use PowerStore Manager to configure the NVMe/TCP network on the PowerStore appliance as shown in the Dell PowerStore PowerStore T and Q Networking Guide for Storage Services. Specify the same VLAN ID in PowerStore Manager that is used in the SFM fabric (VLAN 300 in this example). Set the MTU size for the NVMe/TCP network to 9000 bytes in PowerStore Manager for best performance.
+NOTE: The MTU size is automatically set to 9216 bytes on all leaf and spine interfaces by SFM.
+Cluster network
+If you will be using a PowerStore cluster, the cluster network is configured in SFM as shown in this guide. No further configuration is required in PowerStore Manager as the PowerStore cluster network interfaces are preconfigured.
+
+38
+
+Configure PowerStore appliances
+
+8
+Verify the infrastructure
+SFM can be used to verify that the fabric and node connections are configured and working properly. This chapter shows how to validate the fabric for this deployment. 1. In the SFM UI, click Fabric in the left pane. The Managed Fabrics page opens in the right pane.
+Figure 33. Managed Fabrics page 2. Next to the PowerStore fabric name, click MANAGE. The Fabric: Fabric Name page opens, and the Switches tab
+displays.
+
+Figure 34. Fabrics page - Switches tab
+3. Ensure that all leaf and spine switches in the fabric are listed and are Online. 4. To view more information, click the >> next to a switch name. In the new pane that opens to the right, there are tabs that
+are named Switch Details, Interfaces, and Health, outlined in red in the figure below.
+
+Verify the infrastructure
+
+39
+
+Figure 35. Switch Interfaces for leaf1a
+● The Switch Details tab provides information such as the model, service tag, and SONiC software version. ● The Interfaces tab, selected above, shows port Operational Status and other settings. If the switches and PowerStore
+appliances are configured properly, the port Operational Status should be up for the connected ports. Individual ports can be selected and edited to change settings such as admin state and MTU. Other settings might also be available depending on the PowerSwitch model. ● The Health tab provides software and hardware health scores for the switch.
+5. At the top of the Fabrics page, click the LAG tab. All LAGs in the topology are listed. Single PowerStore appliance deployments will not have LAGs for PowerStore. If you are using a PowerStore cluster, verify that each PowerStore appliance LAG has two Interfaces, is configured for MC-LAG and LACP, and the Admin State is up as shown in the figure below.
+
+Figure 36. LAG tab
+6. For more details, click the >> next to a PowerStore LAG name. The LAG Details pane opens to the right. 7. Click the > next to Interfaces. The Switch Name, Interface, and Port Channel ID for the LAG is shown. 8. Make sure that the Operational State is up on both leafs, outlined in red in the figure below.
+
+40
+
+Verify the infrastructure
+
+Figure 37. LAG details
+9. Click the Topology tab at the top of the Fabrics page. The fabric topology is shown with leaf and spine connections. A missing connection indicates that a link is down or is not physically connected.
+
+Figure 38. Topology view with PowerStore appliances 10. Click the Downlinks tab at the top of the Fabrics page. All downlinks in the topology are listed.
+
+Verify the infrastructure
+
+41
+
+Figure 39. Downlinks tab
+11. Click the >> icon next to a downlink name to view additional details. The Downlink Details pane displays on the right. a. Click the > next to Tagged Networks to view the VLANs that the port is tagged in. PowerStore appliance NVMe downlinks must be tagged in the NVMe VLAN as shown in the figure below. b. If it is untagged in a VLAN, verify that the VLAN is listed under Untagged Network. PowerStore appliance cluster downlinks must be untagged in the cluster VLAN. c. Click the > next to Interfaces. If the downlink is not in a LAG, such as an NVMe downlink, the switch interface is listed. If the downlink is in a LAG, such as a cluster downlink, the LAG name is listed.
+
+42
+
+Verify the infrastructure
+
+Figure 40. NVMe downlink details 12. Click the Health tab to display the fabric health
+
+Verify the infrastructure
+
+43
+
+Figure 41. Fabric Health tab
+13. Ensure that the State is Good, and that the Health Score is green for each switch in the fabric. If any switches have a yellow or red Health Score, see the Messages column for the cause.
+
+44
+
+Verify the infrastructure
+
+9
+Resources
+Topics:
+• Dell Networking resources • PowerStore resources • Technical support
+Dell Networking resources
+Dell Technologies Networking Solutions Info Hub – This site provides guides to assist with planning and deploying various solutions with Dell Networking. Dell Technologies Enterprise SONiC Distribution (account required) – This site includes SONiC user guides and software. SmartFabric Manager documentation (account required) SmartFabric Manager software (account required) Dell PowerSwitch S3248T-ON Documentation Dell PowerSwitch S5212F-ON Documentation Dell PowerSwitch S5248F-ON Documentation Dell PowerSwitch S5232F-ON Documentation Dell Networking Transceivers and Cables
+PowerStore resources
+Dell PowerStore T and Q Models Networking Guide for Initial Deployment Dell PowerStore T and Q Networking Guide for Storage Services Dell Networking Switch Simple Support Matrix (account required) Dell PowerStore: Introduction to the Platform PowerStore Product Documentation
+Technical support
+For technical support, go to the Dell Support site.
+
+Resources
+
+45
+
+A
+
+Validated components
+
+The following tables include the hardware, software, and firmware that was used to validate the example in this guide. Other supported hardware, software, and firmware can be used.
+Topics:
+• Dell PowerSwitch systems • SONiC SmartFabric Manager • PowerStore appliance software • PowerEdge servers
+
+Dell PowerSwitch systems
+
+The switches used to validate the deployment in this guide are listed in the table below.
+
+Table 4. Dell PowerSwitch models and operating systems
+
+Qty
+
+Item
+
+Role
+
+4
+
+Dell PowerSwitch S5248F-ON Leaf switch
+
+2
+
+Dell PowerSwitch S5232F-ON Spine switch
+
+1
+
+Dell PowerSwitch S3248T-ON OOB management switch
+
+SONiC version 4.4.1 Enterprise Standard 4.4.1 Enterprise Standard 4.4.1 Lite
+
+SONiC SmartFabric Manager
+
+A Dell PowerEdge server running VMware ESXi was used as the host for the SONiC SmartFabric Manager virtual machine.
+
+Table 5. SmartFabric Manager software Item SONiC SmartFabric Manager VMware ESXi host for SFM
+
+Version 1.2.0.0213 8.0.3 build 24280767 Dell customized A02
+
+PowerStore appliance software
+
+One PowerStore 500T appliance and one PowerStore 1000T appliance were used to provide NVMe/TCP storage volumes.
+
+Table 6. PowerStore appliance configuration
+
+Qty per appliance
+
+Item
+
+1
+
+PowerStore appliance software
+
+2
+
+4-port card, 4x 25 GbE SFP28
+
+2
+
+IO module, 4x 25 GbE SFP28
+
+Version 4.0.0.2 -
+
+46
+
+Validated components
+
+PowerEdge servers
+
+Two Dell PowerEdge R640 servers running VMware ESXi were used as NVMe/TCP storage clients.
+
+Table 7. PowerEdge server configuration
+
+Qty per server
+
+Item
+
+1
+
+Operating system
+
+Version
+VMware ESXi 8.0.3 build 24280767 Dell customized A02
+
+1
+
+Broadcom 25 GbE SFP28 dual-port
+
+Firmware 22.92.07.50
+
+adapter
+
+Validated components
+
+47
+
+B
+BGP EVPN with VXLAN overview
+BGP EVPN with VXLAN stretches virtual (overlay) Layer 2 networks across a physical (underlay) Layer 3 leaf-spine fabric. This architecture allows for the scalability of Layer 3 networks with the mobility benefits of a Layer 2 network. For example, a VM or physical host can be moved from one rack to another without the need to change its IP address and gateway information. All paths in the fabric are active and no connections are blocked by the spanning tree protocol. EVPN uses BGP to exchange endpoint MAC and IP address information between VXLAN tunnel endpoints (VTEPs). In this topology, each pair of leaf switches in a rack is one logical VTEP. Packets destined to a remote device are sent to the local VTEP as the first hop. The packet is encapsulated with a VXLAN header that includes the Virtual Network Identifier (VNI) and the IP address of the destination host. See the figure below.
+
+Figure 42. VXLAN encapsulated frame
+The destination VTEP extracts the original packet and routes it to the destination. VXLAN encapsulation adds approximately 50 bytes of overhead to each Ethernet frame. As a result, all switches in the underlay (physical) network must be configured to support an MTU of at least 1600 bytes on all participating interfaces.
+NOTE: In this deployment, switch interfaces are automatically set to their maximum supported MTU size of 9216 bytes by SFM for best performance.
+Anycast gateways with the same IP address are configured on each leaf pair. An anycast gateway IP address is set as the default gateway for hosts and VMs on that virtual network. Hosts and VMs on the same virtual network use the same gateway address while behind different leaf pairs. This configuration replaces the Virtual Router Redundancy Protocol (VRRP) and enables hosts and VMs to migrate from one leaf pair to another without changing the network configuration.
+
+48
+
+BGP EVPN with VXLAN overview
+
+

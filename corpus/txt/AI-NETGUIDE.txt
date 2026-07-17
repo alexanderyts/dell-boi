@@ -1,0 +1,500 @@
+Dell Enterprise SONiC AI Fabrics Networking Guide
+Abstract This networking guide describes some of the basic networking configurations of an AI single and multi-switch fabric using Layer 3 networking concepts.
+Part Number: H04600 December 2025
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+Copyright © 2025 Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+Chapter 1: Introduction................................................................................................................. 4 Business Challenge..............................................................................................................................................................4 Solution introduction...........................................................................................................................................................4 Document purpose........................................................................................................................................................ 4 Target audience............................................................................................................................................................. 5 Disclaimer.........................................................................................................................................................................5 Terminology...........................................................................................................................................................................5
+Chapter 2: Dell Technologies AI Fabrics Components.................................................................... 6 Software component.......................................................................................................................................................... 6 Dell Enterprise SONiC network operating system.................................................................................................6 Hardware components....................................................................................................................................................... 7 Dell PowerSwitch........................................................................................................................................................... 7 Dell PowerEdge XE9680............................................................................................................................................ 10
+Chapter 3: Dell Technologies AI Fabrics Architecture Overview....................................................12 Single switch AI GPU fabric.............................................................................................................................................12 Multi-switch AI GPU fabric..............................................................................................................................................12 Overview of AI fabrics: OOB, scale-out, and front-end........................................................................................... 13 OOB management fabric............................................................................................................................................ 13 Scale-out GPU fabric.................................................................................................................................................. 14 Front-end fabric (storage, application, in-band management)......................................................................... 17
+Chapter 4: Dell Technologies AI Fabrics Network Configuration................................................... 21 Single switch AI GPU fabric network configuration.................................................................................................. 21 OOB management fabric network configuration................................................................................................. 22 Scale-out GPU fabric network configuration....................................................................................................... 23 Front-end fabric network configuration................................................................................................................ 25 Multiswitch AI GPU fabric network configuration.................................................................................................... 33 OOB management fabric network configuration................................................................................................. 34 Scale-out GPU fabric network configuration....................................................................................................... 39 Front-end fabric network configuration.................................................................................................................47
+Chapter 5: References................................................................................................................ 49
+
+Contents
+
+3
+
+1
+Introduction
+This chapter presents the following topics:
+Business Challenge
+The landscape of Artificial Intelligence (AI) is becoming the hottest segment in the technology industry. It is undergoing rapid evolution and is becoming increasingly indispensable for businesses looking to gain a competitive foothold and stay competitive. Deploying AI solutions is a complex endeavor. The intricacies of developing and overseeing the sophisticated architectures that support AI algorithms and models pose challenges, especially for organizations lacking the necessary expertise and time to craft, implement, and manage a comprehensive AI solution stack. The scalability of AI applications is crucial for handling vast datasets and accommodating increased user demands. Maintaining optimal performance without the appropriate infrastructure and surrounding ecosystem poses difficulties for enterprises. AI workloads tend to be resource-intensive, and high-performance and lossless data contribute to the elevated infrastructure and operational cost. Therefore, it becomes crucial to streamline, manage, and scale resource utilization to minimize cost while ensuring operational efficiency. Having clear visibility into a proven AI solution stack becomes the first hurdle for any organization looking to implement an AI solution. Dell Technologies provides several AI solution stacks consisting of networking, compute, storage, and application components.
+Solution introduction
+This design guide describes the software and hardware components as well as the processes required to build a Dell Technologies AI environment. Dell Enterprise Software for Open Networking in the Cloud (SONiC) powers the deployment of two different topologies: standalone and leaf-and-spine. The two different topologies discuss the different fabrics that support the deployment environment of a typical AI workload: ● Out-of-Band (OOB) management fabric – This fabric supports the overall environment management network for the
+solution. ● Front-end fabric – This fabric supports the deployment of storage, application, and in-band cluster management
+components of the AI solution. ● Scale-out fabric – This fabric supports an actual AI GPU interconnect network. This networking design guide uses the Dell PowerSwitch Z-series product family for the fabric elements. The Z9864F-ON, Z9664F-ON, and Z9432F-ON are 800GbE/400GbE based platforms that run Dell Enterprise SONiC. The storage element of the solution is provided by Dell PowerScale platform.
+Document purpose
+The purpose of this document is to provide general networking configuration guidance for greenfield deployment of AI single and multi-cluster GPUs using a Dell Technologies product portfolio (PowerSwitch, PowerEdge, PowerScale, and Enterprise SONiC 4.2.1 or later).
+
+4
+
+Introduction
+
+Target audience
+This guide is intended for AI solution architects, data engineers, IT infrastructure managers, and IT personnel who are interested in or considering implementing AI deployments.
+Disclaimer
+
+This document provides networking design guidance on deploying a typical single and multi-rack AI GPU cluster using basic networking concepts and leveraging key software features within Dell’s Enterprise SONiC networking operating system to deliver a scalable, lossless, and high-performance fabric.
+The design guide does not provide performance data or sample infrastructure configurations. The Dell Validated Designs (DVDs) provide specific infrastructure configurations that can be deployed at scale using zero touch provisioning (ZTP) using an existing Dynamic Host Configuration Protocol backend infrastructure.
+Terminology
+
+The following table provides definitions for some of the terms that are used in this document.
+
+Table 1. Terminology Term GPU CPU AI SONiC Dell Enterprise SONiC RoCE RDMA DHCP GbE VLAN DAC BGP eBGP (External BGP) iBGP (Internal BGP) EVPN Overlay Underlay
+Scaleup GPU fabric Scale-out GPU fabric Front-end fabric
+
+Definition Graphics processing unit Central processing unit Artificial intelligence Software for Open Networking in the Cloud Dell open-source SONiC implementation RDMA over converged ethernet Remote direct memory access Dynamic host configuration protocol Gigabit ethernet Virtual local area network Direct attach copper Border gateway protocol Border Gateway Protocol between two routers in different autonomous systems Border Gateway Protocol between two routers inside same autonomous systems Ethernet Virtual Private Network Virtual network created on top of an existing physical network Physical network created using any open standards routing protocol. Common choices are BGP or OSPF Single-switch fabric for intra-GPU communication Multi-switch fabric for inter-GPU communication Switching fabric for AI environment supporting services such as storage, management
+
+Introduction
+
+5
+
+2
+Dell Technologies AI Fabrics Components
+This chapter presents the following topics:
+Software component
+This design guide includes the following software component.
+Dell Enterprise SONiC network operating system
+Dell Technologies has been an innovator in the open-source and disaggregation arena for many years, starting with the integration of running third-party networking operating systems on Dell-branded networking equipment to running open-source code such as SONiC. Dell Technologies has created a world-class, enterprise-grade version of the open-source SONiC stack. The Dell Enterprise SONiC stack provides a full suite of enterprise, cloud, edge, and campus feature sets. Key Dell Enterprise SONiC features deliver scalable, high-performance, multi-tenancy connections for HyperConverged (HCI), Converged Infrastructure (CI), and Artificial Intelligence workloads.
+
+Figure 1. Dell Enterprise SONiC
+Dell Enterprise SONiC, starting with version 4.2.0, has implemented a series of networking features that facilitate the deployment of a single to multi-rack GPU cluster. The following figure shows the initial Dell Enterprise SONiC for AI networking feature set. Each feature addresses performance, quality-of-service, and ease of management for a AI deployment.
+
+6
+
+Dell Technologies AI Fabrics Components
+
+Figure 2. Dell Enterprise SONiC AI feature set
+Besides offering a purpose-built AI software feature set, a robust set of management and monitoring capabilities are integrated into the Dell Enterprise SONiC network operating system.
+Hardware components
+The hardware components of the Dell AI fabric solution design have been purpose -built for the AI world. The hardware product family is light, high-performing, efficient, and based on open-standards. These characteristics make a Dell end-to-end solution design a good fit for unique workloads that require high-performance, efficiency, and easy-to-manage deployments.
+Dell PowerSwitch
+The Dell PowerSwitch portfolio is the infrastructure delivering the AI solution. In this networking guide, the Z9864F-ON, Z9664F-ON, and Z9432F-ON are the primary 800/400GbE switches. With up to 102.4 Terabits per second (Tbps) switching capacity, these two switches are purpose-built for any AI type of workload. Customers looking for a high-performance, scalable, and lossless fabric for their AI environment should consider the Dell Z-Series platform.
+
+Dell Technologies AI Fabrics Components
+
+7
+
+Figure 3. Dell PowerSwitch Z9864F-ON
+
+Figure 4. Dell PowerSwitch Z9664F-ON
+
+8
+
+Dell Technologies AI Fabrics Components
+
+Figure 5. Dell PowerSwitch Z9432F-ON
+
+Figure 6. Dell PowerSwitch S5200-ON Series
+The front-end fabric is the GPU storage and application fabric. This fabric is supported by the Dell PowerSwitch S5200F-ON series. The Dell PowerSwitch S5200 series delivers 100GbE connectivity from the storage and application layer to the GPU fabric. The S5200 series switchports range from twelve to forty-eight 25GbE ports and four to thirty-two 100GbE ports.
+
+Dell Technologies AI Fabrics Components
+
+9
+
+Figure 7. Dell PowerSwitch S3248T-ON Series
+The last AI fabric is the Out-of-Band (OOB) management network. This network provides management access for the entire AI environment, including the workload cluster devices. The OOB fabric connections are all 1GbE, and they are all copper-based using RJ45 connections.
+Dell PowerEdge XE9680
+The Dell XE9680 is a 6U server, and it is Dell’s first 8 x GPU platform. It is engineered to significantly enhance application performance by driving the most complex AI, Machine Learning, Deep Learning (ML/DL), and High-Performance Computing workloads (HPC). This server features up to 56-core 4th generation Intel Xeon processors and offers the highest GPU memory capacity and bandwidth currently available, making it capable of managing extremely large and complex models and datasets. Dell PowerEdge XE9680
+
+Figure 8. Dell PowerEdge XE9680
+
+10
+
+Dell Technologies AI Fabrics Components
+
+Two of its PCIe slots (left most and right most) are used for front-end fabric connections. These slots are configured as 2 x 200GbE in this design guide.
+
+Dell Technologies AI Fabrics Components
+
+11
+
+3
+Dell Technologies AI Fabrics Architecture Overview
+This section shows two reference architectures that are used to implement the Dell AI fabric solution.
+Single switch AI GPU fabric
+The single rack architecture consists of: ● PowerSwitch Z9864F-ON/Z9664F-ON for GPU scale-up fabric ● PowerSwitch S3248T-ON (formerly known as N3248TE) for OOB fabric ● PowerSwitch Z-series, S5200-series, or S5448F-ON for front-end fabric ● 8/16 Dell PowerEdge XE9680, total 64/128 GPUs using 400GbE links ● 3 Dell PowerScale node cluster. ● Dell Enterprise SONiC 4.2.1 network operating system or higher
+NOTE: Using the Dell PowerSwitch Z9864F-ON, 128 GPUs can be deployed connected at 400GbE. 128 GPUs stems from 16 Dell XE9680, each XE960 with 8 GPUs. NOTE: Using the Dell PowerSwitch Z9664F-ON, 64 GPUs can be deployed connected at 400GbE. 64 GPUs stems from 8 Dell XE9680, each XE9680 with 8 GPUs. The following figure illustrates this architecture:
+
+Figure 9. Single Z9864F-ON switch GPU cluster
+Multi-switch AI GPU fabric
+The multi-switch architecture consists of a rail and rail-optimized architecture using Z9864F-ON/Z9664F-ON with the following components:
+
+12
+
+Dell Technologies AI Fabrics Architecture Overview
+
+● Dell PowerSwitch Z9864F-ON as spine switches ● Dell PowerSwitch Z9864F-ON/Z9664F-ON as leaf switches ● Dell PowerSwitch S3248T-ON (formerly known as N3248TE) ● Dell PowerEdge XE9680 ● Dell PowerScale 3 node cluster, where a 3-node cluster is the minimum size ● Dell Enterprise SONiC 4.2.1 network operating system or higher
+The following figure illustrates this architecture:
+
+Figure 10. Multi-switch AI fabric
+Three fabrics make up the AI architecture: ● OOB management fabric ● Scale-out GPU fabric ● Front-end fabric (storage, application, in-band management)
+Overview of AI fabrics: OOB, scale-out, and front-end
+OOB management fabric
+The OOB fabric provides local or remote management connectivity into the AI infrastructure. The OOB management fabric bandwidth is usually set to 1GbE. The OOB connections range from simple iDRAC connections from the PowerEdge XE9680 and PowerScale appliances, to RJ45 Ethernet management ports on the PowerSwitches. The OOB fabric is assigned to a single subnet or VLAN. The default VLAN is 1, however, most customers use a different VLAN ID. This VLAN is then routed across the network so that it is reachable from anywhere. The AI OOB fabric uses the PowerSwitch S3248T-ON. This switch supports Layer 2 and Layer 3 switching, and the switchport speeds are 1GbE. The Dell PowerSwitch S3248T-ON (formerly known as N3248TE) has four 10GbE SFP ports that can be used to uplink onto the legacy or existing network. The following figure shows the OOB connections from all the devices in the Dell AI environment. Each PowerScale or ECS appliance has a single OOB connection to the Dell PowerSwitch S3248T-ON.
+
+Dell Technologies AI Fabrics Architecture Overview
+
+13
+
+Figure 11. Out-of-Band Management AI reference topology
+Scale-out GPU fabric
+The scale-out GPU fabric is referred to as the inter-GPU fabric. From the three different fabrics, the scale-out GPU fabric is the most bandwidth intensive and requires careful planning. There are two types of scale-out topologies: ● Pure rail ● Rail optimized
+Pure rail
+The following figure shows a pure rail topology where each Dell PowerSwitch provides dedicated connectivity to a set of GPUs. A blue rail switch provides connectivity for all blue GPUs. The same applies for orange GPUs and the other GPUs. The connections from the Dell PowerEdge XE9680 to the Dell PowerSwitch Z9864F-ON/Z9664F-ON can be 800GbE/400GbE respectively. The connections from GPU to switch are configured using Layer 3 networking. Each connection is a point-to-point Layer 3 with a /31 subnet IP address. For example, GPU blue from Node_1 would be configured with an IP address 192.168.1.1/31 and the switchport interface would be configured with an IP 192.168.1.0/31.
+
+14
+
+Dell Technologies AI Fabrics Architecture Overview
+
+Figure 12. Pure rail scale-out GPU fabric
+In a pure rail topology, three different GPU communication paths can take place: ● Path #1 – If GPU blue wants to communicate with another GPU blue, the common rail switch onto which both blue GPUs
+are connected will be used. ● Path #2 – If GPU blue wants to communicate with GPU orange in Node_1, then an internal link in Node_1 is used. ● Path #3 – If GPU blue in Node_1 wants to communicate with GPU orange in Node_N, then GPU blue will send its data to
+a local GPU orange in Node_1, then GPU orange will forward the data upstream to its dedicated rail switch, and finally the data is sent downstream to the directly connected GPU orange in Node_N.
+Rail optimized
+Figure 12 shows a pure rail topology for a single switch GPU cluster, however, in a multi-rack AI GPU cluster, a rail optimized fabric topology is recommended as shown in the following figure.
+
+Dell Technologies AI Fabrics Architecture Overview
+
+15
+
+Figure 13. Rail optimized scale-out GPU fabric
+In a rail optimized topology, the same GPU communication paths exist as in a pure rail topology with an additional path that goes to the spine layer and comes back down to the leaf switches. This GPU communication path can take place when a “sub-optimal” path has been established due to an unexpected GPU communication library behavior. For more information about this behavior, see “Dell Technologies AI Fabrics Overview”
+Fabric connectivity – Cables and optics
+The following figure shows a photo of a GPU connection to the Dell PowerSwitch Z9664F-ON using the Dell 400GbE switchport to 1x400GbE DAC breakout cable or single mode fiber (SMF) with their respective optic (EDR4).
+
+Figure 14. Dell Z9664F-ON 400GbE GPU connection reference The GPU DAC connection has two aspects that need clarification.
+
+16
+
+Dell Technologies AI Fabrics Architecture Overview
+
+1. Physical 2. Functional
+The following figure shows a 400GbE connection in three different combinations:
+● A single DAC cable configured into two DAC connections onto their respective NIC ports on the Broadcom Thor2. ● A single optical connection using single mode fiber. ● A single optical connection using multimode fiber
+
+Figure 15. Dell Technologies 400GbE connectivity solution Dell Technologies 400GbE connectivity solution
+Using a DAC connection, both ports on the NIC card are used. Using a fiber connection, only one port on the NIC card is used. The following figure shows an 800GbE connection running at 400GbE in three different combinations: ● A single DAC cable using a single NIC port. ● A single optical connection using single mode fiber ● A single optical connection using multimode fiber
+
+Figure 16. Dell Technologies 800GbE connectivity solution
+For the full AI fabric cables and optics connectivity options, see Dell AI Cables and Optics.
+Front-end fabric (storage, application, in-band management)
+The front-end GPU fabric is dedicated for AI storage, application, and in-band GPU resources management support. AI storage is needed as large datasets are ingested, fine-tuned, trained, and inferred-on.
+
+Dell Technologies AI Fabrics Architecture Overview
+
+17
+
+The application part is the GPU cluster management service using Slurm, or Kubernetes. These GPU management cluster software stacks provide a single pane of glass to manage GPU cluster service and management.
+This fabric is not as bandwidth intensive as the scale-out GPU fabric. At 200GbE or 100GbE, storage, application, and in-band management access to and from the GPU fabric cluster is sufficient.
+NOTE: Unlike the scale-out fabric where 400GbE is deployed, the front-end fabric can use 200GbE, 100GbE, 40GbE, 50GbE, 25GbE. For AI however, 200GbE or 100GbE is recommended to accommodate the amount of traffic between the GPU cluster and storage needs.
+GPU storage, application, and in-band GPU cluster management speeds are configured at 200GbE, 25GbE, and 25GbE respectively from the Dell PowerSwitch to PowerScale, application, and in-band GPU cluster server (see Figure 17 and Figure 18).
+
+Figure 17. Single front-end Dell AI GPU storage, application, GPU management topology
+The Dell PowerSwitch providing the front-end fabric is configured as a Layer 2 switch with three different VLAN segments (storage, application, and in-band GPU management cluster)
+The connection from the storage, application, and in-band cluster management to the Dell PowerSwitch is Layer 2 and these connections are configured as link-aggregation (LAG) bundles providing link redundancy upon a link failure.
+The PowerScale cluster has two fabrics, one for inter-PowerScale appliance connectivity, and a second fabric for front-end for storage to GPU communication. In this networking guide, only the front-end fabric infrastructure configuration is covered.
+The inter-PowerScale fabric uses both Ethernet or InfiniBand, and it is NOT user configurable. This fabric comes pre-configured or deployed from the manufacturing floor.
+For GPU cluster management, Slurm or Kubernetes is deployed on 2-node PowerEdge cluster and for in-band cluster management such as scheduling GPU jobs, another set of 2-node PowerEdge cluster is used.
+Each of these services (storage, application, and in-band GPU cluster management) is assigned a unique VLAN ID or subnet.
+Due to the size of the front-end fabric (single or redundant switches), basic inter-VLAN routing with BGP as the routing protocol is used for these different VLANs to communicate with the outside world through the uplinks that are connected to the external network.
+
+18
+
+Dell Technologies AI Fabrics Architecture Overview
+
+Figure 18. Redundant front-end Dell AI GPU storage, application, GPU management topology
+The previous figure show a redundant front-end fabric using Dell PowerSwitch Z9432Fs. In this topology, multichassis link aggregation (MC-LAG) is configured on the switches providing network infrastructure redundancy for all the services (storage, application, and in-band GPU cluster management).
+Figure 17 and Figure 18 show two front-end fabric topologies for a single XE9680 appliance. However, if multiple XE9680s are used for a multi-cluster GPU solution, the front-end fabric is a standard leaf and spine architecture as shown in the following figure.
+
+Figure 19. Front-end leaf and spine fabric topology
+In a leaf and spine front-end fabric, the following are key characteristics of the fabric: ● inter-VLAN routing ● Layer 2 stretch with BGP EVPN VXLAN ● EVPN multihoming
+
+Dell Technologies AI Fabrics Architecture Overview
+
+19
+
+BGP EVPN VXLAN is used to create the fabric and stretch all Layer 2 traffic across racks and EVPN multihoming is used between the leaf switches and the workloads (storage, servers) to provide link and services redundancy within the front-end fabric.
+
+20
+
+Dell Technologies AI Fabrics Architecture Overview
+
+4
+Dell Technologies AI Fabrics Network Configuration
+This section describes Dell Technologies AI single and multi-rack GPU cluster network configurations. The network configurations represent a snippet not the entire configuration. For example, a single portchannel or VLAN configuration may be shown rather than all the portchannels or VLANs required by the environment.
+NOTE: Note: The configurations DO NOT include any of the network configuration optimizations that may be needed as the solution is implemented.
+Every GPU traffic pattern is unique and requires different features to be enabled, the network configurations provided in this guide are meant to be for initial bring up followed by the necessary network configuration optimizations as needed through the Dell team.
+Single switch AI GPU fabric network configuration
+Figure 20 shows a single rack AI cluster. The components of the solution are: ● Dell Enterprise SONiC 4.2.1 ● 1 Dell PowerSwitch Z9664F-ON ● 8 Dell PowerEdge XE9680 with 64 GPUs ● 1 Dell PowerSwitch S3248T-ON ● 1 Dell PowerSwitch Z, S5248F-ON, or S5448F-ON ● 3 node PowerScale cluster ● 4 Dell PowerEdge R760 with dual 2x25GbE NIC ports.
+NOTE: Dell ECS is not mentioned in the list, however, it can be used as an alternative storage solution.
+
+Figure 20. 32/64 AI XE9680 GPU cluster topology
+
+Dell Technologies AI Fabrics Network Configuration
+
+21
+
+OOB management fabric network configuration
+The OOB management fabric provides SSH access to the environment. In this design, the Dell PowerSwitch S3248T-ON provides 1GbE connectivity to all the management devices in the solution.
+There are many ways to implement the OOB management fabric. In this guide, a simple hybrid (Layer 2 and Layer 3) approach is shown:
+● The S3248T-ON switchports are divided into four subnets or VLANs: ○ VLAN 99 – Switching infrastructure (SW-INFRA) ○ VLAN 100 – GPU compute (MGMT-XE9680) ○ VLAN 101 – Application compute (APPS-SERVERS) ○ VLAN 102 – Storage (MGMT-POWERSCALE)
+● Each VLAN segment is either terminated on the S3248T-ON switch or extended into the external/legacy network using the uplinks as shown in Figure 21.
+● The 10GbE SFP fiber uplink ports (2 ports) on the S3248T-ON can be configured as a LAG bundle or individual links. Figure 22 shows an example of an OOB management switch.
+The uplinks are configured as trunks to carry all the VLANs upstream to the external/legacy network.
+NOTE: When configuring the LAG on the S3248T-ON, the LAG mode (static or dynamic) needs to match on the S3248TON and the upstream device inside the legacy network cloud for the LAG to come up.
+
+Figure 21. OOB management GPU cluster
+Figure 23 shows an example of a hybrid network implementation using VLANs with an IP address as the gateways. The first part of the sample configuration shows the VLANs and their respective gateways for the switching infrastructure (VLAN 99: SW-INFRA) and the GPU nodes (VLAN100: MGMT-XE9680). The second part of the sample configuration shows the OOB management switchport connections from the Dell PowerSwitch switch and the Dell PowerEdge XE9680 management interfaces. The OOB management switchports are assigned to their respective VLANs. The final part of the sample configuration shows the OOB management switch uplink (Eth1/1/52) configured as a “trunk” carrying both VLANs.
+
+22
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 22. OOB management network configuration
+The OOB management network configuration sample does not include all the VLANs. VLANs 101 and 102 are not shown, however, the configuration of these VLANs look similar to VLANs 99 and 100 with a different IP gateway for each VLAN.
+Scale-out GPU fabric network configuration
+The scale-out GPU fabric provides inter-GPU communication. This guide discusses the network configuration of two types of topologies.
+Pure rail network configuration
+The network configuration of the pure rail topology (see Figure 24) is the simplest of all the network configurations. With a pure rail topology, point-to-point Layer 3 IP configuration using /31 subnet is used. The following figure shows a pure rail topology, where each Dell PowerSwitch is a dedicated switching rail for a set of GPUs. The connection from each switch towards the GPU is a point-to-point Layer 3.
+
+Dell Technologies AI Fabrics Network Configuration
+
+23
+
+Figure 23. Pure rail GPU cluster fabric
+Figure 25 shows a sample network configuration of a pure rail topology. Each connection is configured with an IP address using a /31 subnet. In this example, Ethernet 1/33/1 on the Dell PowerSwitch is configured with an IP address of 192.168.1.0/31 and the GPU itself is configured with an IP address of 192.168.1.1/31. The same pattern continues with all the other connections using a unique IP address between the switch and GPU connection.
+
+Figure 24. Sample network configuration from Leaf1 (Blue leaf switch)
+
+24
+
+Dell Technologies AI Fabrics Network Configuration
+
+The switchports connecting to GPUs have been configured in breakout mode (2x200GbE), which is why the interfaces show Eth1/33/1 and Eth1/33/2 for the main interface Eth1/33. The Dell PowerSwitch Z9664F-ON is a 64x400GbE switch. If the interface is left at its native speed (400GbE), the syntax is Eth1/33.
+Front-end fabric network configuration
+The front-end fabric is the Dell PowerSwitch Z9432F-ON. This fabric provides three GPU cluster services: storage, GPU cluster application, and GPU cluster in-band management. There are three topology options: 1. Single switch 2. Redundant with MCLAG 3. Redundant with BGP EVPN VXLAN and EVPN multihoming
+Single switch
+The Dell PowerEdge XE9680 storage connections use the NICs on slots 31 and 40, as shown in Figure 26. These connections are configured as 2x200GbE on the XE9680 NIC. On the Dell PowerSwitch Z9432F-ON, the switchports that are connected to the NICs are configured as 2x200GbE. The physical cable for this connection is a Dell DAC breakout cable (Figure 17).
+
+Figure 25. Front-end GPU cluster non-redundant fabric topology option 1
+The front-end fabric uses the following networking features: Each service (storage, application, and GPU cluster management) uses separate VLANs: ● Storage (VLAN 101) ● GPU cluster application (VLAN 102) ● GPU cluster in-band management (VLAN 103) The following network configuration refers to the fabric topology shown in Figure 26. Each VLAN is configured with a unique IP address that acts as a gateway for its respective VLAN. Three VLANs have been configured representing the services that are provided by the front-end fabric.
+
+Dell Technologies AI Fabrics Network Configuration
+
+25
+
+Figure 26. Front-end fabric VLANs The next portion of the network configuration is the 400GbE interface breakout into 200GbE, 100GbE, and 25GbE speeds where the 200GbE links are used to connect to the Dell XE9680 outer NICs (see Figure 28).
+Figure 27. Front-end fabric switchport breakout configuration The Dell XE9680 outer NICs is the interface from the GPUs to the front-end fabric services such as storage. The 100GbE links are used to connect the storage cluster and the external network to the front-end fabric and finally, the 25GbE links are used to connect to the GPU application and management servers. The following figure shows the network configurations of the external uplink from the front-end switch to the external network cloud. The network configuration shows only one of the uplinks (Ethernet1/64/1). The other network configuration is the link aggregation (LAG) to the storage and server clusters. Each LAG has been assigned a respective VLAN. The following figure shows this configuration.
+
+26
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 28. Front-end fabric interface speed and downlink network configuration
+The next set of network configurations is the assignment of the LAGs to the switchports and the layer 3 configuration of the Dell XE9680 outer NIC to the front-end fabric (Ethernet1/33/1).
+
+Figure 29. Front-end fabric downlink network configuration The final portion of the network configuration is the external uplink connection to the external network using BGP.
+
+Dell Technologies AI Fabrics Network Configuration
+
+27
+
+Figure 30. BGP network configuration
+The network configuration assumes that the uplink connection is to another Dell PowerSwitch.
+Redundant front-end fabric with MCLAG
+The redundant front-end fabric with MCLAG topology builds on the single network configuration and adds a redundancy layer to the fabric. By adding a second front-end switch to the fabric and enabling MCLAG, the front-end fabric is no longer at risk of a single point of failure. Figure 33 shows the MCLAG configuration relevant to the fabric topology in Figure 32. The MCLAG sample configuration refers to VLAN 102 (GPU-cluster-servers), which is the connection to the Dell PowerEdge servers running Slurm or Kubernetes software stack to manage the GPU cluster using Ethernet1/35/1 on both switches (Z9432F-ON_1 and Z9432F-ON_2). Separate port channels would be needed for each service (storage, GPU-cluster-server, and management GPU cluster).
+
+Figure 31. Redundant with MCLAG front-end fabric topology
+
+28
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 32. Redundant (MCLAG) front-end fabric configuration
+The peer IP configuration in Figure 33 refers to the out of band management interface of the second front-end switch.
+Redundant front-end fabric and EVPN multihoming
+The last redundant front-end fabric uses EVPN with multihoming. The following figure shows a small front-end fabric for a small GPU cluster or single Dell XE9680 server. This topology is not common, and it is being used here to provide an alternative to MCLAG for a front-end fabric as seen in Figure 32.
+
+Figure 33. Redundant with EVPN multihoming front-end fabric topology
+This front-end fabric deployment option is mentioned as an alternative to using MCLAG on the front-end switches while providing link and device redundancy. It is worth mentioning that this topology is restricted specifically to this single Dell XE9680 GPU cluster workload. Any change to the topology in terms of switches would render all network configurations non-applicable.
+
+Dell Technologies AI Fabrics Network Configuration
+
+29
+
+The following sample network configurations are only for LAG1 (Storage-cluster) and are meant to be used as reference for LAG2 and LAG3 network configurations.
+The first network configuration portion is the interface breakout configurations and the link-up enablement that is seen in the following figure.
+
+Figure 34. Front-end switchports configurations
+After configuring the proper downstream (XE9680, storage cluster, GPU app cluster) and upstream (2 Ext Nw) links, the next step is to configure EVPN multihoming. The following figure enables EVPN multihoming, creates the LAG and assigns the VLAN (storage cluster) on the LAG. The LAG is assigned to the physical switch interface connected to the storage appliance using port Eth1/30/1. A non-default vrf (Vrf1) is configured with its respective mac-address. This non-default vrf is configured on both front-end switches/VTEPs.
+
+30
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 35. Front-end switch VTEP-1 EVPN multihoming network configuration part 1
+The following figure shows the EVPN and the link tracking network configuration relevant to EVPN multihoming as shown in Figure 34.
+Within the EVPN network configuration, a VNI transport (1000) is created. The different VLANs (storage cluster, GPU-appmgmt, mgmt.-srvrs) use this VNI to communicate with each other.
+The uplinks towards the external network are the network links being monitored for any failure by the downstream connections. This is uniquely related to the topology in Figure 34.
+Most EVPN multihome topologies involve a leaf and spine layer, and the upstream link being tracked is the connection from the leaf to the spine layer and not an external connection to a legacy network from the leaf or spine switch.
+
+Dell Technologies AI Fabrics Network Configuration
+
+31
+
+Figure 36. Front-end switch VTEP-1 EVPN multihoming network configuration part 2 The following figures show the eBGP network configuration between the front-end switches and the external network connection.
+Figure 37. Front-end switch VTEP-1 external network uplink network configuration
+
+32
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 38. Front-end switch VTEP-1 eBGP with external network
+The following figure shows the internal BGP network configuration between both front-end switches belonging to the same BGP area.
+
+Figure 39. Front-end VTEP-1 iBGP with VTEP-2 network configuration
+Multiswitch AI GPU fabric network configuration
+The multiswitch AI GPU cluster consists of: ● Dell Enterprise SONiC 4.2.1 or higher ● Dell PowerSwitch Z9664F-ON as spine switches ● Dell PowerSwitch Z9664F-ON as leaf switches
+
+Dell Technologies AI Fabrics Network Configuration
+
+33
+
+● Dell PowerSwitch Z9432F-ON as leaf switches ● Dell PowerEdge XE9680 with eight GPU per XE9680 ● Dell PowerSwitch S3248T-ON ● Dell PowerSwitch Z9432F-ON, S5248F-ON, or S5448F-ON as border leaf switches ● Dell PowerScale cluster for storage ● Dell PowerEdge servers for GPU cluster management and GPU cluster access
+
+Figure 40. Multi-switch AI GPU cluster
+OOB management fabric network configuration
+Unlike the single switch AI fabric, where the OOB management fabric could be implemented using a single top of rack (ToR) management switch, the multi-switch AI OOB management fabric can be implemented using multiple dedicated management switches as seen in Figure 42 or Figure 45.
+NOTE: The OOB management fabric options being discussed in this guide are a reference. There are many other ways to implement the OOB management fabric options.
+The following figure shows several dedicated OOB management switches (S3248T-ON) connected to devices from each of the AI fabrics using 1GbE connectivity. All the devices from the scale-out fabric belong to VLAN 100, the GPU servers (XE9680s) belong to VLAN 101, the front-end switches belong to VLAN 102, and finally the storage and servers belong to VLAN 103. Assuming there are fewer than 48 total devices per fabric, only four separate ToR switches would be needed, one per fabric (scale-out switches, XE9680s, front-end switches, storage appliances, and servers). These VLANs (100,101,102,103) are extended into the external network cloud, where they are routed to provide management access into the AI environment.
+
+34
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 41. Multi-switch AI OOB topology – Dedicated OOB per fabric The following figures show a brief network configuration of the OOB scale-out management switch (S3248T-ON) connected to the scale-out fabric switches that belong to VLAN 100.
+Figure 42. S3248T OOB VLAN configuration The configuration shows VLAN ID (100) being assigned on all the switchports and the uplinks (Eth1/1/49-1/1/52) configuration to the external network.
+
+Figure 43. S3248T-ON OOB access and uplink switchports configuration
+The same steps are repeated with the other OOB switches and their respective VLANs. If the number of managed devices increases beyond the number of switchports provided by a single OOB management switch S3248T (48x1GbE ports), then an OOB leaf and spine fabric with BGP EVPN is needed as seen in the following figure (see blue, black, orange, and green leaf and spine OOB fabrics). The following figure shows the dedicated OOB AI fabrics (scale-out, GPUs, frontend, and storage and servers) indicated by their respective colors.
+
+Dell Technologies AI Fabrics Network Configuration
+
+35
+
+Figure 44. Multi-switch OOB management fabric leaf and spine with BGP EVPN The remaining figures in this section show the OOB management fabric network configuration of the scale-out fabric devices (see switches in blue). The scale-out GPU fabric switches use VLAN 100 for their management domain or subnet. Each scale-out switch is configured with a 100.100.100.0/24 IP address. The first step is to configure the VLAN: Figure 45. OOB Switch-1 scale-out VLAN configuration
+Once VLAN (100) has been created, it is assigned to all the switchports in the OOB leaf switches. Simultaneously, the uplink to the external network cloud is configured as a trunk that will carry VLAN 100 up to the external network device:
+
+Figure 46. OOB Switch-1 scale-out fabric VLAN assignment
+
+36
+
+Dell Technologies AI Fabrics Network Configuration
+
+The next network configuration is the EVPN portion of the network. EVPN allows stretching VLAN 100 across the leaf switches through the spine switch. EVPN is the overlay portion and BGP is the routing protocol that is used to build the underlay network.
+Figure 47. OOB Leaf scale-out EVPN network configuration After configuring the network overlay (EVPN), the underlay (BGP) is needed. Figure 49 and Figure 50 show the BGP network configuration of the leaf and spine switch respectively. The sample configurations assume Ethernet 1/1/1 on the leaf and spine switches are used to connect each other.
+
+Dell Technologies AI Fabrics Network Configuration
+
+37
+
+Figure 48. OOB Leaf scale-out BGP network configuration
+
+38
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 49. OOB scale-out spine network configuration
+Scale-out GPU fabric network configuration
+The scale-out fabric network topology and configuration for a multi-switch AI cluster is a rail optimized topology. The following section describes the scale-out GPU rail optimized network configuration.
+Rail-optimized network configuration
+Unlike the pure rail network configuration, the rail-optimized network configuration can be implemented in several ways using either of the following: 1. Traditional Layer 2 with an IP address and BGP 2. BGP EVPN VXLAN
+
+Dell Technologies AI Fabrics Network Configuration
+
+39
+
+Figure 50. Rail optimized GPU cluster fabric
+Traditional Layer 2 with an IP address and BGP
+The first network configuration consists of assigning a single VLAN to all downstream links towards the GPU and then configuring a gateway for the VLAN configured. Gateway The following figure shows the VLAN ID and the corresponding IP address to be used as a gateway for all traffic that belongs to VLAN1 on LeafRail1. The same configuration is to be repeated across other leaf or rail switches with a different VLAN and corresponding IP address. The following figure shows the network configuration between the leaf switchports and the GPU links.
+Figure 51. VLAN with IP address configuration Switch to GPU links Here, the main configuration is the assignment of a VLAN 1 to the switchports. Notice the downstream links start at 1/33 because switchports 1-32 are considered upstream links towards the spine switches.
+
+40
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 52. Switch to GPU downstream link configuration
+BGP configuration The fabric uses BGP as the routing protocol. This section of the network configuration describes the BGP configuration on the leaf and spine switches. This configuration is necessary for the fabric to come up and allow communication between the leaf or rail switches.
+Leaf to spine The following figure shows the relevant BGP configuration between the leaf and spine switches.
+
+Dell Technologies AI Fabrics Network Configuration
+
+41
+
+Figure 53. Leaf to spine BGP network configuration on Leaf switch
+Spine to Leaf The same BGP configuration applies for the spine switch(es), except that the peer-group that refers to the leaf connection is different.
+
+42
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 54. Spine to leaf BGP network configuration on spine switch
+BGP EVPN VXLAN
+The next rail optimized network configuration for the topology in Figure 51 is to use BGP EVPN VXLAN to:
+
+Dell Technologies AI Fabrics Network Configuration
+
+43
+
+● Provide multi-tenant GPU service. ● Stretch all GPU traffic terminating at each leaf/rail switch across other leaf/rail switch. ● Dedicate a set of GPUs per customer by assigning a different VLAN to each customer, for example, GPU#0 from each
+XE9680 to customer#1 (C1, VLAN101). With this network configuration, each leaf/rail switch is configured as the VXLAN tunnel end point (VTEP). The following figure describes the network configuration of a VXLAN VLAN interface and the corresponding IP anycast or gateway for the VLAN. Customer1 (C1) is assigned VLAN 101 and has its own routing table. Customer2 (C2) is assigned a different VLAN 102 and has its own routing table. These routes do not know about each other and do not share any information.
+Figure 55. VXLAN VLAN interface The previous figure shows leaf/rail1’s switchport configuration of a single native 400GbE breakout into 2x200GbE. The switch interfaces (Eth1/33 - Eth1/64) are all connected to the GPUs and split into 2x200GbE links. Each downlink connection is mapped to a separate VLAN, a different XE9680, and a GPU. For example, switch interface 1/33/1 connects to Dell XE9680_1 (Node1) with VLAN101, and switch interface 1/33/2 connects to Dell XE9680_2 (Node2) with VLAN102. This pattern is repeated from 1/33/1-1/64/2.
+
+44
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 56. Interface breakout and VLAN configuration The VTEP network configuration shows the VNI mapping of the customer VLANs 101 and 102 to VNIs with the same IDs and the configuration of a global Layer 3 transport VNI (30000 and 30001) between customer VLANs 101 and 102. To complete the network configuration, BGP configuration is needed. The following figures show the BGP network configuration between the leaf and spine switches.
+Figure 57. Rail optimized BGP EVPN VXLAN VTEP network configuration
+
+Dell Technologies AI Fabrics Network Configuration
+
+45
+
+Figure 58. Leaf to spine BGP network configuration
+
+46
+
+Dell Technologies AI Fabrics Network Configuration
+
+Figure 59. Spine to leaf BGP network configuration
+Front-end fabric network configuration
+The following figure shows the multi-rack front-end AI topology. This topology can be divided into three network configurations:
+
+Dell Technologies AI Fabrics Network Configuration
+
+47
+
+1. EVPN multihoming at the leaf 2. BGP EVPN VXLAN between leaf and spine 3. External network at the border leaf
+These network configurations have been previously discussed.
+
+Figure 60. Multi-rack front-end AI fabric topology For brevity, similar network configurations will be leveraged. For example, the EVPN multihoming network configuration for the topology in Figure 61 is shown in Figure 36 and Figure 37, with one major difference. Instead of the external uplink being used as the upstream link to track for multihoming, the leaf to spine link will be used as shown in the following figure.
+Figure 61. Front-end fabric – leaf upstream link track configuration The BGP EVPN VXLAN network configuration is shown in Figures 56 through 60. The external network configuration on the border leaf switches is shown in Figure 38 and Figure 39.
+
+48
+
+Dell Technologies AI Fabrics Network Configuration
+
+5
+References
+The following Dell Technologies documentation provides additional and relevant information. Access to these documents depends on your login credentials. If you do not have access to a document, contact your Dell Technologies representative. ● Dell PowerSwitch ● Dell PowerEdge XE9680 ● Dell PowerScale ● Dell Enterprise SONiC
+
+References
+
+49
+
+

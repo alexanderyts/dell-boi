@@ -1,0 +1,1210 @@
+Enterprise SONiC Distribution by Dell Technologies Proof of Concept
+Deployment Guide
+H18645.3
+Abstract This guide demonstrates a proof-of-concept (POC) deployment of a leaf-spine network with a BGP EVPN overlay and additional features such as multihoming, MC-LAG, VRF, and layer 2 and layer 3 concepts using Enterprise SONiC. The guide describes the topology requirements and processes for rapid deployment of a test network. Dell Technologies Solutions
+May 2026
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+
+Chapter 1: Introduction................................................................................................................. 4 Introduction to Dell SONiC................................................................................................................................................4
+Chapter 2: POC Requirements...................................................................................................... 5 Hardware requirements......................................................................................................................................................5 Topology requirements.......................................................................................................................................................5 Prerequisites......................................................................................................................................................................... 6 POC reference deployment diagram...............................................................................................................................6 POC deployment features................................................................................................................................................. 9
+Chapter 3: POC Deployment ........................................................................................................ 11 POC deployment steps......................................................................................................................................................11
+Chapter 4: BGP EVPN VXLAN with MC-LAG Configuration.......................................................... 15 Spine configuration steps................................................................................................................................................ 15 BGP and BFD unnumbered configuration.................................................................................................................... 16 East-West connectivity – Leaf1 and Leaf2 configuration........................................................................................17 Virtual Routing Forwarding (VRF) configuration....................................................................................................... 19 MultiChassis Link Aggregation (MC-LAG) configuration........................................................................................ 20 EVPN VXLAN overlay configuration..............................................................................................................................21 North-South connectivity - Border leaf configuration ............................................................................................23 Monitoring the POC environment................................................................................................................................. 27 Verifying the POC............................................................................................................................................................. 27
+Chapter 5: BGP EVPN VXLAN with Multihoming Configuration ...................................................30 Spine configuration steps................................................................................................................................................30 BGP and BFD unnumbered configuration.................................................................................................................... 31 East-West connectivity – Leaf switches configuration...........................................................................................32 VRF configuration............................................................................................................................................................. 33 EVPN Multihoming (E-MH) configuration.................................................................................................................. 34 North-South connectivity - Border leaf configuration............................................................................................. 37 Monitoring the PoC environment..................................................................................................................................40 Verifying the PoC.............................................................................................................................................................. 40
+Appendix A: Host Configuration...................................................................................................43 Ubuntu host configuration.............................................................................................................................................. 43
+Appendix B: POC End Host Configurations.................................................................................. 44 Dell switch (Host1)............................................................................................................................................................44 Dell switch (Host2)...........................................................................................................................................................45
+Appendix C: Additional Information............................................................................................. 46 Dell Technologies documentation..................................................................................................................................46 Support and feedback......................................................................................................................................................46
+
+Contents
+
+3
+
+1
+Introduction
+This chapter presents the following topics:
+Topics:
+• Introduction to Dell SONiC
+Introduction to Dell SONiC
+Enterprise SONiC Distribution by Dell Technologies is a hardened, validated, and supported version of the Software for Open Networking in the Cloud (SONiC) operating system for switch configuration and monitoring. It includes distribution of opensource community SONiC and additional features to support the ecosystem and partners. Enterprise SONiC supports an industry-standard, intuitive Management Framework Command-Line Interface (MF-CLI) as well as programmatic interfaces such as REST API and the Google Remote Procedure Call (gRPC) Network Management Interface (gNMI). This guide uses MF-CLI to configure the network nodes. The purpose of this guide is to demonstrate the procedures to configure a BGP leaf-spine topology with an EVPN overlay to support L2 multirack and multitenancy capabilities. Symmetric routing is used between networks in the same VRF. This topology meets many of the requirements for a modern data center to support segmentation and mobility of virtual machines (VMs).
+
+4
+
+Introduction
+
+2
+POC Requirements
+This chapter presents the following topics:
+Topics:
+• Hardware requirements • Topology requirements • Prerequisites • POC reference deployment diagram • POC deployment features
+Hardware requirements
+This POC uses the following Dell data center switches.
+Dell PowerSwitch S5232F-ON
+The PowerSwitch S5232F-ON switch is a 1-Rack Unit (1U), multilayer switch with 32 QSFP28 ports. The high-performance S5232F-ON switch is an optimal leaf or spine switch for environments requiring connectivity for 10/25/40/50/100 GbE ports. In this guide, the PowerSwitch S5232-ON is used as a spine switch.
+
+Figure 1. PowerSwitch S5232F-ON switch
+Dell PowerSwitch S5248F-ON
+The PowerSwitch S5248F-ON switch is a 1-Rack Unit (1U), multilayer switch with 48 SFP28 25 GbE ports, two QSFP28-DD ports (two 100 GbE interfaces per port), and four QSFP28 100 GbE ports. The high-performance S5248F-ON switch is an optimal leaf switch for environments that require connectivity for 25 GbE and 10 GbE compute and storage. In this guide, the PowerSwitch S5248F-ON is used as a leaf switch.
+
+Figure 2. PowerSwitch S5248F-ON switch
+Topology requirements
+The general requirements to set up the PoC topology include the following PowerSwitch switches with Open Network Install Environment (ONIE) installed, racked, and powered on: ● Two S5232F-ON as spines ● Four S5248F-ON as leafs
+
+POC Requirements
+
+5
+
+Prerequisites
+● One S3248T-ON as a 1 GB management switch (or other suitable 1 GB switch) ● An optional DHCP/DNS server for automatic installation or manual installation with a static IP address ● A valid Dell Digital Locker (DDL) account with entitlement to Enterprise SONiC Distribution by Dell Technologies (see Dell
+Support) ● An HTTP, TFTP, or FTP server connected to the management network ● Two servers to be used as fabric host devices with two 10 GbE or 25 GbE network interfaces ● Supported cables and optics (see Support Matrix for Enterprise SONiC Distribution by Dell Technologies 3.2.) ● Console connection to a terminal server or laptop: Required serial port settings are 115200, 8 data bits, and no parity
+The following figure shows the ideal physical topology for the management network:
+
+Figure 3. Management network topology
+NOTE: This topology reflects the interface and node naming convention used in the configuration.
+POC reference deployment diagram
+This POC uses a typical leaf and spine topology. The leaf switches are PowerSwitch S5248F-ON switches, while the spine switches are PowerSwitch S5232F-ON switches. MultiChassis Link Aggregation (MC-LAG) is configured on the leaf switches to provide link and device redundancy at the leaf layer. The following figure shows the physical connections that are used in the configurations for this POC.
+NOTE: The external router is shown only for reference and is not used in this deployment.
+NOTE:
+
+6
+
+POC Requirements
+
+Host 2 connected to border leaf switches is ONLY for a POC setup. In a production environment, hosts or workloads do not connect to border leaf switches.
+
+Figure 4. POC physical reference deployment setup with MC-LAG The following figure shows the physical BGP EVPN VXLAN with EVPN multihoming topology PoC:
+
+Figure 5. PoC physical reference deployment setup with EVPN multihoming
+
+POC Requirements
+
+7
+
+NOTE: This topology reflects the interface and node naming convention used in the configuration.
+The following figure shows the logical layout of the underlay and overlay networks. Two Virtual Network Instances (VNIs) are deployed between the two leaf pairs depicting the overlay network. The L2 VNI supports stretching the L2 network (Vlan 140) between the leaf pairs. The L3 VNI supports symmetric routing between networks in the same VRF.
+
+Figure 6. POC logical reference deployment setup
+The following figure shows the overlay networks. Two VNIs are deployed between the two leaf pairs depicting the overlay network. The L2 VNI supports stretching the L2 network (Vlan 140) between the leaf pairs. The L3 VNI supports symmetric routing between networks in the same VRF.
+In this topology, EVPN multihoming is deployed at the leaf access layer that is connected to the nodes. Notice the different connection methodologies from the nodes to the leaf switches as compared to an MC-LAG deployment (as shown in the preceding figure).
+
+8
+
+POC Requirements
+
+Figure 7. PoC logical reference deployment setup
+In the preceding figures:
+● The leaf and border leaf devices are configured to act as Virtual Tunnel End Points (VTEPs). One Layer 3 VNI is created per Virtual Routing and Forwarding (VRF). IPv4 prefixes learned on the VRF are redistributed into the overlay. The leaf devices are Layer 2 with the hosts.
+● Border leaf 25 (BLeaf25) and border leaf 26 (BLeaf26) are peered to the gateway router that is then used to advertise the default route.
+● Each host has two paths that connect to two leaf switches through a port channel. ● Each leaf has two paths that connect to the spine. ● Each leaf has a backup path that connects to the peer leaf.
+POC deployment features
+The following features are configured for this POC:
+● BGP EVPN VXLAN ● MC-LAG ● EVPN Multihoming ● The interfaces that are used in this POC are 100 GbE except the interfaces to the servers, which are 10/25 GbE. ● LLDP is enabled by default. ● Layer 3:
+○ All Layer 3 interfaces and VLANs with IP addresses are configured with an MTU of 9100 bytes. ○ The fabric is configured with BGP unnumbered. ○ eBGP is configured in the fabric. ○ ECMP is configured between the leaf and spine switches. ○ ASN allocations are unique on the leaf and spine switches:
+￭ Leaf 1 and Leaf 2—ASN# 65001 ￭ BLeaf 25 and BLeaf 26—ASN# 65025 ￭ Spine 1 and Spine 4—ASN# 65000 ● VRF:
+
+POC Requirements
+
+9
+
+○ VRF in leaf, single tenant setup: ￭ Vrf-tenant1 (Tenant1) for overlay (EVPN) routes ￭ Default VRF for underlay routes and connectivity
+● Monitoring: ○ Syslog—Interface logs, BGP session logs, and chassis-related (PSU, fan, temperature) syslog alerts ○ SNMP—Enabled SNMPv2 queries and destination for SNMP traps
+● IP address prefixes—The following table shows the node addressing information:
+
+Table 1. IP Prefixes – Switches and VXLAN VTEP tunnels
+
+Node
+
+BGP ASN
+
+Router-ID Loopback0
+
+VTEP IP Loopback1
+
+Stretched L2
+
+L3 VLAN
+
+Anycast-MAC-
+
+Anycast-address Anycast-address address
+
+Leaf1
+
+65001
+
+10.0.2.1
+
+10.10.10.1
+
+192.168.140.254/24 192.168.50.254/24 00:00:00:00:00:01:02
+
+Leaf2
+
+65001
+
+10.0.2.2
+
+10.10.10.1
+
+192.168.140.254/24 192.168.50.254/24 00:00:00:00:00:01:02
+
+BLeaf25 65025
+
+10.0.2.25
+
+10.10.10.25
+
+192.168.140.254/24 192.168.80.254/24 00:00:00:00:00:01:02
+
+BLeaf26 65025
+
+10.0.2.26
+
+10.10.10.25
+
+192.168.140.254/24 192.168.80.254/24 00:00:00:00:00:01:02
+
+Spine1
+
+65000
+
+10.0.1.1
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+Spine4 65000
+
+10.0.1.4
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+10
+
+POC Requirements
+
+3
+POC Deployment
+This chapter presents the following topics:
+Topics:
+• POC deployment steps
+POC deployment steps
+The following steps provide the framework for the POC deployment: 1. Download the Enterprise SONiC Distribution code:
+a. Go to Dell Software Support and log in with your Dell registered credentials (DDL). b. Select the appropriate entry:
+
+Figure 8. Enterprise SONiC entitlement c. Select the appropriate Enterprise SONiC entitlement for your switches and download the installer:
+Figure 9. Enterprise SONiC images To run this POC, select Enterprise_SONiC_OS_3.2.0_Enterprise_Standard version or later.
+NOTE: The Enterprise_Premium version is also supported for this POC. d. Extract the .zip file and copy the .bin file to your HTTP, TFTP, or FTP server. 2. Uninstall any existing images. When you reboot the switches, a startup menu is displayed. Use the arrow keys on the keyboard to select the ONIE: Uninstall OS option:
+
+POC Deployment
+
+11
+
+Figure 10. ONIE startup switch menu: Uninstall OS
+3. Install the newly downloaded Enterprise SONiC image: a. Use the arrow keys on the keyboard to select the ONIE: Install OS option:
+Figure 11. ONIE startup switch menu: Install OS
+The switch reboots. b. Run the onie-discovery-stop command to stop the ONIE discovery process:
+ONIE:/ # onie-discovery-stop c. If a DHCP server is not available, manually configure an IP address (for example, 192.168.0.2). To configure an IP address
+on the switch management interface, run the following commands at the ONIE# prompt:
+ONIE:/ # ifconfig eth0 192.168.0.2 netmask 255.255.255.0 ONIE:/ # ip route add default via 192.168.0.1 d. Ensure that the switches can contact the HTTP server hosting the image before attempting the installation. Pinging the HTTP server verifies this. ONIE:/ # ping 192.168.2.210 e. Run the following command to install the Enterprise SONiC 3.2 code on the switches: ONIE:/ # onie-nos-install https://192.168.2.210/ Enterprise_SONiC_OS_3.2.0_Enterprise_Standard.bin When the image has been installed, the switches reboot with the correct image. 4. Log in to the switches: a. Use username admin and password YourPaSsWoRd:
+
+Figure 12. Logging in to the switch b. Change the default password, as shown in the following figure:
+
+12
+
+POC Deployment
+
+Figure 13. Changing the password from the default
+5. Disable the Zero-Touch Provisioning (ZTP) process: a. Run the following command at the switch prompt:
+admin@sonic:~$ sudo config ztp disable -y
+The switches run ZTP when they first start up. This process must be disabled when the ZTP server is not being used to configure the switches. Allow a few minutes for the switch restart and allow manual configuration. b. Verify that the switches are ready by running the following command at the switch prompt:
+admin@sonic:~$ show system status System is ready
+6. Perform the actions in this step only if Enterprise SONiC has not been recently loaded from ONIE: a. Ensure that the switches have set the default port profile. ● The correct HwSku for a PowerSwitch S5248F-ON is: DellEMC-S5248f-P-25G-DPB (Present). ● The correct HwSku for a PowerSwitch S5232F-ON is: DellEMC-S5232f-C32 (Present). b. To view the effective port profile, run the HwSku command:
+admin@sonic:~$ sudo config-hwsku list
+c. To change the port profile, run the appropriate command: ● For the PowerSwitch S5248F-ON, run:
+admin@sonic:~$ sudo config-hwsku set DellEMC-S5248f-P-25G-DPB ● For the PowerSwitch S5232F-ON, run:
+admin@sonic:~$ sudo config-hwsku set DellEMC-S5232f-C32
+The switch configuration is cleared, and a reboot occurs. 7. Verify Layer 2 or Layer 3 mode on the ASIC.
+NOTE: After you install Enterprise SONiC from ONIE, the default switching profile for a switch running Enterprise SONiC is Layer 3.
+a. If Enterprise SONiC was not installed from ONIE, verify the switching profile configuration:
+admin@sonic:~$ sonic-cli sonic# show running-configuration | grep factory factory default profile l3 confirm
+
+POC Deployment
+
+13
+
+b. If the switching profile is set to Layer 2, change the switching profile: admin@sonic:~$ sonic-cli sonic# configure terminal sonic(config)# factory default profile l3 confirm
+
+The switch reboots after the appropriate command is run. 8. If necessary, configure breakout ports:
+NOTE: This guide uses the default port breakouts. If any of the high-speed ports (Eth1/49 – Eth1/56 on a PowerSwitch S5248F-ON or Eth1/1 – Eth1/32 on a PowerSwitch S5232F-ON) must be broken out (4 x 25 GbE, 4x 10 GbE), do so before configuring the switch.
+
+a. Run the following commands:
+
+admin@sonic:~$ sonic-cli sonic# configure terminal sonic(config)# interface breakout port 1/53 mode 4x25G
+
+For the Dynamic Port Breakout in-progress, use show interface breakout port 1/53 to check status message displays.
+b. Verify the success of the breakout by running:
+
+sonic# show interface breakout port 1/53
+
+-----------------------------------------------
+
+Port Breakout Mode Status
+
+Interfaces
+
+-----------------------------------------------
+
+1/53 4x25G
+
+Completed
+
+Eth1/53/1
+
+Eth1/53/2
+
+Eth1/53/3
+
+Eth1/53/4
+
+9. If using 10 GbE server interfaces on a S5200 series switch, change the port group to support 10 GbE interfaces. These are applied to groups of four—for example, Eth1/1-1/4. NOTE: Only the S5212F-ON, S5224F-ON, S5248F-ON, and S5296F-ON switches have port groups.
+For example, change interfaces Eth1/1 to Eth 1/4 from 25 GbE to 10 GbE:
+admin@sonic:~$ sonic-cli sonic# configure terminal sonic(config)# port-group 1 speed 10000 sonic(config)# end sonic# write memory
+
+14
+
+POC Deployment
+
+4
+BGP EVPN VXLAN with MC-LAG Configuration
+This chapter presents the following topics:
+Topics:
+• Spine configuration steps • BGP and BFD unnumbered configuration • East-West connectivity – Leaf1 and Leaf2 configuration • Virtual Routing Forwarding (VRF) configuration • MultiChassis Link Aggregation (MC-LAG) configuration • EVPN VXLAN overlay configuration • North-South connectivity - Border leaf configuration • Monitoring the POC environment • Verifying the POC
+Spine configuration steps
+The following diagram highlights the devices that are configured in this chapter. Spine1 and Spine4 are configured demonstrating the use of four spines.
+
+Figure 14. BGP EVPN VXLAN reference diagram
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+15
+
+NOTE: Only Spine1 and Spine 4 are configured in this guide. More spines can be added if required to increase fabric bandwidth.
+1. Enter Management Framework CLI (MF-CLI) and configuration mode. 2. Change interface naming mode to Standard and add hostname. 3. Exit back to the Linux shell to activate the changes.
+
+Spine1
+
+Spine4
+
+sonic-cli configure terminal interface-naming standard
+
+sonic-cli configure terminal interface-naming standard
+
+hostname Spine1 end exit
+
+hostname Spine4 end exit
+
+4. Re-enter the MF-CLI and configuration mode. 5. Assign a loopback interface with a unique router ID for each spine. 6. Enable IPv6 on the spine downlinks to support unnumbered BGP point-to-point links and enable the interfaces.
+
+Spine1
+
+Spine4
+
+sonic-cli configure terminal interface loopback 0
+description router-id ip address 10.0.1.1/32 exit interface Eth 1/1 description Leaf1 ipv6 enable no shutdown interface Eth 1/2 description Leaf2 ipv6 enable no shutdown interface Eth 1/25 description BLeaf25 ipv6 enable no shutdown interface Eth 1/26 description BLeaf26 ipv6 enable no shutdown exit
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 10.0.1.4/32 exit interface Eth 1/1 description Leaf1 ipv6 enable no shutdown interface Eth 1/2 description Leaf2 ipv6 enable no shutdown interface Eth 1/25 description BLeaf25 ipv6 enable no shutdown interface Eth 1/26 description BLeaf26 ipv6 enable no shutdown exit
+
+BGP and BFD unnumbered configuration
+1. Configure the BGP router with ECMP enabled. 2. Add the IPv4 unicast address-family to advertise the router-ID and paths for two leafs. 3. Configure the BGP leaf peer-group. Set timers and enable unnumbered BGP and BFD. 4. Activate both IPv4 unicast and EVPN address families for the peer group. 5. Assign the leaf neighbor interfaces to the peer-group. 6. Save the configuration.
+
+16
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+Spine1
+router bgp 65000 router-id 10.0.1.1 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit peer-group LEAF advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast
+
+Spine4
+router bgp 65000 router-id 10.0.1.4 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit peer-group LEAF advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast
+
+activate
+
+exit address-
+
+family l2vpn evpn
+
+activate
+
+exit exit
+
+neighbor interface Eth 1/1
+
+peer-group LEAF exit
+
+neighbor interface Eth 1/2
+
+peer-group LEAF exit
+
+neighbor interface Eth 1/25
+
+peer-group LEAF exit
+
+neighbor interface Eth 1/26
+
+peer-group LEAF exit exit
+
+end write memory
+
+activate
+
+exit
+
+address-family l2vpn evpn
+
+activate
+
+exit exit
+
+neighbor interface Eth 1/1 peer-group LEAF exit neighbor interface Eth 1/2 peer-group LEAF exit neighbor interface Eth 1/25 peer-group LEAF exit neighbor interface Eth 1/26 peer-group LEAF exit exit end write memory
+
+East-West connectivity – Leaf1 and Leaf2 configuration
+The following diagram highlights the leaf switches configured in this chapter. Leaf1 and Leaf2 are configured as an MC-LAG pair.
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+17
+
+Figure 15. Leaf1 and Leaf2 configuration
+
+1. Enter the MF-CLI and then configuration mode. 2. Change the interface naming mode to Standard and add a hostname. 3. Exit back to Linux shell to activate the changes.
+
+Leaf1
+
+Leaf2
+
+sonic-cli configure terminal interface-naming standard hostname Leaf1 end exit
+
+sonic-cli configure terminal interface-naming standard hostname Leaf2 end exit
+
+4. Re-enter the MF-CLI and configuration mode. 5. Assign a loopback interface with a unique router ID on each leaf. 6. Then enable IPv6 on spine uplinks to support unnumbered BGP point-to-point links and enable the interfaces.
+
+Leaf1
+
+Leaf2
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 10.0.2.1/32 exit interface Eth 1/53 description Spine1 ipv6 enable no shutdown interface Eth 1/56
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 10.0.2.2/32
+exit interface Eth 1/53
+description Spine1 ipv6 enable no shutdown
+
+18
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+Leaf1 description Spine4 ipv6 enable no shutdown exit
+
+Leaf2 interface Eth 1/56 description Spine4 ipv6 enable no shutdown exit
+
+Virtual Routing Forwarding (VRF) configuration
+1. Assign a VRF for each tenant. This POC has only one tenant, but will support multiple tenants with additional VRFs. 2. Configure VLANs 50 and 140 for the hosts, bind to the tenant's VRF, and assign the same anycast-address to each host
+VLAN. 3. Assign a dedicated VLAN (Vlan60) for a L3 VNI and bind to the tenant's VRF.
+NOTE: The VLAN assigned to the L3 VNI does not need an IP address.
+
+Leaf1
+
+Leaf2
+
+ip vrf Vrf-tenant1 interface Vlan 50 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.50.254/24 neigh-suppress exit interface Vlan 140 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.140.254/24 neigh-suppress exit interface Vlan 60 ip vrf forwarding Vrf-tenant1 exit
+
+ip vrf Vrf-tenant1 interface Vlan 50 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.50.254/24 neigh-suppress exit interface Vlan 140 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.140.254/24 neigh-suppress exit interface Vlan 60 ip vrf forwarding Vrf-tenant1 exit
+
+4. Configure the MC-LAG peer-link and port channel members. 5. Configure all VLANs on the MC-LAG's peer-link port channel.
+
+NOTE: The MC-LAG peer-link must include the VLAN of the L3 VNIs.
+
+Leaf1
+
+Leaf2
+
+interface PortChannel 100 description MCLAG-Peer-Link switchport trunk allowed vlan add 50,60,140 exit interface Eth 1/49 description MCLAG-Peer-Link channel-group 100 no shutdown exit interface Eth 1/51 description MCLAG-Peer-Link channel-group 100 no shutdown exit
+
+interface PortChannel 100 description MCLAG-Peer-Link switchport trunk allowed vlan add 50,60,140 exit interface Eth 1/49 description MCLAG-Peer-Link channel-group 100 no shutdown exit interface Eth 1/51 description MCLAG-Peer-Link channel-group 100
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+19
+
+Leaf1
+
+Leaf2 no shutdown exit
+
+CAUTION: When copying and pasting the content from the preceding table, ensure that the underlined monospace text remains on one line. Failure to keep the underlined content on one line results in a line error on the switch.
+
+MultiChassis Link Aggregation (MC-LAG) configuration
+Configure MC-LAG based on the following diagram:
+
+Figure 16. MC-LAG configuration
+1. Configure the MC-LAG domain. 2. The loopback IP address that is used for the router-id is also used as the MC-LAG source and peer IP address. 3. Assign the host's por-channel interfaces and assign to the MC-LAG domain.
+NOTE: By default, port channels are LACP. Use interface PortChannel <num> mode on for static LAGs. If changing LAG modes, you must completely remove and reassign the port channel.
+NOTE: The spine switches are used for the MC-LAG peer keep-alive link communication
+
+20
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+Leaf1
+mclag domain 1 source-ip 10.0.2.1 peer-ip 10.0.2.2 peer-link PortChannel 100 delay-restore 90 exit interface PortChannel 202 description Host1_PortChannel switchport trunk allowed vlan add 50,140 mclag 1 exit interface Eth 1/3 description Host1_PortChannel channel-group 202 no shutdown exit
+
+Leaf2
+mclag domain 1 source-ip 10.0.2.2 peer-ip 10.0.2.1 peer-link PortChannel 100 delay-restore 90 exit interface PortChannel 202 description Host1_PortChannel switchport trunk allowed vlan add 50,140 mclag 1 exit interface Eth 1/3 description Host1_PortChannel channel-group 202 no shutdown exit
+
+EVPN VXLAN overlay configuration
+1. Enable static anycast-address and assign a unique MAC to be used across all leaf switches. 2. Create a loopback interface for the VTEP IP address. This address must be the same for each MC-LAG peer. 3. Create a VXLAN interface and assign the same VTEP source IP address to each peer. 4. Assign a unique primary-ip to optimize routing for orphan ports and active-standby hosts. The router-id can be used for this
+purpose. 5. Map the L2 VNI to the host VLANs that are stretched across the fabric. 6. Create an L3 VNI by mapping the dedicated VLAN (Vlan60) to the non-default VRF.
+NOTE: The Network Virtualization Overlay (NVO) is automatically assigned to the VXLAN interface.
+
+Leaf1
+
+Leaf2
+
+ip anycast-address enable ip anycast-mac-address 00:00:00:00:01:02 interface Loopback 1 description LogicalVTEP ip address 10.10.10.1/32 exit interface vxlan vtep1 source-ip 10.10.10.1 primary-ip 10.0.2.1 map vni 1400 vlan 140 map vni 600 vlan 60 map vni 600 vrf Vrf-tenant1 exit
+
+ip anycast-address enable ip anycast-mac-address 00:00:00:00:01:02 interface Loopback 1 description LogicalVTEP ip address 10.10.10.1/32 exit interface vxlan vtep1 source-ip 10.10.10.1 primary-ip 10.0.2.2 map vni 1400 vlan 140 map vni 600 vlan 60 map vni 600 vrf Vrf-tenant1 exit
+
+7. Configure the BGP router with ECMP enabled. 8. Configure the underlay's address-family and redistribute the connected networks. 9. Add VNI advertisements to the EVPN address family and assign the MC-LAG peer's primary-ip.
+
+Leaf1
+
+Leaf2
+
+router bgp 65001 router-
+
+router bgp 65001 routerid 10.0.2.2
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+21
+
+Leaf1 id 10.0.2.1 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit address-family l2vpn evpn advertiseall-vni advertise-pip peer-ip 10.0.2.2 exit
+
+Leaf2 bestpath as-path multipath-relax address-family ipv4 unicast
+redistribute connected maximum-paths 2 exit
+address-family l2vpn evpn advertiseall-vni
+advertise-pip peer-ip 10.0.2.1 exit
+
+10. Configure the BGP spine peer-group. 11. Set timers and enable unnumbered BGP and BFD on the peer-group. 12. Activate both IPv4 unicast and EVPN address families for the spine peer group. 13. Set allowas-in to support the MC-LAG peer’s ASN to be received.
+
+Leaf1
+
+Leaf2
+
+peer-group SPINE advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate allowas-in 1 exit address-family l2vpn evpn activate exit exit
+14. Assign the spine neighbor interfaces to the peer-group. 15. Create the BGP router for each tenant’s VRF. 16. Save the configuration.
+Leaf1
+
+peer-group SPINE advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate allowas-in 1 exit address-family l2vpn evpn activate exit exit
+Leaf2
+
+neighbor interface Eth 1/53 peer-group SPINE exit
+neighbor interface Eth 1/56 peer-group SPINE exit
+exit router bgp 65001 vrf Vrf-tenant1
+address-family ipv4 unicast redistribute connected exit
+address-family l2vpn evpn advertise ipv4 unicast exit
+exit end write memory
+
+neighbor interface Eth 1/53 peer-group SPINE exit
+neighbor interface Eth 1/56 peer-group SPINE exit
+exit router bgp 65001 vrf Vrf-tenant1
+address-family ipv4 unicast redistribute connected exit
+address-family l2vpn evpn advertise ipv4 unicast exit
+exit end write memory
+
+22
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+North-South connectivity - Border leaf configuration
+The following diagram highlights the switches that are configured as border leafs. BLeaf25 and BLeaf26 are configured as an MC-LAG pair supporting hosts and provide external connectivity, namely, North-South network traffic connection.
+NOTE: This configuration does not include the details for the External Router.
+
+Figure 17. Configuration of border leafs
+
+1. Enter MF-CLI and then configuration mode.
+2. Change the interface naming mode to Standard, add a hostname, save the configuration, and exit back to the Linux shell to activate the changes.
+
+BLeaf25
+
+BLeaf26
+
+sonic-cli configure terminal interface-naming standard hostname BLeaf25 end write memory
+
+sonic-cli configure terminal interface-naming standard hostname BLeaf26 end write memory
+
+3. Re-enter the MF-CLI and configuration mode. 4. Assign a unique router ID on each leaf. 5. Enable IPv6 on spine uplinks to support unnumbered BGP point-to-point links and enable the interfaces.
+
+BLeaf25
+
+BLeaf26
+
+sonic-cli configure terminal interface loopback 0
+description router-id
+
+sonic-cli configure terminal interface loopback 0
+description router-id
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+23
+
+BLeaf25 ip address 10.0.2.25/32 exit
+interface Eth 1/53 description Spine1 ipv6 enable no shutdown
+interface Eth 1/56 description Spine4 ipv6 enable no shutdown exit
+
+BLeaf26 ip address 10.0.2.26/32 exit
+interface Eth 1/53 description Spine1 ipv6 enable no shutdown
+interface Eth 1/56 description Spine4 ipv6 enable no shutdown exit
+
+6. Assign a VRF for each tenant. This POC has only one tenant, but will support multiple tenants with additional VRFs.
+7. Configure VLANs 80 and 140 for the hosts, bind to the tenant’s VRF, and assign the same anycast-address to each host VLAN.
+8. Assign a dedicated VLAN (Vlan60) for a L3 VNI and bind to the tenant’s VRF.
+
+NOTE: The VLAN assigned to the L3 VNI does not need an IP address.
+
+BLeaf25
+
+BLeaf26
+
+ip vrf Vrf-tenant1 interface Vlan 80
+ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.80.254/24 neigh-suppress exit interface Vlan 140 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.140.254/24 neigh-suppress exit interface Vlan 60 ip vrf forwarding Vrf-tenant1 exit
+
+ip vrf Vrf-tenant1 interface Vlan 80
+ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.80.254/24 neigh-suppress exit interface Vlan 140 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.140.254/24 neigh-suppress exit interface Vlan 60 ip vrf forwarding Vrf-tenant1 exit
+
+9. Configure the MC-LAG peer-link and port channel members. 10. Configure all VLANs on the MC-LAG’s peer-link port channel.
+
+BLeaf25
+
+BLeaf26
+
+interface PortChannel 100 description MCLAG-Peer-Link switchport trunk allowed vlan add 60,80,140 exit
+interface Eth 1/49 description MCLAG-Peer-Link channel-group 100 no shutdown exit
+interface Eth 1/51 description MCLAG-Peer-Link channel-group 100 no shutdown exit
+
+interface PortChannel 100 description MCLAG-Peer-Link switchport trunk allowed vlan add 60,80,140 exit
+interface Eth 1/49 description MCLAG-Peer-Link channel-group 100 no shutdown exit
+interface Eth 1/51 description MCLAG-Peer-Link channel-group 100 no shutdown exit
+
+24
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+CAUTION: When copying and pasting the content from the preceding table, ensure that the underlined monospace text remains on one line. Failure to keep the underlined content on one line results in a line error on the switch.
+11. Configure the MC-LAG domain. 12. The loopback IP address that is used for the router-id is also used as the MC-LAG source and peer IP address. 13. Assign the host’s port-channel interfaces and assign to the MC-LAG domain.
+NOTE: By default, port channels are LACP. Use the interface PortChannel <num> mode on command for static LAGs. If changing LAG modes, you must completely remove and reassign the port channel.
+NOTE: The spine switches are used for the MC-LAG peer's keep-alive link communication.
+
+BLeaf25
+
+BLeaf26
+
+mclag domain 1 source-ip 10.0.2.25 peer-ip 10.0.2.26 peer-link PortChannel 100 delay-restore 90 exit
+interface PortChannel 202 description Host1_PortChannel switchport trunk allowed vlan add 80,140 mclag 1 exit
+interface Eth 1/3 description Host1_PortChannel channel-group 202 no shutdown exit
+
+mclag domain 1 source-ip 10.0.2.26 peer-ip 10.0.2.25 peer-link PortChannel 100 delay-restore 90 exit
+interface PortChannel 202 description Host1_PortChannel switchport trunk allowed vlan add 80,140 mclag 1 exit
+interface Eth 1/3 description Host1_PortChannel channel-group 202 no shutdown exit
+
+14. Enable static anycast-address and assign a unique MAC to be used across all leaf switches. 15. Create a loopback interface for the VTEP IP address. This address must be the same for each MC-LAG peer. 16. Create a VXLAN interface and assign the same VTEP source IP address to each peer. 17. Assign a unique primary-ip to optimize routing for orphan ports and active-standby hosts. The router-id can be used for this
+purpose. 18. Map the L2 VNI to the host VLANs that are stretched across the fabric. 19. Create a L3 VNI by mapping the dedicated VLAN (Vlan60) to the non-default VRF. The Network Virtualization Overlay
+(NVO) is automatically assigned to the VXLAN interface.
+
+NOTE: The Network Virtualization Overlay (NVO) is automatically assigned to the VXLAN interface
+
+BLeaf25
+ip anycast-address enable ip anycast-mac-address 00:00:00:00:01:02 interface Loopback 1
+description LogicalVTEP ip address 10.10.10.25/32 exit interface vxlan vtep25 source-ip 10.10.10.25 primary-ip 10.0.2.25 map vni 1400 vlan 140 map vni 600 vlan 60 map vni 600 vrf Vrf-tenant1 exit
+
+BLeaf26
+ip anycast-address enable ip anycast-mac-address 00:00:00:00:01:02 interface Loopback 1
+description LogicalVTEP ip address 10.10.10.25/32 exit interface vxlan vtep25 source-ip 10.10.10.25 primary-ip 10.0.2.26 map vni 1400 vlan 140 map vni 600 vlan 60 map vni 600 vrf Vrf-tenant1 exit
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+25
+
+20. Configure the BGP router with ECMP enabled. 21. Configure the underlay’s address-family and redistribute the connected networks. 22. Add VNI advertisements to the EVPN address family and assign the MC-LAG peer’s primary-ip.
+
+BLeaf25
+
+BLeaf26
+
+router bgp 65025 router-id 10.0.2.25 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit address-family l2vpn evpn advertise-all-vni advertise-pip peer-ip 10.0.2.26 exit
+
+router bgp 65025 router-id 10.0.2.26 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit address-family l2vpn evpn advertise-all-vni advertise-pip peer-ip 10.0.2.25 exit
+
+23. Configure the BGP spine peer-group. 24. Set timers and enable unnumbered BGP and BFD on the peer-group. 25. Activate both IPv4 unicast and EVPN address families for the spine peer group. 26. Set allowas-in to support MC-LAG peer’s ASN to be received.
+
+BLeaf25
+
+BLeaf26
+
+peer-group SPINE advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate allowas-in 1 exit address-family l2vpn evpn activate exit exit
+27. Assign the spine neighbor interfaces to the peer-group. 28. Create the BGP router for each tenant’s VRF. 29. Save the configuration.
+BLeaf25
+
+peer-group SPINE advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate allowas-in 1 exit address-family l2vpn evpn activate exit exit
+BLeaf26
+
+neighbor interface Eth 1/53 peer-group SPINE exit
+neighbor interface Eth 1/56 peer-group SPINE exit
+exit router bgp 65025 vrf Vrf-tenant1
+address-family ipv4 unicast redistribute connected exit
+address-family l2vpn evpn advertise ipv4 unicast exit
+exit end
+
+neighbor interface Eth 1/53 peer-group SPINE exit
+neighbor interface Eth 1/56 peer-group SPINE exit
+exit router bgp 65025 vrf Vrf-tenant1
+address-family ipv4 unicast redistribute connected exit
+address-family l2vpn evpn advertise ipv4 unicast exit
+exit end
+
+26
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+BLeaf25 write memory
+
+BLeaf26 write memory
+
+Monitoring the POC environment
+Enterprise SONiC includes several monitoring capabilities. For this POC, syslog and SNMP are used to monitor the environment. Apply the following configurations to each switch node. 1. If DHCP is not used, configure the out-of-band (OOB) management IP interface and the gateway IP interface for each
+switch: admin@sonic:~$ sonic-cli sonic# configure terminal sonic(config)# interface management 0 sonic(conf-if-eth0)# ip address A.B.C.D/len gwaddr A.B.C.D
+2. Configure the syslog server: logging server A.B.C.D remote-port 514
+3. Enable the SNMP agent on the switches: sonic(config)# snmp-server agentaddress A.B.C.D sonic(config)# snmp-server community public
+4. Configure one or more SNMP server destinations for SNMPv2 traps (UDP/1024): sonic(config)# snmp-server enable trap sonic(config)# snmp-server host A.B.C.D community public port 1024
+5. Save the configuration and, optionally, restart the SNMP service: end write memory exit $ sudo systemctl restart snmp $ systemctl status snmp
+If you restart the SNMP service, expect 30 seconds for the service to recover.
+Verifying the POC
+
+The following table shows the different test cases and the MF-CLI show commands that are used to verify the POC:
+
+Table 2. Proof of Concept features and show commands verification
+
+Feature
+
+Validation step
+
+EBGP Underlay unnumbered
+
+Verify unnumbered BGP neighbors between spine and leaf:
+
+show bgp ipv4 unicast summary show bgp ipv4 unicast neighbors
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+27
+
+Table 2. Proof of Concept features and show commands verification (continued)
+
+Feature
+
+Validation step
+
+Verify IPv4 loopback advertisement over unnumbered BGP:
+
+show ip route bgp show ip route connected
+
+Verify the usage of peer-group in BGP: show run bgp show bgp peer-group
+
+Verify that the ECMP path is established for the advertised loopback interfaces: show ip route bgp
+
+EBGP Overlay
+
+Verify that the VXLAN tunnel is formed between the VTEPs: NOTE: A vxlan tunnel may not form until an active host is attached.
+
+show vxlan tunnel
+
+Verify L3 VNIs are getting advertised between the VTEPs show bgp l2vpn evpn
+
+Verify the directly connected IPv4 networks on the VRFs are advertised as well as learned on the associated L3 VNI
+show ip route vrf Vrf-tenant1
+
+Verify that the IPv4 routes learned on the VRF are redistributed into the overlay network and learn on the peer VTEPs
+show ip route vrf Vrf-tenant1
+
+Verify the IPv4 data traffic from the connected interface in one VRF in a leaf device to the same VRF across another leaf device:
+ping from Host1 to Host2
+From host1, ping host2 over VLAN 140 and VLAN 50:
+Host1$ ping -I vlan50 192.168.80.102 Host1$ ping -I vlan140 192.168.80.102 Host1$ ping -I vlan140 192.168.140.102 Host1$ ping -I vlan50 192.168.140.102
+
+High Availability
+
+Commands for additional VXLAN information:
+show vxlan interface show evpn show evpn vni 1400 show evpn vni 600
+Verify that the traffic from the host is switched from one leaf to another leaf during a link failure.
+Verify that the traffic in the leaf switches from one spine to another spine if there is a link failure on the link with active traffic.
+
+28
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+Table 2. Proof of Concept features and show commands verification (continued)
+
+Feature
+
+Validation step
+
+Verify that the traffic in the leaf switches to the peer leaf using the connected link when the link to all spines fails.
+
+SNMP
+
+Verify snmpwalk for the interface MIB.
+
+BGP EVPN VXLAN with MC-LAG Configuration
+
+29
+
+5
+BGP EVPN VXLAN with Multihoming Configuration
+This chapter presents the following topics:
+Topics:
+• Spine configuration steps • BGP and BFD unnumbered configuration • East-West connectivity – Leaf switches configuration • VRF configuration • EVPN Multihoming (E-MH) configuration • North-South connectivity - Border leaf configuration • Monitoring the PoC environment • Verifying the PoC
+Spine configuration steps
+The following diagram highlights the devices configured in this section. Spine1 and Spine4 are configured, demonstrating the use of four spines.
+
+Figure 18. Device configuration
+1. Enter MF-CLI and configuration mode. 2. Change interface naming mode to Standard and add a hostname. 3. Exit back to the Linux shell to activate the changes.
+
+30
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+Spine1 sonic-cli configure terminal interface-naming standard hostname Spine1 end
+
+Spine4 sonic-cli configure terminal interface-naming standard hostname Spine4 end
+
+4. Re-enter the MF-CLI and configuration mode. 5. Assign a loopback interface with a unique router ID for each spine. 6. Enable IPv6 on the spine downlinks to support unnumbered BGP point-to-point links and enable the interfaces.
+NOTE: Only Spine1 and Spine 4 are configured in this guide. More spines can be added if needed to increase fabric bandwidth.
+
+Spine1
+
+Spine4
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 10.0.1.1/32 exit interface Eth 1/1 description Leaf1 ipv6 enable no shutdown interface Eth 1/2 description Leaf2 ipv6 enable no shutdown interface Eth 1/25 description BLeaf25 ipv6 enable no shutdown interface Eth 1/26 description BLeaf26 ipv6 enable no shutdown exit
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 10.0.1.4/32 exit interface Eth 1/1
+description Leaf1 ipv6 enable no shutdown interface Eth 1/2 description Leaf2 ipv6 enable no shutdown interface Eth 1/25 description BLeaf25 ipv6 enable no shutdown interface Eth 1/26
+description BLeaf26 ipv6 enable no shutdown exit
+
+BGP and BFD unnumbered configuration
+
+1. Configure the BGP router with ECMP enabled. 2. Add the IPv4 unicast address-family to advertise the router-ID and paths for two leafs. 3. Configure the BGP leaf peer-group. Set timers and enable unnumbered BGP and BFD. 4. Activate both IPv4 unicast and EVPN address families for the peer group. 5. Assign the leaf neighbor interfaces to the peer-group. 6. Save the configuration.
+
+Spine1
+
+Spine4
+
+router bgp 65000 router-id 10.10.10.1 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2
+
+router bgp 65000 router-id 20.20.20.1 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+31
+
+Spine1
+exit peer-group LEAF
+advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate exit address-family l2vpn evpn activate exit
+neighbor interface Eth 1/1 peer-group LEAF exit neighbor interface Eth 1/2 peer-group LEAF exit neighbor interface Eth 1/25 peer-group LEAF exit neighbor interface Eth 1/26 peer-group LEAF end write memory
+
+Spine4
+exit peer-group LEAF advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast
+activate exit address-family l2vpn evpn exit neighbor interface Eth1/1 peer-group LEAF exit neighbor interface Eth1/2 peer-group LEAF exit neighbor interface Eth1/25 peer-group LEAF exit neighbor interface Eth1/26 peer-group LEAF end write memory
+
+East-West connectivity – Leaf switches configuration
+The following diagram highlights the leaf switches that are configured. Leaf1 and Leaf2 are configured as a VTEP with E-MH providing link redundancy to Host1 and Host2.
+
+Figure 19. Leaf1 and Leaf2 configuration 1. Enter MF-CLI and then configuration mode.
+
+32
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+2. Change the interface naming mode to Standard and add a hostname. 3. Exit back to the Linux shell to activate the changes.
+
+Leaf1
+
+Leaf2
+
+sonic-cli configure terminal interface-naming standard hostname Leaf1 end
+
+sonic-cli configure terminal interface-naming standard hostname Leaf2 end
+
+4. Re-enter the MF-CLI and configuration mode 5. Assign a loopback interface with a unique router ID on each leaf. 6. Then enable IPv6 on spine uplinks to support unnumbered BGP point-to-point links and enable the interfaces.
+
+Leaf1
+
+Leaf2
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 10.10.10.1/32 exit interface Eth 1/53 description Spine1 ipv6 enable no shutdown interface Eth 1/56 description Spine4 ipv6 enable no shutdown exit
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 20.20.20.1/32 exit interface Eth 1/53 description Spine1 ipv6 enable no shutdown interface Eth 1/56 description Spine4
+ipv6 enable no shutdown exit
+
+VRF configuration
+
+1. Configure the vrf. 2. Configure a unique anycast mac address for each leaf pair. 3. Enable ip anycast on the leaf pair. 4. Assign a VRF for each tenant. This PoC has only one tenant, but will support multiple tenants with additional VRFs. 5. Configure VLANs 50 and 140 for the hosts, bind to the tenant's VRF and assign the same anycast-address to each host
+VLAN. 6. Assign a dedicated VLAN (Vlan60) for a L3 VNI and bind to the tenant's VRF.
+CAUTION: When copying and pasting the content from the table above, ensure that the underlined monospace
+text remains on one line. Failure to keep the underlined content on one line results in a line error on the switch.
+
+Leaf1
+
+Leaf2
+
+ip vrf Vrf-tenant1 ip anycast-mac-address 00:00:00:0a:0b:0c ip anycast-address enable interface Vlan 50 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.50.254/24 neigh-suppress exit interface Vlan 140 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.140.254/24 neigh-suppress
+
+ip vrf Vrf-tenant1 ip anycast-mac-address 00:00:00:0a:0b:0c ip anycast-address-enable ip vrf Vrf-tenant1 interface Vlan 50 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.50.254/24 neigh-suppress exit interface Vlan 140 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.140.254/24
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+33
+
+Leaf1 exit interface Vlan 60 ip vrf forwarding Vrf-tenant1 exit
+
+Leaf2 neigh-suppress exit interface Vlan 60 ip vrf forwarding Vrf-tenant1 exit
+
+EVPN Multihoming (E-MH) configuration
+
+Figure 20. Leaf1 and Leaf2 configuration
+
+1. Configure EVPN-Multihoming (E-MH) by creating the port-channels and relevant E-MH configurations 2. Configure all VLANs on the E-MH port-channels.
+NOTE: Port-channels 102 and 103 exist on all the switches. The switches act as VTEPs for the VNIs. These two port-channels will need to be configured on all the switches.
+
+Leaf1
+
+Leaf2
+
+sonic-cli configure terminal evpn esi-multihoming startup-delay 300 exit interface PortChannel 102 description Host1-PortChannel system-mac 00:00:00:11:22:33 evpn ethernet-segment auto-systemmac exit switchport trunk allowed vlan add 50,80,60,140 no shutdown exit interface PortChannel 103 description Host2-PortChannel
+
+sonic-cli configure terminal evpn esi-multihoming startup-delay 300 exit interface PortChannel 102 description Host1-PortChannel system-mac 00:00:00:11:22:33 evpn ethernet-segment auto-system-mac exit switchport trunk allowed vlan add 50,80,60,140 no shutdown exit interface PortChannel 103 description Host2-PortChannel system-mac 00:00:00:11:22:34
+
+34
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+Leaf1 system-mac 00:00:00:11:22:34 evpn ethernet-segment auto-systemmac exit switchport trunk allowed vlan add 50,80,60,140 no shutdown interface Eth 1/1 description Po102 member link channel-group 102 no shutdown exit interface Eth 1/2 description Po103 member link channel-group 103 no shutdown end
+
+Leaf2 evpn ethernet-segment auto-system-mac exit switchport trunk allowed vlan add 50,80,60,140 no shutdown interface Eth 1/1 description Po102 member link channel-group 102 no shutdown exit interface Eth 1/2 description Po103 member link channel-group 103 no shutdown end
+
+BLeaf25 sonic-cli configure terminal evpn esi-multihoming startup-delay 300 exit interface PortChannel 102 description Host1-PortChannel system-mac 00:00:00:11:22:33 evpn ethernet-segment auto-system-mac exit switchport trunk allowed vlan add 50,80,60,140 no shutdown exit interface PortChannel 103 description Host2-PortChannel system-mac 00:00:00:11:22:34 evpn ethernet-segment auto-system-mac exit switchport trunk allowed vlan add 50,80,60,140 no shutdown interface Eth 1/1 description Po102 member link channel-group 102 no shutdown exit interface Eth 1/2 description Po103 member link channel-group 103 no shutdown end
+
+BLeaf26 sonic-cli configure terminal evpn esi-multihoming startup-delay 300 exit interface PortChannel 102 description Host1-PortChannel system-mac 00:00:00:11:22:33 evpn ethernet-segment auto-system-mac exit switchport trunk allowed vlan add 50,80,60,140 no shutdown exit interface PortChannel 103 description Host2-PortChannel system-mac 00:00:00:11:22:34 evpn ethernet-segment auto-system-mac exit switchport trunk allowed vlan add 50,80,60,140 no shutdown interface Eth 1/1 description Po102 member link channel-group 102 no shutdown exit interface Eth 1/2 description Po103 member link channel-group 103 no shutdown end
+
+3. Create a loopback interface for the VTEP IP address.
+4. Create a VXLAN interface and assign the same loopback interface as the VTEP source IP address to each peer. Notice, each VTEP is configured with a different IP.
+5. Assign a unique primary-ip to optimize routing for orphan ports and active-standby hosts. The router-id can be used for this purpose.
+6. Map the L2 VNI to the host VLANs that are stretched across the fabric.
+7. Create a L3 VNI by mapping the dedicated VLAN (Vlan60) to the non-default VRF.
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+35
+
+Leaf1
+
+interface vxlan vtep1 source-ip 10.10.10.1 map vni 1400 vlan 140 map vni 600 vlan 60 map vni 600 vrf Vrf-tenant1
+
+exit
+
+Leaft2 interface vxlan vtep1 source-ip 20.20.20.1 map vni 1400 vlan 140 map vni 600 vlan 60 map vni 600 vrf Vrf-tenant1 exit
+
+NOTE: The Network Virtualization Overlay (NVO) is automatically assigned to the VXLAN interface.
+
+8. Configure the BGP router with ECMP enabled. 9. Configure the underlay's address-family and redistribute the connected networks. 10. Add VNI advertisements to the EVPN address family and assign the loopback ip as the primary IP address
+
+Leaf1
+
+Leaft2
+
+router bgp 65001 router-id 10.0.2.1 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit address-family l2vpn evpn advertise-all-vni advertise-pip peer-ip 10.0.2.2 exit
+
+router bgp 65001 router-id 10.0.2.2 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit address-family l2vpn evpn advertise-all-vni advertise-pip peer-ip 10.0.2.1 exit
+
+11. Configure the BGP spine peer-group. 12. Set timers and enable unnumbered BGP and BFD on the peer-group. 13. Activate both IPv4 unicast and EVPN address families for the spine peer group. 14. Set allowas-in.
+
+Leaf1
+
+Leaf2
+
+peer-group SPINE advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate allowas-in 1 exit address-family l2vpn evpn activate exit
+
+peer-group SPINE advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate allowas-in 1 exit address-family l2vpn evpn activate exit
+
+15. Assign the spine neighbor interfaces to the peer-group. 16. Create the BGP router for each tenant’s VRF. 17. Save the configuration.
+Leaft1
+neighbor interface Eth 1/53 peer-group SPINE exit
+
+Leaf2 neighbor interface Eth 1/53 peer-group SPINE exit
+
+36
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+Leaft1
+neighbor interface Eth 1/56 peer-group SPINE exit router bgp 65001 vrf Vrf-tenant1 address-family ipv4 unicast redistribute connected exit address-family l2vpn evpn advertise ipv4 unicast end write memory
+
+Leaf2
+neighbor interface Eth 1/56 peer-group SPINE exit router bgp 65001 vrf Vrf-tenant1 address-family ipv4 unicast redistribute connected exit address-family l2vpn evpn advertise ipv4 unicast end write memory
+
+North-South connectivity - Border leaf configuration
+The following diagram highlights the switches that are configured as border leafs. BLeaf25 and BLeaf26 are configured as E-MH switches connected to Host1 and Host2 over the different port-channels and to an external router/switch providing North-South connectivity.
+NOTE: This configuration does not include the details for the External Router.
+
+Figure 21. Configuration of border leafs
+
+1. Enter MF-CLI and then configuration mode.
+2. Change the interface naming mode to Standard, add a hostname, save the configuration, and exit back to Linux shell to activate the changes.
+
+BLeaf25
+
+BLeaf26
+
+sonic-cli configure terminal interface-naming standard
+
+sonic-cli configure terminal interface-naming standard
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+37
+
+BLeaf25 hostname BLeaf25 end write memory
+
+BLeaf26 hostname BLeaf26 end write memory
+
+3. Re-enter the MF-CLI and configuration mode. 4. Assign a unique router ID on each leaf. 5. Then enable IPv6 on spine uplinks to support unnumbered BGP point-to-point links and enable the interfaces.
+
+BLeaf25
+
+BLeaf26
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 10.0.2.25/32 exit interface Eth 1/53 description Spine1 ipv6 enable no shutdown interface Eth 1/56 description Spine4 ipv6 enable no shutdown exit
+
+sonic-cli configure terminal interface loopback 0 description router-id ip address 10.0.2.26/32 exit interface Eth 1/53 description Spine1 ipv6 enable no shutdown interface Eth 1/56 description Spine4 ipv6 enable no shutdown exit
+
+6. Assign a VRF for each tenant. This PoC only has one tenant but will support multiple tenants with additional VRFs. 7. Configure VLANs 80 and 140 for the hosts, bind to the tenant’s VRF and assign the same anycast-address to each host
+VLAN. 8. Assign a dedicated VLAN (Vlan60) for a L3 VNI and bind to the tenant’s VRF.
+NOTE: The VLAN assigned to the L3 VNI does not need an IP address.
+
+BLeaf25
+
+BLeaf26
+
+ip vrf Vrf-tenant1 ip anycast-mac-address 00:00:00:00:01:02 ip anycast-address enable ip vrf Vrf-tenant1 interface Vlan 80 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.80.254/24 neigh-suppress exit interface Vlan 140 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.140.254/24 neigh-suppress exit interface Vlan 60 ip vrf forwarding Vrf-tenant1 exit
+
+ip vrf Vrf-tenant1 ip anycast-mac-address 00:00:00:00:01:02 ip anycast-address enable interface Vlan 80 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.80.254/24 neigh-suppress exit interface Vlan 140 ip vrf forwarding Vrf-tenant1 ip anycast-address 192.168.140.254/24 neigh-suppress exit interface Vlan 60 ip vrf forwarding Vrf-tenant1 exit
+
+CAUTION: When copying and pasting the content from the table above, ensure that the underlined monospace text remains on one line. Failure to keep the underlined content on one line results in a line error on the switch.
+
+38
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+9. Enable static anycast-address and assign a unique MAC to be used across all leaf switches. 10. Create a loopback interface for the VTEP IP address. 11. Create a VXLAN interface and assign the loopback interface IP as the VTEP source IP address to each peer. 12. Assign a unique primary-ip to optimize routing for orphan ports and active-standby hosts. The router-id can be used for this
+purpose. 13. Map the L2 VNI to the host VLANs that are stretched across the fabric. 14. Create a L3 VNI by mapping the dedicated VLAN (Vlan60) to the non-default VRF. The Network Virtualization Overlay
+(NVO) is automatically assigned to the VXLAN interface.
+NOTE: The Network Virtualization Overlay (NVO) is automatically assigned to the VXLAN interface
+
+BLeaf25
+
+BLeaf26
+
+interface Loopback 1 description LogicalVTEP ip address 30.30.30.1/32 exit interface vxlan vtep25 source-ip 30.30.30.1 primary-ip 30.30.30.1 map vni 1400 vlan 140 map vni 600 vlan 60 map vni 600 vrf Vrf-tenant1 exit
+
+interface Loopback 1 description LogicalVTEP ip address 40.40.40.1/32 exit interface vxlan vtep25 source-ip 40.40.40.1 primary-ip 40.40.40.1 map vni 1400 vlan 140 map vni 600 vlan 60 map vni 600 vrf Vrf-tenant1 exit
+
+15. Configure the BGP router with ECMP enabled. 16. Configure the underlay’s address-family and redistribute the connected networks. 17. Add VNI advertisements to the EVPN address family and use the loopback as the source IP address.
+
+BLeaf25
+
+BLeaf26
+
+router bgp 65025 router-id 10.0.2.25 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit address-family l2vpn evpn advertise-all-vni advertise-pip peer-ip 10.0.2.26 exit
+
+router bgp 65025 router-id 10.0.2.26 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 2 exit address-family l2vpn evpn advertise-all-vni advertise-pip peer-ip 10.0.2.25 exit
+
+18. Configure the BGP spine peer-group. 19. Set timers and enable unnumbered BGP and BFD on the peer-group. 20. Activate both IPv4 unicast and EVPN address families for the spine peer group. 21. Set allowas-in.
+
+BLeaf25
+
+BLeaf26
+
+peer-group SPINE advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate allowas-in 1
+
+peer-group SPINE advertisement-interval 5 timers 3 9 remote-as external capability extended-nexthop bfd address-family ipv4 unicast activate allowas-in 1
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+39
+
+BLeaf25 exit address-family l2vpn evpn activate exit
+
+BLeaf26 exit address-family l2vpn evpn activate exit
+
+22. Assign the spine neighbor interfaces to the peer-group. 23. Create the BGP router for each tenant’s VRF. 24. Save the configuration.
+Monitoring the PoC environment
+Enterprise SONiC includes several monitoring capabilities. For this PoC, syslog and SNMP are used to monitor the environment. Apply the following configurations to each switch node: 1. If DHCP is not used, configure the out-of-band (OOB) management IP interface and the gateway IP interface for each
+switch: admin@sonic:~$ sonic-cli sonic# configure terminal sonic(config)# interface management 0 sonic(conf-if-eth0)# ip address A.B.C.D/len gwaddr A.B.C.D
+2. Configure the syslog server: logging server A.B.C.D remote-port 514
+3. Enable the SNMP agent on the switches: sonic(config)# snmp-server agentaddress A.B.C.D sonic(config)# snmp-server community public
+4. Configure one or more SNMP server destinations for SNMPv2 traps (UDP/1024): sonic(config)# snmp-server enable trap sonic(config)# snmp-server host A.B.C.D community public port 1024
+5. Save the configuration and, optionally, restart the SNMP service: end write memory exit $ sudo systemctl restart snmp $ systemctl status snmp
+If you restart the SNMP service, allow 30 seconds for the service to recover.
+Verifying the PoC
+Verify that the PoC procedure is successful. The following table shows the different test cases and MF-CLI show commands that the Dell team used to verify the PoC:
+
+40
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+Table 3. Proof of Concept features and show commands verification
+
+Feature
+
+Validation steps
+
+EBGP Underlay unnumbered
+
+Verify unnumbered BGP neighbors between spine and leaf:
+
+show bgp ipv4 unicast summary show bgp ipv4 unicast neighbors
+
+Verify IPv4 loopback advertisement over unnumbered BGP: show ip route bgp show ip route connected
+
+Verify the usage of peer-group in BGP: show run bgp show bgp peer-group
+
+Verify that the ECMP path is established for the advertised loopback interfaces:
+show ip route bgp
+
+EBGP Overlay
+
+Verify that the VXLAN tunnel is formed between the VTEPs. NOTE: A VXLAN tunnel may not form until an active host is attached.
+show vxlan tunnel
+
+Verify that L3 VNIs are getting advertised between the VTEPs:
+show bgp l2vpn evpn
+
+Verify the directly connected IPv4 networks on the VRFs are advertised as well as learned on the associated L3 VNI:
+show ip route vrf Vrf-tenant1
+
+Verify that the IPv4 routes learned on the VRF are redistributed into the overlay network and learn on the peer VTEPs:
+show ip route vrf Vrf-tenant1
+
+Verify the IPv4 data traffic from the connected interface in one VRF in a leaf device to the same VRF across another leaf device:
+ping from Host1 to Host2
+From host1, ping host2 over VLAN 140 and VLAN 50:
+Host1$ ping -I vlan50 192.168.80.102 Host1$ ping -I vlan140 192.168.80.102 Host1$ ping -I vlan140 192.168.140.102 Host1$ ping -I vlan50 192.168.140.102
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+41
+
+Table 3. Proof of Concept features and show commands verification (continued)
+
+Feature
+
+Validation steps
+
+Commands for additional VXLAN information:
+
+show vxlan interface show evpn show evpn vni 1400 show evpn vni 600
+
+High Availability
+SNMP EVPN multihoming status
+
+Verify that the traffic from the host is switched from one leaf to another leaf during a link failure.
+Verify that the traffic in the leaf switches from one spine to another spine if there is a link failure on the link with active traffic.
+Verify that the traffic in the leaf switches to the peer leaf using the connected link when the link to all spines fails.
+Verify snmpwalk for the interface MIB.
+VerifyEVPN multihoming status
+show evpn es detail show bgp l2vpn evpn
+
+Verify any EVPN inconsistencies show bgp l2vpn evpn es-evi detail show bgp l2vpn es detail
+
+42
+
+BGP EVPN VXLAN with Multihoming Configuration
+
+A
+Host Configuration
+This deployment guide assumes ESXI servers with VMs attached to the leaf switches.This appendix provides alternative configurations for bare metal servers using the Ubuntu operating system.
+Topics:
+• Ubuntu host configuration
+Ubuntu host configuration
+The following code snippet is an example of Ubuntu hosts with LACP and tagged VLAN interfaces. Edit the /etc/netplan/50-cloud-init.yaml file.
+$ sudo vi /etc/netplan/50-cloud-init.yaml network:
+version: 2 renderer: network ethernets:
+eports: match: name: ens*
+bonds: bond0: interfaces: [eports] parameters: mode: 802.3ad lacp-rate: slow mii-monitor-interval: 100
+vlans: bond0.140: id: 140 link: bond0 dhcp4: no addresses: [192.168.140.102/24] gateway4: 192.168.140.254 bond0.50: id: 50 link: bond0 dhcp4: no addresses: [192.168.50.102/24] gateway4: 192.168.50.254
+:wq! Follow with:
+sudo netplan apply-d sudo reboot
+
+Host Configuration
+
+43
+
+B
+POC End Host Configurations
+This appendix lists the configurations of Dell switches as end hosts to demonstrate end-host connectivity into the POC environment and to show the connection between the end hosts. For successful validation, the end hosts must be active. This appendix presents the following topics:
+Topics:
+• Dell switch (Host1) • Dell switch (Host2)
+Dell switch (Host1)
+If servers are not available, hosts may be emulated with OS10 switches. The following configurations are available for reference: ● Host1 ● Host2
+config t hostname Host1 spanning-tree disable interface vlan 50
+ip address 192.168.50.101/24 exit interface vlan 140 ip address 192.168.140.101/24 exit interface portchannel 1 switchport mode trunk switchport trunk allowed vlan 50,140 no shut exit interface ethernet 1/1/1 no switchport channelgroup 1 mode auto no shut exit interface ethernet 1/1/2 no switchport channelgroup 1 mode auto no shut exit ip route 0.0.0.0/0 192.168.50.254 end write memory
+
+44
+
+POC End Host Configurations
+
+Dell switch (Host2)
+config t hostname Host2 spanning-tree disable interface vlan 80
+ip address 192.168.50.102/24 exit interface vlan 140 ip address 192.168.140.102/24 exit interface portchannel 1 switchport mode trunk switchport trunk allowed vlan 80,140 no shut exit interface ethernet 1/1/1 no switchport channelgroup 1 mode auto no shut exit interface ethernet 1/1/2 no switchport channelgroup 1 mode auto no shut exit ip route 0.0.0.0/0 192.168.80.254 end write memory
+
+POC End Host Configurations
+
+45
+
+C
+Additional Information
+Topics:
+• Dell Technologies documentation • Support and feedback
+Dell Technologies documentation
+The following Dell Technologies documentation provides additional relevant information. Access to these documents depends on your login credentials. If you do not have access to a document, contact your Dell Technologies representative. ● Networking Solutions Info Hub ● Enterprise SONiC Documents (Employee or Partner account login credentials are required) ● Dell Demo Center Networking Hands on Labs
+Support and feedback
+For technical support, go to Dell Support or call (USA) 1-800-945-3355. To provide feedback on the quality and usefulness of this publication, write to Dell_Networking_Solutions@Dell.com.
+
+46
+
+Additional Information
+
+

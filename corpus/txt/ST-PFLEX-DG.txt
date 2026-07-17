@@ -1,0 +1,2716 @@
+Dell Technologies Enterprise SONiC for PowerFlex
+Deployment Guide
+Abstract This guide describes configuring Dell Technologies Enterprise SONiC PowerSwitch systems for single-rack or multirack PowerFlex appliance deployments. BGP EVPN is used in the multirack leaf-spine deployment.
+Dell Technologies Solutions
+Part Number: H19678.3 April 2026
+
+Copyright
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+
+Revision history..........................................................................................................................................................................5
+Chapter 1: Introduction................................................................................................................. 6 Dell Technologies' vision.................................................................................................................................................... 6 Dell Technologies Enterprise SONiC...............................................................................................................................6 PowerFlex.............................................................................................................................................................................. 6 Document purpose.............................................................................................................................................................. 6 Typographical conventions................................................................................................................................................7 Attachments..........................................................................................................................................................................7 PDF attachments........................................................................................................................................................... 7 HTML attachments....................................................................................................................................................... 7 We value your feedback..................................................................................................................................................... 7
+Chapter 2: Hardware overview...................................................................................................... 8 Introduction...........................................................................................................................................................................8 Dell PowerSwitch S5248F-ON.........................................................................................................................................8 Dell PowerSwitch S5232F-ON......................................................................................................................................... 8 Dell PowerSwitch S3248T-ON.........................................................................................................................................8 Dell PowerFlex R650 appliances and custom nodes...................................................................................................9
+Chapter 3: Topology.................................................................................................................... 10 Introduction......................................................................................................................................................................... 10 Production topology.......................................................................................................................................................... 10 BGP EVPN with VXLAN overview................................................................................................................................. 12 Production topology connection details....................................................................................................................... 12 OOB management topology............................................................................................................................................ 14 OOB management connection details...........................................................................................................................14
+Chapter 4: Deployment planning.................................................................................................. 16 Minimum networking requirements............................................................................................................................... 16 Maximum deployment size...............................................................................................................................................16 Supported Dell PowerSwitch systems.......................................................................................................................... 17 VLANs and IP addresses...................................................................................................................................................17 LAG to VLAN mapping......................................................................................................................................................18 Loopback addresses and BGP ASNs............................................................................................................................. 18
+Chapter 5: Dell PowerSwitch configuration................................................................................. 20 Introduction........................................................................................................................................................................ 20 Leaf switch configuration................................................................................................................................................20 General settings............................................................................................................................................................21 Configure VLANs......................................................................................................................................................... 22 Configure loopback interfaces................................................................................................................................. 23 Configure the MC-LAG domain............................................................................................................................... 24 Configure port channels............................................................................................................................................ 25 Configure management and Ethernet interfaces................................................................................................ 28
+
+Contents
+
+3
+
+Configure unnumbered BGP for the nondefault VRF......................................................................................... 31 Configure unnumbered BGP for the default VRF................................................................................................32 Configure VXLAN........................................................................................................................................................ 34 Spine switch configuration............................................................................................................................................. 35 General settings...........................................................................................................................................................35 Configure the loopback interface............................................................................................................................35 Configure management and Ethernet interfaces................................................................................................ 36 Configure unnumbered BGP..................................................................................................................................... 37 Verify leaf switch configuration.....................................................................................................................................38 show interface status.................................................................................................................................................39 show lldp table............................................................................................................................................................. 39 show mclag brief ........................................................................................................................................................ 40 show vlan.......................................................................................................................................................................40 show ip route.................................................................................................................................................................41 show ip route vrf vrf_name...................................................................................................................................... 42 show ip vrf.................................................................................................................................................................... 42 show vxlan tunnel........................................................................................................................................................43 show vxlan remote vni............................................................................................................................................... 43 Verify spine switch configuration.................................................................................................................................. 44 show interface status.................................................................................................................................................44 show lldp table............................................................................................................................................................. 44 show ip route................................................................................................................................................................45
+Chapter 6: Deploy PowerFlex...................................................................................................... 46 Deployment notes............................................................................................................................................................. 46
+Appendix A: Using an access-aggregation topology with PowerFlex.............................................47 Introduction.........................................................................................................................................................................47 Access-aggregation topology networking requirements......................................................................................... 48 Topology differences........................................................................................................................................................49 Switch configuration file examples............................................................................................................................... 49
+Appendix B: Validated components..............................................................................................50 Introduction........................................................................................................................................................................ 50 Dell PowerSwitch systems..............................................................................................................................................50 PowerFlex nodes............................................................................................................................................................... 50 PowerFlex Management Controller ..............................................................................................................................51
+Appendix C: Resources................................................................................................................52 Dell Networking resources.............................................................................................................................................. 52 PowerFlex guides.............................................................................................................................................................. 52 Fabric Design Center........................................................................................................................................................52 Technical support..............................................................................................................................................................52
+
+4
+
+Contents
+
+Table 1. Document revision history
+
+Part number
+
+Release date
+
+H19678.3
+
+April 2026
+
+H19678.2
+
+March 2024
+
+H19678.1
+
+January 2024
+
+H19678
+
+August 2023
+
+Revision history
+Description of changes
+Updated mentions of lacp callback to lacp individual. Updated N3248TE-ON to S3248T-ON.
+Added an appendix: Using an accessaggregation topology with PowerFlex. Additional minor updates related to access- aggregation topology.
+Minor updates to the following sections: Document purpose, Production topology, OOB management topology, OOB management connection details, and Minimum networking requirements
+Initial release.
+
+Revision history
+
+5
+
+1
+Introduction
+Topics:
+• Dell Technologies' vision • Dell Technologies Enterprise SONiC • PowerFlex • Document purpose • Typographical conventions • Attachments • We value your feedback
+Dell Technologies' vision
+The vision at Dell Technologies is to be the essential technology company for the data era. Dell Technologies ensures modernization for today's applications and the emerging cloud-native world. Our Networking team is committed to disrupting the market with an open strategy that gives you the freedom of choice for networking operating systems and top-tier merchant silicon. The Dell Technologies strategy enables business transformations that maximize the benefits of collaborative software and standards-based hardware, including lowered costs, flexibility, freedom, and security. Dell Technologies provides further customer enablement through validated deployment guides that demonstrate these benefits while maintaining a high standard of quality, consistency, and support.
+Dell Technologies Enterprise SONiC
+SONiC is an open-source, Linux-based network operating system (NOS) that runs on switches from multiple vendors and ASICs. Dell Technologies Enterprise SONiC is a hardened and validated version of SONiC supported on selected Dell PowerSwitch platforms. Dell Technologies Enterprise SONiC supports an intuitive command-line interface, object-based administration through a REST interface, and Google's gRPC Network Management Interface (gNMI).
+PowerFlex
+PowerFlex is a highly scalable compute and storage infrastructure that integrates PowerFlex software-defined storage software with Dell PowerEdge servers. PowerFlex supports a small cluster starting point of four nodes, bring-your-own networking hardware, and bring-your-own management hardware. PowerFlex allows growth and management of compute and storage resources together or independently depending on business needs. PowerFlex uses PowerFlex Manager for management and operations. PowerFlex Manager enables users to build, automate, and simplify implementation, expansion, and life cycle management.
+Document purpose
+This guide covers Dell Technologies Enterprise SONiC PowerSwitch configuration for single or multirack PowerFlex deployments. This deployment uses PowerFlex partial network automation (PNA). With PNA, PowerFlex Manager automatically configures the VLANs and IP addresses on the PowerFlex nodes. Dell PowerSwitch network switches running Enterprise SONiC are configured manually.
+NOTE: PowerFlex full network automation (FNA) is not supported with Dell Technologies Enterprise SONiC.
+
+6
+
+Introduction
+
+Typographical conventions
+
+The CLI and UI examples in this document use the following conventions:
+
+Monospace text Bold monospace text
+Italic monospace text Bold text
+
+CLI examples
+● CLI examples which wrap the page ● Highlighted information in CLI output
+Variables in CLI examples
+● UI fields ● Information which is entered in the UI
+
+Attachments
+
+This document includes one or more file attachments. Access the attachments in either of the following ways.
+PDF attachments
+If you are viewing a .pdf version of this document, access the file attachments as follows: 1. Download the .pdf file to your hard drive, and then open the document in Adobe Acrobat Reader. 2. In the left pane, click the paperclip icon to see the attachments.
+NOTE: If the left pane is not visible, click the arrow icon on the left side of the page, and then click paperclip icon .
+HTML attachments
+
+If you are viewing this content in HTML format, see the last section for links to the file attachments.
+We value your feedback
+
+Dell Technologies and the authors of this document welcome your feedback on the solution and the solution documentation. Contact the Dell Technologies Solutions team by email.
+Authors: Dell Technologies Network Solutions Engineering, Technical Marketing, and Information Design & Development teams
+NOTE: For links to additional documentation for this solution, see the Dell Technologies Info Hub for Networking Solutions.
+This document may contain language from third-party content that is not under Dell's control and is not consistent with Dell's current guidelines for Dell's own content. When such third-party content is updated by the relevant third parties, this document will be revised accordingly.
+
+Introduction
+
+7
+
+2
+Hardware overview
+Topics:
+• Introduction • Dell PowerSwitch S5248F-ON • Dell PowerSwitch S5232F-ON • Dell PowerSwitch S3248T-ON • Dell PowerFlex R650 appliances and custom nodes
+Introduction
+This section briefly describes the hardware that was used to validate the deployment examples in this guide. Validated components contains a complete listing of hardware and software that is validated for this guide. See Supported Dell PowerSwitch systems for a list of switches supported for this deployment.
+Dell PowerSwitch S5248F-ON
+The Dell PowerSwitch S5248F-ON is a 1-Rack Unit (1U), multilayer switch with 48 x 25 GbE, 4 x 100 GbE, and 2 x 200 GbE ports. This guide uses two S5248F-ON switches in each rack as leaf switches.
+Figure 1. Dell PowerSwitch S5248F-ON
+Dell PowerSwitch S5232F-ON
+The Dell PowerSwitch S5232F-ON is a 1U, multilayer switch with 32 x 100 GbE QSFP28 ports and 2 x 10 GbE SFP+ ports. This guide uses four S5232F-ON switches as spine switches.
+Figure 2. Dell PowerSwitch S5232F-ON
+Dell PowerSwitch S3248T-ON
+The Dell PowerSwitch S3248T-ON is a 1U switch with 48 x 1 GbE BASE-T ports, 4 x 10 GbE SFP+ ports, and 2 x 100 GbE QSFP28 ports. This guide uses one S3248T-ON switch in each rack for out-of-band (OOB) management traffic.
+
+8
+
+Hardware overview
+
+Figure 3. Dell PowerSwitch S3248T-ON
+NOTE: Other Dell and third-party switches with 1 GbE BASE-T ports can also be used for OOB management traffic.
+Dell PowerFlex R650 appliances and custom nodes
+PowerFlex R650 appliances and PowerFlex R650 custom nodes are built on the current generation of Dell PowerEdge servers. The deployment example in this guide uses Dell PowerFlex R650 S (Storage) and PowerFlex R650 C (Compute) nodes. Each PowerFlex node in this deployment has 2 x 25 GbE dual-port SFP28 adapters, an embedded 1 GbE BASE-T dual-port NIC, and an iDRAC.
+Figure 4. Dell PowerFlex R650 node
+NOTE: PowerFlex appliances and PowerFlex custom nodes are supported for this deployment. PowerFlex R640 nodes are also supported, provided they have two 25 GbE dual-port SFP28 adapters. PowerFlex R640 nodes used as PowerFlex management controllers must also have a 1 GbE BASE-T NIC available in addition to the iDRAC. PowerFlex compute nodes with three 25 GbE dual-port SFP28 adapters are also supported.
+
+Hardware overview
+
+9
+
+3
+Topology
+Topics:
+• Introduction • Production topology • BGP EVPN with VXLAN overview • Production topology connection details • OOB management topology • OOB management connection details
+Introduction
+The topology for this deployment is divided into two major parts: 1. Production, or in-band 2. Out-of-band (OOB) Management The production topology contains redundant components and is used for all mission-critical and end-user network traffic. The OOB management network is an isolated network for remote management.
+Production topology
+The production topology that is used in this guide is shown in the figure below.
+
+10
+
+Topology
+
+Figure 5. PowerFlex leaf-spine production topology
+NOTE: PowerFlex on SONiC is supported with a leaf-spine BGP EVPN topology as shown in this guide. For a leaf and spine deployment, PowerFlex recommends a minimum of 3 spines. In this document, 4 spines are used. An access, aggregation, core topology may be supported in some cases. See Appendix A for more information.
+Each rack has two leaf switches connected to each other with a multichassis link aggregation group (MC-LAG) peer link. Every leaf switch is connected to every spine switch to form a leaf-spine (also known as a Clos) topology.
+NOTE: Leaf switches are sometimes called top-of-rack (ToR) switches.
+In this deployment example, a three-node PowerFlex Management Controller (PFMC) 2.0 cluster is in Rack 1. The remaining nodes in Racks 1-n are compute only (CO) and storage only (SO) nodes. This deployment uses four 25 GbE network interface controller ports per PowerFlex node for production network connections, as shown in the figure above.
+NOTE: The topology used to validate this guide consisted of four racks, eight leaf switches, four spine switches, and two external switches.
+In this deployment example, Leaf1A and Leaf1B are border leafs which are connected to the external switches. The external switches are typically part of an existing network in the data center with DNS and NTP services and Internet or WAN access.
+As an option, an additional leaf pair can be added as dedicated border leafs, with no compute or storage nodes connected to them. This option may be beneficial if there is a large amount of North-South traffic between the leaf-spine fabric and the external network. The dedicated border leaf pair must be configured as MC-LAG peers and connected to every spine switch like the other leaf switches in the fabric.
+Uplinks from the border leaf switches to the external switches may be configured as Layer 2 or Layer 3. If Layer 3 uplinks are used, you may use Border Gateway Protocol (BGP), Open Shortest Path First (OSPF), or static routing. In the configuration example used in this guide, the uplinks are configured as Layer 3 with BGP.
+NOTE: If an external network is not used, the required DNS and NTP services may be on a server that is connected directly to a leaf switch.
+
+Topology
+
+11
+
+Equal-Cost Multi-Path routing (ECMP) is enabled on the switches to use all available bandwidth on the leaf-spine connections. Border Gateway Protocol (BGP) Ethernet VPN (EVPN) with Virtual Extensible LAN (VXLAN) is used to stretch Layer 2 networks across the Layer 3 leaf-spine fabric.
+BGP EVPN with VXLAN overview
+NOTE: If spines are not used in a single rack deployment, then BGP EVPN with VXLAN is not used.
+For multirack deployments, BGP EVPN with VXLAN stretches virtual (overlay) Layer 2 networks across a physical (underlay) Layer 3 leaf-spine fabric. This architecture allows for the scalability of Layer 3 networks with the mobility benefits of a Layer 2 network. For example, a VM or physical host can be moved from one rack to another without changing its IP address and gateway information.
+EVPN uses BGP to exchange endpoint MAC and IP address information between VXLAN tunnel endpoints (VTEPs). In this topology, each pair of leaf switches in a rack is one logical VTEP. Packets destined to a remote device are sent to the local VTEP as the first hop. The packet is encapsulated with a VXLAN header that includes the Virtual Network Identifier (VNI) and the IP address of the destination host. See the figure below.
+
+Figure 6. VXLAN encapsulated frame
+The destination VTEP extracts the original packet and routes it to the final destination. VXLAN encapsulation adds approximately 50 bytes of overhead to each Ethernet frame. As a result, all switches in the underlay (physical) network must be configured to support an MTU of at least 1600 bytes on all participating interfaces.
+NOTE: In this deployment example, switch interfaces are set to their maximum supported MTU size of 9216 bytes for best performance. Anycast gateways with the same IP address are configured on each leaf pair. The anycast gateway IP address is set as the default gateway for all hosts and VMs on that virtual network. Hosts and VMs with anycast gateways use the same gateway information while behind different leaf pairs. This configuration replaces Virtual Router Redundancy Protocol (VRRP) and enables hosts and VMs to migrate from one leaf pair to another without changing the network configuration.
+Production topology connection details
+Production network connection details for this deployment example are shown in the figure below.
+
+12
+
+Topology
+
+Figure 7. Production network connection details
+NOTE: Other PowerFlex nodes, leaf switches, and spine switches that are not shown are connected in the same manner.
+Each leaf switch has one connection to each spine switch. For this deployment, all leaf-spine connections are 100 GbE.
+All PowerFlex nodes have two connections to each leaf. The connections in this example are 25 GbE. The four 25GbE connections from each PowerFlex node to the leaf switches are configured in two LACP link aggregation groups (LAGs).
+For the MC-LAG peer link connections, two QSFP28-DD double density ports (2 x 100 GbE interfaces per physical port), are available on S5248F-ON switches. They are used to create a 400 GbE port channel that is the MC-LAG peer link. This connection requires QSFP28-DD DAC cables or optics. On switches without QSFP28-DD ports, QSFP28 100 GbE or SFP28 25 GbE ports are used for peer link connections. Dell Technologies recommends using at least two physical ports on each leaf switch for the peer link. This configuration is for redundancy and provides additional bandwidth if there is a failure. The peer link is used for data traffic only if there is a link failure that requires the peer link to reach the destination.
+
+Topology
+
+13
+
+OOB management topology
+The out-of-band (OOB) management network is an isolated network for remote management of hardware. This hardware includes PowerFlex nodes and PowerSwitch network switches. It can also include other devices using their dedicated management ports. One S3248T-ON switch is typically installed in each rack for OOB management network connections, as shown below.
+
+Figure 8. OOB management network topology
+The 1 GbE 1000BASE-T ports on each S3248T-ON are connected downstream to hardware management ports on each device in the rack. Those ports include the PowerSwitch management ports and PowerFlex node iDRAC ports. Dedicated management ports on other devices in the rack can also be connected. Four 10 GbE SFP+ ports are available on each S3248T-ON for use as uplinks to the OOB management network core and for downlinks to the 10 GbE OOB management NIC on the PFMC nodes. OOB management switch configuration is not detailed in this guide. The OOB management network can be Layer 2 or Layer 3, and can be configured to suit your environment.
+NOTE: For reference, devices on the OOB Management network in this guide use the 100.67.0.0/16 IP address range. All addresses that are used in this guide are examples only.
+OOB management connection details
+All PowerSwitch management ports and PowerFlex node iDRACs are connected to the OOB management switch in each rack. Each PFMC node has two connections to the OOB management network: the 1 GbE iDRAC and an additional 10 GbE NIC, as shown in the figure below. PowerFlex Manager uses the PFMC node's 10 GbE to communicate with the iDRACs on the PowerFlex compute and storage nodes. The PowerFlex compute and storage nodes only require the iDRAC connection to the OOB network.
+
+14
+
+Topology
+
+Figure 9. OOB management network connection details NOTE: Other PowerFlex nodes, spines, and leaf switches that are not shown are connected in the same manner.
+
+Topology
+
+15
+
+4
+Deployment planning
+Topics:
+• Minimum networking requirements • Maximum deployment size • Supported Dell PowerSwitch systems • VLANs and IP addresses • LAG to VLAN mapping • Loopback addresses and BGP ASNs
+Minimum networking requirements
+NOTE: In this guide, "single rack" means topologies with only two leaf switches. "Multirack" means topologies with four or more leaf switches.
+The minimum networking requirements for a PowerFlex on Dell Technologies Enterprise SONiC deployment include the following: ● Single rack deployments require two supported Dell PowerSwitch leaf switches of the same model.
+NOTE: If a future expansion from a single to a multirack topology is likely, Dell Technologies recommends installing and configuring two supported Dell PowerSwitch spine switches. Doing so will simplify the expansion process in the future.
+● Multirack deployments require two supported Dell PowerSwitch leaf switches of the same model per rack, plus at least two supported Dell PowerSwitch spine switches.
+● All Dell PowerSwitch leaf and spine systems in fabric must be running the same version of Dell Technologies Enterprise SONiC.
+● Dell Technologies Enterprise SONiC 4.1.1 or later is required. An Enterprise Standard or Enterprise Premium bundle is required for this deployment.
+● One 1 GbE BASE-T switch for OOB management connections is required. Dell Technologies recommends using one PowerSwitch S3248T-ON per rack.
+● One DNS server and one NTP server that are reachable from the PowerFlex Node Management network are required. ● Each PowerFlex node requires four 25 GbE SFP28 connections to the leaf switches. ● Each leaf to spine connection requires at least one 100 GbE QSFP28 connection. Provide enough connections to ensure the
+oversubscription ratio at the leaf switches does not exceed 2:1. ● MC-LAG peer links between leaf switch pairs require at least two connections for fault tolerance. Each link can be 25 GbE
+SFP28, 100 GbE QSFP28, or 200 GbE QSFP28-DD (available on S5248F-ON). If 25 GbE ports are used, Dell recommends using at least four connections for sufficient bandwidth if a switch is taken offline. ● One 1 GbE (1000BASE-T) connection is required for each switch OOB management port. ● One 1 GbE (1000BASE-T) connection is required for each PowerFlex node iDRAC port. ● One 10 GbE connection is required for each PFMC node to access the OOB management network in addition to the PFMC node's 1 GbE iDRAC port. NOTE: See your PowerFlex documentation for minimum PowerFlex node requirements.
+Maximum deployment size
+The maximum number of switches and nodes that are supported for PowerFlex on SONiC deployments are: ● Spine switches—6 ● Leaf switches—32 ● PowerFlex nodes—352 (22 nodes per leaf pair)
+
+16
+
+Deployment planning
+
+Supported Dell PowerSwitch systems
+
+Dell PowerSwitch systems that are supported as leaf or spine switches for PowerFlex on Dell Technologies Enterprise SONiC deployments are shown in the table below.
+NOTE: The number of 100 GbE QSFP28 ports available on the leaf switches limits the maximum number of spine switches in this deployment.
+
+Table 2. Supported switches and roles
+
+Switch
+
+Ports
+
+S5212F-ON
+
+● 12x 25 GbE SFP28 ● 3x 100 GbE QSFP28
+
+S5224F-ON
+
+● 24x 25 GbE SFP28 ● 4x 100 GbE QSFP28
+
+S5248F-ON
+
+● 48x 25 GbE SFP28
+● 2x 200 GbE QSFP28-DD (See note below.)
+● 4x 100 GbE QSFP28
+
+S5232F-ON
+
+● 32x 100 GbE QSFP28 ● 2x 10 GbE SFP+
+
+Roles Leaf Leaf Leaf
+Spine
+
+NOTE: If needed, QSFP28-DD ports can be used in 100 GbE mode with QSFP28 connectors for additional leaf-spine connections.
+For OOB management, Dell Technologies recommends one PowerSwitch S3248T-ON per rack. Other Dell and third-party switches with 1 GbE BASE-T ports can also be used for OOB management traffic.
+
+VLANs and IP addresses
+
+In this deployment, traffic is divided into different networks as shown in the Dell PowerFlex Appliance with PowerFlex 4.x Network Planning Guide. Depending on the traffic type, some networks are Layer 2 (no gateway) and some are Layer 3 (with gateway). The management and site replication networks must be accessible from devices on other networks, so they are Layer 3. The remaining networks are Layer 2.
+NOTE: The VLAN IDs and IP addresses used in this guide are examples only, and can be changed as needed.
+
+Table 3. VLAN IDs and network addresses
+
+VLAN ID
+
+Description
+
+Network name
+
+103
+
+vCenter high availability flex-vcsa-ha-L2
+
+105
+
+Node management
+
+flex-node-mgmt-L3
+
+106
+
+Compute vMotion
+
+flex-vmotion-L2
+
+140
+
+PFMC management
+
+pfmc-sds-mgmt-L3
+
+141
+
+PFMC data 1
+
+pfmc-sds-data1-L2
+
+142
+
+PFMC data 2
+
+pfmc-sds-data2-L2
+
+143
+
+PFMC vMotion
+
+pfmc-vmotion-L2
+
+150
+
+Storage management flex-stor-mgmt-L3
+
+151
+
+Storage data 1
+
+flex-data1-L2
+
+152
+
+Storage data 2
+
+flex-data2-L2
+
+Network 192.168.103.0/24 192.168.105.0/24 192.168.106.0/24 192.168.140.0/24 192.168.141.0/24 192.168.142.0/24 192.168.143.0/24 192.168.150.0/24 192.168.151.0/24 192.168.152.0/24
+
+Gateway None 192.168.105.254 None 192.168.140.254 None None None 192.168.150.254 None None
+
+Deployment planning
+
+17
+
+Table 3. VLAN IDs and network addresses (continued)
+
+VLAN ID
+
+Description
+
+Network name
+
+161
+
+Site replication traffic 1 flex-repl1-L3
+
+162
+
+Site replication traffic 2 flex-repl2-L3
+
+LAG to VLAN mapping
+
+Network 192.168.161.0/24 192.168.162.0/24
+
+Gateway 192.168.161.254 192.168.162.254
+
+Each PowerFlex node is a member of several different VLANs depending on its type. VLAN membership by node type is shown in the table below.
+
+Table 4. VLAN membership by node type
+
+PowerFlex node type
+
+VLAN membership
+
+PowerFlex Management Controller (PFMC)
+
+103, 105, 140-143, 150
+
+Compute Only (CO)
+
+105-106, 151-152
+
+Storage Only (SO)
+
+150-152, 161-162
+
+The four network connections from each PowerFlex node to the two leaf switches are configured in two LACP LAGs as shown in Production network connection details. On PFMC nodes running ESXi, the LAGs are named Front End (FE) and Back End (BE). On PowerFlex CO or SO nodes running the intelligent catalog embedded Linux operating system, the LAGs are named Bond0 and Bond1.
+The VLANs are distributed between the two LAGs as shown in the table below.
+
+Table 5. VLAN LAG assignments by node type
+
+PowerFlex node type
+
+LAG 1: FE or Bond0
+
+PFMC
+
+105, 140, 150
+
+LAG 2: BE or Bond1 103, 141-143
+
+CO
+
+105-106
+
+151-152
+
+SO
+
+150-151, 161
+
+152,162
+
+Loopback addresses and BGP ASNs
+
+Loopback addresses are configured on leaf and spine switches for use as router IDs and VTEP addresses. Autonomous System Numbers (ASNs) are configured on the switches for use with Border Gateway Protocol (BGP).
+Each leaf or spine switch must have a unique router ID. Each leaf pair shares a VTEP IP address, and an ASN. Spines do not have VTEP addresses, and all spines in the fabric share the same ASN. The external switches are also configured for BGP in this example. They each have unique router IDs and share an ASN that is different from the leaf and spine ASNs.
+
+NOTE: As a best practice, only use IP addresses and ASNs in the private ranges.
+
+The values that are used in this deployment example are listed in the table below.
+
+Table 6. Loopback addresses and BGP ASNs
+
+Switch
+
+Router ID (Loopback 0)
+
+Leaf 1A
+
+10.1.1.1/32
+
+Leaf 1B
+
+10.1.1.2/32
+
+Leaf 2A
+
+10.1.1.3/32
+
+Leaf 2B
+
+10.1.1.4/32
+
+Leaf 3A
+
+10.1.1.5/32
+
+VTEP address (Loopback 1) ASN
+
+10.0.0.1/32
+
+65101
+
+10.0.0.1/32
+
+65101
+
+10.0.0.2/32
+
+65102
+
+10.0.0.2/32
+
+65102
+
+10.0.0.3/32
+
+65103
+
+18
+
+Deployment planning
+
+Table 6. Loopback addresses and BGP ASNs (continued)
+
+Switch
+
+Router ID (Loopback 0)
+
+VTEP address (Loopback 1) ASN
+
+Leaf 3B
+
+10.1.1.6/32
+
+10.0.0.3/32
+
+65103
+
+Leaf 4A
+
+10.1.1.7/32
+
+10.0.0.4/32
+
+65104
+
+Leaf 4B
+
+10.1.1.8/32
+
+10.0.0.4/32
+
+65104
+
+Spine 1
+
+10.2.2.1/32
+
+N/A
+
+65200
+
+Spine 2
+
+10.2.2.2/32
+
+N/A
+
+65200
+
+Spine 3
+
+10.2.2.3/32
+
+N/A
+
+65200
+
+Spine 4
+
+10.2.2.4/32
+
+N/A
+
+65200
+
+External A
+
+10.3.0.1/32
+
+N/A
+
+65300
+
+External B
+
+10.3.0.2/32
+
+N/A
+
+65300
+
+Deployment planning
+
+19
+
+5
+Dell PowerSwitch configuration
+Topics:
+• Introduction • Leaf switch configuration • Spine switch configuration • Verify leaf switch configuration • Verify spine switch configuration
+Introduction
+This chapter shows the Dell Technologies Enterprise SONiC configuration commands for Leaf1A and Leaf1B for single or multirack deployments. It also shows the commands for Spine1 and Spine2 for multirack deployments. Configurations for the remaining leaf and spine switches in the example multirack topology are similar, but are not detailed in this chapter. Full configuration files for all switches in this deployment example are provided as attachments to this guide. The files include the SONiC 4.1.1 default settings plus the nondefault settings that are covered in this chapter. To access the files, see Attachments.
+NOTE: In the examples in this guide, LACP is used on all leaf switches for PowerFlex node-to-leaf-switch connections. Dell Technologies recommends using LACP in this deployment as shown, but it is not required. Configuration files without LACP for Leaf1A and Leaf1B are attached as examples. These two file names begin with "no_lacp". All other leaf switch configuration file attachments use LACP. The spine switch configurations for this deployment are the same regardless of the LACP configuration on the leaf switches.
+The configuration commands that are listed in this chapter can be edited and applied to the applicable switches in the order shown. All switches in this example start at their factory default configuration. A Dell PowerSwitch network switch that is running Dell Technologies Enterprise SONiC can be returned to its factory settings by: 1. Running write erase install 2. Answering y when prompted 3. Rebooting the switch 4. Log in as admin. 5. Enter the default password YourPaSsWoRd, and change the password when prompted.
+Leaf switch configuration
+This section details the configuration of Leaf1A and Leaf1B for single or multirack deployments. Steps that are not required for single rack deployments without spines are noted. There is no harm in applying the additional multirack configuration steps to a single rack environment without spines. If you are installing spine switches in a single rack deployment, be sure to follow all configuration steps. For multirack deployments, configuration details for the remaining leaf switches in the example topology are similar, but are not shown in this chapter. Full configuration files for all switches in this deployment example are provided as attachments to this guide.
+
+20
+
+Dell PowerSwitch configuration
+
+General settings
+
+About this task Perform these steps to configure general settings on Leaf1A and Leaf1B:
+
+Steps
+1. Enter the SONiC Management Framework CLI. 2. Enter configuration mode. 3. Specify a hostname. 4. Change the interface naming mode to standard.
+NOTE: Dell Technologies recommends using standard interface naming mode. In default naming mode, port numbers start at 0. In standard naming mode, port numbers start at 1, which matches the numbers that are printed on the switch.
+
+5. Exit back to the Linux shell to activate the changes.
+
+Leaf1A
+
+Leaf1B
+
+sonic-cli configure terminal hostname Leaf1A interface-naming standard end exit
+
+sonic-cli configure terminal hostname Leaf1B interface-naming standard end exit
+
+6. Enter the SONiC Management Framework CLI. 7. Enter configuration mode. 8. Configure a unique IP anycast MAC address.
+This address must be the same on all leaf switches in the leaf-spine fabric. 9. Enable IPv4 and IPv6 anycast addressing. 10. Set the switch spanning tree mode to rapid per-VLAN spanning tree (RPVST).
+NOTE: This topology is loop-free and no ports should be blocked by spanning tree when properly cabled and configured. The use of spanning tree is a best practice and is used here as a precaution only.
+11. Configure Bridge Protocol Data Filtering Unit (BPDU) filtering for edge ports globally. 12. Create the management virtual routing and forwarding (VRF) instance as a best practice.
+This instance provides an isolated routing table for the management interface. The management VRF must be named mgmt as shown. 13. Create a nondefault (or tenant) VRF instance. The VRF name must start with Vrf and is a text string with up to 15 characters.
+NOTE: A nondefault VRF is required to use symmetric integrated bridging and routing (IRB) with VXLAN. In symmetric IRB, both the ingress and egress VTEPs route packets to their final destination.
+14. If you created a management VRF, put the SSH server of the switch in the management VRF. Doing so enables you to access the switch console on the management interface by using SSH.
+15. Enable link state tracking for downstream links. This setting helps to minimize switch failover time if a switch goes offline.
+
+Leaf1A
+
+Leaf1B
+
+sonic-cli configure terminal
+
+sonic-cli configure terminal
+
+Dell PowerSwitch configuration
+
+21
+
+Leaf1A ip anycast-mac-address 00:00:00:11:11:11 ip anycast-address enable ipv6 anycast-address enable spanning-tree mode rapid-pvst spanning-tree edge-port bpdufilter default ip vrf mgmt ip vrf VrfTenant1 ssh-server vrf mgmt link state track mclag timeout 180 downstream all-mclag
+
+Leaf1B ip anycast-mac-address 00:00:00:11:11:11 ip anycast-address enable ipv6 anycast-address enable spanning-tree mode rapid-pvst spanning-tree edge-port bpdufilter default ip vrf mgmt ip vrf VrfTenant1 ssh-server vrf mgmt link state track mclag timeout 180 downstream all-mclag
+
+Configure VLANs
+
+About this task For each VLAN, perform the following steps:
+
+Steps
+1. Create the VLAN and provide a description. 2. Set the maximum transmission unit (MTU) size to 9216 bytes for best performance. 3. On Layer 3 VLANs, enable neighbor suppression to minimize the flooding of ARP broadcast traffic. 4. Bind the VLAN to the tenant VRF. 5. If the VLAN is Layer 3, assign an IP anycast address that is the same on all leaf switches in the leaf-spine fabric.
+
+Leaf1A
+
+Leaf1B
+
+interface Vlan103 description flex-vcsa-ha-L2 mtu 9216 ip vrf forwarding VrfTenant1
+! interface Vlan105
+description flex-node-mgmt-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.105.254/24 ! interface Vlan106 description flex-vmotion-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan140 description pfmc-sds-mgmt-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.140.254/24 ! interface Vlan141 description pfmc-sds-data1-L2 mtu 9216 ip vrf forwarding VrfTenant1 !
+
+interface Vlan103 description flex-vcsa-ha-L2 mtu 9216 ip vrf forwarding VrfTenant1
+! interface Vlan105
+description flex-node-mgmt-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.105.254/24 ! interface Vlan106 description flex-vmotion-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan140 description pfmc-sds-mgmt-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.140.254/24 ! interface Vlan141 description pfmc-sds-data1-L2 mtu 9216 ip vrf forwarding VrfTenant1 !
+
+22
+
+Dell PowerSwitch configuration
+
+Leaf1A interface Vlan142 description pfmc-sds-data2-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan143 description pfmc-vmotion-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan150 description flex-stor-mgmt-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.150.254/24 ! interface Vlan151 description flex-data1-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan152 description flex-data2-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan161 description flex-rep1-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.161.254/24 ! interface Vlan162 description flex-rep2-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.162.254/24
+
+Leaf1B interface Vlan142 description pfmc-sds-data2-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan143 description pfmc-vmotion-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan150 description flex-stor-mgmt-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.150.254/24 ! interface Vlan151 description flex-data1-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan152 description flex-data2-L2 mtu 9216 ip vrf forwarding VrfTenant1 ! interface Vlan161 description flex-rep1-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.161.254/24 ! interface Vlan162 description flex-rep2-L3 neigh-suppress mtu 9216 ip vrf forwarding VrfTenant1 ip anycast-address 192.168.162.254/24
+
+NOTE: If spines are not used, then Steps 6 through 8 are not required for a single rack deployment.
+
+6. Create a VLAN for VRF VNI mapping. 7. Provide a description. 8. Bind the VLAN to the nondefault (or tenant) VRF.
+Leaf1A
+
+Leaf1B
+
+interface Vlan2001 description ForVrfVniMapping ip vrf forwarding VrfTenant1
+
+interface Vlan2001 description ForVrfVniMapping ip vrf forwarding VrfTenant1
+
+Configure loopback interfaces
+About this task Perform the following steps to configure loopback interfaces on Leaf1A and Leaf1B:
+
+Dell PowerSwitch configuration
+
+23
+
+Steps
+1. Configure a loopback interface for use as the router ID. 2. Provide a description. 3. Specify a unique IP address for each switch. 4. For multirack deployments, configure a loopback interface for use as the VTEP address. 5. Provide a description. 6. Specify an IP address that is unique to this leaf pair.
+Use the same address on both leaf switches.
+
+Leaf1A
+
+Leaf1B
+
+interface Loopback 0 description Router-ID ip address 10.1.1.1/32
+! interface Loopback 1
+description vtep ip address 10.0.0.1/32
+
+interface Loopback 0 description Router-ID ip address 10.1.1.2/32
+! interface Loopback 1
+description vtep ip address 10.0.0.1/32
+
+Configure the MC-LAG domain
+
+About this task Perform the following steps to configure the MC-LAG domain:
+
+Steps 1. Create an LACP port channel for use with the MC-LAG peer link.
+NOTE: Port channels created in Dell Technologies Enterprise SONiC use LACP by default.
+
+2. Provide a description. 3. Assign all VLANs on the switch to the MC-LAG port channel.
+For a multirack deployment, include the VRF VLAN (2001 in this example). 4. Enable the LACP fast_rate option to minimize the time required for failure detection. 5. Set the MTU size to 9216 bytes for best performance. 6. Enable the interface. 7. Create the MC-LAG domain with the mclag domain domain-id command.
+NOTE: Valid MC-LAG domain numbers are 1 to 4095. Only one domain is supported on a switch.
+
+8. For the source IP, specify the router ID of the local switch. 9. For the peer IP, specify the router ID of the peer leaf switch. 10. Specify the port channel to be used as the MC-LAG peer link. 11. Assign an MC-LAG system MAC that is unique to this leaf pair.
+Use the same MAC on both leaf switches.
+
+Leaf1A
+
+Leaf1B
+
+interface PortChannel 100 description "MC-LAG peer link" switchport trunk allowed Vlan
+103-106,140-143,150-152,161-162,2001 fast_rate mtu 9216
+
+interface PortChannel 100 description "MC-LAG peer link" switchport trunk allowed Vlan
+103-106,140-143,150-152,161-162,2001 fast_rate mtu 9216
+
+24
+
+Dell PowerSwitch configuration
+
+Leaf1A no shutdown
+! mclag domain 1
+source-ip 10.1.1.1 peer-ip 10.1.1.2 peer-link PortChannel100 mclag-system-mac 00:00:00:00:00:01
+
+Leaf1B no shutdown
+! mclag domain 1
+source-ip 10.1.1.2 peer-ip 10.1.1.1 peer-link PortChannel100 mclag-system-mac 00:00:00:00:00:01
+
+Configure port channels
+
+About this task For each port channel connected to a PowerFlex node, perform the following steps:
+
+Steps
+1. Create an LACP port channel. 2. Provide a description. 3. Assign the VLANs required by the node type to be connected to the port channel as shown in VLAN membership by node
+type. 4. Enable LACP individual.
+LACP individual: If LACPDUs are not received on an individual member port that is in link-up state, the LACP Individual feature transitions the port to lacp individual mode.
+5. Set the MTU size to 9216 bytes for best performance. 6. Enable the interface. 7. Bind the port channel to the MC-LAG domain ID created in Configure the MC-LAG domain. 8. Enable link state tracking for downstream links.
+This setting helps to minimize switch failover time.
+9. Enable spanning tree BPDU guard. 10. Set the port type to edge. 11. Enable spanning tree root guard.
+
+Leaf1A
+
+Leaf 1B
+
+interface PortChannel 1 description "Bond0 to SO node" switchport trunk allowed Vlan
+150-151,161 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root
+! interface PortChannel 2
+description "Bond0 to SO node" switchport trunk allowed Vlan 150-151,161
+lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard
+
+interface PortChannel 1 description "Bond0 to SO node" switchport trunk allowed Vlan
+150-151,161 lacp individual
+mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 2 description "Bond0 to SO node" switchport trunk allowed Vlan 150-151,161
+lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard
+
+Dell PowerSwitch configuration
+
+25
+
+Leaf1A spanning-tree port type edge spanning-tree guard root
+! interface PortChannel 3
+description "Bond0 to CO node" switchport trunk allowed Vlan 105-106 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 4 description "Bond0 to CO node" switchport trunk allowed Vlan 105-106 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 5 description "Bond1 to SO node" switchport trunk allowed Vlan 152,162 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 6 description "Bond1 to SO node" switchport trunk allowed Vlan 152,162 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 7 description "Bond1 to CO node" switchport trunk allowed Vlan 151-152 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 8 description "Bond1 to CO node" switchport trunk allowed Vlan 151-152 lacp individual mtu 9216 no shutdown mclag 1
+
+Leaf 1B spanning-tree port type edge spanning-tree guard root
+! interface PortChannel 3
+description "Bond0 to CO node" switchport trunk allowed Vlan 105-106 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 4 description "Bond0 to CO node" switchport trunk allowed Vlan 105-106 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 5 description "Bond1 to SO node" switchport trunk allowed Vlan 152,162 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 6 description "Bond1 to SO node" switchport trunk allowed Vlan 152,162 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 7 description "Bond1 to CO node" switchport trunk allowed Vlan 151-152 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 8 description "Bond1 to CO node" switchport trunk allowed Vlan 151-152 lacp individual mtu 9216 no shutdown mclag 1
+
+26
+
+Dell PowerSwitch configuration
+
+Leaf1A link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root
+! interface PortChannel 9
+description "FE to PFMC node" switchport trunk allowed Vlan 105,140,150 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 10 description "FE to PFMC node" switchport trunk allowed Vlan 105,140,150 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 11 description "FE to PFMC node" switchport trunk allowed Vlan 105,140,150 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 13 description "BE to PFMC node" switchport trunk allowed Vlan 103,141-143 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 14 description "BE to PFMC node" switchport trunk allowed Vlan 103,141-143 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root !
+
+Leaf 1B link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root
+! interface PortChannel 9
+description "FE to PFMC node" switchport trunk allowed Vlan 105,140,150 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 10 description "FE to PFMC node" switchport trunk allowed Vlan 105,140,150 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 11 description "FE to PFMC node" switchport trunk allowed Vlan 105,140,150 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 13 description "BE to PFMC node" switchport trunk allowed Vlan 103,141-143 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root ! interface PortChannel 14 description "BE to PFMC node" switchport trunk allowed Vlan 103,141-143 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root !
+
+Dell PowerSwitch configuration
+
+27
+
+Leaf1A interface PortChannel 15 description "BE to PFMC node" switchport trunk allowed Vlan 103,141-143 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root
+
+Leaf 1B interface PortChannel 15 description "BE to PFMC node" switchport trunk allowed Vlan 103,141-143 lacp individual mtu 9216 no shutdown mclag 1 link state track mclag downstream spanning-tree bpduguard spanning-tree port type edge spanning-tree guard root
+
+Configure management and Ethernet interfaces
+
+About this task Perform the following steps to configure the management and Ethernet interfaces:
+
+Steps
+1. Configure the dedicated management port. This example uses interface Management 0.
+2. Configure an IP address on the OOB management network unique to the switch. Specify the gateway address if routing is used on the OOB management network.
+
+Leaf1A
+
+Leaf1B
+
+interface Management 0 description "OOB mgmt port" ip address 100.67.124.189/24 gwaddr
+100.67.124.254
+
+interface Management 0 description "OOB mgmt port" ip address 100.67.124.190/24 gwaddr
+100.67.124.254
+
+For each Ethernet interface connected to a PowerFlex node: 3. Provide a description. 4. Set the MTU size to 9216 bytes for best performance. 5. Bind the interface to the applicable port channel. 6. Enable the interface.
+
+Leaf1A
+
+Leaf1B
+
+interface Eth1/1 description "To SO node NIC0:1" mtu 9216 channel-group 1 no shutdown
+! interface Eth1/2
+description "To SO node NIC0:1" mtu 9216 channel-group 2 no shutdown ! interface Eth1/3 description "To CO node NIC0:1" mtu 9216
+
+interface Eth1/1 description "To SO node NIC3:1" mtu 9216 channel-group 1 no shutdown
+! interface Eth1/2
+description "To SO node NIC3:1" mtu 9216 channel-group 2 no shutdown ! interface Eth1/3 description "To CO node NIC3:1" mtu 9216
+
+28
+
+Dell PowerSwitch configuration
+
+Leaf1A channel-group 3 no shutdown
+! interface Eth1/4
+description "To CO node NIC0:1" mtu 9216 channel-group 4 no shutdown ! interface Eth1/5 description "To SO node NIC3:2" mtu 9216 channel-group 5 no shutdown ! interface Eth1/6 description "To SO node NIC3:2" mtu 9216 channel-group 6 no shutdown ! interface Eth1/7 description "To CO node NIC3:2" mtu 9216 channel-group 7 no shutdown ! interface Eth1/8 description "To CO node NIC3:2" mtu 9216 channel-group 8 no shutdown ! interface Eth1/9 description "To PFMC node NIC0:1" mtu 9216 channel-group 9 no shutdown ! interface Eth1/10 description "To PFMC node NIC0:1" mtu 9216 channel-group 10 no shutdown ! interface Eth1/11 description "To PFMC node NIC0:1" mtu 9216 channel-group 11 no shutdown ! interface Eth1/13 description "To PFMC node NIC2:2" mtu 9216 channel-group 13 no shutdown ! interface Eth1/14 description "To PFMC node NIC2:2" mtu 9216 channel-group 14 no shutdown ! interface Eth1/15 description "To PFMC node NIC2:2" mtu 9216 channel-group 15 no shutdown
+
+Leaf1B channel-group 3 no shutdown
+! interface Eth1/4
+description "To CO node NIC3:1" mtu 9216 channel-group 4 no shutdown ! interface Eth1/5 description "To SO node NIC0:2" mtu 9216 channel-group 5 no shutdown ! interface Eth1/6 description "To SO node NIC0:2" mtu 9216 channel-group 6 no shutdown ! interface Eth1/7 description "To CO node NIC0:2" mtu 9216 channel-group 7 no shutdown ! interface Eth1/8 description "To CO node NIC0:2" mtu 9216 channel-group 8 no shutdown ! interface Eth1/9 description "To PFMC node NIC2:1" mtu 9216 channel-group 9 no shutdown ! interface Eth1/10 description "To PFMC node NIC2:1" mtu 9216 channel-group 10 no shutdown ! interface Eth1/11 description "To PFMC node NIC2:1" mtu 9216 channel-group 11 no shutdown ! interface Eth1/13 description "To PFMC node NIC0:2" mtu 9216 channel-group 13 no shutdown ! interface Eth1/14 description "To PFMC node NIC0:2" mtu 9216 channel-group 14 no shutdown ! interface Eth1/15 description "To PFMC node NIC0:2" mtu 9216 channel-group 15 no shutdown
+
+Dell PowerSwitch configuration
+
+29
+
+For each Ethernet interface that is connected to the peer leaf switch: 7. Provide a description. 8. Set the MTU size to 9216 bytes for best performance. 9. Bind the interface to the MC-LAG port channel.
+This example uses channel-group 100. 10. Enable the interface.
+
+Leaf1A
+
+Leaf1B
+
+interface Eth1/49 description "Peer link to Leaf 1B" mtu 9216 channel-group 100 no shutdown
+! interface Eth1/50
+description "Peer link to Leaf 1B" mtu 9216 channel-group 100 no shutdown ! interface Eth1/51 description "Peer link to Leaf 1B" mtu 9216 channel-group 100 no shutdown ! interface Eth1/52 description "Peer link to Leaf 1B" mtu 9216 channel-group 100 no shutdown
+
+interface Eth1/49 description "Peer link to Leaf 1A" mtu 9216 channel-group 100 no shutdown
+! interface Eth1/50
+description "Peer link to Leaf 1A" mtu 9216 channel-group 100 no shutdown ! interface Eth1/51 description "Peer link to Leaf 1A" mtu 9216 channel-group 100 no shutdown ! interface Eth1/52 description "Peer link to Leaf 1A" mtu 9216 channel-group 100 no shutdown
+
+NOTE: If spines are not used, then Steps 11 through 15 are not required for a single rack deployment.
+
+For each Ethernet interface connected to a spine switch: 11. Provide a description. 12. Set the MTU size to 9216 bytes for best performance. 13. Enable the interface. 14. Enable IPv6 to support unnumbered BGP point-to-point links with link-local addressing. 15. Enable link state tracking for upstream links to the spines.
+This setting helps to minimize switch failover time.
+
+Leaf1A
+
+Leaf1B
+
+interface Eth1/53 description "To Spine1" mtu 9216 no shutdown ipv6 enable link state track mclag upstream
+! interface Eth1/54
+description "To Spine2" mtu 9216 no shutdown ipv6 enable link state track mclag upstream ! interface Eth1/55 description "To Spine3" mtu 9216
+
+interface Eth1/53 description "To Spine1" mtu 9216 no shutdown ipv6 enable link state track mclag upstream
+! interface Eth1/54
+description "To Spine2" mtu 9216 no shutdown ipv6 enable link state track mclag upstream ! interface Eth1/55 description "To Spine3" mtu 9216
+
+30
+
+Dell PowerSwitch configuration
+
+Leaf1A no shutdown ipv6 enable link state track mclag upstream
+! interface Eth1/56
+description "To Spine4" mtu 9216 no shutdown ipv6 enable link state track mclag upstream
+
+Leaf1B no shutdown ipv6 enable link state track mclag upstream
+! interface Eth1/56
+description "To Spine4" mtu 9216 no shutdown ipv6 enable link state track mclag upstream
+
+On border leaf switches, configure interfaces that are connected to the external switches as needed for your environment. This configuration is used in this deployment example for access to DNS and NTP services, as shown in PowerFlex leaf-spine production topology. Each interface connected to an external switch is configured in this example as follows:
+16. Provide a description. 17. Set the MTU size to 9216 bytes (optional). 18. Enable the interface. 19. Bind the interface to the tenant VRF. 20. Enable IPv6 to support unnumbered BGP point-to-point links.
+
+Leaf1A
+
+Leaf1B
+
+interface Eth1/47 description "To ExternalA" mtu 9216 no shutdown ip vrf forwarding VrfTenant1 ipv6 enable
+! interface Eth1/48
+description "To ExternalB" mtu 9216 no shutdown ip vrf forwarding VrfTenant1 ipv6 enable
+
+interface Eth1/47 description "To ExternalA" mtu 9216 no shutdown ip vrf forwarding VrfTenant1 ipv6 enable
+! interface Eth1/48
+description "To ExternalB" mtu 9216 no shutdown ip vrf forwarding VrfTenant1 ipv6 enable
+
+Configure unnumbered BGP for the nondefault VRF
+About this task Unnumbered BGP interfaces advertise IPv4 routes with an IPv6 next hop. After IPv6 is enabled on an interface that is connected to a BGP neighbor, an IPv6 link-local address is automatically created. BGP uses the link-local address to set up a BGP session with the neighbor. Perform the following steps to configure unnumbered BGP for the nondefault (tenant) VRF:
+Steps 1. Specify the router AS number and enter BGP configuration mode for the VRF tenant by running the router bgp
+AS_number vrf vrf_name command. 2. For the router ID, specify the IP address that is configured on interface Loopback 0. 3. Enter the address-family ipv4 unicast command.
+a. Specify the redistribute connected command to redistribute IPv4 routes from physically connected interfaces. b. Configure the maximum number of eBGP routes that can be used to forward packets over multiple paths to a neighbor. 4. Enter the address-family l2vpn evpn command. a. Advertise IPv4 routes.
+
+Dell PowerSwitch configuration
+
+31
+
+b. Enable duplicate address detection. NOTE: The following steps are for connection to the external network. In the configuration example used in this guide, the uplinks are L3 with unnumbered BGP.
+
+5. Create a peer group for the external switch connections. It is named LEGACY in this example.
+a. Configure a remote autonomous system to exchange routes through eBGP. The remote-as external command is required for unnumbered BGP.
+b. Configure the time (in seconds) between sending keepalive messages to a BGP neighbor, and the wait time to receive a keepalive message before considering a BGP peer to be dead.
+c. Configure the route advertisement interval between sending BGP route updates to neighbors. d. Enable bidirectional forwarding detection (BFD).
+BFD rapidly detects communication failures between two adjacent routers. e. The capability extended-nexthop command is required for unnumbered BGP.
+It enables BGP to negotiate the extended next hop capability with a peer. f. Enter the address-family ipv4 unicast command, and then activate. g. Put the interfaces that are connected to the external switches in the peer group.
+
+Leaf1A
+
+Leaf1B
+
+router bgp 65101 vrf VrfTenant1 router-id 10.1.1.1 ! address-family ipv4 unicast redistribute connected maximum-paths 2 ! address-family l2vpn evpn advertise ipv4 unicast dup-addr-detection
+peer-group LEGACY remote-as external timers 3 9 advertisement-interval 5 bfd capability extended-nexthop ! address-family ipv4 unicast activate
+! neighbor interface Eth1/47
+peer-group LEGACY ! neighbor interface Eth1/48
+peer-group LEGACY
+
+router bgp 65101 vrf VrfTenant1 router-id 10.1.1.2 ! address-family ipv4 unicast redistribute connected maximum-paths 2 ! address-family l2vpn evpn advertise ipv4 unicast dup-addr-detection
+peer-group LEGACY remote-as external timers 3 9 advertisement-interval 5 bfd capability extended-nexthop ! address-family ipv4 unicast activate
+! neighbor interface Eth1/47
+peer-group LEGACY ! neighbor interface Eth1/48
+peer-group LEGACY
+
+Configure unnumbered BGP for the default VRF
+About this task NOTE: If spines are not used, then these steps are not required for a single rack deployment.
+Perform the following steps to configure unnumbered BGP for the default VRF:
+Steps 1. Configure the BGP ASN with the router bgp command.
+Use the same AS number that was used in Configure unnumbered BGP for the nondefault VRF.
+
+32
+
+Dell PowerSwitch configuration
+
+2. For the router ID, specify the IP address that is configured on interface Loopback 0. 3. Configure a maximum multi exit discriminator (MED) value to send on startup.
+This setting helps to minimize switch failover time.
+4. Enable ECMP with the bestpath as-path multipath-relax command. 5. Enter the address-family ipv4 unicast command.
+a. Specify the redistribute connected command to redistribute IPv4 routes from physically connected interfaces. b. Configure the maximum number of eBGP routes that can be used to forward packets over multiple paths to a neighbor. 6. Enter the address-family l2vpn evpn command. a. Advertise all VNIs. b. Advertise the primary IP (the router ID) of the switch. c. Specify the router ID IP address of the MC-LAG peer switch. d. Disable duplicate address detection. 7. Create a peer group for the spine connections. 8. Configure a remote autonomous system to exchange routes through eBGP. The remote-as external command is required for unnumbered BGP.
+9. Configure the time (in seconds) between sending keepalive messages to a BGP neighbor, and the wait time to receive a keepalive message before considering a BGP peer to be dead.
+10. Configure the route advertisement interval between sending BGP route updates to neighbors. 11. Enable BFD.
+BFD rapidly detects communication failures between two adjacent routers.
+12. The capability extended-nexthop command is required for unnumbered BGP. It enables BGP to negotiate the extended next hop capability with a peer.
+13. Enter the address-family ipv4 unicast command and activate. a. Set allowas-in to accept routes with the local AS number in updates.
+14. Enter the address-family l2vpn evpn command and activate. a. Set allowas-in to accept routes with the local AS number in updates.
+15. Put the interfaces that are connected to the spines in the spine peer group.
+
+Leaf1A
+
+Leaf1B
+
+router bgp 65101 router-id 10.1.1.1 max-med on-startup 420 bestpath as-path multipath-relax ! address-family ipv4 unicast redistribute connected maximum-paths 2 ! address-family l2vpn evpn advertise-all-vni advertise-pip ip 10.1.1.1 peer-ip
+10.1.1.2 no dup-addr-detection
+! peer-group SPINE
+remote-as external timers 3 9 advertisement-interval 5 bfd capability extended-nexthop ! address-family ipv4 unicast
+activate allowas-in 2 ! address-family l2vpn evpn activate allowas-in 2
+
+router bgp 65101 router-id 10.1.1.2 max-med on-startup 420 bestpath as-path multipath-relax ! address-family ipv4 unicast redistribute connected maximum-paths 2 ! address-family l2vpn evpn advertise-all-vni advertise-pip ip 10.1.1.2 peer-ip
+10.1.1.1 no dup-addr-detection
+! peer-group SPINE
+remote-as external timers 3 9 advertisement-interval 5 bfd capability extended-nexthop ! address-family ipv4 unicast
+activate allowas-in 2 ! address-family l2vpn evpn activate allowas-in 2
+
+Dell PowerSwitch configuration
+
+33
+
+Leaf1A ! neighbor interface Eth1/53 peer-group SPINE ! neighbor interface Eth1/54 peer-group SPINE
+! neighbor interface Eth1/55 peer-group SPINE ! neighbor interface Eth1/56 peer-group SPINE
+
+Leaf1B ! neighbor interface Eth1/53 peer-group SPINE ! neighbor interface Eth1/54 peer-group SPINE
+! neighbor interface Eth1/55 peer-group SPINE ! neighbor interface Eth1/56 peer-group SPINE
+
+Configure VXLAN
+
+About this task NOTE: If spines are not used, then these steps are not required for a single rack deployment.
+Perform the following steps to configure VXLAN:
+
+Steps
+1. Create a VXLAN interface. 2. Assign the same VTEP source IP address to each peer.
+This IP address is the VTEP IP address that is configured on interface Loopback 1 earlier. 3. Assign a unique primary IP address to optimize routing for orphan ports and active-standby hosts.
+This IP address can be the same IP address as the router ID. 4. Map a VNI to each VLAN that is stretched across the fabric.
+Valid VNI numbers are 1 to 16777215. 5. Create a Layer 3 VNI by mapping the tenant VNI to the tenant VRF VLAN (2001 in this example). 6. Exit configuration mode and save the configuration with the end and write memory commands.
+
+Leaf1A
+
+Leaf1B
+
+interface vxlan vtep1 source-ip 10.0.0.1 primary-ip 10.1.1.1 map vni 10103 vlan 103 map vni 10105 vlan 105 map vni 10106 vlan 106 map vni 10150 vlan 150 map vni 10151 vlan 151 map vni 10152 vlan 152 map vni 10161 vlan 161 map vni 10162 vlan 162 map vni 102001 vlan 2001 map vni 102001 vrf VrfTenant1
+! end write memory
+
+interface vxlan vtep1 source-ip 10.0.0.1 primary-ip 10.1.1.2 map vni 10103 vlan 103 map vni 10105 vlan 105 map vni 10106 vlan 106 map vni 10150 vlan 150 map vni 10151 vlan 151 map vni 10152 vlan 152 map vni 10161 vlan 161 map vni 10162 vlan 162 map vni 102001 vlan 2001 map vni 102001 vrf VrfTenant1
+! end write memory
+
+34
+
+Dell PowerSwitch configuration
+
+Spine switch configuration
+NOTE: If spines are not used, then these steps are not required for a single rack deployment. This section details the configuration of the Spine1 and Spine2 switches for a multirack deployment. Configuration details for the remaining spine switches in the example topology are similar, but are not shown in this chapter. Full configuration files for all switches in this deployment example are provided as attachments to this guide.
+General settings
+
+About this task Perform these steps to configure general settings on Spine1 and Spine2:
+
+Steps 1. Enter the SONiC Management Framework CLI. 2. Enter configuration mode. 3. Specify a hostname. 4. Change the interface naming mode to standard. 5. Exit back to the Linux shell to activate the changes.
+Spine1
+
+Spine2
+
+sonic-cli configure terminal hostname Spine1 interface-naming standard end exit
+
+sonic-cli configure terminal hostname Spine2 interface-naming standard end exit
+
+6. Enter the SONiC Management Framework CLI. 7. Enter configuration mode. 8. Set the switch spanning tree mode to rapid per-VLAN spanning tree (RPVST). 9. Create the management VRF as a best practice.
+Doing so provides an isolated routing table for the management interface. The management VRF must be named mgmt as shown.
+10. Put the SSH server in the management VRF.
+
+Spine1
+
+Spine2
+
+sonic-cli configure terminal spanning-tree mode rapid-pvst ip vrf mgmt ssh-server vrf mgmt
+
+sonic-cli configure terminal spanning-tree mode rapid-pvst ip vrf mgmt ssh-server vrf mgmt
+
+Configure the loopback interface
+About this task Perform the following steps to configure the loopback interface on Spine1 and Spine2:
+
+Dell PowerSwitch configuration
+
+35
+
+Step 1. Configure a loopback interface for use as the router ID. 2. Provide a description. 3. Specify a unique IP address for each switch.
+Spine1
+interface Loopback 0 description Router-ID ip address 10.2.2.1/32
+
+Spine2 interface Loopback 0 description Router-ID ip address 10.2.2.2/32
+
+Configure management and Ethernet interfaces
+
+About this task Perform the following steps to configure the management and Ethernet interfaces:
+
+Steps
+1. Configure the dedicated management port interface Management 0. 2. Provide a description. 3. Configure an IP address and mask on the OOB management network unique to the switch.
+Specify the gateway address if routing is used on the OOB management network.
+
+Spine1
+
+Spine2
+
+interface Management 0 description "OOB mgmt port" ip address 100.67.124.185/24 gwaddr
+100.67.124.254
+
+interface Management 0 description "OOB mgmt port" ip address 100.67.124.186/24 gwaddr
+100.67.124.254
+
+For each Ethernet interface connected to a leaf switch: 4. Provide a description. 5. Set the MTU size to 9216 bytes for best performance. 6. Enable the interface. 7. Enable IPv6 to support unnumbered BGP point-to-point links.
+
+Spine1
+
+Spine2
+
+interface Eth1/1 description "To Leaf 1A port 1/53" mtu 9216 no shutdown ipv6 enable
+! interface Eth1/2
+description "To Leaf 1B port 1/53" mtu 9216 no shutdown ipv6 enable ! interface Eth1/3 description "To Leaf 2A port 1/53" mtu 9216 no shutdown ipv6 enable
+
+interface Eth1/1 description "To Leaf 1A port 1/54" mtu 9216 no shutdown ipv6 enable
+! interface Eth1/2
+description "To Leaf 1B port 1/54" mtu 9216 no shutdown ipv6 enable ! interface Eth1/3 description "To Leaf 2A port 1/54" mtu 9216 no shutdown ipv6 enable
+
+36
+
+Dell PowerSwitch configuration
+
+Spine1 ! interface Eth1/4 description "To Leaf 2B port 1/53" mtu 9216 no shutdown ipv6 enable ! interface Eth1/5 description "To Leaf 3A port 1/53" mtu 9216 no shutdown ipv6 enable ! interface Eth1/6 description "To Leaf 3B port 1/53" mtu 9216 no shutdown ipv6 enable ! interface Eth1/7 description "To Leaf 4A port 1/53" mtu 9216 no shutdown ipv6 enable ! interface Eth1/8 description "To Leaf 4B port 1/53" mtu 9216 no shutdown ipv6 enable
+
+Spine2 ! interface Eth1/4 description "To Leaf 2B port 1/54" mtu 9216 no shutdown ipv6 enable ! interface Eth1/5 description "To Leaf 3A port 1/54" mtu 9216 no shutdown ipv6 enable ! interface Eth1/6 description "To Leaf 3B port 1/54" mtu 9216 no shutdown ipv6 enable ! interface Eth1/7 description "To Leaf 4A port 1/54" mtu 9216 no shutdown ipv6 enable ! interface Eth1/8 description "To Leaf 4B port 1/54" mtu 9216 no shutdown ipv6 enable
+
+Configure unnumbered BGP
+About this task Perform the following steps to configure unnumbered BGP on Spine1 and Spine2:
+Steps 1. Configure the BGP ASN with the router bgp command.
+Use the same AS number on all spine switches in the leaf-spine fabric. 2. For the router ID, specify the IP address that is configured on interface Loopback 0. 3. Enable ECMP with the bestpath as-path multipath-relax command. 4. Enter the address-family ipv4 unicast command.
+a. Specify the redistribute connected command to redistribute IPv4 routes from physically connected interfaces. b. Configure the maximum number of eBGP routes that can be used to forward packets over multiple paths to a neighbor. 5. Enter the address-family l2vpn evpn command. a. Advertise all VNIs. 6. Create a peer group for the leaf connections. a. Configure a remote autonomous system to exchange routes through eBGP.
+The remote-as external command is required for unnumbered BGP. b. Configure the time (in seconds) between sending keepalive messages to a BGP neighbor, and the wait time to receive a
+keepalive message before considering a BGP peer dead. c. Configure the route advertisement interval between sending BGP route updates to neighbors. d. Enable BFD.
+BFD rapidly detects communication failures between two adjacent routers. e. The capability extended-nexthop command is required for unnumbered BGP.
+
+Dell PowerSwitch configuration
+
+37
+
+f. Enter the address-family ipv4 unicast command and activate. g. Enter the address-family l2vpn evpn command and activate. 7. Put the interfaces that are connected to the leaf switches in the leaf peer group. 8. Exit configuration mode and save the configuration with the end and write memory commands.
+
+Spine1
+
+Spine2
+
+router bgp 65200 router-id 10.2.2.1 bestpath as-path multipath-relax ! address-family ipv4 unicast redistribute connected maximum-paths 2 ! address-family l2vpn evpn advertise-all-vni ! peer-group LEAF remote-as external timers 3 9 advertisement-interval 5 bfd capability extended-nexthop ! address-family ipv4 unicast activate ! address-family l2vpn evpn activate ! neighbor interface Eth1/1 peer-group LEAF ! neighbor interface Eth1/2 peer-group LEAF ! neighbor interface Eth1/3 peer-group LEAF ! neighbor interface Eth1/4 peer-group LEAF
+! neighbor interface Eth1/5 peer-group LEAF ! neighbor interface Eth1/6 peer-group LEAF ! neighbor interface Eth1/7 peer-group LEAF ! neighbor interface Eth1/8 peer-group LEAF
+! end write memory
+
+router bgp 65200 router-id 10.2.2.2 bestpath as-path multipath-relax ! address-family ipv4 unicast redistribute connected maximum-paths 2 ! address-family l2vpn evpn advertise-all-vni ! peer-group LEAF remote-as external timers 3 9 advertisement-interval 5 bfd capability extended-nexthop ! address-family ipv4 unicast activate ! address-family l2vpn evpn activate ! neighbor interface Eth1/1 peer-group LEAF ! neighbor interface Eth1/2 peer-group LEAF ! neighbor interface Eth1/3 peer-group LEAF ! neighbor interface Eth1/4 peer-group LEAF
+! neighbor interface Eth1/5 peer-group LEAF ! neighbor interface Eth1/6 peer-group LEAF ! neighbor interface Eth1/7 peer-group LEAF ! neighbor interface Eth1/8 peer-group LEAF
+! end write memory
+
+Verify leaf switch configuration
+The following commands and outputs are from Leaf1A in a four-rack deployment. Most commands also apply to single rack deployments except where noted. Command output on other leaf switches in the leaf-spine fabric is similar. For the following command output examples, PowerFlex nodes are connected and powered on but are not deployed yet. Changes to expect in the command output after deploying PowerFlex nodes are noted where applicable. Lengthy CLI output is truncated where noted.
+
+38
+
+Dell PowerSwitch configuration
+
+show interface status
+
+Ensure that Ethernet interfaces that are connected to PowerFlex nodes and switches are up, and are at the expected speed and MTU. Port channels connected to PowerFlex nodes may show up on one leaf in the pair, but are down with the reason lacp-fail on the other leaf since the nodes are not yet deployed. After PowerFlex nodes are deployed, the applicable port channels should be up on both leaf switches.
+Leaf1A# show interface status
+
+-----------------------------------------------------------------------------
+
+Name
+
+Description
+
+Oper Reason AutoNeg Speed
+
+MTU
+
+-----------------------------------------------------------------------------
+
+Eth1/1
+
+To SO node NIC0:1
+
+up
+
+oper-up
+
+off 25000
+
+9216
+
+Eth1/2
+
+To SO node NIC0:1
+
+up
+
+oper-up
+
+off 25000
+
+9216
+
+(output truncated)
+
+Eth1/47
+
+Link to external network up
+
+oper-up
+
+off 25000
+
+9216
+
+Eth1/48
+
+Link to external network up
+
+oper-up
+
+off 25000
+
+9216
+
+Eth1/49
+
+Peer link to Leaf 1B
+
+up
+
+oper-up
+
+off 100000 9216
+
+Eth1/50
+
+Peer link to Leaf 1B
+
+up
+
+oper-up
+
+off 100000 9216
+
+Eth1/51
+
+Peer link to Leaf 1B
+
+up
+
+oper-up
+
+off 100000 9216
+
+Eth1/52
+
+Peer link to Leaf 1B
+
+up
+
+oper-up
+
+off 100000 9216
+
+Eth1/53
+
+To Spine1
+
+up
+
+oper-up
+
+off 100000 9216
+
+Eth1/54
+
+To Spine2
+
+up
+
+oper-up
+
+off 100000 9216
+
+Eth1/55
+
+To Spine3
+
+up
+
+oper-up
+
+off 100000 9216
+
+Eth1/56
+
+To Spine4
+
+up
+
+oper-up
+
+off 100000 9216
+
+PortChannel1 Bond0 to SO node
+
+down lacp-fail -
+
+25000
+
+9216
+
+PortChannel2 Bond0 to SO node
+
+down lacp-fail -
+
+25000
+
+9216
+
+(output truncated)
+
+PortChannel100 MCLAG peer link
+
+up
+
+oper-up
+
+-
+
+400000 9216
+
+show lldp table
+
+The show lldp table command is used to verify connections are connected to the correct devices. For example, the command output on Leaf1A shows the MAC address of each PowerFlex NIC connected to interfaces Eth1/1-1/15. The MAC shown in the command output can be cross-referenced with the MAC address that is shown in the PowerFlex node iDRAC during troubleshooting if necessary. Remote switch host names and ports are shown on interfaces Eth1/47-1/56 in this example.
+Leaf1A# show lldp table
+
+---------------------------------------------------------------------------
+
+LocalPort
+
+RemoteDevice
+
+RemotePortID
+
+RemotePortDescr
+
+---------------------------------------------------------------------------
+
+Eth1/1
+
+e8:eb:d3:29:88:f0 ConnectX-5,...
+
+Eth1/2
+
+e8:eb:d3:29:88:50 ConnectX-5,...
+
+Eth1/3
+
+e8:eb:d3:25:50:90 ConnectX-5,...
+
+Eth1/4
+
+e8:eb:d3:05:ef:64 ConnectX-5,...
+
+Eth1/5
+
+b8:3f:d2:b9:80:3b ConnectX-5,...
+
+Eth1/6
+
+b8:3f:d2:b9:80:3f ConnectX-5,...
+
+Eth1/7
+
+b8:3f:d2:b9:80:27 ConnectX-5,...
+
+Eth1/8
+
+b8:3f:d2:b9:7e:ab ConnectX-5,...
+
+Eth1/9
+
+e8:eb:d3:05:ec:b4 ConnectX-5,...
+
+Eth1/10
+
+10:70:fd:d4:12:8c ConnectX-5,...
+
+Eth1/11
+
+e8:eb:d3:06:31:cc ConnectX-5,...
+
+Eth1/13
+
+e8:eb:d3:8a:93:eb ConnectX-5,...
+
+Eth1/14
+
+e8:eb:d3:27:ea:a5 ConnectX-5,...
+
+Eth1/15
+
+e8:eb:d3:27:ea:ad ConnectX-5,...
+
+Eth1/47
+
+ExternalA
+
+Eth1/9
+
+To Leaf1A port 1/47
+
+Eth1/48
+
+ExternalB
+
+Eth1/9
+
+To Leaf1A port 1/48
+
+Eth1/49
+
+Leaf1B
+
+Eth1/49
+
+Peer link to Leaf 1A
+
+Eth1/50
+
+Leaf1B
+
+Eth1/50
+
+Peer link to Leaf 1A
+
+Eth1/51
+
+Leaf1B
+
+Eth1/51
+
+Peer link to Leaf 1A
+
+Eth1/52
+
+Leaf1B
+
+Eth1/52
+
+Peer link to Leaf 1A
+
+Eth1/53
+
+Spine1
+
+Eth1/1
+
+To Leaf 1A port 1/53
+
+Eth1/54
+
+Spine2
+
+Eth1/1
+
+To Leaf 1A port 1/54
+
+Eth1/55
+
+Spine3
+
+Eth1/1
+
+To Leaf 1A port 1/56
+
+Eth1/56
+
+Spine4
+
+Eth1/1
+
+To Leaf 1A port 1/56
+
+Dell PowerSwitch configuration
+
+39
+
+show mclag brief
+
+The show mclag brief command shows the status of the MC-LAG domain. One switch has the role set to active and the other standby. Session Status and Peer Link Status should both be up. The Mclag System Mac must be the same on both leaf switches in the pair. It must be different from all other leaf pairs and devices in the leaf-spine fabric.
+Before PowerFlex node deployment, the MC-LAG interface status for the PowerFlex port channels shows down/up or up/ down. After the PowerFlex nodes are deployed, the status for the connected port channels should change to up/up.
+Leaf1A# show mclag brief
+
+Domain ID Role Session Status Peer Link Status Source Address Peer Address Peer Link Keepalive Interval Session Timeout Delay Restore System Mac Mclag System Mac
+
+:1 : active : up : up : 10.1.1.1 : 10.1.1.2 : PortChannel100 : 1 secs : 30 secs : 300 secs : b0:4f:13:2b:6a:a2 : 00:00:00:00:00:01
+
+Number of MLAG Interfaces:14
+
+-----------------------------------------------------------
+
+MLAG Interface
+
+Local/Remote Status
+
+-----------------------------------------------------------
+
+PortChannel1
+
+down/up
+
+PortChannel2
+
+down/up
+
+(output truncated)
+
+show vlan
+
+This command shows all VLANs and associated interfaces on the switch. You can use this command to ensure PowerFlex node port channels are tagged in the correct VLANs. The MC-LAG port channel, PortChannel100 in this example, should be tagged in all VLANs.
+In multirack deployments using BGP EVPN VXLAN, VLANs that are stretched between racks should be indicated with the VTEP address of the other leaf pairs that use that VLAN. For example, VLANs 105, 106, 150 to 152, and 161 to 162 include Vxlan_10.0.0.2, 10.0.0.3, and 10.0.0.4 in the Ports column. 10.0.0.2, 10.0.0.3, and 10.0.0.4 are the VTEP IP addresses of the leaf pairs in Racks 2, 3, and 4 respectively. VLANs 103 and 140 to 143 are only required for PFMC nodes and are limited to Rack 1 in this example, so no VTEP addresses are shown.
+Leaf1A# show Vlan
+
+Q: A - Access (Untagged), T - Tagged
+
+NUM
+
+Status
+
+Q Ports
+
+103
+
+Active
+
+T PortChannel13
+
+T PortChannel14
+
+T PortChannel15
+
+T PortChannel100
+
+105
+
+Active
+
+T PortChannel3
+
+T PortChannel4
+
+T PortChannel9
+
+T PortChannel10
+
+T PortChannel11
+
+T PortChannel100
+
+A Vxlan_10.0.0.2
+
+A Vxlan_10.0.0.3
+
+A Vxlan_10.0.0.4
+
+106
+
+Active
+
+T PortChannel3
+
+T PortChannel4
+
+T PortChannel100
+
+A Vxlan_10.0.0.2
+
+Autostate Enable Enable
+Enable
+
+Dynamic No No No No No No No No No No No No No No No No No
+
+40
+
+Dell PowerSwitch configuration
+
+140 141 142 143 150
+151
+152
+161 162 2001
+
+A Vxlan_10.0.0.3
+
+No
+
+A Vxlan_10.0.0.4
+
+No
+
+Active
+
+T PortChannel9
+
+Enable
+
+No
+
+T PortChannel10
+
+No
+
+T PortChannel11
+
+No
+
+T PortChannel100
+
+No
+
+Active
+
+T PortChannel13
+
+Enable
+
+No
+
+T PortChannel14
+
+No
+
+T PortChannel15
+
+No
+
+T PortChannel100
+
+No
+
+Active
+
+T PortChannel13
+
+Enable
+
+No
+
+T PortChannel14
+
+No
+
+T PortChannel15
+
+No
+
+T PortChannel100
+
+No
+
+Active
+
+T PortChannel13
+
+Enable
+
+No
+
+T PortChannel14
+
+No
+
+T PortChannel15
+
+No
+
+T PortChannel100
+
+No
+
+Active
+
+T PortChannel1
+
+Enable
+
+No
+
+T PortChannel2
+
+No
+
+T PortChannel9
+
+No
+
+T PortChannel10
+
+No
+
+T PortChannel11
+
+No
+
+T PortChannel100
+
+No
+
+A Vxlan_10.0.0.2
+
+No
+
+A Vxlan_10.0.0.3
+
+No
+
+A Vxlan_10.0.0.4
+
+No
+
+Active
+
+T PortChannel1
+
+Enable
+
+No
+
+T PortChannel2
+
+No
+
+T PortChannel7
+
+No
+
+T PortChannel8
+
+No
+
+T PortChannel100
+
+No
+
+A Vxlan_10.0.0.2
+
+No
+
+A Vxlan_10.0.0.3
+
+No
+
+A Vxlan_10.0.0.4
+
+No
+
+Active
+
+T PortChannel5
+
+Enable
+
+No
+
+T PortChannel6
+
+No
+
+T PortChannel7
+
+No
+
+T PortChannel8
+
+No
+
+T PortChannel100
+
+No
+
+A Vxlan_10.0.0.2
+
+No
+
+A Vxlan_10.0.0.3
+
+No
+
+A Vxlan_10.0.0.4
+
+No
+
+Active
+
+T PortChannel1
+
+Enable
+
+No
+
+T PortChannel2
+
+No
+
+T PortChannel100
+
+No
+
+A Vxlan_10.0.0.2
+
+No
+
+A Vxlan_10.0.0.3
+
+No
+
+A Vxlan_10.0.0.4
+
+No
+
+Active
+
+T PortChannel5
+
+Enable
+
+No
+
+T PortChannel6
+
+No
+
+T PortChannel100
+
+No
+
+A Vxlan_10.0.0.2
+
+No
+
+A Vxlan_10.0.0.3
+
+No
+
+A Vxlan_10.0.0.4
+
+No
+
+Active
+
+T PortChannel100 Enable
+
+No
+
+show ip route
+
+The show ip route command shows the routes in the default VRF. The output includes all leaf pair VTEP IP addresses and leaf and spine switch router IDs. The IPv6 addresses shown are automatically configured link-local addresses that are used as part of the unnumbered BGP feature for the leaf-spine connections.
+Leaf1A# show ip route
+
+Codes: K - kernel route, C - connected, S - static, B - BGP, O - OSPF
+
+> - selected route, * - FIB route, q - queued route, r - rejected route
+
+Destination
+
+Gateway
+
+Dist/Metric
+
+--------------------------------------------------------------------------------
+
+Dell PowerSwitch configuration
+
+41
+
+C>* 10.0.0.1/32 B>* 10.0.0.2/32
+* B>* 10.0.0.3/32
+* B>* 10.0.0.4/32
+* C>* 10.1.1.1/32 B>* 10.1.1.2/32
+* B>* 10.1.1.3/32
+* B>* 10.1.1.4/32
+* B>* 10.1.1.5/32
+* B>* 10.1.1.6/32
+* B>* 10.1.1.7/32
+* B>* 10.1.1.8/32
+* B>* 10.2.2.1/32 B>* 10.2.2.2/32 B>* 10.2.2.3/32 B>* 10.2.2.4/32
+
+Direct via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 Direct via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 via fe80::3e2c:30ff:fe72:7402 via fe80::b24f:13ff:fe9d:cd22 via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 via fe80::8e04:baff:fea9:4642 via fe80::b24f:13ff:fe9d:cd22 via fe80::b24f:13ff:fe9d:cd22 via fe80::b24f:13ff:fe9d:6e22 via fe80::8e04:baff:fea9:4642 via fe80::3e2c:30ff:fe72:7402
+
+Loopback1 Eth1/55 Eth1/53 Eth1/55 Eth1/53 Eth1/55 Eth1/53 Loopback0 Eth1/55 Eth1/53 Eth1/56 Eth1/53 Eth1/55 Eth1/53 Eth1/55 Eth1/53 Eth1/55 Eth1/53 Eth1/55 Eth1/53 Eth1/55 Eth1/53 Eth1/53 Eth1/54 Eth1/55 Eth1/56
+
+show ip route vrf vrf_name
+
+0/0 20/0 20/0 20/0 0/0 20/0 20/0 20/0 20/0 20/0 20/0 20/0 20/0 20/0 20/0 20/0
+
+The show ip route vrf vrf_name command shows the routes in the nondefault VRF. The output includes all PowerFlex Layer 3 networks. In this example, it also includes the Router IDs of the external switches, and the external Layer 3 network, 192.168.10.0. This route is used to external services such as DNS and NTP. The IPv6 addresses shown are automatically configured link-local addresses that are used as part of the unnumbered BGP feature for the external switch connections.
+Leaf1A# show ip route vrf VrfTenant1
+
+Codes: K - kernel route, C - connected, S - static, B - BGP, O - OSPF
+
+> - selected route, * - FIB route, q - queued route, r - rejected route
+
+Destination
+
+Gateway
+
+Dist/Metric
+
+--------------------------------------------------------------------------------
+
+B>* 10.3.0.1/32
+
+via fe80::3e2c:30ff:fe84:8302 Eth1/47
+
+20/0
+
+B>* 10.3.0.2/32
+
+via fe80::3e2c:30ff:fe84:8482 Eth1/48
+
+20/0
+
+B>* 192.168.10.0/24
+
+via fe80::3e2c:30ff:fe84:8302 Eth1/47
+
+20/0
+
+*
+
+via fe80::3e2c:30ff:fe84:8482 Eth1/48
+
+B>* 192.168.10.254/32 via fe80::3e2c:30ff:fe84:8482 Eth1/48
+
+20/0
+
+C>* 192.168.105.0/24 Direct
+
+Vlan105
+
+0/0
+
+C>* 192.168.140.0/24 Direct
+
+Vlan140
+
+0/0
+
+C>* 192.168.150.0/24 Direct
+
+Vlan150
+
+0/0
+
+C>* 192.168.161.0/24 Direct
+
+Vlan161
+
+0/0
+
+C>* 192.168.162.0/24 Direct
+
+Vlan162
+
+0/0
+
+In multirack environments, after PowerFlex nodes are deployed, the Destination column will also include the IP addresses of PowerFlex nodes on Layer 3 networks in other racks. The Gateway column will show the remote VTEP IP address that is used to reach the node. The Interfaces column will list the VRF tenant VLAN, 2001 in this example.
+
+show ip vrf
+
+Use the show ip vrf command to ensure that Ethernet and VLAN interfaces are in the correct VRF. Leaf1A# show ip vrf
+
+VRF-NAME
+
+INTERFACES
+
+----------------------------------------------------------------
+
+VrfTenant1
+
+Eth1/47
+
+Eth1/48
+
+42
+
+Dell PowerSwitch configuration
+
+default mgmt
+
+Vlan103 Vlan105 Vlan106 Vlan140 Vlan141 Vlan142 Vlan143 Vlan150 Vlan151 Vlan152 Vlan153 Vlan154 Vlan161 Vlan162 Vlan2001 Eth1/53 Eth1/54 Eth1/55 Eth1/56 Loopback0 Loopback1 Management0
+
+show vxlan tunnel
+
+For multirack deployments, use this command to ensure VXLAN tunnels are established between the VTEPs in all racks of the leaf-spine fabric. The source IP (SIP) is the VTEP address for this leaf pair in Rack 1, 10.0.0.1. The destination IP (DIP) addresses 10.0.0.2, 10.0.0.3, and 10.0.0.4 are the VTEP IPs for the leaf pairs in Racks 2, 3, and 4 respectively.
+Leaf1A# show vxlan tunnel
+
+Name ==== EVPN_10.0.0.2 EVPN_10.0.0.3 EVPN_10.0.0.4
+
+SIP === 10.0.0.1 10.0.0.1 10.0.0.1
+
+DIP === 10.0.0.2 10.0.0.3 10.0.0.4
+
+source ======
+EVPN EVPN EVPN
+
+Group ===== internal internal internal
+
+D-VNI =====
+no no no
+
+operstatus ==========
+oper_up oper_up oper_up
+
+show vxlan remote vni
+
+For multirack deployments, use the show vxlan remote vni command to ensure VLANs are stretched between the required racks. For example, VLAN 105 is stretched between 10.0.0.2, 10.0.03, and 10.0.0.4. These IP addresses are the leaf pair VTEP IP addresses for Racks 2, 3, and 4 respectively. It also provides the VNI assigned to each VLAN in the fabric.
+Leaf1A# show vxlan remote vni
+
+Vlan ==== Vlan105 Vlan105 Vlan105 Vlan106 Vlan106 Vlan106 Vlan150 Vlan150 Vlan150 Vlan151 Vlan151 Vlan151 Vlan152 Vlan152 Vlan152 Vlan153 Vlan153 Vlan153
+
+Tunnel ====== 10.0.0.2 10.0.0.3 10.0.0.4 10.0.0.2 10.0.0.3 10.0.0.4 10.0.0.2 10.0.0.3 10.0.0.4 10.0.0.2 10.0.0.3 10.0.0.4 10.0.0.2 10.0.0.3 10.0.0.4 10.0.0.2 10.0.0.3 10.0.0.4
+
+Group ===== internal internal internal internal internal internal internal internal internal internal internal internal internal internal internal internal internal internal
+
+VNI === 10105 10105 10105 10106 10106 10106 10150 10150 10150 10151 10151 10151 10152 10152 10152 10153 10153 10153
+
+Dell PowerSwitch configuration
+
+43
+
+Vlan154
+
+10.0.0.2
+
+Vlan154
+
+10.0.0.3
+
+Vlan154
+
+10.0.0.4
+
+Vlan161
+
+10.0.0.2
+
+Vlan161
+
+10.0.0.3
+
+Vlan161
+
+10.0.0.4
+
+Vlan162
+
+10.0.0.2
+
+Vlan162
+
+10.0.0.3
+
+Vlan162
+
+10.0.0.4
+
+Total count : 27
+
+internal internal internal internal internal internal internal internal internal
+
+10154 10154 10154 10161 10161 10161 10162 10162 10162
+
+Verify spine switch configuration
+
+NOTE: This section is for multirack deployments only. The following commands and output are from Spine1 in this four-rack and four-spine deployment example. Command output on other spine switches in the leaf-spine fabric is similar.
+show interface status
+
+Use this command to ensure Ethernet interfaces that are connected to the leaf switches are up and at the expected speed and MTU.
+Spine1# show interface status
+
+-------------------------------------------------------------------------------
+
+Name
+
+Description
+
+Oper
+
+Reason
+
+AutoNeg Speed
+
+MTU
+
+-------------------------------------------------------------------------------
+
+Eth1/1
+
+To Leaf 1A port 1/53
+
+up
+
+oper-up
+
+off
+
+100000 9216
+
+Eth1/2
+
+To Leaf 1B port 1/53
+
+up
+
+oper-up
+
+off
+
+100000 9216
+
+Eth1/3
+
+To Leaf 2A port 1/53
+
+up
+
+oper-up
+
+off
+
+100000 9216
+
+Eth1/4
+
+To Leaf 2B port 1/53
+
+up
+
+oper-up
+
+off
+
+100000 9216
+
+Eth1/5
+
+To Leaf 3A port 1/53
+
+up
+
+oper-up
+
+off
+
+100000 9216
+
+Eth1/6
+
+To Leaf 3B port 1/53
+
+up
+
+oper-up
+
+off
+
+100000 9216
+
+Eth1/7
+
+To Leaf 4A port 1/53
+
+up
+
+oper-up
+
+off
+
+100000 9216
+
+Eth1/8
+
+To Leaf 4B port 1/53
+
+up
+
+oper-up
+
+off
+
+100000 9216
+
+show lldp table
+
+The show lldp table command output on Spine1 confirms interfaces Eth1/1-1/8 are connected to the eight leaf switches in the fabric.
+Spine1# show lldp table
+
+------------------------------------------------------------------------------
+
+LocalPort
+
+RemoteDevice
+
+RemotePortID
+
+RemotePortDescr
+
+------------------------------------------------------------------------------
+
+Eth1/1
+
+Leaf1A
+
+Eth1/53
+
+To Spine1
+
+Eth1/2
+
+Leaf1B
+
+Eth1/53
+
+To Spine1
+
+Eth1/3
+
+Leaf2A
+
+Eth1/53
+
+To Spine1
+
+Eth1/4
+
+Leaf2B
+
+Eth1/53
+
+To Spine1
+
+Eth1/5
+
+Leaf3A
+
+Eth1/53
+
+To Spine1
+
+Eth1/6
+
+Leaf3B
+
+Eth1/53
+
+To Spine1
+
+Eth1/7
+
+Leaf4A
+
+Eth1/53
+
+To Spine1
+
+Eth1/8
+
+Leaf4B
+
+Eth1/53
+
+To Spine1
+
+44
+
+Dell PowerSwitch configuration
+
+show ip route
+
+The show ip route command shows the routes in the default VRF. The output includes all leaf pair VTEP IP addresses and router IDs. The IPv6 addresses shown are automatically configured link-local addresses that are used as part of the unnumbered BGP feature for the leaf-spine connections.
+Spine1# show ip route
+
+Codes: K - kernel route, C - connected, S - static, B - BGP, O - OSPF
+
+> - selected route, * - FIB route, q - queued route, r - rejected route
+
+Destination
+
+Gateway
+
+Dist/Metric
+
+--------------------------------------------------------------------------------
+
+B>* 10.0.0.1/32
+
+via fe80::8e47:beff:fead:2311 Eth1/2
+
+20/0
+
+*
+
+via fe80::b24f:13ff:fe2b:6aa2 Eth1/1
+
+B>* 10.0.0.2/32
+
+via fe80::b24f:13ff:fe2b:5ea2 Eth1/4
+
+20/0
+
+*
+
+via fe80::b24f:13ff:fe2b:89a2 Eth1/3
+
+B>* 10.0.0.3/32
+
+via fe80::b24f:13ff:fe37:9c2
+
+Eth1/5
+
+20/0
+
+*
+
+via fe80::b24f:13ff:fe37:fc2
+
+Eth1/6
+
+B>* 10.0.0.4/32
+
+via fe80::b24f:13ff:fe36:50c2 Eth1/7
+
+20/0
+
+*
+
+via fe80::b24f:13ff:fe36:df42 Eth1/8
+
+B>* 10.1.1.1/32
+
+via fe80::b24f:13ff:fe2b:6aa2 Eth1/1
+
+20/0
+
+B>* 10.1.1.2/32
+
+via fe80::8e47:beff:fead:2311 Eth1/2
+
+20/0
+
+B>* 10.1.1.3/32
+
+via fe80::b24f:13ff:fe2b:89a2 Eth1/3
+
+20/0
+
+B>* 10.1.1.4/32
+
+via fe80::b24f:13ff:fe2b:5ea2 Eth1/4
+
+20/0
+
+B>* 10.1.1.5/32
+
+via fe80::b24f:13ff:fe37:9c2
+
+Eth1/5
+
+20/0
+
+B>* 10.1.1.6/32
+
+via fe80::b24f:13ff:fe37:fc2
+
+Eth1/6
+
+20/0
+
+B>* 10.1.1.7/32
+
+via fe80::b24f:13ff:fe36:50c2 Eth1/7
+
+20/0
+
+B>* 10.1.1.8/32
+
+via fe80::b24f:13ff:fe36:df42 Eth1/8
+
+20/0
+
+C>* 10.2.2.1/32
+
+Direct
+
+Loopback0
+
+0/0
+
+Dell PowerSwitch configuration
+
+45
+
+6
+Deploy PowerFlex
+Topics:
+• Deployment notes
+Deployment notes
+● After the network has been configured and verified, PowerFlex can be deployed according to your PowerFlex Deployment and Administration documentation.
+● In PowerFlex Manager, be sure to use a partial network automation template, such as Compute-Linux-Partial Network or Storage-Partial Network, as a starting point. NOTE: Using a PowerFlex template that does not include "Partial Network" in the name may result in deployment failures.
+
+46
+
+Deploy PowerFlex
+
+A
+Using an access-aggregation topology with PowerFlex
+Topics:
+• Introduction • Access-aggregation topology networking requirements • Topology differences • Switch configuration file examples
+Introduction
+Dell Technologies recommends that you use the leaf-spine production topology covered in this guide. A leaf-spine topology is the standard data center architecture, is designed to optimize performance, and is highly scalable. However, in smaller deployments, some customers might prefer to use an access-aggregation production topology, where the aggregation switches terminate all Layer 2 traffic from the PowerFlex cluster and connect to core switches for North-South communication. The supported access-aggregation topology for multirack PowerFlex deployments is shown in the figure below.
+
+Using an access-aggregation topology with PowerFlex
+
+47
+
+Figure 10. Access-aggregation topology for multirack PowerFlex deployments
+NOTE: The OOB management topology shown in this guide is the same for access-aggregation and leaf-spine production topologies.
+Access-aggregation topology networking requirements
+Requirements for PowerFlex on SONiC access-aggregation topology include the following: NOTE: "Single rack" refers to topologies with only two access switches. "Multirack" refers to topologies with four or more access switches.
+● All access and aggregation switches must be running the same version of Dell Enterprise SONiC, and it must be 4.2.0 or later. An Enterprise Standard or Enterprise Premium bundle is required.
+
+48
+
+Using an access-aggregation topology with PowerFlex
+
+● Single rack deployments require two supported Dell PowerSwitch access switches. S5212F-ON, S5224F-ON, and S5248FON are supported as access switches.
+● Multirack deployments require two supported Dell PowerSwitch access switches per rack, plus two supported Dell PowerSwitch aggregation switches. S5232F-ON is supported as an aggregation switch.
+● Access and aggregation switches must be deployed in pairs and be configured for MC-LAG. Each switch in an MC-LAG pair must be the same model.
+● In multirack deployments, all access switches connected to PowerFlex nodes must be connected to the same pair of aggregation switches.
+● If aggregation switches have uplinks to core switches, PowerFlex data traffic must not pass through the core switches. ● Each access-to-aggregation switch connection must be at least 100 GbE, Layer 2, and be configured for LACP. Provide
+enough connections to ensure the oversubscription ratio at the access switches does not exceed 2:1. ● MC-LAG peer links between access and aggregation switch pairs require at least two connections for fault tolerance. Each
+access switch peer link can be 25 GbE SFP28, 100 GbE QSFP28, or 200 GbE QSFP28-DD (available on S5248F-ON). If 25 GbE ports are used, Dell Technologies recommends using at least four connections for sufficient bandwidth if a switch is taken offline. Each aggregation switch peer link must be at least 100 GbE. ● Each PowerFlex node requires four 25 GbE SFP28 connections to the access switches. LACP is recommended on these connections, but it is not required. ● One 1 GbE (1000BASE-T) switch for OOB management connections is required. Dell Technologies recommends using one PowerSwitch S3248T-ON per rack. ● One 1 GbE (1000BASE-T) connection is required for each switch OOB management port. ● One 1 GbE (1000BASE-T) connection is required for each PowerFlex node iDRAC port. ● One 10 GbE connection is required for each PFMC node to access the OOB management network in addition to the PFMC node's 1 GbE iDRAC port. ● One DNS server and one NTP server that are reachable from the PowerFlex Node Management network are required.
+Topology differences
+
+The following table shows the key differences between an access-aggregation topology and a leaf-spine topology for PowerFlex on Dell Enterprise SONiC.
+
+Table 7. Topology differences
+Item
+Maximum number of access or leaf switches
+
+Leaf-spine topology (preferred) 32 (16 pairs)
+
+Access-aggregation topology 14 (7 pairs)
+
+Maximum number of aggregation or
+
+6
+
+spine switches
+
+2 (1 pair)
+
+Maximum number of PowerFlex nodes 22
+
+22
+
+per access or leaf pair
+
+Maximum number of PowerFlex nodes in 352
+
+154
+
+the topology
+
+Layer 2 / Layer 3 boundary
+
+Leaf layer
+
+Aggregation layer
+
+BGP EVPN protocol
+
+Used
+
+Not used
+
+Switch configuration file examples
+
+Example switch configuration files for the access-aggregation topology are attached to this guide. The file names begin with x_access and x_aggregation as applicable. To access the files, see the Attachments section of this guide.
+
+Using an access-aggregation topology with PowerFlex
+
+49
+
+B
+
+Validated components
+Topics:
+• Introduction • Dell PowerSwitch systems • PowerFlex nodes • PowerFlex Management Controller
+Introduction
+The following tables include the hardware, software, and firmware that were used to validate the examples in this guide. Other supported hardware, software, and firmware can be used.
+Dell PowerSwitch systems
+
+Table 8. Dell PowerSwitch models and operating systems used to validate the leaf-spine example
+
+Quantity
+
+Item
+
+Role
+
+SONiC version
+
+8
+
+Dell PowerSwitch S5248F-ON Leaf switch
+
+4.1.1 Enterprise Premium
+
+4
+
+Dell PowerSwitch S5232F-ON Spine switch
+
+4.1.1 Enterprise Premium
+
+2
+
+Dell PowerSwitch S5212F-ON External switch
+
+4.1.1 Enterprise Premium
+
+4
+
+Dell PowerSwitch S3248T-ON OOB management switch
+
+4.1.1 Enterprise Premium
+
+Table 9. Dell PowerSwitch models and operating systems used to validate the access-aggregation example
+
+Quantity
+
+Item
+
+Role
+
+SONiC version
+
+8
+
+Dell PowerSwitch S5248F-ON Access switch
+
+4.2.0 Enterprise Standard
+
+2
+
+Dell PowerSwitch S5232F-ON Aggregation switch
+
+4.2.0 Enterprise Standard
+
+4
+
+Dell PowerSwitch S3248T-ON OOB management switch
+
+4.2.0 Enterprise Standard
+
+PowerFlex nodes
+
+Table 10. PowerFlex R650 S (Storage) node configuration
+
+Quantity per node
+
+Item
+
+2
+
+Intel Xeon Gold 6326 CPU @ 2.90 GHz,
+
+16 cores
+
+8
+
+32 GB DDR4 DIMM (256 GB total)
+
+5
+
+3576.98 GB SATA SSD (HBA355i front
+
+controller)
+
+Firmware version NA
+NA J404
+
+50
+
+Validated components
+
+Table 10. PowerFlex R650 S (Storage) node configuration (continued)
+
+Quantity per node
+
+Item
+
+Firmware version
+
+2
+
+447.13 GB SATA SSD (BOSS-S2
+
+DL74
+
+controller)
+
+1
+
+Dell HBA355i front storage controller
+
+17.15.08.00
+
+1
+
+Boot Optimized Storage Solution
+
+2.5.13.4008
+
+(BOSS-S2) controller
+
+1
+
+Broadcom NetXtreme Gigabit Ethernet 22.31.6
+
+dual port NIC
+
+2
+
+Mellanox ConnectX-5 EN 25 GbE dual- 16.32.20.04
+
+port SFP28 adapter
+
+-
+
+BIOS
+
+1.8.2
+
+-
+
+CPLD
+
+1.0.9
+
+-
+
+iDRAC with Lifecycle Controller
+
+6.00.30.202
+
+-
+
+Backplane
+
+3.67
+
+Table 11. PowerFlex R650 C (Compute) node configuration
+
+Quantity per node
+
+Item
+
+2
+
+Intel Xeon Gold 6326 CPU @ 2.90 GHz,
+
+16 cores
+
+8
+
+32 GB DDR4 DIMM (256 GB total)
+
+2
+
+447.13 GB SATA SSD
+
+1
+
+Boot Optimized Storage Solution
+
+(BOSS-S2) controller
+
+1
+
+Broadcom NetXtreme Gigabit Ethernet
+
+dual port NIC
+
+2
+
+Mellanox ConnectX-5 EN 25 GbE dual-
+
+port SFP28 adapter
+
+-
+
+BIOS
+
+-
+
+CPLD
+
+-
+
+iDRAC with Lifecycle Controller
+
+Firmware version NA
+NA DL74 2.5.13.4008
+22.31.6
+16.32.20.04
+1.8.2 1.0.9 6.00.30.202
+
+PowerFlex Management Controller
+
+Three PowerFlex R650 S (Storage) nodes and the software in the table below were used to build the PowerFlex Management Controller 2.0 cluster.
+
+Table 12. PowerFlex Management Controller software
+
+Item
+
+Version
+
+VMware ESXi
+
+7.0.3 build 19482537
+
+VMware vCenter Server Appliance
+
+7.0.3 build 19480866
+
+PowerFlex Manager
+
+4.0.1 build 249
+
+Intelligent Catalog
+
+40.371.00
+
+Validated components
+
+51
+
+C
+Resources
+Topics:
+• Dell Networking resources • PowerFlex guides • Fabric Design Center • Technical support
+Dell Networking resources
+● Dell Networking Solutions Info Hub ● Dell Enterprise SONiC Distribution (account required) ● Dell PowerSwitch N3200-ON Series Documentation ● Dell PowerSwitch S5212F-ON Documentation ● Dell PowerSwitch S5248F-ON Documentation ● Dell PowerSwitch S5232F-ON Documentation
+PowerFlex guides
+Contact your Dell account representative for access to the following documents: ● Dell PowerFlex Appliance with PowerFlex 4.x Network Planning Guide ● Dell PowerFlex Appliance with PowerFlex 4.x Deployment Guide
+Fabric Design Center
+The Dell Fabric Design Center (FDC) is a cloud-based application that automates the planning, design, and deployment of network fabrics that power Dell compute, storage, and hyperconverged infrastructure solutions. The FDC is ideal for turnkey solutions and automation based on validated deployment guides. FDC allows design customization and flexibility to go beyond validated deployment guides. For additional information, go to the Dell Fabric Design Center at https://fdc.dell.com/.
+Technical support
+For technical support, visit the Dell Support site.
+
+52
+
+Resources
+
+

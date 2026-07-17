@@ -1,0 +1,406 @@
+Dell SmartFabric OS10 to Enterprise SONiC Distribution by Dell Technologies configurations Tech Brief
+A short tech brief comparing OS10 and Dell SONiC configurations
+Abstract This tech brief compares a single site leaf and spine data center deployment using common features within Dell SmartFabric OS10 and Dell SONiC. Use this document as a reference when implementing a Dell SONiC-based deployment from Dell SmartFabric OS10.
+H19795.1
+June 2026
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+© 2026 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+Introduction: Test setup.....................................................................................................................................................4 Introduction..................................................................................................................................................................... 4 Environment details.......................................................................................................................................................4
+Network operating system feature configurations: Deployment............................................................................. 6 Document structure...................................................................................................................................................... 6 Spanning tree configuration........................................................................................................................................6 Interface breakout configuration............................................................................................................................... 6 Loopback interface configuration.............................................................................................................................. 7 Leaf to spine interface configuration........................................................................................................................ 7 Downstream interface VLAN configuration.............................................................................................................7 Multi-chassis configuration......................................................................................................................................... 8 Link aggregation configuration................................................................................................................................... 8 Link tracking configuration..........................................................................................................................................9 Virtual Routing and Forwarding (VRF) configuration........................................................................................... 9 Multicast configuration...............................................................................................................................................10 OSPF configuration..................................................................................................................................................... 10 Voice over IP (VoIP) configuration...........................................................................................................................11 TACACS configuration.................................................................................................................................................11 BGP routing protocol and BFD configuration........................................................................................................12 BGP EVPN VXLAN configuration.............................................................................................................................13
+References...........................................................................................................................................................................14 Dell Technologies documentation.............................................................................................................................14
+
+Contents
+
+3
+
+Topics:
+• Introduction: Test setup • Network operating system feature configurations: Deployment • References
+Introduction: Test setup
+Introduction
+Dell Technologies offers two enterprise-class network operating systems (NOS) for enterprise, cloud, and edge deployments. This tech brief compares some of the most common configurations deployed within these areas. This document is not exhaustive and does not cover all commands and configurations. Instead, the document provides a glimpse into each NOS and offers a brief command-line interface (CLI) comparison.
+NOTE: As CLI syntax may change, Dell Technologies recommends checking each NOS user guide in References.
+Environment details
+This document is divided into Layer 2 and Layer 3 components and their configurations. The following figure shows a typical Layer 3 leaf-and-spine Clos architecture using BGP EVPN VXLAN. The test setup consists of: ● Two spine switches—Z9432F-ON ● Six leaf switches—S5248F-ON ● Two external routers ● Nine hosts allocated as:
+○ Six servers belonging to different groups (Marketing, Engineering, Sales) ○ Three VxRail appliances
+Figure 1. Setup diagram
+4
+
+The workloads are separated into client and server functions.
+The first leaf switch pair (Leaf1 and Leaf2) is connected to server A group and the VxRail cluster workloads. The second leaf switch pair (Leaf3 and Leaf4) is connected to the server B group workloads.
+The border leaf pair is connected to two different external routers with different types of uplinks to demonstrate different configuration options.
+The following table provides details about the port connections between source devices and their destination devices:
+
+Table 1. Device port connection information from source to destination device
+
+Source device Leaf1
+
+Switchport Ethernet 1/1
+
+Destination device Leaf2
+
+Leaf1
+
+Ethernet 1/2
+
+Leaf2
+
+Leaf1
+
+Ethernet 1/3
+
+Spine1
+
+Leaf1
+
+Ethernet 1/4
+
+Spine2
+
+Leaf1
+
+Ethernet 1/5
+
+Marketing
+
+Leaf1
+
+Ethernet 1/6
+
+Engineering
+
+Leaf1
+
+Ethernet 1/7
+
+Sales
+
+Leaf1
+
+Ethernet 1/8
+
+VxRail Node1
+
+Leaf1
+
+Ethernet 1/9
+
+VxRail Node2
+
+Leaf1
+
+Ethernet 1/10
+
+VxRail Node3
+
+BLeaf1
+
+Ethernet 1/1
+
+BLeaf2
+
+BLeaf1
+
+Ethernet 1/2
+
+BLeaf2
+
+BLeaf1
+
+Ethernet 1/5
+
+Spine1
+
+BLeaf1
+
+Ethernet 1/6
+
+ExtRtr1
+
+BLeaf1
+
+Ethernet 1/7
+
+ExrRtr2
+
+Layer 2
+The following features make up the Layer 2 part of this deployment: ● Interface configuration ● VLANs, trunks ● Spanning Tree configuration ● Link aggregation ● Link tracking ● Multi-chassis
+Layer 3
+The following features make up the Layer 3 part of this deployment: ● Border Gateway Protocol (BGP) ● Open Shortest Path First (OSPF) ● BGP EVPN VXLAN ● Bi-directional Forwarding Detection (BFD) ● Virtual Routing and Forwarding (VRF)
+
+5
+
+Miscellaneous
+The following features are included as a miscellaneous part of this deployment: ● Voice over IP (VoIP) ● Quality of Service (QoS) ● Terminal Access Controller Access-Control System (TACACS)
+Network operating system feature configurations: Deployment
+
+Document structure
+
+The configuration structure that this document describes is broken down into specific features for simplicity: Layer 2, Layer 3, and Miscellaneous. This document does not describe the configurations of all the devices as they are largely similar. The devices that this chapter describes include Leaf1, Spine1, and BLeaf1.
+NOTE: Dell SONiC is compatible with open-source SONiC; the default CLI prompt is the open-source SONiC (admin@hostname:~$). With a Dell switch running Dell SONiC, load the Dell SONiC Management Framework CLI (MF-CLI) to configure the switch using the familiar CLI interface.
+The following commands show how to load the Dell SONiC MF-CLI from the default prompt and configure standard interface naming:
+sonic login: admin Password: admin@sonic:~$ sonic-cli sonic# conf t sonic(conf)# interface-naming standard sonic(conf)# exit
+The default Dell SONiC password is "YourPaSsWoRd" (no double quotes).
+
+Spanning tree configuration
+
+The interface spanning-tree level configurations are included on the interface configurations.
+
+Table 2. Global spanning tree configuration
+
+Device(s) - Leaf1, Spine1, BLeaf1
+
+Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t spanning-tree mode rapid-pvst end
+
+conf t spanning-tree mode rapid-pvst end
+
+Interface breakout configuration
+The leaf switches are S5248Fs. The default switchport speed on the S5248F is 25 Gbps. Assuming the connection between leaf and spine switches needs to change to 10 Gbps, issue the following configuration.
+NOTE: If the connections remain 25 Gbps, there is no need to perform any interface breakout configurations.
+
+6
+
+Table 3. Configuration examples for Dell SmartFabric OS10 and Dell SONiC
+
+Device(s) - Leaf1, Spine1, BLeaf1
+
+Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t port-group 1/1/1 mode Eth 10g-4x end
+
+conf t port-group 1 speed 10000 end
+
+Loopback interface configuration
+
+The following table shows the commands for configuring a loopback interface with an IP address:
+
+Device(s) - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell Enterprise SONiC
+
+conf t interface loopback0 ip add 10.0.2.1/24 end
+
+conf t interface loopback0 ip add 10.0.2.1/32 end
+
+NOTE: On Dell Enterprise SONiC, an IP address assigned to a loopback interface needs to be a /32 subnet.
+
+Leaf to spine interface configuration
+
+The following table shows the inter-switch interface CLI configurations:
+
+Table 4. Configuration examples for Dell SmartFabric OS10 and Dell SONiC
+
+Device - Leaf1, Spine1, BLeaf1
+
+Dell SmartFabric OS10
+
+Dell Enterprise SONiC
+
+conf t interface Eth1/1/3 description Link-2-Spine1 mtu 9216 end
+
+conf t interface Eth1/3 description Link-2-Spine1 mtu 9216 ipv6 enable link state track leaf upstream end
+
+Downstream interface VLAN configuration
+
+The following table shows the downstream links that are connected to the workloads:
+
+Table 5. Interface CLI configurations
+
+Device - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t interface ethernet1/1/5 description Link-2-MktA-Node no switchport exit
+
+conf t interface ethernet1/5 description Link-2-MktA-Node no switchport exit
+
+7
+
+Table 5. Interface CLI configurations (continued) Device - Leaf1, Spine1, BLeaf1
+int vlan 50 description Marketing_Network no shut end
+
+int vlan 50 description Marketing_Network no shut end
+
+NOTE: BLeaf switches are not connected to any workloads, and therefore no downstream configurations are included.
+
+Multi-chassis configuration
+The following table shows the multi-chassis configuration: Table 6. Multi-chassis configuration Device - Leaf1 Dell SmartFabric OS10
+conf t interface range eth1/1/1-1/1/2 description VLTi-Link-2-Leaf2 no switchport no shutdown exit vlt-domain 127 backup destination <ip_address> vrf management vlt-mac 00:00:00:00:00:01 discovery-interface eth1/1/1 discovery-interface eth1/1/2 end
+
+Dell SONiC conf t interface PortChannel 256 mode on description MCLAG-Peer_Link switchport trunk allowed Vlan 1,50 mtu 9216 no shut end conf t int range Eth 1/1-1/2 description MCLAG-Links mtu 9216 speed 100000 channel-group 256 no shut exit conf t mclag domain 1 source-ip 10.0.2.1 peer-ip 10.0.2.2 peer-link PortChannel256 mclag-system-mac 00:00:00:00:00:01 session-timeout 30 delay-restore 90 end
+
+NOTE: The backup destination IP address is the VLT heartbeat backup link. This link is used in case the VLT peer links fail. The VLT-mac configuration is optional, but it is included for the purposes of consistency between the configurations.
+
+Link aggregation configuration
+
+The following table shows the LAG configuration sample on Leaf1. You can use the same set of commands with their respective unique parameters on BLeaf1 and BLeaf2 while connected to ExtRtr2. This connection is a Layer 2 LAG uplink.
+
+Table 7. Link Aggregation Group (LAG) sample configurations
+
+Device - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t interface port-channel 1
+
+conf t interface PortChannel 1 mode active
+
+8
+
+Table 7. Link Aggregation Group (LAG) sample configurations (continued)
+
+Device - Leaf1, Spine1, BLeaf1
+
+description LAG-2-Mkt-Node” switchport mode trunk no switchport access vlan switchport trunk allowed vlan 50 vlt-port-channel 15 mtu 9216 no shut exit conf t int range Eth1/1/1-1/1/2 description Link-2-Mkt-Node mtu 9216 channel-group 1 mode active no shutdown end
+
+description LAG-2-Mkt-Node switchport trunk allowed vland add 50 mclag 1 mtu 9216 no shut exit conf t int range Eth1/1-1/2 description Link-2-Mkt-Node mtu 9216 channel-group 1 end
+
+NOTE: Port-channel 1 is the LAG configured between the Marketing nodes and the leaf switches. The configuration sample does not show Port-Channel 2 or 3, which are the LAGs to the Engineering and Sales nodes.
+
+Link tracking configuration
+
+Link tracking includes both downstream and upstream interfaces. Tracking the state of the interfaces ensures that traffic convergence accounts for the status of all devices in the fabric before any data is placed on the fabric.
+The following table shows the link tracking configuration:
+
+Table 8. Link tracking configuration Device(s) - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t uplink-state-group 1 name "Virtual-switch-fail-over" enable downstream ethernet1/1/5 upstream ethernet1/1/3 upstream VLTi end
+
+conf t link state track VIPinterfaces downstream all-mclag exit conf t interface Eth1/3 link state track VIPinterfaces upstream end
+
+Virtual Routing and Forwarding (VRF) configuration
+
+The following table shows a sample VRF configuration of two different VRFs (blue and orange). Each VRF has its own subnet IP.
+
+Table 9. VRF configuration example
+
+Device - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t ip vrf blue ip vrf orange int eth1/1/1 no shut no switchport ip vrf forwarding blue ip address 21.0.0.1/24
+
+conf t ip vrf Vrf_blue ip vrf Vrf_orange interface vlan 100 no shutdown ip vrf forwarding Vrf_blue ip address 21.0.0.1/24 exit
+
+9
+
+Table 9. VRF configuration example (continued) Device - Leaf1, Spine1, BLeaf1
+int eth1/1/2 no shut no switchport ip vrf forwarding orange ip address 31.0.0.1/24 int vlan 100 name “Blue_L3” mode L3 no shutdown ip vrf forwarding blue ip address 1.0.0.2/24 int vlan 101 name “Orange_L3” mode L3 no shutdown ip vrf forwarding orange ip address 2.0.0.2/24 exit conf t ip route vrf blue 0.0.0.0/21.0.0.254 ip route vrf orange 0.0.0.0/31.0.0.254 end
+
+int vlan 101 no shutdown ip vrf forwarding Vrf_orange ip address 31.0.0.1/24 exit int eth1/1 no shutdown switchport access vlan 100 exit int eth1/2 no shutdown switchport access vlan 101 exit ip route vrf Vrf_blue 0.0.0.0/0 21.0.0.254 ip route vrf Vrf_orange 0.0.0.0/0 31.0.0.254 end
+
+Multicast configuration
+
+The following table shows a basic multicast configuration using source-specific multicast mode. The sample configuration uses a single VLAN.
+
+Table 10. Multicast configuration
+
+Device- Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t ip multicast routing ip pim ssm-range interface vlan 10 ip address 10.10.10.1/24 ip pim sparse-mode end
+
+conf t ip pim vrf default ssm prefix-list <name> interface vlan10 ip address 10.10.10.1/24 ip pim sparse-mode ip igmp end
+
+OSPF configuration
+
+The following table shows a basic OSPF onfiguration using area 0 as the common area for all the switches:
+
+Table 11. OSPF configuration Device - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t router ospf 100 router-id 1.1.1.1 log-adjacency-changes exit interface vlan 10 ip address 10.10.10.1/24
+
+conf t router ospf 100 router-id 1.1.1.1 log-adjacency-changes exit int vlan10 ip addresses 10.10.10.1/24
+
+10
+
+Table 11. OSPF configuration (continued) Device - Leaf1, Spine1, BLeaf1
+ip ospf 100 area 0.0.0.0 no shutdown end
+
+ip ospf area 0 no shutdown end
+
+Voice over IP (VoIP) configuration
+
+The following table shows a basic VoIP configuration on two different types of traffic (data and voice). Voice data traffic is given strict priority to ensure that no voice packets are dropped during network traffic congestion.
+
+Table 12. VoIP configuration Device - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t int vlan 10 description Data_VLAN ip address 10.10.10.1/24 no shut int vlan 30 description Voice_VLAN ip address 10.30.30.1/24 no shut exit interface eth1/1/1 no shutdown switchport mode trunk switchport access vlan 10 switchport trunk allowed vlan 10 spanning-tree port type edge lldp med network-policy 1 app voice vlan 30 vlan-type tag priority 6 dscp 46 trust dscp-map dscp_trust qos-group 6 dscp 46 exit system qos trust-map dscp dscp_trust end
+
+conf t int vlan 10 description Data_VLAN int vlan 30 description Voice_VLAN exit network-policy profile1 voice vlan 30 cos 5 dscp 46 exit interface eth1/1 switchport mode access switchport access vlan 10 network-policy1 lldp med-tlv-select network-policy exit qos scheduler-policy voip queue 5 type strict end conf t qos map dscp-tc voip dscp 46 traffic-class 5 exit qos map dot1p-tc-voip dot1p 5 traffic-class 5 queue 5 exit int eth1/1 scheduler-poliocy voip qos-map dscp-tc voip qos-map dot1p-tc voip qos-map tc-queue voip end
+
+TACACS configuration
+The following table shows ia basic TACACS configuration: Table 13. TACACS configuration Device - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+11
+
+Table 13. TACACS configuration (continued) Device - Leaf1, Spine1, BLeaf1
+conf t aaa new-model aaa authentication login default group tacacs+ local aaa authorization commands role sysadmin console group tacacs+ local aaa authorization config-commands role sysadmin default group tacacs+ aaa accounting commands 0 default startstop group tacacs+ aaa accounting commands 1 default startstop group tacacs+ aaa accounting commands 15 default startstop group tacacs+ tacacs-server host 10.10.10.10 vrf management tacacs-server key MyTacKey tacacs-server port 49 tacacs-server timeout 5 exit conf t tacacs-server source-interface management end
+
+conf t aaa authentication login default group tacacs+ local aaa authorization commands role admin default group tacacs+ local aaa authorization confi-commands role admin default group tacacs+ aaa accounting commands 0 default startstop group tacacs+ aaa accounting commands 1 default startstop group tacacs+ aaa accounting commands 15 default startstop group tacacs+ exit conf t tacacs-server host 10.10.10.10 vrf mgmt key MyTacKey port 49 timeout 5 source-interface mgmt. end
+
+BGP routing protocol and BFD configuration
+
+The following table shows the BGP CLI commands on OS10 and SONiC. BGP is the routing protocol that is used in the example for the underlay fabric.
+
+Table 14. BGP routing protocol and BFD configuration
+
+Device - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell SONiC
+
+conf t bfd enable exit conf t interface Eth1/1/3 ipv6 nd max-ra-interval 4 ipv6 nd min-ra-interval 3 ipv6 nd send-ra no shut conf t ip prefix-list spine-leaf seq 10 permit 10.0.0.0/16 ge 24 route-map spine-leaf permit 10 match ip address prefix-list spine-leaf exit router bgp 64625 router-id 10.0.2.1 bestpath as-path multipath-relax maximum-paths ebgp 2 graceful-restart role receiver-only address-family ipv4 unicast redistribute connected route-map spineleaf exit template spine-leaf fall-over advertisement-interval 1 timers 3 9
+
+conf t ip prefix-list spine-leaf seq 10 permit 10.0.2.0/24 ge 32 route-map spine-leaf permit 10 match ip address prefix-list spine-leaf exit router bgp 2001 router-id 10.0.2.1 bestpath as-path multipath-relax address-family ipv4 unicast redistribute connected maximum-paths 16 maximum-paths ibgp 1 exit address-family l2vpn evpn advertise-all-vni advertise-pip ip 10.0.2.1 exit neighbor interface Eth 1/3 peer-group spine-leaf remote-as external timers 3 9 timers connect 30 advertisement-interval 0 bfd capability extended-nexthop address-family ipv4 unicast activate
+
+12
+
+Table 14. BGP routing protocol and BFD configuration (continued)
+
+Device - Leaf1, Spine1, BLeaf1
+
+exit neighbor interface Eth 1/1/3 remote-as 65000 inherit template spine-leaf send-community extended update-source loopback0 address-family ipv4 unicast no activate exit address-family l2vpn evpn activate allowas-in 1 end
+
+allowas-in 2 send-community both exit address-family l2vpn evpn activate allowas-in 2 end
+
+BGP EVPN VXLAN configuration
+
+The following table shows the the BGP EVPN VXLAN configuration between OS10 and Dell SONiC. The configuration steps are similar for both systems.
+
+Table 15. BGP EVPN VXLAN configuration Device(s) - Leaf1, Spine1, BLeaf1 Dell SmartFabric OS10
+
+Dell Enterprise SONiC
+
+conf t nve source-interface loopback0 exit conf t evpn auto-evi exit conf t ip vrf Vrf1 exit ip virtual-router mac-address 00:00:00:00:00:01 interface virtual-network 501 description master-overlay-nw ip vrf forwarding Vrf1 ip add 172.16.50.100/24 ip virtual-router address 172.16.50.254 exit conf t virtual-network 501 description VNI-Map vxlan-vni 501 exit int vlan 50 virtual-network 501 no shut end
+
+conf t router bgp 64625 neighbor 10.0.1.1 inherit template spine-leaf remote-as 64600 ebgp-multihop 4 send-community extended update-source loopback 0 no shutdown exit neighbor 10.0.1.1 address-family ipv4 unicast no activate exit address-family l2vpn evpn no sender-side-loop-detection activate exit ip address 10.2.2.1/32 no shutdown ip anycast-address enable ip anycast-mac-address 00:00:00:11:11:11 ipv6 anycast-address enable ip vrf Vrf1 int vlan 50 ip vrf Vrf1 no shut int vlan 999 description VRfVNIMapping ip vrf forwarding Vrf1 no shut end conf t int vlan 50 neigh-suppress ip vrf forwarding Vrf1 ip anycast-address 172.16.50.254/24 mtu 9216
+
+13
+
+Table 15. BGP EVPN VXLAN configuration (continued) Device(s) - Leaf1, Spine1, BLeaf1
+no shut exit interface vxlan vtep1 source-ip 10.2.2.1 primary-ip 10.0.2.1 map vni 501 vlan 50 map vni 10999 vrf Vrf1 end
+References
+Dell Technologies documentation
+For additional information, see the following Dell Technologies documentation: ● Dell SONiC Distribution by Dell Technologies User Guide ● Dell SmartFabric OS10 User Guide
+NOTE: Access to these documents depends on your login credentials. If you do not have access to a document, contact your Dell Technologies representative.
+14
+
+

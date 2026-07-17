@@ -1,0 +1,171 @@
+Ethernet and InfiniBand AI fabrics: Selecting an AI Scale Out Fabric for Today and Beyond
+Whitepaper
+Abstract Artificial intelligence continues to reshape the technological landscape, and the demand for networking solutions tailored to AI environments is on the rise. Creating a highperformance connectivity fabric that allows GPU clusters to process their workloads is essential. In this whitepaper, we delve into how Ethernet and InfiniBand fare in the realm of AI networking, comparing their respective capabilities, advantages, and limitations.
+Part Number: H20084 July 2024
+
+Notes, cautions, and warnings
+NOTE: A NOTE indicates important information that helps you make better use of your product. CAUTION: A CAUTION indicates either potential damage to hardware or loss of data and tells you how to avoid the problem. WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
+© 2024 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+Contents
+Chapter 1: Purpose of this document ............................................................................................4
+Chapter 2: AI Fabrics.................................................................................................................... 5 Ethernet: the versatile backbone.....................................................................................................................................6 InfiniBand: the historic performer....................................................................................................................................6 Similarities in speed, bandwidth, latency, and topology............................................................................................. 6 Ethernet merits.................................................................................................................................................................... 7 InfiniBand merits.................................................................................................................................................................. 8
+Chapter 3: Future Outlook.............................................................................................................9
+Chapter 4: Conclusion..................................................................................................................10
+Chapter 5: Support and References............................................................................................. 12 Feedback and technical support.................................................................................................................................... 12 Additional resources.......................................................................................................................................................... 12
+
+Contents
+
+3
+
+1
+Purpose of this document
+If you are confused by which GPU fabric to choose to best fit your AI needs today and in the future, you are not alone. In years past, you may have heard that InfiniBand offers higher data transfer speeds and has lower latency, or that Ethernet is more scalable, compatible, and cost-effective. The truth however is that both InfiniBand and Ethernet are fully capable and will deliver excellent results. In this paper, we will go over the decision criteria and tradeoffs to help you make the right choice for your organization. This white paper provides information about the current abilities of both InfiniBand and Ethernet connectivity fabrics for the rapidly growing AI infrastructure landscape. The paper is not intended to answer all questions in this area, but to provide a high-level view of the differences between the technologies and the directions each are going, to help the reader make informed decisions. It is important to note that both technologies are viable solutions today and are continuing to make improvements to further advance their capabilities for AI. The intention of this paper is to provide a high-level comparison and balanced contrast of these two technologies. It is not a deployment or reference guide and does not focus on other fabrics like front-end, storage, or management.
+Target audience
+This document is for those decision makers and influencers who are starting to collect information on which type of network fabric would be most beneficial to their AI environment, particularly in the Scale Out fabric (also known as "Back-End" fabric or "East-West" fabric). This fabric connects GPUs in a GPU cluster to allow them to exchange AI workload parameters.
+
+4
+
+Purpose of this document
+
+2
+AI Fabrics
+Multiple fabrics are needed to create a GPU cluster with an AI-specific server such as the Dell PowerEdge XE9680.
+
+Figure 1. Example of a Dell PowerEdge XE9680-based GPU Cluster
+
+Figure 1 shows the different fabrics that support the deployment of a typical AI workload:
+
+1. Scale Up Fabric
+2. Scale Out Fabric
+3. Front-End Fabric
+4. Management Network
+
+This fabric interconnects the eight GPUs to form a high bandwidth domain, usually through proprietary network technologies such as NVIDIA NVLink or AMD XGMI. This fabric is used by the set of GPUs composing a GPU cluster to exchange AI workload parameters.
+This fabric supports the deployment of the storage, application, and in-band cluster management components of the AI solution. This fabric supports the overall environment management network for the solution.
+
+In this guide, we are talking about Scale Out fabrics (also known as "Back-End" or "East-West" fabrics), which interconnect dozens of compute nodes with hundreds or even thousands of GPUs in order to process AI workloads. The other fabrics are not the focus of this paper. This chapter presents a synopsis of each technology, and then jumps into the unique merits of each.
+For AI networking, low tail latency and high-bandwidth capabilities play pivotal roles for enhancing performance and scalability. Features such as remote GPU memory access and GPUDirect RDMA (Remote Direct Memory Access) facilitate efficient data exchange between compute nodes and GPU accelerators, further augmenting processing efficiency. Both Ethernet and InfiniBand use RDMA at their core, and both can also use GPUDirect RDMA for direct GPU-to-GPU communications, which dramatically accelerates machine learning.
+Topics:
+
+• Ethernet: the versatile backbone • InfiniBand: the historic performer • Similarities in speed, bandwidth, latency, and topology • Ethernet merits • InfiniBand merits
+
+AI Fabrics
+
+5
+
+Ethernet: the versatile backbone
+With recent advancements in areas of speed, performance, and scalability, Ethernet has become a major contender for all AI workloads. Speeds such as 200Gb/s, 400Gb/s, and upcoming 800Gb/s (as provided by the Dell PowerSwitch Z9864F-ON and the NVIDIA Spectrum-X) deliver scalable solutions that can accommodate the growing demands of AI networks as they expand in size and complexity.
+In many ways, Ethernet is now on par with InfiniBand for use in AI applications, in terms of both latency and bandwidth, partially due to the RoCE (RMDA over Converged Ethernet) protocol that allows InfiniBand traffic over Ethernet. As a matter of fact, according to this blog from Meta, "Through careful co-design of the network, software, and model architectures, [they] successfully [built] both RoCE and InfiniBand clusters for large, GenAI workloads (including our ongoing training of Llama 3 on our RoCE cluster) without any network bottlenecks." Other new features found in the Enterprise SONiC Distribution by Dell Technologies, like Advanced Routing, RoCEv2, Enhanced Hashing, and Priority Flow Control, further enhance fabric performance and provide better congestion monitoring.
+Ethernet stands as a foundational pillar in modern networking, known for its adaptability and scalability. It plays a pivotal role in connecting AI infrastructure components, including servers, storage systems, and accelerators, both in data centers and in the cloud. With Ethernet's evolution towards higher data rates such as 800GbE, the efficient transfer of large datasets found in AI tasks are now attainable. Approximately 20% of data center Ethernet switch ports will connect to AI servers by 2027, according to a Dell'Oro Group market forecast.
+In AI networking, Ethernet's expansive ecosystem of compatible hardware and software solutions fosters flexibility and interoperability, empowering organizations to construct scalable and cost-effective infrastructures. It is the integration of hardware with RDMA that is the critical element. While physical principles of networking are the same for InfiniBand and Ethernet, the true distinguishing factor lies in the protocols of RDMA and the corresponding enhancements for managing congestion and balancing load.
+Nonetheless, without careful design and deployment, Ethernet may encounter hurdles in handling the LLMs (Large Language Models) and real-time processing demands characteristic of AI applications. Tools like Dell Technologies' Smart Fabric Manager are being developed to help facilitate a proper configuration and overcome the challenges of network congestion, packet loss, and latency issues that can impede AI. While an initial Ethernet configuration can be more time consuming than with InfiniBand, these tools help optimize Ethernet networks and alleviate these concerns.
+InfiniBand: the historic performer
+InfiniBand has been the traditional network of choice in high-performance computing (HPC) clusters. Its high-speed and lowlatency interconnect technology is also adept at handling the massive data volumes and computational workloads found in AI training tasks. InfiniBand performs well in accelerating distributed training workflows and achieving fast AI model convergence. Speeds such as 200Gb/s, 400Gb/s, and 800Gb/s can be achieved with NVIDIA's impressive InfiniBand product line-up.
+The specialized ecosystem surrounding InfiniBand, inclusive of optimized HPC software stacks and parallel file systems, provides a robust foundation for AI researchers and practitioners aiming to maximize performance and productivity. Its advanced congestion control mechanisms ensure predictable performance, critical for meeting stringent AI processing deadlines.
+While known for its out-of-the-box faster deployment, InfiniBand's long time niche focus on HPC and specialized applications also poses challenges for its broader adoption. The cost of InfiniBand infrastructure, including switches, adapters, and cables, can be prohibitive for organizations with more modest networking requirements. Moreover, InfiniBand's proprietary vendor lock-in may present challenges for some adopters. Organizations considering InfiniBand for AI deployments must weigh these factors against their specific requirements.
+Similarities in speed, bandwidth, latency, and topology
+Though InfiniBand has been considered the leader for years in areas like speed, bandwidth, and latency, Ethernet is now on par with InfiniBand.
+Both technologies leverage pure rail and rail optimized topologies for the Scale Out fabric.
+A recent benchmark study was conducted using Ohio State University (OSU) micro-benchmark tools. This graph shows the bandwidth comparison between the two network technologies.
+
+6
+
+AI Fabrics
+
+Figure 2. Pace to Port Bandwidth
+Source: Broadcom Unleashing the Power of AI ML NOTE: Micro-benchmarks from OSU allow for testing and comparing network bandwidth and latency. You can download, compile, and run these benchmark utilities from Download, Compile and Run the OSU Benchmark.
+The OSU micro-benchmarks have been used for both Ethernet and InfiniBand, as shown in these examples: OSU bandwidth and latency performance example OSU bandwidth benchmarking for GPUDirect RDMA The next two sections discuss the more unique accolades of each fabric type.
+Ethernet merits
+
+Ethernet technology is everywhere and is extensively supported by a vast array of networking equipment, software, and protocols. You are most likely already using it in your network today. There is also an AI trend towards Ethernet as a more open and standards-based technology. Such widespread adoption makes it easier for organizations to find skilled personnel, troubleshoot issues, and access a larger ecosystem of products and services compared to the more niche InfiniBand technology.
+Ethernet and InfiniBand are both qualified technologies when it comes to scalability and speed (with Ethernet recently edging out IB with its latest 800Gb/s devices), but the key arguments to consider Ethernet fabrics for AI networks are:
+
+Cost Familiarity and Expertise Compatibility Vendor Choice
+Reusability
+Smart Fabric Manager (SFM)
+
+Ethernet infrastructure tends to be more affordable compared to InfiniBand, making it a preferable choice for companies seeking a cost-effective solution for their AI networks.
+Many IT professionals are already familiar with Ethernet technology, which can reduce training costs and deployment complexities associated with adopting less common technologies like InfiniBand.
+Ethernet is widely used and supported across various hardware and software platforms, offering greater compatibility and interoperability for AI networks that may need to integrate with diverse systems.
+There are dozens of Ethernet switch manufacturers today, many of which will eventually be in the AI playing field providing for healthy competition and more choices. Extra vendors in the game also means faster introduction and development of protocols that will further Ethernet's abilities in the AI space. Many of these vendors make up the Ultra Ethernet Consortium (UEC), who are making major advances in AI networking.
+Recycling hardware once it becomes obsolete for the task it was purchased for allows companies to repurpose Ethernet hardware. Since Ethernet switches are used in virtually all other fabrics (front-end, storage, management, etc.), they lend themselves as valuable upgrades in these networks as higher speeds evolve for AI down the road. Spare parts may also be commandeered from retired devices to support these other fabrics.
+Dell's upcoming graphical utility to help automate fabric configurations is expected to release in the third quarter of this year. SFM helps facilitate fine-tuning of essential protocols (ECN, PFC, RoCE, DCQCN,
+
+AI Fabrics
+
+7
+
+for Dell
+
+QOS, etc.) to effectively achieve a lossless, low-latency, and high-performing AI fabric. There are several
+
+Enterprise SONiC other third-party options available on the market as well for configuring and managing Ethernet fabrics.
+
+InfiniBand merits
+
+InfiniBand boasts its own 400Gb/s fast data transfer rates, with 800Gb/s becoming available toward the end of 2024. It is well-suited for handling massive data volumes and computational workloads associated with AI training. Its low-latency and high-bandwidth capabilities are known for accelerating distributed training workflows and achieving fast convergence of AI models. The InfiniBand protocol was actually purpose-built to handle the growing demands of high-performance computing (HPC) such as those found with AI.
+The unique arguments to consider InfiniBand fabrics for AI networks are:
+
+Faster Deployment
+
+InfiniBand was built for the back end and is generally considered simpler to deploy with a more out-ofthe-box, plug-and-play experience, especially for those who are familiar with InfiniBand.
+Racking and cabling take roughly the same amount of time and effort for InfiniBand and Ethernet. Once cabled, however, Ethernet switches often require configuring relevant network protocols such as defining link aggregaton groups (LAGs), and quality of service (QoS) for RoCE. Depending on the NIC vendor, there may be additional configuration required on the hosts as well to enable RoCE. InfiniBand only requires running the Subnet Manager to enable the fabric, reducing the need for manual configuration. The tool can run on hosts, switches, or alongside the Unified Fabric Manager (UFM) for comprehensive management.
+
+Unified Fabric Manager
+
+Designed to manage InfiniBand fabrics, UFM is a robust system for overseeing expansive computing networks. It empowers operators to effectively supervise and manage the entire network fabric, enhance the performance of applications, and optimize the use of network fabric resources. It simplifies provisioning, monitoring, and maintenance tasks.
+
+This technology may also look more appealing for companies who are already using InfiniBand and have IB expertise on staff.
+
+8
+
+AI Fabrics
+
+3
+Future Outlook
+In the future landscape of AI networking, Ethernet and InfiniBand are poised to play significant roles, each offering distinct advantages and trade-offs.
+InfiniBand's ease of deployment and out-of-the-box performance position it as an enticing choice for AI networks. Cost aside, InfiniBand can be a great AI fabric for today and in the future. NVIDIA is continuing to improve on this technology to keep up with future demands of AI.
+Ethernet is also a practical solution with momentum for an extremely bright future in AI. Its ubiquity, flexibility, and evolving capabilities render it suitable for any AI application. Approximately 20% of Data Center Ethernet switch ports will connect to AI servers by 2027, according to a Dell'Oro Group market forecast. The Ethernet community is actively improving NICs to facilitate AI fabrics as well. New tools like Dell Smart Fabric Manager (expected in 2024) are being developed to make it easier to deploy an efficient AI fabric.
+The UEC consortium, formed in 2023, is largely focused on meeting the growing network demands of AI. Dozens of industry leaders have joined UEC to help drive new Ethernet innovations for the AI ecosystem. A preliminary set of guidelines by the UEC is progressing to equip developers with a blueprint for integrating the most recent breakthroughs in datacenter network technologies, optimally catering to AI and HPC workloads.
+
+Future Outlook
+
+9
+
+4
+Conclusion
+Ethernet and InfiniBand are both considered very capable choices, with current speeds that are virtually equal. Selecting between the two will probably hinge on other factors such as ease-of-deployment, cost considerations, and existing infrastructure investments. By thoughtfully evaluating these factors and the strengths of each technology, organizations can construct resilient and efficient AI networking environments equipped to tackle the challenges of tomorrow's AI-driven era. Each company should weigh these factors in deciding on which technology to choose. You may think if you already have InfiniBand in-house and the expertise within your company, an InfiniBand AI fabric solution might be the best for your needs. Or, if you have none of these, the decision to go with an Ethernet solution may seem self-evident. Whatever is decided, Dell Technologies and its partners can help provide the best hardware, software, and services to help build and maintain the perfect AI solution for your business.
+Figure 3. Dell Offerings for GPU Fabrics
+
+Ethernet switches
+
+Figure 4. Dell PowerSwitch Z-Series
+● Dell PowerSwitch Z-Series ○ Z9864F-ON: Dell PowerSwitch Z9864f-ON Spec Sheet ○ Z9664F-ON Dell PowerSwitch Z9664f-ON Spec Sheet
+● NVIDIA Spectrum-X
+
+10
+
+Conclusion
+
+InfiniBand switches
+Figure 5. NVIDIA Quantum ● NVIDIA Quantum-2 ● NVIDIA Quantum-X800 Note that all solutions above can take advantage of the powerful line of Dell PowerEdge XE systems. Clearly, Dell PowerSwitch solutions are fully validated and supported with Dell servers. However, both Spectrum-X Ethernet and Quantum-2 InfiniBand solutions may also use NVIDIA-Certified Dell PowerEdge XE servers. These PowerEdge servers include validated NVIDIA AI Enterprise software. Contact your Dell Solutions provider for information on the various solutions offered and how to get started on your AI journey.
+
+Conclusion
+
+11
+
+5
+Support and References
+Topics:
+• Feedback and technical support • Additional resources
+Feedback and technical support
+We encourage readers to provide feedback on the quality and usefulness of this publication by sending an email to Dell_Networking_Solutions. For technical support, visit the Dell Support site.
+Additional resources
+Dell AI Solutions: Building an AI-optimized infrastructure. Dell Open Ethernet Solutions for Generative AI: Navigating new frontiers in IT infrastructure. Dell Technologies Fabrics and GenAI: The New World of Artificial Intelligence: White paper. Unleashing the Power of AI/ML: Broadcom Ethernet whitepaper. NVIDIA switches optimized for AI: InfiniBand and Ethernet platforms. Dell Networking PowerSwitch for AI Distributed Fine-tuning: A minimum topology AI demonstration. Omnia open-source: Dell Technologies HPC and AI Innovation Lab. AI Fabric Innovation: A blog discussing recent AI innovations from Dell. NVIDIA's Unified Fabric Manager (UFM): Simplifying InfiniBand management tasks. InfiniBand or Ethernet: Dell PowerEdge has you covered: The Dell PowerEdge XE9680. Dell.com/support: Meeting customer needs with proven services and support.
+
+12
+
+Support and References
+
+
