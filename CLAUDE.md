@@ -11,15 +11,32 @@ Structural redesign per docs/RESTRUCTURE-3.md (the plan of record).
 contracts are approved and landed; Phase 1 invariants + golden fixtures are live;
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
-### State at end of session 2026-07-16d
-- **Version 0.65.0** (`js/version.js` = the single source of truth; `package.json`
-  now tracks it — the long-standing 0.55.0 drift is FIXED). CHANGELOG.md has the
-  0.65.0 entry.
+### State at end of session 2026-07-17
+- **Version 0.65.1** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1 entry.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
 - **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
-- **BLOCKED ON MAINTAINER: nothing** blocks the next work item. (Three OPEN
-  citation TASKS exist — listed below — but they are non-blocking re-rule
-  triggers, not gates on R11.)
+- **BLOCKED ON MAINTAINER: nothing.** (Two OPEN citation TASKS remain — listed
+  below — but they are non-blocking re-rule triggers, not gates on R11.)
+- **This session:** corpus intake (23 PDFs manifested + extracted; repo pushed to
+  GitHub `origin`), then **G-006 CLOSED** — MX7000 uplink count was a real 2×
+  under-count (4 → 8), fixed with a regression test. R12 tail was verified
+  **already complete** (see note below). R11 not started.
+
+### G-006 closed 2026-07-17 — and the standing lesson from it
+`platforms.js` mx7000 declared 4 external uplinks/chassis while its own `portOptions`
+prose said "4× per FSE (2 FSEs/chassis)" = 8. The count was the wrong half, so every
+MX7000 quote carried **half its uplink optics**. Now 8, with a regression block in
+`unit-engine.js` verified to actually catch the defect (not vacuous).
+**Why it sat open two sessions:** the closure standard was "check the MX9116n spec
+sheet" — a document that appears **not to exist**. Revised standard (maintainer ruling):
+*two independent official Dell docs agreeing verbatim = authoritative*. H18548.9.2
+(June 2026) + H19120 (March 2022) agree exactly. **Do not reopen the spec-sheet hunt** —
+CITATION-LOG and GAPS both carry that note. Generalizable: *a gap blocked on evidence
+needs a periodic check that the evidence can exist at all; an unmeetable standard is a
+permanent hold protecting a known-wrong value.* See DESIGN-LOG 2026-07-17.
+**Caveat live in the BOM:** the 2 unified ports/FSE are Ethernet OR FC — an FC-attached
+chassis flexes 8 → 4. Stated in the platform note + a rep-facing concern.
 
 ### Rulings landed this session (one line each)
 All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16d.
@@ -67,57 +84,54 @@ All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16
   Same uplink bandwidth either way; the phantom bought no capacity.
 
 ### QUEUE FOR NEXT SESSION — in priority order
-> **NOTE for a fresh session:** the R12 tail (railNicCage wizard question, Ruling 3
-> remedies, citation rows, docs) is **DONE, not pending** — it landed 2026-07-16d and
-> the tree is 19/19. If you were handed a queue that lists it as outstanding, that
-> queue is stale. R12 is closed; start at (1).
+> **NOTE for a fresh session — this note has now been right twice; trust it.**
+> The **R12 tail** (railNicCage wizard question, Ruling 3 both-remedies error, P13/P13b
+> splitter invariant, citation rows, docs) is **DONE** — landed 2026-07-16d, re-verified
+> empirically 2026-07-17 (ruling 9's hard error was confirmed by *running* the engine,
+> not grepping — the message doesn't contain the words you'd grep for). **Corpus intake**
+> is **DONE** 2026-07-17. **G-006** is **CLOSED** 2026-07-17.
+> If you are handed a queue listing any of those as outstanding, that queue is stale —
+> **verify against the suite before doing the work.** Start at (1) = R11.
 
-1. **CORPUS INTAKE SESSION — the root PDFs** (next up). ~33 loose PDFs (~199 MB) sit
-   at the repo root, outside the corpus pipeline and now git-ignored. Bring the ones
-   that back real claims INTO the corpus properly: assign a `doc_id`, harvest to
-   `corpus/raw/<KEY>.pdf` + extract to `corpus/txt/<KEY>.txt` (`pdftotext -enc UTF-8
-   -table`), add the `docs/sources.csv` manifest row, then reconcile against
-   SPEC/CITATION-LOG. **Highest-value targets first** — they are open re-rule
-   triggers already logged: **H20082** (dell-technologies-ai-fabrics-overview) for
-   the 800G-native inter-switch rule, and the Dell optics spec sheet for the
-   1.6T→2×800G part hunt. Also note `corpus/h18157-…pdf` is a DUPLICATE of
-   `corpus/raw/ST-PSTORE-HA.pdf` (the maintainer's original drop, left in place —
-   delete the loose copy if you want it tidy).
-2. **R11** — per-network merged-note enumeration. Cross-NETWORK merged
+1. **R11** — per-network merged-note enumeration. Cross-NETWORK merged
    switch lines enumerate only one network, masking backend isolation (PowerScale)
    and stranding the frontend (AI). Extend the merged-note to enumerate per network:
    "4 total — 2× frontend, 2× backend (dedicated, isolated per h16346)".
-3. **R16** — B7 refresh `includeCoreUplink` has NO UI (unreachable). Add the
+2. **R16** — B7 refresh `includeCoreUplink` has NO UI (unreachable). Add the
    refresh-mode question + close the invariant gap: every SIZING field REACHABLE
    from every mode whose engine reads it (sweep express/discovery/edge/refresh).
-4. **R14** — NVIDIA-stack BOMs must state NOS per switch (SONiC vs Cumulus; Dell AI
+3. **R14** — NVIDIA-stack BOMs must state NOS per switch (SONiC vs Cumulus; Dell AI
    = SONiC); DFM auto-attach needs an applicability rule (DFM manages Dell
    Enterprise SONiC, not NVIDIA/Cumulus).
-5. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
+4. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
    the maintainer doesn't think were selected. Determine seed-default vs wizard; if
    seed, fix + make NIC defaults visible + platform-seed invariant + F710
    CITATION-LOG row. Non-blocking.
-6. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
+5. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
    R12 CORROBORATED this: the form-factor check flags SFP28 optics into the SN4700's
    QSFP-DD ports as needing QSA28 adapters that aren't quoted. Evaluate an
    SN2410-class 25G leaf; at minimum an R9-style low-util note.
-7. **Mode items** — PowerScale severity (backend "non-blocking not met" should be
+6. **Mode items** — PowerScale severity (backend "non-blocking not met" should be
    ERROR not WARN per h16346; verify which fabric trips it, may clear with R15);
    refresh cabling-compat question; new-OOB-into-existing-env (apply the R3 pattern);
    edge headroom note + access-ICL self-contradiction + the S5200-vs-S4348F
    distribution BUSINESS-RULE (log with the VENDOR-FACT vs BUSINESS-RULE distinction).
-8. **Then** resume the renderers slice (G-021 rack renderer) → validators →
+7. **Then** resume the renderers slice (G-021 rack renderer) → validators →
    G-020 teardown.
 Backtest queue detail: docs/backtests/BACKTEST-2026-07-16c.md.
 
 ### OPEN citation TASKS (non-blocking; re-rule triggers)
-In CITATION-LOG → "Optic ↔ port form factor":
-- **H20082 / AI Factory RA** — the 800G-native inter-switch rule is corroborated by
-  PART evidence but not yet by a Dell design doc. If the RA sizes 800G 3-tier
-  differently, **re-open the ruling** rather than bending the code to fit both.
-- **1.6T→2×800G OSFP-far-end part** — hunt the Dell optics spec sheet + H20082. If a
-  real part exists, catalog it with verification and the Z9964F-ON automatically
-  re-enters the super-spine ladder (the tier narrows).
+In CITATION-LOG → "Optic ↔ port form factor". **H20082 is now IN corpus** (`AI-OVERVIEW`,
+reviewed 2026-07-17) — it CONFIRMED the XE9680 400G-rail and Z9864F 128-GPU rows (both
+flipped CURRENT) and **did not contradict anything**. What it did *not* do is settle these:
+- **800G-native inter-switch rule** — H20082 shows the Rail Optimized topology and GPU
+  reachability tables but **never states switch↔switch link speed**. No contradiction, no
+  confirmation. Next target: the **Dell Validated Designs (DVDs) / Dell Reference Designs
+  (DRDs)** that H20082 Ch.1 names as the detailed-configuration reference. Still a re-rule
+  trigger if a DVD/DRD sizes 800G 3-tier differently.
+- **1.6T→2×800G OSFP-far-end part** — not in `OPTICS.txt`; H20082 doesn't mention the
+  Z9964F-ON at all (it covers only Z9864F / Z9664F-ON / Z9432F-ON). If a real part turns up,
+  catalog it with verification and the Z9964F-ON re-enters the super-spine ladder automatically.
 - **DAC-S56DD-Q56 far-end per NIC** — verify 50G-PAM4/QSFP56-capable NICs only,
   against the optics spec sheet + NIC datasheets, before enabling it per-NIC.
 
@@ -155,6 +169,23 @@ In CITATION-LOG → "Optic ↔ port form factor":
    ~250 MB of harvested citations that would have to be re-pulled by hand.
    Push even when the session's work is docs-only or partial; an unpushed
    WIP commit is still worth more than a lost one.
+7. **Recommend the model BEFORE starting the work, not in the postmortem.**
+   Read the session's ask, judge whether it needs the current model, and say
+   so in one line before the first tool call. The maintainer pays for this;
+   the call is theirs, but the recommendation is mine to volunteer unasked.
+   - **Sonnet work** (the default for this repo): corpus intake, PDF text
+     extraction, manifest/doc/CITATION-LOG edits, mechanical refactors,
+     running suites, commit/push, renumbering, chasing a known fix.
+   - **Opus work:** design rulings, contradiction analysis (is this doc
+     really disagreeing?), backtest defect hunting, anything where a wrong
+     call silently ships an unbuildable BOM.
+   - **Mixed session:** name the split up front — "intake on Sonnet, switch
+     before the ruling" — rather than running the whole thing hot.
+   Precedent 2026-07-17: an entire corpus intake plus a one-field fix ran on
+   Opus and burned most of a usage window on work Sonnet does identically.
+   Cost discipline is part of reliability here: a session that runs out of
+   budget mid-fix leaves the tree in exactly the state this file exists to
+   prevent.
 
 ## Test suites
 Run the full harness before and after changes. All suites are hard-fail.

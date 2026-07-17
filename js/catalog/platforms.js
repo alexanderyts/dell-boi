@@ -203,14 +203,23 @@ window.CATALOG.platforms = [
     id: 'mx7000', family: 'Modular Server Chassis (Scalable Fabric)', model: 'PowerEdge MX7000',
     workload: 'general', unitLabel: 'chassis', specConfirmed: true,
     portGroups: [
-      { role: 'data', count: 4, speed: '100GbE', media: 'QSFP28', network: 'frontend', redundant: true,
-        note: 'External data-center uplinks from the MX9116n Fabric Switching Engine (FSE) pair — one FSE per fabric slot (A1/A2) for HA. Sled-to-FSE fabric (16× internal 25GbE lanes/FSE, pre-wired mid-plane) is CHASSIS-INTERNAL — not part of this external-attach BOM.',
-        portOptions: 'Up to 4× 100GbE QSFP28 uplinks per FSE (2 FSEs/chassis); + 12× QSFP28-DD per FSE (breakout to 10/25/40/100G, or Scalable Fabric expansion to more chassis via MX7116n)' },
+      { role: 'data', count: 8, speed: '100GbE', media: 'QSFP28', network: 'frontend', redundant: true,
+        note: 'External data-center uplinks from the MX9116n Fabric Switching Engine (FSE) pair — one FSE per fabric slot (A1/A2) for HA. 4× 100GbE uplinks per FSE × 2 FSEs = 8/chassis. Includes the 2 UNIFIED ports per FSE (ports 43-44) in Ethernet mode — reduce this count if those are used for Fibre Channel instead. Sled-to-FSE fabric (16× internal 25GbE lanes/FSE, pre-wired mid-plane) is CHASSIS-INTERNAL — not part of this external-attach BOM.',
+        portOptions: '4× 100GbE QSFP28 Ethernet uplinks per FSE = 2 dedicated (ports 41-42) + 2 unified (ports 43-44, Ethernet OR native FC); × 2 FSEs = 8/chassis. + 12× QSFP28-DD per FSE (ports 17-40 — additional uplinks/VLTi, breakout to 10/25/40/100G, or Scalable Fabric expansion to more chassis via MX7116n)' },
       { role: 'mgmt', count: 2, speed: '1GbE', media: 'RJ45', network: 'mgmt', redundant: false, note: 'OME-Modular chassis management controller (redundant pair)' }
     ],
     requires: ['MX9116n Fabric Switching Engines deployed as a redundant pair (one per fabric slot) for chassis HA', 'Dual-homed FSE uplinks to the leaf/spine', 'Sled-to-FSE/FEM fabric is chassis-internal (pre-wired) — confirm sled mezzanine/NIC speed separately, it is not in this external BOM'],
-    concerns: ['CONFIRM whether this chassis carries its OWN FSE pair (external uplinks needed, modeled here) or is an EXPANSION chassis joining an existing Scalable Fabric domain via MX7116n Fabric Expander Modules only (NO external uplinks — up to 10 chassis / 80 sleds can share one FSE pair)', 'CONFIRM sled NIC/mezzanine speed (25GbE typical per lane; higher via OCP/PCIe mezzanine) — chassis-internal, confirm separately', 'MX5108n (a simpler 1U-in-chassis Ethernet switch, non-fabric) is an alternative I/O module for smaller/non-scalable-fabric deployments — confirm which I/O module the config actually uses'],
-    source: 'Dell PowerEdge MX Networking Architecture Guide + MX9116n/MX7116n Spec Sheets (harvested 2026-07-12) — Scalable Fabric: MX9116n FSE (16×25G internal + 4×100G QSFP28 + 12×QSFP28-DD), MX7116n FEM (16×25G internal + 2×QSFP28-DD to FSE, 400GbE/module), up to 10 chassis / 80 compute sleds per Scalable Fabric domain', verify: true
+    concerns: ['CONFIRM whether this chassis carries its OWN FSE pair (external uplinks needed, modeled here) or is an EXPANSION chassis joining an existing Scalable Fabric domain via MX7116n Fabric Expander Modules only (NO external uplinks — up to 10 chassis / 80 sleds can share one FSE pair)', 'CONFIRM the 2 unified ports per FSE (43-44) are running Ethernet, not Fibre Channel — an FC-attached MX chassis drops this uplink count from 8 to 4', 'CONFIRM sled NIC/mezzanine speed (25GbE typical per lane; higher via OCP/PCIe mezzanine) — chassis-internal, confirm separately', 'MX5108n (a simpler 1U-in-chassis Ethernet switch, non-fabric) is an alternative I/O module for smaller/non-scalable-fabric deployments — confirm which I/O module the config actually uses'],
+    /* G-006 CLOSED 2026-07-17. Uplink count corroborated VERBATIM by TWO independent Dell docs
+     * (no standalone MX9116n spec sheet is known to exist — do not reopen the hunt):
+     *   H18548.9.2 "PowerEdge MX Networking Deployment Guide", June 2026 (corpus/txt/CO-MX-NET.txt):
+     *     "Two 100 GbE QSFP28 ports, used for Ethernet uplinks, ports 41 and 42 ● Two 100 GbE QSFP28
+     *      unified ports, used for Ethernet and Fibre Channel connections, ports 43 and 44."
+     *   H19120 "PowerEdge MX Deployment with VMware Cloud Foundation", March 2022 (corpus/txt/CO-MX-VCF.txt):
+     *     "Two 100 GbE QSFP28 ports ● Two 100 GbE QSFP28 unified ports ● Twelve 2x100 GbE QSFP28-DD ports"
+     * => 4 Ethernet uplinks/FSE × 2 FSEs (A1/A2 HA pair) = 8/chassis. Prior count:4 was a 2× undercount
+     * that contradicted this entry's own portOptions text. */
+    source: 'H18548.9.2 PowerEdge MX Networking Deployment Guide (June 2026, corpus CO-MX-NET) + H19120 MX-with-VCF Deployment Guide (March 2022, corpus CO-MX-VCF) — both state the MX9116n FSE port layout verbatim: 16×25G internal + 2×100G QSFP28 Ethernet uplink (41-42) + 2×100G QSFP28 unified Ethernet/FC (43-44) + 12×QSFP28-DD (17-40). MX7116n FEM (16×25G internal + 2×QSFP28-DD to FSE), up to 10 chassis / 80 compute sleds per Scalable Fabric domain', verify: false
   },
   {
     id: 'powervault-me5', family: 'Entry Block Storage (SAN/DAS)', model: 'PowerVault ME5012 / ME5024 / ME5084',

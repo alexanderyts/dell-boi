@@ -5,7 +5,28 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.65.0**
+Current version: **0.65.1**
+
+---
+
+## 0.65.1 — MX7000 chassis quotes carried half the uplink optics they needed (2026-07-17)
+
+**What this means for a quote:** if you quoted a PowerEdge MX7000 chassis, the BOM gave you **4**
+external uplinks per chassis. The real number is **8** — each MX9116n Fabric Switching Engine has
+4× 100GbE Ethernet uplink ports, and an HA chassis runs 2 of them (one per fabric slot). Every
+MX7000 quote was short by half its uplink optics and would not have built as printed. Fixed.
+
+**One thing to confirm when you quote it:** 2 of the 4 ports per FSE are *unified* — they run
+Ethernet **or** native Fibre Channel, not both. The 8 assumes Ethernet on all of them. If the
+customer is using those ports for FC, the number drops back to 4. The tool now says so on the
+MX7000 line and in its confirm-before-quoting list.
+
+**How it got caught:** this was tracked as G-006 since the first audit and had been sitting open
+because the closure standard was "check the MX9116n spec sheet" — a document that appears not to
+exist (Dell publishes this platform's port layout in its deployment guides instead). Two of those
+guides, four years apart (H18548.9.2 June 2026 and H19120 March 2022), state the port layout in
+identical terms; that's now the citable source. See `docs/DESIGN-LOG.md` 2026-07-17 for the
+reasoning, including why a blocked-forever evidence standard is its own kind of bug.
 
 ---
 

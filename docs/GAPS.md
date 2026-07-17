@@ -292,36 +292,52 @@ function pickSuperSpine(podSpine, totalPodSpines, stack) {
 - **Test:** TODO — assert `pickHostCable(g, 'adjacent', ...)` never returns
   a DAC-category optic for any gbps currently in the catalog.
 
-### G-006 — MX7000 external-uplink port count reads ambiguous against its own note — INVESTIGATED, still OPEN 2026-07-15
-- **Status:** Checked against `corpus/` as the priority item for the
-  citation-verification pass — genuinely CANNOT be resolved from what's in
-  this repo. The catalog entry's cited source ("Dell PowerEdge MX
-  Networking Architecture Guide + MX9116n/MX7116n Spec Sheets, harvested
-  2026-07-12") does not correspond to any document actually present in
-  `corpus/raw/` or `corpus/txt/` — a full-text search for "Fabric
-  Switching Engine" across the entire corpus returns zero matches, and
-  "MX9116n"/"MX7116n" appear ONLY as row labels in an unrelated optics
-  compatibility table (`corpus/txt/OPTICS.txt`), with no port-count
-  language nearby. The citation was either never actually harvested into
-  `corpus/` or is inaccurate. **Not guessed at** — `count:4` left
-  unchanged, `specConfirmed`/`verify` status unchanged (already `true`,
-  correctly signaling "confirm before quoting"). Needs a real MX9116n FSE
-  spec sheet pulled into `corpus/` before this can move past OPEN.
-- **Severity:** MEDIUM (potential silent 2× under-count on a real BOM)
+### G-006 — MX7000 external-uplink port count was a 2× under-count — CLOSED 2026-07-17
+- **Status:** CLOSED. Confirmed live and fixed. `count: 4` → `count: 8`.
+  The defect was real: the entry declared 4 external uplinks per chassis
+  while its own `portOptions` prose said "4× per FSE (2 FSEs/chassis)" —
+  i.e. the entry contradicted itself, and the count was the wrong half.
+  A rep quoting an MX7000 chassis got **half the uplink optics the build
+  needs**. Severity was MEDIUM as logged; it was accurate.
+- **What resolved it — a revised evidence standard (maintainer ruling
+  2026-07-17):** the prior blocker was "no MX9116n spec sheet in corpus."
+  That requirement was a *proxy* for "authoritative citable source," and
+  it was blocking on a document that **appears not to exist** — the
+  MX9116n is an aging modular platform whose port layout is published in
+  the deployment guides, not a standalone spec sheet. New standard: **two
+  independent official Dell documents agreeing verbatim = sufficient.**
+  Two such documents are now in corpus and agree exactly:
+  - **H18548.9.2** — PowerEdge MX Networking Deployment Guide, **June 2026**
+    (`corpus/txt/CO-MX-NET.txt`): *"Two 100 GbE QSFP28 ports, used for
+    Ethernet uplinks, ports 41 and 42 ● Two 100 GbE QSFP28 unified ports,
+    used for Ethernet and Fibre Channel connections, ports 43 and 44"*
+  - **H19120** — MX Deployment with VMware Cloud Foundation, **March 2022**
+    (`corpus/txt/CO-MX-VCF.txt`): *"Two 100 GbE QSFP28 ports ● Two 100 GbE
+    QSFP28 unified ports ● Twelve 2x100 GbE QSFP28-Double Density (DD) ports"*
+  => 4 Ethernet uplinks/FSE (2 dedicated + 2 unified) × 2 FSEs = **8/chassis**.
+  The 2026-07-15 investigation's "zero hits for Fabric Switching Engine"
+  finding was CORRECT at the time — neither guide was in `corpus/` yet.
+  Both landed in the 2026-07-17 corpus-intake pass.
 - **Where:** `js/catalog/platforms.js`, `mx7000` entry
-- **What:** `portGroups[0].count: 4` for external FSE uplinks, but the same
-  entry's `note` says "Up to 4× 100GbE QSFP28 uplinks per FSE (2 FSEs/
-  chassis)" — read literally that's up to 8 total (4/FSE × 2 FSEs), not 4.
-  Compare `mgmt` role in the same entry, where `count: 2` correctly equals
-  the literal "redundant pair" total. If `count: 4` was an intentional
-  per-chassis planning default (e.g. 2 ports/FSE reserved, not maxed),
-  that's defensible — but as written it reads like a possible 2× under-
-  count of host-facing uplink capacity.
-- **Fix:** Not a code fix — a CITATION-LOG.md verification item. Confirm
-  against the actual MX9116n FSE spec sheet whether the intended default
-  is 4 (2/FSE) or 8 (4/FSE) total external uplinks, and correct
-  `portGroups[0].count` and/or the note to match, whichever is right.
-- **Test:** N/A until the citation is confirmed.
+- **Fix (landed):** `count: 4` → `8`; `portOptions` rewritten to state the
+  per-FSE arithmetic explicitly (2 dedicated ports 41-42 + 2 unified 43-44,
+  × 2 FSEs); `source` now cites both documents; `verify: true` → `false`
+  (the number is now corroborated, not seed-and-verify). A rep-facing
+  concern was added for the FC caveat below.
+- **Design caveat carried into the BOM:** the 2 unified ports per FSE are
+  **Ethernet OR native Fibre Channel** — they are not both. An FC-attached
+  MX chassis flexes the uplink count **8 → 4**. The platform `note` and a
+  `concerns` entry both say so, so a rep quoting FC sees it.
+- **Test:** `tests/unit-engine.js`, "G-006" block — pins the count, the
+  media/speed, the note's FC caveat, the rep-facing concern, and the
+  end-to-end engine result (4 chassis = 32 links). Also pins the
+  *self-consistency* of count vs `portOptions` prose, which is the exact
+  class of drift that produced the original bug. **Verified as a real
+  guard:** reintroducing `count:4` turns 3 assertions red (including
+  totalLinks 32 → 16); it is not a vacuous test.
+- **Recheck note:** do NOT reopen the MX9116n spec-sheet hunt. No such
+  standalone document is known to exist; the two deployment guides are the
+  citable source of record. See the CITATION-LOG row.
 
 ### G-007 — 3-tier trigger and `podLeafCap` are breakout-blind — CLOSED 2026-07-15
 - **Status:** CLOSED. Confirmed live (520× poweredge-ai spuriously built a
@@ -847,8 +863,10 @@ the new G-004/G-005 above)
 7. ~~**G-001**~~ — CLOSED 2026-07-15 (PR4).
 8. ~~**G-004**, **G-005**~~ — CLOSED 2026-07-15 (PR4). ~~**G-011**~~ —
    CLOSED 2026-07-15 (closeout PR, following the PR5-7 reconciliation
-   that flagged it as the last confirmed-live bug). **G-006** remains
-   genuinely OPEN — blocked on a source document, not a code fix.
+   that flagged it as the last confirmed-live bug). ~~**G-006**~~ —
+   CLOSED 2026-07-17: the source documents (H18548.9.2 + H19120) landed in
+   the corpus-intake pass, confirmed the 2× under-count, and the fix +
+   regression test landed with them.
 
 ## Still needed to go further — RESOLVED 2026-07-15
 Both items below were the two open threads this section flagged; both are

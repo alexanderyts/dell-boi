@@ -896,6 +896,37 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
   t('engine is deterministic', a === b);
 })();
 
+/* ---- G-006: MX7000 external FSE uplink count (regression) ----
+ * The MX9116n FSE has 4 Ethernet uplink ports (2 dedicated 41-42 + 2 unified 43-44 in
+ * Ethernet mode); an HA chassis runs 2 FSEs (A1/A2) => 8 external uplinks per chassis.
+ * Corroborated verbatim by H18548.9.2 (June 2026) AND H19120 (March 2022) — see the
+ * citation block on the mx7000 entry in platforms.js.
+ * The original defect was count:4 (a 2x undercount) sitting next to a portOptions string
+ * that said "4x per FSE (2 FSEs/chassis)" — the entry contradicted itself, and a rep
+ * quoting an MX chassis got half the uplink optics they needed. */
+(() => {
+  const mx = window.CATALOG.platforms.find(p => p.id === 'mx7000');
+  t('G-006: mx7000 platform entry exists', !!mx);
+  const data = mx && mx.portGroups.find(g => g.role === 'data');
+  t('G-006: MX7000 external uplinks = 8/chassis (4 per FSE x 2 FSEs)', data && data.count === 8, data && data.count);
+  t('G-006: MX7000 uplinks are 100GbE QSFP28', data && data.speed === '100GbE' && data.media === 'QSFP28');
+  // Self-consistency: the defect was the count disagreeing with the entry's OWN prose.
+  // Pin both halves of the arithmetic so they cannot drift apart again silently.
+  t('G-006: portOptions states the per-FSE count that multiplies to the declared count',
+    data && /4×\s*100GbE QSFP28 Ethernet uplinks per FSE/.test(data.portOptions) && /×\s*2 FSEs\s*=\s*8\/chassis/.test(data.portOptions), data && data.portOptions);
+  // The unified ports are Ethernet-OR-FC: a rep quoting an FC-attached chassis must be told
+  // the 8 flexes down to 4. Ruling 2026-07-17.
+  t('G-006: note warns the 2 unified ports/FSE are Ethernet-mode-only', data && /unified/i.test(data.note) && /Fibre Channel|FC/.test(data.note));
+  t('G-006: an FC concern is surfaced to the rep', mx && mx.concerns.some(c => /unified/i.test(c) && /Fibre Channel|FC/.test(c)));
+  // End-to-end: the count must actually reach the engine, not just sit in the catalog.
+  const r = rec({ platformId: 'mx7000', units: 4, redundancy: 'dual', includeMgmt: true });
+  const fe = r.fabrics.filter(f => f.network === 'frontend');
+  t('G-006: engine reads 8 uplinks per chassis', fe.length > 0 && fe.every(f => f.linksPerUnit === 8), fe.map(f => f.linksPerUnit));
+  t('G-006: engine sizes the frontend fabric off 8 uplinks/chassis (4 chassis = 32 links)',
+    fe.length > 0 && fe.reduce((n, f) => n + (f.totalLinks || 0), 0) === 32,
+    fe.map(f => f.totalLinks));
+})();
+
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);

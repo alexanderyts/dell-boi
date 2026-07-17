@@ -1,6 +1,6 @@
 {
   "name": "dell-networking-bom-advisor",
-  "version": "0.65.0",
+  "version": "0.65.1",
   "private": true,
   "description": "Zero-install, client-side tool that builds technically-sound Dell PowerSwitch / NVIDIA Spectrum networking BOMs for storage & server attach. The app itself ships with no dependencies and runs by opening index.html.",
   "scripts": {

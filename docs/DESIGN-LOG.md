@@ -9,6 +9,62 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-17 — G-006 closed: an evidence standard that was blocking on a document that doesn't exist
+
+**Change:** MX7000 external uplink count `4` → `8` per chassis (`platforms.js` mx7000
+`portGroups[].count`), plus a regression block in `unit-engine.js` and a CITATION-LOG row citing
+two documents. Also a **standing change to how a citation gets closed** — see below.
+
+**What was wrong before:** the `mx7000` entry declared `count: 4` external uplinks while its own
+`portOptions` string said *"Up to 4× 100GbE QSFP28 uplinks per FSE (2 FSEs/chassis)"*. Those are
+not the same number: 4/FSE × 2 FSEs = 8. The entry contradicted itself and the count was the
+wrong half, so an MX7000 quote carried **half the uplink optics the build actually needs**. The
+BOM would look complete and be unbuildable — the failure mode this tool exists to prevent.
+
+**Why it stayed open for two sessions:** the closure standard was "confirm against the MX9116n FSE
+spec sheet." The 2026-07-15 investigation searched the corpus, found zero hits for "Fabric
+Switching Engine," and correctly refused to guess — `count:4` was left alone rather than
+"fixed" on a hunch. That was the right call *at the time*. But the standard had a defect: **it was
+blocking on a document that appears not to exist.** The MX9116n is an aging modular platform; Dell
+publishes its port layout in the deployment guides, not a standalone spec sheet. The requirement
+would never have been satisfiable, so the gap would have stayed open forever while the wrong
+number kept shipping.
+
+**The revised standard (maintainer ruling 2026-07-17):** "spec sheet" was only ever a *proxy* for
+"authoritative citable source." **Two independent official Dell documents agreeing verbatim meet
+that bar.** Both are now in corpus (they landed in the 2026-07-17 intake pass — which is why the
+2026-07-15 search legitimately came up empty):
+
+- **H18548.9.2**, PowerEdge MX Networking Deployment Guide, **June 2026** — *"Two 100 GbE QSFP28
+  ports, used for Ethernet uplinks, ports 41 and 42 ● Two 100 GbE QSFP28 unified ports, used for
+  Ethernet and Fibre Channel connections, ports 43 and 44"*
+- **H19120**, MX Deployment with VMware Cloud Foundation, **March 2022** — *"Two 100 GbE QSFP28
+  ports ● Two 100 GbE QSFP28 unified ports ● Twelve 2x100 GbE QSFP28-DD ports"*
+
+Four years apart, different authors, different purposes, identical port layout. The newer one adds
+port numbers, which is strictly more specific — no drift between revisions.
+
+**The generalizable lesson (why this entry is worth reading later):** when a gap is blocked on
+evidence, check periodically that the evidence *can exist*. A standard that cannot be met is not
+rigor — it is a permanent hold that quietly protects a known-wrong value. The fix is not to lower
+the bar but to ask what the bar was a proxy for, and whether something else clears the real one.
+The CITATION-LOG row and the GAPS entry both now carry an explicit **"do not reopen the spec-sheet
+hunt"** note so a future quarterly recheck doesn't restart the same dead search.
+
+**Caveat that survives the fix:** the 2 unified ports per FSE are Ethernet **or** native Fibre
+Channel, not both. An FC-attached MX chassis flexes the count **8 → 4**. This is in the platform
+`note`, in a rep-facing `concerns` entry, and pinned by the regression test — because the number is
+now *less* universally true than a plain "8" implies, and a rep quoting FC needs to see that.
+
+**Test discipline note:** the regression test was verified to be a real guard, not a vacuous one —
+reintroducing `count:4` turns 3 assertions red including the end-to-end link total (32 → 16). The
+first draft of that test asserted against a field name (`hostLinks`) that doesn't exist on the
+fabric object; it passed `undefined || 0` checks and would have been a permanently-green test
+guarding nothing. Caught by running it against the reintroduced defect. (Same failure mode as the
+inert checker regex found in the v0.58.0 review.)
+
+---
+
 ## 2026-07-16d — R12: optics must physically fit, and sizing may not credit phantom links
 **Change (SPEC, five new rules):** a quoted link must be physically buildable, not merely
 speed-matched (cage table + hard error); no phantom credit (400G is host/rail speed — inter-switch
