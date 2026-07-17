@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dell Networking BOM Advisor</title>
+  <!-- "Add to Home Screen" polish (iOS/Android) — no manifest/service-worker needed for a
+       zero-install single page; these just give the bookmark a proper icon/name/chrome color. -->
+  <meta name="theme-color" content="#f5f6f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#101316" media="(prefers-color-scheme: dark)" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Dell Boi" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e7c86'/%3E%3Ctext x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-size='26' font-weight='700' fill='white' text-anchor='middle'%3EDB%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e7c86'/%3E%3Ctext x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-size='26' font-weight='700' fill='white' text-anchor='middle'%3EDB%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-mark">DELL</div>
+      <div>
+        <h1>Networking BOM Advisor <span id="app-version" class="hdr-version"></span></h1>
+        <p class="tagline">PowerSwitch &amp; NVIDIA Spectrum &bull; storage &amp; server attach &bull; seed-and-verify</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="theme-toggle" class="hdr-link" title="Switch between light and dark">◐ Theme</button>
+      <a href="selftest.html" class="hdr-link" title="Run the catalog + engine self-validation">✓ Accuracy checks</a>
+      <div class="disclaimer" title="Every part number is a placeholder until you confirm it.">
+        ⚠ Draft — verify part numbers &amp; sizing before quoting
+      </div>
+    </div>
+  </header>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <main class="layout">
+    <!-- ========================= INPUT ========================= -->
+    <section class="panel input-panel">
+
+      <!-- MODE CHOOSER -->
+      <div id="mode-chooser">
+        <h2>How do you want to start?</h2>
+        <button class="mode-btn" data-mode="express"><b>⚡ Express — 5 questions</b><span>New to this? Answer 5 plain questions, we handle the rest</span></button>
+        <button class="mode-btn" data-mode="guided"><b>🧭 Guided intake</b><span>Walk me through the questions to build a BOM</span></button>
+        <button class="mode-btn" data-mode="discovery"><b>🤝 Discovery — with a customer</b><span>Probe their environment → value-add + starting design</span></button>
+        <button class="mode-btn" data-mode="ra"><b>⭐ Reference architecture</b><span>Prescriptive NVIDIA-endorsed validated design</span></button>
+        <button class="mode-btn" data-mode="refresh"><b>🔄 Network refresh</b><span>Replace an ageing network — like-for-like(+) at modern speeds</span></button>
+        <button class="mode-btn" data-mode="edge"><b>🔌 Edge / access (campus)</b><span>PoE access switches → MC-LAG distribution (SONiC)</span></button>
+        <button class="mode-btn subtle" data-mode="expert"><b>⚙ Expert quick form</b><span>I already have the specs</span></button>
+        <div class="examples">
+          <div class="examples-h">Or open a finished example</div>
+          <button class="example-btn" data-example="storage-servers">Storage + 12 servers (1 rack)</button>
+          <button class="example-btn" data-example="ai">AI cluster — 16× GPU servers</button>
+          <button class="example-btn" data-example="edge">Campus edge — 192 devices</button>
+        </div>
+      </div>
+
+      <!-- WIZARD (guided + discovery) -->
+      <div id="wizard" hidden>
+        <div class="wiz-top">
+          <button id="wiz-exit" class="ghost">✕ Modes</button>
+          <div class="wiz-progress"><div class="wiz-bar" id="wiz-bar"></div></div>
+        </div>
+        <div id="wiz-step"></div>
+        <div class="wiz-nav">
+          <button id="wiz-back" class="ghost">← Back</button>
+          <button id="wiz-next" class="primary">Next →</button>
+        </div>
+        <div id="wiz-summary" class="wiz-summary" hidden></div>
+      </div>
+
+      <!-- REFERENCE ARCHITECTURE MODE -->
+      <div id="ra-mode" hidden>
+        <button class="ghost mode-back" data-back>← Modes</button>
+        <h2>⭐ Validated reference architecture</h2>
+        <label>Reference architecture
+          <select id="f-ra"></select>
+        </label>
+        <p class="hint" id="ra-hint">NVIDIA-endorsed — the prescriptive validated BOM.</p>
+        <label>How many GPU nodes
+          <input id="f-ra-units" type="number" min="1" value="16" />
+        </label>
+        <button id="btn-ra-generate" class="primary">Generate validated BOM →</button>
+      </div>
+
+      <!-- EDGE / ACCESS MODE -->
+      <div id="edge-mode" hidden>
+        <button class="ghost mode-back" data-back>← Modes</button>
+        <h2>🔌 Edge / access layer</h2>
+        <p class="hint">Client devices (APs, phones, cameras, PCs) → E-series PoE access switches → dual-homed to an MC-LAG distribution pair (Dell Enterprise SONiC).</p>
+        <label>How many client ports / endpoints
+          <input id="e-endpoints" type="number" min="1" value="192" />
+        </label>
+        <label>PoE requirement
+          <select id="e-poe">
+            <option value="poe+" selected>PoE+ 802.3at (30W) — APs / phones</option>
+            <option value="poe++">PoE++ 802.3bt (90W) — high-power / multigig</option>
+            <option value="none">No PoE (fiber / SFP access)</option>
+          </select>
+        </label>
+        <label>Access port speed
+          <select id="e-speed">
+            <option value="1g" selected>1G BASE-T (E3248P)</option>
+            <option value="mgig">Multigigabit 1/2.5/5/10G (E3248PXE)</option>
+            <option value="fiber">Fiber / SFP (E3224F)</option>
+          </select>
+        </label>
+        <label>Resilience
+          <select id="e-redundancy">
+            <option value="vlt-pair" selected>Dual-homed to a VLT/MC-LAG distribution pair (recommended)</option>
+            <option value="single">Single uplink (lab / small only)</option>
+          </select>
+        </label>
+        <label>Uplink class <span class="unit-label">(every E-series has both — the situation picks)</span>
+          <select id="e-uplink">
+            <option value="100g" selected>100G — the 2× QSFP28 rear pair (default; SFP ports carry the ICL)</option>
+            <option value="sfp">10/25G — the 4× SFP+/SFP28 ports (existing 10/25G aggregation or budget sites; ICL moves to the 100G pair)</option>
+          </select>
+        </label>
+        <label>Distribution / aggregation
+          <select id="e-dist">
+            <option value="new" selected>Include a new MC-LAG distribution pair (auto-sized: S5232F → Z9264F → Z9432F)</option>
+            <option value="existing">Uplink to an existing distribution / core</option>
+          </select>
+        </label>
+        <p class="hint">E-series campus runs <b>Dell Enterprise SONiC</b> (MC-LAG). SmartFabric OS10 is end-of-sale for the E-series — access switches deploy as MC-LAG pairs, not stacks.</p>
+        <label class="checkbox"><input id="e-mgmt" type="checkbox" checked /> Include out-of-band management (one port per switch)</label>
+        <label class="checkbox"><input id="e-verity" type="checkbox" checked /> Include Dell Fabric Manager — DFM (one platform + ZTP for every switch)</label>
+        <button id="btn-edge-generate" class="primary">Generate edge/access BOM →</button>
+      </div>
+
+      <!-- EXPERT QUICK FORM -->
+      <div id="expert-form" hidden>
+        <button class="ghost mode-back" data-back>← Modes</button>
+        <h2>Attach target</h2>
+        <label>Attach target
+          <select id="f-platform"></select>
+        </label>
+        <p id="platform-hint" class="hint"></p>
+        <label id="f-model-wrap" style="display:none">Specific model <span class="unit-label">(drill down — sets exact speed/GPUs)</span>
+          <select id="f-model"><option value="">— family default —</option></select>
+        </label>
+
+        <label>How many units
+          <input id="f-units" type="number" min="1" value="4" />
+          <span id="unit-label" class="unit-label"></span>
+        </label>
+
+        <div class="extra-targets-h">Additional attach targets <span class="unit-label">(optional — add as many as this build needs: more servers, more storage, mixed platforms)</span></div>
+        <div id="extra-targets"></div>
+        <button type="button" id="btn-add-target" class="ghost add-target-btn">+ Add another attach target</button>
+
+        <label>Host NIC — vendor <span class="unit-label">(confirm actual config — primary target above)</span>
+          <select id="f-nic-vendor">
+            <option value="broadcom" selected>Broadcom (57508 / 57414)</option>
+            <option value="intel">Intel (E810 / X710)</option>
+            <option value="nvidia">NVIDIA (ConnectX-6 Lx 25G / Dx 100G / CX-6 200G / CX-7 400G / CX-8 800G / BlueField)</option>
+            <option value="other">Other / not sure</option>
+          </select>
+        </label>
+        <label>NIC speed
+          <select id="f-nic-speed">
+            <option value="" selected>Platform default</option>
+            <option value="1GBase-T">1GbE (RJ45 copper — native leaf, Cat6A)</option>
+            <option value="1GbE">1GbE (SFP fiber)</option>
+            <option value="10GBase-T">10GbE (RJ45 copper — native leaf, Cat6A)</option>
+            <option value="10GbE">10GbE (SFP+ fiber/DAC)</option>
+            <option value="25GbE">25GbE</option>
+            <option value="40GbE">40GbE (legacy QSFP+ — lands on a QSFP28 leaf)</option>
+            <option value="100GbE">100GbE</option>
+            <option value="200GbE">200GbE</option>
+            <option value="400GbE">400GbE (ConnectX-7)</option>
+            <option value="800GbE">800GbE (ConnectX-8)</option>
+          </select>
+        </label>
+        <p class="hint" style="margin-top:-6px">NVIDIA NIC ↔ speed map: CX-6 Lx = 25G · CX-6 Dx = 100G · CX-6 = 200G · CX-7 = 400G · CX-8 = 800G · BlueField-2 = 100/200G · BlueField-3 = 400G</p>
+        <label>Ports per NIC
+          <select id="f-nic-ports">
+            <option value="2" selected>Dual-port (2)</option>
+            <option value="1">Single-port (1)</option>
+            <option value="4">Quad-port (4)</option>
+          </select>
+        </label>
+        <label>NICs per server / node
+          <input id="f-nic-count" type="number" min="1" value="2" />
+        </label>
+        <label class="checkbox"><input id="f-ai-datanic" type="checkbox" />
+          <span>AI target: apply the NIC fields above to its front-end / storage group <span class="unit-label">(e.g. a Broadcom NIC alongside the rails)</span></span>
+        </label>
+        <label>Second NIC type — port speed <span class="unit-label">(optional — own fabric)</span>
+          <select id="f-nicb-speed">
+            <option value="" selected>— none —</option>
+            <option value="1GBase-T">1GbE (RJ45 copper)</option>
+            <option value="1GbE">1GbE (SFP fiber)</option>
+            <option value="10GBase-T">10GbE (RJ45 copper)</option>
+            <option value="10GbE">10GbE (SFP+ fiber/DAC)</option>
+            <option value="25GbE">25GbE</option>
+            <option value="100GbE">100GbE</option>
+            <option value="200GbE">200GbE</option>
+            <option value="400GbE">400GbE</option>
+          </select>
+        </label>
+        <label>Second NIC type — ports per unit
+          <input id="f-nicb-ports" type="number" min="1" placeholder="e.g. 2" />
+        </label>
+        <label>Second NIC type — connects to <span class="unit-label">(what it's sized/labeled as — a real difference, not just a name)</span>
+          <select id="f-nicb-network">
+            <option value="storage" selected>Storage (iSCSI / NVMe-TCP / dedicated storage NIC)</option>
+            <option value="frontend">A second front-end / data network (e.g. legacy 1G LAN — NOT storage)</option>
+          </select>
+        </label>
+
+        <label>How many racks <span class="unit-label">(FDC pattern: ToR pair + OOB per rack)</span>
+          <input id="f-racks" type="number" min="1" value="1" />
+        </label>
+        <label>100G leaf preference <span class="unit-label">(when a 100G leaf is needed)</span>
+          <select id="f-leaf100">
+            <option value="auto" selected>Auto — right-size (S5232F → S5448F)</option>
+            <option value="s5448f">S5448F-ON (48×100G SFP56-DD + 8×400G — PAM4 ports)</option>
+            <option value="z9264f">Z9264F-ON (64×100G standard QSFP28, 2U)</option>
+            <option value="s5232f">S5232F-ON (32×100G QSFP28, 1U)</option>
+          </select>
+        </label>
+        <label>25G leaf preference <span class="unit-label">(when a 25G leaf is needed)</span>
+          <select id="f-leaf25">
+            <option value="auto" selected>Auto — right-size (S5212F → S5224F → S5296F/S5248F)</option>
+            <option value="s5212f">S5212F-ON (12×25G — small racks only)</option>
+            <option value="s5224f">S5224F-ON (24×25G — small/mid racks)</option>
+            <option value="s5248f">S5248F-ON (48×25G + 6×100G — standard leaf)</option>
+            <option value="s5296f">S5296F-ON (96×25G + 8×100G — dense server racks)</option>
+          </select>
+        </label>
+
+        <label>GPUs per AI server <span class="unit-label">(AI targets only)</span>
+          <input id="f-gpus" type="number" min="1" value="8" />
+        </label>
+        <label>GPU rail NIC <span class="unit-label">(AI — overrides the model default)</span>
+          <select id="f-rail-speed">
+            <option value="" selected>— model default —</option>
+            <option value="400GbE">ConnectX-7 — 400GbE rails</option>
+            <option value="800GbE">ConnectX-8 — 800GbE rails</option>
+          </select>
+        </label>
+        <label>AI fabric stack <span class="unit-label">(no mixing — pick one vendor)</span>
+          <select id="f-stack">
+            <option value="" selected>— choose AI stack —</option>
+            <option value="nvidia">NVIDIA Spectrum (SN-series)</option>
+            <option value="dell">Dell PowerSwitch (Z/S-series)</option>
+          </select>
+        </label>
+        <label>RDMA transport <span class="unit-label">(AI fabric)</span>
+          <select id="f-ai-transport">
+            <option value="roce" selected>RoCEv2 (proven / default)</option>
+            <option value="uec">Ultra Ethernet — UEC 1.0 (open, multipath)</option>
+          </select>
+        </label>
+
+        <label>Redundancy
+          <select id="f-redundancy">
+            <option value="dual" selected>Dual-fabric (MC-LAG / VLT pair) — recommended</option>
+            <option value="single">Single fabric (lab / PoC only)</option>
+          </select>
+        </label>
+
+        <label>Growth headroom
+          <select id="f-growth">
+            <option value="0">0% (exact fit)</option>
+            <option value="0.15">15%</option>
+            <option value="0.25" selected>25% (recommended)</option>
+            <option value="0.5">50%</option>
+          </select>
+        </label>
+
+        <label>Cabling — where do the switches sit vs the hosts? <span class="unit-label">(sets DAC / AOC / optics)</span>
+          <select id="f-placement">
+            <option value="in-rack" selected>In-rack (ToR) — passive DAC, ≤3–5m</option>
+            <option value="adjacent">Adjacent rack / end-of-row — AOC/AEC ≤~30m</option>
+            <option value="structured">Across row/room/building — optics + structured fiber</option>
+          </select>
+        </label>
+        <label class="checkbox">
+          <input id="f-structured" type="checkbox" /> Structured fiber &amp; patching already in place (structured runs)
+        </label>
+        <label>Breakout cabling <span class="unit-label">(one high-speed port → several links)</span>
+          <select id="f-breakout">
+            <option value="auto" selected>Auto — use breakout where it saves ports/optics</option>
+            <option value="none">No breakout (one port per link)</option>
+            <option value="on">Plan for breakout (e.g. 400G→4×100G)</option>
+          </select>
+        </label>
+
+        <label>ToR-pair fabric style <span class="unit-label">(bonding decides the ICL — BOM impact)</span>
+          <select id="f-fabstyle">
+            <option value="mclag" selected>MC-LAG pair + ICL (LACP bonds supported) — default</option>
+            <option value="independent">Independent A/B fabrics — no ICL (block + MPIO only)</option>
+          </select>
+        </label>
+
+        <label>Block-storage protocol <span class="unit-label">(sets lossless / non-blocking)</span>
+          <select id="f-storage-proto">
+            <option value="" selected>— not specified —</option>
+            <option value="nvme-tcp">NVMe/TCP — standard fabric + jumbo 9216 (SFSS)</option>
+            <option value="iscsi">iSCSI — standard fabric + jumbo 9216</option>
+            <option value="nvme-roce">NVMe over RoCE — LOSSLESS (PFC/ECN) + 1:1</option>
+          </select>
+        </label>
+
+        <label>Traffic pattern <span class="unit-label">(sets oversubscription / uplinks)</span>
+          <select id="f-traffic">
+            <option value="balanced" selected>Balanced (~2:1) — general / mixed</option>
+            <option value="ns">Mostly north-south (~3:1)</option>
+            <option value="ew">Heavy east-west — non-blocking 1:1 (AI / dist. storage)</option>
+          </select>
+        </label>
+        <label>Speed-migration roadmap <span class="unit-label">(24–36 months)</span>
+          <select id="f-roadmap">
+            <option value="none" selected>No planned speed change</option>
+            <option value="25-100">25G → 100G</option>
+            <option value="100-400">100G → 400G</option>
+            <option value="unsure">Not sure — lean multi-rate</option>
+          </select>
+        </label>
+        <label>Deployment <span class="unit-label">(new build vs add-to-existing)</span>
+          <select id="f-deploy">
+            <option value="new" selected>New build (greenfield)</option>
+            <option value="add">Adding to an existing fabric</option>
+          </select>
+        </label>
+        <label class="checkbox">
+          <input id="f-reuse" type="checkbox" checked /> Reuse existing spine (add-to-existing — incremental BOM only)
+        </label>
+
+        <label>Network OS (sets the redundancy method)
+          <select id="f-nos">
+            <option value="sonic" selected>Dell Enterprise SONiC — EVPN-MH / MC-LAG</option>
+            <option value="os10">SmartFabric OS10 — VLT / VLTi</option>
+          </select>
+        </label>
+
+        <label class="checkbox">
+          <input id="f-mgmt" type="checkbox" checked /> Include out-of-band (iDRAC/BMC) management network
+        </label>
+        <label>Network architecture <span class="unit-label">(does storage traffic share the same switches as compute, or stay separate?)</span>
+          <select id="f-fabricarch">
+            <option value="sharedSpine" selected>Separate leaf per network, one shared spine (recommended default)</option>
+            <option value="converged">Converged — compute &amp; storage share the SAME leaf switches (VLAN-segmented)</option>
+            <option value="separate">Fully separate — dedicated leaf AND dedicated spine per network (max isolation)</option>
+          </select>
+        </label>
+        <label>Leaf uplink target <span class="unit-label">(new spine we quote, vs the leaves plugging into your existing core)</span>
+          <select id="f-uplink-target">
+            <option value="" selected>Auto — spine only when the fabric needs one (&gt;2 leaves)</option>
+            <option value="new-spine">New spine — self-contained pod (spine + leaf→spine cabling)</option>
+            <option value="existing-core">Existing core — no new spine, leaves uplink to your current core</option>
+          </select>
+        </label>
+        <label class="checkbox">
+          <input id="f-core" type="checkbox" /> Inter-network uplink (to core / another fabric / DCI)
+        </label>
+        <div id="f-core-speed-wrap" style="display:none">
+          <label>Connect to
+            <select id="f-core-type">
+              <option value="core" selected>Existing core / backbone</option>
+              <option value="fabric">Another fabric / pod</option>
+              <option value="dci">A second site (DCI)</option>
+            </select>
+          </label>
+          <label>Uplink speed
+            <select id="f-core-speed">
+              <option value="100GbE" selected>100GbE</option>
+              <option value="400GbE">400GbE</option>
+              <option value="25GbE">25GbE</option>
+            </select>
+          </label>
+          <label>Connection type
+            <select id="f-core-layer">
+              <option value="l3" selected>L3 routed</option>
+              <option value="l2">L2 stretched (EVPN-VXLAN)</option>
+            </select>
+          </label>
+          <label>Routing protocol (L3)
+            <select id="f-core-proto">
+              <option value="bgp" selected>BGP (eBGP + BFD)</option>
+              <option value="ospf">OSPF</option>
+              <option value="static">Static</option>
+            </select>
+          </label>
+          <label>Uplink reach <span class="unit-label">(sets the optic: SR/FR vs 10km LR)</span>
+            <select id="f-core-reach">
+              <option value="auto" selected>Same room / campus (short reach — default)</option>
+              <option value="longreach">Long reach — different building / metro (10km LR, single-mode)</option>
+            </select>
+          </label>
+          <label>What does the existing core run? <span class="unit-label">(decides if we can quote the far-side optic too)</span>
+            <select id="f-core-vendor">
+              <option value="unsure" selected>Not sure yet (our side only + verify)</option>
+              <option value="dell">Dell PowerSwitch (quote both sides)</option>
+              <option value="other">Another vendor (you supply the far-side optic)</option>
+            </select>
+          </label>
+          <label id="f-core-farmodel-wrap" style="display:none">Known Dell core model? <span class="unit-label">(matches the far port; leave "Not sure" to be asked the port)</span>
+            <select id="f-core-farmodel">
+              <option value="unknown" selected>Not sure</option>
+              <option value="z9432f-on">Z9432F-ON</option>
+              <option value="z9664f-on">Z9664F-ON</option>
+              <option value="s5232f-on">S5232F-ON</option>
+              <option value="s5248f-on">S5248F-ON</option>
+            </select>
+          </label>
+          <label id="f-core-farport-wrap" style="display:none">Far (core) port type <span class="unit-label">('Not sure' matches ours + verify flag)</span>
+            <select id="f-core-farport">
+              <option value="unknown" selected>Not sure — match ours & flag</option>
+              <option value="mmf">MPO / multimode (SR)</option>
+              <option value="smf">LC / single-mode (LR)</option>
+              <option value="dac">Direct-attach (DAC)</option>
+            </select>
+          </label>
+          <label class="checkbox">
+            <input id="f-border-leaf" type="checkbox" /> Dedicated border-leaf pair <span class="unit-label">(Dell multisite/DCI pattern — adds a 2-switch MC-LAG border pair; needs a leaf-spine fabric)</span>
+          </label>
+        </div>
+        <label class="checkbox">
+          <input id="f-verity" type="checkbox" checked /> Include Dell Fabric Manager — DFM (Automation · Observability · AIOps)
+        </label>
+
+        <button id="btn-generate" class="primary">Generate networking BOM →</button>
+      </div>
+    </section>
+
+    <!-- ========================= OUTPUT ========================= -->
+    <section class="panel output-panel" id="output">
+      <div class="empty-state" id="empty-state">
+        <p>Pick how you want to start on the left.</p>
+        <p class="muted">You'll get a sound BOM, a topology diagram, a rack elevation, and a standards-check report — plus value-add guidance in Discovery mode.</p>
+      </div>
+
+      <div id="results" hidden>
+        <p id="results-status" class="sr-only" role="status" aria-live="polite"></p>
+        <nav class="tabs" role="tablist" aria-label="BOM results">
+          <button class="tab" data-tab="guidance" id="tab-btn-guidance" role="tab" aria-selected="false" aria-controls="tab-guidance" hidden>💬 Guidance</button>
+          <button class="tab active" data-tab="bom" id="tab-btn-bom" role="tab" aria-selected="true" aria-controls="tab-bom">BOM</button>
+          <button class="tab" data-tab="topology" role="tab" aria-selected="false" aria-controls="tab-topology">Topology</button>
+          <button class="tab" data-tab="rack" role="tab" aria-selected="false" aria-controls="tab-rack">Rack elevation</button>
+          <button class="tab" data-tab="checks" role="tab" aria-selected="false" aria-controls="tab-checks">Checks <span id="checks-badge" class="badge"></span></button>
+          <button class="tab" data-tab="pitch" role="tab" aria-selected="false" aria-controls="tab-pitch">🎤 DFM pitch</button>
+        </nav>
+
+        <div class="export-bar">
+          <button id="btn-print" class="ghost">🖨 Print / Save PDF</button>
+          <button id="btn-csv" class="ghost">⬇ BOM (CSV)</button>
+          <button id="btn-svg" class="ghost">⬇ Topology (SVG)</button>
+          <button id="btn-drawio" class="ghost">⬇ Topology (draw.io)</button>
+          <button id="btn-copy-bom" class="ghost" title="Copy the full BOM as text — paste into an email, Teams/Slack, or a doc">📋 Copy BOM</button>
+          <button id="btn-copy-ooo" class="ghost" title="Copy a condensed, high-level BOM — switches &amp; cables only, no part numbers. For texting/emailing a quick answer when you're away from your laptop">📋 Copy OOO</button>
+          <button id="btn-save-design" class="ghost" title="Download this design as a file you can reopen or send to a colleague">💾 Save design</button>
+          <button id="btn-load-design" class="ghost" title="Open a saved design file">📂 Load design</button>
+          <button id="btn-share-design" class="ghost" title="Copy a link that rebuilds this exact design">🔗 Copy link</button>
+          <input id="design-file" type="file" accept="application/json,.json" hidden />
+          <span class="export-note">.drawio = every switch &amp; connection, editable → draw.io / diagrams.net → File → Export → VSDX for Visio. Copy OOO = switches + cables only, no part numbers, for a quick share on the go. Save/link keep the whole design; nothing leaves your browser.</span>
+        </div>
+
+        <div class="tab-body" id="tab-guidance" role="tabpanel" aria-labelledby="tab-btn-guidance" hidden></div>
+        <div class="tab-body" id="tab-bom" role="tabpanel" aria-labelledby="tab-btn-bom"></div>
+        <div class="tab-body" id="tab-topology" role="tabpanel" aria-label="Topology" hidden></div>
+        <div class="tab-body" id="tab-rack" role="tabpanel" aria-label="Rack elevation" hidden></div>
+        <div class="tab-body" id="tab-checks" role="tabpanel" aria-label="Checks" hidden></div>
+        <div class="tab-body" id="tab-pitch" role="tabpanel" aria-label="DFM pitch" hidden></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- print header (only visible on print) -->
+  <div id="print-header" class="print-only"></div>
+
+  <!-- ===== catalog (source of truth) ===== -->
+  <script src="js/version.js"></script>
+  <script src="js/catalog/switches.js"></script>
+  <script src="js/catalog/optics.js"></script>
+  <script src="js/catalog/platforms.js"></script>
+  <script src="js/catalog/rules.js"></script>
+  <script src="js/catalog/reference-architectures.js"></script>
+  <script src="js/catalog/solutions.js"></script>
+  <script src="js/catalog/discovery.js"></script>
+  <script src="js/catalog/glossary.js"></script>
+  <!-- ===== logic ===== -->
+  <script src="js/validate.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/design.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/wizard.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

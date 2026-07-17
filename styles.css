@@ -1,0 +1,482 @@
+/* =============================================================================
+ * Dell Networking BOM Advisor — visual system
+ * "Lumon clean": Apple-like minimalism with the Severance corporate calm —
+ * near-white surfaces, hairline rules, one restrained teal accent, precise
+ * wide-tracked uppercase micro-labels. No glow, no gradients, no noise.
+ * Type: Satoshi everywhere (body, headings, brand, micro-labels) — variable,
+ * shipped locally in fonts/ (zero-install). Light + dark themes via tokens;
+ * [data-theme="dark"] is the clean dark counterpart (still no glow).
+ * ========================================================================== */
+
+@font-face{
+  font-family:'Satoshi';
+  src:url('fonts/Satoshi-Variable.woff2') format('woff2');
+  font-weight:300 900;
+  font-style:normal;
+  font-display:swap;
+}
+
+:root{
+  /* surfaces */
+  --bg:#f5f6f7;            /* room */
+  --bg-2:#eef0f2;          /* recessed */
+  --card:#ffffff;          /* panel */
+  --card-2:#fafbfb;        /* raised element */
+  --field:#ffffff;         /* inputs */
+  /* ink */
+  --ink:#1b1f23;           /* primary text */
+  --ink-dim:#3d454d;
+  --muted:#667079;         /* secondary text — WCAG AA on both card (#fff) and page (#f5f6f7) grounds */
+  --line:#e3e7ea;          /* hairlines */
+  --line-2:#cdd4d9;        /* hover hairlines */
+  /* the one accent — Lumon teal */
+  --lum:#0e7c86;
+  --lum-soft:#0b6570;
+  --lum-tint:#eaf4f5;
+  /* status */
+  --mint:#1d8a5a; --ok:#1d8a5a;
+  --amber:#a8760f; --warn:#a8760f;
+  --red:#c04b42; --error:#c04b42;
+  --verify:#6d5bc7;
+  /* legacy aliases */
+  --dell-blue:#0e7c86; --dell-blue-dk:#0b6570;
+  --shadow:0 1px 2px rgba(20,30,40,.05),0 4px 16px rgba(20,30,40,.04);
+}
+/* ---- dark theme — clean Apple-dark counterpart (no glow) ---- */
+:root[data-theme="dark"]{
+  --bg:#101316; --bg-2:#15191d; --card:#191e23; --card-2:#1f252b; --field:#161b1f;
+  --ink:#e6eaed; --ink-dim:#c4ccd2; --muted:#8b959d;
+  --line:#2a3138; --line-2:#3b454d;
+  --lum:#4cc3cd; --lum-soft:#6ed3db; --lum-tint:rgba(76,195,205,.09);
+  --mint:#4ecb96; --ok:#4ecb96;
+  --amber:#e0b25e; --warn:#e0b25e;
+  --red:#ef8b83; --error:#ef8b83;
+  --verify:#a795ec;
+  --dell-blue:#4cc3cd; --dell-blue-dk:#6ed3db;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  margin:0;color:var(--ink);font-size:14px;line-height:1.5;
+  font-family:'Satoshi','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  font-weight:400;letter-spacing:.005em;
+  background:var(--bg);
+  min-height:100vh;
+  transition:background .2s,color .2s;
+}
+h1,h2,h3,.brand-mark,.tab,.wiz-q,.g-card-h,.switch-ref h3,.wiz-sum-k,.wiz-sum-h,.summary-cards .card span,th,tr.cat-row td{
+  font-family:'Satoshi','Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+h1{font-size:20px;margin:0;font-weight:500;letter-spacing:.02em}
+h2{font-size:11.5px;margin:0 0 16px;color:var(--muted);text-transform:uppercase;letter-spacing:.22em;font-weight:600}
+::selection{background:rgba(14,124,134,.2)}
+
+/* scrollbars — thin, quiet */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#d3d9dd;border-radius:6px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:#bcc4ca}
+
+/* header — quiet masthead */
+.app-header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  background:var(--card);color:var(--ink);
+  padding:14px 24px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:16px}
+.brand-mark{font-weight:600;font-size:18px;letter-spacing:.32em;padding:5px 10px 5px 14px;
+  color:var(--lum);border:1px solid var(--lum);border-radius:3px}
+.tagline{margin:3px 0 0;color:var(--muted);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.hdr-version{font-size:10.5px;font-weight:500;color:var(--muted);background:var(--bg-2);
+  border:1px solid var(--line);border-radius:3px;padding:2px 8px;vertical-align:middle;margin-left:8px;
+  letter-spacing:.1em;font-variant-numeric:tabular-nums}
+.disclaimer{background:#fdf6e8;border:1px solid #ecd9ac;color:var(--amber);
+  padding:6px 14px;border-radius:6px;font-size:11.5px;font-weight:500;letter-spacing:.04em}
+.header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.hdr-link{color:var(--lum);background:var(--card);border:1px solid var(--line);
+  padding:6px 14px;border-radius:6px;font-size:11.5px;font-weight:500;text-decoration:none;white-space:nowrap;
+  letter-spacing:.06em;transition:border-color .15s,background .15s}
+.hdr-link:hover{border-color:var(--lum);background:var(--lum-tint)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:350px 1fr;gap:20px;padding:20px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);
+  border-radius:12px;box-shadow:var(--shadow);padding:22px}
+.input-panel label{display:block;margin:0 0 15px;font-weight:500;font-size:12.5px;color:var(--ink-dim);letter-spacing:.02em}
+.input-panel select,.input-panel input[type=number]{width:100%;margin-top:6px;padding:9px 11px;
+  border:1px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit;
+  background:var(--field);color:var(--ink);font-weight:400;outline:none;transition:border-color .15s,box-shadow .15s}
+.input-panel select:focus,.input-panel input[type=number]:focus{border-color:var(--lum);box-shadow:0 0 0 3px rgba(14,124,134,.12)}
+.input-panel label.checkbox{font-weight:400;display:flex;gap:9px;align-items:flex-start}
+.input-panel label.checkbox input{margin-top:2px;accent-color:var(--lum)}
+input[type=checkbox]{accent-color:var(--lum)}
+.unit-label{display:inline-block;margin-top:4px;color:var(--muted);font-weight:400}
+.hint{margin:-9px 0 15px;color:var(--muted);font-size:12px;min-height:1em}
+
+button{cursor:pointer;font-family:inherit;font-size:13.5px;border-radius:8px;padding:10px 15px;
+  border:1px solid transparent;letter-spacing:.03em;transition:background .15s,border-color .15s,color .15s;color:var(--ink)}
+button.primary{background:var(--lum);color:#fff;width:100%;font-weight:500;margin-top:4px;letter-spacing:.06em}
+button.primary:hover{background:var(--lum-soft)}
+button.ghost{background:var(--card);border:1px solid var(--line);color:var(--ink-dim)}
+button.ghost:hover{border-color:var(--lum);color:var(--lum)}
+#btn-reset{width:100%;margin-top:8px}
+
+/* ACCESSIBILITY — a visible keyboard focus ring on EVERY interactive element.
+ * :focus-visible only shows it for keyboard/AT users, never on mouse click. */
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,
+.mode-btn:focus-visible,.tab:focus-visible,.wiz-opt:focus-visible,.wiz-sum-row:focus-visible,
+.hdr-link:focus-visible,.pitch-tgl:focus-visible{
+  outline:2px solid var(--lum);outline-offset:2px;border-radius:6px}
+.tab:focus-visible{outline-offset:-2px}
+/* honor reduced-motion: kill transitions/animations/transforms for users who ask */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;
+    animation-iteration-count:1!important;scroll-behavior:auto!important}
+  .mode-btn:hover{transform:none}
+}
+/* screen-reader-only helper text (visually hidden, still announced) */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* output */
+.empty-state{text-align:center;padding:70px 20px;color:var(--muted);letter-spacing:.04em}
+.muted{color:var(--muted)}
+/* horizontally scrollable on narrow screens (6 tabs won't all fit) — keep the thin
+ * app-standard scrollbar visible here rather than hiding it, so it doubles as a hint
+ * that the DFM pitch tab is off-screen to the right */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:16px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{background:none;border:none;border-bottom:2px solid transparent;border-radius:0;color:var(--muted);
+  font-weight:500;padding:8px 15px;margin-bottom:-1px;font-size:11.5px;text-transform:uppercase;letter-spacing:.14em;
+  white-space:nowrap;flex:0 0 auto}
+.tab:hover{color:var(--ink-dim)}
+.tab.active{color:var(--lum);border-bottom-color:var(--lum)}
+.badge{background:var(--amber);color:#fff;border-radius:8px;padding:1px 7px;font-size:10.5px;margin-left:5px;font-weight:600}
+/* wide content (the BOM table's Notes column, etc.) scrolls inside its own tab rather
+ * than forcing the whole page to scroll horizontally on a narrow phone screen */
+.tab-body{overflow-x:auto}
+
+.export-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.export-bar .ghost{font-size:12px;padding:7px 12px}
+.export-note{color:var(--muted);font-size:11.5px}
+
+.design-summary{background:var(--lum-tint);border:1px solid #cfe4e6;border-radius:8px;
+  padding:10px 14px;margin-bottom:16px;font-weight:500;color:var(--lum-soft);font-size:13px;letter-spacing:.02em}
+
+/* BOM table */
+.summary-cards{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.summary-cards .card{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:124px}
+.summary-cards .card b{display:block;font-size:24px;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.summary-cards .card span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--card-2);font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:600}
+tr:hover td{background:#fafcfc}
+tr.cat-row td{background:var(--lum-tint);font-weight:600;color:var(--lum-soft);text-transform:uppercase;
+  font-size:10.5px;letter-spacing:.18em}
+tr.cat-row:hover td{background:var(--lum-tint)}
+.qty{font-weight:600;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
+.pn-verify{color:var(--verify);font-weight:500;letter-spacing:.02em}
+.flag{display:inline-block;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;margin-left:6px;
+  vertical-align:middle;letter-spacing:.08em;text-transform:uppercase}
+.flag.verify{background:#f0edfb;color:var(--verify);border:1px solid #ddd5f3}
+.flag.sku{background:#fdf6e8;color:var(--amber);border:1px solid #ecd9ac}
+.note{color:var(--muted);font-size:12px}
+.src{color:var(--muted);font-size:11px;font-style:italic;opacity:.9}
+
+/* reference-architecture selector + banner */
+.ra-select{background:var(--lum-tint);border:1px solid #cfe4e6;border-radius:10px;padding:13px;margin-bottom:16px}
+.ra-select label{margin:0}
+.ra-banner{background:#eef8f2;border:1px solid #cbe7d6;border-left:3px solid var(--mint);
+  border-radius:10px;padding:13px 15px;margin-bottom:16px}
+.ra-banner b{color:var(--mint);font-size:14px;font-weight:600;letter-spacing:.02em}
+.ra-banner .ra-meta{color:var(--muted);font-size:12px;margin-top:5px}
+[disabled]{opacity:.45;cursor:not-allowed}
+
+/* mode chooser */
+#mode-chooser h2{margin-bottom:14px}
+.mode-btn{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:15px 16px;margin-bottom:10px;transition:border-color .15s,box-shadow .15s}
+.mode-btn:hover{border-color:var(--lum);box-shadow:var(--shadow)}
+.mode-btn b{display:block;font-size:14.5px;color:var(--ink);font-weight:500;letter-spacing:.01em}
+.mode-btn span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.mode-btn.subtle{background:var(--card-2)}
+.mode-back{margin-bottom:12px}
+
+/* wizard */
+.wiz-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+#wiz-exit{padding:5px 10px;font-size:11.5px}
+.wiz-progress{flex:1;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.wiz-bar{height:100%;width:0;background:var(--lum);transition:width .25s}
+.wiz-q{font-size:16.5px;font-weight:500;color:var(--ink);margin-bottom:5px;letter-spacing:.01em}
+.wiz-help{color:var(--muted);font-size:12px;margin:0 0 12px}
+.wiz-listen{background:#fdf9ef;border:1px solid #ecdfc0;border-radius:8px;
+  padding:10px 12px;margin:10px 0 4px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.wiz-listen-lbl{font-size:10px;font-weight:600;color:var(--amber);width:100%;margin-bottom:2px;
+  text-transform:uppercase;letter-spacing:.16em}
+.wiz-listen .chip{background:var(--card);border-color:#e3d2a8;color:var(--ink-dim)}
+.wiz-confirm{background:#fdf1f0;border:1px solid #f0cdc9;border-left:3px solid var(--red);
+  border-radius:8px;padding:10px 12px;margin:10px 0 4px;font-size:12px}
+.wiz-confirm-lbl{display:block;font-weight:600;color:var(--red);margin-bottom:4px;text-transform:uppercase;
+  letter-spacing:.12em;font-size:10.5px}
+.wiz-confirm div{color:var(--ink-dim);margin:2px 0}
+.wiz-options{display:flex;flex-direction:column;gap:8px;margin:15px 0}
+.wiz-opt{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;transition:border-color .13s,background .13s}
+.wiz-opt:hover{border-color:var(--line-2)}
+.wiz-opt.sel{border-color:var(--lum);background:var(--lum-tint);box-shadow:0 0 0 1px var(--lum)}
+.wiz-opt b{display:block;font-size:14px;color:var(--ink);font-weight:500}
+.wiz-opt span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.wiz-number{display:flex;gap:8px;align-items:center;margin:15px 0}
+.wiz-number input{flex:1;padding:11px;border:1px solid var(--line);border-radius:8px;font-size:16px;
+  background:var(--field);color:var(--ink);font-family:inherit;outline:none;font-variant-numeric:tabular-nums}
+.wiz-number input:focus{border-color:var(--lum);box-shadow:0 0 0 3px rgba(14,124,134,.12)}
+.wiz-nav{display:flex;justify-content:space-between;gap:10px;margin-top:15px}
+.wiz-nav .primary{width:auto;flex:1}
+/* running "solution so far" overview */
+.wiz-summary{margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--card-2);padding:9px}
+.wiz-sum-h{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;padding:5px 6px 9px}
+.wiz-sum-h .muted{font-weight:500;letter-spacing:.03em;text-transform:none}
+.wiz-sum-row{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;
+  background:var(--card);border:1px solid transparent;border-radius:7px;padding:7px 9px;cursor:pointer;margin-bottom:3px;transition:border-color .12s}
+.wiz-sum-row:hover{border-color:var(--lum)}
+.wiz-sum-row.cur{background:var(--lum-tint);border-color:var(--lum)}
+.wiz-sum-k{font-size:10px;font-weight:500;color:var(--muted);flex:0 0 42%;letter-spacing:.06em;text-transform:uppercase}
+.wiz-sum-v{font-size:12px;font-weight:500;color:var(--ink);text-align:right;flex:1}
+.wiz-sum-row.added-target{cursor:default;background:var(--lum-tint);border-color:#cfe4e6}
+.wiz-sum-remove{background:none;border:none;padding:2px 4px;font-size:11px;color:var(--muted);flex:0 0 auto}
+.wiz-sum-remove:hover{color:var(--red)}
+
+/* dynamic "additional attach target" rows (expert form) */
+.extra-targets-h{font-size:11.5px;font-weight:600;color:var(--ink-dim);letter-spacing:.04em;margin:6px 0 10px}
+.target-row{border:1px solid var(--line);border-radius:10px;padding:13px 15px 2px;margin-bottom:12px;background:var(--card-2)}
+.target-row-h{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:600;
+  color:var(--lum-soft);text-transform:uppercase;letter-spacing:.14em;margin-bottom:10px}
+.target-row-remove{background:none;border:1px solid var(--line);color:var(--muted);font-size:10.5px;
+  padding:4px 9px;text-transform:none;letter-spacing:.02em}
+.target-row-remove:hover{border-color:var(--red);color:var(--red)}
+.add-target-btn{width:100%;margin-bottom:18px}
+
+/* discovery guidance */
+.g-headline{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+.g-headline h3{margin:0;color:var(--ink);font-size:17px;font-weight:500;letter-spacing:.01em}
+.g-time{color:var(--muted);font-size:12px;white-space:nowrap}
+.g-card{border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:10px;background:var(--card)}
+.g-card-h{font-weight:600;color:var(--lum-soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.18em;margin-bottom:9px}
+.g-card-h span{text-transform:none;letter-spacing:.02em;font-weight:400;color:var(--muted);font-size:12px}
+.g-card ul{margin:0;padding-left:18px}.g-card li{margin-bottom:4px}
+.g-item{padding:7px 0;border-bottom:1px dashed var(--line)}.g-item:last-child{border-bottom:none}
+.g-item b{color:var(--ink);font-weight:500}.g-item div{color:var(--muted);font-size:13px}
+.g-lead{font-weight:500;color:var(--ink);margin:0 0 8px}
+.g-verity{background:#f7f5fd;border-color:#ddd5f3}
+.g-open{background:#fdf9ef;border-color:#ecdfc0}
+
+/* switch capability reference */
+.switch-ref{margin-top:24px}
+.switch-ref h3{font-size:10.5px;color:var(--muted);margin:0 0 12px;text-transform:uppercase;letter-spacing:.2em;font-weight:600}
+.switch-ref h3 .muted{text-transform:none;font-weight:400;letter-spacing:.02em}
+.ref-card{border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px;background:var(--card)}
+.ref-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.ref-head b{font-weight:500;color:var(--ink);letter-spacing:.02em}
+.ref-head .cap{margin-left:auto;font-weight:600;color:var(--lum);white-space:nowrap;font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--card-2);border:1px solid var(--line);border-radius:5px;padding:3px 9px;font-size:11px;color:var(--ink-dim)}
+.chip b{color:var(--lum-soft);font-weight:600}
+
+/* checks */
+.check{display:flex;gap:11px;padding:11px 13px;border:1px solid var(--line);border-left-width:3px;border-radius:8px;
+  margin-bottom:8px;background:var(--card)}
+.check .sev{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;min-width:62px;padding-top:2px}
+.check .msg{flex:1}
+.check .src{display:block;margin-top:3px}
+.check.error{border-left-color:var(--red)} .check.error .sev{color:var(--red)}
+.check.verify{border-left-color:var(--verify)} .check.verify .sev{color:var(--verify)}
+.check.warn{border-left-color:var(--amber)} .check.warn .sev{color:var(--amber)}
+.check.info{border-left-color:var(--lum)} .check.info .sev{color:var(--lum)}
+
+/* diagrams — clean drawing sheet */
+.diagram-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px;box-shadow:var(--shadow)}
+svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+/* topology pan/zoom viewport — a CONSTANT-height window whatever the design size.
+ * Opens fitted (whole diagram visible); drag pans, wheel/pinch zooms (touch-action:none
+ * hands the touch gestures to the diagram instead of scrolling/zooming the page). */
+.topo-viewport{position:relative;height:460px;overflow:hidden;padding:0;touch-action:none;cursor:grab;user-select:none}
+.topo-viewport.dragging{cursor:grabbing}
+.topo-viewport .zoom-stage{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.topo-viewport svg{max-width:none;height:auto;margin:0}   /* the stage transform does ALL scaling */
+.zoom-ctl{position:absolute;right:10px;top:10px;display:flex;gap:4px;z-index:5}
+.zoom-ctl button{background:var(--card);border:1px solid var(--line);color:var(--ink-dim);
+  font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:6px;min-width:34px;box-shadow:var(--shadow)}
+.zoom-ctl button:hover{border-color:var(--lum);color:var(--lum)}
+/* Logical/Expanded detail-level toggle — sits above the diagram, not inside the pan/zoom
+ * viewport (switching modes re-renders the whole SVG, unlike zoom which only transforms it). */
+.view-toggle{display:flex;gap:4px;margin-bottom:8px}
+.view-toggle button{background:var(--card);border:1px solid var(--line);color:var(--ink-dim);
+  font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:6px;cursor:pointer}
+.view-toggle button:hover{border-color:var(--lum);color:var(--lum)}
+.view-toggle button.active{background:var(--lum);border-color:var(--lum);color:#fff}
+@media(max-width:600px){.topo-viewport{height:62vh}}
+:root[data-theme="dark"] .topo-viewport{background:#14181c}
+svg text{font-family:'Satoshi','Segoe UI',sans-serif}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:11.5px;color:var(--muted);letter-spacing:.04em}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:middle}
+
+/* print — already paper */
+.print-only{display:none}
+@media print{
+  .app-header,.input-panel,.tabs,.export-bar,.disclaimer,#btn-reset{display:none!important}
+  body{background:#fff}
+  .layout{display:block;padding:0}
+  .panel{border:none;box-shadow:none;padding:0}
+  .tab-body[hidden]{display:block!important}     /* print all tabs */
+  .print-only{display:block;padding:8px 0;border-bottom:2px solid var(--lum);margin-bottom:12px}
+  .tab-body{page-break-before:always}
+  #tab-bom{page-break-before:avoid}
+  .diagram-wrap{box-shadow:none}
+  /* a printed page can't scroll — an overflow:auto element is fragmented as ONE monolithic
+   * box in paged media, so content taller/wider than a page is silently never printed at
+   * all. Both of these are overflow:auto on screen (phone/table scroll) but must go back
+   * to visible for print so a long BOM or wide diagram spans as many pages as it needs. */
+  .tab-body,.diagram-wrap{overflow:visible}
+  /* the pan/zoom viewport prints as the FULL untransformed diagram (no fixed window,
+   * no zoom state — !important beats the inline transform set by the zoom JS) */
+  .topo-viewport{height:auto;overflow:visible}
+  .topo-viewport .zoom-stage{transform:none!important;position:static}
+  .topo-viewport svg{max-width:100%}
+  .zoom-ctl{display:none!important}
+}
+
+@media(max-width:860px){.layout{grid-template-columns:1fr}}
+
+/* ---- phone breakpoint — touch targets, no accidental zoom, reclaimed padding ---- */
+@media(max-width:600px){
+  .layout{padding:10px;gap:12px}
+  .panel{padding:15px;border-radius:10px}
+  .app-header{padding:12px 14px}
+  .brand{gap:10px}
+  .tagline{display:none}                 /* decorative subhead only — drop it to reclaim a header row on a phone-width screen */
+  .header-actions{width:100%;justify-content:flex-start}
+  .disclaimer{flex:1 1 100%}
+  /* iOS Safari auto-zooms the page when a focused input's font-size is under 16px —
+   * bump every text-entry field to 16px here without touching desktop density */
+  .input-panel select,.input-panel input[type=number],.wiz-number input{font-size:16px}
+  /* comfortable touch targets (~40px+) on the controls used most on a phone */
+  button{padding:11px 15px}
+  .tab{padding:11px 14px}
+  .export-bar .ghost{padding:10px 13px}
+  .mode-btn{padding:16px}
+  .wiz-opt{padding:14px 15px}
+}
+
+/* glossary tooltips — hover any dotted term for a plain-English explanation */
+.gloss{border-bottom:1px dotted var(--line-2);cursor:help}
+.gloss:hover{background:var(--lum-tint);border-bottom-color:var(--lum)}
+
+/* Verity value card (BOM-aware) + nudge */
+.verity-card{background:#f7f5fd;border:1px solid #ddd5f3;border-left:3px solid var(--verify);
+  border-radius:10px;padding:13px 15px;margin:18px 0}
+.verity-head{font-size:14px;margin-bottom:6px;color:var(--ink)}
+.verity-head b{color:var(--verify);font-weight:600;letter-spacing:.02em}
+.verity-card ul{margin:6px 0;padding-left:20px}
+.verity-card li{margin:5px 0;font-size:13px}
+.verity-close{margin-top:9px;font-size:12.5px;color:var(--verify);border-top:1px dashed #ddd5f3;padding-top:9px}
+.verity-nudge{background:#f7f5fd;border:1px dashed #cfc3ef;border-radius:8px;
+  padding:10px 13px;margin:14px 0;font-size:12.5px}
+
+/* ---- dark theme: component surfaces that use fixed tints ---- */
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#333c43;border-color:var(--bg)}
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover{background:#43505a}
+:root[data-theme="dark"] .disclaimer{background:rgba(224,178,94,.09);border-color:rgba(224,178,94,.35)}
+:root[data-theme="dark"] .flag.sku{background:rgba(224,178,94,.1);border-color:rgba(224,178,94,.3)}
+:root[data-theme="dark"] .flag.verify{background:rgba(167,149,236,.12);border-color:rgba(167,149,236,.3)}
+:root[data-theme="dark"] .design-summary{background:var(--lum-tint);border-color:rgba(76,195,205,.25)}
+:root[data-theme="dark"] .ra-select{background:var(--lum-tint);border-color:rgba(76,195,205,.25)}
+:root[data-theme="dark"] .ra-banner{background:rgba(78,203,150,.07);border-color:rgba(78,203,150,.25)}
+:root[data-theme="dark"] tr:hover td{background:rgba(76,195,205,.04)}
+:root[data-theme="dark"] tr.cat-row td,:root[data-theme="dark"] tr.cat-row:hover td{background:var(--lum-tint);color:var(--lum)}
+:root[data-theme="dark"] .wiz-listen{background:rgba(224,178,94,.06);border-color:rgba(224,178,94,.25)}
+:root[data-theme="dark"] .wiz-listen .chip{background:var(--card-2);border-color:rgba(224,178,94,.3)}
+:root[data-theme="dark"] .wiz-confirm{background:rgba(239,139,131,.07);border-color:rgba(239,139,131,.3)}
+:root[data-theme="dark"] .g-verity{background:rgba(167,149,236,.07);border-color:rgba(167,149,236,.25)}
+:root[data-theme="dark"] .g-open{background:rgba(224,178,94,.06);border-color:rgba(224,178,94,.25)}
+:root[data-theme="dark"] .verity-card{background:rgba(167,149,236,.07);border-color:rgba(167,149,236,.3)}
+:root[data-theme="dark"] .verity-close{border-top-color:rgba(167,149,236,.3)}
+:root[data-theme="dark"] .verity-nudge{background:rgba(167,149,236,.07);border-color:rgba(167,149,236,.35)}
+:root[data-theme="dark"] .diagram-wrap{background:#14181c}
+:root[data-theme="dark"] .gloss:hover{background:var(--lum-tint)}
+:root[data-theme="dark"] button.primary{color:#0c1114}
+
+/* print is ALWAYS paper — even from dark mode */
+@media print{
+  :root[data-theme="dark"]{
+    --bg:#fff; --bg-2:#f0f3f7; --card:#fff; --card-2:#fafbfb; --field:#fff;
+    --ink:#1b1f23; --ink-dim:#3d454d; --muted:#6f7a84; --line:#e3e7ea; --line-2:#cdd4d9;
+    --lum:#0e7c86; --lum-soft:#0b6570; --lum-tint:#eaf4f5;
+    --verify:#6d5bc7; --amber:#a8760f; --red:#c04b42; --mint:#1d8a5a;
+  }
+  :root[data-theme="dark"] .diagram-wrap{background:#fff}
+}
+.pitch-tgl.on{border-color:var(--lum);color:var(--lum);font-weight:600}
+
+/* toast — brief confirmation (e.g. "link copied") */
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(12px);
+  background:var(--ink);color:var(--bg);font-size:13px;padding:10px 16px;border-radius:8px;
+  box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;max-width:90vw}
+#toast.show{opacity:.97;transform:translateX(-50%) translateY(0)}
+
+/* export fallback — shown when a browser/sandbox context blocks the normal file-download
+   flow (e.g. an embedded/sandboxed iframe with no download permission); lets the user copy
+   or manually save the exported content instead of a silent, unexplained failure */
+.export-fallback-backdrop{position:fixed;inset:0;background:rgba(20,25,30,.45);z-index:80;
+  display:flex;align-items:center;justify-content:center;padding:24px}
+.export-fallback{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+  max-width:640px;width:100%;max-height:80vh;display:flex;flex-direction:column;padding:20px}
+.export-fallback h3{margin:0 0 6px;font-size:16px;font-weight:600;color:var(--ink)}
+.export-fallback p{margin:0 0 12px;font-size:13px;color:var(--muted);line-height:1.5}
+.export-fallback textarea{flex:1;min-height:220px;width:100%;box-sizing:border-box;resize:vertical;
+  font:12px/1.5 ui-monospace,Consolas,monospace;background:var(--field,var(--card-2));color:var(--ink);
+  border:1px solid var(--line);border-radius:8px;padding:10px}
+.export-fallback .ef-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+
+/* plain-English design summary + confidence signal (for non-technical readers) */
+.design-plain{background:var(--card-2);border:1px solid var(--line);border-left:3px solid var(--lum);
+  border-radius:8px;padding:13px 15px;margin-bottom:12px}
+.design-plain .dp-narr{font-size:14.5px;line-height:1.55;color:var(--ink)}
+.design-plain .dp-narr b{font-weight:600}
+.dp-conf{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted)}
+.dp-conf b{font-weight:600}
+.dp-conf.dp-draft b{color:var(--amber)}
+.dp-conf.dp-attention b{color:var(--red)}
+
+/* quote-ready next steps */
+.next-steps{margin-top:22px;background:#eef8f2;border:1px solid #cbe7d6;border-radius:10px;padding:14px 16px}
+:root[data-theme="dark"] .next-steps{background:rgba(78,203,150,.07);border-color:rgba(78,203,150,.25)}
+.next-steps h3{font-size:12px;color:var(--mint);margin:0 0 8px;text-transform:uppercase;letter-spacing:.14em;font-weight:600}
+.next-steps ol{margin:0;padding-left:20px}
+.next-steps li{margin:6px 0;font-size:13px;line-height:1.5}
+.next-steps li b{font-weight:600;color:var(--ink)}
+
+/* example designs on the mode chooser */
+.examples{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.examples-h{font-size:10.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:8px}
+.example-btn{display:block;width:100%;text-align:left;background:transparent;border:1px dashed var(--line-2);
+  border-radius:8px;padding:9px 12px;margin-bottom:6px;font-size:12.5px;color:var(--ink-dim);transition:border-color .13s,background .13s}
+.example-btn:hover{border-color:var(--lum);border-style:solid;background:var(--lum-tint);color:var(--lum)}
+
+/* per-rack power / cooling / weight rollup on the elevation */
+.rack-power{margin-top:10px;background:#fdf6e8;border:1px solid #ecd9ac;border-radius:8px;
+  padding:9px 13px;font-size:13px;color:var(--ink)}
+:root[data-theme="dark"] .rack-power{background:rgba(224,178,94,.08);border-color:rgba(224,178,94,.3)}
+.rack-power b{font-weight:600;font-variant-numeric:tabular-nums}
+
+/* interactive topology — hover tooltip, BOM row flash, focused legend chip */
+#topo-tip{position:fixed;z-index:60;max-width:250px;pointer-events:none;opacity:0;
+  background:var(--ink);color:var(--bg);font-size:11.5px;line-height:1.4;padding:7px 10px;
+  border-radius:7px;box-shadow:var(--shadow);transition:opacity .12s}
+#topo-svg [data-bom-model]:hover rect{stroke-width:2.2}
+.legend [data-fabric]{border-radius:6px;padding:1px 5px;transition:background .12s}
+.legend [data-fabric]:hover{background:var(--lum-tint)}
+.legend [data-fabric].lg-active{background:var(--lum-tint);outline:1px solid var(--lum)}
+tr.bom-flash td{animation:bomflash 1.4s ease}
+@keyframes bomflash{0%,100%{background:transparent}25%,60%{background:var(--lum-tint)}}
+@media (prefers-reduced-motion: reduce){ tr.bom-flash td{animation:none;background:var(--lum-tint)} }

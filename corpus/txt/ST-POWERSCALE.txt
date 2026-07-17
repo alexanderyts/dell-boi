@@ -1,0 +1,394 @@
+Dell PowerScale All-Flash
+
+The PowerScale All-Flash storage nodes help to accelerate demanding file workloads with
+
+extreme performance and efficiency.
+
+The PowerScale family comprises of scale-out file storage platforms configured with the OneFS operating system.
+
+OneFS provides the intelligence behind the highly scalable, high-performance modular storage solution that can
+
+grow with your business. A PowerScale OneFS cluster can be built with a flexible choice of storage platforms
+
+including all-flash, hybrid and archive nodes. These solutions provide performance, choice, efficiency, flexibility,
+
+scalability, security, and protection for you to store massive amounts of unstructured data within a cluster.
+
+The PowerScale all-flash nodes co-exist seamlessly in the same cluster with your existing PowerScale or Isilon
+
+nodes to drive your traditional workloads and even the most modern applications like Generative AI. The
+
+PowerScale all-flash storage platforms include:
+
+PowerScale F910
+
+PowerScale F910 is the latest in our
+
+next-generation all-flash nodes lineup
+
+and provides massive AI-ready
+
+performance with the ultimate
+
+capacity in a highly dense 2U
+
+configuration. Each node hosts 24 NVMe SSDs. F910 allows you to scale raw storage from 92 TB to 2.9 PB per
+
+node. The F910 includes in-line compression and deduplication to maximize efficiency. The minimum number of
+
+PowerScale nodes per cluster is three while the maximum cluster size is 252 nodes. The F910 is best suited for
+
+high-capacity workloads within demanding verticals like media and entertainment, high frequency trading,
+
+healthcare and accelerating phases of the AI lifecycle for Generative AI applications.
+
+PowerScale F710
+
+Our next-generation PowerScale
+
+F710, leveraging PowerEdge R660,
+
+delivers high performance and
+
+improved density in a 1U platform with up to 10 all-flash NVMe SSD drives per node. The F710 allows you to
+
+scale raw storage from 38 TB to 1.2 PB per node. The F710 includes in-line compression and deduplication. The
+
+minimum number of PowerScale nodes per cluster is three while the maximum cluster size is 252 nodes. The
+
+F710 is best suited for Generative AI and AI workloads, as well as high performing vertical workloads like, media
+
+and entertainment, healthcare and life sciences, high frequency trading, and EDA workloads ­ and is the world's
+
+first ethernet-based storage appliance certified with NVIDIA DGX SuperPOD.
+
+PowerScale F210
+
+PowerScale F210 is also part of our
+
+next-generation all-NVMe lineup. It
+
+delivers significant performance
+
+gains over the previous generation in a cost-effective 1U form factor with up to 4 NVME all-flash SSD drives per
+
+node. The F210 offers a 15TB QLC option and allows you to scale raw storage from 8 TB to 61 TB per node and
+
+up to 15 PB of raw capacity per cluster. It also includes in-line compression and deduplication. The minimum
+
+number of PowerScale nodes per cluster is three while the maximum cluster size is 252 nodes. The F210 is best
+
+suited for customer beginning their AI and Analytics journey, and other high-demanding workloads that require a
+
+balance of performance and capacity.
+
+*Cluster scaling limits may apply
+PowerScale F910 All-NVMe Specifications
+
+F910 ATTRIBUTES &               3.84 TB SSD  7.68 TB SSD         15.36 TB          30.7 TB SSD             61.4 TB      122 TB SSD3
+
+OPTIONS                                                          SSD                                       SSD²
+
+Raw node capacity               92 TB        184 TB              368 TB                        736.8 TB    1.4 PB       2.9 PB
+
+NVMe SSD drives                                                                24
+
+(2.5") per node
+
+Self-Encrypting                                                  Yes (requires OneFS 9.8)
+
+Drives (SED)
+
+Operating system                                                 PowerScale OneFS 9.8 or later
+
+ECC memory (per                                                          512 GB
+
+node)
+
+Front-end networking                         Dual port 25G NIC supporting 10G or 25G connections
+
+(per node)                                   Dual port 100G NIC supporting 40G or 100G connections
+
+                                                                 Dual port 200G Ethernet NIC
+
+                                                                 Dual port 400G Ethernet NIC4
+
+                                                                 Dual port 200G InfiniBand NIC (HDR)
+
+Infrastructure                               Dual port 100G NIC supporting 40G or 100G connections
+
+networking (per node)                                            Dual port 200G Ethernet NIC
+
+                                                                 Dual port 400G Ethernet NIC4
+
+                                                                 Dual port 200G InfiniBand NIC (HDR)
+
+Max Power
+
+Consumption @ 200­                                               877 Watts (@25°C), 913 Watts (@35°C)
+
+240V
+
+Typical thermal rating                                           2992 BTU/hr (@25°C), 3115 BTU/hr (@35°C)
+
+¹Values at <25° C are reflective of more steady state maximum values during normal operations
+
+²61TB ISE requires 9.10 or later and SED requires 9.11 or later
+
+3Requires OneFS 9.11.0.0
+
+4 Requires OneFS 9.13 for F910
+
+PowerScale F710 All-NVMe Specifications
+
+F710 ATTRIBUTES                 3.84 TB SSD  7.68 TB SSD         15.36 TB SSD  30.72 TB SSD              61.4 TB SSD 2  122 TB SSD3
+
+& OPTIONS
+
+Raw node capacity               38 TB        77 TB               154 TB                        307 TB      614 TB       1.2 PB
+
+NVMe SSD drives (2.5") per                                                     10
+
+node
+
+Self-Encrypting Drive (SED)                                      Yes (requires OneFS 9.7)
+
+Operating system                                                 Yes (requires OneFS 9.7)
+
+ECC memory (per node)                                                          512 GB
+
+                                                                 Dual port 25G NIC supporting 10G or 25G connections
+
+Front-end networking (per                    Dual port 100G NIC supporting 40G or 100G connections
+
+node)                                                            Dual port 200G Ethernet NIC
+
+                                                                 Dual port 400G Ethernet NIC4
+
+                                                                 Dual port 200G InfiniBand NIC (HDR)
+Infrastructure networking (per                               Dual port 100G NIC supporting 40G or 100G connections
+
+node)                                                            Dual port 200G Ethernet NIC
+
+                                                                 Dual port 400G Ethernet NIC4
+
+                                                                 Dual port 200G InfiniBand NIC (HDR)
+
+Max Power Consumption @                                          769 Watts (@25°C), 887 Watts (@35°C)
+
+200~240V (per node)1
+
+Typical thermal rating                                           2622 BTU/hr (@25°C), 3025 BTU/hr (@35°C)
+
+¹Values at <25° C are reflective of more steady state maximum values during normal operation
+
+²61TB ISE requires 9.10 or later and SED requires 9.11 or later
+
+3 Requires OneFS 9.11.0.0
+
+4 Requires OneFS 9.14 for F710
+
+PowerScale F210 All-NVMe                    Specifications
+
+F210 ATTRIBUTES & OPTIONS                   1.92 TB SSD          3.84 TB SSD                          7.68 TB SSD         15.36 TB SSD
+
+Raw node capacity                                        7.7 TB  15 TB                                31 TB                   61 TB
+
+SSD drives (2.5") per node                                                                    4
+
+Self-Encrypting drive (SED SSD)                                  Yes (requires OneFS 9.7)
+
+FIPS 140-2 compliant option
+
+Operating system                                                 Yes (requires OneFS 9.7)
+
+ECC memory (per node)                                                                         128 GB
+
+Front-end networking (per node)                          Dual port 25G NIC supporting 10G or 25G connections (SFP+/SFP28)
+
+                                                                 Dual port 100G NIC supporting 40G or 100G connections
+
+Infrastructure networking (per node)                             Dual port 25G NIC supporting 10G or 25G connections
+
+                                                                 Dual port 100G NIC supporting 40G or 100G connections
+
+                                                                 Dual port 200G InfiniBand NIC (HDR)
+
+Max Power Consumption @ 200­                                     286 Watts (@25°C), 309 Watts (@35°C)
+
+240V (per node)
+
+Typical thermal rating                                           975 BTU/hr (@25°C), 1054 BTU/hr (@35°C)
+
+Values at <25° C are reflective of more steady state maximum values during normal operation
+
+CLUSTER ATTRIBUTES                          Number of nodes      Raw cluster capacity                  Rack units
+
+F910                                        3 to 252             276 TB ­ 737 PB                             3 to 252
+
+F710                                        3 to 252             115 TB ­ 307 PB                             3 to 252
+
+F210                                        3 to 252             23 TB to 15 PB                              3 to 252
+
+Cluster scalability limitations may apply.
+
+PowerScale Attributes
+
+PRODUCT ATTRIBUTES
+
+Scale-out architecture                      Distributed fully symmetric clustered architecture that combines modular storage
+
+                                            with OneFS operating system in a single volume, single namespace, and single
+
+                                            filesystem.
+PRODUCT ATTRIBUTES
+
+Modular design               1U or 2U rack mountable PowerScale with 3 nodes minimum. Four self-contained
+
+                             Isilon nodes include server, software, HDDs and SSDs in a 4U rack-mountable
+
+                             chassis. All nodes can be integrated into existing PowerScale and Isilon clusters
+
+                             with backend Ethernet or InfiniBand connectivity.
+
+Scalability                  A cluster can scale up to 252 nodes. The minimum number of all-flash nodes per
+
+                             cluster is three for PowerScale and four for Isilon. Add nodes to scale
+
+                             performance and capacity. A single cluster can deliver up to 737 PB raw capacity.
+
+High availability            No-single-point-of-failure. Self-healing design protects against disk or node failure;
+
+                             includes back-end intra-cluster failover.
+
+Operating system             PowerScale OneFS distributed file system creates a cluster with a single file
+
+                             system and single global namespace. It is fully journaled, fully distributed, and has
+
+                             a globally coherent write/read cache.
+
+Data protection              FlexProtect file-level striping with support for N+1 through N+4 and mirroring data
+
+                             protection schemes.
+
+NDMP Backup                  Supports two-way NDMP backups for effective data protection.
+
+Data retention               SmartLock policy-based retention and protection against accidental deletion.
+
+Security                     File system audit capability and STIG hardening. PowerScale Cyber Protection
+
+                             powered by Superna Ransomware Defender can be included.
+
+Efficiency                   SmartDedupe data deduplication option, which can reduce storage requirements
+
+                             by up to 35 percent. Inline data reduction and compression.
+
+Automated storage tiering    Policy-based automated tiering options including SmartPools and CloudPools
+
+                             software to optimize storage resources and lower costs.
+
+Network protocol support     NFSv3, NFSv4, NFSoRDMA, NFS Kerberized sessions (UDP or TCP), SMB1
+
+                             (CIFS), SMB2, SMB3, SMB3-CA, Multichannel, HTTP, FTP, NDMP, SNMP,
+
+                             LDAP, HDFS, S3, ADS, NIS reads/writes.
+
+Data replication             SyncIQ fast and flexible one-to-many file-based asynchronous replication between
+
+                             clusters. SmartSync provides efficient file to file and file to object data movement.
+
+ENVIRONMENTAL SPECIFICATIONS ­ POWER
+
+Power factor is a measure of how effectively you are using electricity.  The power factor of an AC electrical power system is defined as the ratio of
+
+the real power absorbed by the load to the apparent power flowing in the circuit and is a dimensionless number in the closed interval of -1 to 1. A
+
+power factor of less than one indicates the voltage and current are not in phase, reducing the instantaneous product of the two.
+
+For max power consumption information during unexpected environmental conditions, please refer to the "Site Preparation and Planning Guide".
+
+POWER SUPPLY: Key Specifications and Efficiency for PowerScale F210, F710, and F910
+
+       Attribute           F710 and F210                                 F910
+
+Class              Platinum                 Platinum
+
+Frequency          50/60 Hz                 50/60 Hz
+
+Voltage            100-240V, F210: 9.2 A ­  100-240V, 12 A ­ 8A
+
+                   4.7A, F710: 12 A ­ 8A
+
+Operating Environment: 10°C to 35°C (50°F to 95°F) with no direct sunlight on the equipment
+
+For additional information about environmental measurements for specific system configurations, see Dell.com/environmental_datasheets
+OPERATING ENVIRONMENT                                                                     Compliant with ASHRAE A3 data center
+
+                                                                                                  environment guidelines
+
+DIMENSIONS / WEIGHT:
+
+The following specifications apply to F910:
+
+·  Height: 86.8 mm (3.41 inches)
+
+·  Width: 482 mm (18.97 inches)
+
+·  Depth: 772.13 mm (30.39 inches) with bezel
+
+·  Weight: 72.2 lbs. (32.75 kg)
+
+The following specifications apply to F210 and F710
+
+·  Height: 42.8mm (1.68")
+
+·  Width: 482mm (18.97")
+
+·  Depth: 822.88mm (32.39") with bezel
+
+·  Weight: F210 - 44.8 lbs (20.3 kg), F710 - 49.6    lbs  (22.5        kg)
+
+MINIMUM SERVICE CLEARANCES                                                                        Front: 40" (88.9 cm), rear: 42"
+
+                                                                                                             (106.7 cm)
+
+Statement of Compliance
+
+This Information Technology Equipment is compliant with the electromagnetic compatibility and product safety
+
+regulations/standards required by the countries in which the product is sold. Compliance is based on FCC part 15,
+
+CISPR22/CISPR24 and EN55022/EN55024 standards, including applicable international variations. Compliant Class A
+
+products are marketed for use in business, industrial, and commercial environments. Product Safety compliance is based
+
+on IEC 60950-1 and EN 60951-1 standards, including applicable national deviations.
+
+This Information Technology Equipment is in compliance with EU RoHS Directive 2011/65/EU.
+
+The individual devices used in this product are approved under a unique regulatory model identifier that is affixed to each
+
+individual device rating label, which may differ from any marketing or product family name in this datasheet.
+
+The PowerScale  F210, F710, and F910 nodes are Energy Star compliant.
+
+For additional information see http://support.dell.com under the Safety & EMI Compliance Information tab.
+
+Take the next step
+
+Contact your Dell sales representative or authorized reseller to learn more about how PowerScale scale-out NAS storage
+
+can benefit your organization.
+
+   Learn more about               Contact a Dell Expert                           View more       resources  Join the conversation
+
+   Dell Technologies                                                                                         with #DellStorage
+
+   Storage
+
+   © 2026 Dell Inc. or its subsidiaries. All Rights Reserved. Dell Technologies,  Dell and other
+
+   trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks   may be
+
+   trademarks of their respective owners. Reference Number: H15963.26
+

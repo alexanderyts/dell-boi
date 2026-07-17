@@ -1,0 +1,8 @@
+Ultra Ethernet Consortium (UEC) 1.0 — ratified June 2025. Public research synthesis 2026-07-11.
+- Transport: packet spraying / multi-path RDMA, out-of-order delivery, sender+receiver coordinated congestion control for incast-heavy AI collectives.
+- vs RoCEv2: RoCEv2 pins a flow to one path (5-tuple hash) so GPU collectives saturate one path while others idle + head-of-line blocking. UEC sprays every flow across ALL paths.
+- Switch requirements: per-packet ECMP, packet-spray-friendly QoS, shared-buffer policies that do not penalize out-of-order delivery. Runs on the SAME Broadcom Tomahawk 4 (25.6T) and Tomahawk 5 (51.2T) platforms as current RoCEv2 fabrics — i.e. Dell Z-series (Z9664F/Z9864F). No new switch silicon required; NIC + config is the main change.
+- NIC: UEC-capable NIC (UEC-ready SuperNIC / ConnectX-8 class / BlueField-3).
+- Steering members: Broadcom, AMD, Intel, Meta, Microsoft, Oracle, Cisco. Multi-vendor open alternative to proprietary Spectrum-X.
+- Positioning for BOM tool: emerging open standard for AI/HPC fabrics; still non-blocking 1:1; choose UEC-capable Z-series (Tomahawk); confirm NIC UEC support; less PFC-dependent than RoCEv2 due to adaptive multipathing.
+Sources: ultraethernet.org, VIAVI UE 1.0 (2025-08), IP Infusion OcNOS Ultra Ethernet, Rivos UE 1.0 blog.

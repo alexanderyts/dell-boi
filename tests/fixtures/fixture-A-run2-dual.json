@@ -1,0 +1,40 @@
+{
+  "_comment": "GOLDEN FIXTURE A — backtest Run 2 CORRECTED (docs/backtests/BACKTEST-2026-07-15.md). Pins the with-spine (J2 variant a) + our-side core handoff (J3 default) variant of the 2-rack dual design. Diff semantics per Phase 1 Amendment 3: structured essentials only — category, line identity (merge-key/model match), qty. Never full note/PN strings.",
+  "migrationNote": "Phase 2: when the J2/J3 inputs land (INPUT-SCHEMA.md §1.4), add uplinkTarget:'new-spine' and coreHandoff:'our-side' to `input` below so this fixture keeps pinning the SAME variant instead of drifting with whatever default those inputs get. A separate fixture-A2 (spine-less: no S5232F line, no leaf-to-spine AOCs, uplinks terminate at the core handoff) is added at that time.",
+  "name": "Fixture A — 60x R660/R760, 10GBase-T 2-port, 2 racks, dual (VLT/MC-LAG pair per rack)",
+  "engine": "recommend",
+  "verity": true,
+  "input": {
+    "targets": [
+      {
+        "platformId": "poweredge-general",
+        "units": 60,
+        "nic": { "vendor": "Broadcom", "speed": "10GBase-T", "portsPerNic": 2, "nicsPerUnit": 1 }
+      }
+    ],
+    "racks": 2,
+    "redundancy": "dual",
+    "deployType": "add",
+    "includeMgmt": true,
+    "includeCoreUplink": true,
+    "coreSpeed": "100GbE",
+    "trafficProfile": "balanced",
+    "uplinkTarget": "new-spine",
+    "coreVendor": "unsure"
+  },
+  "expected": [
+    { "label": "leaf switches — 2 per rack as a redundant pair x 2 racks", "category": "Switch", "on": "model", "match": "^S4348T-ON$", "qty": 4, "knownDiff": null },
+    { "label": "spine — own line, never merged into the leaf line", "category": "Switch", "on": "model", "match": "^S5232F-ON$", "qty": 2, "knownDiff": null },
+    { "label": "OOB switches — one per DECLARED rack (2, not 3 — no phantom spine rack)", "category": "Management", "on": "model", "match": "^S3248T-ON$", "qty": 2, "knownDiff": null },
+    { "label": "host cabling — exactly 1 Cat6A per link, 120 links", "category": "Cable/Optic", "on": "mk", "match": "^host\\|.*\\|cat6a-host$", "qty": 120, "knownDiff": null },
+    { "label": "redundant-pair interconnect (VLT ICL / MC-LAG peer link per J1) — 2 links x 2 pairs = 4x 100G DAC", "category": "Cable/Optic", "on": "item", "match": "ICL|peer.?link|VLTi", "qty": 4, "knownDiff": null },
+    { "label": "leaf-to-spine uplinks — 2 per leaf x 4 leaves = 8 links, 1 AOC per link", "category": "Cable/Optic", "on": "mk", "match": "^uplink\\|.*\\|aoc-100g-qsfp28$", "qty": 8, "knownDiff": null },
+    { "label": "OOB cabling within-rack — 60 hosts + 6 switch mgmt ports (4 leaf + 2 spine; OOB switches managed via console/in-band, NOT self-cabled — ruling 2026-07-16)", "category": "Cable/Optic", "on": "mk", "match": "^mgmtcable$", "qty": 66, "knownDiff": null },
+    { "label": "OOB inter-rack uplinks — 1 per rack x 2", "category": "Cable/Optic", "on": "mk", "match": "^mgmtuplink$", "qty": 2, "knownDiff": null },
+    { "label": "inter-network transceivers — our side only, 1 per port x 2", "category": "Cable/Optic", "on": "mk", "match": "^core$", "qty": 2, "knownDiff": null },
+    { "label": "inter-network patch cords — 2 per link x 2 links", "category": "Cable/Optic", "on": "mk", "match": "^core-patch$", "qty": 4, "knownDiff": null },
+    { "label": "DFM subscription", "category": "Software", "on": "item", "match": "Fabric Manager|DFM", "qty": 1, "knownDiff": null }
+  ],
+  "noExtraSwitchModels": true,
+  "phraseAbsence": []
+}

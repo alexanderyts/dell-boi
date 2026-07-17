@@ -1,0 +1,31 @@
+{
+  "_comment": "GOLDEN FIXTURE A3 — the FAR-SIDE handoff variant (J3 coreVendor:'dell'; backtest invariant 7). Same as Fixture A (with-spine, new-spine) but the existing core is Dell PowerSwitch, so the matched FAR-SIDE optic is quotable and IS quoted (both sides) — Dell part into a Dell switch. Proves coreVendor changes the hardware.",
+  "name": "Fixture A3 — 60x, 2 racks, dual, new-spine, DELL core (far-side optics quoted)",
+  "engine": "recommend",
+  "verity": true,
+  "input": {
+    "targets": [
+      { "platformId": "poweredge-general", "units": 60, "nic": { "vendor": "Broadcom", "speed": "10GBase-T", "portsPerNic": 2, "nicsPerUnit": 1 } }
+    ],
+    "racks": 2,
+    "redundancy": "dual",
+    "deployType": "add",
+    "includeMgmt": true,
+    "includeCoreUplink": true,
+    "coreSpeed": "100GbE",
+    "trafficProfile": "balanced",
+    "uplinkTarget": "new-spine",
+    "coreVendor": "dell"
+  },
+  "expected": [
+    { "label": "leaf x4 (with-spine, unchanged from A)", "category": "Switch", "on": "model", "match": "^S4348T-ON$", "qty": 4, "knownDiff": null },
+    { "label": "spine x2 (new-spine)", "category": "Switch", "on": "model", "match": "^S5232F-ON$", "qty": 2, "knownDiff": null },
+    { "label": "OOB x2", "category": "Management", "on": "model", "match": "^S3248T-ON$", "qty": 2, "knownDiff": null },
+    { "label": "OUR-side inter-network transceivers — 2", "category": "Cable/Optic", "on": "mk", "match": "^core$", "qty": 2, "knownDiff": null },
+    { "label": "FAR-SIDE optics QUOTED (Dell into a Dell core) — matched, 2", "category": "Cable/Optic", "on": "mk", "match": "^core-far$", "qty": 2, "knownDiff": null },
+    { "label": "inter-network patch cords — 2 per link x 2 (both ends)", "category": "Cable/Optic", "on": "mk", "match": "^core-patch$", "qty": 4, "knownDiff": null },
+    { "label": "DFM subscription", "category": "Software", "on": "item", "match": "Fabric Manager|DFM", "qty": 1, "knownDiff": null }
+  ],
+  "noExtraSwitchModels": true,
+  "phraseAbsence": []
+}

@@ -1,0 +1,327 @@
+Specification Sheet
+
+                                              Dell PowerSwitch
+
+                                              S5448F-ON
+
+                                              High-performance, high-density open networking 100/400GbE
+
+                                              multi-rate aggregation switch
+
+The S5448F-ON 100/400GbE fixed switch comprises Dell Technologies' latest disaggregated hardware and
+
+software data center networking solutions, providing state-of-theart, high-density 100/400 GbE ports and a
+
+broad range of functionality to meet the growing demands of today's data center environment. This
+
+innovative, next-generation open networking high-density aggregation switch offers optimum flexibility and
+
+cost-effectiveness for the web 2.0, enterprise, mid-market and cloud service providers with demanding compute
+
+and storage traffic environments.
+
+The compact PowerSwitch S5448F-ON provides industryleading density of up to 48 ports of 100GbE
+
+(SFP56-DD) and 8 ports of 400GbE (QSFP56-DD), in a 1RU design.
+
+Using industry-leading hardware and a choice of Enterprise SONiC Distribution by Dell Technologies, Dell
+
+SmartFabric OS10 or select 3rd party network operating systems and tools, the S5448F-ON switch incorporates
+
+multiple architectural features that optimize data center network flexibility, efficiency and availability, including
+
+IO panel to PSU airflow or PSU to IO panel airflow* for hot/cold aisle environments, redundant, hot-swappable
+
+power supplies and fans, and delivers non-blocking performance for workloads sensitive to packet loss.** The
+
+compact S5448F-ON provides multi-rate speed, enabling denser footprints and simplifying migration to 100 and
+
+400Gbps.
+
+Priority-based flow control (PFC), data center bridge exchange (DCBX) and enhanced transmission selection
+
+(ETS) make the S5448F-ON ideally suited for DCB environments.
+
+The Dell PowerSwitch S5448F-ON switch supports the open source Open Network Install Environment (ONIE)
+
+for zero touch installation of Enterprise SONiC Distribution by Dell Technologies, Dell SmartFabric OS10 as well
+
+as of alternative network operating systems.
+
+NOTE:- SFP56-DD 100GbE ports on S5448F-ON use PAM4 technology (i.e. 2x50G SerDes), and not the NRZ
+
+technology (i.e. 4x25G SerDes). QSFP28 optics and break-out will not work on the SFP56-DD (or S56DD) ports.
+
+Key applications
+
+·  Organizations looking to enter the software defined data center era with a choice of networking
+
+   technologies designed to maximize flexibility
+
+·  High-density multi-rate 100/400GbE ToR server aggregation in high-performance data center
+
+   environments at the desired fabric speed
+
+*Note that units configured in the PSU to IO airflow direction are subject to tighter restrictions for power consumptions on cables and optics used for 100 and 400GbE ports
+
+**Non-blocking for >364-Byte packets
+
+Dell PowerSwitch S5448F-ON
+
+© 2025 Dell Inc. or its subsidiaries.
+   ·     Small-scale fabric implementation via the S5448FON switch in leaf and spine along with S-series
+
+         10/25/40/50/100GbE ToR switches enabling costeffective aggregation of 100/400 uplinks
+
+   ·     High-density 10/25/40/50/100GbE ToR server access in high-performance data center environments
+
+   ·     Multi-functional 10/25/40/50/100/200/400GbE switching in High Performance Computing clusters or
+
+         other business-sensitive deployments requiring the highest bandwidth
+
+   ·     iSCSI and FCOE deployment, including DCB converged lossless transactions
+
+Key features
+
+   ·     1RU high-density 100/400GbE aggregation switch with up to 48 ports of 100GbE (SFP56-DD) and up to
+
+         8 ports of 400GbE (QSFP56-DD)
+
+   ·     Multi-rate 100GbE ports support 10/25/50/100GbE. Multi-rate 400GbE ports support
+
+         10/25/40/50/100/200/400GbE
+
+   ·     Scalable L2 and L3 Ethernet switching with QoS and a full complement of standards-based IPv4 and IPv6
+
+         features, including OSPF and BGP routing support
+
+   ·     16Tbps non-blocking (full duplex), switching fabric delivers line-rate performance** under full load on
+
+         S5448F-ON
+
+   ·     L2 multipath support via Virtual Link Trunking (VLT) and Routed VLT support
+
+   ·     Converged network support for DCB, with priority flow control (802.1Qbb), ETS (802.1Qaz), DCBx and
+
+         iSCSI TLV support
+
+   ·     S5448F-ON supports Routable RoCE to enable convergence of compute and storage on Active Fabric
+
+   ·     IO panel to PSU airflow or PSU to IO panel airflow
+
+   ·     Redundant, hot-swappable power supplies and fans
+
+   ·     Supports the open source Open Network Install Environment (ONIE) for zero touch installation of
+
+         alternate network operating systems
+
+   ·     Accelerated mounting kits reducing time and resources for switch rack installation
+
+   ·     Power-efficient operation up to 45°C helping reduce cooling costs in temperature-constrained
+
+         deployments
+
+   Product                       Description
+
+                                 S5448F-ON, 48x 100GbE SFP56-DD, 8x 400GbE QSFP56-DD, 2x AC PSU, Fan module, I/O Panel to PSU                                                      Airflow
+
+                                 S5448F-ON, 48x 100GbE SFP56-DD, 8x 400GbE QSFP56-DD, 2x AC PSU, Fan module, I/O Panel to PSU                                                      Airflow,
+
+   S5448F-ON                     TAA Certified
+
+                                 S5448F-ON, 48x 100GbE SFP56-DD, 8x 400GbE QSFP56-DD, 2x AC PSU, Fan module, PSU to I/O Panel                                                      Airflow*
+
+                                 S5448F-ON, 48x 100GbE SFP56-DD, 8x 400GbE QSFP56-DD, 2x AC PSU, Fan module, PSU to I/O Panel
+
+                                 Airflow*, TAA Certified
+
+   Dell SW Options               Dell SmartFabric OS10
+
+                                 Enterprise SONiC Distribution by Dell Technologies
+
+                                 AC Power Supply, IO Panel to PSU Airflow
+
+   Redundant power supplies      AC Power Supply, PSU to IO Panel Airflow
+
+                                 DC Power Supply, IO Panel to PSU Airflow***
+
+                                 DC Power Supply, PSU to IO Panel Airflow***
+
+   Fans                          Fan module, IO Panel to PSU Airflow
+
+                                 Fan module, PSU to IO Panel Airflow
+
+   Optics, Cables and Cable      Please refer to Dell Networking Transceivers and Cables spec sheet for complete list of optics and
+
+   Management                    cables. for a complete list of optics and cables.
+
+   *** For stability of the system, the infrastructure impedance has to be greater than effective impedance of power supplies connected in parallel (i.e. across the power feed).
+
+2  | Dell PowerSwitch S5448F-ON
+
+©  2025 Dell Inc. or its subsidiaries.
+Technical specifications
+
+Physical                                         Performance ****                               Emissions & Immunity
+
+1 RJ45 console/management port with              Switch fabric capacity: 16Tbps (full duplex)   EN 300 386 V1.4.1:2008 EMC for Network
+
+RS232 signaling and Micro USB-B port             Forwarding capacity: 2.6Bpps                   Equipment
+
+1 10/100/1000BASE-T Ethernet for                 Latency: sub 1135ns                            EN 55024: 1998 + A1: 2001 + A2: 2003
+
+management                                                                                      EN 61000-3-2: Harmonic Current Emissions
+
+1 USB 2.0 type A storage port 48x100GbE          Packet buffer memory: 82MB
+
+SFP56-DD + 8x400GbE QSFP56-DD ports +            NPU Pipeline is programmable using NPL         EN 61000-3-3: Voltage Fluctuations and
+
+2xSFP+ 10GbE                                                                                    Flicker
+
+                                                 CPU: Intel Denverton C3758 8 Core @ 2.2GHz     EN 61000-4-2: ESD
+
+Chassis                                          CPU memory: 32GB DDR4 ECC                      EN 61000-4-3: Radiated Immunity
+
+Size: 1 RU, 43 x 438 x 550 mm (1.72 x 17.3 x     MAC addresses: Up to 256K                      EN 61000-4-4: EFT
+
+21.7 inches)                                     ARP table: Up to 192K                          EN 61000-4-5: Surge
+
+Weight: 11.67 kg (25.73 lbs) with PSU/Fans       IPv4 routes: Up to 875K (ALPM)                 EN 61000-4-6: Low Frequency Conducted
+
+installed                                        IPv6 routes: 310K (IPv6/64 ALPM), 240K         Immunity
+
+                                                 (IPv6/128 ALPM)
+
+Environmental                                    Multicast routes: 16K (IPMC Table)             RoHS
+
+Power supply: 100-240 VAC 50/60H                                                                All S Series components are EU RoHS
+
+Max Power consumption: 920 Watts                 Layer 2 VLANs: 4K
+
+Typ. Power consumption: 250 Watts                MSTP: 64 instances                             compliant.
+
+Max Operating specifications:
+
+AC max. operating specifications:                LAG load balancing: Based on layer 2, IPv4 or  Certifications*****
+
+Operating temperature: 0° to 45°C                IPv6 headers                                   Available with US Trade Agreements Act
+
+(32° to 113°F)                                   Timing Card PTP/1588 and Sync-E                (TAA) compliance
+
+Operating humidity: 5 to 90% (RH),               Trusted Platform Module (on TAA SKUs only)     USGv6 Host and Router Certified on Dell
+
+non-condensing                                   Supports up to 5W optics in all 48 SFP56-DD    Networking1
+
+Max. non-operating specifications:               ports (3.5W on all 48 SFP56-DD, with 24 of     IPv6 Ready for both Host and Router
+
+Storage temperature: ­40° to 70°C                them scaling up to 5W optics in PSU/           UCR DoD APL (core and distribution ALSAN
+
+(70° to 158°F)                                   IO airflow direction)                          switch)
+
+Storage humidity: 5 to 95% (RH),                 Supports up to 15W optics in all 8 QSFP56
+
+non-condensing                                   DD ports, with 4 of them scaling up to 18W     Warranty
+
+Fresh air compliant to 45°C                      optics (6W optics on all 8 QSFP56-DD ports,    1 year return to depot constrained
+
+                                                 with 4 of them scaling up to 10W optics in
+
+Supports AC both lowline and highline power      PSU/IO airflow direction)
+
+modes                                            For Network Operating System (NOS) specific
+
+                                                 features, refer to Dell SmartFabric OS10
+
+Redundancy                                       and Enterprise SONiC Distribution by Dell
+
+Hot swappable redundant power (2 per             Technologies spec sheets.
+
+switch, 1 + 1 redundancy)
+
+Hot swappable redundant fan trays (6 fan         Regulatory compliance
+
+trays per switch, 2 fan rotors per tray, 11 + 1  Safety
+
+fan rotor redundancy)                            UL/CSA 60950-1, Second Edition
+
+                                                 EN 60950-1, Second Edition
+
+                                                 IEC 60950-1, Second Edition Including All
+
+                                                 National Deviations and Group Differences
+
+                                                 EN 60825-1 Safety of Laser Products Part 1:
+
+                                                 Equipment Classification Requirements and
+
+                                                 User's Guide
+
+                                                 EN 60825-2 Safety of Laser Products Part 2:
+
+                                                 Safety of Optical Fibre Communication
+
+                                                 Systems
+
+                                                 FDA Regulation 21 CFR 1040.10 and 1040.11
+
+**** Maximum NPU and hardware performance, please refer to specific Network Operating System scalability numbers for actual validated values.
+
+***** Federal Certifications are granted on an OS specific basis - please reference the SONiC and OS10 spec sheets for latest certification updates
+
+3 | Dell PowerSwitch S5448F-ON
+
+© 2025 Dell Inc. or its subsidiaries.
+IT Lifecycle Services for Networking
+
+Experts, insights and ease
+
+Our highly trained experts, with innovative tools and proven processes, help you transform your IT investments
+
+into strategic advantages.
+
+                          Plan & Design
+
+                          Let us analyze your multivendor environment and deliver a comprehensive report and action
+
+                          plan to build upon the existing network and improve performance.
+
+                          Deploy & Integrate
+
+                          Get new wired or wireless network technology installed and configured with ProDeploy
+
+                          Reduce costs, save time, and get up and running fast.
+
+                          Educate
+
+                          Ensure your staff builds the right skills for long- term success. Get certified on Dell
+
+                          Networking technology and learn how to increase performance and optimize infrastructure.
+
+                          Manage & Support
+
+                          Gain access to technical experts and quickly resolve multivendor networking challenges
+
+                          with ProSupport. Spend less time resolving network issues and more time innovating.
+
+                          Optimize
+
+                          Maximize performance for dynamic IT environments with Dell Optimize. Benefit from in-depth
+
+                          predictive analysis, remote monitoring and a dedicated systems analyst for your network.
+
+                          Retire
+
+                          We can help you resell or retire excess hardware while meeting local regulatory guidelines
+
+                          and acting in an environmentally responsible way.
+
+Learn more at DellTechnologies.com/Services
+
+Learn more about                         Contact a Dell  View more resources                Join the conversation with
+
+Dell solutions                      Technologies Expert                                     #DellTechnologies
+
+© 2025 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of
+
+their respective owners.
+

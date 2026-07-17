@@ -1,0 +1,1031 @@
+
+		
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+<!DOCTYPE html>
+<html
+	lang="en"
+	data-page-template="content-source"
+	
+ data-page-id="ci_e541d795140bc267281b50055f18a50287b374a07f7694b2ede5917780a048b1" data-confluence-content-id="3477930496"
+		data-color-scheme="light"
+>
+<head>
+	<meta charset="UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<meta name="color-scheme" content="light dark">
+
+						<link id="pageTreeSource" rel="preload" href="https://networking-docs.nvidia.com/__pagetree.json" as="fetch" type="application/json" crossorigin="anonymous">
+
+		<meta name="site-path" content="/">
+
+					<link rel="x-site-path" href="/">
+	<link rel="x-root-path" href="/">
+
+	<meta name="site-default-language" content="en">
+		<meta name="site-languages" content="en">
+		<meta name="confluence-content-type" content="page">
+		<meta name="confluence-base-url" content="https://nvidia.atlassian.net/wiki">
+		<meta name="confluence-space-key" content="NVSTS01">
+
+
+
+
+	<link rel="icon" href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/favicon.ico">
+
+
+
+
+
+
+
+
+
+
+
+		<title>Networking Interconnect | Networking</title>
+		<meta property="og:title" content="Networking Interconnect | Networking">
+		<meta property="twitter:title" content="Networking Interconnect | Networking">
+
+		<link rel="canonical" href="https://networking-docs.nvidia.com/interconnect">
+		<meta property="og:url" content="https://networking-docs.nvidia.com/interconnect">
+
+		<meta name="description" content="The NVIDIA® LinkX® product family of cables and transceivers provides the industry’s most complete line of 10, 25, 40, 50, 100, 200, 400 and 800GbE in Ethernet…">
+		<meta property="og:description" content="The NVIDIA® LinkX® product family of cables and transceivers provides the industry’s most complete line of 10, 25, 40, 50, 100, 200, 400 and 800GbE in Ethernet…">
+		<meta property="twitter:description" content="The NVIDIA® LinkX® product family of cables and transceivers provides the industry’s most complete line of 10, 25, 40, 50, 100, 200, 400 and 800GbE in Ethernet…">
+
+		<meta property="og:image" content="https://networking-docs.nvidia.com/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/nvidia-og-image.svg">
+		<meta property="twitter:image" content="https://networking-docs.nvidia.com/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/nvidia-og-image.svg">
+
+	<meta property="og:type" content="website">
+	<meta property="twitter:card" content="summary_large_image">
+
+		<meta name="page-last-modified" content="2026-07-09T13:16:35.875Z">
+
+		<script>
+		(function () {
+			const defaultLanguageMeta = /** @type {string|undefined} */(document.querySelector('meta[name="site-default-language"]')?.content);
+			const availableLanguagesMeta = /** @type {string|undefined} */(document.querySelector('meta[name="site-languages"]')?.content);
+			const fallbackLanguage = defaultLanguageMeta ?? 'en';
+			const supportedLanguagesFromMeta = availableLanguagesMeta?.split(',') ?? [];
+			const supportedLanguages = [...new Set([fallbackLanguage, ...supportedLanguagesFromMeta])].filter(Boolean);
+			const detectedLanguage = new URLSearchParams(self.location.search).get('l') || document.documentElement.lang;
+			const resolvedLanguage = supportedLanguages.includes(detectedLanguage) ? detectedLanguage : fallbackLanguage;
+			document.documentElement.lang = resolvedLanguage;
+			const sheet = new CSSStyleSheet();
+			document.adoptedStyleSheets.push(sheet);
+			// Hide any element with a `data-lang` attribute that does NOT match the detected language
+			sheet.replaceSync('[data-lang]:not([data-lang="' + resolvedLanguage + '"]) { display: none; }');
+		})();
+	</script>
+
+		<script>
+		(function() {
+			/** @typedef {'light'|'dark'} ColorScheme */
+			/** @type {ColorScheme[]} */
+			const availableColorSchemes = document.documentElement.querySelector('meta[name="color-scheme"]').content.split(' ').filter(Boolean);
+			/** @type {ColorScheme|'system'} */
+			const userPreference = localStorage?.getItem('color-scheme-preference') ?? 'system';
+			// Clean-up user preference in case there's nothing to choose from
+			// Fall back to the HTML document's default color theme
+			if (availableColorSchemes.length <= 1 || ![...availableColorSchemes, 'system'].includes(userPreference)) {
+				localStorage?.removeItem('color-scheme-preference');
+				return;
+			}
+			// Override default HTML document with client-side user preference
+			if (userPreference === 'system') {
+				updateThemeAttribute(self.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+			} else {
+				updateThemeAttribute(userPreference)
+			}
+			/** @param {ColorScheme} colorScheme */
+			function updateThemeAttribute(colorScheme) {
+				document.documentElement.setAttribute('data-color-scheme', colorScheme);
+			}
+		})();
+	</script>
+
+		<script>
+		
+		function sortContentSources(a, b) {
+			let result = a.precedence - b.precedence;
+
+			if (result === 0) {
+				result = a.value.localeCompare(b.value);
+			}
+
+			return result;
+		}
+
+		
+		function applyContentSourceOrderToElements({ parent, children }) {
+			const contentSourceElements = [...children];
+
+			contentSourceElements
+				.sort((a, b) => (
+					sortContentSources(
+						{ value: a.dataset.orderValue, precedence: a.dataset.orderPrecedence },
+						{ value: b.dataset.orderValue, precedence: b.dataset.orderPrecedence }
+					)
+				))
+				.forEach((element) => {
+					delete element.dataset.orderValue;
+					delete element.dataset.orderPrecedence;
+				});
+
+			parent.replaceChildren(...contentSourceElements);
+		}
+	</script>
+
+<script>
+	(() => {
+		if (isInAppHelpEnabled()) {
+			document.documentElement.dataset.inAppHelp = 'true';
+
+			if (isTitleHidden()) {
+				document.documentElement.dataset.hideTitle = 'true';
+			}
+		}
+
+		function isInAppHelpEnabled() {
+			return new URLSearchParams(location.search).get('inAppHelp') === 'true';
+		}
+
+		function isTitleHidden() {
+			return new URLSearchParams(location.search).get('title') === 'false';
+		}
+	})();
+</script>
+
+<link rel="stylesheet" href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/in-app-help.css"/>
+<script type="module" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/in-app-help.js"></script>
+
+	<link rel="stylesheet" href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/styles.css">
+	<link rel="stylesheet" href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/fonts.css">
+	<link rel="stylesheet" href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/search-styles-bundle.css">
+
+
+	<style>
+		@layer overrides {
+			:root {
+				--theme-headline-font: "NVIDIA";
+				--theme-text-font: "NVIDIA";
+				--theme-headline-scale: calc(100 / 100);
+				--theme-text-scale: calc(100 / 100);
+			}
+		}
+	</style>
+
+	<style>
+		@layer overrides {
+			:root, :host {
+					--theme-header-logo-size: 48px;
+					--theme-footer-logo-size: 48px;
+			}
+
+			:root[data-color-scheme='light'],
+			:host([data-color-scheme='light']) {
+					--theme-header-text-color: #000c34;
+					--theme-header-background-color: #ffffff;
+					--theme-footer-text-color: #000c34;
+					--theme-footer-background-color: #FFFFFF;
+			}
+
+			:root[data-color-scheme='dark'],
+			:host([data-color-scheme='dark']) {
+					--theme-header-text-color: #FFFFFF;
+					--theme-header-background-color: #0a0b0c;
+					--theme-footer-text-color: #FFFFFF;
+					--theme-footer-background-color: #0a0b0c;
+			}
+		}
+	</style>
+
+	 
+
+
+
+
+
+<script data-site-data="content-sources" type="application/json">
+{
+	"collection": {
+		"members": [
+
+
+	{
+	"name": "Networking",
+	"id": "bdcd056c-5a7e-4c2e-bbbd-d16ab665892e",
+	"key": "NVSTS01",
+	"path": "/",
+		"prefix": "/",
+	"isSingleVersion": false,
+	"isSingleVariant": false,
+		"current": true,
+	"versions": {
+		"available": [
+		]
+	},
+	"variants": {
+		"available": [
+		]
+	},
+	"languages": {
+		"available": [
+		]
+	}
+}
+
+		]
+	}
+}
+</script>
+
+
+<script data-theme-placeholder="site" type="application/json">
+	{
+		"id": "fd6223a6-038b-4613-9993-ac24df4ee639",
+		"path": "/",
+		"url": "/",
+		"domain": "nvidia.scroll.site",
+		"aiSearchEnabled": false,
+		"visibleToSearchEngines": true
+	}
+</script>
+ 
+<script data-config="cookieconsent" type="application/json">
+{
+	"enabled": false,
+	"mode": "opt-in",
+	"heading": "",
+	"description": "",
+	"links": [
+	]
+}
+</script>
+
+	<script type="module" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/main.js"></script>
+	<script type="module" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/page-tree.js" fetchpriority="high"></script>
+	<script type="module" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/search-bundle.js"></script>
+
+							<style>
+		@layer override {
+			[data-page-template="content-source"]:root {
+				--theme-banner-text-color: #FFFFFF;
+
+					--theme-banner-image: url(/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/help-center-banner-default.jpg);
+			}
+		}
+	</style>
+
+
+
+
+
+<script>
+	(() => {
+		if (new URLSearchParams(location.search).has('disable-custom-overrides')) {
+			return;
+		}
+
+		document.querySelectorAll('[data-custom-overrides]').forEach(template => {
+			const type = template.getAttribute('data-type');
+
+			if (type === 'code-asset') {
+				const assetElement = template.content.cloneNode(true).firstElementChild;
+				const appendAsset = () => document.head.appendChild(assetElement);
+
+				if (assetElement.tagName === 'SCRIPT') {
+															if (document.readyState === 'complete') {
+						appendAsset();
+					} else {
+												document.addEventListener('DOMContentLoaded', appendAsset, { once: true });
+					}
+				} else {
+					appendAsset();
+				}
+			}
+		});
+	})();
+</script>
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+			</head>
+<body>
+	<a href="#content" class="skip-link">
+		<i18n-message i18nkey="navigation.skip.to.main.label">Skip to main content</i18n-message>
+	</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+<header data-component="header" class="header">
+
+<div class="header-site-branding">
+	<i18n-message id="c2af96270e913522-2" class="sr-only" i18nkey="header.home.label"></i18n-message>
+
+	<a href="https://docs.nvidia.com/" aria-labelledby="c2af96270e913522-2">
+
+
+
+
+		<img class="header-logo header-logo--dark" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/nvidia-logo-horiz-rgb-wht-for-screen.svg" alt="">
+
+		<img class="header-logo header-logo--light" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/nvidia-logo-horiz-rgb-blk-for-screen.svg" alt="">
+	</a>
+
+			<a href="/" class="header-site-name">
+				Networking
+			</a>
+</div>
+	<div class="header-content">
+
+		<div class="header-pickers">
+
+		</div>
+
+			
+			<div class="header-pickers">
+	<mode-picker>
+
+
+
+
+							<i18n-message replacecontent="c2af96270e913522-3" i18nkey="colorMode.picker.option.system.label" hidden></i18n-message>
+			<i18n-message replacecontent="c2af96270e913522-4" i18nkey="colorMode.picker.option.light.label" hidden></i18n-message>
+			<i18n-message replacecontent="c2af96270e913522-5" i18nkey="colorMode.picker.option.dark.label" hidden></i18n-message>
+
+
+		<i18n-message i18nkey="colorMode.picker.label" attribute="value" targetelement="c2af96270e913522-6" hidden></i18n-message>
+
+		<theme-tooltip id="c2af96270e913522-6" value="Color mode">
+
+	<auto-width-select class="picker picker--icon-only">
+
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-system-color-scheme picker-icon picker-option-icon picker-prefix picker-icon--c2af96270e913522-3">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#system-color-scheme"></use>
+	</svg>
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-light_mode picker-icon picker-option-icon picker-prefix picker-icon--c2af96270e913522-4">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#light_mode"></use>
+	</svg>
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-dark_mode picker-icon picker-option-icon picker-prefix picker-icon--c2af96270e913522-5">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#dark_mode"></use>
+	</svg>
+
+		<label class="sr-only" for="c2af96270e913522-7">
+			<i18n-message i18nkey="colorMode.picker.label"></i18n-message>
+		</label>
+
+		<select id="c2af96270e913522-7" name="color-mode"  >
+				<option id="c2af96270e913522-3"  value="system"  >
+					Auto
+				</option>
+				<option id="c2af96270e913522-4"  value="light"  selected="">
+					Light
+				</option>
+				<option id="c2af96270e913522-5"  value="dark"  >
+					Dark
+				</option>
+		</select>
+
+		<script>
+			/**
+			 * Manages the visibility of picker option icons.
+			 * 1. Each option can have an optional icon assigned
+			 * 2. The currently selected option's icon becomes the picker's main icon
+			 */
+			(() => {
+				const select = document.getElementById('c2af96270e913522-7');
+				if(select.parentElement.querySelectorAll('.picker-option-icon').length <= 0) {
+					return;
+				}
+				const sheet = new CSSStyleSheet();
+				document.adoptedStyleSheets.push(sheet);
+				select.addEventListener('change', updateIconVisibility);
+				updateIconVisibility();
+				function updateIconVisibility() {
+					sheet.replaceSync('.picker:has(select[id="' + select.id + '"]) .picker-option-icon:not(.picker-icon--' + select.selectedOptions[0].id + ')' + '{ display: none; }')
+				}
+			})();
+		</script>
+
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-caret_down picker-icon picker-marker">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#caret_down"></use>
+	</svg>
+	</auto-width-select>
+		</theme-tooltip>
+	</mode-picker>
+			</div>
+
+				<button type="button" aria-controls="drawer-c2af96270e913522-1" aria-haspopup="dialog" aria-expanded="false" class="header-nav-toggle" onclick="self['drawer-c2af96270e913522-1'].showModal()">
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-menu ">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#menu"></use>
+	</svg>
+			<i18n-message class="sr-only" i18nkey="navigation.main.label">Main navigation</i18n-message>
+		</button>
+	</div>
+
+	
+
+<dialog id="drawer-c2af96270e913522-1" class="drawer">
+	<header data-component="header" class="header">
+
+<div class="header-site-branding">
+	<i18n-message id="c2af96270e913522-8" class="sr-only" i18nkey="header.home.label"></i18n-message>
+
+	<a href="https://docs.nvidia.com/" aria-labelledby="c2af96270e913522-8">
+
+
+
+
+		<img class="header-logo header-logo--dark" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/nvidia-logo-horiz-rgb-wht-for-screen.svg" alt="">
+
+		<img class="header-logo header-logo--light" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/nvidia-logo-horiz-rgb-blk-for-screen.svg" alt="">
+	</a>
+
+			<a href="/" class="header-site-name">
+				Networking
+			</a>
+</div>
+
+		<div class="header-content">
+				<div class="header-pickers">
+	<mode-picker>
+
+
+
+
+							<i18n-message replacecontent="c2af96270e913522-9" i18nkey="colorMode.picker.option.system.label" hidden></i18n-message>
+			<i18n-message replacecontent="c2af96270e913522-10" i18nkey="colorMode.picker.option.light.label" hidden></i18n-message>
+			<i18n-message replacecontent="c2af96270e913522-11" i18nkey="colorMode.picker.option.dark.label" hidden></i18n-message>
+
+
+		<i18n-message i18nkey="colorMode.picker.label" attribute="value" targetelement="c2af96270e913522-12" hidden></i18n-message>
+
+		<theme-tooltip id="c2af96270e913522-12" value="Color mode">
+
+	<auto-width-select class="picker picker--icon-only">
+
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-system-color-scheme picker-icon picker-option-icon picker-prefix picker-icon--c2af96270e913522-9">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#system-color-scheme"></use>
+	</svg>
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-light_mode picker-icon picker-option-icon picker-prefix picker-icon--c2af96270e913522-10">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#light_mode"></use>
+	</svg>
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-dark_mode picker-icon picker-option-icon picker-prefix picker-icon--c2af96270e913522-11">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#dark_mode"></use>
+	</svg>
+
+		<label class="sr-only" for="c2af96270e913522-13">
+			<i18n-message i18nkey="colorMode.picker.label"></i18n-message>
+		</label>
+
+		<select id="c2af96270e913522-13" name="color-mode"  >
+				<option id="c2af96270e913522-9"  value="system"  >
+					Auto
+				</option>
+				<option id="c2af96270e913522-10"  value="light"  selected="">
+					Light
+				</option>
+				<option id="c2af96270e913522-11"  value="dark"  >
+					Dark
+				</option>
+		</select>
+
+		<script>
+			/**
+			 * Manages the visibility of picker option icons.
+			 * 1. Each option can have an optional icon assigned
+			 * 2. The currently selected option's icon becomes the picker's main icon
+			 */
+			(() => {
+				const select = document.getElementById('c2af96270e913522-13');
+				if(select.parentElement.querySelectorAll('.picker-option-icon').length <= 0) {
+					return;
+				}
+				const sheet = new CSSStyleSheet();
+				document.adoptedStyleSheets.push(sheet);
+				select.addEventListener('change', updateIconVisibility);
+				updateIconVisibility();
+				function updateIconVisibility() {
+					sheet.replaceSync('.picker:has(select[id="' + select.id + '"]) .picker-option-icon:not(.picker-icon--' + select.selectedOptions[0].id + ')' + '{ display: none; }')
+				}
+			})();
+		</script>
+
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-caret_down picker-icon picker-marker">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#caret_down"></use>
+	</svg>
+	</auto-width-select>
+		</theme-tooltip>
+	</mode-picker>
+				</div>
+			<button type="button" aria-controls="drawer-c2af96270e913522-1" aria-haspopup="dialog" aria-expanded="true" autofocus class="drawer-toggle" onclick="self['drawer-c2af96270e913522-1'].close()">
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-close ">
+		<use href="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/icons.svg#close"></use>
+	</svg>
+				<i18n-message class="sr-only" i18nkey="navigation.close.label">Close navigation</i18n-message>
+			</button>
+		</div>
+	</header>
+
+	<div class="drawer-section drawer-search">
+		<search-bar quicksearch></search-bar>
+	</div>
+
+
+	<nav id="drawer-nav" class="drawer-section drawer-nav tree" aria-labelledby="drawer-nav-label">
+		<i18n-message id="drawer-nav-label" class="sr-only" i18nkey="navigation.main.label">Main</i18n-message>
+
+						<copy-page-tree target="articleTree"></copy-page-tree>
+	</nav>
+
+	</dialog>
+
+</header>
+	
+<section class="article-page body navigation-page">
+<main class="main-content">
+	<div class="topbar">
+
+	
+
+
+	
+	
+
+
+<theme-breadcrumbs class="breadcrumbs" itemsbeforecollapse="2" maxitems="4">
+	<i18n-message id="c2af96270e913522-14" class="sr-only" i18nkey="breadcrumbs.label">Breadcrumbs</i18n-message>
+	<nav aria-labelledby="c2af96270e913522-14">
+		<ol>
+					<li>
+						<a href="/">
+								<i18n-message key="breadcrumbs.home.label">Networking</i18n-message>
+						</a>
+					</li>
+										<li>
+						<a href="/interconnect">
+								Networking Interconnect
+						</a>
+					</li>
+		</ol>
+	</nav>
+</theme-breadcrumbs>
+			<script src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/breadcrumbs.js"></script>
+	</div>
+	<article id="content" class="navigation-body" tabindex="-1" class="fb-layout-container">
+		<div class="content" data-searchable-content>    <div data-component="layout-section" class="layout-section" style="--columns: 1fr;">
+            <div class="layout-cell"><p>The NVIDIA® LinkX® product family of cables and transceivers provides the industry’s most complete line of 10, 25, 40, 50, 100, 200, 400 and 800GbE in Ethernet and EDR, HDR, NDR and XDR in InfiniBand products for Cloud, HPC, Web 2.0, Enterprise, telco, storage and artificial intelligence, data center applications.</p></div>
+
+    </div>
+    <div data-component="layout-section" class="layout-section" style="--columns: 1fr 1fr;">
+            <div class="layout-cell"><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        1600G
+    </summary>
+    <div class="expand-body">
+        <details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        1600G Copper
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mca4k00hw"     data-scope="external"
+         rel="external noreferrer"
+>MCA4K00 1600Gbps to 1600Gbps OSFP Active Copper Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mca4k50osfp1600"     data-scope="external"
+         rel="external noreferrer"
+>MCA4K50 1600Gbps to 1600Gbps OSFP Active Copper Cable</a></p><p><a href="https://networking-docs.nvidia.com/9809iao500xxxxrhs2x800"     data-scope="external"
+         rel="external noreferrer"
+>MCA7K10 1600Gb/s to 2x800Gb/s, OSFP to 2xOSFP, IHS to RHS Active Copper Splitter Cable</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        1600G Transceivers
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mms4b10xmtro1600g"     data-scope="external"
+         rel="external noreferrer"
+>MMS4B10-XM TRO 1600Gbps OSFP Twin-Port 2xDR4, 2xMPO (APC) 1310nm SMF Transceiver (up to 500m)</a></p><p><a href="https://networking-docs.nvidia.com/9iau000xmosfptcvr1600"     data-scope="external"
+         rel="external noreferrer"
+>NVIDIA MMS4C1X FRO 1600Gbps, 2xDR4, Twin-port OSFP, 2xMPO (APC), 1310nm Single Mode Transceiver (up to 500m)</a></p><p><a href="https://networking-docs.nvidia.com/9iahx00xmosfptcvr1600"     data-scope="external"
+         rel="external noreferrer"
+>NVIDIA MMS4A00 1600Gbps, 2xDR4, Twin-port OSFP, 2xMPO, 1310nm Single Mode Transceiver (up to 500m)</a></p>
+    </div>
+</details>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        400
+    </summary>
+    <div class="expand-body">
+        <details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        400G AOC
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mfa7u10h00x10"     data-scope="external"
+         rel="external noreferrer"
+>MFA7U10-H00x 400Gb/s OSFP to 2x200Gb/s QSFP56 HDR Active Optical Splitter Cable</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        400G Transceivers
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mms1z00ns400sr4"     data-scope="external"
+         rel="external noreferrer"
+>MMA1Z00-NS400 400Gb/s, Single-port, QSFP112 Multimode SR4 Transceivers Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mms1v00wm10"     data-scope="external"
+         rel="external noreferrer"
+>MMS1V00-WM 400GbE QSFP-DD DR4 Transceiver Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mms4x00ns400"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X00-NS400 400Gb/s Single-port OSFP Single Mode DR4 Transceivers Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mma4z00ns400"     data-scope="external"
+         rel="external noreferrer"
+>MMA4Z00-NS400 400Gb/s Single-port OSFP 400Gb/s Multimode SR4 50m</a></p><p><a href="https://networking-docs.nvidia.com/mma4z00ns400t"     data-scope="external"
+         rel="external noreferrer"
+>MMA4Z00-NS400-T 400Gb/s Single-port OSFP 400Gb/s Multimode 50m</a></p><p><a href="https://networking-docs.nvidia.com/mma1z00ns400t"     data-scope="external"
+         rel="external noreferrer"
+>NVIDIA MMA1Z00-NS400-T 400Gb/s, Single-port, QSFP112 Multimode Transceivers Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mms1x00ns400"     data-scope="external"
+         rel="external noreferrer"
+>NVIDIA MMS1X00-NS400 400Gb/s Single-port QSFP112 Single Mode Transceivers Product Specifications</a></p>
+    </div>
+</details>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        100G
+    </summary>
+    <div class="expand-body">
+        <details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        100G Cooper
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mcp1600e0xxxeyyspec"     data-scope="external"
+         rel="external noreferrer"
+>MCP1600-E0xxEyy 100Gb/s QSFP28 DAC Cable Product Specifications</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        100G Transceivers
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mms1v70cm10"     data-scope="external"
+         rel="external noreferrer"
+>MMS1V70-CM 100GbE QSFP28 DR1</a></p><p><a href="https://networking-docs.nvidia.com/mma1b00c100dspec"     data-scope="external"
+         rel="external noreferrer"
+>MMA1B00-C100D 100GbE QSFP28 MMF SR4</a></p><p><br></p>
+    </div>
+</details>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        Accessories
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mam1q00aqsadnmx"     data-scope="external"
+         rel="external noreferrer"
+>MAM1Q00A-QSA NVIDIA DynamiX QSA™, QSFP+ to SFP+ Adapter Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mam1q00aqsa28dnmx"     data-scope="external"
+         rel="external noreferrer"
+>MAM1Q00A-QSA28 NVIDIA DynamiX QSA™ QSA28, QSFP28 to SFP28 Adapter Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfp7e10nxxx"     data-scope="external"
+         rel="external noreferrer"
+>MFP7E10-Nxxx Optical Multimode Fiber Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfp7e20nxxx"     data-scope="external"
+         rel="external noreferrer"
+>MFP7E20-Nxxx Optical Multimode Splitter Fiber Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfp7e30nxxxpub"     data-scope="external"
+         rel="external noreferrer"
+>MFP7E30-Nxxx MPO-to-MPO Single-mode Fiber Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfp7e40nxxxpub"     data-scope="external"
+         rel="external noreferrer"
+>MFP7E40-Nxxx Single mode 1:2 Fiber Splitter Cable Product Specifications</a></p>
+    </div>
+</details></div>
+    <div class="layout-cell"><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        800G
+    </summary>
+    <div class="expand-body">
+        <details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        800G Cooper
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mca4j80nxxx800pub"     data-scope="external"
+         rel="external noreferrer"
+>MCA4J80-Nxxx 800Gb/s Twin-port OSFP to 2x400Gb/s OSFP InfiniBand ACC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp4y10nxxx2x400pub"     data-scope="external"
+         rel="external noreferrer"
+>MCP4Y10-Nxxx Twin-port 2x400Gb/s OSFP to 2x400Gb/s OSFP Passive DAC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp7y00nxxx800pub"     data-scope="external"
+         rel="external noreferrer"
+>MCP7Y00-Nxxx 800Gb/s Twin-port 2x400G OSFP to 2x400G OSFP Passive DAC Splitter Product Specifications</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        800G Transceivers
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mms4x00nmt800g"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X00-NM-T 800Gbps Twin-port OSFP 2x400Gb/s Single Mode 500m</a></p><p><a href="https://networking-docs.nvidia.com/mms4x00nmhgx500"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X00-NM 800Gbps Twin-port OSFP 2x400Gb/s InfiniBand and Ethernet Single Mode 2xDR4 500m</a></p><p><a href="https://networking-docs.nvidia.com/mms4x50nm800g2kmpub"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X50-NM 800Gbps Twin-port OSFP 2xFR4, 2x400Gb/s Single Mode, 2km</a></p><p><a href="https://networking-docs.nvidia.com/800gmms4x00ns"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X00-NS 800Gbps Twin-port OSFP 2x400Gb/s Single Mode 2xDR4 100m</a></p><p><a href="https://networking-docs.nvidia.com/800gmma4z00nst"     data-scope="external"
+         rel="external noreferrer"
+>MMA4Z00-NS-T 800Gb/s Twin-port OSFP, 2x400Gb/s Multimode, 50m</a></p><p><a href="https://networking-docs.nvidia.com/800gmms4x00nst"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X00-NS-T 800Gbps Twin-port OSFP 2x400Gb/s Single Mode 100m</a></p><p><a href="https://networking-docs.nvidia.com/9iat0mosfp800sprhs"     data-scope="external"
+         rel="external noreferrer"
+>NVIDIA MMS4A20 800Gbps, DR4 Single-port OSFP, MPO, 1310nm Single Mode, RHS (500m) Transceiver</a></p><p><a href="https://networking-docs.nvidia.com/mms4x00nm16"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X00-NM16 NVIDIA Ethernet 800Gbps OSFP Twin-port Finned Transceiver OSFP 1xMPO16 1310nm SMF up to 500m</a></p><p><a href="https://networking-docs.nvidia.com/mms4x00nmhgx500"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X00-NM-HGX 800Gbps Twin-port OSFP 2x400Gb/s InfiniBand and Ethernet Single Mode 2xDR4 500m</a></p><p><a href="https://networking-docs.nvidia.com/mms4x90nr800g"     data-scope="external"
+         rel="external noreferrer"
+>MMS4X90-NR 800Gbps, 2xLR4, OSFP, 2xLC-LC, 1310nm SMF, Finned Twin-port Transceiver (up to 10km)</a></p>
+    </div>
+</details>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        200G
+    </summary>
+    <div class="expand-body">
+        <details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        200G AOC
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mfs1s00hxxxv10"     data-scope="external"
+         rel="external noreferrer"
+>MFS1S00-HxxxV 200Gb/s QSFP56 MMF AOC Product Specifications</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        200G Transceivers
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mms1w50hmspec"     data-scope="external"
+         rel="external noreferrer"
+>MMS1W50-HM 200Gb/s QSFP56 FR4</a></p>
+    </div>
+</details>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        Under 25G
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mma2p00asspec"     data-scope="external"
+         rel="external noreferrer"
+>MMA2P00-AS 25GbE SFP28 MMF Transceiver Product Specifications</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        Products No Longer For Sale
+    </summary>
+    <div class="expand-body">
+        <details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        800G
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mcp7y10nxxx800gpub"     data-scope="external"
+         rel="external noreferrer"
+>MCP7Y10-Nxxx 800Gbs Twin-port OSFP to 2x400G QSFP112 DAC Splitter 1-3m Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mca7j65nxxx800pub"     data-scope="external"
+         rel="external noreferrer"
+>MCA7J65-Nxxx 800Gbps Twin-port OSFP to 2x400Gbps QSFP112 ACC Splitter</a></p><p><a href="https://networking-docs.nvidia.com/mca7j70nxxx800pub"     data-scope="external"
+         rel="external noreferrer"
+>MCA7J70-Nxxx 800Gb/s Twin-port OSFP to 4x200Gb/s OSFP ACC Splitter Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mca7j75nxxx800pub"     data-scope="external"
+         rel="external noreferrer"
+>MCA7J75-Nxxx 800Gbps Twin-port OSFP to 4x200Gbps QSFP112 ACC Splitter</a></p><p><a href="https://networking-docs.nvidia.com/800gmma4z00nst"     data-scope="external"
+         rel="external noreferrer"
+>MCA7J60-Nxxx 800Gbs Twin-port OSFP to 2x400Gbs OSFP ACC Splitter Product Specifications</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        400G
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mcp7y60hxxx400pub"     data-scope="external"
+         rel="external noreferrer"
+><u>MCP7Y60-Hxxx 400Gb/s Twin-port 2x200G OSFP to 2x200G QSFP56 DAC Splitter &amp; 2x100GbE/EDR Product Specifications</u></a></p><p><a href="https://networking-docs.nvidia.com/mcp7y70hw"     data-scope="external"
+         rel="external noreferrer"
+>MCP7Y70-Hxxx 400Gb/s Twin-port 2x200G OSFP to 4x100G QSFP56 DAC Splitter Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp1660w0xxeyy10"     data-scope="external"
+         rel="external noreferrer"
+>MCP1660-W0xxEyy QSFP-DD DAC Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp7h60w0xxryy40010"     data-scope="external"
+         rel="external noreferrer"
+>MCP7H60-W0xxRyy 400GbE to 2x200GbE, QSFP-DD to 2xQSFP56 DAC Splitter Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp7f60w0xxxryyspec"     data-scope="external"
+         rel="external noreferrer"
+>MCP7F60-W0xxRyy 400GbE to 4x100GbE, QSFP-DD to 4xQSFP56 DAC Splitter Cable Product Specifications</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        200G
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mma1t00hsspec"     data-scope="external"
+         rel="external noreferrer"
+>MMA1T00-HS HDR QSFP56 MMF Transceiver Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mma1t00vsspec"     data-scope="external"
+         rel="external noreferrer"
+>MMA1T00-VS 200GbE QSFP56 MMF Transceiver Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp1650h0xxeyyspec"     data-scope="external"
+         rel="external noreferrer"
+>MCP1650-H0xxEyy 200Gb/s QSFP56 DAC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp7h50h0xxryy200"     data-scope="external"
+         rel="external noreferrer"
+>MCP7H50-H0xxRyy 200Gb/s QSFP56 to 2x100Gb/s 2xQSFP56 DAC Splitter Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfs1s50h0xxv200"     data-scope="external"
+         rel="external noreferrer"
+>MFS1S50-H0xxV 200Gb/s QSFP56 to 2x100Gb/s QSFP56 Low Latency MMF AOC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfs1s90h0xxe"     data-scope="external"
+         rel="external noreferrer"
+>MFS1S90-H0xxE 2x200Gb/s QSFP56 to 2x200Gb/s QSFP56 MMF AOC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfs1s00vxxxe"     data-scope="external"
+         rel="external noreferrer"
+>MFS1S00-VxxxE 200GbE QSFP56 MMF AOC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfs1s00hxxxe"     data-scope="external"
+         rel="external noreferrer"
+>MFS1S00-HxxxE 200Gb/s QSFP56 MMF AOC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfs1s50h0xxe"     data-scope="external"
+         rel="external noreferrer"
+>MFS1S50-H0xxE 200Gb/s QSFP56 to 2x100Gb/s QSFP56 MMF AOC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp7h50v0xxryy200"     data-scope="external"
+         rel="external noreferrer"
+>MCP7H50-V0xxRyy 200Gb/s QSFP56 to 2x100GbE 2xQSFP56 DAC Splitter Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp1650v0xxeyy"     data-scope="external"
+         rel="external noreferrer"
+>MCP1650-V0xxEyy 200GbE QSFP56 DAC Product Specifications</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        100G
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mma1l10crspec"     data-scope="external"
+         rel="external noreferrer"
+>MMA1L10-CR 100GbE QSFP28 LR4 Transceiver Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mma1l30cm100"     data-scope="external"
+         rel="external noreferrer"
+>MMA1L30-CM 100GbE QSFP28 CWDM4 Transceiver Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mma1b00e100spec"     data-scope="external"
+         rel="external noreferrer"
+>MMA1B00-E100 100Gb/s Transceiver Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp1600c0xxeyyzspec"     data-scope="external"
+         rel="external noreferrer"
+>MCP1600-C0xxEyyz 100GbE QSFP28 DAC Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfa1a00xxxxspec"     data-scope="external"
+         rel="external noreferrer"
+>MFA1A00-xxxx 100Gb/s QSFP28 MMF Active Optical Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp7f00a0xxryyz"     data-scope="external"
+         rel="external noreferrer"
+>MCP7F00-A0xxRyyz 100GbE QSFP28 to 4x25GbE 4xSFP28 DAC Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp7h00g0xxxxxxx"     data-scope="external"
+         rel="external noreferrer"
+>MCP7H00-G0xxxxxxx 100GbE QSFP28 to 2x50GbE 2xQSFP28 DAC Splitter Product Specifications</a></p>
+    </div>
+</details><details class="expand" data-component="expand"
+>
+    <summary class="expand-control">
+        25G
+    </summary>
+    <div class="expand-body">
+        <p><a href="https://networking-docs.nvidia.com/mma2l20arspec"     data-scope="external"
+         rel="external noreferrer"
+>MMA2L20-AR 25GbE SFP28 LR Transceiver Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mcp2m00a0xxeyyz"     data-scope="external"
+         rel="external noreferrer"
+>MCP2M00-A0xxEyyz 25GbE SFP28 DAC Cable Product Specifications</a></p><p><a href="https://networking-docs.nvidia.com/mfa2p10axxx25"     data-scope="external"
+         rel="external noreferrer"
+>MFA2P10-AXXX 25GbE SFP28 AOC</a></p>
+    </div>
+</details>
+    </div>
+</details></div>
+
+    </div>
+    <div data-component="layout-section" class="layout-section" style="--columns: 1fr;">
+            <div class="layout-cell"><p><br></p></div>
+
+    </div>
+</div>
+
+		
+	</article>
+</main>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer data-component="footer" class="footer">
+
+
+
+
+
+		<img class="footer-logo footer-logo--dark" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/nvidia-logo-horiz-rgb-1c-wht-for-screen.svg" alt="">
+
+		<img class="footer-logo footer-logo--light" src="/__theme/c_6c29734e-d941-4613-9296-918e7e587582/help-center-theme-nvidia-fork/15/nvidia/nvidia-logo-horiz-rgb-1c-blk-for-screen.svg" alt="">
+
+
+
+
+
+
+
+
+	<ul class="footer-links">
+			<li><a href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a></li>
+			<li><a href="https://www.nvidia.com/en-us/about-nvidia/privacy-center/" target="_blank" rel="noopener">Your Privacy Choices</a></li>
+			<li><a href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/" target="_blank" rel="noopener">Terms of Service</a></li>
+			<li><a href="https://www.nvidia.com/en-us/about-nvidia/accessibility/" target="_blank" rel="noopener">Accessibility</a></li>
+			<li><a href="https://www.nvidia.com/en-us/about-nvidia/company-policies/" target="_blank" rel="noopener">Corporate Policies</a></li>
+			<li><a href="https://www.nvidia.com/en-us/product-security/" target="_blank" rel="noopener">Product Security</a></li>
+			<li><a href="https://www.nvidia.com/en-us/contact/" target="_blank" rel="noopener">Contact</a></li>
+	</ul>
+	<ul class="footer-content">
+		<li><i18n-message i18nkey="footer.copyright.label">Copyright</i18n-message> <current-year></current-year></li>		<li><i18n-message i18nkey="footer.poweredBy.label">Powered by</i18n-message> <a href="https://www.k15t.com/products/scroll-sites-for-confluence?utm_campaign=k15t-sts-attribution-line&utm_source=k15t-apps" rel="external nofollow">Scroll&nbsp;Sites</a> & <a href="https://www.atlassian.com/software/confluence" rel="external nofollow">Atlassian&nbsp;Confluence</a></li>
+	</ul>
+
+</footer>
+
+
+</body>
+</html>

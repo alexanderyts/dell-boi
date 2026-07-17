@@ -1,0 +1,898 @@
+Spec Sheet
+
+                                                   PowerEdge R-Series
+
+                                                   Data centers today are faced with the emerging demands of AI, requiring scalable, efficient and
+
+Purpose Built                                      high-performance solutions to handle both mainstream and accelerated workload demands. In
+
+                                                   this landscape, Dell PowerEdge rack servers stand out as a leading choice for IT professionals
+
+·  The leader in AI infrastructure                 and data center managers looking to transform their infrastructure.
+
+   As noted in the Forrester® AI Infrastructure    Dell PowerEdge R-Series servers: A comprehensive lineup of rack servers designed to meet the
+
+   Wave                                            rigorous demands of modern, scalable datacenter infrastructure.
+
+·  7:1 Consolidation capable*                                                                                                                        ·  Advanced processors and GPU architecture
+
+·  Up to 73% Boost in power efficiency*                                                                                                              ·  Expansive memory configurations
+
+Intelligent                                                                                                                                          ·  High-bandwidth I/O capabilities
+
+·  Up to $50k Savings through power and                                                                                                              ·  Tailored for every workload from traditional to AI intensive
+
+   management optimization*1                                                                                                                         ·  Flexible I/O configurations including front or rear options
+
+·  80% of PowerEdge servers achieve EPEAT                                                                                                            ·  Industry-standard Data Center Modular Hardware Systems (DC-MHS) design
+
+   Climate+ designation*1
+
+·  Up to 150min Less time to manage per 100                                                                                                          Cyber Resilient Architecture for Zero Trust IT environment & operations
+
+   servers*1
+
+·  Industry leading intelligent management                                                                                                           Security is integrated into every phase of the PowerEdge lifecycle, including protected supply
+
+   - iDRAC 10 integrated controller and            Performance meets Versatility                                                                     chain and factory-to-site integrity assurance. Silicon-based root of trust anchors end-to-end boot
+
+   - OpenManage Enterprise                                                                                                                           resilience while Multi-Factor Authentication (MFA) and role-based access controls ensure trusted
+
+                                                   Experience the perfect combination of performance, versatility, and energy efficiency with our    operations.
+
+Cyber Resilient                                    advanced, future-ready, industry standard server designs. Engineered to streamline operations,    Learn more
+
+·  3.5x More security features than competitor*1   these servers help lower operational costs and support seamless scalability, allowing your
+
+·  Zero Trust Adoption Capable                     business to quickly adapt to evolving demands. By optimizing workloads, you can reduce your       Boost Productivity with Dell system management solutions
+
+·  Factory-to-Site Assurance with Secured          data center footprint while aligning with sustainability goals, all without sacrificing top-tier  Simplify infrastructure management with iDRAC for secure, remote server administration,
+
+   Component Verification                          performance. Designed to meet the needs of high-demand environments, these servers offer          OpenManage Enterprise to streamline lifecycle management, and AI-enabled AIOps to optimize
+
+                                                   advanced features like flexible and expandable configuration options, SmartCooling solutions,     infrastructure and applications. Automate tasks, get real-time alerts, and scale effortlessly to
+
+Sustainability                                     and intelligent management tools.                                                                 boost productivity, performance, and uptime.
+
+·  Engineered for Efficiency PowerEdge servers     Suitable for complex workloads, high-availability deployments, AI tasks, and inferencing
+
+   have reduced Energy Intensity (EI) by 83% over  applications, these servers offer a reliable and flexible foundation to manage evolving business
+
+   the past 8 years                                requirements. Their robust capabilities support efficient management and operational continuity.
+
+·  Efficient Up to 73% boost in power efficiency
+Security                                           Dell Power and Cooling Solutions                                                             Rest easier with Dell Technologies Services
+
+Integrated into every  phase of the   life  cycle  Address growing data center challenges caused by AI and dense computing workloads            ProSupport Plus for Infrastructure
+
+                                                   using a range of solutions that enhance data center cooling strategies, optimize system      ·  Keeps your servers running with proactive and predictive support
+
+                                                   performance, and empower organizations to balance efficiency, performance, and               ·  Enjoy an assigned customer advocate focused on your desired outcomes, 24/7
+
+                                                   sustainability.                                                                              ·  Relax knowing you have third-party collaboration, and critical response for Severity
+
+                                                   Expert assistance from Dell Technologies Services                                               1 issues.
+
+                                                   Optimize performance every step of the way with services ranging from quick, seamless        For piece of mind, further optimize your servers with Dell Technologies Services expert
+
+Secure supply                                      deployment with ProDeploy Infrastructure Suite, including AI-specific setups, to proactive,  consulting, deployment, managed services and more
+
+chain                                              around-the-clock support with ProSupport Plus. Additionally, our consulting and managed      Dell Products that work Better Together
+
+                                                   services bring even more value by offering tailored strategies designed to streamline
+
+                                                   operations, improve efficiency, and help you achieve your unique business objectives with    Power up the next-generation IP fabric with 2nd generation 100/400GbE open
+
+                       Secure server               confidence. Learn more at Dell.com/Services or contact your Dell representative today.       networking. The PowerSwitch S5448F-ON features 48x 100GbE SFP56-DD ports and
+
+                       lifecycle                                                                                                                8x 400GbE QSFP56-DD ports, providing a broad range of functionality to meet the
+
+Root of Trust                                                                                                                                   growing demands of today's data center environment.Dell PowerVault - PowerVault
+
+and end-to-end                                                                                                                                  provides SAN/DAS solutions that simplify capacity expansion for PowerEdge Servers
+
+verified boot
+
+resilience
+
+                       Data
+
+                       protection
+
+                                                   Dell Products that work better together
+
+                                                                                     Power up the next-generation IP fabric with 2nd generation 100/400GbE open networking. The Dell PowerSwitch Z9432F-ON Z9432F-ON provides 32
+
+                                                                                     ports of 400GbE in a single switch.
+
+                                                                                     The PowerSwitch S5448F-ON features 48x 100GbE SFP56-DD ports and 8x 400GbE QSFP56-DD ports, providing a broad range of functionality to meet
+
+                                                                                     the growing demands of today's data center environment.
+
+                                                                                     Dell PowerVault - PowerVault provides SAN/DAS solutions that simplify capacity expansion for PowerEdge Servers
+This document provides a comprehensive list of product features. However, features marked with an asterisk (*) may not be available at launch but introduced                                                                       in future updates. Please note that this                  document does not confirm the availability                   or release timeline
+
+of any feature. For the most accurate and up-to-date information on feature availability, please refer to the product configurator page on dell.com.
+
+Feature                  R470                          R570                           R670                    R770                            R6715                       R7715                         R6725                                R7725                  R7725xd                     R770AP                              R4715                         R5715
+
+Systems
+
+Processor    · One Intel® Xeon® 6           ·  One Intel® Xeon® 6          Two Intel Xeon 6                Two Intel Xeon 6 Processor      One 5th Generation AMD      One 5th Generation AMD        Two 5th Generation            Two 5th Generation            Two 5th Generation          Two Intel® Xeon® 6             One 5th Generation AMD        One 5th Generation AMD
+
+                E-core processor with up       E-core processor with up    Processors with up to           with up to 144 cores or         EPYC 9005 Series processor  EPYC 9005 Series processor    AMD EPYC 9005 Series          AMD EPYC 9005 Series          AMD EPYC 9005 Series        6900-series processors         EPYC 9005 Series processor    EPYC 9005 Series processor
+
+                to 144 cores                   to 144 cores                144 cores or 86 P-cores per     86 P-cores per processor        with up to 160 cores per    with up to 160 cores per      processors with up to         processors with up to         processors with up to       with P-Cores with up to        with up to 32 cores per       with up to 32 cores per
+
+             · One Intel® Xeon® 6           ·  One Intel® Xeon® 6          processor                                                       processor                   processor                     192 cores per processor       192 cores per processor       192 cores per processor     128 Cores.                     processor.                    processor.
+
+                P-core processor with          P-core processor with
+
+                up to 86 cores with R1S        up to 86 cores with R1S
+
+                option                         option
+
+Memory       · 16 DDR5 DIMM slot,           ·  16 DDR5 DIMM slots,         ·  32 DDR5 DIMM slots,          ·  32 DDR5 DIMM slots,          ·  24 DDR5 DIMM slots,      ·  24 DDR5 DIMM slots,        ·  24 DDR5 DIMM slots,        ·  24 DDR5 DIMM slots,        ·  24 DDR5 DIMM slots,      ·  24 DDR5 DIMM slots,         ·  24 DDR5 DIMM slots         ·  24 DDR5 DIMM slots,
+
+                supports RDIMM 4 TB            speeds up to 6400 MT/s         supports RDIMM 8                supports RDIMM 8                supports RDIMM 6            supports RDIMM 6              supports RDIMM 6              supports RDIMM 6              supports RDIMM 3            supports RDIMM 3               supporting RDIMM, up          supporting RDIMM, up
+
+                max, speeds up to           ·  One Intel® Xeon®               TB max, speeds up to            TB max, speeds up to            TB max, speeds up to        TB max, speeds up to          TB max, speeds up to          TB max, speeds up to          TB max, speeds up to        TB max, speeds up to           to 64 GB per DIMM,            to 64 GB per DIMM,
+
+                6400 MT/s                      6 E-core processor -           6400 MT/s                       6400 MT/s                       5200 MT/s                   5200 MT/s                     6400 MT/s                     6400 MT/s                     6400 MT/s                   6400 MT/s                      maximum memory                maximum memory
+
+             · Intel® Xeon® 6 E-core           supports RDIMM 1 TB         ·  Supports registered ECC      ·  Supports registered ECC      ·  Supports registered ECC  ·  Supports registered ECC    ·  Supports registered ECC    ·  Supports registered ECC    ·  Supports registered ECC  ·  Supports registered ECC        capacity of 1.5 TB, with      capacity of 1.5 TB,with
+
+                processor - supports           max                            DDR5 DIMMs only                 DDR5 DIMMs only                 DDR5 DIMMs only             DDR5 DIMMs only               DDR5 DIMMs only               DDR5 DIMMs only               DDR5 DIMMs only             DDR5 DIMMs only                speeds up to 5200 MT/s.       speeds up to 5200 MT/s.
+
+                1 TB max                    ·  One Intel® Xeon® 6                                                                                                                                                                                                                                                           ·  Supports registered ECC    ·  Supports registered ECC
+
+             · Intel® Xeon® 6 P-core           P-core processor with                                                                                                                                                                                                                                                           DDR5 DIMMs only.              DDR5 DIMMs only.
+
+                processor with up to           up to 86 cores with R1S
+
+                86 cores with R1S option -     option - supports RDIMM
+
+                supports 4 TB max              4 TB max
+
+             · Supports registered ECC      ·  Supports registered
+
+                DDR5 DIMMs only                ECC DDR5 DIMMs only
+
+             Note: The installed               Supports registered ECC
+
+             processor may reduce the          DDR5 DIMMs only
+
+             operating speed of the
+
+             DIMM
+
+Storage      ·  Internal Controllers        ·  Internal Controllers        ·  Internal Boot: Boot          ·  Internal Boot: Boot          ·  Internal Controllers     ·  Internal Controllers       ·  Internal Controllers       ·  Internal Controllers       ·  Internal Controllers     ·  Internal Boot: Boot         ·  Internal Controllers       ·  Internal Controllers
+
+controllers     (RAID): PERC H365i DC-         (RAID): PERC H365i DC-         Optimized Storage               Optimized Storage               (RAID): PERC H365i,         (RAID): PERC H365i,           (RAID): PERC H365i,           (RAID): PERC H365i,H965i,     (RAID): N/A                 Optimized Storage              (RAID): PERC H365i, H965i     (RAID): PERC H365i, H965i
+
+                MHS, front PERC H965i          MHS, PERC H965i DC-MH,         Subsystem (BOSS-N1              Subsystem (BOSS-N1              H965i, H975i                H965i, H975i                  H965i, H975i                  H975i                      ·  Internal Boot: Boot         Subsystem (BOSS-N1          ·  Internal Boot: Boot        ·  Internal Boot: Boot
+
+                DC-MHS, PERC H365i             PERC H365i Adapter             DC-MHS):                        DC-MHS):                     ·  Internal Boot: Boot      ·  Internal Boot: Boot        ·  Internal Boot: Boot        ·  Internal Boot: Boot           Optimized Storage           DC-MHS):                       Optimized Storage             Optimized Storage
+
+                adapter, PERC H965i            PERC H965i Adapter             HWRAID 1, 2 x M.2 NVMe          HWRAID 1, 2 x M.2 NVMe          Optimized Storage           Optimized Storage             Optimized Storage             Optimized Storage             Subsystem (BOSS-N1          HWRAID 1 : 2 x M.2 NVMe        Subsystem (BOSS-N1            Subsystem (BOSS-N1
+
+                adapter                     ·  Internal Boot: Boot            SSDs or M.2 Interposer          SSDs or M.2 Interposer          Subsystem (BOSS-N1          Subsystem (BOSS-N1            Subsystem (BOSS-N1            Subsystem (BOSS-N1            DC-MHS)                     SSDs or USB                    DC-MHS)                       DC-MHS)
+
+             · External Controllers:           Optimized Storage              board                           board (DC-MHS): 2 x M.2         DC-MHS)                     DC-MHS)                       DC-MHS)                       DC-MHS)                    ·  External HBAs            ·  Internal controllers: PERC  ·  External HBAs (non-RAID):  ·  External HBAs (non-RAID):
+
+                HBA465e, H965e(RAID)           Subsystem (BOSS-N1             (DC-MHS): 2 x M.2 NVMe          NVMe SSDs or USB             ·  External HBAs            ·  External HBAs (non-RAID):  ·  External HBAs (non-RAID):  ·  External HBAs                 (non-RAID): N/A             H975i DC-MHS front             N/A                           N/A
+
+             ·  Internal Boot: Boot            DC-MHS), M.2 interposer        SSDs or USB                  ·  Internal controllers: Front     (non-RAID): HBA465e         HBA465e                       HBA465e                       (non-RAID): HBA465e
+
+                Optimized Storage              with up to                  ·  Internal controllers: Front     PERC H965i, Front PERC
+
+                Subsystem (BOSS-N1             2 x M.2 NVMe SSDs, USB         PERC H965i, Front PERC          H975i, Front PERC H365i
+
+                DC-MHS): HWRAID 1,          ·  External Controllers: PERC     H975i, Front PERC H365i
+
+                2 xM.2 NVMe SSDs,              H965e, HBA 465e
+
+                M.2 interposer with upto
+
+                2 x M.2 NVMe SSDs or
+
+                USB
+Feature                 R470                           R570                          R670                        R770                     R6715                          R7715                     R6725                           R7725                   R7725xd                          R770AP                 R4715                      R5715
+
+Drive Bays  Front bays:                    Front bays:                   · No Backplane              · No backplane              Front bays:                  Front bays:                 Front bays:                   Front bays:                     Front bays:                  · No backplane                Front bays:                Front bays:
+
+            · Up to 8 x EDSFF E3.S         · Up to 12 x 3.5-inch SATA       configuration               configuration            · 4 x 3.5-inch SAS/SATA      · 2 x U.2 SSDs              · 4 x 3.5-inch SAS/SATA       · 12 x 3.5-inch SAS/SATA        ·  24 x 2.5-inch U.2 Gen5       configuration              · 4 x 3.5-inch SAS         · 12 x 3.5-inch SAS/SATA
+
+               Gen5 NVMe max                  (HDD) RAID max 384 TB*     · Up to 8 x EDSFF E3.S      · Up to 8 x EDSFF E3.S      · 8 x 2.5-inch Universal or  · 12 x 3.5-inch SAS/SATA    ·  8 x 2.5-inch Universal or  ·  8 x 2.5-inch Universal / 16     NVMe (SSD)                ·  Up to 8 x 2.5-inch G5      · 8 x 2.5-inch SAS/SATA    · 16 x 2.5-inch SAS/SATA
+
+               491.52 TB                   · Up to 8 x 2.5-inch NVMe        NVMe max 491.52 TB also     Gen5 NVMe max               U.2 / 10 x 2.5-inch SAS/  ·  8 x 2.5 Universal/ 16 x     U.2 / 10 x 2.5-inch SAS/      x 2.5-inch SAS/SATA / 24        max 2928 TB                  x4 NVMe (SSD) max          · 8 x U.2 NVMe G4
+
+            · Up to 16 x EDSFF                RAID max 491.52 TB            with FIO configuration      491.52 TB also comes        SATA                         2.5-inch SAS/SATA /         SATA                          x 2.5-inch SAS/SATA                                          122.88 TB
+
+               E3.S Gen5 NVMe max          · Up to 8 x 2.5-inch NVMe     · Up to 16 x EDSFF             with FIO configuration   · 10 x 2.5-inch with 4 x        24 x 2.5-inch SAS/SATA   · 10 x 2.5-inch with 4 x      ·  16 x 2.5-inch SAS/SATA +                                  ·  Up to 16 x 2.5-inch G5 x4
+
+               983.04 TB                      max 491.52 TB                 E3.S Gen5 NVMe max       · Up to 16 x EDSFF             Universal                 ·  16 x 2.5-inchSAS/SATA       Universal                     8 x U.2 or 2.5-inch NVMe                                     NVMe (SSD) max 245.76
+
+            · Up to 8 x 2.5-inch SATA/     · Up to 8 x 2.5-inch SATA        983.04 TB                   E3.S Gen5 NVMe max       · 16 x EDSFF E3.S Gen5          SSD + 8 x U.2 NVMe       ·  8 x EDSFF E3.S / 16 x         RAID                                                         TB
+
+               NVMe max 491.52 TB             max 30.72 TB               · Up to 20 x EDSFF             983.04 TB also comes        NVMe drives                  drives                      EDSFF E3.S / 20 x EDSFF    ·  8 x EDSFF E3.S / 16 x                                     ·  Up to 16 x 2.5-inch G5
+
+            · Up to 10 x 2.5 - inch SATA/  · Up to 8 x 2.5-inch SATA/       E3.S Gen5 NVMe max          with FIO configuration   · 20 x EDSFF E3.S + Rear     ·  8 x EDSFF E3.S / 16 x       E3.S + Rear 2 x EDSFF         EDSFF E3.S / 32 x EDSFF                                      x2 NVMe (SSD) max
+
+               NVMe (with 4 x 2.5 -inch       Universal max 491.52 TB       1228.8 TB                · Up to 32 x EDSFF             2 x EDSFF E3.S               EDSFF E3.S / 32 x EDSFF     E3.S                          E3.S / 40 x EDSFF E3.S                                       245.76 TB
+
+               universal) max 614.4 TB     · Up to 16 x 2.5-inch SATA    · Up to 8 x 2.5 inch SATA/     E3.S Gen5 NVMe max                                       E3.S / 40 x EDSFF E3.S                                                                                              ·  Up to 32 x EDSFF E3.S
+
+            ·  Up to 4 x 3.5 - inch           RAID max 61.44 TB             NVMe Direct/NVMe Raid       1966.08 TB                                                                                                                                                                      Gen5 NVMe (SSD) max
+
+               SATA max 128 TB* (only      · Up to 24 x 2.5-inch SATA       max 491.52 TB            · Up to 8 x 2.5 inch SATA/                                                                                                                                                         491.52 TB
+
+               supported with rear 2 x        max 92.16 TB               · Up to 8 x 2.5-inch           NVMe max 491.52 TB                                                                                                                                                           Rear bays: N/A
+
+               E3.S drives; not supported  · Up to 8 x EDSFF E3.S (hot-     Universal 491.52 TB      · Up to 8 x 2.5-inch
+
+               as standalone front-only       aisle) Gen5 NVMe max       · Up to 10 x 2.5 inch SATA     Universal max 491.52 TB
+
+               configuration)                 491.52 TB                     max 38.4 TB              · Up to 16 x 2.5 inch SATA
+
+            Rear bays:                     · Up to 8 x EDSFF E3.S        Rear bays:                     max 61.44TB
+
+            · Up to 2 x EDSFF E3.S            (cold-aisle) Gen5 NVMe     · Up to 2 x EDSFF E3.S      · Up to 24 x 2.5 inch SATA
+
+               Gen5 NVMe max                  491.52 TB                     Gen5 NVMe in the rear       max 92.16 TB
+
+               122.88 TB                   · Up to 16 x EDSFF E3.S          max 122.88 TB            · Up to 16 x 2.5 inch SATA
+
+                                              (cold-aisle) Gen5 NVMe                                    + 8 x 2.5-inch NVME max
+
+                                              max 983.04 TB                                             552.96 TB
+
+                                           · Up to 16 x EDSFF E3.S                                   · Up to 40 x EDSFF
+
+                                              (hot-aisle) Gen5 NVMe                                     E3.S Gen5 NVMe max
+
+                                              max 983.04 TB                                             2457.6 TB
+
+                                           · Up to 32 x EDSFF E3.S                                   Rear bays:
+
+                                              (hot-aisle) Gen5 NVMe                                  · Up to 4 x EDSFF E3.S
+
+                                              max 1966.08 TB                                            Gen5 NVMe max
+
+                                           Rear bays:                                                   245.76 TB on the rear
+
+                                           · Up to 4 x EDSFF E3.S
+
+                                              Gen5 NVMe max
+
+                                              245.76 TB
+
+Power       ·  800 W Platinum/             ·  800 W Platinum/            ·  1500 W Titanium 100--    ·  800 W Platinum 100--240  ·  Platinum 800W, 1100W      ·  Platinum 800W, 1100W     ·  Platinum 800W, 1100W       ·  Platinum 800W, 1100W         ·  1500 W Titanium 100--     ·  1500 W Titanium 100--      · Platinum 800 W, 1100 W   · Platinum 800 W, 1100 W
+
+Supplies       Titanium 100-240 VAC           Titanium 100-240 VAC          240 VAC or 240 VDC          VAC or 240 VDC           ·  Titanium: 800W, 1100W,    ·  Titanium: 800W, 1100W,   ·  Titanium: 800W, 1100W,     ·  Titanium: 800W, 1100W,          240 VAC or 240 HVDC, hot     240 VAC or 240 HVDC, hot   · Titanium: 800 W, 1100 W  · Titanium: 800 W, 1100 W
+
+               or 240 HVDC, hot swap          or 240 HVDC, hot swap      ·  1100 W Titanium 100--    ·  1100 W Platinium 100--      1500W, 1500W 277Vac &        1500W, 1500W 277Vac &       1500W, 1500W 277VAC &         1500W, 1500W 277Vac &           swap redundant               swap redundant             · FTR supported            · FTR supported
+
+               redundant                      redundant                     240 VAC or 240 VDC          240 VAC or 240 VDC          HVDC*, 1800W*                HVDC*, 1800W*, 2400W*,      HVDC*, 1800W*                 HVDC*, 1800W*, 2400W*,       ·  1800 W Titanium 200-240   ·  1800 W Titanium 200-240
+
+            ·  1100 W Platinum/            ·  1100 W Platinum/           ·  800 W Titanium 100--240  ·  1500 W Titanium 100--    ·  Telco: 1400W -48VDC          3200W, 3200W 277Vac      ·  Telco: 1400W -48VDC           3200W, 3200W 277Vac             VAC or 240 HVDC, hot         VAC or 240 HVDC, hot
+
+               Titanium 100-240 VAC           Titanium 100-240 VAC          VAC or 240 VDC              240 VAC or 240 VDC                                       & HVDC                                                    & HVDC                          swap redundant*              swap redundant
+
+               or 240 HVDC, hot swap          or 240 HVDC, hot swap      ·  1800 W HLAC Titanium     ·  1100 W Titanium 100--                                 ·  Telco: 1400W -48VDC                                    ·  Telco: 1400W -48VDC          ·  2400 W Titanium 100--     ·  2400 W Titanium 100--
+
+               redundant                      redundant                     200--240 VAC or 240         240 VAC or 240 VDC                                                                                                                                 240 VAC or 240 HVDC, hot     240 VAC or 240 HVDC, hot
+
+            ·  1500 W Titanium 100-240     ·  1500 W Titanium 100-240       VDC*                     ·  3200 W Titanium 200--                                                                                                                              swap redundant*              swap redundant
+
+               VAC or 240 HVDC, hot           VAC or 240 HVDC, hot       ·  1100 W Platinum 100--       240 VAC or 240 VDC                                                                                                                              ·  3200 W Titanium 200-240   ·  3200 W Titanium 200-240
+
+               swap redundant                 swap redundant                240 VAC or 240 VDC       ·  800 W Titanium 100--240                                                                                                                            VAC or 240 HVDC, hot         VAC or 240 HVDC, hot
+
+            ·  1500 W 277 Vac and          ·  1500 W 277 Vac and         ·  800 W Platinum 100--240     VAC or 240 VDC                                                                                                                                     swap redundant               swap redundant
+
+               HVDC Titanium, hot swap        HVDC Titanium, hot swap       VAC or 240 VDC           ·  3200 W 277 VAC and 336                                                                                                                                                       ·  3200 W 277 VAC and 336
+
+               redundant*                     redundant*                 ·  1500 W 277 VAC or           HVDC Titanium                                                                                                                                                                   HVDC Titanium hot swap
+
+            ·  1400 W -48v DC Titanium,    ·  1400 W -48 VDC, hot swap      336 VDC*                 ·  1400 W -48VDC 60mm                                                                                                                                                              redundant*
+
+               hot swap redundant             redundant                  ·  1400 W LVDC -48 --       ·  1500 W 277 VAC and 336
+
+            ·  1800 W Titanium 100-240     ·  1800 W Titanium 100-240       -60 VDC                     HVDC Titanium*
+
+               VAC or 240 HVDC, hot           VAC or 240 HVDC, hot                                   ·  2400 W Titanium 100--
+
+               swap redundant*                swap redundant*                                           240 VAC or 240 VDC*
+
+                                                                                                     ·  1800 W HLAC Titanium
+
+                                                                                                        200--240 VAC or 240
+
+                                                                                                        VDC*
+Feature                   R470                          R570                      R670                        R770                           R6715                         R7715                       R6725                         R7725              R7725xd                             R770AP                        R4715                         R5715
+
+Cooling      Air cooling                   Air cooling                   · Air cooling and Direct    · Air cooling and Direct    Air cooling, Direct Liquid    Air cooling, Direct Liquid  Air cooling, Direct Liquid    Air cooling, Direct Liquid  Air cooling                 ·  Air cooling               ·  Air cooling                ·  Air cooling
+
+Options                                                                  Liquid Cooling              Liquid Cooling              Cooling (DLC)                 Cooling (DLC)               Cooling (DLC)                 Cooling (DLC)
+
+Fans         · Up to 4 sets (dual fan      · Up to six hot plug fans     · High performance Silver   · High performance Silver   · Up to four sets (dual fan   · Up to six hot plug fans   · Up to four sets (dual fan   · Up to six hot plug fans   · Up to six hot plug fans   ·  High performance Gold     ·  Up to four sets (dual fan  ·  Up to six hot plug fans
+
+                module) hot swappable                                    (HPR SLVR) or Standard      (HPR SLVR) fans/High           module) hot plug fans                                     module) hot plug fans                                                                 (HPR GOLD) or High           module) hot plug fans
+
+                fan                                                      (STD) fans                  performance Gold                                                                                                                                                               performance Platinum
+
+                                                                         · Up to 4 sets (dual fan    (HPR GOLD) fans                                                                                                                                                                (HPR PLTM) fans
+
+                                                                         module) hot swappable       · Up to 6 hot swappable                                                                                                                                                     ·  Up to 6 hot swappable
+
+                                                                         fans                        fans                                                                                                                                                                           fans
+
+Dimensions   · Height ­ 42.8 mm (1.69      · Height ­ 86.8 mm (3.42      Height ­ 42.8 mm            · Height ­ 86.8 mm (3.42    · Height ­ 42.8 mm            · Height ­ 86.8 mm (3.41    · Height ­ 42.8 mm (1.68      · Height ­ 86.8 mm (3.42    · Height ­ 86.8 mm (3.42    ·  Height ­ 86.8 mm (3.42    · Height ­ 42.8 mm            ·  Height ­ 86.8 mm
+
+                inches)                       inches)                    (1.69 inches)               inches)                        (1.68 inches)                 inches)                     inches)                       inches)                     inches)                     inches)                      (1.68 inches)                 (3.41 inches)
+
+             · Width ­ 482 mm (19.0        · Width ­ 482.0 mm (18.98     Width ­ 482 mm (18.98       · Width ­ 482 mm (18.97     · Width ­ 482.0 mm (18.97     · Width ­ 482.0 mm (18.97   · Width ­ 482 mm (18.97       · Width ­ 482 mm (18.98     · Width ­ 482 mm (18.98     ·  Width ­ 482 mm (18.97     · Width ­ 482.0 mm (18.97     ·  Width ­ 482.0 mm
+
+                inches)                       inches)                    inches)                     inches)                        inches)                       inches)                     inches)                       inches)                     inches)                     inches)                      inches)                       (18.97 inches)
+
+             · Depth ­ 816.92 mm           · Depth ­ 802.38 mm           Weight ­ 20.42 kg           · Weight ­ 28.53 kg (62.89  · Depth ­ 816.921 mm          · Depth ­ 802.4 mm (31.59   · Depth ­ 816.921 mm          · Depth ­ 802.4 mm (31.59   · Depth ­ 802.4 mm (31.59   ·  Weight ­ 29.30 kg (64.59  · Depth ­ 816.921 mm          ·  Depth ­ 802.4 mm (31.59
+
+                (32.16 inches) with bezel     (31.59 inches) with bezel  (45.02 pounds)              pound)                         (32.16 inches) with bezel     inches) with bezel          (32.16 inches) with bezel     inches) with bezel          inches) with bezel          pound)                       (32.16 inches) with bezel     inches) with bezel - 801.51
+
+             · Depth ­ 815.14 mm           · Depth ­ 801.49 mm           Depth (for rear I/O         Depth (for rear I/O         ­ 815.141 mm                  ­ 801.51 mm (31.55 inches)  ­ 815.141 mm (32.09           ­ 801.51 mm (31.55 inches)  ­ 801.51 mm (31.55 inches)  ·  Depth ­ 802.4 mm (31.59   ­ 815.141 mm                     mm (31.55 inches) without
+
+                (32.09 inches) without        (31.55 inches) without     configuration)              configuration)                 (32.09 inches) without        without bezel               inches) without bezel         without bezel               without bezel               inches) with bezel           (32.09 inches) without        bezel
+
+                bezel                         bezel                      · 816.92 mm (32.20 inches)  · 802.40 mm (31.59 inches)     bezel                                                                                                                                        ·  801.51 mm (31.56 inches)     bezel
+
+             · Depth (Front I/O            · Depth (Cold aisle/Front     with bezel                  with bezel                                                                                                                                                                     without bezel
+
+                Configuration) -- 829.44      I/O Configuration) ­       · 815.14 mm (32.09 inches)  · 801.51 mm (31.56 inches)
+
+                mm (32.09 inches)             814.5 mm (32.06 inches)    without bezel               without bezel
+
+                without bezel                 without bezel              Depth (for front I/O        Depth (for front I/O
+
+             Note: Front I/O               Note: Front I/O               configuration)              configuration)
+
+             configuration will not have   configuration will not have   · 829.44 mm (32.66 inches)  · 814.52 mm (32.07 inches)
+
+             a bezel.                      a bezel.                      without bezel               without bezel
+
+                                                                         Note: The front I/O         Note: The front I/O
+
+                                                                         configuration does not      configuration does not
+
+                                                                         support the bezel           support the bezel.
+
+Form Factor  1U rack server                2U rack server                1U rack server              2U rack server              1 U rack server               2U rack server              1 U rack server               2U rack server              2U rack server              2U rack server               1 U rack server               2U rack server
+
+Embedded     ·  iDRAC                      ·  iDRAC                      · iDRAC                     · iDRAC                     ·  iDRAC10                    ·  iDRAC10                  ·  iDRAC10                    ·  iDRAC10                  ·  iDRAC10                  ·  iDRAC10                   ·  iDRAC10                    ·  iDRAC 10
+
+Management   ·  iDRAC Direct               ·  iDRAC Direct               · iDRAC Direct              · iDRAC Direct              ·  iDRAC Direct               ·  iDRAC Direct             ·  iDRAC Direct               ·  iDRAC Direct             ·  iDRAC Direct             ·  iDRAC Direct              ·  iDRAC Direct               ·  iDRAC Direct
+
+             ·  iDRAC RESTfull API with    ·  iDRAC RESTful API with     · iDRAC RESTful API with    · iDRAC RESTful API with    ·  iDRAC RESTful API with     ·  iDRAC RESTful API with   ·  iDRAC RESTful API with     ·  iDRAC RESTful API with   ·  iDRAC RESTful API with   ·  iDRAC RESTful API with    ·  iDRAC RESTful API with     ·  iDRAC RESTful API with
+
+                redfish                       Redfish                    Redfish                     Redfish                        Redfish                       Redfish                     Redfish                       Redfish                     Redfish                     Redfish                      Redfish                       Redfish
+
+             ·  RACADM CLI                 ·  RACADM CLI                 · RACADM CLI                · RACADM CLI                ·  Racadm CLI                 ·  Racadm CLI               ·  Racadm CLI                 ·  Racadm CLI               ·  Racadm CLI               ·  RACADM CLI                ·  Racadm CLI                 ·  Racadm CLI
+
+             ·  iDRAC Service Module       ·  iDRAC Service Module       · iDRAC Service Module      · iDRAC Service Module      ·  Quick Sync 2 wireless      ·  Quick Sync 2 wireless    ·  Quick Sync 2 wireless      ·  Quick Sync 2 wireless                                ·  iDRAC Service Module                                    ·  Quick Sync 2 wireless
+
+                                              (iSM)                      (iSM)                       (iSM)                          module                        module                      module                        module                                                  (iSM)                                                      module
+
+                                                                         · Quick Sync 2 wireless     · Quick Sync 2 wireless
+
+                                                                         module                      module
+
+                                                                         · NativeEdge Endpoint*      · NativeEdge Endpoint*
+
+                                                                         · NativeEdge Orchestrator*  · NativeEdge Orchestrator*
+
+Bezel        Optional security bezel       Optional security bezel       Optional security bezel     Optional security bezel     Optional metal bezel          Optional metal bezel        Optional metal bezel          Optional metal bezel        Optional metal bezel        Optional security bezel      Optional metal bezel          Optional metal bezel
+
+OpenManage   · OpenManage Enterprise       · OpenManage Enterprise       · OpenManage Enterprise     · OpenManage Enterprise     · OpenManage Enterprise       · OpenManage Enterprise     · OpenManage Enterprise       · OpenManage Enterprise     · OpenManage Enterprise     · OpenManage Enterprise      · OpenManage Enterprise       · OpenManage Enterprise
+
+Software        (OME)                         (OME)                      (OME)                       (OME)                          (OME)                         (OME)                       (OME)                         (OME)                       (OME)                       (OME)                        (OME)                         (OME)
+
+             · OME Power Manager           · OME Power Manager           · OME Power Manager         · OME Power Manager         · OME Power Manager           · OME Power Manager         · OME Power Manager           · OME Power Manager         · OME Power Manager         · OME Power Manager          · OME Power Manager           · OME Power Manager
+
+             · OME Services                · OME Services                · OME Services              · OME Services              · OME Services                · OME Services              · OME Services                · OME Services              · OME Services              · OME Services               · OME Services                · OME Services
+
+             · OME Update Manager          · OME Update Manager          · OME Update Manager        · OME Update Manager        · OME Update Manager          · OME Update Manager        · OME Update Manager          · OME Update Manager        · OME Update Manager        · OME Update Manager         · OME Update Manager          · OME Update Manager
+
+             · OME APEX AIOps              · OME APEX AIOps              · OME APEX AIOps            · OME APEX AIOps            · OME APEX AIOps              · OME APEX AIOps            · OME APEX AIOps              · OME APEX AIOps            · OME APEX AIOps            · OME APEX AIOps             · OME APEX AIOps              · OME APEX AIOps
+
+                Observability                 Observability              Observability               Observability                  Observability                 Observability               Observability                 Observability               Observability               Observability                Observability                 Observability
+
+             · OME Integration for         · OME Integration for         · OME Integration for       · OME Integration for       · OME Integration for         ·  OME Integration for      ·  OME Integration for        ·  OME Integration for      ·  OME Integration for      ·  OME Integration for       · OME Integration for         · OME Integration for
+
+                VMware vCenter (with          VMware vCenter (with       VMware vCenter (with        VMware vCenter (with           VMware vCenter (with          VMware vCenter (with        VMware vCenter (with          VMware vCenter (with        VMware vCenter (with        VMware vCenter (with         VMware vCenter (with          VMware vCenter (with
+
+                VMware Aria Operations)       VMware Aria Operations)    VMware Aria Operations)     VMware Aria Operations)        VMware Aria Operations)       VMware Aria Operations)     VMware Aria Operations)       VMware Aria Operations)     VMware Aria Operations)     VMware Aria Operations)      VMware Aria Operations)       VMware Aria Operations)
+
+             · OME integration for         · OME integration for         · OME integration for       · OME integration for       · OME integration for         · OME integration for       · OME integration for         · OME integration for       · OME integration for       · OME integration for        · OME Integration for         · OME Integration for
+
+                Microsoft System Center       Microsoft System Center    Microsoft System Center     Microsoft System Center        Microsoft System Center       Microsoft System Center     Microsoft System Center       Microsoft System Center     Microsoft System Center     Microsoft System Center      Microsoft System Center       Microsoft System Center
+
+             · OpenManage Integration      · OpenManage Integration      · OpenManage Integration    · OpenManage Integration    · OpenManage Integration      ·  OpenManage Integration   ·  OpenManage Integration     ·  OpenManage Integration   ·  OpenManage Integration   ·  OpenManage Integration    · OpenManage Integration      · OpenManage Integration
+
+                for Windows Admin             for Windows Admin          for Windows Admin           for Windows Admin              for Windows Admin             for Windows Admin           for Windows Admin             for Windows Admin           for Windows Admin           for Windows Admin            for Windows Admin             for Windows Admin Center
+
+                Center                        Center                     Center                      Center                         Center                        Center                      Center                        Center                      Center                      Center                       Center
+Feature                     R470                            R570                            R670                         R770                       R6715                           R7715                        R6725                        R7725                    R7725xd                            R770AP                      R4715                              R5715
+
+Tools         IPMI                            IPMI                            IPMI                         IPMI                          IPMI                            IPMI                         IPMI                         IPMI                          IPMI                          IPMI                           IPMI                            IPMI
+
+Integrations  OpenManage Integrations         OpenManage Integrations         OpenManage Integrations      OpenManage Integrations       OpenManage Integrations         OpenManage Integrations      OpenManage Integrations      OpenManage Integrations       OpenManage Integrations       OpenManage Integrations        OpenManage Integrations         OpenManage Integrations
+
+and           · Redhat Ansible                · Redhat Ansible                · Redhat Ansible             · Redhat Ansible              · Redhat Ansible                · Redhat Ansible             · Redhat Ansible             · RedHat Ansible              · RedHat Ansible              · Redhat Ansible               · Redhat Ansible                · Redhat Ansible Collections
+
+Connections      Collections                     Collections                     Collections                  Collections                   Collections                     Collections                  Collections                  Collections                   Collections                   Collections                    Collections                  · Terraform Providers
+
+              · Terraform Providers           · Terraform Providers           · Terraform Providers        · Terraform Providers         · Terraform Providers           · Terraform Providers        · Terraform Providers        · Terraform Providers         · Terraform Providers         · Terraform Providers          · Terraform Providers
+
+Change        ·  Dell Repository Manager      ·  Dell Repository Manager      ·  Dell Repository Manager   ·  Dell Repository Manager    ·  Dell Repository Manager      ·  Dell Repository Manager   ·  Dell Repository Manager   ·  Dell Repository Manager    ·  Dell Repository Manager    ·  Dell Repository Manager     ·  Dell Repository Manager      ·  Dell Repository Manager
+
+Management    ·  Dell System Update           ·  Dell System Update           ·  Dell System Update        ·  Dell System Update         ·  Dell System Update           ·  Dell System Update        ·  Dell System Update        ·  Dell System Update         ·  Dell System Update         ·  Dell System Update          ·  Dell System Update           ·  Dell System Update
+
+              ·  Enterprise Catalogs          ·  Enterprise Catalogs          ·  Enterprise Catalogs       ·  Enterprise Catalogs        ·  Enterprise Catalogs          ·  Enterprise Catalogs       ·  Enterprise Catalogs       ·  Enterprise Catalogs        ·  Enterprise Catalogs        ·  Enterprise Catalogs         ·  Enterprise Catalogs          ·  Enterprise Catalogs
+
+              ·  Server Update Utility        ·  Server Update Utility        ·  Server Update Utility     ·  Server Update Utility      ·  Server Update Utility        ·  Server Update Utility     ·  Server Update Utility     ·  Server Update Utility      ·  Server Update Utility      ·  Server Update Utility       ·  Server Update Utility (SUU)  ·  Server Update Utility (SUU)
+
+                 (SUU)*                          (SUU)*                          (SUU)*                       (SUU)*                        (SUU)*                          (SUU)*                       (SUU)*                       (SUU)*                        (SUU)*                        (SUU)*
+
+Security      ·  Cryptographically signed     ·  Cryptographically signed     ·  Cryptographically signed  · Cryptographically signed    ·  Cryptographically signed     ·  AMD Secure Encrypted      ·  Cryptographically signed  ·  Cryptographically signed   ·  Cryptographically signed   ·  Cryptographically signed    ·  Cryptographically signed     ·  AMD Secure Encrypted
+
+                 firmware                        firmware                        firmware                     firmware                      firmware                        Virtualization (SEV)         firmware                     firmware                      firmware                      firmware                       firmware                        Virtualization (SEV)
+
+              ·  Data at Rest Encryption      ·  Data at Rest Encryption      ·  Data at Rest Encryption   · Data at Rest Encryption     ·  Data at Rest Encryption      ·  AMD Secure Memory         ·  Data at Rest Encryption   ·  Data at Rest Encryption    ·  Data at Rest Encryption    ·  Data at Rest Encryption     ·  Data at Rest Encryption      ·  AMD Secure Memory
+
+                 (SEDs with local or             (SEDs with local or             (SEDs with local or          (SEDs with local or           (SED with local or external     Encryption (SME)             (SEDs with local or          (SEDs with local or           (SEDs with local or           (SEDs with local or            (SEDs with local or             Encryption (SME)
+
+                 external key mgmt)              external key mgmt)              external key mgmt)           external key mgmt)            key management)              ·  Cryptographically signed     external key mgmt)           external key mgmt)            external key mgmt)            external key mgmt)             external key mgmt)           ·  Cryptographically signed
+
+              ·  Secure Boot                  ·  Secure Boot                  ·  Secure Boot               · Secure Boot                 ·  Secure Boot                     firmware                  ·  Secure Boot               ·  Secure Boot                ·  Secure Boot                ·  Secure Boot                 ·  Secure Boot                     firmware
+
+              ·  Secured Component            ·  Secured Component            ·  Secured Component         · Secured Component           ·  Secured Component            ·  Data at Rest Encryption   ·  Secured Component         ·  Secured Component          ·  Secured Component          ·  Secured Component           ·  Secured Component            ·  Data at Rest Encryption
+
+                 Verification (Hardware          Verification (Hardware          Verification (Hardware       Verification (Hardware        Verification (Hardware          (SEDs with local or          Verification (Hardware       Verification (Hardware        Verification (Hardware        Verification (Hardware         Verification (Hardware          (SEDs with local or
+
+                 integrity check)                integrity check)                integrity check)             integrity check)              integrity check)                external key mgmt)           integrity check)             integrity check)              integrity check)              integrity check)               integrity check)                external key mgmt)
+
+              ·  Secure Erase                 ·  Secure Erase                 ·  Secure Erase              ·  Silicon Root of Trust      ·  Secure Erase                 ·  Secure Boot               ·  Secure Erase              ·  Secure Erase               ·  Secure Erase               ·  Secure Erase                ·  Secure Erase                 ·  Secure Boot
+
+              ·  Silicon Root of Trust        ·  Silicon Root of Trust        ·  Silicon Root of Trust     ·  System Lockdown            ·  Silicon Root of Trust        ·  Secured Component         ·  Silicon Root of Trust     ·  Silicon Root of Trust      ·  Silicon Root of Trust      ·  Silicon Root of Trust       ·  Silicon Root of Trust        ·  Secured Component
+
+              ·  System Lockdown              ·  System Lockdown              ·  System Lockdown           ·  System Lockdown            ·  System Lockdown                 Verification (Hardware    ·  System Lockdown           ·  System Lockdown            ·  System Lockdown            ·  System Lockdown             ·  System Lockdown                 Verification (Hardware
+
+                 (requires iDRAC10            ·  TPM 2.0 FIPS, CC-TCG         ·  TPM 2.0 FIPS, CC-TCG         (requires iDRAC10          ·  TPM 2.0 FIPS, CC-TCG            integrity check)          ·  TPM 2.0 FIPS, CC-TCG      ·  TPM 2.0 FIPS, CC-TCG       ·  TPM 2.0 FIPS, CC-TCG          requires iDRAC10               requires iDRAC10                integrity check)
+
+                 Enterprise or Datacenter)       certified                       certified                    Enterprise or Datacenter)     certified                    ·  Secure Erase                 certified                    certified                     certified                     Enterprise or Datacenter)      Enterprise or Datacenter)    ·  Secure Erase
+
+              ·  TPM 2.0 FIPS, CC-TCG         ·  Chassis Intrusion            ·  Chassis Intrusion         ·  Chassis Intrusion          ·  Chassis Intrusion            ·  Silicon Root of Trust     ·  Chassis Intrusion         ·  Chassis Intrusion          ·  Chassis Intrusion          ·  TPM 2.0 FIPS, CC-TCG        ·  TPM 2.0 FIPS, CC-TCG         ·  Silicon Root of Trust
+
+                 certified                       Detection                       Detection                    Detection                     Detection                    ·  System Lockdown              Detection                    Detection                     Detection                     certified                      certified                    ·  System Lockdown
+
+              ·  Chassis Intrusion                                                                         · TPM 2.0 FIPS, CC-TCG                                        ·  TPM 2.0 FIPS, CC-TCG                                                                                               ·  Chassis Intrusion           ·  Chassis Intrusion            ·  TPM 2.0 FIPS, CC-TCG
+
+                 Detection                                                                                    certified                                                     certified                                                                                                             Detection                      Detection                       certified
+
+                                                                                                                                                                         ·  Chassis Intrusion                                                                                                                                                                 ·  Chassis Intrusion
+
+                                                                                                                                                                            Detection                                                                                                                                                                            Detection
+
+OCP network   · Up to two OCP NIC card        · Up to two OCP NIC card        2 x OCP NIC 3.0 cards        Up to 2 x OCP NIC 3.0 cards   ·  2 x OCP card 3.0             2 x OCP NIC 3.0 card         2 x OCP card 3.0 (optional)  ·  2 x OCP NIC 3.0 card       ·  1 x OCP NIC 3.0 Gen 3      ·  2 x OCP NIC 3.0 card        ·  2 x OCP card 3.0             ·  2 x OCP NIC 3.0 card
+
+options          3.0: Two slots on the front     3.0: Two slots on the front  (optional) and 1GbE,         (optional) supporting 1GbE,      (optional) and 1GbE,         (optional) and 1GbE, 10GbE,  and 1GbE, 10GbE, 25GbE,         (optional) and 1GbE,          (optional); 10 GbE            (optional) and 1GbE,           (optional) and 1GbE,            (optional) and 1GbE,
+
+                 or two slots on the rear        or two slots on the rear     10GbE, 25GbE, 100GbE and     10GbE, 25GbE, 100GbE and         10GbE, 25GbE,100GbE          25GbE, 100GbE and 400GbE     100GbE and 400GbE               10GbE, 25GbE, 100GbE       ·  Slot 10: 1 x4 Gen3 OCP3.0     10GbE, 25GbE and               10GbE and 25GbE.                10GbE and 25GbE
+
+                 (optional)                      (optional)                   400GbE*                      400GbE*                          and 400GbE                   · Slot 4: 1 x16 Gen5 OCP3.0  · Slot 2: 1 x16 Gen5 OCP        and 400GbE                                                  200GbE                      ·  Slot 2: 1 x16 Gen5 OCP       ·  Slot 4: 1 x16 Gen5 OCP3.0
+
+              Slot 2: 1 x16 OCP 3.0           Slot 4: 1 x16 OCP 3.0           (front)                      OCP-capable slots:            ·  Slot 2: 1 x16 Gen5           · Slot 10: 1 x16 Gen5           3.0                       ·  Slot 4: 1 x16 Gen5 second                                ·  Slot 4: 1 x8 or 1 x16 Gen5     3.0                          ·  Slot 10: 1 x16 Gen5
+
+              Slot 5: 1 x16 OCP 3.0           Slot 10: 1 x16 OCP 3.0          Slot 31 1 x16 OCP 3.0 on     (front)                          OCP 3.0                         OCP3.0                    · Slot 5: 1 x16 Gen5 OCP        OCP 3.0                                                     OCP 3.0                     ·  Slot 5: 1 x16 Gen5 OCP          OCP3.0
+
+              Slot 31: 1 x16 OCP 3.0          Slot 34: 1 x16 OCP 3.0          front riser                  Slot 34 1 x16 Gen5 OCP 3.0    ·  Slot 5: 1 x16 Gen5                                           3.0                       ·  Slot 10: 1 x16 Gen5                                      ·  Slot 10: 1 x16 Gen5            3.0
+
+              Slot 32: 1 x16 OCP 3.0          Slot 38: 1 x16 OCP 3.0          Slot 32 1 x16 OCP 3.0 on     on front riser                   OCP 3.0                                                                                   OCP3.0                                                      OCP3.0
+
+                                                                              front riser                  Slot 38 1 x16 Gen5 OCP 3.0
+
+                                                                              (rear)                       on front riser
+
+                                                                              Slot 2 1 x16 OCP 3.0         (rear)
+
+                                                                              Slot 5 1 x8 Gen5 OCP 3.0 or  Slot 4 1 x8 or 1 x16 Gen5
+
+                                                                              1 x16 Gen5 OCP 3.0           OCP 3.0
+
+                                                                                                           Slot 10 1 x8 or 1 x16 OCP
+
+                                                                                                           3.0
+
+BOSS          Slot 34: 1 x4 BOSS              Slot 34: 1 x4 BOSS              Slot 34 1 x 4 BOSS           Slot 34 1 x4 BOSS             Slot 3: 1 x4 BOSS               Slot 6: 1 x4 BOSS            Slot 3: 1 x4 BOSS            Slot 6: 1 x4 BOSS             Slot 6: 1 x4 BOSS             Slot 6: 1 x4 BOSS              Slot 3: 1 x4 BOSS               Slot 6: 1 x4 BOSS
+
+              Slot 3: 1 x4 BOSS               Slot 6: 1 x4 BOSS               Slot 3 1 x 4 BOSS            Slot 6 1 x4 BOSS
+
+Embedded      1 Gb dedicated BMC              1 Gb dedicated BMC              1 Gb dedicated BMC           1 Gb dedicated BMC            1 Gb dedicated BMC              1 Gb dedicated BMC           1 Gb dedicated BMC           1 Gb dedicated BMC            1 Gb dedicated BMC            1 Gb dedicated BMC             1 Gb dedicated BMC              1 Gb dedicated BMC
+
+NIC           Ethernet port                   Ethernet port                   Ethernet port                Ethernet port                 Ethernet port                   Ethernet port                Ethernet port                Ethernet port                 Ethernet port                 Ethernet port                  Ethernet port                   Ethernet port
+Feature                  R470                          R570                         R670                          R770                          R6715                       R7715                       R6725                       R7725                     R7725xd                  R770AP                             R4715                   R5715
+
+PCIe Add-in  NA                            NA                            NA                            NA                            100 GbE and 400GbE; NDR     100 GbE and 400GbE; NDR     100 GbE and 400GbE; NDR     100 GbE and 400GbE; NDR     100 GbE and 400 GbE; NDR      NA                          Up to 25GbE             Up to 25GbE
+
+Card (AIC)                                                                                                                           VPI (400GbE); FC 32         VPI (400GbE); FC 32         VPI (400GbE); FC 32 / 64    VPI (400GbE); FC 32 / 64    VPI (400 GbE)
+
+NIC
+
+GPU Options  Up to 4 x 75 W SW             Up to 3 x 400 W DW;           Up to 3 x 75 W SW             Up to 6 x 75 W FHHL* or up    Up to 3 x 75W SW            Up to 3x 450W DW*;          Up to 3 x 75 W SW           Up to 2 x 450W DW*;         NA                            NA                          NA                      NA
+
+                                           Up to 4 x 75 W SW                                           to 2 x 450 W DWFL                                         Up to 6x 75W SW                                         Up to 6 x 75W SW
+
+DPU Options  NVIDIA BlueField-3 2x200      NVIDIA BlueField-3 2x200      · NVIDIA BlueField-3 2x200    · NVIDIA BlueField-3 2x200    · NVIDIA BlueField-3 2x200  · NVIDIA BlueField-3 2x200  · NVIDIA BlueField-3 2x200  · NVIDIA BlueField-3 2x200  NA                            NA                          NA                      NA
+
+             GbE B3220                     GbEB3220                      GbE B3220                     GbE B3220                     GbE B3220                   GbE B3220                   GbE B3220                   GbE B3220
+
+                                                                         · NVIDIA BlueField-3 1x400    · NVIDIA BlueField-3 1x400    · NVIDIA BlueField-3 1x400  · NVIDIA BlueField-3 1x400  · NVIDIA BlueField-3 1x400  · NVIDIA BlueField-3 1x400
+
+                                                                         GbE B3140H                    GbE B3140H                    GbE B3140H*                 GbE B3140H*                 GbE B3140H*                 GbE B3140H*
+
+Ports        Front Ports                   Front Ports                   Front Ports:                  Front Ports:                  Front Ports                 Front Ports                 Front Ports                 Front Ports                 Front Ports                   Front Ports:                Front Ports             Front Ports
+
+             · 1 x USB 2.0 Type - C port   · 1 x USB 2.0 Type-C          · 1 x USB 2.0 Type C port     · 1 x USB 2.0 Type C port     · 1 x USB 2.0 Type-A        · 1 x USB 2.0 Type-A        · 1 x USB 2.0 Type-A        · 1 x USB 2.0 Type-A        ·  1 x USB 2.0 Type-A         · 1 x USB 2.0 Type C port   · 1 x USB 2.0 Type-A    · 1 x USB 2.0 Type-A
+
+             · 1 x USB 2.0 Type A port     (HOST/BMC Direct)             · 1 x USB 2.0 Type A port     · 1 x USB 2.0 Type A port     (optional LCP KVM)          (optional LCP KVM)          (optional LCP KVM)          (optional LCP KVM)             (optional LCP - Secondary  Rear Ports:                 (optional LCP KVM)      (optional LCP KVM)
+
+             (optional)                    · 1 x USB 2.0 Type-A          (optional)                    (optional)                    · 1 x USB 2.0 Type-C        · 1 x USB 2.0 Type-C        · 1 x USB 2.0 Type-C        · 1 x USB 2.0 Type-C           KVM)                       ·  1 x Dedicated ethernet   · 1 x USB 2.0 Type-C    · 1 x USB 2.0 Type-C (HOST/
+
+             · 1 x Mini-DisplayPort        (optional LCP - Secondary     · 1 x Mini-DisplayPort        · 1 x Mini-DisplayPort        (HOST/BMC Direct)           (HOST/BMC Direct)           (HOST/BMC Direct)           (HOST/BMC Direct)           · 1 x USB 2.0 Type-C             port for iDRAC           (HOST/BMC Direct)       BMC Direct)
+
+             (optional)                    KVM)                          (optional)                    (optional)                    · 1 x MiniDisplay port      · 1 x Mini DisplayPort      · 1 x Mini DisplayPort      · 1 x Mini DisplayPort         (HOST/BMC Direct)             management               · 1 x MiniDisplay port  · 1 x MiniDisplay port
+
+             · 1 x DB9 Serial (with front  · 1 x Mini DisplayPort        · 1 x DB9 Serial (with front  · 1 x DB9 Serial (with front  (optional LCP KVM)          (optional LCP KVM)          (optional LCP KVM)          (optional LCP KVM           ·  1 x Mini DisplayPort       · 1 x VGA                   (optional LCP KVM)      (optional LCP KVM)
+
+             I/O configuration)            (optional LCP - Secondary     I/O configuration)            I/O configuration)            Rear Ports                  Rear Ports                  Rear Ports                  Rear Ports                     (optional LCP - Secondary  · 2 x USB 3.1 Type A ports  Rear Ports              Rear Ports
+
+             · 1 x Dedicated BMC           KVM)                          · 1 x Dedicated ethernet      · 1 x Dedicated ethernet      · Two USB 3.1 Type-A        · 1 x 1 Gb Dedicated BMC    · 1 x 1 Gb dedicated BMC    · 1 x dedicated BMC            KVM                        Internal Ports:             · Two USB 3.1 Type-A    · Two USB 3.1 Type-A
+
+             Ethernet port (with front     · 1 x DB9 Serial (with front  port for iDRAC                port for iDRAC                · 1 x VGA                   Ethernet port               Ethernet port               Ethernet port               Rear Ports                    · 1 x USB 3.1 Type A port   · 1 x VGA               · 1 x VGA
+
+             I/O configuration)            I/O configuration)            management                    management                    · 1 Gb dedicated BMC        · 2 x USB 3.1 Type-A        · 2 x USB 3.1 Type-A        · 2 x USB 3.1 Type-A        · 1 x dedicated BMC                                       · 1 Gb dedicated BMC    · 1 Gb dedicated BMC
+
+             Rear Ports                    · 1 x Dedicated BMC           Rear Ports:                   Rear Ports:                   Ethernet port               · 1 x VGA                   · 1 x VGA                   · 1 x VGA                      Ethernet port                                          Ethernet port           Ethernet port
+
+             · 1 x Dedicated BMC           Ethernet port (with front     · 1 x Dedicated ethernet      · 1 x Dedicated ethernet      Internal Port               Internal Port               Internal Port               Internal Port               · 2 x USB 3.1 Type-A                                      Internal Port           Internal Port
+
+             Ethernet port                 I/O configuration)            port for iDRAC                port for iDRAC                · 1 x USB 3.1 Type-A        · 1 x USB 3.1 Type-A        · 1 x USB 3.1 Type-A        · 1 x USB 3.1 Type-A        · 1 x VGA                                                 · 1 x USB 3.1 Type-A    · 1 x USB 3.1 Type-A
+
+             · 2 x USB 3.1 Type A ports    Rear Ports                    management                    management                                                                                                                                    Internal Port
+
+             · 1 x VGA                     · 1 x Dedicated BMC           · 1 x VGA                     · 1 x VGA                                                                                                                                     · 1 x USB 3.1 Type-A
+
+             Internal Ports                Ethernet port                 · 2 x USB 3.1 Type A ports    · 2 x USB 3.1 Type A ports
+
+             · 1 x USB 3.1 Type A port     · 2 x USB 3.1 Type-A          Internal Ports:               Internal Ports:
+
+                                           · 1 x VGA                     · 1 x USB 3.1 Type A port     · 1 x USB 3.1 Type A port
+
+                                           Internal Port
+
+                                           · 1 x USB 3.1 Type-A
+Feature                 R470                             R570                         R670                              R770                   R6715                                R7715                  R6725                                R7725                   R7725xd                     R770AP                        R4715                             R5715
+
+PCIe slots  Up to 4 Gen5 PCIe slots          Up to six PCIe slots (x16     ·  Upto two PCIe slots ( x16     ·  Upto two PCIe slots ( x16    Up to three PCIe slots (x16  Up to eight PCIe slots (x16    Up to three PCIe slots (x16  Up to eight PCIe slots (x8 or  Up to 5 Gen5 PCIe slots      Up to five PCIe slots (x16    Up to three PCIe slots (x16  Up to three PCIe slots (x16
+
+            (x16 connectors)                 connector)                       connectors)                      connectors)                  connector)                   connectors)                    connector)                   x16 connector)                 (x16 connectors)*            connector)                    connector)                   connector)
+
+            · Slot 1: 1 x8 Gen5 Low          · Slot 2: 1 x16 Gen5 Full     ·  Slot 31 1 x 16 Full Height -  ·  Slot 31 1 x 16 Gen5 Full     · Slot 1 1 x16 Gen5 Full     · Slot 1: 1 x16 Gen5 Full      · Slot 1: 1 x16 Gen5 Full    · Slot 1: 1 x8 Gen5 Full       · Slot 2: 1 x16 Gen5 Full    ·  Slot 2 1 x16 Gen5 (x16     · Slot 1 1 x16 Gen5 Full     · Slot 2: 1 x16 Gen5 Full
+
+               Profile                          Height, Half Length or        Half Length or Full Height       Height - Half Length or         Height or Low Profile        Height                         Height or Low Profile        Height                         Height                       connector) Full Height -   Height or Low Profile        Height
+
+            · Slot 1:1 x16 Gen5 (x16            1 x16 Full Height, Full       - Full Length or 1 x 16 OCP      Full Length on front Riser   · Slot 2: 1 x16 Gen5 Low     ·  Slot 2: 1 x16 Gen5 Full     · Slot 2: 1 x16 Gen5 Low     ·  Slot 2: 1 x16 Gen5 Full     ·   Slot 3: 1 x16 Gen5 Full     Half Length                · Slot 2: 1 x16 Gen5 Low     · Slot 3: 1 x16 Gen5 Full
+
+               connector) full height, half     Length                        3.0 on front riser            ·  Slot 36 1 x 16 Gen5 Full        Profile or 1 x16 OCP3.0      Height or 1 x16 Dual           Profile or 1 x16 OCP3.0      Height or 1 x8 Gen5 Full       Height or 1 x16 Gen5 Low  ·  Slot 3 1 x16 Gen5 (x16     Profile or 1 x16 OCP3.0      Height
+
+               length on rear riser          · Slot 3: 1 x16 Gen5 Full     ·  Slot 32 1 x 16 Full Height -     Height - Half Length on      · Slot 4: 1 x16 Gen5 Full       Width Full Length           · Slot 4: 1 x16 Gen5 Full       Height or 1 x16 Dual           Profile                      connector) Full Height or  · Slot 4: 1 x16 Gen5 Full    · Slot 7: 1 x16 Gen5 Full
+
+            · Slot 4: 1 x16 Gen5 (x16           Height, Half Length           Half Length or Full Height       front Riser                     Height or Low profile     · Slot 3: 1 x16 Gen5 Full         Height or Low profile        Width Full Length           · Slot 4: 1 x16 Gen5 Full       Low profile - Half Length  Height or Low profile        Height
+
+               connector) full height, half  · Slot 4: 1 x16 Gen5 Full        - Full Length or 1 x 16 OCP   ·  Upto eight PCIe slots (x8                                    Height or Low Profile                                    · Slot 3: 1 x16 Gen5 Full         Height*                   ·  Slot 9 1 x16 Gen5 (x16                                  · Slot 9: 1 x16 Gen5 Full
+
+               length on rear riser             Height, Half Length or        3.0 on front riser               and x16 connectors)                                       ·  Slot 4: 1 x16 Gen5 Full                                     Height or Low Profile       · Slot 7: 1 x16 Gen5 Full       connector) Full Height or                               Height
+
+            · Slot 31: 1 x16 Gen5 (x16          1 x16 Full Height, Full    ·  Up to 3 x 16 or 2 x 8 Gen5    ·  Slot 1 1 x 8 Gen5 Full                                       Height or 1 x16 Dual                                     ·  Slot 4: 1 x16 Gen5 Full        Height                       Low profile - Half Length
+
+               connector) full height, half     Length or 1 x16 OCP3.0        PCIe slots                       Height - Half Length                                         Width Full Length or 1 x16                                  Height or 1 x8 Gen5 Full    · Slot 8: 1 x16 Gen5 Full    ·  Slot 7 1 x16 Gen5 (x16
+
+               length on rear riser          · Slot 6: 1 x4 Gen4 Boss      ·  Slot 1 1 x 16 Full Height -   ·  Slot 2 1 x 16 Gen5 Dual                                      OCP3.0                                                      Height or 1 x16 OCP3.0         Height                       connector) Full Height -
+
+            · Slot 32: 1 x16 Gen5 (x16          (optional)                    Half Length or Full Height       Width Full Length or 1 x                                  · Slot 5: 1 x16 Gen5 Full                                   · Slot 5: 1 x8 Gen5 Full       · Slot 9: 1 x16 Gen5 Low        Half Length
+
+               connector) full height, half  · Slot 7: 1 x16 Gen5 Full        - Full Length or 3 x 16 or       8 Gen5 Full Height - Half                                    Height                                                      Height                         Profile                   ·  Slot 5 1 x16 Gen5
+
+               length on rear riser             Height, Half Length or        1 x 8 Low Profile - Half         Length                                                    ·  Slot 7: 1 x16 Gen5 Full                                  ·  Slot 7: 1 x16 Gen5 Full                                     (x16 connector) Full
+
+                                                1 x16 Full Height, Full       Length                        ·  Slot 3 1 x 16 Gen5 Full                                      Height or 1 x16 Dual                                        Height or 1 x8 Gen5 Full                                    Height - Half Length
+
+                                                Length                     ·  Slot 2 1 x 16 or 1 x 8 Low       Height - Half Length or 1 x                                  Width Full Length                                           Height or 1 x16 Dual
+
+                                             · Slot 9: 1 x16 Gen5 Full        Profile - Half Length or 1 x     16 Gen5 Low Profile                                       · Slot 8: 1 x16 Gen5 Full                                      Width Full Length
+
+                                                Height, Half Length           16 OCP 3.0                    ·  Slot 4 1 x 16 Gen5 Full                                      Height                                                   ·  Slot 8: 1 x16 Gen5 Full
+
+                                             · Slot 10: 1 x16 OCP3.0       ·  Slot 4 1 x 16 Full Height -      Height - Half Length or 1                                 · Slot 9: 1 x16 Gen5 Full                                      Height or 1 x8 Gen5 Full
+
+                                             · Slot 31: 1 x16 Gen5 Full       Half Length or 1 x 16 Low        x 8 Gen5 Full Height - Half                                  Height or Low Profile                                       Height
+
+                                                Height, Half Length           Profile - Half Length            Length or 1 x 8 or 1 x 16                                                                                             · Slot 9: 1 x16 Gen5 Full
+
+                                             · Slot 34: 1 x16 OCP3.0 or 1                                      OCP 3.0                                                                                                                  Height or Low Profile
+
+                                                x4 Gen4 Boss (optional)                                     ·  Slot 5 2 x 16 Gen5 Full
+
+                                             · Slot 36: 1 x16 Gen5 Full                                        Height - Half Length or 1
+
+                                                Height, Half Length                                            x 8 Gen5 Full Height - Half
+
+                                             · Slot 38: 1 x16 OCP3.0                                           Length
+
+                                                                                                            ·  Slot 7 1 x 16 Gen5 Full
+
+                                                                                                               Height - Half Length or 1
+
+                                                                                                               x 16 Gen5 Dual Width Full
+
+                                                                                                               Length or 1 x 8 Gen5 Full
+
+                                                                                                               Height - Half Length
+
+                                                                                                            ·  Slot 8 1 x 16 Gen5 Full
+
+                                                                                                               Height - Half Length or 1
+
+                                                                                                               x 8 Gen5 Full Height - Half
+
+                                                                                                               Length
+
+                                                                                                            ·  Slot 9 1 x 16 Gen5 Full
+
+                                                                                                               Height - Half Length or 1
+
+                                                                                                               x 8 Gen5 Full Height - Half
+
+                                                                                                               Length or 1 x 16 Low
+
+                                                                                                               Profile- Half Length
+
+Gen5 PCIe   4                                4                             3                                8                               3                            8                              3                            8                              5*                           5                             3                            4
+
+slots
+Feature              R470                                  R570                   R670                                      R770                 R6715                                  R7715                          R6725                          R7725                       R7725xd                           R770AP                         R4715                          R5715
+
+Operating    · Canonical Ubuntu Server      · Canonical Ubuntu Server      · Canonical Ubuntu Server      · Canonical Ubuntu Server      · Canonical Ubuntu Server              · Canonical Ubuntu Server      · Canonical Ubuntu Server      · Canonical Ubuntu Server      · Canonical Ubuntu Server      · Canonical Ubuntu Server      · Canonical Ubuntu Server      · Canonical Ubuntu Server
+
+System and   LTS                                   LTS                     LTS                            LTS                            LTS                                    LTS                            LTS                            LTS                            LTS                            LTS                            LTS                            LTS
+
+Hypervisors  · Red Hat Enterprise Linux     · Microsoft Windows Server     · Microsoft Windows Server     · Microsoft Windows Server     · Microsoft Windows Server             · Microsoft Windows Server     · Microsoft Windows Server     · Microsoft Windows Server     · Microsoft Windows Server     · Windows Server               · Microsoft Windows Server     · Microsoft Windows Server
+
+             · SUSE Linux Enterprise               with Hyper-V            with Hyper-V                   with Hyper-V                   with Hyper-V                           with Hyper-V                   with Hyper-V                   with Hyper-V                   with Hyper-V*                  · Red Hat Enterprise Linux     with Hyper-V                   with Hyper-V
+
+             Server                         · RedHat Enterprise Linux      · Red Hat Enterprise Linux     · Red Hat Enterprise Linux     · Red Hat Enterprise Linuxr            · Red Hat Enterprise Linuxr    · Red Hat Enterprise Linux     · Red Hat Enterprise Linuxr    · RedHat Enterprise Linux      · SUSE Linux Enterprise        · Red Hat Enterprise Linuxr    · Red Hat Enterprise Linuxr
+
+             · VMware ESXi                  · SUSE Linux Enterprise        · SUSE Linux Enterprise        · SUSE Linux Enterprise        · SUSE Linux Enterprise                · SUSE Linux Enterprise        · SUSE Linux Enterprise        · SUSE Linux Enterprise        · SUSE Linux Enterprise        Server                         · SUSE Linux Enterprise        · SUSE Linux Enterprise
+
+             · Windows Server                      Server                  Serve                          Server                         Server                                 Server                         Server                         Server                         Server                         · VMware vSAN/ ESXi*           Server                         Server
+
+             · Windows Server               · VMware ESXi                  · VMware ESXi                  · VMware ESXi                  · VMware ESXi                          · VMware ESXi                  · VMware ESXi                  · VMware ESXi                  For specifications and         · Microsoft Windows 2025       · VMware ESXi                  · VMware ESXi
+
+             Datacenter                     For specifications and         · Dell NativeEdge OS*          · Dell NativeEdge OS*          For specifications and                 For specifications and         For specifications and         For specifications and         interoperability details, see  For specifications and         For specifications and         For specifications and
+
+             For specifications and         interoperability details, see  For specifications and         For specifications and         interoperability details, see          interoperability details, see  interoperability details, see  interoperability details, see  Dell.com/OSsupport.            interoperability details, see  interoperability details, see  interoperability details, see
+
+             interoperability details, see  Dell.com/OSsupport.            interoperability details, see  interoperability details, see  Dell.com/OSsupport.                    Dell.com/OSsupport.            Dell.com/OSsupport.            Dell.com/OSsupport.                                           Dell.com/OSsupport.            Dell.com/OSsupport.            Dell.com/OSsupport.
+
+             Dell.com/OSsupport.                                           Dell.com/OSsupport             Dell.com/OSsupport.
+
+OEM-ready    From bezel to BIOS to packaging, your servers can look and feel as if they were designed and built by you. For more information, visit Dell. com/OEM.
+
+version
+
+available
+
+Note: *Features marked with an asterisk (*) may not be available at product launch. Please refer to the product configurator page on Dell.com to confirm feature availability.
+
+To shop for Dell PowerEdge Servers, see Dell.com.
+
+For more information on platform-specific specifications and additional details, refer to the Technical Guide on Dell.com.
+Rack Server                           R260                                 R360                                 R660                             R760                            R860                            R960                                 R660xs                            R760xs                           R760xd2                                            R760xa
+
+Key attributes          Short-depth rack server with filter  Streamlined productivity, high-   Provides performance and         Provides performance and        Power business-critical, core         Extreme acceleration for           Right-sized for the most popular  Right-sized for the most popular  Dense storage, faster retrieval        High performance, scalable
+
+                        bezel for Near-Edge customers        enterprise GPU, and powerful      versatility for demanding        versatility for demanding       workloads with high-density           business continuity and scale out  IT applications                   IT applications                   and scalability                        server for intensive GPU
+
+                        featuring the latest Intel® Xeon®    compute to address common         applications                     applications                    compute                                                                                                                                                                             applications
+
+                        6300 Series processors, DDR5         business applications.
+
+                        memory, NVMe BOSS, and
+
+                        Energy Star 4.0 PSU
+
+Target workloads        Collaboration and Sharing, Mail      Collaboration and Sharing, Mail   High Density Virtualization,     Mixed Workload standardization  Large in-memory databases, Data analytics, AI and virtualization,        Virtualization, Cloud, Scale-Out  Virtualization,                   File and object storage, Video         AI/ML/DL training and
+
+                        and Messaging,                       and Messaging, Database           Dense Database Analytics, Mixed  Database and Analytics Virtual  Virtual Desktop Infrastructure (VDI)                                     Database,                         Software-Defined Storage,         capturing & surveillance, Video        inferencing
+
+                        Near-Edge Applications                                                 Workload Standardization         Desktop Infrastructure                                                                                   High Performance Compute          Medium density VM or VDI          streaming                              Digital Twins, render graphics
+
+                                                                                                                                                                                                                                         (HPC)                                                                                                      Virtualization and VDI graphics
+
+Type of processor       1 x Intel® Xeon® 6300 Series         1 x Intel® Xeon® 6300 Series      2 x 4th Generation Intel® Xeon® Scalable processors;             4 x 4th Generation Intel®Xeon® Scalable processors; up to 60 cores       2 x 5th generation Intel® Xeon® Scalable processors with up to 28   2 x 4th Generation Intel® Xeon®        2 x 4th Generation Intel® Xeon®
+
+                        processor with up to 8 cores, or     processor with up to 8 cores, or  up to 56 cores per processor or                                  per processor and with optional Intel® QuickAssist Technology            cores or                                                            Scalable processors;                   Scalable processors; up to
+
+                        1 x Intel® Xeon® E-2400 Series       1 x Intel® Xeon® E-2400 Series    2 x 5th Generation Intel® Xeon® Scalable processors;                                                                                      2 x 4th Generation Intel® Xeon® Scalable processors with up to 32   up to 32 cores per processor or        56 cores per processor or
+
+                        processor with up to 8 cores, or     processor with up to 8 cores, or  up to 64 cores per processor                                                                                                              cores per processor                                                 2 x 5th Generation Intel® Xeon®        2 x 5th Generation Intel® Xeon®
+
+                        1 x Intel® Pentium processor         1 x Intel® Pentium processor                                                                                                                                                                                                                    Scalable processors;                   Scalable processors;
+
+                        with 2 cores                         with 2 cores                                                                                                                                                                                                                                    up to 28 cores per processor           up to 64 cores per processor
+
+DDR5 DIMM slots (max    4 (128 GB)                           4 (128 GB)                        32 (8 TB)                                                        64 (16 TB)                                                               16 (1.5 TB)                       16 (1.5 TB)                       16 (1.5TB)                             32 (8 TB)
+
+capacity)
+
+Disk drives up to:      2 x 3.5"                             4 x 3.5"                          8 x 2.5"                         12 x 3.5"                       8 x 2.5"                              8 x 2.5"                           4 x 3.5"                          12 x 3.5"                         12 x 3.5" (Front bay) + 12 x 3.5"      6 x 2.5"
+
+                        6 x 2.5"                             8 x 2.5"                          10 x 2.5"                        8 x 2.5"                        16 x 2.5"                             16 x 2.5"                          8 x 2.5"                          8 x 3.5"                          (Mid bay)                              8 x 2.5"
+
+                        4 x 2.5" Chip SATA SSD(SW            6x 2.5" SAS/SATA + 2x 2.5"        10 x 2.5"                        16 x 2.5"                       24 x 2.5"                             24 x 2.5"                          10 x 2.5"                         8 x 2.5"                          2 x 2.5" or 4 x 2.5" or 4 x 3.5" or 4  6 x E3.S
+
+                        RAID)                                NVMe                              14 x E3.S                        24 x 2.5"                       8 x E3.S                              32 x 2.5"                          2 x 2.5" (rear)                   16 x 2.5" + 8 x NVMe              x E3.S (rear)
+
+                        4 x 2.5" Chip SATA+2 x 2.5''                                           16 x E3.S                        16 x E3.S                       2 x 2.5" (rear)                       16 x E3.S                                                            2 x 2.5" (rear)
+
+                        NVMe(SW RAID)                                                          2 x 2.5" (rear)                  2 x 2.5" (rear)                                                       8 x 2.5" + 16 x E3.S
+
+                        4 x 2.5" SAS/SATA+2 x 2.5''                                            2 x E3.S (rear)                  4 x 2.5" (rear)
+
+                        NVMe(HW RAID)                                                                                           4 x E3.S (rear)
+
+NVMe drives up to:      2                                    2                                 10                               24                              24                                    24                                 10                                8                                 4                                      8
+
+Gen5 PCIe slots up to:  N/A                                  2                                 2                                4                               8                                     12                                 2                                 2                                 N/A                                    12
+
+Gen4 PCIe slots up to:  2                                    2                                 3                                8                               4                                     N/A                                3                                 4                                 5                                      N/A
+
+Accelerator support     N/A                                  1 x 60 W SW                       3 x 75 W SW                      2 x 350 W DW or                 N/A                                   4 x 400 W DW                       N/A                               2 x 75 W SW                       2 x 75 W SW ,                          4 x 400 W DW or 12 x 75 W SW
+
+up to:                                                                                                                          6 x 75 W SW                                                                                                                                                                  1 x 75 W SW +    1 x 150 W SW or
+
+                                                                                                                                                                                                                                                                                                             1 x 180 W DW
+
+Rack height (U)         1                                    1                                 1                                2                               2                                     4                                  1                                 2                                 2                                      2
+
+Integrated security     TPM 2.0 FIPS, CC-TCG certified, TPM 2.0 China NationZ, Cryptographically Signed Firmware, Chassis Intrusion Alert, Secure Boot being standard security, Silicon Root of Trust, System Lockdown (requires iDRAC9 Enterprise or Datacenter), Data at Rest Encryption (SEDs with local or external key mgmt) Secured Component Verification (Hardware
+
+                        integrity check) and System Erase on all racks.
+Rack Server                                               R7625                                                                           R6625                                                            R7615                                                 R6615
+
+Key attributes                  Breakthrough performance                                                        Breakthrough performance                                                  Powerful performance and scalability                  Peak performance and excellent TCO
+
+Target workloads                High Performance Computing (HPC), Virtual Desktop Infrastructure (VDI),         High Performance Computing (HPC), Virtual Desktop Infrastructure (VDI),   Software-Defined Storage (SDS), Virtualization, Data  Virtualization,
+
+                                Virtualization                                                                  Virtualization                                                            Analytics                                             Hyper-Converged Infrastructure (HCI), Network Functions Virtualization (NFV)
+
+Type of processor               2 x AMD EPYCTM 4th Generation 9004 Series Processor, up to 128 cores per        2 x AMD EPYCTM 4th Generation 9004 Series Processor, up to 128 cores per  1 x AMD EPYCTM 4th Generation 9004 Series processor; up to 128 cores
+
+                                processor                                                                       processor
+
+DDR5 DIMM slots (max capacity)  24 (6 TB)                                                                       24 (6 TB)                                                                 12 (3 TB)
+
+Disk drives up to:              8 x 3.5"                                                                        4 x 3.5"                                                                  8 x 3.5"                                              4 x 3.5"
+
+                                12 x 3.5"                                                                       8 x 2.5"                                                                  12 x 3.5"                                             8 x 2.5"
+
+                                8 x 2.5"                                                                        10 x 2.5"                                                                 8 x 2.5"                                              10 x 2.5"
+
+                                16 x 2.5"                                                                       14 x E3.S                                                                 16 x 2.5"                                             14 x E3.S
+
+                                24 x 2.5"                                                                       16 x E3.S                                                                 24 x 2.5"                                             16 x E3.S
+
+                                2 x 2.5" (rear)                                                                 2 x 2.5" (rear)                                                           2 x 2.5" (rear)                                       2 x 2.5" (rear)
+
+                                4 x 2.5" (rear)                                                                 2 x E3.S (rear)                                                           4 x 2.5" (rear)                                       2 x E3.S (rear)
+
+                                4 x E3.S (rear)                                                                                                                                           4 x E3.S (rear)
+
+NVMe drives up to:              24                                                                              10                                                                        24                                                    10
+
+Gen5 PCIe slots up to:          4                                                                               2                                                                         4                                                     2
+
+Gen4 PCIe slots up to:          8                                                                               3                                                                         4                                                     3
+
+Accelerator support up to:      2 x 300 W DW or                                                                 3 x 75 W SW                                                               3 x 300 W DW or                                       3 x 75 W SW
+
+                                6 x 75 W SW                                                                                                                                               6 x 75 W SW
+
+Rack height (U)                 2                                                                               1                                                                         2                                                     1
+
+Integrated security             TPM 2.0 FIPS, CC-TCG certified, TPM 2.0 China NationZ, Cryptographically        TPM 2.0 FIPS, CC-TCG certified, TPM 2.0 China NationZ, Cryptographically Signed Firmware, Secure Boot, Secure Erase, Silicon Root of Trust, System Lockdown (requires iDRAC9 Enterprise or Datacenter), AMD Secure
+
+                                Signed Firmware, Chassis Intrusion Alert, Secure Boot being standard            Memory Encryption (SME) and AMD Secure Encrypted Virtualization (SEV)
+
+                                security, Silicon Root of Trust, System Lockdown (requires iDRAC9 Enterprise
+
+                                or Datacenter), Data at Rest Encryption (SEDs with local or external key mgmt)
+
+                                Secured Component Verification (Hardware integrity check) and System Erase
+
+                                on all racks.
+Rack Server                                                    R450                                                 R550                                                                                   R650                                                                         R750
+
+Key attributes                  Value and density-focused, built for general purpose IT                  Versatile, value-optimized, virtualization-ready,  built for general purpose IT  High scalability, optimized workload performance                             Outstanding performance for the most demanding workloads
+
+Target workloads                Small IT infrastructure, light VM, small business specific workloads     Small IT infrastructure, light VM density, small   business specific workloads   Mixed workload standardization, database and analytics, HFT,                 Database and analytics, HPC, traditional corporate IT, VDI, AI, or
+
+                                                                                                                                                                                          traditional corporate IT, VDI, HPC, AI, or ML environments                   ML environments
+
+Type of processor               2 x 3rd Generation Intel® Xeon® Scalable processors; up to 24 cores per  processor                                                                        2 x 3rd Generation Intel® Xeon® Scalable processors; up to 40 cores per      processor
+
+DDR4 DIMM slots (max capacity)  16 (1 TB)                                                                16 (1 TB)                                                                        32 (4 TB)                                                                    32 (8 TB)
+
+Disk drives up to:              4 x 3.5"                                                                 8 x 3.5"                                                                         4 x 3.5"                                                                     12 x 3.5"
+
+                                8 x 2.5"                                                                 8 x 2.5"                                                                         8 x 2.5"                                                                     8 x 2.5"
+
+                                                                                                         16 x 2.5"                                                                        10 x 2.5"                                                                    16 x 2.5"
+
+                                                                                                                                                                                          2 x 2.5" (rear)                                                              24 x 2.5"
+
+                                                                                                                                                                                                                                                                       2 x 2.5" or
+
+                                                                                                                                                                                                                                                                       4 x 2.5" (rear)
+
+NVMe drives up to:              N/A                                                                      N/A                                                                              12                                                                           24
+
+Gen4 PCIe slots up to:          2                                                                        3                                                                                3                                                                            8
+
+Gen3 PCIe slots up to:          N/A                                                                      1                                                                                N/A                                                                          N/A
+
+Accelerator support up to:      N/A                                                                      N/A                                                                              3 x 75 W SW                                                                  2 x 300 W DW or 4 x 150 W SW or 6 x 75 W SW
+
+Rack height (U)                 1                                                                        2                                                                                1                                                                            2
+
+Integrated security             TPM 1.2/2.0 FIPS, CC-TCG certified, TPM 2.0 China NationZ, Cryptographically Signed Firmware, Chassis Intrusion Alert, and Secure Boot being standard     security on all racks. Integrated security features such as Silicon Root of  Trust, System Lockdown (requires iDRAC9 Enterprise or Datacenter),
+
+                                and System Erase on all racks
+Sustainability
+
+From recycled materials in our products and packaging, to thoughtful, innovative options for energy
+
+efficiency, the PowerEdge portfolio is designed to make, deliver, and recycle products to help reduce
+
+the carbon footprint and lower your operation costs. We even make it easy to retire legacy systems
+
+responsibly with Dell Technologies.
+
+Discover more about PowerEdge servers
+
+                                                                                                                                                                                                                    Follow on Dell.com
+
+                                                                                                                                                                                                                    Follow on X
+
+                                                                                                       Learn more                                           Contact a Dell                               View more  Follow on Linkedin
+
+                                                                                                       Dell Networking                                      Technologies Expert                          resources  Join the conversation with
+
+                                                                                                       solutions                                                                                                    #DellTechnologies
+
+For a comprehensive list, visit dell.com/PowerEdge. Product availability may vary by region. Please contact your Dell representative for more information.
+
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+April 2026Rev. A03
+

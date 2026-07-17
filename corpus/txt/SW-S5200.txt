@@ -1,0 +1,554 @@
+Specification Sheet
+
+                                       Dell PowerSwitch
+                                       S5200-ON Series Switches
+
+                                       High-performance, open networking 25GbE top-of-rack and 100GbE spine/leaf
+
+                                       switches
+
+The PowerSwitch S5200-ON 25/100GbE fixed switches              Priority-based flow control (PFC), data center bridge
+
+comprise Dell Technologies' latest disaggregated hardware      exchange (DCBX) and enhanced transmission selection
+
+and software data center networking solutions, providing       (ETS) make the S5200-ON family ideally suited for DCB
+
+state-of-the-art, high-density 25/100GbE ports and a           environments.
+
+broad range of functionality to meet the growing demands       The Dell PowerSwitch S5200-ON switches support
+
+of today's data center environment. These innovative,          the open source Open Network Install Environment
+
+next-generation open networking switches offer optimum         (ONIE) for zero touch installation of Dell SmartFabric
+
+flexibility and cost-effectiveness for web 2.0, enterprise     OS10 networking operating system, Enterprise SONiC
+
+and cloud service providers with demanding compute and         Distribution by Dell Technologies, as well as of alternative
+
+storage traffic environments.                                  network operating systems.
+
+The S5200-ON is a complete family of switches:12-port,
+
+24-port, and 48-port 25GbE/100GbE ToR switches, 96-            Key applications
+
+port 25GbE/100GbE Middle of Row (MoR)/End of Row
+
+(EoR) switch, and a 32-port 100GbE Multi-Rate Spine/           ·  Organizations looking to enter the software-
+
+Leaf switch. From the compact half-rack width S5212F-             defined data center era with a choice of networking
+
+ON providing an ideal form factor for hyper-converged             technologies designed to maximize flexibility
+
+deployments, to the high density S5296F-ON for Middle          ·  High-density 10/25GbE ToR server aggregation in
+
+of Row deployments, the S5200-ON series offers                    high-performance data center environments at the
+
+performance and flexibility for a variety of network designs.     desired fabric speed with the S5248F-ON or S5296F-
+
+In addition to 100GbE Spine/Leaf deployments, the                 ON
+
+S5232F-ON can also be used in high density deployments
+
+using breakout cables to achieve up to 128 10GbE or 128        ·  Low-density 10/25GbE server and storage aggregation
+
+25GbE ports.                                                      with the S5212F-ON and S5224F-ON
+
+Using industry-leading hardware, the S5200-ON switches         ·  Small-scale fabric implementation via the S5232F-
+
+incorporate multiple architectural features that optimize         ON switch in leaf and spine along with S5248F-ON
+
+data center network flexibility, efficiency and availability,     1/10/25GbE ToR switches enabling cost-effective
+
+including IO panel to PSU or PSU to IO panel airflow for          aggregation of 10/25/40/50/100 uplinks
+
+hot/cold aisle environments, redundant, hot-swappable          ·  Multi-functional 10/25/40/50/100GbE switching in High
+
+power supplies and fans and deliver non-blocking                  Performance Computing Clusters or other business-
+
+performance for workloads sensitive to packet loss.               sensitive deployments requiring the highest bandwidth.
+
+                                                               ·  iSCSI deployments, including DCB converged lossless
+
+                                                                  transactions
+
+                                                               ·  Single-pass VXLAN routing
+
+Dell PowerSwitch S5200 Spec Sheet
+
+© 2023 Dell Inc. or its subsidiaries.
+Key features                                                    Key features with Dell SmartFabric OS10
+
+   ·  1 or 2RU high-density ToR switches with up to 48 or 96    ·  Consistent DevOps framework across compute,
+
+      ports of 25GbE or 32 ports of 100GbE                         storage and networking elements
+
+   ·  Multi-rate 100GbE ports support 10/25/40/50/100GbE        ·  Standard networking features, interfaces and scripting
+
+   ·  Scalable L2 and L3 Ethernet switching with QoS and           functions for legacy network operations integration
+
+      a full complement of standards-based IPv4 and IPv6        ·  Standards-based switching hardware abstraction via
+
+      features, including OSPF and BGP routing support             Switch Abstraction Interface (SAI)
+
+   ·  Line-rate performance via non-blocking switch fabrics:    ·  Pervasive, unrestricted developer environment via
+
+      3.2Tbps (6.4Tbps full-duplex) on S5296F-ON and               Control Plane Services (CPS)
+
+      S5232F-ON, 2.0Tbps (4.0Tbps full-duplex) on S5248F-       ·  Dell SmartFabric OS10 software enables layer 2
+
+      ON, and 1.08Tbps (2.16Tbps full-duplex) on S5224F-           and 3 switching and routing protocols with integrated
+
+      ON and S5212F-ON                                             IP services, quality of service, manageability and
+
+   ·  L2 multipath support via Virtual Link Trunking (VLT) and     automation features
+
+      Routed VLT support                                        ·  OS10 supports Precision Time Protocol (PTP, IEEE
+
+   ·  VXLAN gateway functionality support for bridging and         1588v2) to synchronize clocks on network devices
+
+      routing the non-virtualized and the virtualized overlay   ·  Increase VM Mobility region by stretching L2 VLAN
+
+      networks with line rate performance                          within or across two DCs with unique VLT capabilities
+
+   ·  Supports Dell Enterprise SONiC Distribution by Dell       ·  Scalable L2 and L3 Ethernet Switching with QoS, ACL
+
+      Technologies. Dell Enterprise SONiC Distribution by          and a full complement of standards based IPv4 and
+
+      Dell Technologies helps IT organizations to run their        IPv6 features including OSPF, BGP and PBR
+
+      business with the innovation, automation and reliability  ·  Enhanced mirroring capabilities including local
+
+      that comes from  a commercial offering of SONiC with         mirroring, Remote Port Mirroring (RPM), and
+
+      production-ready enterprise feature enhancements,            Encapsulated Remote Port Mirroring (ERPM)
+
+      hardening and global  support targeted for demanding
+
+      data center leaf and spine fabrics.                       ·  Converged network support for Data Center Bridging,
+
+   ·  Supports Dell SmartFabric OS10                               with priority flow control (802.1Qbb), ETS (802.1Qaz),
+
+   ·  Converged network support for DCB, with priority flow        DCBx and iSCSI TLV
+
+      control (802.1Qbb), ETS (802.1Qaz), DCBx and iSCSI        ·  BGP EVPN with Integrated Routing and Bridging (IRB)
+
+      TLV support                                                  in both Asymmetric and Symmetric modes, enabling
+
+   ·  Routable RoCE to enable convergence of compute and           controller less NVO
+
+      storage on Leaf/Spine Fabric
+
+   ·  IO panel to PSU airflow or PSU to IO panel airflow
+
+      Redundant, hot-swappable power supplies and fans on
+
+      most models
+
+   ·  Supports the open source Open Network Install
+
+      Environment (ONIE) for zero touch installation of
+
+      alternate network operating systems
+
+   ·  Tool-less enterprise ReadyRailsTM mounting kits for
+
+      most models reducing time and resources for switch
+
+      rack installation (S5212F-ON will utilize a tandem tray
+
+      for mounting)
+
+   ·  Power-efficient operation and Dell Fresh Air 2.0
+
+      compliant up to 45ºC helps reduce cooling costs in
+
+      temperature constrained deployments
+
+2     Dell PowerSwitch S5200 Spec Sheet
+
+      © 2023 Dell Inc. or its subsidiaries.
+   Features            S5212F-ON          S5224F-ON          S5248F-ON           S5296F-ON           S5232F-ON
+
+                       12xSFP28           24xSFP28           48xSFP28            96xSFP28            32xQSFP28
+
+   Ports               3xQSFP28           4xQSFP28           2xQSFP28-DD         8xQSFP28            2xSFP+
+
+                                                             4xQSFP28
+
+                                                             48 (SFP28)
+
+                       12 (SFP28)         24 (SFP28)         16 (QSFP28-DD       96 (SFP28)          124 (QSFP28
+
+   Max 10GbE density   12 (QSFP28         16 (QSFP28         breakout)           32 (QSFP28          breakout)
+
+                       Breakout)          breakout)          16 (QSFP28          breakout)           2 (SFP+)
+
+                                                             breakout)
+
+   Max 25GbE density                                         48 (SFP28)
+
+                       12 (SFP28)         24 (SFP28)         16 (QSFP28-DD       96 (SFP28)          124 (QSFP28
+
+                       12 (QSFP28         16 (QSFP28         breakout)           32 (QSFP28          breakout)
+
+                       Breakout)          breakout)          16 (QSFP28          breakout)
+
+                                                             breakout)
+
+   Max 40GbE density                                         6 (QSFP28)
+
+                       3 (QSFP28)         4 (QSFP28)         4 (QSFP28-DD        8 (QSFP28)          32 (QSFP28)
+
+                                                             breakout)
+
+   Max 50GbE density   6 (QSFP28          8 (QSFP28          16 (QSFP28          16 (QSFP28          64 (QSFP28
+
+                       breakout)          breakout)          breakout)           breakout)           breakout)
+
+   Max 100GbE                                                4 (QSFP28)
+
+   density             3 (QSFP28)         4 (QSFP28)         4 (QSFP28-DD        8 (QSFP28)          32 (QSFP28)
+
+                                                             breakout)
+
+   Switching capacity  1.08 Tbps (2.16    1.08 Tbps (2.16    2.0 Tbps (4.0 Tbps  3.2 Tbps (6.4 Tbps  3.2 Tbps (6.4 Tbps
+
+                       Tbps full duplex)  Tbps full duplex)  full duplex)        full duplex)        full duplex)
+
+   Throughput          440 Mpps (880      720 Mpps (1.42     1.5 Bpps (3.0 Bpps  2.4 Bpps (4.8 Bpps  2.4 Bpps (4.8 Bpps
+
+                       Mpps full duplex)  Bpps full duplex)  full duplex)        full duplex)        full duplex)
+
+   Latency (nano sec)  906                881                847                 850                 877
+
+   1588v2 PTP timing
+
+   (hardware)
+
+   CPU Memory          8GB                8GB                16GB                16GB                16GB
+
+   SSD                 16GB               32GB               64GB                64GB                64GB
+
+   Packet Buffer       32MB               32MB               32MB                32MB                32MB
+
+   Maximum power       304W               455W               647W                893W                635W
+
+   Typical power       140W               200W               310W                457W                360W
+
+   Maximum current     2.8A@110VAC /      4.2A@110VAC /      5.8A@110VAC /       8.2A@110VAC /       5.8A@110VAC /
+
+                       1.4A@220VAC        2.1A@220VAC        2.9A@220VAC         4.1A@220VAC         2.9A@220VAC
+
+   Fan modules         Fixed              4                  4                   4                   4
+
+   Form Factor         1RU (half-width)   1RU                1RU                 2RU                 1RU
+
+                       8.2"Wx19.3"D       17.1"Wx18.1"D      17.1"Wx18.1"D       17.4"Wx20.1"D       17.1"Wx18.1"D
+
+   Dimensions          x1.6"H             x1.7"H             x1.7"H              x3.4"H              x1.7"H
+
+                       20.9Wx49.0D        43.4Wx46.0D        43.4Wx46.0D         44.2Wx51.1D         43.4Wx46.0D
+
+                       x4.1H (cm)         x4.4H (cm)         x4.4H (cm)          x8.7H (cm)          x4.4H (cm)
+
+   Weight              4.5kg (10.05lbs)   9.7kg (21.4lbs)    9.7kg (21.4lbs)     15.1kg (33.2lbs)    9.8kg (21.6lbs)
+
+   Max thermal output  1037 BTU/h         1552 BTU/h         2208 BTU/h          3047 BTU/h          2167 BTU/h
+
+3  Dell PowerSwitch S5200 Spec Sheet
+
+   © 2023 Dell Inc. or its subsidiaries.
+   Features                               Description
+
+                                          S5212F, 12x  25GbE SFP28  +     3x  100GbE  QSFP28,  2x  AC  PSU,  I/O Panel to PSU  Airflow,  Dell
+
+                                          SmartFabric  OS10
+
+                                          S5212F, 12x  25GbE SFP28  +     3x  100GbE  QSFP28,  2x  AC  PSU,  PSU to I/O Panel  Airflow,  Dell
+
+                                          SmartFabric  OS10
+
+                                          S5212F, 12x  25GbE SFP28  +     3x  100GbE  QSFP28,  2x  DC  PSU,  I/O Panel to PSU  Airflow,  Dell
+
+                                          SmartFabric  OS10
+
+                                          S5212F, 12x  25GbE SFP28  +     3x  100GbE  QSFP28,  2x  DC  PSU,  PSU to I/O Panel  Airflow,  Dell
+
+                                          SmartFabric  OS10
+
+                                          S5212F, 12x  25GbE SFP28  +     3x  100GbE  QSFP28,  2x  AC  PSU,  I/O Panel to PSU  Airflow,  NO-OS
+
+                                          S5212F, 12x  25GbE SFP28  +     3x  100GbE  QSFP28,  2x  AC  PSU,  PSU to I/O Panel  Airflow,  NO-OS
+
+                                          S5212F, 12x  25GbE SFP28  +     3x  100GbE  QSFP28,  2x  AC  PSU,  I/O Panel to PSU  Airflow,  Dell
+
+                                          SmartFabric  OS10, TAA
+
+                                          S5212F, 12x  25GbE SFP28  +     3x  100GbE  QSFP28,  2x  AC  PSU,  PSU to I/O Panel  Airflow,  Dell
+
+                                          SmartFabric  OS10, TAA
+
+                                          S5224F, 24x 25GbE SFP28 + 4x 100GbE QSFP28, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, Dell SmartFabric OS10
+
+                                          S5224F, 24x 25GbE SFP28 + 4x 100GbE QSFP28, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, Dell SmartFabric OS10
+
+                                          S5224F, 24x 25GbE SFP28 + 4x 100GbE QSFP28, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, NO-OS
+
+                                          S5224F, 24x 25GbE SFP28 + 4x 100GbE QSFP28, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, NO-OS
+
+                                          S5224F, 24x 25GbE SFP28 + 4x 100GbE QSFP28, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, Dell SmartFabric OS10, TAA
+
+                                          S5224F, 24x 25GbE SFP28 + 4x 100GbE QSFP28, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, Dell SmartFabric OS10, TAA
+
+                                          S5248F, 48x 25GbE SFP28 + 2x 200GbE QSFP28-DD + 4x 100GbE QSFP28, 2x AC PSU, Fan
+
+                                          modules, I/O Panel to PSU Airflow, Dell SmartFabric OS10
+
+                                          S5248F, 48x 25GbE SFP28 + 2x 200GbE QSFP28-DD + 4x 100GbE QSFP28, 2x AC PSU, Fan
+
+                                          modules, PSU to I/O Panel Airflow, Dell SmartFabric OS10
+
+   S5200-ON                               S5248F, 48x 25GbE SFP28 + 2x 200GbE QSFP28-DD + 4x 100GbE QSFP28, 2x AC PSU, Fan
+
+                                          modules, I/O Panel to PSU Airflow, NO-OS
+
+                                          S5248F, 48x 25GbE SFP28 + 2x 200GbE QSFP28-DD + 4x 100GbE QSFP28, 2x AC PSU, Fan
+
+                                          modules, PSU to I/O Panel Airflow, NO-OS
+
+                                          S5248F, 48x 25GbE SFP28 + 2x 200GbE QSFP28-DD + 4x 100GbE QSFP28, 2x AC PSU, Fan
+
+                                          modules, I/O Panel to PSU Airflow, Dell SmartFabric OS10, TAA
+
+                                          S5248F, 48x 25GbE SFP28 + 2x 200GbE QSFP28-DD + 4x 100GbE QSFP28, 2x AC PSU, Fan
+
+                                          modules, PSU to I/O Panel Airflow, Dell SmartFabric OS10, TAA
+
+                                          S5296F, 96x 25GbE SFP28 + 8x 100GbE QSFP28, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, Dell SmartFabric OS10
+
+                                          S5296F, 96x 25GbE SFP28 + 8x 100GbE QSFP28, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, Dell SmartFabric OS10
+
+                                          S5296F, 96x 25GbE SFP28 + 8x 100GbE QSFP28, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, NO-OS
+
+                                          S5296F, 96x 25GbE SFP28 + 8x 100GbE QSFP28, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, NO-OS
+
+                                          S5296F, 96x 25GbE SFP28 + 8x 100GbE QSFP28, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, Dell SmartFabric OS10, TAA
+
+                                          S5296F, 96x 25GbE SFP28 + 8x 100GbE QSFP28, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, Dell SmartFabric OS10, TAA
+
+                                          S5232F, 32x 100 GbE QSFB28 + 2x 10GbE SFP+, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, Dell SmartFabric OS10
+
+                                          S5232F, 32x 100 GbE QSFB28 + 2x 10GbE SFP+, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, Dell SmartFabric OS10
+
+                                          S5232F, 32x 100 GbE QSFB28 + 2x 10GbE SFP+, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, NO-OS
+
+                                          S5232F, 32x 100 GbE QSFB28 + 2x 10GbE SFP+, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, NO-OS
+
+                                          S5232F, 32x 100 GbE QSFB28 + 2x 10GbE SFP+, 2x AC PSU, Fan modules, I/O Panel to PSU
+
+                                          Airflow, Dell SmartFabric OS10, TAA
+
+                                          S5232F, 32x 100 GbE QSFB28 + 2x 10GbE SFP+, 2x AC PSU, Fan modules, PSU to I/O Panel
+
+                                          Airflow, Dell SmartFabric OS10, TAA
+
+   Redundant power supplies               AC Power Supply, IO Panel to PSU Airflow AC Power Supply, PSU to IO Panel Airflow
+
+                                          DC Power Supply, IO Panel to PSU Airflow (available as custom kit) DC Power Supply, PSU to
+
+                                          IO Panel Airflow (available as custom kit)
+
+   Fans                                   Fan module, IO Panel to PSU Airflow
+
+                                          Fan module, PSU to IO Panel Airflow
+
+   Optics, Cables and Cable               Please refer to Dell Networking Transceivers and Cables spec sheet for complete list of optics and
+
+   Management                             cables. for a complete list of optics and cables.
+
+4  Dell PowerSwitch S5200 Spec Sheet
+
+   © 2023 Dell Inc. or its subsidiaries.
+   Technical specifications
+
+Physical                                      L2 Ingress ACL: 2K                                  Immunity
+
+1 RJ45 console/management port with RS232     L2 Egress ACL: 256                                  EN 300 386 V1.4.1:2008 EMC for Network
+
+   signaling                                  IPv4 Ingress ACL: 2K                                                                          Equipment
+
+S5212F-ON: 12x25GbE SFP28 + 3x 100GbE         IPv4 Egress ACL: 2K                                 EN 55024:                                 1998 + A1: 2001 + A2: 2003
+
+   QSFP28                                     IPv6 Ingress ACL: 1K                                EN 61000-3-2:                             Harmonic Current 
+
+S5224F-ON: 24x25GbE SFP28 + 4x 100GbE         IPv6 Egress ACL: 1K                                                                           Emissions
+
+   QSFP28                                     VLANs: 4K                                           EN 61000-3-3:                             Voltage Fluctuations and
+
+S5248F-ON: 48x25GbE SFP28 + 4x 100GbE         MSTP instances: 63 instances                                                                  Flicker
+
+   QSFP28 + 2x100GbE QSFP28-DD                PVST instances: 150 instances                       EN 61000-4-2:                             ESD
+
+S5296F-ON: 96x25GbE SFP28 + 8x 100GbE         Total LAG: 128                                      EN 61000-4-3:                             Radiated Immunity
+
+   QSFP28                                     Total members per LAG: 16                           EN 61000-4-4:                             EFT
+
+S5232F-ON: 32x100GbE QSFP28 ports +           LAG load balancing: Based on layer  2,    IPv4  or  EN 61000-4-5:                             Surge
+
+   2xSFP+ 10GbE                               IPv6 headers                                        EN 61000-4-6:                             Low Frequency Conducted
+
+                                                                                                                                            Immunity
+
+Environmental                                 For Network Operating System (NOS) specific
+
+Power supply: 100­240 VAC 50/60 Hz            features, refer to Dell SmartFabric OS10            RoHS
+
+Max Operating specifications:                 and Enterprise SONiC Distribution by Dell           All S Series components are EU RoHS
+
+   AC Max. Operating specifications:          Technologies spec sheets.                           compliant.
+
+   Operating temperature: 32° to 113°F
+
+   (0° to 45°C)                               Regulatory compliance                               Certifications
+
+   Operating humidity: 5 to 90% (RH),         Safety                                              Available with US Trade Agreements Act (TAA)
+
+   non-condensing                             UL/CSA 60950-1, Second Edition                      compliance
+
+Max. Non-operating specifications: Storage    EN 60950-1, Second Edition                          USGv6 Host and Router Certified on Dell
+
+   temperature: ­40° to 158°F (­40° to 70°C)  IEC 60950-1, Second Edition Including All           Networking OS 9.5 and greater
+
+   Storage humidity: 5 to 90% (RH),           National Deviations and Group Differences           IPv6 Ready for both Host and Router
+
+   non-condensing                             EN 60825-1 Safety of Laser Products Part 1:         UCR DoD APL (core and distribution ALSAN
+
+Fresh air Compliant to 45°C                   Equipment Classification Requirements and           switch
+
+                                              User's Guide
+
+Redundancy                                    EN 60825-2 Safety of Laser Products Part 2:         Warranty
+
+Hot swappable redundant power                 Safety of Optical Fibre Communication               1 Year Return to Depot
+
+Hot swappable redundant fans (fixed power     Systems
+
+   supply and fans on S5212F-ON)              FDA Regulation 21 CFR 1040.10 and 1040.11
+
+                                              Emissions
+
+Performance*                                  Australia/New Zealand: AS/NZS CISPR 22:
+
+Packet buffer memory: 32MB                    2006, Class A
+
+CPU memory: 16GB                              Canada: ICES-003, Issue-4, Class A
+
+MAC Addresses: 32K min, 288K max**            Europe: EN 55022: 2006+A1:2007 
+
+IPv4 Hosts: 16K min, 168K max**               (CISPR 22: 2006), Class A
+
+IPv6 Hosts: 8K min, 100K max**                Japan: VCCI V3/2009 Class A
+
+IPv4 Routes: 128K**                           USA: FCC CFR 47 Part 15, Subpart B:2011,
+
+IPv6 Routes: 64K**                            Class A
+
+Multicast Routes: 16K
+
+*Maximum NPU and hardware performance. Please refer to specific Network Operating System scalability numbers for actual, validated values.
+
+**Depends on ALPM mode.
+
+5  Dell PowerSwitch S5200 Spec Sheet
+
+   © 2023 Dell Inc. or its subsidiaries.
+IT Lifecycle Services for Networking
+
+Experts, insights and ease
+
+Our highly trained experts, with innovative tools and proven                              processes,                                                                 help you transform your IT investments into
+
+strategic advantages.
+
+Plan & Design                                                                                                                                                        Manage & Support
+
+Let us analyze your multivendor environment                                                                                                                          Gain access to technical experts and quickly
+
+and deliver a comprehensive report and action                                                                                                                        resolve multivendor networking challenges with
+
+plan to build upon the existing network and                                                                                                                          ProSupport. Spend less time resolving network
+
+improve performance.                                                                                                                                                 issues and more time innovating.
+
+Deploy & Integrate                                                                                                                                                   Optimize
+
+Get new wired or wireless network technology                                                                                                                         Maximize performance for dynamic IT
+
+installed and configured with ProDeploy.                                                                                                                             environments with Dell Optimize. Benefit from
+
+Reduce costs, save time, and get up and                                                                                                                              in-depth predictive analysis, remote monitoring
+
+running fast.                                                                                                                                                        and a dedicated systems analyst for your
+
+Educate                                                                                                                                                              network.
+
+Ensure your staff builds the right skills for long-                                                                                                                  Retire
+
+term success. Get certified on Dell Networking                                                                                                                       We can help you resell or retire excess
+
+technology and learn how to increase                                                                                                                                 hardware while meeting local regulatory
+
+performance and optimize infrastructure.                                                                                                                             guidelines and acting in an environmentally
+
+                                                                                                                                                                     responsible way.
+
+Learn more at Dell.com/Services
+
+Learn more about Dell              Contact a Dell                                         View more resources                                                                          Join the conversation with
+
+Networking solutions]              Technologies Expert                                                                                                                                 @DellNetworking
+
+© 2020 Dell Inc. or its subsidiaries. All Rights Reserved. Dell, EMC and other trademarks are trademarks of Dell Inc. or its
+
+©su2b0s2id3iaDrieelsl .InOct.hoerrittrsasduebmsaidrikasrimesa.yAblleRtirgahdtesmRaerskesrvoef dth.eDirerlleasnpdecottihveerotwrandeerms.arks are trademarks of Dell
+
+Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+
+FY20Q1_1245_dell_emc_networking_s5148f_on_spec_Sheet_032719
+
+January 2023 | v2.1
+
+Dell PowerSwitch S5200 Spec Sheet
+

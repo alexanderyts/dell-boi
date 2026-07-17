@@ -1,0 +1,2630 @@
+Dell PowerStore: Clustering and High Availability
+
+April 2026
+
+H18157.11
+
+White       Paper
+
+            Abstract
+
+            This white paper provides an overview of PowerStore clustering
+
+            technology along with the highly available features of the platform  for
+
+            the PowerStoreOS releases.
+   Copyright
+
+   The information in this publication is provided as is. Dell Inc. makes no representations or warranties of any kind with respect
+
+   to the information in this publication, and specifically disclaims implied warranties of merchantability or fitness for a particular
+
+   purpose.
+
+   Use, copying, and distribution of any software described in this publication requires an applicable software license.
+
+   Copyright © 2020-2026 Dell Inc. or its subsidiaries. Published in the USA April 2026 H18157.11.
+
+   Dell Inc. believes the information in this document is accurate as of its publication date. The information is subject to change
+
+   without notice.
+
+Dell PowerStore: Clustering and High Availability
+
+2
+                                                   Contents
+
+   Contents
+
+   Executive summary.......................................................................................................................4
+
+   Introduction ...................................................................................................................................5
+
+   Clustering ......................................................................................................................................7
+
+   High availability...........................................................................................................................30
+
+   Conclusion................................................................................................................................... 48
+
+   References ................................................................................................................................... 49
+
+Dell PowerStore: Clustering and High Availability
+
+3
+   Executive summary
+
+   Executive summary
+
+   Overview           This white paper describes the fully redundant hardware and high-availability features that
+
+                      are available on Dell PowerStore. These features are designated to withstand component
+
+                      failures in the system and in the environment, such as network or power failures. If an
+
+                      individual component fails, the storage system can remain online and continue to serve
+
+                      data. The system can also withstand multiple failures if they occur in separate component
+
+                      sets. After the administrator is alerted about the failure, they can order and replace the
+
+                      failed component without any impact.
+
+   Audience           This document is intended for IT administrators, storage architects, partners, and Dell
+
+                      Technologies employees. This audience also includes any individuals who evaluate,
+
+                      acquire, manage, operate, or design a Dell networked storage environment using
+
+                      PowerStore systems.
+
+   Revisions          Date                 Part number/     Description
+
+                                           revision
+
+                      April 2020           H18157           Initial release: PowerStoreOS 1.0.0
+
+                      September 2020       H18157.1         Updates to high availability section; other minor
+
+                                                            updates
+
+                      April 2021           H18157.2         PowerStoreOS 2.0.0 updates
+
+                      January 2022         H18157.3         PowerStoreOS 2.1.0 updates; template update
+
+                      April 2022           H18157.4         PowerStoreOS 2.1.1 updates
+
+                      July 2022            H18157.5         PowerStoreOS 3.0 updates
+
+                      August 2022          H18157.6         Minor correction in the Distributed sparing section
+
+                      October 2022         H18157.7         PowerStoreOS 3.2 updates
+
+                      May 2023             H18157.8         PowerStoreOS 3.5 updates
+
+                      May 2024             H18157.9         PowerStoreOS 4.0 updates
+
+                                                            Removed references to PowerStore X
+
+                      February 2025        H18157.10        PowerStoreOS 4.1 updates
+
+                      April 2026           H18157.11        PowerStoreOS 4.4 updates
+
+                                                            •        System bond updates
+
+                                                            •        Add appliance updates
+
+                                                            •        File on all appliances
+
+   We value your      Dell Technologies and the authors of this document welcome your feedback on this
+
+   feedback           document. Contact the Dell Technologies team by email.
+
+                      Authors: Wei Chen, Ryan Poulin
+
+                      Note: For links to other documentation for this topic, see the PowerStore Info Hub.
+
+Dell PowerStore: Clustering and High Availability
+
+4
+                                                                                                            Introduction
+
+   Introduction
+
+   Document      Having constant access to data is a critical component in any modern business. If data
+
+   purpose       becomes inaccessible, business operations might be affected and can potentially cause
+
+                 revenue loss. Because of this, IT administrators are tasked with ensuring that every
+
+                 component in the data center has no single point of failure. This white paper details how
+
+                 to cluster PowerStore systems and describes the high availability features that are
+
+                 available. PowerStore is designed for 99.9999% availability (based on the Dell
+
+                 Technologies specification for PowerStore). Actual system availability might vary.
+
+   PowerStore    PowerStore achieves new levels of value, flexibility, and simplicity in storage. It uses a
+
+   product       container-based microservices architecture, advanced storage technologies, and
+
+   overview      integrated machine learning to unlock the power of your data. It is a versatile platform with
+
+                 a performance-centric design that delivers scale-up and scale-out capabilities, always-on
+
+                 data reduction, and support for next-generation media.
+
+                 PowerStore brings the simplicity of the public cloud to on-premises infrastructure,
+
+                 streamlining operations with an integrated machine learning engine and seamless
+
+                 automation. It offers predictive analytics to easily monitor, analyze, and troubleshoot the
+
+                 environment. PowerStore is highly adaptable, providing the flexibility to host specialized
+
+                 workloads directly on the appliance and modernize infrastructure without disruption.
+
+   Terminology   The following table provides      definitions for some of the terms that are used in this
+
+                 document.
+
+                 Table 1.   Terminology
+
+                 Term                              Definition
+
+                 Appliance                         Solution containing the base enclosure and any attached
+
+                                                   expansion enclosures.
+
+                 Base enclosure                    Used to reference the enclosure containing both Nodes (Node
+
+                                                   A and Node B) and 25x NVMe drive slots.
+
+                 Cluster                           One or more appliances in a single grouping and management
+
+                                                   interface. Clusters are expandable by adding more appliances
+
+                                                   to the existing cluster, up to the allowed amount for a cluster.
+
+                 Expansion enclosure               Enclosures that can be attached to a base enclosure to
+
+                                                   provide additional storage.
+
+                 Fibre Channel (FC) protocol       A protocol used to perform Internet Protocol (IP) and Small
+
+                                                   Computer Systems Interface (SCSI) commands over a Fibre
+
+                                                   Channel network.
+
+                 File system                       A storage resource that can be accessed through file-sharing
+
+                                                   protocols such as SMB or NFS.
+
+                 Internet SCSI (iSCSI)             Provides a mechanism for accessing block-level data storage
+
+                                                   over network connections.
+
+                 Intra-cluster Management          An internal management network that provides continuous
+
+                 (ICM) Network                     management connectivity between appliances in the
+
+                                                   PowerStore cluster.
+
+Dell PowerStore: Clustering and High Availability
+
+5
+   Introduction
+
+                  Term                              Definition
+
+                  Intra-cluster Data (ICD)          An internal network that provides continuous storage
+
+                  Network                           connectivity between appliances in the PowerStore cluster.
+
+                  Network-attached storage          A virtualized network-attached storage server that uses the
+
+                  (NAS) server                      SMB, NFS, FTP, and SFTP protocols to catalog, organize, and
+
+                                                    transfer files within file system shares and exports. A NAS
+
+                                                    server, the basis for multitenancy, must be created before you
+
+                                                    can create file-level storage resources. NAS servers are
+
+                                                    responsible for the configuration parameters on the set of file
+
+                                                    systems that it serves.
+
+                  Network File System (NFS)         An access protocol that allows data access from Linux/UNIX
+
+                                                    hosts on a network.
+
+                  Node                              Component within an appliance that contains processors and
+
+                                                    memory. Each appliance consists of two nodes.
+
+                  NVMe over Fibre Channel           Protocol used to perform Non-Volatile Memory Express
+
+                  (NVMe/FC)                         (NVMe) commands over a Fibre Channel network.
+
+                  NVMe over TCP (NVMe/TCP)          Protocol used to perform Non-Volatile Memory Express
+
+                                                    (NVMe) commands over an Ethernet network.
+
+                  PowerStore Command Line           An interface that allows a user to perform tasks on the storage
+
+                  Interface (PSTCLI)                system by typing commands instead of using the UI.
+
+                  PowerStore Manager                An HTML5 user interface used to manage PowerStore
+
+                                                    systems.
+
+                  PowerStore Q model                Container-based storage system that is running on purpose-
+
+                                                    built hardware. This storage system supports unified (block
+
+                                                    and file) workloads or block optimized workloads. The
+
+                                                    PowerStore Q model supports Quad-Level Cell (QLC) NVMe
+
+                                                    SSDs for data storage.
+
+                  PowerStore T model                Container-based storage system that is running on purpose-
+
+                                                    built hardware. This storage system supports unified (block
+
+                                                    and file) workloads or block optimized workloads. The
+
+                                                    PowerStore T model supports Triple-Level Cell (TLC) NVMe
+
+                                                    SSDs for data storage.
+
+                  Representational State            A set of resources (objects), operations, and attributes that
+
+                  Transfer (REST) API               provide interactive, scripted, and programmatic management
+
+                                                    control of the PowerStore cluster.
+
+                  Server Message Block (SMB)        A network file sharing protocol, sometimes referred to as CIFS,
+
+                                                    used by Microsoft Windows environments. SMB is used to
+
+                                                    provide access to files and folders from Windows hosts on a
+
+                                                    network.
+
+                  Snapshot                          A point-in-time view of data stored on a storage resource. A
+
+                                                    user can recover files from a snapshot, restore a storage
+
+                                                    resource from a snapshot, or clone the snapshot to provide
+
+                                                    access to a host.
+
+                  Storage Policy Based              Using policies to control storage-related capabilities for a VM
+
+                  Management (SPBM)                 and ensure compliance throughout its life cycle.
+
+                  Volume                            A block-level storage device that can be shared out using a
+
+                                                    protocol such as iSCSI or Fibre Channel.
+
+Dell PowerStore:  Clustering and High Availability
+
+6
+                                                                                                                Clustering
+
+               Term                                Definition
+
+               vSphere Virtual Volumes             A VMware storage framework that allows VM data to be stored
+
+               (vVols)                             on individual Virtual Volumes. This ability allows for data
+
+                                                   services to be applied at a VM-level of granularity and
+
+                                                   according to SPBM. Virtual Volumes can also refer to the
+
+                                                   individual storage objects that are used to enable this
+
+                                                   functionality.
+
+               vSphere API for Array               A VMware API that improves ESXi host utilization by offloading
+
+               Integration (VAAI)                  storage-related tasks to the storage system.
+
+               vSphere API for Storage             A VMware vendor-neutral API that enables vSphere to
+
+               Awareness (VASA)                    determine the capabilities of a storage system. This feature
+
+                                                   requires a VASA provider on the storage system for
+
+                                                   communication.
+
+   Clustering
+
+   Overview    Every PowerStore appliance is deployed into a PowerStore cluster. There is a minimum of
+
+               one PowerStore appliance and a maximum of four PowerStore appliances configured in a
+
+               cluster. The appliances within a cluster can all be a specific model or be a collection of
+
+               different models. For instance, a cluster may contain multiple appliances of the same
+
+               model for performance consistency across the cluster or be a mix of models for different
+
+               use cases. PowerStore T and Q model appliances can also exist within the same cluster.
+
+               You can also scale down PowerStore clusters by removing appliances from an existing
+
+               cluster.
+
+               Clustering PowerStore appliances can provide many benefits:
+
+               •         Easy scale-out to increase CPU, memory, storage capacity, and front-end
+
+                         connectivity
+
+               •         Independent scaling of storage and compute resources
+
+               •         Centralized management for multi-appliance cluster
+
+               •         Automated orchestration for host connectivity
+
+               •         Increased resiliency and fault tolerance
+
+               Consider the example shown in the following figure. Users can scale out appliances with
+
+               different models to create a four-appliance cluster. Besides the scale-out benefit, each
+
+               appliance can scale up with a different number of expansion enclosures. Finally, each
+
+               appliance in the cluster can have different media types. For example, one PowerStore
+
+               model could have QLC NVMe SSD drives while the other three PowerStore models could
+
+               have TLC NVMe SSD drives. This flexible scale-out and scale-up deployment gives
+
+               customers the ability to grow their clusters with no dependence on the model number,
+
+               drive count, or even drive type.
+
+Dell PowerStore: Clustering and High Availability
+
+7
+   Clustering
+
+                     Figure 1.  Multi-appliance cluster
+
+                     Before a PowerStore cluster is created, the minimum cabling requirements must be met.
+
+                     For more information, reference the PowerStore Quick Start Guide for the appliance’s
+
+                     specific PowerStoreOS version on dell.com/powerstoredocs.
+
+                     Deployment Modes
+
+                     PowerStore models support two deployment modes to ensure that the platform delivers
+
+                     maximum performance for each use case. The two deployment modes that are offered
+
+                     are Unified and Block Optimized. Both are detailed in the following sections.
+
+                     The deployment mode is configured when adding a PowerStore appliance to a cluster.
+
+                     This can occur when creating a new cluster or adding a new appliance to an existing
+
+                     cluster. Once the deployment mode is configured on the appliance, it cannot be changed
+
+                     without a factory reset of the appliance. For this reason, ensure that the proper
+
+                     deployment mode is selected when the system is first configured.
+
+                     Unified
+
+                     The default deployment mode is Unified, which is the recommended deployment mode
+
+                     because it provides all capabilities of the PowerStore model appliance. In this
+
+                     configuration, Unified PowerStore model appliances can support block, file, and vVol
+
+                     storage resources. Parts of the underlying hardware resources are reserved for file
+
+                     components and are not available for block resources. For most use cases, the Unified
+
+                     deployment mode is preferred because it supports all resources that the PowerStore
+
+                     model appliance offers.
+
+                     Block Optimized
+
+                     The Block Optimized deployment mode for PowerStore models is the alternative
+
+                     deployment mode. Block Optimized systems support block and vVol resources only. All
+
+                     underlying hardware resources are dedicated to block performance in this mode. Block
+
+                     Optimized systems have a higher performance ceiling for block workloads than the same
+
+                     model with a Unified deployment mode.
+
+   Single Appliance  Every PowerStore appliance is deployed into a PowerStore cluster. In PowerStore, each
+
+   Clusters          cluster starts with a single appliance. After physically connecting a workstation or laptop to
+
+                     the appliance or discovering the appliance on the network, the user runs the Initial
+
+Dell PowerStore: Clustering and High Availability
+
+8
+                                                                                                            Clustering
+
+                   Configuration Wizard (ICW). The ICW is a GUI driven wizard that assists the user in
+
+                   configuring the appliance into a new cluster.
+
+                   When completing the Initial Configuration Wizard (ICW), the options provided depend on
+
+                   the code version running on the appliance. In the latest PowerStoreOS versions, the ICW
+
+                   guides the user through:
+
+                   •  Accepting the end user license agreement
+
+                   •  Configuring the cluster information
+
+                   •  Updating the management and service passwords
+
+                   •  Entering the management IP information
+
+                   Once the wizard is completed, the single appliance PowerStore cluster is created, and
+
+                   storage provisioning can start. Configuring an appliance through PowerStore CLI and
+
+                   REST API is also possible. For more information about the ICW, review the Dell
+
+                   PowerStore Manager Overview white paper found on the PowerStore Info Hub.
+
+                   Initial Configuration Wizard – Cluster Details step
+
+                   Within the ICW is the Cluster Details step. In this step, the user provides the Cluster
+
+                   Name and the Storage Configuration for the appliance. An example of this step is shown
+
+                   in Figure 2. The Storage Configuration setting configures the appliance as Unified or
+
+                   Block Optimized.
+
+                   Figure 2.  PowerStoreOS 4.4.x and later – Cluster Details step
+
+                   Unified is the recommended deployment mode as a Unified appliance can support block,
+
+                   file, and vVol storage resources. Block Optimized systems only support block and vVol
+
+                   resources. When selecting between Unified and Block Optimized, consider if the cluster
+
+                   will be expanded with additional appliances in the future. Choosing Unified provides the
+
+                   most flexibility during future cluster expansions. This topic is covered further in the Multi-
+
+                   Appliance Clusters section.
+
+Dell  PowerStore:  Clustering and High Availability
+
+9
+    Clustering
+
+                  In PowerStoreOS 4.4 and later, only single appliance clusters can be configured using the
+
+                  Initial Configuration Wizard. Any additional appliances must be added after cluster
+
+                  creation. When completing the Initial Configuration Wizard on appliances running
+
+                  PowerStoreOS version 4.3 and earlier, the appliance being deployed scans for other
+
+                  appliances on the network automatically. The Select Additional Appliances button is
+
+                  available to add extra appliances to the cluster at this time. The resulting view shows all
+
+                  available appliances that are currently in discovery. The following figure shows an
+
+                  example when the Select Additional Appliances option is selected.
+
+                  Figure 3.  PowerStoreOS 4.3.x and earlier – Cluster Details step
+
+                  Primary appliance
+
+                  In PowerStore, each cluster has a primary appliance. The primary appliance is
+
+                  responsible for cluster-level management operations, such as running PowerStore
+
+                  Manager, PowerStore CLI, and REST API services. The primary appliance also
+
+                  coordinates cluster wide activities, such as code upgrades. In PowerStoreOS 4.4 and
+
+                  later, the role of primary appliance is automatically assigned to the appliance being
+
+                  configured regardless of the deployment mode selected.
+
+                  In PowerStoreOS releases prior to 4.4, multiple appliances could be added to the cluster
+
+                  during cluster creation. The appliance configured in Unified mode would be assigned the
+
+                  role of primary appliance automatically. If all appliances are deployed in Block Optimized
+
+                  mode, the primary appliance is selected by the operating system during cluster creation.
+
+                  The svc_cluster_management service command can be used to view which appliance
+
+                  within the cluster is the primary appliance and to move the role of primary appliance if
+
+                  required. Moving the primary appliance responsibilities is required if the primary appliance
+
+                  is removed from the cluster. Depending on the code version, this may need to be
+
+                  completed manually by the user. This is discussed further in the Remove Appliance
+
+                  section of this paper.
+
+Dell PowerStore:  Clustering and High Availability
+
+10
+                                                                                                                 Clustering
+
+    Multi-Appliance  A PowerStore multi‑appliance cluster is a scale‑out storage configuration in which two to
+
+    Clusters         four Dell PowerStore appliances are joined into a single logical storage system. The
+
+                     cluster operates as one managed entity while distributing storage resources, compute
+
+                     resources, and workloads across multiple appliances to improve performance, capacity,
+
+                     resiliency, and scalability.
+
+                     All appliances within a cluster can be the same model, which provides performance
+
+                     consistency, or a mix of different appliance models. PowerStore T and Q model
+
+                     appliances can also exist within the same cluster. Appliances can also have different
+
+                     configurations, such as different fault tolerance settings, drive counts, and front-end
+
+                     connectivity options. At any time, a user can expand the cluster by adding an additional
+
+                     appliance or reduce the size of the cluster by removing an appliance. Adding and
+
+                     removing appliances from the cluster are discussed later in this section.
+
+                     Supported Configurations
+
+                     When creating a PowerStore cluster, the deployment mode of the individual appliances
+
+                     must be considered. In all PowerStoreOS releases, if the first appliance in the cluster is
+
+                     configured as Block Optimized, all future appliances that are added to the cluster are also
+
+                     configured in Block Optimized mode. This is shown in the Block Optimized Cluster table
+
+                     found in Figure 4. If the first appliance in the cluster is in Unified mode, the available
+
+                     deployment mode of the second appliance depends on the PowerStoreOS version
+
+                     running on the cluster being expanded.
+
+                     PowerStoreOS 4.4 and later
+
+                     In PowerStoreOS 4.4 and later, a PowerStore cluster supports up to four appliances all
+
+                     deployed in Unified mode. This allows file resources to be created on any appliance within
+
+                     the cluster. When expanding a cluster in the 4.4 release and later, the second appliance
+
+                     added to the cluster sets the deployment mode for all additional appliances. As shown in
+
+                     the Unified Cluster table in Figure 4, if the second appliance added to the cluster is
+
+                     configured in Unified mode, all additional appliances will also be added in Unified mode. If
+
+                     the second appliance is added in Block Optimized mode, all additional appliances will be
+
+                     added in Block Optimized mode, as shown in the Unified and Block Optimized Mixed
+
+                     Cluster table.
+
+Dell PowerStore: Clustering and High Availability
+
+11
+    Clustering
+
+                  Figure 4.   Supported cluster configurations
+
+                  Note: If a single appliance cluster running PowerStoreOS 4.3 or earlier is upgraded to
+
+                  PowerStoreOS 4.4 or later, the PowerStoreOS 4.4 cluster configuration rules apply to cluster
+
+                  expansion.
+
+                  PowerStoreOS 4.3 and earlier
+
+                  In PowerStoreOS 4.3 and earlier, Unified mode can only be configured on the first
+
+                  appliance within the cluster. All additional appliances added to the cluster are required to
+
+                  be configured as Block Optimized. Only the Unified and Block Optimized Mixed Cluster
+
+                  and Block Optimized Cluster tables in Figure 4 are applicable to PowerStoreOS version
+
+                  4.3 and earlier.
+
+                  Clustering Network
+
+                  Each node in every appliance that is a part of a PowerStore cluster must communicate
+
+                  with each other. The networks that allow the nodes to communicate are internal to the
+
+                  cluster and are named the Intra-Cluster Management (ICM) and Intra-Cluster Data (ICD)
+
+                  networks. In PowerStore Manager, these networks can be viewed by navigating to
+
+                  Settings > Networking > Network IPs. In single appliance clusters, communication
+
+                  paths internal to the appliance are used.
+
+                  In multi-appliance PowerStore clusters, the ICM and ICD networks communicate through
+
+                  a link aggregation, also known as a bond. These bonded ports connect to the top-of-rack
+
+                  switch network with native VLAN network packets and use auto-generated IPv6
+
+                  addresses. All appliances in the cluster should be in the same rack or multiple racks in the
+
+                  same data center. If PowerStore appliances span multiple switches, ensure that the native
+
+                  VLAN is configured on the switch ports and are shared across the switches. Link
+
+Dell PowerStore:  Clustering and High Availability
+
+12
+                                                                                                           Clustering
+
+                   aggregations are discussed further in the section named Link Aggregation Control
+
+                   Protocol (LACP).
+
+                   PowerStoreOS 4.4 and later
+
+                   When deploying a system running PowerStoreOS 4.4 or later, no link aggregations exist
+
+                   on the cluster by default. When adding a second appliance to the cluster, a link
+
+                   aggregation must be specified for the ICM and ICD clustering networks on the existing
+
+                   appliance and the appliance being added to the cluster. The link aggregations used for
+
+                   clustering do not need to be on the same ports on the existing appliance and the
+
+                   appliance being added. The link aggregations used for clustering are not dedicated and
+
+                   can also be used for other purposes such file interfaces, storage networks, replication,
+
+                   and import.
+
+                   Once a multi-appliance cluster is created, the link aggregations used for clustering are set
+
+                   for the life of the cluster and cannot be modified. If additional appliances are added to the
+
+                   cluster, the existing ICM and ICD interfaces are used for clustering and no additional ports
+
+                   are required. If one or more appliances are removed resulting in a cluster containing a
+
+                   single appliance, the ICM and ICD networks are automatically removed from the link
+
+                   aggregation. If the link aggregation is no longer in use for any purpose, the bond can be
+
+                   deleted.
+
+                   PowerStoreOS 4.3 and earlier
+
+                   In PowerStoreOS 4.3 and earlier, a link aggregation is automatically created using ports 0
+
+                   and 1 of the 4-port card during cluster creation. This link aggregation, also known as the
+
+                   system bond, is automatically assigned the ICM and ICD clustering networks even if
+
+                   clustering of multiple appliances is never implemented. These networks cannot be
+
+                   removed, which also means this bond can never be deleted. In addition to clustering, the
+
+                   link aggregation can also be used for file interfaces, storage networks, replication, and
+
+                   import.
+
+                   If a single appliance cluster running PowerStoreOS 4.3 and earlier is upgraded to
+
+                   PowerStoreOS 4.4 or later, the ICM and ICD networks are removed from the system
+
+                   bond. The system bond is changed to a user defined link aggregation and can be deleted
+
+                   if no longer in use. If a multi-appliance cluster is upgraded, the ICM and ICD network
+
+                   remain assigned to the ports.
+
+                   Add Appliance
+
+                   PowerStore allows scaling up and scaling out a cluster independently. To add more
+
+                   capacity, scale up by adding additional drives and expansion enclosures. To add
+
+                   compute, memory, and connectivity, scale out by adding appliances to an existing cluster.
+
+                   You can add an appliance using the PowerStore Manager, REST API, and PSTCLI.
+
+                   Consider these general guidelines when adding appliances to an existing cluster:
+
+                   •         The final cluster size cannot exceed four appliances
+
+                   •         You can only add uninitialized appliances
+
+                   •         You can only add one appliance at a time
+
+                   •         The new appliance and the existing cluster must be in a healthy state
+
+Dell  PowerStore:  Clustering and High Availability
+
+13
+    Clustering
+
+                  •          All link aggregations used for the clustering networks must be able to
+
+                             communicate with each on the same native VLAN
+
+                  To add an appliance to an existing cluster in PowerStore Manager, go to the Hardware >
+
+                  Appliances page and click the Add button. The following sections cover the major steps
+
+                  within the Add Appliance wizard.
+
+                  Note: The following sections outline the major steps found in PowerStoreOS 4.4 and later.
+
+                  Clusters running earlier codes have slightly different steps due to updates in the 4.4 release.
+
+                  Cluster Details
+
+                  This step lists the unconfigured appliances that are available to add to the cluster. This
+
+                  page includes systems that are not faulted and are running a software version within one
+
+                  major release (N-1 or N+1) of the PowerStoreOS running within the cluster. Unconfigured
+
+                  appliances listed as Incompatible/sync available will need to synchronize their code to
+
+                  the PowerStoreOS version running on the cluster before the appliance can be added. To
+
+                  do this, select the appliance, click Next, then click the “Synchronize” button. When the
+
+                  synchronization is complete, continue with the Add Appliance wizard to add the appliance.
+
+                  Figure 5.  Add Appliance wizard – Cluster Details step
+
+                  In this example, the cluster includes an appliance in Unified mode, and a second
+
+                  appliance is being added to the cluster. In PowerStoreOS 4.4 and later, the second
+
+                  appliance added to the cluster can be deployed in Unified or Block Optimized mode. As
+
+                  discussed in the Supported Configurations section, the selection at this time determines
+
+                  the appliance mode for any additional appliances added to the cluster in the future.
+
+                  Figure 6.  Select Appliance Mode window
+
+Dell PowerStore:  Clustering and High Availability
+
+14
+                                                                                                         Clustering
+
+                   If block is selected, the appliance must be rebooted before it can be added to the cluster.
+
+                   This reboot occurs automatically to configure the appliance in block optimized mode. The
+
+                   Appliance Reboot Required window is shown below.
+
+                   Figure 7.  Appliance Reboot Required window
+
+                   Fault Tolerance
+
+                   In the Fault Tolerance step, the Tolerance Level for the appliance is selected. This
+
+                   setting determines the number of drives that can fail concurrently on an appliance without
+
+                   incurring data loss. The options are Single Drive Failure and Double Drive Failure.
+
+                   These are discussed further in the Resiliency sets section of this paper.
+
+                   Figure 8.  Add Appliance wizard –Fault Tolerance step
+
+                   Management Network
+
+                   After selecting an appliance and setting the fault tolerance level, IP addresses for the new
+
+                   appliance must be added if the minimum number of free IPs is not met. There are two
+
+                   methods for adding IP addresses to the cluster, in the Add Appliance workflow or in the
+
+                   Settings page. In the Add Appliance workflow, the user is notified if additional IPs must be
+
+                   added, as shown in Figure 9.
+
+Dell  PowerStore:  Clustering and High Availability
+
+15
+    Clustering
+
+                  Figure 9.   An example of the cluster requiring additional IPs for appliance management
+
+                  After selecting the Add network IPs button, the page in Figure 10 is displayed. For
+
+                  cluster expansion, you must have three or more unused management IP addresses to
+
+                  expand the cluster. To supply additional IP addresses for management, click Add. The
+
+                  following figure shows the minimum requirement of three unused IP addresses added in
+
+                  this example.
+
+                  Figure 10.  Adding management IPs in the Add Appliance workflow
+
+                  The alternative method for adding IP addresses is to navigate to Settings > Networking
+
+                  > Network IPs > Management. The following figure shows an example of this page.
+
+                  Additional management IPs can be entered in this page, which will be used to manage
+
+                  appliances added to the cluster. This is a way to reserve extras IPs within the cluster for
+
+                  future expansion.
+
+Dell PowerStore:  Clustering and High Availability
+
+16
+                                                                                                             Clustering
+
+                   Figure 11.  How to add IPs from the Settings page
+
+                   Clustering Network
+
+                   The Clustering Network step is new in the PowerStoreOS 4.4 release. This step is used to
+
+                   specify which Link Aggregations the ICD and ICM networks will utilize for cluster
+
+                   communication. In this example of a single appliance cluster, the link aggregation must be
+
+                   specified on the appliance currently within the cluster, and on the appliance being added.
+
+                   If the existing cluster has multiple appliances, ports only need to be specified for the
+
+                   appliance being added. Below is an example of this screen.
+
+                   Figure 12.  Add appliance – Clustering Network step
+
+                   Clicking Select Link Aggregation opens a window that allows the user to select an
+
+                   existing bond or create a new one for the existing appliance within the cluster. When
+
+Dell  PowerStore:  Clustering and High Availability
+
+17
+    Clustering
+
+                  Select Ports for Link Aggregation is selected, the window below is displayed. Here,       the
+
+                  user can choose which ports will be used for the appliance being added.
+
+                  Figure 13.  Add appliance – Clustering Network step – Select Ports for Link Aggregation
+
+                  Once the Link Aggregations are specified, they can be reviewed on the Clustering
+
+                  Network page. An example of the step with information entered can be found below.
+
+                  Figure 14.  Add appliance – Clustering Network step – Links specified
+
+                  Validation
+
+                  In the Validation step, a network validation check must be run before completing the Add
+
+                  Appliance wizard. Warnings or errors might be displayed after the network validation
+
+Dell PowerStore:  Clustering and High Availability
+
+18
+                                                                                                      Clustering
+
+                   check is performed. It is recommended to address warnings before beginning a cluster
+
+                   expansion, but any warnings displayed can be bypassed. If there are errors, however,
+
+                   these must be corrected before continuing. If the errors are not addressed, the cluster
+
+                   expansion is blocked from starting. Figure 15 shows an example of the Summary page
+
+                   where the configuration can be validated.
+
+                   Figure 15.  Add appliance – Validation step
+
+                   Summary
+
+                   The Summary step of the Add Appliance wizard is shown below. This step is used to
+
+                   confirm the information entered in the wizard. If there are any issues, the Back button is
+
+                   available to go back to a previous step. Once the information is confirmed to be correct,
+
+                   click Add Appliance to expand the cluster with the selected appliance.
+
+                   Figure 16.  Add appliance – Summary step
+
+Dell  PowerStore:  Clustering and High Availability
+
+19
+    Clustering
+
+                  Review the job
+
+                  After the Add Appliance wizard is completed, a new job is created. To see more details
+
+                  about the job, click the Jobs icon in the top-right area of PowerStore Manager. Figure 17
+
+                  shows an example of an Add Appliance job that is running in the background. Other tasks
+
+                  within PowerStore Manager can be completed while the Add Appliance job runs.
+
+                  Figure 17.  Add appliance job
+
+                  Remove Appliance
+
+                  PowerStore clusters can be scaled down by removing individual appliances from the
+
+                  cluster. Removing an appliance from a cluster requires careful planning and
+
+                  consideration. After the appliance is removed from the cluster, the appliance is reimaged
+
+                  and reverted to the original factory settings.
+
+                  Before starting the appliance removal process, storage objects residing on the appliance
+
+                  need to be removed. Volumes, volume groups, and vVols can be migrated to other
+
+                  appliances in the cluster. This process can be performed in PowerStore Manager by
+
+                  navigating to Hardware > Appliances. Once on the Appliances page select the
+
+                  appliance to be removed and select More Actions > Migrate. The wizard-based workflow
+
+                  helps to move storage resources to other appliances in the cluster.
+
+                  Table 2 shows the high-level steps for removing a PowerStore appliance from the cluster.
+
+                  This information is also outlined in detail within PowerStore Online Help. Search for
+
+                  Remove an appliance from a cluster within Online Help for more information and
+
+                  specific guidance. Figure 18 shows the information provided to the user after selecting the
+
+                  appliance and clicking Remove. The hyperlink navigates the user to the help page
+
+                  mentioned previously.
+
+                  Note: If a cluster includes one appliance in Unified mode and one or more appliances in Block
+
+                  Optimized mode, removing the Unified appliance forces the cluster to become Block Optimized.
+
+                  No additional appliances can be added in Unified mode if the Unified appliance is removed. If all
+
+                  Block Optimized appliances are removed, appliances in Unified Mode can be added to the cluster.
+
+Dell PowerStore:  Clustering and High Availability
+
+20
+                                                                                                          Clustering
+
+                   Table  2.  High-level steps to remove an appliance from a cluster
+
+                          Operation
+
+                   1      Move the Primary Appliance operations off the appliance manually    if
+
+                          required
+
+                   2      Disable support notifications on the cluster
+
+                   3      Disable resource balancer on the appliance being removed
+
+                   4      Migrate any remaining resources to other appliances in the cluster
+
+                   5      Remove the appliance from the cluster
+
+                   1. Move the Primary Appliance operations off the appliance manually if required
+
+                   In a PowerStore cluster, one appliance has the role of primary appliance. One task of the
+
+                   primary appliance is to run the PowerStore Manager service. Before the primary
+
+                   appliance can be removed from a cluster, the role of primary must be moved to another
+
+                   appliance within the cluster. In PowerStoreOS 4.4 and later, the remove appliance
+
+                   process automatically migrates the primary role to another PowerStore in the cluster if
+
+                   required. While not required, the primary role may be moved prior to starting the remove
+
+                   appliance process. In releases prior to PowerStoreOS 4.4, if a user attempts to remove
+
+                   the primary appliance from the cluster, the job fails, and a failure message is provided. On
+
+                   these releases the primary role must be migrated manually.
+
+                   One method to determine the primary appliance is to enable SSH management on the
+
+                   cluster and use an SSH client to connect to the cluster IP. The service tag displayed
+
+                   within the command prompt identifies the primary appliance. The
+
+                   svc_cluster_management service command can also be used to identify the primary
+
+                   appliance. This command is also used to move the primary role to another appliance
+
+                   within the cluster if required. This process is outlined in the Online Help page referenced
+
+                   earlier in this section.
+
+                   2. Disable support notifications on the cluster
+
+                   When removing an appliance, it is suggested disable support notifications on the cluster.
+
+                   This prevents call home alerts from occurring during the maintenance activity. In
+
+                   PowerStore Manager navigate to Settings > Support > Maintenance Window. The
+
+                   appliance removal process typically takes less than one hour, but it is suggested to set a
+
+                   longer duration in case unforeseen issues arise. The maintenance window should be
+
+                   disabled once the removal process completes.
+
+                   3. Disable resource balancer on the appliance being removed
+
+                   Resource balancer is the cluster process that identifies which appliance a storage
+
+                   resource should be assigned to. This is primarily used when creating new storage
+
+                   resources, and the placement of the resource is set to auto. Disabling resource balancer
+
+                   on the appliance that is being removed ensures no additional resources are assigned to
+
+                   the appliance automatically. The svc_appliance_provisioning service command is
+
+                   used to disable this setting. This process is outlined in the Online Help page referenced
+
+                   earlier in this section.
+
+Dell  PowerStore:  Clustering and High Availability
+
+21
+    Clustering
+
+                  4. Migrate any remaining resources to other appliances in the cluster
+
+                  At this time any resources remaining on the appliance being removed need to be migrated
+
+                  to another appliance within the cluster or deleted. To migrate resources or confirm none
+
+                  are present on the appliance, select the checkbox in front of the system on the Appliance
+
+                  page, then select More Actions > Migrate. If no resources remain on the appliance, the
+
+                  window displays No objects found.
+
+                  5. Remove the appliance from the cluster
+
+                  Removing an appliance from a cluster can be completed in PowerStore Manager or using
+
+                  the svc_remove_appliance service script. In PowerStore Manager, select the
+
+                  checkbox in front of the system on the Appliances page, then select Remove. Clicking
+
+                  Remove within the Remove Appliance window will create a background job and remove
+
+                  the appliance from the cluster. An example of the Remove Appliance window can be seen
+
+                  in Figure 18.
+
+                  Figure 18.    Remove appliance message
+
+    VMware        PowerStore offers deep integration with VMware vSphere. These integrations include
+
+    integration   VAAI and VASA support, event notifications, snapshot management, storage containers
+
+                  for virtual volumes (vVols), and virtual machine discovery and monitoring in PowerStore
+
+                  Manager. By default, when a cluster is created, a single storage container is automatically
+
+                  created. Storage containers are used to present vVol storage from PowerStore to
+
+                  vSphere. vSphere mounts the storage container as a vVol datastore and makes it
+
+                  available for VM storage. This vVol datastore is then accessible by external ESXi hosts. If
+
+                  an administrator has a multi-appliance cluster, the total capacity of a storage container
+
+                  spans the aggregation of all appliances in the cluster. For more information about VMware
+
+                  Integration with PowerStore, see the white paper Dell PowerStore: Virtualization
+
+                  Integration.
+
+    Resource      In the modern data center, administrators must be quick and agile to support mission-
+
+    balancer      critical applications. PowerStore includes an intelligent analytical engine that is built into
+
+                  the PowerStore operating system. This engine offers many benefits such as helping
+
+                  administrators make decisions that are based on the initial placement of data, and
+
+                  automatically balancing node performance within an appliance. It also assists with
+
+Dell PowerStore:  Clustering and High Availability
+
+22
+                                                                                                       Clustering
+
+                   resource migrations or storage expansions that are based on analytics and capacity
+
+                   forecasting.
+
+                   Initial placement of data
+
+                   When storage administrators create storage resources, the resource balancer can provide
+
+                   many benefits. For example, when a multi-appliance cluster is deployed, the resource
+
+                   balancer intelligently and automatically places newly created volumes or NAS servers on
+
+                   different appliances in the cluster. This placement is based on the deployment mode of
+
+                   the appliances, and which appliance has the most unused capacity. If you choose to
+
+                   override the decision of automatic placement, you can manually select the appliance on
+
+                   which to place the resource.
+
+                   The following figure shows an example of a volume with the Placement setting of Auto.
+
+                   PowerStore will choose which appliance to assign the resource automatically. The drop-
+
+                   down menu allows the user to specify another appliance if required. Note that when
+
+                   volumes or volume groups are created, they are only placed on a single appliance and do
+
+                   not span multiple appliances in the cluster. After these storage resources are created,
+
+                   they do not move until they are migrated manually to another appliance in the cluster. The
+
+                   migration of storage resources within a cluster is discussed in the following sections of
+
+                   this paper.
+
+                   Figure 19.    Automatic placement of volumes or manual assignment
+
+                   Volume groups
+
+                   In PowerStore, when creating a volume group, all corresponding members in the volume
+
+                   group are placed on the same appliance. If creating a volume group using existing
+
+                   volumes, the volumes could reside on different appliances in the cluster. In this situation,
+
+                   the storage resources must be manually migrated to a single appliance before placing
+
+                   them into a volume group.
+
+                   NAS Servers
+
+                   When creating an NAS server, the appliance selection is set to Auto. When set to Auto,
+
+                   the resource balancer automatically selects which appliance to create the NAS server if
+
+                   multiple appliances within the cluster are deployed in Unified mode. A user can override
+
+                   the appliance placement setting of Auto and choose which appliance to create the NAS
+
+Dell  PowerStore:  Clustering and High Availability
+
+23
+    Clustering
+
+                  server if desired. All file systems created on the NAS server will be created on the same
+
+                  appliance as the NAS server.
+
+                  Capacity forecasting
+
+                  PowerStore provides details on when a cluster might run out of space. These details help
+
+                  when planning to scale a cluster based on business needs. To best inform these
+
+                  decisions, PowerStore maintains historical statistics about the consumed storage on an
+
+                  appliance to intelligently predict how this storage will be used over time.
+
+                  To provide the most accurate information, the system collects statistics over 15 days.
+
+                  After 15 days, PowerStore Manager displays a forecast of when a system might run out of
+
+                  space. The following figure shows an example of viewing capacity forecasting in
+
+                  PowerStore Manager.
+
+                  Figure 20.  Capacity forecasting
+
+                  Dynamic Node Affinity
+
+                  When mapping volumes to hosts, PowerStore dynamically sets a node for preferred host
+
+                  access, also known as Node Affinity, as shown in the following figure. As more storage
+
+                  resources are created and used over time, there might be situations where one
+
+                  PowerStore node is more heavily used than the peer node. In this scenario, PowerStore
+
+                  may automatically change the Node Affinity of one or more storage resources if certain
+
+                  performance metrics checks are met.
+
+Dell PowerStore:  Clustering and High Availability
+
+24
+                                                                                                            Clustering
+
+                   Figure 21.  Node Affinity
+
+                   The first performance check compares the read and write IOPs of the nodes. The CPU
+
+                   utilization for each node is checked to ensure that at least one is exceeding 50%. The
+
+                   second check is to see if the system is exceeding a latency check as reported by the data
+
+                   path engine. PowerStore checks these performance metrics every 30 minutes. If all three
+
+                   of these performance checks are met throughout the duration of the 30 minutes,
+
+                   PowerStore dynamically changes the node affinity of the volume and the active/optimized
+
+                   path to the host. This change is transparent and non-disruptive to the host.
+
+                   PowerStoreOS 4.0 and later expands dynamic node affinity to support vVols as well. It
+
+                   leverages the same resource balancer engine that is used for volumes and provides the
+
+                   same functionality and benefits.
+
+                   Migration overview
+
+                   After a volume or volume group is created, capacity and demand may change over time.
+
+                   PowerStore supports moving a volume, volume group, virtual machine, or vVol to another
+
+                   appliance within the cluster. This operation can be performed with a manual or
+
+                   PowerStore assisted migration using PowerStore Manager, REST API, and PSTCLI.
+
+                   These methods are detailed in the next sections of this paper. For more information
+
+                   regarding vVol migrations, see the document Dell PowerStore: Virtualization Integration.
+
+                   Before the start of a migration job, verify the following:
+
+                   •           Ensure that the host has connectivity to the source and destination appliances
+
+                               with the appropriate protocol
+
+                   •           Ensure that the host object in PowerStore Manager shows initiators going to the
+
+                               source and destination appliances
+
+                   •           From the host, perform a rescan of the storage object that will be migrated
+
+                   After verifying the above steps, a migration job can be started that is non-disruptive and
+
+                   transparent to the host. Although it is not visible to the end user, the storage resource and
+
+                   its data are transferred to the new appliance within the cluster by using asynchronous
+
+                   replication technology. When the storage resource is moved to the destination, all
+
+                   associated storage objects, such as snapshots and clones, are also moved to the
+
+                   destination. After the data transfer is complete, the host switches paths automatically to
+
+                   the destination appliance and the migration job is complete.
+
+                   The following figure shows an example of a multi-appliance cluster that is made up of four
+
+                   appliances. This example involves moving a storage resource from Appliance 1 to
+
+Dell  PowerStore:  Clustering and High Availability
+
+25
+    Clustering
+
+                  Appliance 3. In this example the host does not have connectivity to Appliance 2 or
+
+                  Appliance 4. This means that the storage resource would not be able to migrate to those
+
+                  appliances until host connectivity is established.
+
+                  Figure 22.  Volume migration example
+
+                  Manual migration
+
+                  A manual migration can be used to move storage resources such as a volume, volume
+
+                  group, virtual machine, or vVol to another appliance within the cluster. Before moving the
+
+                  storage resource, ensure that paths are seen from the PowerStore Manager and that a
+
+                  host rescan has been performed. After the host initiator paths are verified, perform a
+
+                  manual migration on the storage resource. If the host does not have access to the
+
+                  destination appliance, the migration will fail.
+
+                  Performing a manual migration in PowerStore for a volume, volume group, virtual
+
+                  machine, or vVol depends on the storage resource:
+
+                  •           Volume: Select Storage > Volumes to view a list of all available volumes in the
+
+                              cluster. Select a volume to migrate and click More Actions > Migrate.
+
+                  •           Volume group: Select Storage > Volume Groups to view a list of all available
+
+                              volumes in the cluster. Select a volume group to migrate and click More
+
+                              Actions > Migrate.
+
+                  •           Virtual Machine: Select Compute > Virtual Machine to view a list of virtual
+
+                              machines in the cluster. Select the virtual machine to move, then click More
+
+                              Actions > Migrate.
+
+                  •           vVol: Select Storage > Storage Containers and select the storage container
+
+                              where the virtual machine is deployed. Select the Virtual Volumes tab to view
+
+                              all associated vVols in the cluster, select a vVol to migrate, and click Migrate.
+
+                              Although individual vVol migration is possible, it is recommended to keep all
+
+                              vVols of the same VM on a single appliance to minimize the fault domain and
+
+                              improve availability. It is suggested to migrate VMs instead to ensure vVol co-
+
+                              location.
+
+                  The following figure depicts a volume that is created on a multi-appliance cluster that is
+
+                  being migrated. The volume resides on appliance 1 and the wizard displays a list of the
+
+                  other appliances in the cluster. To migrate the volume, select the desired destination
+
+Dell PowerStore:  Clustering and High Availability
+
+26
+                                                                                                         Clustering
+
+                   appliance and click Next. This action runs multiple pre-checks and creates the data
+
+                   migration session. Before the migration can proceed, a host rescan is required to ensure
+
+                   host connectivity is established to the new resource on the new appliance. The steps
+
+                   presented on the Summary step must be followed to complete the migration process.
+
+                   Figure 23.  Start volume migration
+
+                   Manual migrations for volumes, volume groups, virtual volumes, virtual machines, and
+
+                   VMware Site Recovery Manager replication groups can also be started from the
+
+                   Hardware > Appliances page. This method allows a user to easily view the resources
+
+                   created on a particular appliance and migrate some or all of them to other appliances
+
+                   within the cluster. To start a migration on the Appliances page, select an appliance, click
+
+                   More Actions > Migrate. An example of the Migration workflow is shown in Figure 24.
+
+                   As shown in the figure below, the user has the options of All Available Objects or Select
+
+                   Object Manually. The All Available Objects option is typically used when the appliance
+
+                   will be powered off and the resources must remain online, or the appliance is being
+
+                   removed from the cluster and all objects must be removed. When Select Objects
+
+                   Manually is used, the user can select specific resources to move. Based on the
+
+                   selections, the Non-Migratable Storage Objects step in the workflow informs the user of
+
+                   objects that currently cannot be migrated. Possible reasons are space constraints, object
+
+                   type, and appliance/host connectivity. Objects that are part of an active import or
+
+                   migration session are not eligible for migration.
+
+Dell  PowerStore:  Clustering and High Availability
+
+27
+    Clustering
+
+                  Figure 24.  Appliance Migration workflow
+
+                  On the Recommended Distribution step, PowerStore displays which appliance is the
+
+                  best destination for the storage resources. The selection can be manually overridden by
+
+                  selecting the Modify Recommended Distribution option. The pencil icon in the
+
+                  Destination Appliance column can be used to manually select a different appliance
+
+                  within the cluster than the one suggested. An example of this step with the Modify
+
+                  Recommended Distribution option expanded can be seen in the figure below.
+
+                  Figure 25.  Appliance Migration workflow – Recommended Distribution step
+
+                  At the end of the wizard, PowerStore provides a list of associated hosts that require a
+
+                  rescan. After the rescan is completed, PowerStore automatically generates the migration
+
+                  sessions and starts the migration jobs.
+
+                  Assisted migration
+
+                  PowerStore periodically monitors storage resource utilization across all appliances within
+
+                  the cluster. If an appliance is approaching the maximum usable capacity, the system
+
+Dell PowerStore:  Clustering and High Availability
+
+28
+                                                                                                                   Clustering
+
+                   generates migration recommendations as shown in the following figure. These
+
+                   recommendations are generated based on factors such as drive wear, appliance capacity,
+
+                   and health. An administrator can view assisted-migration recommendations from the
+
+                   capacity alerts generated on the cluster. If the administrator accepts a migration
+
+                   recommendation, a migration session is automatically created. Any snapshots or clones
+
+                   that are associated with the original storage resources are migrated over to the new
+
+                   appliance, as with a manual migration.
+
+                   The figure below is an example of a capacity alert for an appliance that is projected to run
+
+                   out of space in 10 days. After selecting the alert, under Next Steps is a link to Assisted
+
+                   Migration. Clicking the link displays the screen in the figure below. Here, PowerStore
+
+                   provides recommendations for internal cluster migrations of resources. The View
+
+                   Recommended Distribution option can be selected to view more information on
+
+                   PowerStore’s suggested remediation steps. Clicking Next accepts the recommendations
+
+                   and proceeds with the migrations.
+
+                   Figure 26.    Assisted migration recommendations
+
+                   Migration states
+
+                   Migration sessions can be viewed on the Migration > Internal Migrations > Migrations
+
+                   page. Administrators can pause, resume, or delete any active migration sessions through
+
+                   PowerStore Manager, REST API, or PSTCLI. The following table shows a list of all the
+
+                   possible states for a migration session.
+
+                   Table 3.      Migration Session States
+
+                   State                             Definition
+
+                   Initializing                      Migration session starts and stays in this state until the session
+
+                                                     initialization completes
+
+                   Initialized                       Migration session transitions to this state when the session
+
+                                                     initialization completes
+
+                   Synchronizing                     Background data copy is in progress
+
+Dell  PowerStore:  Clustering and High Availability
+
+29
+    High availability
+
+                       State                       Definition
+
+                       Idle                        Migration session transitions to this state when the initial
+
+                                                   background data copy completes
+
+                       Cutting_Over                A final portion of the data copy is performed in this state, and the
+
+                                                   ownership of the storage resource is transferred to the new
+
+                                                   appliance.
+
+                       Deleting                    Migration session is being deleted
+
+                       Completed                   Migration session is completed, and it is safe to delete the session
+
+                       Pausing                     Migration session transitions to this state when the pause
+
+                                                   command is issued
+
+                       Paused                      Migration session is Paused, and user intervention is required to
+
+                                                   resume the session
+
+                       System_Paused               Migration session transitions to this state if it encounters any error,
+
+                                                   and user may resume or delete the migration after resolving the
+
+                                                   error
+
+                       Resuming                    Migration session background copy is resumed
+
+                       Failed                      Migration session encountered an error
+
+    High availability
+
+    Introduction       Although PowerStore appliances support multi-appliance configurations to increase
+
+                       redundancy and fault tolerance throughout the cluster, each PowerStore appliance also
+
+                       has two nodes that make up a High Availability (HA) pair. PowerStore features fully
+
+                       redundant hardware and includes several high-availability features. These features are
+
+                       designed to withstand component failures within the system and in the environment.
+
+                       Examples of these failures include network or power issues. If an individual component
+
+                       fails, the storage system can remain online and continue to serve data. The system can
+
+                       also withstand multiple failures if they occur in separate component sets. After a failure
+
+                       alert is issued, the failed component can be ordered and replaced without impact. This
+
+                       section reviews PowerStore redundancy and fault tolerance within the platform and the
+
+                       cluster.
+
+    Hardware           PowerStore has a dual-node architecture which includes two identical nodes for
+
+    redundancy         redundancy. It features an active/active controller configuration in which both nodes
+
+                       service I/O simultaneously. This feature increases hardware efficiency since there are no
+
+                       requirements for idle-standby hardware. The base enclosure includes both the nodes and
+
+                       the drives. The number of drives and drive types depends on the PowerStore appliance
+
+                       model. For details about the components of a PowerStore appliance, see the appropriate
+
+                       Hardware Information Guide on dell.com/powerstoredocs. See also the white paper Dell
+
+                       PowerStore: Introduction to the Platform on the PowerStore Info Hub.
+
+Dell PowerStore: Clustering and High Availability
+
+30
+                                                                       High availability
+
+                   Management software
+
+                   The management software on the primary appliance in the cluster runs PowerStore
+
+                   Manager, the management interface (cluster IP), and other services such as REST API
+
+                   and PSTCLI. The management resources are balanced between both nodes of the
+
+                   appliance to promote better CPU utilization across the nodes. PowerStore Manager runs
+
+                   on the secondary node while the other management services run on the primary node.
+
+                   Figure 27 shows an example of a primary node from the hardware properties page, which
+
+                   is highlighted by going to Hardware > Appliances > [Appliance] > Components > Rear
+
+                   View. Under BaseEnclosure on the left, the primary node is identified by having
+
+                   (primary) next to the node name.
+
+                   Figure 27.  Primary node
+
+                   If a node reboots, or the management connection goes down, the services running on that
+
+                   node automatically fail over to the peer node. After a failover, it might take several
+
+                   minutes for all services to start completely as resource I/O takes precedence. Users that
+
+                   are logged in to PowerStore Manager during the failover may see a message indicating
+
+                   that the connection has been lost. When the failover process completes, access to
+
+                   PowerStore Manager is automatically restored, however users can also manually refresh
+
+                   the browser to regain access. Host access to storage resources is prioritized and
+
+                   available before PowerStore Manager is accessible.
+
+                   After the failover, the services temporarily run on the node. When the peer node has
+
+                   recovered from the failover event, the services automatically rebalance after five minutes.
+
+                   During the rebalance, PowerStore Manager might lose connection while services are
+
+                   brought back up on the recovered node. Note that after failover events, the primary node
+
+                   might change to the peer node and will remain this way until the system is rebooted or
+
+                   failed over again.
+
+Dell  PowerStore:  Clustering and High Availability
+
+31
+    High availability
+
+                       Link Aggregation Control Protocol (LACP)
+
+                       Link loss can be caused by many environmental factors, such as cable or switch port
+
+                       failure. It is suggested to configure high availability on the ports to protect against these
+
+                       types of failure scenarios.
+
+                       Link aggregation combines multiple network connections into one logical link. This
+
+                       provides increased throughput by distributing traffic across multiple connections and
+
+                       provides redundancy in case one connection fails. If connection loss is detected, the link
+
+                       is immediately disabled, and traffic is automatically moved to the surviving links in the
+
+                       aggregation to avoid disruption. The switch should be properly configured to add the ports
+
+                       back to the aggregation when the connection is restored. Although link aggregations
+
+                       provide more overall bandwidth, each individual client still runs through a single port.
+
+                       PowerStore systems use the Link Aggregation Control Protocol (LACP) IEEE 802.3ad
+
+                       standard.
+
+                       In PowerStoreOS 3.0 and later, additional link aggregations, also called user defined
+
+                       bonds, can be configured with two to four ports on the appliance. These ports can come
+
+                       from the same I/O Module, from different I/O Modules, or across I/O Modules and
+
+                       Ethernet ports on the embedded module. When creating a link aggregation, all ports
+
+                       within the aggregation should be cabled on both nodes and have the same speed, duplex
+
+                       settings, and MTU size. If a failover were to occur, the peer node uses the same ports.
+
+                       It is suggested to configure LACP on the switches for user-created bonded ports. If
+
+                       cabling bonded ports across switches, it is recommended to configure Virtual Link
+
+                       Trunking interconnect (VLTi) with LACP or equivalent technology on the switch to take
+
+                       advantage of the bond’s active/active capabilities. Link aggregations are created from the
+
+                       Hardware > Ports page in PowerStore Manager (Figure 28).
+
+                       Note: In releases prior to PowerStoreOS 4.1, creating a Link Aggregation was completed from the
+
+                       Hardware > [appliance] > Ports tab.
+
+                       Figure 28.  Create Link Aggregation
+
+Dell PowerStore:       Clustering and High Availability
+
+32
+                                                                                               High availability
+
+                   A single link aggregation can be used for PowerStore ports connecting to the same switch
+
+                   or different switches. For switches that are stacked, link aggregation provides multiple
+
+                   paths to multiple switches for redundancy purposes. Figure 29 shows a cabling diagram
+
+                   for an LACP configuration on 4-port card ports 0 and 1. Each port on node A connects to
+
+                   a different Dell switch, and the configuration is mirrored on node B. For switches that are
+
+                   stacked, VLT, or equivalent technology for a different switch vendor must be configured. A
+
+                   link aggregation group is then configured on the blue paths in the example below, and
+
+                   separately for the green paths.
+
+                   Figure 29.  Link aggregation example 1
+
+                   For networks that contain switches that are not interconnected, a single link aggregation
+
+                   can be used to provide redundancy to one network switch, while a second aggregation
+
+                   can be used for redundancy to another. In Figure 30, the first link aggregation is created
+
+                   on ports 0 and 1 on the 4-port card, shown in blue, and connects to the top switch. A
+
+                   second link aggregation is created on ports 2 and 3 of the 4-port card, shown in green,
+
+                   and connects to the bottom switch. A link aggregation group then needs to be configured
+
+                   for each of the four groups of cables. On node A, a link aggregation group would be
+
+                   configured on the switch for the blue cables to the top switch, and separately on the green
+
+                   paths to the bottom switch. This is then repeated for the ports on node B.
+
+                   Figure 30.  Link aggregation example 2
+
+Dell  PowerStore:  Clustering and High Availability
+
+33
+    High availability
+
+                       For client access, NAS Servers include one or more network interfaces that are created
+
+                       on aggregated links for redundancy. Starting in PowerStoreOS 4.0, users can map
+
+                       storage (iSCSI) and replication networks to user defined link aggregated ports. Previously,
+
+                       storage and replication networks were limited to the system bond (bond0) (PowerStoreOS
+
+                       4.3 and earlier) or any individual ethernet port capable of supporting a storage network.
+
+                       PowerStore bonds also support enabling multiple uses at the same time. File, storage
+
+                       (iSCSI), replication, and import traffic can all share the same bond if required.
+
+                       Note: User defined link aggregations do not support the NVMe/TCP protocol. However,
+
+                       NVMe/TCP can be utilized on the system created bond (bond0) in PowerStoreOS 4.3 and earlier.
+
+                       If an appliance running PowerStoreOS 4.3 and earlier is upgraded to PowerStoreOS 4.4 and later,
+
+                       NVMe/TCP support remains for the lifetime of bond0. Once bond0 is deleted, NVMe/TCP support
+
+                       is no longer possible on link aggregations.
+
+                       When replicating from one system to another, it is recommended to configure link
+
+                       aggregations the same way on both systems. If a link aggregation with the same name is
+
+                       not found on the destination system, the interfaces on the destination NAS Server are
+
+                       created without a port assignment and the user must manually assign a port. Alternatively,
+
+                       if a nonmatching configuration is required, users can override the interfaces on the
+
+                       destination NAS Server and assign them to a valid port. Otherwise, data access becomes
+
+                       unavailable in the event of a failover.
+
+                       Link aggregation should also be configured at the host level/client level to provide
+
+                       resiliency against port or cable failures. Depending on the vendor, this might also be
+
+                       referred to as trunking, bonding, or NIC teaming. See the vendor’s documentation for
+
+                       more information.
+
+                       Fail-Safe Networking (FSN)
+
+                       PowerStoreOS 3.5 adds Fail-Safe Networking (FSN) support for file interfaces. FSN is a
+
+                       high-availability feature that allows configuring ports in a primary/backup configuration.
+
+                       Under normal circumstances, the primary ports are designated as active and are used to
+
+                       service I/O. If all primary ports of an FSN go offline, the backup ports automatically
+
+                       become active and continue to service I/O. This enables redundancy in case of port,
+
+                       cable, or switch failure. When the primary ports are restored, the system automatically
+
+                       makes the primary ports active again.
+
+                       FSN can be leveraged to increase resiliency in file networks, especially when Multi-
+
+                       Chassis Link Aggregation (MC-LAG) is not configured on the top-of-rack switches. MC-
+
+                       LAG enables the ability to create link aggregations across multiple switches. Without MC-
+
+                       LAG, link aggregations are limited to a single physical switch. If that switch goes offline,
+
+                       access to the NAS servers on that node becomes unavailable. Configuring FSN across
+
+                       multiple physical switches enables data access to continue even if a switch goes offline.
+
+                       FSN is designed to be transparent to the switch, which enables it to work with any switch
+
+                       vendor and does not require any switch configuration. The FSN exposes a single MAC
+
+                       address to the network, so it appears as a single link. An FSN can potentially have
+
+                       multiple IP addresses on it if it is used for multiple NAS server interfaces.
+
+                       An FSN can consist of individual ports, Link Aggregations, or a combination of the two.
+
+                       When used in conjunction with LA, multiple ports can be used as part of the active or
+
+Dell PowerStore:       Clustering and High Availability
+
+34
+                                                                                      High availability
+
+                  backup part of the FSN. Leveraging both FSN and LA together provides high availability
+
+                  and load balancing. If the primary side of the FSN uses a LA, all ports of the LA must go
+
+                  down for the backup side to become active. Note that in PowerStoreOS 4.3 and earlier
+
+                  you cannot put the system bond into an FSN. In PowerStoreOS 4.4 and later, a link
+
+                  aggregation created on ports 0 and 1 on the 4-port card can be added to an FSN.
+
+                  An FSN can be created using a different configuration on the primary compared to the
+
+                  backup side, if desired. Members of an FSN can have different speed/duplex settings but
+
+                  must have the same MTU. Ports from different I/O modules can be used in the FSN.
+
+                  FSNs can also be created with more ports in the active side compared to the backup
+
+                  ports. Note that having a mismatched configuration may have performance implications in
+
+                  failure scenarios.
+
+                  For more information about configuring FSN, see the white paper Dell PowerStore: File
+
+                  Capabilities on the Dell Technologies Info Hub.
+
+    Dynamic       Enterprise-class storage systems require high levels of reliability and protection from data
+
+    Resiliency    loss and latent drive failures. Traditional data protection schemes are based on RAID
+
+    Engine (DRE)  groups of a fixed layout that protect a volume’s data. The bandwidth and rebuild speed in
+
+                  this traditional design are limited by the number of drives participating in the group. Also,
+
+                  the speed of the rebuild is limited by the number of tolerated drive failures of that RAID
+
+                  level. For example, a 6+2 could achieve the read speed of six drives but only sustain two
+
+                  drives worth of rebuild speed in the case of a dual-drive failure.
+
+                  The reliability of the data being protected depends heavily on the Bit Error Rate (BER) of
+
+                  the drive, the amount of data that must be rebuilt, and the number of drives. As capacity
+
+                  and drive counts increase, it becomes more difficult to maintain reliability when traditional
+
+                  RAID protection schemes are used.
+
+                  Furthermore, economics and reliability are key buying decisions. The cost of a storage
+
+                  solution is driven by the cost of the drives and ultimately, it is price/performance and
+
+                  effective capacity ($/IOP and $/Effective Capacity). As storage and drive capacity grows,
+
+                  the following occurs:
+
+                  •  Performance scales
+
+                  •  Relative cost of the controller diminishes
+
+                  •  The probability of encountering drive failures increases
+
+                  •  Protection and system metadata overhead increases, impacting effective
+
+                     storage capacity
+
+                  •  Higher rebuild speeds are needed to maintain reliability
+
+                  DRE overview
+
+                  The PowerStore Dynamic Resiliency Engine (DRE) is a 100% software-based approach
+
+                  to redundancy that is more distributed, automated, and efficient than traditional RAID. It
+
+                  meets RAID 6 and/or RAID 5 parity requirements with superior resiliency and at a lower
+
+                  cost. PowerStore implements proprietary algorithms where every drive is partitioned into
+
+                  multiple virtual chunks and redundancy extents are created by using the chunks across
+
+                  several drives.
+
+Dell PowerStore: Clustering and High Availability
+
+35
+    High availability
+
+                       It automatically consumes the drives within an appliance and creates appropriate
+
+                       redundancy using all the drives. This process improves overall performance and allows
+
+                       performance to scale as more drives are added to the appliance. Data written to a volume
+
+                       can be spread across any number of drives within an appliance. As new drives are added,
+
+                       the data is automatically rebalanced.
+
+                       In PowerStoreOS 4.0, a change to DRE allows the system to free previously reserved
+
+                       space which helps increase the usable capacity of the system. Once an appliance is
+
+                       upgraded from a previous release to 4.0 or later, the space will automatically be available
+
+                       as usable capacity within the system. The amount of space being freed directly depends
+
+                       on the appliance model and drive configuration.
+
+                       Figure 31.  Data placement in PowerStore
+
+                       Distributed sparing
+
+                       Unlike traditional RAID protection strategies, PowerStore does not require dedicated
+
+                       spare drives. Spare space is distributed across the entire appliance, and a small chunk of
+
+                       space is reserved from each drive used for sparing if a drive fails. A single drive’s worth of
+
+                       spare space is reserved for every resiliency set in an appliance. Resiliency sets are
+
+                       explained later in this section.
+
+                       When a drive fails, only the portion of the drive which has data written will be rebuilt. By
+
+                       doing so, the spare capacity is efficiently managed by consuming only the required space.
+
+                       This feature also shortens rebuild time because only data that has been written to the
+
+                       drive must be rebuilt.
+
+Dell PowerStore:       Clustering and High Availability
+
+36
+                                                                                                        High availability
+
+                   Figure 32.  Distributed sparing
+
+                   Resiliency sets
+
+                   PowerStore implements resiliency sets to improve reliability while minimizing spare
+
+                   overhead. Having multiple failure domains (resiliency sets) increases the reliability of the
+
+                   system since it allows the appliance to tolerate a drive failure in each of the sets if the
+
+                   failure occurs simultaneously.
+
+                   Figure 33.  Tolerance for simultaneous drive failure in multiple resiliency sets
+
+                   An appliance’s fault tolerance level is set during cluster creation or when an appliance is
+
+                   added to an existing cluster. The fault tolerance level sets the number of drives that can
+
+                   fail concurrently within a resiliency set without incurring data loss, which can be
+
+                   configured as Single Drive Failure or Double Drive Failure. Single Drive Failure configures
+
+                   25-drive resiliency sets, while Double Drive Failure configures 50-drive resiliency sets. If
+
+                   deploying a multi-appliance cluster, you can mix different appliances with different drive
+
+                   failure tolerance levels in the same cluster, as shown in the following figure.
+
+                   Note: PowerStore Q models require double-drive failure tolerance.
+
+Dell  PowerStore:  Clustering and High Availability
+
+37
+    High availability
+
+                       Figure 34.  Appliance fault tolerance level
+
+                       As capacity and drives are added to the system over time, resiliency sets dynamically
+
+                       increase and expand. For example, you might have an appliance that has a single-drive-
+
+                       fault-tolerance set. This means that the system is configured with a 25-drive resiliency set.
+
+                       If you add a 26th drive to the system, the resiliency set dynamically splits into two sets.
+
+                       Furthermore, resiliency sets can span across physical enclosures based on the number of
+
+                       drives in the appliance and have a mix of drive sizes.
+
+                       Resiliency sets offer the following key benefits:
+
+                       •           Enterprise class availability
+
+                       •           Faster rebuild times with distributed sparing
+
+                       ▪           Rebuild smaller chunks of the drive simultaneously to multiple drives in the
+
+                                   appliance
+
+                       Figure 35.  Parallel rebuild of single drive to distributed spare space
+
+                       •           Intelligent infrastructure:
+
+                       ▪           Automatically allocate unused user space to replenish spare space to handle
+
+                                   multiple failures. DRE dynamically transfers unused user capacity to replenish
+
+                                   spare capacity if there is sufficient unused capacity available on the appliance.
+
+                       ▪           Intelligently vary the rebuild speed based on incoming I/O traffic while
+
+                                   maintaining availability. PowerStore uses a machine-learning algorithm and
+
+                                   automatically adjusts the rebuild rate to prioritize host I/O when there is a drive
+
+                                   failure to optimize performance, while maintaining reliability.
+
+Dell PowerStore:       Clustering and High Availability
+
+38
+                                                                                                         High availability
+
+                   Figure 36.  Rebuild data          chunks to spare  space  after  drive  failure  and  replenish spare space
+
+                               with unused           user space
+
+Dell  PowerStore:  Clustering and High Availability
+
+39
+    High availability
+
+                       •  Flexible configurations:
+
+                       ▪  Lower TCO with ability to expand storage by adding single drives. Capacity can
+
+                          be added non-disruptively, giving customers the flexibility to expand their
+
+                          storage by adding one or more drives based on their need
+
+                       ▪  Flexible options to add different drive sizes based on storage need. PowerStore
+
+                          implements proprietary algorithms to manage drives of different sizes by
+
+                          optimizing the distribution of redundancy extents across multiple drives
+
+                          Figure 37.       Single drive expansion
+
+    Block storage      The PowerStore architecture implements a fully active/active thinly provisioned mapping
+
+                       subsystem that enables I/Os from any path to be committed and fully consistent without
+
+                       the need for redirection. The primary advantage of this implementation is to reduce the
+
+                       time to service I/O requests if some paths were to become unavailable. This approach
+
+                       contrasts with competing architectures that use redirection and single node locking that
+
+                       can result in long-trespass times, which increases the chances of data unavailability
+
+                       during failover.
+
+                       PowerStore implements a dual-node, shared-storage architecture that uses Asymmetric
+
+                       Logical Unit Access (ALUA) for SCSI-based host access and Asymmetric Namespace
+
+                       Access (ANA) for NVMe-oF host access. I/O requests received on any path
+
+                       (active/optimized or active/non-optimized) are committed locally and are fully consistent
+
+                       with its peer node. I/O is normally sent down an active/optimized path. However, in the
+
+                       rare event that all active/optimized paths become unavailable, I/O requests are processed
+
+                       on the local node through the active/non-optimized paths without the need to send any
+
+                       data to the peer node. Then, the I/O is written to the shared NVRAM write cache where
+
+                       the I/O is deduplicated and compressed before being written to the drives. For more
+
+                       information about how the I/O is written to the drives, see the document Dell PowerStore:
+
+                       Data Efficiencies.
+
+                       ALUA and ANA multipathing ensures high availability. Also, the underlying fully symmetric
+
+                       thin provisioning architecture eliminates the complexity and overhead that is associated
+
+                       with making the volumes available on the surviving path which impacts time to service I/O.
+
+                       To use ALUA and ANA, you must install multipathing software on the host. You should
+
+                       configure multipathing software to use the optimized paths first and only use the non-
+
+                       optimized paths if there are no optimized paths available. If possible, use two separate
+
+                       network interface cards (NICs) or Fibre Channel host bus adapters (HBAs) on the host.
+
+                       This use avoids a single point of failure on the card and the server card slot.
+
+                       Because the physical ports must always match on both Nodes, the same port numbers
+
+                       are always used for host access in the event of a failover. For example, if 4-port card port
+
+                       3 on node A is currently used for host access, the same port would be used on node B in
+
+Dell PowerStore: Clustering and High Availability
+
+40
+                                                                                                  High availability
+
+                   the event of a failure. Because of this, connect the same port on both nodes to the
+
+                   multiple switches for host multipathing and redundancy purposes.
+
+                   Ethernet configuration
+
+                   PowerStore includes support for NVMe/TCP, which allows users to configure Ethernet
+
+                   interfaces for iSCSI or NVMe/TCP host connectivity. You can deploy Ethernet interfaces
+
+                   in mirrored pairs to both PowerStore nodes since these interfaces do not fail over. This
+
+                   configuration ensures that the host has continuous access to block-level storage
+
+                   resources if one node becomes unavailable. In PowerStore, storage networks are
+
+                   configured after the cluster is created. For a robust HA environment, create additional
+
+                   interfaces on other ports. To remove a single point of failure at the host and switch level,
+
+                   verify that the PowerStore system has redundant connectivity, as shown in the following
+
+                   figure.
+
+                   Figure 38.  First two ports of the 4-port card cabled to top-of-rack switches
+
+                   After completing cabling, add networks and IP addresses in PowerStore Manager from
+
+                   the Settings > Networking > Network IPs page. Figure 39 shows the first step of making
+
+                   sure that there are unused IP addresses configured on an existing storage network. If
+
+                   there are no IPs available, click the Add button to supply additional IP addresses. Figure
+
+                   40 shows the next step for mapping extra ports for host connectivity, which can be
+
+                   completed on the Hardware > Ports page.
+
+                   These ports obtain the next-available unused IP address from the storage network and
+
+                   assign them to the newly configured port. As seen in this example, newly configured ports
+
+                   that are assigned for host traffic are enabled in mirrored pairs. If only one port is selected,
+
+                   there is a notification indicating that the associated port on the peer node is also enabled
+
+                   for host traffic.
+
+Dell  PowerStore:  Clustering and High Availability
+
+41
+    High availability
+
+                       Figure 39.  Verify unused storage network IP addresses
+
+                       Figure 40.  Map Storage Network
+
+                       Fibre Channel configuration
+
+                       To achieve high availability with Fibre Channel (FC) and NVMe/FC, configure at least one
+
+                       connection to each node. This practice enables hosts to have continuous access to block-
+
+                       level storage resources if one node becomes unavailable.
+
+                       With FC and NVMe/FC, you must configure zoning on the switch to allow communication
+
+                       between the host and the PowerStore appliance. If there are multiple appliances in the
+
+                       cluster that are using FC, ensure that each PowerStore appliance has zones that are
+
+                       configured to enable host communication. Create a zone for each host HBA port to each
+
+                       node FC port on each appliance in the cluster. For a robust HA environment, you can
+
+                       zone more FC ports to provide more paths to the PowerStore appliance.
+
+                       There are two locations where you can locate the port World Wide Names (WWNs) in
+
+                       PowerStore Manager. The first location is in the Hardware > Ports > FE Ports Health
+
+                       page, as shown in the following figure. The second location is in the Hardware >
+
+                       Appliances > [Appliance] > Components > Rear View page, as shown in Figure 42.
+
+                       For more details about configuring hosts, see the document PowerStore Host
+
+                       Configuration Guide on dell.com/powerstoredocs.
+
+Dell PowerStore:       Clustering and High Availability
+
+42
+                                                                                         High availability
+
+                   Figure 41.  PowerStore Manager hardware cluster front-end ports page
+
+                   Figure 42.  PowerStore Manager components rear view
+
+                   Block example
+
+                   When designing a highly available infrastructure, components that connect to the storage
+
+                   system must also be redundant. This design includes removing single points of failure at
+
+                   the host and switch level to avoid data unavailability due to connectivity issues. The
+
+                   following figure shows an example of a highly available configuration for a PowerStore
+
+                   system, which has no single point of failure. See the documents PowerStore Network
+
+                   Planning Guide and PowerStore Network Configuration for PowerSwitch Series Guide on
+
+                   the dell.com/powerstoredocs for detailed information about cabling and configuration of
+
+                   the network infrastructure.
+
+Dell  PowerStore:  Clustering and High Availability
+
+43
+    High availability
+
+                       Figure 43.  Highly available block configuration
+
+    File storage       PowerStore uses virtualized NAS servers to enable access to file systems, provide data
+
+                       separation, and act as the basis for multitenancy. The network interface of a NAS server
+
+                       is required to be placed on a Link Aggregation Group or a Fail-Safe Network (FSN). Link
+
+                       Aggregation Control Protocol (LACP) and Fail-Safe Networking (FSN) are discussed
+
+                       earlier in this document.
+
+                       An administrator can create a NAS server that holds the configuration information for
+
+                       SMB, NFS, FTP, or SFTP access to the file systems. New NAS servers are automatically
+
+                       assigned on a round-robin basis across the available nodes. The preferred node acts as a
+
+                       marker to indicate the node on which the NAS server should be running, based on this
+
+                       algorithm. After it is provisioned, the preferred node for a NAS server never changes. The
+
+                       current node indicates the node on which the NAS server is running. Changing the current
+
+                       node moves the NAS server to a different node, which can be used for loading balancing
+
+                       purposes. When a NAS server is moved to a new node, all file systems on the NAS server
+
+                       move along with it. The following figure shows the current and preferred node columns in
+
+                       PowerStore Manager.
+
+                       Figure 44.  Current Node and Preferred Node
+
+Dell PowerStore:       Clustering and High Availability
+
+44
+                                                                                                 High availability
+
+                   During a PowerStore node failure, the NAS servers automatically fail over to the surviving
+
+                   node. This process generally completes within 30 to 60 seconds to avoid host timeouts.
+
+                   After the failed node is recovered, a manual process is required to fail back the NAS
+
+                   servers and return to a balanced configuration.
+
+                   NAS servers are automatically moved to the peer node and back during the upgrade
+
+                   process. After the upgrade is completed, the NAS servers return to the node that they
+
+                   were assigned to at the beginning of the upgrade. For more information about NAS
+
+                   Servers, see the document Dell PowerStore: File Capabilities.
+
+    VMware         vSphere HA
+
+    integration    When administrators are using virtual machines on PowerStore, it is recommended to
+
+                   enable vSphere HA on the cluster. If a node or host in the cluster loses power, virtual
+
+                   machines will restart on a surviving host or node in the cluster.
+
+                   vCenter connection
+
+                   PowerStore appliances support integration with VMware environments by being managed
+
+                   and monitored from a vCenter. For PowerStore, a vCenter connection is optional after the
+
+                   cluster has been configured. If a vCenter connection is lost to the PowerStore cluster,
+
+                   management tasks through vCenter may be temporarily unavailable. Note that I/O
+
+                   continues to be processed for all storage objects in the PowerStore cluster.
+
+    Replication    To protect against outages at a system or data-center level, it is recommended to use
+
+                   replication to protect data at a remote site. This use case includes planned maintenance
+
+                   events, unplanned power outages, or natural disasters. PowerStore supports replication
+
+                   to simplify disaster recovery for block and file resources.
+
+                   For block resources, including volumes, volume groups, and thin clones, asynchronous
+
+                   replication is included in all PowerStoreOS releases. Metro volume replication, added in
+
+                   PowerStoreOS 3.0, replicates data within VMware VMFS datastores spanned across two
+
+                   PowerStore clusters in a metro distance. With metro volume replication, concurrent
+
+                   active/active host I/O is possible on both sides and is replicated to the remote system. In
+
+                   PowerStoreOS 4.0 and later, metro support was expanded to volume groups, along with
+
+                   support for Windows and Linux operating systems. Synchronous replication was also
+
+                   added in PowerStoreOS 4.0 for volumes, volume groups, and thin clones.
+
+                   For file resources, starting in PowerStoreOS 3.0, asynchronous replication can be used to
+
+                   protect against a storage system outage by creating a copy of data on a remote system.
+
+                   When an NAS server is replicated, all file systems are replicated with it. Synchronous
+
+                   replication, added in PowerStoreOS 4.0, is also supported on file resources.
+
+                   For more details on the replication features for PowerStore, see the white papers Dell
+
+                   PowerStore: Replication Technologies and Dell PowerStore: Metro Volume on the Dell
+
+                   Technologies Info Hub.
+
+    Platform high  On PowerStore, each storage resource is assigned to either node A or node B for load-
+
+    availability   balancing and redundancy purposes. Besides storage-resource assignments, each node
+
+                   has various containers running on them that make up the PowerStore operating system. If
+
+Dell PowerStore: Clustering and High Availability
+
+45
+    High availability
+
+                       one node becomes unavailable, its resources (storage and containers) automatically
+
+                       failover to the surviving node.
+
+                       The time that it takes for the failover process to complete depends on several factors such
+
+                       as system utilization and the number of resources. The peer node assumes ownership of
+
+                       the resources and continues servicing I/O to avoid an extended outage. Failovers occur if
+
+                       the following occurs on a node:
+
+                       •  Node reboot: The system or a user rebooted the node.
+
+                       •  Hardware or software fault: The node has failed and must be replaced.
+
+                       •  Service mode: The system or a user placed the node into service mode. This
+
+                          occurs automatically when the node is unable to boot due to a hardware or
+
+                          software issue.
+
+                       •  Powered off: A user powered off the node.
+
+                       Note: Manually putting a node into service mode is only available through a service script. It is not
+
+                       available from the PowerStore Manager, REST API, or PSTCLI.
+
+                       While a node is unavailable, all the resources of the node are serviced by the peer. After
+
+                       the node is brought back online or the fault is corrected, block-storage resources
+
+                       automatically fail back to the proper node owner. File-storage resources must be failed
+
+                       back manually.
+
+                       During a code upgrade, both nodes reboot in a coordinated manner. All resources on the
+
+                       rebooting node are failed over to the peer node. When the peer comes back online, the
+
+                       resources are failed back to their original owner. This process repeats for the second
+
+                       node. Users can run a pre-upgrade health check before starting a code upgrade to ensure
+
+                       a smooth upgrade process.
+
+    Cluster high       Every PowerStore appliance uses the pacemaker stack, which is used for cluster
+
+    availability       resource management and making sure that the cluster has a quorum. The pacemaker is
+
+                       the cluster brain; it processes and reacts to cluster events such as appliances being
+
+                       added or removed from the cluster, or resource events that are caused by failures. During
+
+                       an appliance failure, management services are still serviced if there is a quorum.
+
+                       Cluster quorum
+
+                       A quorum is defined as N/2+1 appliances being in active communication. If there is no
+
+                       quorum, management operations are temporarily lost, but data continues to be serviced if
+
+                       available. The following figure shows an example of a two-appliance cluster that is
+
+                       servicing I/O to a host with Fibre Channel connectivity but has temporarily lost
+
+                       management access. In this example, there is no quorum between Appliance 1 and
+
+                       Appliance 2. Because the appliances are servicing I/O to the host with a Fibre Channel
+
+                       connectivity, there is no impact on the host. However, since quorum is lost, some
+
+                       management services are temporarily suspended until quorum is restored:
+
+                       •  Access to PowerStore Manager
+
+                       •  Running scheduled snapshots
+
+                       •  Syncing replication sessions
+
+Dell PowerStore: Clustering and High Availability
+
+46
+                                                                         High availability
+
+                   Figure 45.  Two-appliance cluster with no quorum
+
+                   The following figure shows a three-appliance cluster where Appliance 3 is unavailable. In
+
+                   this scenario, quorum is met because two appliances are still in active communication. I/O
+
+                   remains accessible from Appliance 1 and Appliance 2. However, since Appliance 3 is
+
+                   unavailable, I/O is inaccessible for that appliance.
+
+                   Figure 46.  Three-appliance cluster with quorum
+
+                   Cluster IP
+
+                   The cluster IP address is a required field that is set during the initial configuration of the
+
+                   cluster. The cluster IP address is a highly available IP address that is used to access
+
+                   PowerStore Manager. The cluster IP address is typically on the primary node of the
+
+                   primary appliance. In the rare event that the primary appliance experiences a dual-node
+
+                   failure, the cluster IP address fails over to another appliance in the cluster if there is
+
+                   quorum. When this cluster IP address fails over, it might take several minutes to regain
+
+                   access to the PowerStore Manager.
+
+Dell  PowerStore:  Clustering and High Availability
+
+47
+    Conclusion
+
+                Global storage IP
+
+                The Global Storage IP (GSIP) address is an optional field that can be set during or after
+
+                the initial configuration of the cluster. This IP address is a global, floating storage-
+
+                discovery IP. iSCSI or NVMe/TCP hosts only require one GSIP and can discover all the
+
+                storage paths for all the appliances in the cluster. Otherwise, iSCSI or NVMe/TCP hosts
+
+                require a list of storage IPs so that if one IP is down, the host can try the next IP.
+
+    Conclusion
+
+                Designing an infrastructure with high levels of availability ensures continuous access to
+
+                business-critical data. If data becomes unavailable, day-to-day operations are impacted,
+
+                which could lead to loss of productivity and revenue. PowerStore systems are designed
+
+                with full redundancy across all components at both the hardware and software level.
+
+                These features enable the system to be designed for 99.9999% availability. By using the
+
+                clustering and high availability features in PowerStore, organizations can minimize the risk
+
+                of data unavailability.
+
+Dell PowerStore: Clustering and High Availability
+
+48
+                                                                                              References
+
+    References
+
+    Dell           The following Dell Technologies documentation provides other information related to this
+
+    Technologies   document. Access to these documents depends on your login credentials. If you do not
+
+    documentation  have access to a document, contact your Dell Technologies representative.
+
+                   •  PowerStore Info Hub
+
+                   •  Dell PowerStore: Introduction to the Platform
+
+                   •  Dell PowerStore: Virtualization Integration
+
+                   •  Dell PowerStore: Replication Technologies
+
+                   •  Dell PowerStore: Data Efficiencies
+
+                   •  Dell PowerStore: File Capabilities
+
+                   •  Dell PowerStore: Metro Volume
+
+                   •  Dell.com/powerstoredocs provides detailed documentation about how to install,
+
+                      configure, and manage PowerStore systems, including the following:
+
+                   ▪  PowerStore Quick Start Guide
+
+                   ▪  PowerStore Hardware Information Guide
+
+                   ▪  PowerStore Hardware Information Guide for 500T
+
+                   ▪  PowerStore Host Configuration Guide
+
+                   ▪  PowerStore Network Planning Guide
+
+                   ▪  PowerStore Network Configuration for PowerSwitch Series Guide
+
+Dell PowerStore: Clustering and High Availability
+
+49
+

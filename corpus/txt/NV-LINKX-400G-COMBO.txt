@@ -1,0 +1,2932 @@
+LinkX 400Gb/s Cables & Transceivers Main Deck
+· 400G NDR InfiniBand (4x100G-PAM4) · 400GbE Ethernet (4x100G-PAM4)
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+822w
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Agenda
+· Important notes before starting · Key technologies · 400GbE+NDR combination portfolio & configurations · 400GbE-ONLY portfolio & configurations
+MPO-12/APC fiber cables
+· Backwards compatible DACs, AOCs to 2xHDR/200GbE
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Important Notes
+· Original NDR/400GbE (100G-PAM4-based) transceivers support both InfiniBand and Ethernet depending on the switch inserted into. · New Ethernet-only 400GbE (100G-PAM4-based) transceivers are offered (legacy part numbers with "-T" at the end). · 400GbE QSFP112/MPO-APC Single mode 500m transceiver now available. No 2-fiber LC version offered. · No 400G FR4 QSFP112 or OSFP (100G-PAM4-based) transceivers offered.
+· 100G-PAM4 cables and transceivers cannot downshift to 50G-PAM4 or 25G-NRZ. Use DACs and AOCs splitters. · Use 400G transceivers with 1:2 fiber cable splitters for 200G rates (2 fibers activates 2 channels & reduces power)(no 200G parts offered).
+New Terms · IHS = Integrated Heat Sink = Finned top (for switches-only) · RHS = Riding Heat Sink = Flat top (for CX7/BF3, DGX-H100/200 and liquid-cooled systems
+QSFP-DD for SN5400/SN4700 Switches · Only QSFP-DD offering is 400G DR4 for SN5400/SN4700 switches. · QSFP-DD cages on SN5400/SN4700 switches are backwards compatible with QSFP56 and QSFP28 devices (but don't support QSFP112) · QSFP112 cages on CX7 and BF3 support backwards compatibility with QSFP56 and QSFP28 devices
+200GbE/HDR · Separate 200GbE and HDR portfolio part numbers merged to one set of HDR/200GbE part numbers.
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+ DAC Cables
+
+Lowest Cost Technologies for Each Reach Needed
+Based on 100G-PAM4 Signaling
+
+<0.1Watt
+Up to 2-3 m
+
+OSFP &
+QSFP112
+
+½m-to-2km InfiniBand & Ethernet
+400G & 2x400G
+
+ Linear Active Copper Cables (L-ACC)
+
+1.5 Watts
+
+(Based on low-power pre-emphasis ICs, not DSPs)
+
+Up to 3,4, 5m
+
+OSFP &
+QSFP112
+
+Colors mean something!
+· Black = DAC · Aqua = Multi-mode ­ short reach · Yellow = Single-mode ­ long reach
+
+ Active Optical Cables (AOC)  Multi-Mode Transceivers  Single-Mode Transceivers
+
+< 12Watts
+17 Watts 9 Watts
+17 Watts 9 Watts
+17 Watts
+$
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+30m
+
+HDR &
+HDR100
+
+SR8, SR4
+50m
+
+2x400G TP-OSFP 400G OSFP
+400G QSFP112
+DR8, DR4
+
+100m
+
+2x400G TP-OSFP 400G OSFP
+400G QSFP112
+500m
+
+$
+
+$$
+
+$$$
+
+$$$$
+
+2xDR4 2xMPO
+2x400G TP-OSFP
+
+2xFR4 2xLC
+
+2km
+$$$$$
+
+2x400G TP-OSFP
+
+Price Increases as Reach Extends
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+LINKX PORTFOLIO OVERVIEW
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Passive Copper
+Up to 3 meters
+800G to 2x 400G or 4x 200G OSFP or QSFP112
+
+LinkX 400GbE/NDR Portfolio
+
+DACs, ACCs, AOCs, Multimode + Single mode Transceivers Based on 100G-PAM4 Modulation in OSFP + QSFP112
+
+Same part number for both InfiniBand & Ethernet
+
+New: Ethernet-only transceivers with new part numbers at reduced prices
+
+Active Copper
+Up to 5 meters
+800G to 2x 400G or 4x 200G OSFP or QSFP112
+
+Multimode Transceivers
+Up to 50 meters
+Twin port 2x400G SR8 Multimode Transceiver
+
+Multi-mode fibers:
+
+Single mode Transceivers
+Up to 100, 500 & 2K meters
+Twin port 2x400G DR8 Single mode Transceiver
+Single-mode fibers:
+
+QSFP112 QSFP112 QSFP112 QSFP112
+QSFP112 QSFP112
+QSFP112 QSFP112 QSFP112 QSFP112
+
+OSFP
+
+QSFP112
+
+OSFP
+
+Backwards Compatible OSFP-to-QSFP56
+
+Up to 30-meters
+
+Up to 2 meters
+
+QSFP112
+
+Single Port 400G SR4 Multimode QSFP112 and OSFP Transceivers
+QSFP112
+OSFP
+
+Single Port 400G DR4 Single mode QSFP112 and OSFP Transceivers
+QSFP112
+OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+400Gb/s Quantum-2 NDR InfiniBand or SN5600 SP-4 Ethernet Twin-port-OSFP Switches
+
+Summary: 400GbE/NDR Transceivers
+
+For Quantum-2/SN5600 Switches Only
+2x400Gb/s Finned-Top 800G OSFP
+
+Single Mode
+
+Twin-Port 800G Transceivers MMSS4X50-NM (2km) OSFP Closed Finned-top IHS Dual MPO/APC 17 Watts
+MMS4X00-NM (500m) OSFP Finned-top IHS Dual MPO/APC 17 Watts
+
+Multi-mode
+
+MMS4X00-NS (100m) OSFP Finned-top IHS Dual MPO/APC 17 Watts
+Twin-Port 800G Transceiver MMA4Z00-NS (50m) OSFP Finned-top ISH Dual MPO/APC 15 Watts
+
+For ConnectX-7/OSFP HCAs Only
+400Gb/s 400G OSFP
+Single Mode
+Single Port 400G Transceiver MMS4X00-NS400 (100m) OSFP Flat-top Single MPO/APC 9 Watts
+Multi-mode
+Single port 400G Transceiver MMA4Z00-NS400 (50m) OSFP Flat-top Single MPO/APC 8 Watts
+
+IHS = Integrated Heat Sink =Flat top RHS =Riding Heat Sink = Flat top
+Single mode optics: Yellow Multimode optics: tan and aqua
+Reach color codes: 2km 500m 100m 50m
+
+ConnectX-7/OSFP
+
+Optical Fibers
+Multi-mode & Single-mode
+
+100m 50m 50m
+50m
+
+DGX H100/H200 "Hopper-based"
+Cedar-7
+BradS@nvidia.com
+
+For DGX-H100 Cedar7 Links & liquid ­cooled
+Flat-Top 800G OSFP
+
+For BlueField3 DPUs & ConnectX-7/QSFP112 HCAs
+400Gb/s 400G QSFP112
+
+Up to 50 and 100-meters single mode 50-meters multimode
+
+Single Mode Multi-mode
+Rev: Oct 7, 2024
+
+Twin-Port 800G Transceiver MMS4X00-NS-FLT (100m) OSFP Flat-top RHS Dual MPO/APC 16 Watts DGX-H100 Cedar links
+Twin-Port 800G Transceiver MMA4Z00-NS-FLT (50m) OSFP Flat-top RHS Dual MPO/APC 15 Watts DGX H100 Cedar links
+
+Single Port 400G DR4 QSFP112 Transceiver MMS1X00-NS400 (500m) Single MPO-12/APC 9 Watts
+
+BlueField-3/QSFP112
+
+Use 400G transceivers on 2-fiber split ends for 200G.
+No separate 200G transceivers offered.
+
+Single Port 400G SR4 QSFP112 Transceiver MMA1Z00-NS400 (50m) QSFP112/Flat top Single MPO/APC 8 Watts
+
+ConnectX-7/QSFP112
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+400G InfiniBand & Ethernet Connectivity Options Based on 100G-PAM4
+Twin-port, OSFP Finned transceiver for Switches ­ and- different form-factor for Adapters & DPUs + 1:1, 1:2 and 1:4 splitters in OSFP & QSFP112
+400GbE/NDR Switch-to-HDR, HDR100, EDR (Backward Compatibility)
+
+2x400G
+400Gb/s Quantum-2 NDR InfiniBand or SN5600 SP-4 Ethernet Twin-port-OSFP Switches
+
+Switch-to-Switch
+
+OSFP
+
+OSFP
+
+Direct Attach Copper Cable 0.5,.75,1,1.5, 2-meters
+
+Active Copper Cable 3, 4, 5-meters
+
+2x400G
+400Gb/s Quantum-2 NDR InfiniBand or SN5600 SP-4 Ethernet Twin-port-OSFP Switches
+
+OSFP
+Switch-to-400G ConnectX-7/OSFP 1:2 Splitter Cables
+OSFP
+
+Direct Attach Copper Cable 1,1.5, 2, 2.5 3-meters
+
+OSFP
+
+400G
+
+) (Backward Compatibility
+
+QSFP112
+
+Switch-to-400G/QSFP112 ConnectX-7+ BlueField3 DPUs 1:2 Splitter Cables
+
+OSFP
+
+QSFP112
+
+Direct Attach Copper Cable
+0.5 to 3-meters
+QSFP112
+
+BlueField-3/QSFP112
+
+Quantum InfiniBand HDR SN3000/4000 Ethernet ConnectX-6 200GbE/HDR/HDR10
+DGX Cedar7 ­to- 400GbE/NDR and HDR Using Flat Top 800G OSFP
+
+Active Copper Cable 4, 5-meters
+
+Switch-to-200G ConnectX-7/OSFP 1:4 Splitter Cables
+
+OSFP
+
+OSFP
+
+Direct Attach Copper Cable 1, 1.5, 2, 2.5, 3-meters
+
+BradS@nvidia.com
+
+Active Copper Cable 4, 5-meters
+Rev: Oct 7, 2024
+
+ConnectX-7/OSFP 200G
+ConnectX-7/OSFP
+
+QSFP112
+Active Copper Cable
+
+4, 5-meters
+
+ConnectX-7/QSFP112
+
+Switch-to-200G/QSFP112 ConnectX-7+ BlueField3 DPUs
+
+1:4 Splitter Cables
+
+OSFP
+
+QSFP112
+
+Direct Attach Copper Cable 0.5 to 3-meters
+QSFP112
+
+BlueField-3/QSFP112
+
+QSFP112
+
+QSFP112
+
+Active Copper Cable
+
+QSFP112
+Q2
+
+4, 5-meters
+ConnectX-7/QSFP112
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+KEY TECHNOLOGIES
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+InfiniBand
+NDR Quantum-2 QM9700 32-cage Twin-port-OSFP
+
+LinkX 400GbE/NDR Portfolio
+Based on 100G-PAM4 Modulation in OSFP and QSFP112
+Switches determine the protocol. LinkX, ConnectX, BlueField support both IB and EN
+
+NEW! Additional Ethernet-only transceivers available with lower prices and separate part
+numbers (-T in OPN)
+Ethernet
+Spectrum-4 400GbE SN5600 64-cage Twin-port-OSFP
+
+Passive Copper
+Up to 3 meters
+800G to 2x 400G or 4x 200G OSFP or QSFP112
+
+InfiniBand & Ethernet
+
+Active Copper
+Up to 5 meters
+
+LinkX
+
+800G to 2x 400G or 4x 200G OSFP or QSFP112
+
+Up to 50 meters
+
+OPTICS
+Up to 500 meters
+
+Up to 500 meters
+
+Twin port 2x400G SR8 Multimode Transceiver
+
+Twin port 2x400G DR8 Single mode Transceiver
+
+Multi-mode fibers:
+
+Single-mode fibers:
+
+QSFP112 QSFP112 QSFP112 QSFP112
+QSFP112 QSFP112
+QSFP112 QSFP112 QSFP112 QSFP112
+
+OSFP
+
+QSFP112
+
+OSFP
+
+QSFP112
+
+Single Port 400G SR4 Multimode QSFP112 and OSFP Transceivers
+QSFP112 QSFP112 QSFP112 QSFP112
+
+QSFP112
+
+Single Port 400G DR4 Single mode QSFP112 and OSFP Transceivers
+
+OSFP
+
+InfiniBand & Ethernet
+ConnectX-7
+ConnectX-7/QSFP112 or OSFP 200G & 400G
+
+BlueField-3
+BlueField-3/QSFP112 200G & 400G
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+All 100G-PAM4-Based LinkX Cables & Transceivers,
+
+ConnectX-7 and BlueField-3 Adapters support both InfiniBand and Ethernet
+
+NEW! Additional Ethernet-only transceivers available with lower prices and separate part
+numbers (-T in OPN)
+
+AUTOMATICALLY
+
+InfiniBand
+NDR Quantum-2 QM9700 32-cage Twin-port-OSFP
+
+Ethernet
+Spectrum-4 400GbE SN5600 64-cage Twin-port-OSFP
+
+Creates InfiniBand Networks InfiniBand & Ethernet
+
+Creates Ethernet Networks
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+EDR / 100GbE 4x25G NRZ 4 channels
+
+QSFP + OSFP Transceivers and Form Factors
+
+New Twin-Port OSFP for OSFP-Based Switches
+
+New QSFP112 form-factor used for BlueField-3
+
+Optical connectors
+
+QSFP28
+
+MPO/UPC
+
+LC
+
+HDR / 200GbE 4x50G PAM4 4 channels
+
+NEW!
+
+NDR / 400GbE 4x100G PAM4
+4 channels
+
+400GbE 8x50G-PAM4
+8 channels
+
+NEW!
+
+Twin-NDR 2x400G 2x400GbE
+8x100G-PAM4
+8 channels
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+QSFP56
+
+MPO/UPC
+
+LC
+
+QSFP112
+
+MPO/APC
+MPO-12
+
+QSFP-DD
+
+MPO/APC LC
+MPO-16
+MPO-12
+
+QSFP-DD is only Ethernet, not used for InfiniBand
+
+OSFP MPO/APC
+
+LC
+
+MPO-12
+
+MPO-12
+
+OSFP for both NDR and 2x400GbE Ethernet
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Why No NDR AOCs?
+Heavy transceiver ends are almost certain to break the AOC glass fiber during installation
+OSFP, the "Monster-truck" of Transceivers
+Twin-port transceiver -to-
+Quad 200GbE/NDR200
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+2x400G Twin-port Optical Transceivers
+Two 400G Transceiver Engines per OSFP with 2 Optical Connectors
+
+Twin-Port Single-mode Transceiver (100m, 500-meters)
+
+Twin-Port Multi-mode Transceiver (50-meters)
+
+DSP EML Lasers
+
+Multi Mode (Beige pull-tab)
+
+VCSEL Lasers Transmitters
+
+DSP
+Photodetector Receivers
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Twin-port, Open-Finned Top (IHS) OSFP:
+
+Only used in air-cooled Quantum-2 and SN5600 Ethernet switches
+
+OCTAL SMALL FORM-FACTOR PLUG
+
+2x 400G (4x100G-PAM4) links
+
+IHS = Integrated Heat Sink =Flat top RHS =Riding Heat Sink = Flat top
+
+13mm height
+
+Integrated Heat Sink
+
+Twin-port Device
+Electrical end
+
+BradS@nvidia.com
+
+4-channels x 100G-PAM4 4-channels x 100G-PAM4
+Rev: Oct 7, 2024
+
+Twin-port Optical Connectors
+Each with 4-channels MPO/APC
+
+Port 2 Port 1
+
+4x100G-PAM4
+
+4x100G-PAM4
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+400G Switches
+Based on 100G-PAM4 Signaling
+
+QM9700 25.6Tb InfiniBand Switch
+32-socket, 1RU Chassis
+64-ports of 400G NDR (4x100G-PAM4) 128-ports of 200G NDR200 (2x100G-PAM4)
+
+SN5600 51.2Tb Ethernet Switch
+64-socket, 2RU Chassis
+128-ports of 400GbE (4x100G-PAM4) 256-ports of 200GbE (2x100G-PAM4)
+
+ONLY these two switches use IHS Finned-Top Transceivers
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+400GbE/NDR; Each Switch Cage Can Operate AT Different SPEEDS
+Each Twin-port can be configured individually DAC or ACC Cables, Multi-mode or Single-mode Transceivers. At 400GbE/NDR, 200GbE/HDR and 100GbE/EDR end port speeds
+Air-cooled switches accept Twin-port Finned-top devices only
+
+DAC/QSFP56, 28
+
+2x200G AOCs 2x100G AOCs
+
+DAC/OSFP
+
+ACC/OSFP
+
+QSFP56 QSFP28
+
+QSFP56
+
+Backward Compatible
+
+OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+OSFP
+
+DAC/QSFP112
+
+ACC/QSFP112
+
+Multi-mode Single-mode Transceiver Transceiver
+
+400GbE/NDR enables enormous configuration capabilities
+
+QSFP112
+
+QSFP112
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+What Are IHS and RHS
+New Transceiver Shell Terms: Integrated Heat Sink + Riding Heat Sink
+Unless specifically called out, all cables and transceivers plug shells are assumed to be flat topped RHS. Twin-port OSFP shells for switches are all finned top IHS.
+Price book, legacy part descriptions for Twin-port OSFP flat tops have "­FLT" at the end.
+
+Twin-Port 800G Transceiver MMS4X00-NS (100m) OSFP Finned-top IHS
+Twin-Port 800G Transceiver MMS4X00-NS-FLT (100m) OSFP Flat-top RHS
+
+Twin-Port OSFP Flat Top (RHS)
+Called Riding Heat Sink because heat sink rides on top DGX Cedar7 board cages
+May also be used in liquid-cooled switches
+
+OSFP Flat Top (RHS)
+Called Riding Heat Sink because heat sink rides on top of CX7 and DGX PCIe board
+cages Only for ConnectX-7/OSFP version Not for BlueField-3 DPU or switches
+
+QSFP112 Flat Top (RHS)
+Called Riding Heat Sink because heat sink rides on top of CX7, BF3, and DGX cages
+Only for ConnectX-7/QSFP112 And BlueField-3 DPU/QSFP112
+
+DGX H200 Cedar-7
+
+Riding Heat Sink
+
+Twin-Port OSFP Finned Top (IHS)
+Called Integrated Heat Sink because heat sink fins are integrated into the transceiver shell
+Only for QM9700 & SN5600 Switches
+
+QM9700 InfiniBand
+BradS@nvidia.com
+
+IHS fins
+SN5600 Ethernet
+Rev: Oct 7, 2024
+
+ConnectX-7/OSFP
+OSFP
+Riding Heat Sink
+
+ConnectX-7/ QSFP112
+QSFP112
+
+BlueField-3/QSFP112
+QSFP112
+
+Riding Heat Sink
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Quantum-2 & SN5600 ONLY Accept Twin-Port, IHS Finned-Top Devices
+
+Why? Very few air-cooling holes in QSFP chassis, so fins are added on transceivers
+
+Additional cooling fins integrated on top of transceivers
+
+Closed-Finned top (IHS) For 2km, 2XFR4 ONLY with dual LC optical connectors.
+Used in Quantum2 and SN5600 switches only with switches using reverse air flow configuration
+
+Twin-port (2x400Gb/s)
+Open Finned Top (IHS) (DACs, ACCs, Transceivers)
+
+All Twin-port devices for air-cooled switches use Finned-Tops.
+DGX H100s Cedar7 GPU cages only accepts Twin-port devices --- with flat tops (-FLT in part number)
+Switch cages and DGX cages have different OSFP heights and are not interchangeable (e.g. Flat will not work in Finned cage) Air-cooled switches can accept open and closed Finned top devices as they are the same height
+
+Finned-top devices are only used in switches 8-channel, 2x400G devices (Tcvrs, DACs, ACCs)
+Everything else uses a flat-top devices (Tcvrs, DACs, ACCs) for CX7 and BF3, HDR
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+INFINIBAND +ETHERNET CABLES AND TRANSCEIVERS
+SUMMARIES
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch & Adapter, DPU
+
+"Direct Attach Copper" DAC cables have only a tiny
+configuration EEPROM IC and only copper wires.
+Offers:
+· Lowest latency 5-15ns · Lowest power <0.1W · Lowest cost · Highest reliability
+
+Direct Attach Copper Cables (DAC)
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+OSFP End Points
+1,2 meters
+800G
+
+OSFP End Points
+4-to-5 meters
+
+800G
+
+800G
+
+QSFP112 End Points
+4-to-5 meters
+
+800G
+
+800G
+
+2x400G (8x100G-PAM4)
+
+QSFP112 QSFP112
+
+800G
+Direct Attach Copper Cable 800G to 800G OSFP to OSFP MCP4Y10-N00A (0.5m) 30 AWG MCP4Y10-N001 (1m) 30 AWG MCP4Y10-N002 (2m) 26 AWG
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+400G
+
+200G (2x100G-PAM4)
+
+Direct Attach Copper Cable 800G to 2x 400G OSFP to 2xOSFP
+MCP7Y00-N001 (1m) 30 AWG MCP7Y00-N01A (1.5m) 30 AWG MCP7Y00-N002 (2m) 26 AWG MCP7Y00-N02A (2.5m) 26 AWG MCP7Y00-N003 (3m) 26 AWG
+
+Direct Attach Copper Cable 800G to 4x 200G OSFP to 4xOSFP
+MCP7Y50-N001 (1m) 30 AWG MCP7Y50-N01A (1.5m) 30 AWG MCP7Y50-N002 (2m) 26 AWG MCP7Y50-N02A (2.5m) 26 AWG MCP7Y50-N003 (3m) 26 AWG
+
+400G/200G ConnectX-7 OSFP
+
+400G
+
+200G (2x100G-PAM4)
+
+Direct Attach Copper Cable 800G to 2x 400G OSFP to 2x QSFP112
+MCP7Y10-N001 (1m) 30AWG MCP7Y10-N01A (1.5m) 30AWG MCP7Y10-N002 (2m) 26 AWG MCP7Y10-N02A (2.5m) 26 AWG MCP7Y10-N003 (3m) 26 AWG
+
+Direct Attach Copper Cable
+800G to 4x 200G
+OSFP to 4x QSFP112 MCP7Y40-N001 (1m) 30AWG MCP7Y40-N01A (1.5m) 30AWG MCP7Y40-N002 (2m) 26 AWG MCP7Y40-N02A (2.5m) 26 AWG MCP7Y40-N003 (3m) 26 AWG
+
+400G/200G ConnectX-7 QSFP112
+
+400G/200G BlueField-3 QSFP112
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch & Adapter, DPU
+
+"Linear" Active DAC cables have a small pre-emphasis IC
+instead of a large, high power & latency DSP IC.
+Offers: · Low latency 10-20ns · Low power <0.8-1.5Watts/end · Lower cost (than optics)
+
+Linear - Active Copper Cables (LACC)
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+These are NOT Active Electric Cable that use a DSP IC in each end
+
+OSFP End Points 3,4,5 meters
+800G
+
+OSFP End Points 4-to-5 meters
+
+800G
+
+800G
+
+QSFP112 End Points 4-to-5 meters
+
+800G
+
+800G
+
+2x400G (8x100G-PAM4)
+
+QSFP112 QSFP112
+
+800G
+800G to 800G Twin-port OSFP to Twin-port OSFP MCA4J80-N003 (3m) 30 AWG MCA4J80-N004 (4m) 30 AWG MCA4J80-N005 (5m) 26 AWG 1.5 Watts/end
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+400G
+800G to 2x 400G OSFP to 2x OSFP MCA7J60-N004 (4m) 30 AWG MCA7J60-N005 (5m) 26 AWG 1.5 Watts and 0.8Watts
+
+200G (2x100G-PAM4)
+800G to 4x 200G OSFP to 4x OSFP MCA7J70-N004 (4m) 30 AWG MCA7J70-N005 (5m) 26 AWG 1.5 and 0.4 Watts
+
+400G/200G ConnectX-7 OSFP
+
+400G
+
+200G (2x100G-PAM4)
+
+800G to 2x 400G OSFP to 2x QSFP112 MCA7J65-N004 (4m) 30 AWG MCA7J65-N005 (5m) 26 AWG 1.5 Watts and 0.8Watts
+
+800G to 4x 200G OSFP to 4x QSFP112 MCA7J75-N004 (4m) 30 AWG MCA7J75-N005 (5m) 26 AWG 1.5 Watts and 0.4Watts
+
+400G/200G ConnectX-7 400G/200G BlueField-3
+
+QSFP112
+
+QSFP112
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch & Adapter, DPU
+
+Multimode optics enables fiber reaches up to 50meters and lower cost than Single mode optics
+800G Electrical end +
+2x400G Optical end
+
+Multimode Optics Up to 50-meters
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+SR4=Short Reach 4-channels (50m)
+Both OSFP and QSFP112 transceivers can be mixed on split ends;
+
+800G
+
+Twin port OSFP 2x400G 2xSR4
+
+Multimode Transceiver
+
+MMA4Z00-NS (50m)
+
+OSFP Finned-top
+
+Dual MPO-12/APC
+
+15 Watts
+
+Louie
+
+400G
+
+200G
+
+Use 400G transceivers for 200G links. 2 fiber on split ends creates 200G and reduces power
+
+400G
+
+200G
+
+800G-to-800G
+
+800G-to-2x 400G 800G-to-4x 200G
+
+800G-to-2x 400G 800G-to-4x 200G
+
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters
+
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters
+Single port 400G SR4 Multimode OSFP Transceiver MMA4Z00-NS400 (50m) Single MPO-12/APC 8 Watts
+
+Multimode fibers Splitters MFP7E20-N0XX (XX = 03, 05, 07, 10, 15, 20, 30, 40, 50) meters
+
+Single Port 400G SR4 Multimode QSFP112 Transceiver MMA1Z00-NS400 (50m) Single MPO-12/APC 8 Watts
+
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+400G/200G ConnectX-7 OSFP
+
+400G/200G ConnectX-7 400G/200G BlueField-3
+
+QSFP112
+
+QSFP112
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch & Adapter, DPU
+
+DR4=Data Center Reach 4-channels (500m) FR4=Far Reach 4-channels (2Km)
+
+Single mode optics enables fiber reaches up to 50, 100, 500-meters and multiplexed signaling into 2 fiber LC optical connectors up to 2k-meters
+
+Single Mode Optics Up to 50, 100, 500, 2,000-meters
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4
+
+800G Electrical end +
+2x400G Optical end
+
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+SR8 or 2xSR4
+Switch-to-Adapter
+
+Switch-to-Switch
+
+2,000 meters
+
+500 meters
+
+Twin-Port OSFP 800G 2xFR4 Single mode Transceiver MMS4X50-NM (2,000m) OSFP Closed Finned-top Dual LC Duplex 17 Watts
+
+Twin-Port OSFP 800G 2xDR4 Single mode Transceiver MMS4X00-NM (500m) OSFP Finned-top Dual MPO/APC 17 Watts
+
+1-to-100 meters
+Twin port OSFP 2x400G 2xDR4 Single mode Transceiver MMS4X00-NS (100m) OSFP Finned-top Dual MPO-12/APC 17 Watts
+
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters
+
+2-fiber LC duplex fibers
+supplied by 3rd party
+
+MPO-12/APC fibers >100m supplied by 3rd party
+
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters
+
+Single Port 400G DR4 Single mode OSFP Transceiver MMS4X00-NS400 (100m) Single MPO-12/APC 8 Watts
+
+Twin port OSFP 2x400G 2xDR4 Single mode Transceiver MMS4X00-NS (100m) OSFP Finned-top Dual MPO-12/APC 17 Watts Bagheera
+Single mode Fiber Splitters MFP7E40-N0XX (XX = 03, 05, 07, 10, 15, 20, 30, 50) meters
+Single Port 400G DR4 Single mode QSFP112 Transceiver MMS1X00-NS400 (100m) Single MPO-12/APC 8 Watts
+
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Both OSFP and QSFP112 transceivers can be mixed on split ends;
+
+400G/200G ConnectX-7 OSFP
+
+Use 400G transceivers for 200G links. 2 fiber on split ends creates 200G and reduces power
+
+400G/200G ConnectX-7 400G/200G BlueField-3
+
+QSFP112
+
+QSFP112
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+CONFIGURATION DETAILS
+Linking Switches-to-Switches, -to- CX7 HCAs/NICs, BF3 DPUs and legacy Systems
+Important Note: Early introduction of 2x400G and 400G transceivers supports both InfiniBand and Ethernet. Part numbers are still valid. 2024 Q2 introduced low-priced Ethernet-ONLY transceivers for Spectrum-X competitive deals. (Not for DACs, ACCs or AOCs)
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch Twin-port OSFP
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols. Specific protocol is activated when inserted into the
+switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+Passive Copper (DAC)
+2 meters
+
+Linear- Active Copper (ACC)
+3,4,5 meters
+
+Up to 50 meters
+
+OPTICS
+Up to 100, & 500 meters
+
+2,000 meters
+
+800G 800G
+
+Direct Attach Copper Cable 800G to 800G OSFP to OSFP MCP4Y10-N00A 980-9IA0K-00N00A (0.5m) 30 AWG MCP4Y10-N001 980-9IA0F-00N001 (1m) 30 AWG MCP4Y10-N002 980-9IA0I-00N002 (2m) 26 AWG
+0.1 Watts/end
+Active Copper Cable 800G to 800G OSFP to OSFP MCA4J80-N003 980-9I60Z-00N003 (3m) 30 AWG MCA4J80-N004 980-9I601-00N004 (4m) 30 AWG MCA4J80-N005 980-9I602-00N005 (5m) 26 AWG 1.5 Watts/800G end Not DSP-based
+
+800G 800G
+
+Twin port 2x400G 2xSR4 Multimode Transceiver
+
+MMA4Z00-NS 980-9I510-00NS00
+
+OSFP Finned-top IHS Dual MPO-12/APC 50m 17 Watts
+
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC connector
+
+Twin port 2x400G 2xDR4
+
+Twin-Port OSFP 800G 2xFR4
+
+Single mode Transceiver
+
+Single mode Transceiver
+
+MMS4X00-NS 100m 980-9I30H-00NM00 MMS4X50-NM (2km) 980-9I30L-00N000 MMS4X00-NM 500m 980-9I30G-00NM00 OSFP Closed Finned-top IHS
+
+OSFP Finned-top IHS
+
+Dual LC Duplex 17 Watts
+
+Dual MPO-12/APC
+
+17 Watts
+
+Single-mode fibers:
+
+MFP7E30-NXXX (XXX =
+
+01, 02, 03, 05, 07, 10,
+
+15, 20, 30, 50, 60, 70,100) meters (Each fiber)
+· Order 2/transceiver
+
+2-fiber LC duplex fibers
+supplied by 3rd party
+
+· Crossover Type-B
+
+· MPO/APC connector
+
+BradS@nvidia.com
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+Rev: Oct 7, 2024
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Also, a 500-meter version MMS4X00-NM (500m)
+Note: Use 3rd party MPO-12/APC fiber cables for lengths greater
+than 100m
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G OSFP Switch-to-2x 400G ConnectX-7/OSFP
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols. Specific protocol is activated when inserted into the switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+Passive Copper (DAC)
+2 meters
+
+Linear- Active Copper (ACC)
+4,5 meters
+
+Up to 50 meters
+
+OPTICS Up to 100 meters
+
+800G
+
+Direct Attach Copper Cable 800G to 2x 400G OSFP to 2xOSFP
+MCP7Y00-N001 980-9I432-00N001 MCP7Y00-N01A 980-9I926-00N01A MCP7Y00-N002 980-9I924-00N002 MCP7Y00-N02A 980-9I92O-00N02A MCP7Y00-N003 980-9I92N-00N003
+
+(1m) 30 AWG (1.5m) 30 AWG (2m) 26 AWG (2.5m) 26 AWG (3m) 26 AWG
+
+400G
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+800G 400G
+
+Linear - Active Copper Cable 800G to 2x 400G OSFP to 2xOSFP MCA7J60-N004 (4m) 30 AWG 980-9I948-00N004 MCA7J60-N005 (5m) 26 AWG 980-9I949-00N005 1.5 Watts and 0.8Watts Not DSP-based
+
+Twin port 2x400G SR8 Multimode Transceiver MMA4Z00-NS (50m) 980-9I510-00NS00 OSFP Finned-top IHS Dual MPO-12/APC 17 Watts
+
+Twin port 2x400G DR8 Single mode Transceiver MMS4X00-NS (100m) 980-9I30H-00NM00 OSFP Finned-top IHS Dual MPO-12/APC 17 Watts
+
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC connector
+
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC connector
+
+400G NICs/HCA OSFP
+
+ConnectX-7/OSFP 400G
+
+Single port 400G Multimode Transceiver
+
+MMA4Z00-NS400 980-9I51S-00NS00
+
+OSFP RHS Single MPO-12/APC 50m 8 Watts
+
+Single Port 400G Single mode Transceiver MMS4X00-NS400 980-9I31N-00NM00 OSFP RHS
+
+Single MPO-12/APC 100m
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://d9ocWs.antvtisdia.com/networking
+.
+
+800G OSFP Switch-to-4x 200G ConnectX-7/OSFP
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols.
+Specific protocol is activated when inserted into the switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+Passive Copper (DAC)
+2 meters
+
+Linear- Active Copper (ACC)
+4,5 meters
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+Up to 50 meters
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+OPTICS Up to 100 meters
+
+800G 200G
+
+Direct Attach Copper Cable 800G to 4x 200G OSFP to 4xOSFP
+MCP7Y50-N001 980-9I75E-00N001 (1m) 30 AWG MCP7Y50-N01A 980-9I46I-00N01A (1.5m) 30 AWG MCP7Y50-N002 980-9I46G-00N002 (2m) 26 AWG MCP7Y50-N02A 980-9I46U-00N02A (2.5m) 26 AWG MCP7Y50-N003 980-9I46T-00N003 (3m) 26 AWG
+
+0.1 Watts/800G end
+NDR200
+
+Linear Active Copper Cable 800G to 4x 200G OSFP to 4xOSFP
+MCA7J70-N004 980-9I50D-00N004(4m) 30 AWG MCA7J70-N005 980-9I50E-00N005 (5m) 26 AWG
+0.1 Watts/800G end 0.4 Watts split end Not DSP-based
+
+800G
+200G
+NDR200
+
+Twin port 2x400G SR8 Multimode Transceiver MMA4Z00-NS 980-9I510-00NS00
+
+OSFP Finned-top Dual MPO-12/APC 50m 17 Watts
+
+4x100G-PAM4
+
+Multimode Fibers Splitters MFP7E20-N0XX (XX = 03, 05, 07, 10, 15, 20, 30, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC
+
+2x100G-PAM4
+
+Twin port 2x400G DR8 Single mode Transceiver MMS4X00-NS 980-9I30H-00NM00 OSFP Finned-top Dual MPO-12/APC 100m 17 Watts
+4x100G-PAM4
+Single mode Fiber Splitters MFP7E40-N0XX (XX = 03, 05, 07, 10, 15, 20, 30, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC
+2x100G-PAM4
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+200G ConnectX-7 OSFP
+
+Single port 400G VSR4 Multimode Transceiver MMA4Z00-NS400 980-9I51S-00NS00 OSFP Single MPO-12/APC 50m 8 Watts reduced to 5 Watts
+NDR200
+
+Single Port 400G Single mode Transceiver MMS4X00-NS400 980-9I31N-00NM00 OSFP Single MPO-12/APC 100m 9 Watts reduced to 5 Watts
+
+Use 400G transceivers for 200G links. 2 fibers on split ends creates 200G and reduces power
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G OSFP Switch-to-400G BlueField-3 + ConnectX-7 with QSFP112
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols.
+Specific protocol is activated when inserted into the switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+Passive Copper (DAC)
+2 meters
+
+Linear- Active Copper (ACC)
+
+800G
+
+4,5 meters
+
+Up to 50 meters
+
+OPTICS Up to 500 meters
+
+800G
+
+Direct Attach Copper Cable 800G to 2x 400G OSFP to 2x QSFP112
+
+MCP7Y10-N001 MCP7Y10-N01A MCP7Y10-N002 MCP7Y10-N02A MCP7Y10-N003
+
+980-9I928-00N001 (1m) 30AWG 980-9I80A-00N01A (1.5m) 30AWG 980-9I929-00N002 (2m) 26 AWG 980-9I80Q-00N02A (2.5m) 26 AWG 980-9I80P-00N003 (3m) 26 AWG
+
+400G
+
+<0.1 Watts
+
+400G
+
+Active Copper Cable
+
+800G to 2x 400G
+
+OSFP to 2x QSFP112
+
+MCA7J65-N004 980-9I81B-
+
+MCA7J65-N005 00N004
+
+1.5 0.8
+
+WWaattttss/s8p0l0itGene09nd08dN0-090I851C-
+
+Not DSP-based
+
+(4m) 30 AWG (5m) 26 AWG
+
+Twin port 2x400G SR8 Multimode Transceiver MMA4Z00-NS 980-9I510-00NS00
+OSFP Finned-top IHS Dual MPO-12/APC 50m 17 Watts
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters
+
+Twin port 2x400G DR8 Single mode Transceiver MMS4X00-NS (100m) 980-9I30H-00NM00 MMS4X00-NM (500m) 980-9I30G-00NM00
+OSFP Finned-top RHS Dual MPO-12/APC 17 Watts
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters · Order 2/2x400G
+transceiver · Crossover Type-B · MPO/APC connector
+
+QSFP112 QSFP112
+
+· BlueField-3 only accepts QSFP112, QSFP56 and QSFP28 devices, not OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+These cables and transceivers combinations can link to any combination of 2 QSFP112-based ConnectX-7s or BlueField-3s at the same time
+
+ConnectX-7/QSFP112 400G
+
+-and/or-
+
+400G QSFP112 CX7 P-Rel August `24
+
+BlueField-3/QSFP112 400G
+
+Single Port 400G VSR4 Multimode QSFP112 RHS MTrManAs1cZe0iv0e-rNS400980-9I693-00NS00 Single MPO-12/APC 50m 8 Watts
+
+P-Rel Q1 2025
+Single Port 400G DR4 Single mode QSFP112 RHS Transceiver MMS1X00-NS400 980-9I068-00NM00 Single MPO-12/APC 500m 9 Watts
+P-Rel October'24
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G OSFP Switch-to- 200G BlueField-3 + ConnectX-7 with QSFP112
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols.
+Specific protocol is activated when inserted into the switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+Passive Copper (DAC)
+2 meters
+
+Linear- Active Copper (ACC)
+4,5 meters
+
+Up to 50 meters
+
+OPTICS Up to 100 meters
+
+2x400G (8x100G-PAM4)
+
+Direct Attach Copper Cable
+800G to 4x 200G
+OSFP to 4x QSFP112
+MCP7Y40-N001 980-9I80B-00N001 MCP7Y40-N01A 980-9I75D-00N01A MCP7Y40-N002 980-9I80C-00N002 MCP7Y40-N02A 980-9I75S-00N02A MCP7Y40-N003 980-9I75R-00N003
+
+(1m) 30AWG (1.5m) 30AWG (2m) 26 AWG (2.5m) 26 AWG (3m) 26 AWG ~0.1Watts
+
+2x400G
+
+Twin port 2x400G DR8 Single mode Transceive
+
+(8x100G-PAM4)
+
+Twin port 2x400G SR8 Multimode Transceiver
+
+MMS4X00-NS (100m)
+
+MMA4Z00-NS (50m) 980-9I510-00NS00 OSFP Finned-top IHS
+
+OSFP Finned-top IHS Dual MPO-12/APC
+
+Dual MPO-12/APC
+
+17 Watts
+
+Active Copper Cable 800G to 4x 200G
+
+15 Watts Louie
+
+4x100G-PAM4
+
+Bagheera
+
+Single mode Fiber Splitters MFP7E40-N0XX (XX = 03, 05,
+
+OSFP to 4x QSFP112
+
+Multimode Fibers Splitters
+
+07, 10, 15, 20, 30, 50)
+
+MCA7J75-N004 980-9I76G-00N004 (4m) 30 AWG
+
+MFP7E20-N0XX (XX = 03,
+
+meters
+
+MCA7J75-N005 980-9I76H-00N005 (5m) 26 AWG
+
+05, 07, 10, 15, 20, 30, 40,
+
+1.5 Watts/800G end
+
+50) meters
+
+0.4 Watts split end
+
+Not DSP-based
+
+2x100G-PAM4
+
+QSFP112 QSFP112 QSFP112 QSFP112
+QSFP112 QSFP112 QSFP112 QSFP112
+
+200G (2x100G-PAM4)
+
+NDR200
+
+This cables and transceivers combination can link to any combination of 4 QSFP11-based
+ConnectX-7s or BlueField-3s
+
+· BlueField-3 only accepts QSFP112,
+
+QSFP56 and QSFP28 devices, not OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+NDR200
+
+200G (2x100G-PAM4)
+
+ConnectX-7/QSFP112 200G
+
+-or-
+
+These cables and transceivers combinations can link to any combination of 2 QSFP112-based ConnectX-7s or BlueField-3s at the same time
+BlueField-3/QSFP112 200G
+
+Single Port 400G VSR4 Multimode QSFP112 Transceiver MMA1Z00-NS400 980-9I693-00NS00 Single MPO-12/APC 50m Flat top RHS 8 Watts reduced to 5.5 Watts
+
+Single Port 400G DR4 Single mode QSFP112 Transceiver MMS1X00-NS400 980-9I068-00NM00 Single MPO-12/APC 500m Flat top RHS 9 Watts reduced to 5.5 Watts
+
+P-Rel Q1 2025
+Use 400G transceivers for 200G links. 2 fiber on split ends creates 200G and reduces power
+
+NDR200
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+ETHERNET-ONLY CABLES AND TRANSCEIVERS
+SUMMARIES
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+NEW: 4 Ethernet-Only Transceivers
+
+New Part Numbers
+
+MMS4X00-NS-T MMA4Z00-NS-T
+
+980-9I30H-F4NM00 BAGHEERA 2x400G Twin-port OSFP Single mode Transceiver
+
+980-9I510-F4NS00 LOUIE
+
+2x400G Twin-port OSFP Multimode Transceiver
+
+for SN5600 Switch for SN5600 Switch
+
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+MMA4Z00-NS400-T 980-9I51S-F4NS00 LOUIE400 MMA1Z00-NS400-T 980-9I693-F4NS00 QLOUIE400
+
+400GbE OSFP Multimode Transceiver 400GbE QSFP112 Multimode Transceiver
+
+Other Single mode 400GbE OSFP/QSFP112 transceiver prices not reduced DACs, ACCs and AOCs cable prices not reduced
+
+for CX7/OSFP for CX7/BF3 / QSFP112
+
+-T indicates 30-40% price reduction over EN+IB versions
+
+Up to 50 meters
+
+Up to 100 meters
+
+Twin port 2x400G SR8 Multimode Transceiver MMA4Z00-NS-T (50m) 980-9I510-F4NS00 OSFP Finned-top Dual MPO-12/APC 17 Watts
+
+Twin port 2x400G DR8 Single mode Transceiver MMS4X00-NS-T (100m) 980-9I30H-F4NM00 OSFP Finned-top Dual MPO-12/APC 17 Watts
+
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC connector
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Single port 400G Multimode Transceiver MMA4Z00-NS400-T 980-9I51S-F4NS00 OSFP Single MPO-12/APC 50m 8 Watts
+
+Single Port 400G VSR4 Multimode QSFP112 Transceiver MMA1Z00-NS400-T 980-9I693-F4NS00 QSFP112 RHS Single MPO-12/APC 50m 8 Watts
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch & Adapter, DPU
+
+"Direct Attach Copper" DAC cables have only a tiny
+configuration EEPROM IC and only copper wires.
+Offers:
+· Lowest latency 5-15ns · Lowest power <0.1W · Lowest cost · Highest reliability
+
+Direct Attach Copper Cables (DAC)
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+OSFP End Points
+1,2 meters
+800G
+
+OSFP End Points
+4-to-5 meters
+
+800G
+
+800G
+
+QSFP112 End Points
+4-to-5 meters
+
+800G
+
+800G
+
+2x400G (8x100G-PAM4)
+
+QSFP112 QSFP112
+
+800G
+Direct Attach Copper Cable 800G to 800G OSFP to OSFP MCP4Y10-N00A (0.5m) 30 AWG MCP4Y10-N001 (1m) 30 AWG MCP4Y10-N002 (2m) 26 AWG
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+400G
+
+200G (2x100G-PAM4)
+
+Direct Attach Copper Cable 800G to 2x 400G OSFP to 2xOSFP
+MCP7Y00-N001 (1m) 30 AWG MCP7Y00-N01A (1.5m) 30 AWG MCP7Y00-N002 (2m) 26 AWG MCP7Y00-N02A (2.5m) 26 AWG MCP7Y00-N003 (3m) 26 AWG
+
+Direct Attach Copper Cable 800G to 4x 200G OSFP to 4xOSFP
+MCP7Y50-N001 (1m) 30 AWG MCP7Y50-N01A (1.5m) 30 AWG MCP7Y50-N002 (2m) 26 AWG MCP7Y50-N02A (2.5m) 26 AWG MCP7Y50-N003 (3m) 26 AWG
+
+400G/200G ConnectX-7 OSFP
+
+400G
+
+200G (2x100G-PAM4)
+
+Direct Attach Copper Cable 800G to 2x 400G OSFP to 2x QSFP112
+MCP7Y10-N001 (1m) 30AWG MCP7Y10-N01A (1.5m) 30AWG MCP7Y10-N002 (2m) 26 AWG MCP7Y10-N02A (2.5m) 26 AWG MCP7Y10-N003 (3m) 26 AWG
+
+Direct Attach Copper Cable
+800G to 4x 200G
+OSFP to 4x QSFP112 MCP7Y40-N001 (1m) 30AWG MCP7Y40-N01A (1.5m) 30AWG MCP7Y40-N002 (2m) 26 AWG MCP7Y40-N02A (2.5m) 26 AWG MCP7Y40-N003 (3m) 26 AWG
+
+400G/200G ConnectX-7 QSFP112
+
+400G/200G BlueField-3 QSFP112
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch & Adapter, DPU
+
+"Linear" Active DAC cables have a small pre-emphasis IC
+instead of a large, high power & latency DSP IC.
+Offers: · Low latency 10-20ns · Low power <0.8-1.5Watts/end · Lower cost (than optics)
+
+Linear - Active Copper Cables (LACC)
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+These are NOT Active Electric Cable that use a DSP IC in each end
+
+OSFP End Points 3,4,5 meters
+800G
+
+OSFP End Points 4-to-5 meters
+
+800G
+
+800G
+
+QSFP112 End Points 4-to-5 meters
+
+800G
+
+800G
+
+2x400G (8x100G-PAM4)
+
+QSFP112 QSFP112
+
+800G
+800G to 800G Twin-port OSFP to Twin-port OSFP MCA4J80-N003 (3m) 30 AWG MCA4J80-N004 (4m) 30 AWG MCA4J80-N005 (5m) 26 AWG 1.5 Watts/end
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+400G
+800G to 2x 400G OSFP to 2x OSFP MCA7J60-N004 (4m) 30 AWG MCA7J60-N005 (5m) 26 AWG 1.5 Watts and 0.8Watts
+
+200G (2x100G-PAM4)
+800G to 4x 200G OSFP to 4x OSFP MCA7J70-N004 (4m) 30 AWG MCA7J70-N005 (5m) 26 AWG 1.5 and 0.4 Watts
+
+400G/200G ConnectX-7 OSFP
+
+400G
+
+200G (2x100G-PAM4)
+
+800G to 2x 400G OSFP to 2x QSFP112 MCA7J65-N004 (4m) 30 AWG MCA7J65-N005 (5m) 26 AWG 1.5 Watts and 0.8Watts
+
+800G to 4x 200G OSFP to 4x QSFP112 MCA7J75-N004 (4m) 30 AWG MCA7J75-N005 (5m) 26 AWG 1.5 Watts and 0.4Watts
+
+400G/200G ConnectX-7 400G/200G BlueField-3
+
+QSFP112
+
+QSFP112
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch & Adapter, DPU
+
+Multimode Optics Up to 50-meters
+
+Multimode optics enables fiber reaches up to 50meters and lower cost than Single mode optics
+800G Electrical end +
+2x400G Optical end
+
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+SR4=Short Reach 4-channels (50m)
+
+800G
+800G-to-800G
+
+Twin port OSFP 2x400G 2xSR4
+
+Multimode Transceiver
+
+MMA4Z00-NS-T (50m)
+
+OSFP Finned-top
+
+Dual MPO-12/APC
+
+15 Watts
+
+Louie
+
+400G
+
+200G
+
+800G-to-2x 400G 800G-to-4x 200G
+
+400G
+
+200G
+
+800G-to-2x 400G 800G-to-4x 200G
+
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters
+Single port 400G SR4 Multimode OSFP Transceiver MMA4Z00-NS400-T (50m) Single MPO-12/APC 8 Watts
+
+Multimode fibers Splitters MFP7E20-N0XX (XX = 03, 05, 07, 10, 15, 20, 30, 40, 50) meters
+
+Single Port 400G SR4 Multimode QSFP112 Transceiver MMA1Z00-NS400-T (50m) Single MPO-12/APC 8 Watts
+
+400G/200G ConnectX-7 OSFP
+
+Both OSFP and QSFP112 transceivers can be mixed on split ends;
+
+Use 400G transceivers for 200G links. 2 fiber on split ends creates 200G and reduces power
+
+400G/200G ConnectX-7 400G/200G BlueField-3
+
+QSFP112
+
+QSFP112
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch & Adapter, DPU
+Single mode optics enables fiber reaches up to 50, 100,
+
+500-meters and multiplexed signaling into 2 fiber LC optical connectors up to 2k-meters
+
+Single Mode Optics Up to 50, 100, 500, 2,000-meters
+
+800G Electrical end +
+2x400G Optical end
+
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+DR4=Data Center Reach 4-channels (500m) FR4=Far Reach 4-channels (2Km)
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+
+Switch-to-Adapter
+
+Switch-to-Switch
+
+2,000 meters
+
+500 meters
+
+Twin-Port OSFP 800G 2xFR4 Single mode Transceiver MMS4X50-NM (2,000m) OSFP Closed Finned-top Dual LC Duplex 17 Watts
+
+Twin-Port OSFP 800G 2xDR4 Single mode Transceiver MMS4X00-NM (500m) OSFP Finned-top Dual MPO/APC 17 Watts
+
+1-to-100 meters
+Twin port OSFP 2x400G 2xDR4 Single mode Transceiver MMS4X00-NS-T (100m) OSFP Finned-top Dual MPO-12/APC 17 Watts
+
+Twin port OSFP 2x400G 2xDR4 Single mode Transceiver MMS4X00-NS (100m) OSFP Finned-top Dual MPO-12/APC 17 Watts Bagheera
+
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters
+
+Single mode Fiber Splitters MFP7E40-N0XX (XX = 03, 05, 07, 10, 15, 20, 30, 50) meters
+
+2-fiber LC duplex fibers
+supplied by 3rd party
+
+MPO-12/APC fibers >100m supplied by 3rd party
+
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters
+
+Single Port 400G DR4 Single mode OSFP Transceiver MMS4X00-NS400 (100m) Single MPO-12/APC 8 Watts
+
+Single Port 400G DR4 Single mode QSFP112 Transceiver MMS1X00-NS400 (100m) Single MPO-12/APC 8 Watts
+
+400Gb/s Spectrum-4 Ethernet Ethernet 400GbE SN5600 800G Twin-port-OSFP Switches 64-cage Twin-port-OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Both OSFP and QSFP112 transceivers can be mixed on split ends;
+
+400G/200G ConnectX-7 OSFP
+
+Use 400G transceivers for 200G links. 2 fiber on split ends creates 200G and reduces power
+
+400G/200G ConnectX-7 400G/200G BlueField-3
+
+QSFP112
+
+QSFP112
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G-to-800G Switch-to-Switch Twin-port OSFP
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols.
+Specific protocol is activated when inserted into the switch.
+
+400Gb/s Spectrum-4 Ethernet
+Twin-port-OSFP SN5600 Switches
+
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+Passive Copper (DAC)
+2 meters
+
+Linear- Active Copper (ACC)
+4,5 meters
+
+Up to 50 meters
+
+OPTICS
+Up to 100 meters
+
+2,000 meters
+
+800G
+
+Direct Attach Copper Cable 800G to 800G OSFP to OSFP
+MCP4Y10-N00A 980-9IA0K-00N00A (0.5m) 30 AWG MCP4Y10-N001 980-9IA0F-00N001 (1m) 30 AWG MCP4Y10-N002 980-9IA0I-00N002 (2m) 26 AWG
+
+800G 0.1 Watts/end
+
+Active Copper Cable 800G to 800G OSFP to OSFP MCA4J80-N003 980-9I60Z-00N003 (3m) 30 AWG MCA4J80-N004 980-9I601-00N004 (4m) 30 AWG MCA4J80-N005 980-9I602-00N005 (5m) 26 AWG
+1.5 Watts/800G end Not DSP-based
+
+800G 800G
+
+Twin port 2x400G SR8 Multimode Transceiver
+MMA4Z00-NS-T 980-9I510-F4NS00
+OSFP Finned-top Dual MPO-12/APC 50m 17 Watts
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC connector
+
+Twin port 2x400G DR8 Single mode Transceiver MMS4X00-NS-T 100m 980-9I30H-F4NM00 MMS4X00-NM 500m 980-9I30G-00NM00
+
+Twin-Port OSFP 800G 2xFR4 Single mode Transceiver
+MMS4X50-NM (2km) 980-9I30L-00N000
+OSFP Closed Finned-top Dual LC Duplex 17 Watts
+
+OSFP Finned-top Dual MPO-12/APC 17 Watts
+
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC connector
+
+2-fiber LC duplex fibers
+supplied by 3rd party
+
+BradS@nvidia.com
+
+400Gb/s Spectrum-4 Ethernet
+Twin-port-OSFP SN5600 Switches
+Rev: Oct 7, 2024
+
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Also, a 500-meter version MMS4X00-NM (500m)
+Note: Use 3rd party MPO-12/APC fiber cables for lengths greater
+than 100m
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G OSFP Switch-to-2x 400G ConnectX-7/OSFP
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols. Specific protocol is activated when inserted into the
+switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+800G
+
+Passive Copper
+Up to 3 meters
+
+Direct Attach Copper Cable 800G to 2x 400G OSFP to 2xOSFP
+MCP7Y00-N001 980-9I432-00N001 MCP7Y00-N01A 980-9I926-00N01A MCP7Y00-N002 980-9I924-00N002 MCP7Y00-N02A 980-9I92O-00N02A MCP7Y00-N003 980-9I92N-00N003
+
+(1m) 30 AWG (1.5m) 30 AWG (2m) 26 AWG (2.5m) 26 AWG (3m) 26 AWG
+
+Linear-Active Copper
+Up to 5 meters
+800G
+Linear - Active Copper Cable 800G to 2x 400G OSFP to 2xOSFP MCA7J60-N004 (4m) 30 AWG MCA7J60-N005 (5m) 26 AWG 1.5 Watts and 0.8Watts Not DSP-based
+
+400G
+
+400G
+
+Up to 50 meters
+
+OPTICS
+
+Up to 100 meters
+
+Twin port 2x400G SR8 Multimode Transceiver MMA4Z00-NS-T (50m) 980-9I510-F4NS00 OSFP Finned-top Dual MPO-12/APC 17 Watts
+
+Twin port 2x400G DR8 Single mode Transceiver MMS4X00-NS-T (100m) 980-9I30H-F4NM00 OSFP Finned-top Dual MPO-12/APC 17 Watts
+
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC connector
+
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC connector
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+400G NICs/HCA OSFP
+
+ConnectX-7/OSFP 400G
+
+Single port 400G Multimode Transceiver
+
+MMA4Z00-NS400-T 980-9I51S-F4NS00
+
+OSFP Single MPO-12/APC 50m 8 Watts
+
+Single Port 400G Single mode Transceiver
+
+MMS4X00-NS400
+
+OSFP
+
+980-9I31N-00NM00
+
+Single MPO-12/APC 100m
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://d9ocWs.antvtisdia.com/networking
+.
+
+800G OSFP Switch-to-4x 200G ConnectX-7/OSFP
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols.
+Specific protocol is activated when inserted into the switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+Passive Copper
+Up to 3 meters
+
+Linear Active Copper
+Up to 5 meters
+
+Up to 50 meters
+
+OPTICS
+
+Up to 100 meters
+
+800G 200G
+
+Direct Attach Copper Cable 800G to 4x 200G OSFP to 4xOSFP
+MCP7Y50-N001 980-9I75E-00N001 (1m) 30 AWG MCP7Y50-N01A 980-9I46I-00N01A (1.5m) 30 AWG MCP7Y50-N002 980-9I46G-00N002 (2m) 26 AWG MCP7Y50-N02A 980-9I46U-00N02A (2.5m) 26 AWG MCP7Y50-N003 980-9I46T-00N003 (3m) 26 AWG
+
+0.1 Watts/800G end
+NDR200
+
+Linear Active Copper Cable 800G to 4x 200G OSFP to 4xOSFP
+MCA7J70-N004 980-9I50D-00N004(4m) 30 AWG MCA7J70-N005 980-9I50E-00N005 (5m) 26 AWG
+0.1 Watts/800G end 0.4 Watts split end Not DSP-based
+
+800G
+200G
+NDR200
+
+Twin port 2x400G SR8 Multimode Transceiver MMA4Z00-NS-T 980-9I510-F4NS00
+
+OSFP Finned-top IHS Dual MPO-12/APC 50m 17 Watts
+
+4x100G-PAM4
+
+Multimode Fibers Splitters MFP7E20-N0XX (XX = 03, 05, 07, 10, 15, 20, 30, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC
+
+2x100G-PAM4
+
+Twin port 2x400G DR8 Single mode Transceiver MMS4X00-NS-T 980-9I30H-F4NM00
+OSFP Finned-top IHS Dual MPO-12/APC 100m 17 Watts
+4x100G-PAM4
+Single mode Fiber Splitters MFP7E40-N0XX (XX = 03, 05, 07, 10, 15, 20, 30, 40, 50) meters (Each fiber)
+· Order 2/transceiver · Crossover Type-B · MPO/APC
+2x100G-PAM4
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+200G ConnectX-7 OSFP
+
+Single port 400G VSR4 Multimode Transceiver MMA4Z00-NS400-T 980-9I51S-F4NS00 OSFP RHS Single MPO-12/APC 50m 8 Watts reduced to 5 Watts
+NDR200
+
+Single Port 400G Single mode Transceiver MMS4X00-NS400 980-9I31N-00NM00 OSFP RHS Single MPO-12/APC 100m 9 Watts reduced to 5 Watts
+
+Use 400G transceivers for 200G links. 2 fibers on split ends creates 200G and reduces power
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G OSFP Switch-to-400G BlueField-3 + ConnectX-7 with QSFP112
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols. Specific protocol is activated when inserted into the
+switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+Passive Copper
+Up to 3 meters
+
+800G
+
+Active Copper
+
+4 & 5 meters
+
+800G
+
+Direct Attach Copper Cable 800G to 2x 400G OSFP to 2x QSFP112
+
+MCP7Y10-N001 MCP7Y10-N01A MCP7Y10-N002 MCP7Y10-N02A MCP7Y10-N003
+
+980-9I928-00N001 (1m) 30AWG 980-9I80A-00N01A (1.5m) 30AWG 980-9I929-00N002 (2m) 26 AWG 980-9I80Q-00N02A (2.5m) 26 AWG 980-9I80P-00N003 (3m) 26 AWG
+
+400G
+
+<0.1 Watts
+
+400G
+
+Active Copper Cable 800G to 2x 400G OSFP to 2x QSFP112
+MCA7J65-N004 980-9I81B-00N004 (4m) 30 AWG MCA7J65-N005 980-9I81C-00N005(5m) 26 AWG
+1.5 Watts/800G end 0.8 Watts split end Not DSP-based
+
+Up to 50 meters
+
+OPTICS Up to 100, & 500 meters
+
+Twin port 2x400G SR8 Multimode Transceiver MMA4Z00-NS -T 980-9I510-F4NS00
+OSFP Finned-top IHS Dual MPO-12/APC 50m 17 Watts
+Multi-mode fibers: MFP7E10-N0XX (XX = 03, 05, 07,10, 15, 20, 25, 30, 35, 40, 50) meters
+
+Twin port 2x400G DR8 Single mode Transceiver MMS4X00-NS-T (100m) 980-9I30H-F4NM00 MMS4X00-NM (500m) 980-9I30G-00NM00
+OSFP Finned-top IHS Dual MPO-12/APC 100m/500m 17 Watts
+Single-mode fibers: MFP7E30-NXXX (XXX = 01, 02, 03, 05, 07, 10, 15, 20, 30, 50, 60, 70,100) meters · Order 2/2x400G
+transceiver · Crossover Type-B · MPO/APC connector
+
+QSFP112 QSFP112
+
+· BlueField-3 only accepts QSFP112, QSFP56 and QSFP28 devices, not OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+These cables and transceivers combinations can link to any combination of 2 QSFP112-based ConnectX-7s or BlueField-3s at the same time
+
+ConnectX-7/QSFP112 400G
+
+-and/or-
+
+400G QSFP112 CX7 P-Rel August `24
+
+BlueField-3/QSFP112 400G
+
+Single Port 400G VSR4 Multimode QSFP112 RHS Transceiver
+MMA1Z00-NS400 -T 980-9I693-F4NS00
+Single MPO-12/APC 50m QSFP112 RHS 8 Watts
+
+Single Port 400G DR4 Single mode QSFP112 RHS Transceiver MMS1X00-NS400 980-9I068-00NM00 Single MPO-12/APC 500m QSFP112 RHS 9 Watts
+P-Rel Q1 2025
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+800G OSFP Switch-to- 200G BlueField-3 + ConnectX-7 with QSFP112
+
+LinkX cables, transceivers, ConnectX-7 and BlueField-3 DPUs contain both InfiniBand and Ethernet protocols. Specific protocol is activated when inserted into the
+switch.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet Twin-port-OSFP Switches
+
+Passive Copper
+Up to 3 meters
+
+Active Copper
+Up to 5 meters
+
+InfiniBand NDR QM9700 32-cage Twin-port-OSFP
+Ethernet 400GbE SN5600 64-cage Twin-port-OSFP
+Up to 50 meters
+
+Transceivers often called by multiple names 800G or 2x400G DR8 or 2xDR4 SR8 or 2xSR4
+
+Integrated Heat Sink (IHS) = Finned Top Riding Heat Sink (RHS) = Flat Top
+
+OPTICS
+
+Up to 100 meters
+
+2x400G (8x100G-PAM4)
+
+Direct Attach Copper Cable
+800G to 4x 200G
+OSFP to 4x QSFP112
+MCP7Y40-N001 980-9I80B-00N001 MCP7Y40-N01A 980-9I75D-00N01A MCP7Y40-N002 980-9I80C-00N002 MCP7Y40-N02A 980-9I75S-00N02A MCP7Y40-N003 980-9I75R-00N003
+
+(1m) 30AWG (1.5m) 30AWG (2m) 26 AWG (2.5m) 26 AWG (3m) 26 AWG ~0.1Watts
+
+2x400G
+
+Twin port 2x400G DR8 Single mode Transceiver
+
+(8x100G-PAM4)
+
+Twin port 2x400G SR8 Multimode Transceiver
+
+MMS4X00-NS-T (100m) 980-9I30H-F4NM00
+
+MMA4Z00-NS­T (50m) 980-9I510-F4NS00 OSFP Finned-top IHS
+
+OSFP Finned-top IHS Dual MPO-12/APC
+
+Dual MPO-12/APC
+
+17 Watts
+
+Active Copper Cable 800G to 4x 200G
+
+15 Watts Louie
+
+4x100G-PAM4
+
+Bagheera
+
+Single mode Fiber Splitters MFP7E40-N0XX (XX = 03, 05,
+
+OSFP to 4x QSFP112
+
+Multimode Fibers Splitters
+
+07, 10, 15, 20, 30, 50)
+
+MCA7J75-N004 980-9I76G-00N004 (4m) 30 AWG
+
+MFP7E20-N0XX (XX = 03,
+
+meters
+
+MCA7J75-N005 980-9I76H-00N005 (5m) 26 AWG
+
+05, 07, 10, 15, 20, 30, 40,
+
+50) meters
+
+1.5 Watts/800G end
+
+0.4 Watts split end
+
+Not DSP-based
+
+2x100G-PAM4
+
+QSFP112 QSFP112 QSFP112 QSFP112
+QSFP112 QSFP112 QSFP112 QSFP112
+
+200G (2x100G-PAM4)
+
+NDR200
+IHS = Integrated Heat Sink on transceiver/cable top RHS = Riding Heat Sink riding on top of adapter cage
+
+NDR200
+200G (2x100G-PAM4)
+
+This cables and transceivers combination can link to any combination of 4 QSFP11-based
+ConnectX-7s or BlueField-3s
+
+ConnectX-7/QSFP112 200G
+
+-or-
+
+· BlueField-3 only accepts QSFP112,
+
+QSFP56 and QSFP28 devices, not OSFP
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+These cables and transceivers combinations can link to any combination of 2 QSFP112-based ConnectX-7s or BlueField-3s at the same time
+BlueField-3/QSFP112 200G
+
+Single Port 400G VSR4
+
+Multimode QSFP112 Transceiver
+
+MMA1Z00-NS400-T 980-9I693-F4NS00
+
+QSFP112 RHS
+
+Single MPO-12/APC 50m
+
+8 Watts
+
+NDR200
+
+Single Port 400G DR4 Single mode QSFP112 Transceiver MMS1X00-NS400 980-9I068-00NM00 Single MPO-12/APC 500m QSFP112 RHS 9 Watts reduced to 5.5 Watts
+P-Rel Q1 2025
+
+Use 400G transceivers for 200G links. 2 fiber on split ends creates 200G and reduces power
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+MPO-12/APC FIBER CABLES
+Important note: These fiber cables are Type-B "Crossover" fibers. These are designed to directly link 2 transceivers together and aligning transmit lasers to receiver photodetectors.
+Max length 500-meters. No 2-fiber LC fiber offering for FR4s.
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+MULTIMODE and SINGLE MODE Crossover Fiber Cables
+
+Multimode
+Straight Cable
+
+1:2 Splitter Cable
+
+Single mode
+Straight Cable
+
+1:2 Splitter Cable
+
+Legacy PN
+MFP7E10-N003 MFP7E10-N005 MFP7E10-N007 MFP7E10-N010 MFP7E10-N015 MFP7E10-N020 MFP7E10-N025 MFP7E10-N030 MFP7E10-N035 MFP7E10-N040 MFP7E10-N050
+
+Length NVIDIA SKU
+
+3m 5m 7m 10m 15m 20m 25m 30m 35m 40m 50m
+
+980-9I73U-000003 980-9I73V-000005 980-9I57W-000007 980-9I57X-00N010 980-9I57Y-000015 980-9I57Z-000020 980-9I573-00N025 980-9I570-00N030 980-9I570-00N035 980-9I570-00N040 980-9I57Y-00N050
+
+Legacy PN Length NVIDIA SKU
+
+MFP7E20-N003 MFP7E20-N005 MFP7E20-N007 MFP7E20-N010 MFP7E20-N015 MFP7E20-N020
+
+3m 5m 7m 10m 15m 20m
+
+980-9I571-00N003 980-9I572-00N005 980-9I573-00N007 980-9I554-00N010 980-9I555-00N015 980-9I556-00N020
+
+-MFP7E20-N030 30m 980-9I557-00N030
+
+--
+
+-MFP7E20-N050 50m 980-9I55Z-00N050
+
+Crossover straight fiber arrangement
+
+Crossover fiber splitter arrangement
+
+Legacy PN Length NVIDIA SKU
+
+MFP7E30-N003 3m 980-9I55A-00N003
+
+MFP7E30-N005 5m 980-9I55B-00N005
+
+MFP7E30-N007 7m 980-9I58C-00N007
+
+MFP7E30-N010 10m 980-9I58D-00N010
+
+MFP7E30-N015 15m 980-9I58E-00N015 MFP7E30-N020 20m 980-9I58F-00N020
+
+MFP7E30-N030 30m 980-9I58G-00N030
+
+--
+
+--
+
+MFP7E30-N040 40m --
+
+MFP7E30-N050 50m 980-9I58H-00N050
+
+MFP7E30-N060 60m
+
+MFP7E30-N070 70m MFP7E30-N100 100m 980-9I58I-00N100 MFP7E30-N150 150m 980-9I58J-00N150
+
+Legacy PN
+MFP7E40-N003 MFP7E40-N005 MFP7E40-N007 MFP7E40-N010 MFP7E40-N015 MFP7E40-N020 MFP7E40-N030 --MFP7E40-N050
+
+Length NVIDIA SKU
+
+3m 980-9I58K-00N003 5m 980-9I58L-00N005
+
+7m 980-9I58M-00N007
+
+10m 15m 20m 30m
+
+980-9I58N-00N010 980-9I56O-00N015 980-9I56P-00N020 980-9I56Q-00N030
+
+50m
+
+---
+980-9I56R-000050
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Use this link to find specific length fiber with NVDA SKUs https://bi-new.mellanox.com/mquery/ninestar.php
+· Use 2 cables per Twin Port 2x400G OSFP Transceiver · Both fiber types must be the same kind and not mixed (both straight or both split) · Fibers beyond listed reaches are not offered. Source from 3rd parties. · LC duplex fiber cables not offered
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Multimode & Single Mode Fiber Cables Split Points
+
+DAC and ACC
+
+Multimode
+
+Single mode
+
+Used to link 1 Twin-port transceiver port to
+1 400G transceiver or another Twin port OSFP transceiver
+Split point
+
+Used to link 1 Twin-port transceiver port to
+1 400G transceiver or another Twin port OSFP transceiver
+Split point
+
+Used to link 1 Twin-port transceiver port to
+2 400G transceivers for 200G speed
+Use this link to find specific length fiber with NVDA SKUs
+https://bi-new.mellanox.com/mquery/ninestar.php
+
+Used to link 1 Twin-port transceiver port to
+2 400G transceivers for 200G speed
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Multimode & Single-mode Fibers
+
+Yellow and aqua colors are important
+
+Two types of optical fibers are used in InfiniBand
+
+M+ ultimode
+
+Single-mode
+
+· Large light carrying core
+
+· Tiny light carrying core
+
++ Easy and low-cost to interface with lasers and detectors
+
+- Difficult and higher-cost to interface with lasers and detectors
+
+- Signal bounces down fiber and degrades; limiting lengths to 50-100-meters
+
++ Signal stays together over hundreds of kilometers ­ used up to 40km InfiniBand
+
+o Used with SR, SR4, SR8 transceivers "SR=Short Reach"
+
+o Can multiplex 4 or 8 signals simultaneously into 1 fiber at multiple 1310nm wavelengths
+
+o Used with only one signal direction at 850nm wavelength
+
+o Used with DR1, DR4, DR8, FR4, LR4 transceivers
+
+Fiber core same size as a red blood cell
+
+Light Carrying core
+
+Aqua jacket signifies
+Multimode OM4
+
+50-um
+
+100-meters max (OM4) NDR=50-meters
+
+100-Kilo-meters max NDR
+DR4=500m FR4=2km
+
+9-um
+
+Yellow jacket signifies
+Single-mode SMF28 OS1
+
+9-um +
+
+Input Pulse
+
+Pulse light rays scatter & arrive at different times, Stretching out signal & reducing intensity. Multiple pulses overlap. Limits max length to ~100-meters
+
+BMrualdtSip@len-vpiadtiah.sc=omMulti-mode
+
+Rev: Oct 7, 2024
+
+Pulse light rays stay concentrated, intense & arrive at same time. Multiple colored wavelength signals can be transmitted simultaneously.
+Max lengths up to 40km and 4-8 channels.
+
+Input Pulse
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+850nm Wavelength
+
+Multimode & Single-Mode Fibers
+Modal Dispersion
+Multiple MODES!!
+
+OM3: 70 meters OM4: 100 meters
+
+1310nm Wavelength
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+OS1: 200,000 meters (124 Miles!!)
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+New Optical Connectors
+Angled Polish Connectors (APC) to reduce internal back reflections for high speed 100G-PAM4 links
+
+ NDR/400GbE uses MPO/APC optical connector Angled Polish Connector (Green shell)  APC is used for both single mode and multimode fibers for both InfiniBand and Ethernet  EDR + HDR use MPO/UPC: Ultra-flat Polished Connector (Blue shell)  MPO/APC is not compatible with MPO/UPC
+
+The Angled Polish reduces the optical back reflections between the two fiber ends that distorts the data signals
+
+Used for 100GbE/EDR, 200GbE/HDR
+
+Used in: 100G: 4x25G-NRZ 200G: 4x50G-PAM4
+
+MPO-12/UPC
+Ultra-flat Polished Connector
+Flat
+
+LC Duplex optical connector
+Used in: 100G, 200G, 400G, 2x800G
+FR4, 2xFR4
+
+Used for: 400GbE/NDR
+
+MPO-12/APC
+Angled Polished Connector
+Angled
+
+Back reflected light
+
+~8O
+
+Used in: 400GbE: 8x50G-PAM4
+SR8, DR4 +
+400G: 4x100G-PAM4 DR4
+
+White dot= pin #1
+
+Fiber
+4-channels 8-fibers
+
+2-fiber optical connector for FR4 2km transceivers.
+4 different laser wavelengths multiplexed into a single fiber for long
+length transmission.
+
+Transceivers have pins Optical connectors have holes
+
+Pinned connectors for joining cables Holes Pins
+
+1) Flat and Angled Optical connectors are not compatible 2) Although both HDR & NDR200 have 200Gb/s rates, they are not interoperable
+
+pin #1
+
+4 Transmit 4 not used 4 Receive
+pin #12
+
+MPO-12/APC "-12" means 12 optical fibers in the cable but only 8 are used.
+2 fibers for 1-channel (1 transmit & 1 receive fiber)
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+EDR + HDR
+
+Optical Connectors
+NDR optics is different from HDR and EDR
+
+MPO-12 Optical Connector
+
+MPO = Multiple (fiber) Push-On APC = Angled Polished Connector
+
+NDR
+MPO-12/APC Optical Connector
+
+-55dB back reflection
+
+Aqua fiber = Multi-mode
+
+MPO-12 Using only 8-fibers
+
+1 2 3 4 4 Unused
+
+Transmit
+
+Fibers
+
+Fibers
+
+4 3 21
+Receive Fibers
+
+UPC/Flat Polish 50-um core
+
+NDR uses MPO-12/APC optical connectors for both
+single-mode and multi-mode fibers
+
+Green shell = APC
+Single-mode fiber Angled Polished Connector
+7-um core
+Multi-mode fiber Angled Polished Connector
+50-um core
+
+-65dB back reflection
+
+Reflected laser energy is low - Flat polish OK
+
+Used with:
+· 100GbE/EDR SR4 transceivers · 200GbE/HDR SR4 transceivers
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+~8O
+
+400G SR8 uses MPO/APC-16 with 16 multi-mode fibers,
+MPO/UPC-12, MPO/APC-16 and MPO/APC are not interoperable with each other
+
+Concentrated laser light reflected off axis to protect laser source
+Used with: · 400G/800GbE DR4 transceivers · NDR transceivers
+Both single-mode & multi-mode
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+400G NDR BACKWARDS COMPATIBILITY TO 200G HDR
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Twin-port OSFP-to-200G/100G Connectivity
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet
+Twin-port 2x400G OSFP Switches
+
+Switch-to-Switch + Switch-to-ConnectX 5,6,7 & BlueField-2,3 (Backward Compatibility to 2x50G-PAM4 & 4x25G-NRZ)
+
+BlueField-3/QSFP112 200G
+ConnectX-7/QSFP112 200G
+
+2x 200Gb/s 2x 4x50G-PAM4
+OSFP IHS Finned Top
+
+1,1.5, 2-meters
+
+Direct Attach Cable 2x200G to 2x 200G OSFP to 2x QSFP56
+
+MCP7Y60-H001 (1m) MCP7Y60-H01A. (1.5m) MCP7Y60-H002. (2m)
+
+980-9I46K-00H001 980-9I93M-00H01A 980-9I46L-00H002
+
+QSFP56
+
+OSFP IHS Finned Top
+
+HDR QSFP56
+200Gb/s 4x50G-PAM4
+
+2x 200Gb/s 2x 4x50G-PAM4
+
+This is the same part. Switch can downshift
+rate
+
+1,1.5, 2-meters
+
+Direct Attach Cable 2x 200G to 4x 100G OSFP to 4x QSFP56 MCP7Y70-H001 (1m) MCP7Y70-H01A (1.5m) MCP7Y70-H002 (2m)
+
+980-9I93N-00H001 980-9I47P-00H01A 980-9I93O-00H002
+
+QSFP56
+100GbE + HDR100 QSFP56
+100Gb/s 2x50G-PAM4
+Note: 100G is 2x50G-PAM4
+
+ConnectX-6 QSFP56
+SN3000 Series QSFP56
+4x50G-PAM4
+QM87xx Series 200G HDR QSFP56
+4x50G-PAM4
+
+IHS = Integrated Heat Sink on transceiver/cable top RHS = Riding Heat Sink riding on top of adapter cage
+
+OSFP IHS Finned Top
+2x 100Gb/s
+
+100G
+1,1.5, 2-meters
+
+QSFP28
+100GbE + EDR
+100Gb/s 4x25G-NRZ
+
+Direct Attach Cable 2x100G to 2x 100G OSFP to 2x QSFP28
+MCP7Y60-H001 (1m) MCP7Y60-H01A (1.5m) MCP7Y60-H002 (2m )
+
+Note: 100GbE & EDR is 4x25G-NRZ = 100G
+980-9I46K-00H001 980-9I93M-00H01A 980-9I46L-00H002
+
+ConnectX-6 QSFP56
+Switch-IB 2 SB7800
+36-port EDR QSFP28 4x25G-NRZ
+SN2000 Series QSFP28
+4x25G-NRZ
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+SN2000 series switches and CX5 NICs do not support 50G-PAM4. only 4x25G-NRZ
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Twin-port OSFP-to-200G/100G Connectivity
+
+There are no Twin-port OSFP to-HDR transceiver set ups. Twin-port OSFP is 100G-PAM4 and cannot downshift to 50G-
+PAM4 These AOCs are special use cases that can support 50G-PAM4.
+
+Switch-to-Switch + Switch-to-ConnectX 5,6,7 & BlueField-2,3 (Backward Compatibility to HDR and HDR100
+
+These are the only AOCs in the 100G-PAM4 product line
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet
+Twin-port 2x400G OSFP Switches
+
+3 to 30-meters
+2x 200Gb/s
+
+Multi-mode fiber
+
+2x HDR (4x50G-PAM4)
+QSFP56
+
+Finned Top IHS
+
+AOC =Active Optical Cables
+
+Active Optical Cable 2x200G to 2x 200G (4x50G-PAM4) OSFP to 2xQSFP56 AOC
+MFA7U10-H003 (3m) 980-9I41X-00H003 MFA7U10-H005 (5m) 980-9I11Z-00H005 MFA7U10-H010 (10m) 980-9I111-00H010 MFA7U10-H015 (15m) 980-9I113-00H015 MFA7U10-H020 (20m) 980-9I115-00H020 MFA7U10-H030 (30m) 980-9I117-00H030
+Can not down shift to 2x100G + will not work at EDR 4x25G-NRZ rates
+Use MCP7Y60 DAC
+
+OSFP IHS Finned Top
+
+3 to 30-meters
+2x 100Gb/s
+
+Multi-mode fiber
+
+Active Optical Cable
+
+2x100G to 2x 100G (2x50G-PAM4)
+
+OSFP to 2xQSFP56 AOC
+2x HDR100 MFA7U40-H003 (3m) 980-9I41Z-00H003
+
+(2x50G-PAM4) MFA7U40-H005 (5m) 980-9I111-00H005
+
+QSFP56
+
+MFA7U40-H010 (10m) 980-9I113-00H010 MFA7U40-H015 (15m) 980-9I115-00H015
+
+MFA7U40-H020 (20m) 980-9I117-00H020
+
+MFA7U40-H030 (30m) 980-9I119-00H030
+
+BlueField-3/QSFP112 200G
+ConnectX-7/QSFP112 200G
+ConnectX-6 QSFP56
+
+HDR100 end points (2x50G-PAM4) Not 100GbE (4x25G-NRZ)
+Can not down shift to 100GbE/EDR at 4x25G-NRZ Use MCP7Y60 DAC
+
+SN3000 Series QSFP56
+4x50G-PAM4
+
+For DGX H100, B100 and Liquid-cooled Switches
+Using Flat top RHS cages
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Flat Top RHS 3 to 30-meters
+2x 200Gb/s
+
+Multi-mode fiber
+
+2x HDR (4x50G-PAM4)
+QSFP56
+
+IHS = Integrated Heat Sink on transceiver/cable top RHS = Riding Heat Sink riding on top of adapter cage
+
+Active Optical Cable
+2x200G to 2x 200G (4x50G-PAM4)
+OSFP to 2xQSFP56 AOC
+MFA7U10-H003-FLT (3m) 980-9I41Y-00H003 MFA7U10-H005-FLT (5m) 980-9I110-00H005 MFA7U10-H010-FLT (10m) 980-9I112-00H010 MFA7U10-H015-FLT (15m) 980-9I114-00H015 MFA7U10-H020-FLT (20m) 980-9I116-00H020 MFA7U10-H030-FLT (30m) 980-9I118-00H030
+
+QM87xx Series 200G HDR QSFP56
+4x50G-PAM4
+SN2000 series switches and CX5 NICs do not support 50G-PAM4. only 4x25G-NRZ
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet
+Twin-port 2x400G OSFP Switches
+
+Linking to Legacy Systems
+
+THIS CONFIGURATION WILL NOT WORK
+
+800GbE/NDR (8x100G-PAM4)
+
+100G-PAM4 transceivers Cannot downshift to 50G-PAM4
+
+MPO-12/APC Angled Polish
+
+X MPO-12/UPC Ultra flat Polish
+
+NVIDIA does not supply this fiber type
+
+200GbE/HDR (4x50G-PAM4)
+
+Must use a DAC or AOC linked to 200GbE/HDR switch. Then use 100G or 200G cables and transceivers to link further down.
+
+400Gb/s Quantum-2 InfiniBand or Spectrum-4 Ethernet
+Twin-port 2x400G OSFP Switches
+
+1,1.5, 2-meters
+
+3 to 30-meters
+2x 200Gb/s
+
+2x HDR Multi-mode fiber (4x50G-PAM4)
+QSFP56
+
+200Gb/s Quantum HDR InfiniBand or Spectrum-3/4 Ethernet QSFP56 IB+EN QSFP-DD EN-only
+
+DAC
+
+100G/200G SR4 100G/200G FR4
+AOC
+
+ConnectX-6 QSFP56
+Switch-IB 2 SB7800
+36-port EDR QSFP28 4x25G-NRZ
+SN2000 Series QSFP28
+4x25G-NRZ
+SN2000 series switches and CX5 NICs do not support 50G-PAM4. only 4x25G-NRZ
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Optical Descriptors & Codes
+
+Configuration & Reach Descriptor
+
+Multi-mode transceivers up to50-100-meter reach
+
+ SR: Short-Reach 1-channel  SR4: Short-Reach 4-channel  SR8: Short-Reach 8-channel
+
+100GbE/ERD = 100-meters 200GbE/HDR = 100-meters 400GbE/NDR = 50-meters
+
+Configuration & Reach Descriptor Single-mode transceivers 500m, 2km, 10km reach  DR1: Datacenter-Reach 1-channel (500m) parallel  DR4: Datacenter-Reach 4-channel (500m) parallel  DR8: Datacenter-Reach 8-channel (500m) parallel
+
+100G FR4 (CWDM4) 200G FR4 400G FR4
+2x400G FR4
+
+Optical connectors: LC: Lucent Connector, 2 fibers MPO-12: Multiple Push On -12 fiber (only 8-fibers used) MPO-16: Multiple Push On -16 fiber (for SR8)
+
+/UPC: Ultra Physical Contact flat fiber polish (EDR, HDR) /APC: Angled Polished Connector (NDR, 400GbE)
+All can be used with multi-mode or single-mode fibers
+
+How it all goes together
+
+Speed/Protocol
+
+Form-factor
+
+200GbE SR4 QSFP28
+
+HDR Configuration & Reach
+
+Optical connector
+MPO-12/UPC
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+ FR4: Far-Reach 4-channel (2km)(multiplexed optics) 2-fiber  LR4: Long-Reach 4-channel (10km)(multiplexed optics) 2-fiber
+
+Connector shell for copper & optics
+
+SFP+
+
+LC
+
+SFP28 LC
+
+QSFP28 MPO-12/UPC or LC
+
+QSFP28 MPO-12/UPC or LC
+
+QSFP56 MPO-12/UPC or LC
+
+QSFP-DD MPO-12/APC or LC
+
+QSFP
+
+MPO-12/APC or LC
+
+Optical fibers: OS1: Optical Single-mode ­ 1 (inside)
+OM4: Optical Multi-mode ­type 4 (100m at 25G-NRZ) (100m at 50G-PAM4) ( 50m at 100G-PAM4)
+OM3: Optical Multi-mode ­type 3 (old) (100m at 10G-NRZ) (70m at 25G-NRZ) (70m at 50G-PAM4)
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+Typical Leaf-Spine Network Architecture
+Core Router link FR4/LR4 Transceivers
+2km-10km
+
+Use LC single mode optics here
+Use Multimode MPO Optical
+connectors here
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+North South
+
+Spine­Super Spine Network Layer 3
+DAC,ACC or AOC cables 1m-20m
+
+EAST-West
+
+Leaf Network Layer 2
+Single­mode Transceivers: CWDM4/FR4 PSM4/DR4 500m-2km
+GPU/Server/DPU Storage Network
+Layer 1 Multi-mode Transceivers:
+SR4/SR8 & AOCs
+
+1X
+2x Compute/Storage DACs, ACCs, AOCs
+4X And splitters
+8X
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+BradS@nvidia.com
+
+Rev: Oct 7, 2024
+
+Datasheets/Product Specs are located under "Interconnects" on +NVIDIA public website https://docs.nvidia.com/networking
+.
+
+

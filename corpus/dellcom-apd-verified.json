@@ -1,0 +1,407 @@
+{
+  "470-AAVK": {
+    "item": "dac-10g-sfpp",
+    "len": "0.5m",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-cable-sfp-to-sfp-10gbe-copper-twinax-direct-attach-cable-05-meter/apd/470-aavk/networking",
+    "checked": "2026-07-10"
+  },
+  "470-AAVH": {
+    "item": "dac-10g-sfpp",
+    "len": "1m",
+    "ok": true,
+    "title": "Dell Networking, Cable, SFP+ to SFP+, 10GbE, Copper Twinax Direct Attach Cable, 1Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-aavh/",
+    "checked": "2026-07-10"
+  },
+  "470-ABPS": {
+    "item": "dac-10g-sfpp",
+    "len": "2m",
+    "ok": true,
+    "title": "Dell Networking Cable, SFP+ to SFP+, 10GbE, Passive Copper Twinax Direct Attach, 2 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-abps/",
+    "checked": "2026-07-10"
+  },
+  "470-AAVJ": {
+    "item": "dac-10g-sfpp",
+    "len": "3m",
+    "ok": true,
+    "title": "Dell Networking, Cable, SFP+ to SFP+, 10GbE, Copper Twinax Direct Attach Cable, 3Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-aavj/",
+    "checked": "2026-07-10"
+  },
+  "470-AAVG": {
+    "item": "dac-10g-sfpp",
+    "len": "5m",
+    "ok": true,
+    "title": "Dell Networking, Cable, SFP+ to SFP+, 10GbE, Copper Twinax Direct Attach Cable, 5 Meters | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-aavg/",
+    "checked": "2026-07-10"
+  },
+  "407-BBOU": {
+    "item": "sr-10g-sfpp",
+    "len": "SR 300m",
+    "ok": true,
+    "title": "Dell Networking, Transceiver, SFP+, 10GbE, SR, 850nm Wavelength, 300m Reach | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/407-bbou/",
+    "checked": "2026-07-10"
+  },
+  "407-BBZM": {
+    "item": "sr-10g-sfpp",
+    "len": "SR 85C",
+    "ok": true,
+    "title": "Dell Networking, Transceiver, SFP+ 10 GbE SR, 85c, MMF Duplex, LC | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/407-bbzm/",
+    "checked": "2026-07-10"
+  },
+  "470-ACFB": {
+    "item": "dac-25g-sfp28",
+    "len": "2m",
+    "ok": true,
+    "title": "Dell Networking, Cable, SFP28 to SFP28, 25GbE, Passive Copper Twinax Direct Attach Cable, 2 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-acfb/",
+    "checked": "2026-07-10"
+  },
+  "470-ACEU": {
+    "item": "dac-25g-sfp28",
+    "len": "3m",
+    "ok": true,
+    "title": "Dell Networking, Cable, SFP28 to SFP28, 25GbE, Passive Copper Twinax Direct Attach Cable, 3 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-aceu/",
+    "checked": "2026-07-10"
+  },
+  "470-ACEY": {
+    "item": "dac-25g-sfp28",
+    "len": "5m",
+    "ok": true,
+    "title": "Dell Networking, Cable, SFP28 to SFP28, 25GbE, Passive Copper Twinax Direct Attach Cable, 5 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-acey/",
+    "checked": "2026-07-10"
+  },
+  "470-AECX": {
+    "item": "aoc-25g-sfp28",
+    "len": "2m",
+    "ok": true,
+    "title": "Dell Networking Cable, SFP28, 25GbE, Active Optical Cable - 2 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-aecx/",
+    "checked": "2026-07-10"
+  },
+  "470-ACIF": {
+    "item": "aoc-25g-sfp28",
+    "len": "7m",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-cable-sfp28-to-sfp28-25gbe-active-optical-optics-included-7-meter/apd/470-acif/pc-accessories",
+    "checked": "2026-07-10"
+  },
+  "470-ACIK": {
+    "item": "aoc-25g-sfp28",
+    "len": "10m",
+    "ok": true,
+    "title": "Dell Networking Cable SFP28 to SFP28 25GbE Active Optical (Optics Included) - 10 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-acik/",
+    "checked": "2026-07-10"
+  },
+  "470-ACHZ": {
+    "item": "aoc-25g-sfp28",
+    "len": "20m",
+    "ok": true,
+    "title": "Dell Networking Cable SFP28 to SFP28 25GbE Active Optical (Optics Included) - 20 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-achz/",
+    "checked": "2026-07-10"
+  },
+  "407-BCHI": {
+    "item": "sr-25g-sfp28",
+    "len": "SR 85C universal",
+    "ok": true,
+    "title": "Dell SFP28 SR Optic, 25GbE, 85C, for all SFP28 ports, Customer Install | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/407-bchi/",
+    "checked": "2026-07-10"
+  },
+  "407-BBXU": {
+    "item": "sr-25g-sfp28",
+    "len": "SR no-FEC",
+    "ok": true,
+    "title": "Dell Networking, Transceiver, 25GbE SFP28 SR, No FEC, MMF, Duplex LC | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/407-bbxu/",
+    "checked": "2026-07-10"
+  },
+  "470-ABPW": {
+    "item": "dac-100g-qsfp28",
+    "len": "0.5m",
+    "ok": true,
+    "title": "Dell Networking Cable, 100GbE QSFP28 to QSFP28, Passive Copper Direct Attach, 0.5 Meter,Cust Kit | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-cable-100gbe-qsfp28-to-qsfp28-passive-copper-direct-attach-05-metercust-kit/apd/470-abpw/wifi-and-networking",
+    "checked": "2026-07-10"
+  },
+  "470-ABPY": {
+    "item": "dac-100g-qsfp28",
+    "len": "1m",
+    "ok": true,
+    "title": "Dell Networking Cable QSFP28 to QSFP28 100GbE Passive Copper Direct Attach Cable - 1 meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-abpy/",
+    "checked": "2026-07-10"
+  },
+  "470-ABQE": {
+    "item": "dac-100g-qsfp28",
+    "len": "3m",
+    "ok": true,
+    "title": "Dell Networking Cable QSFP28 to QSFP28 100GbE Passive Copper Direct Attach Cable - 3 meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-abqe/",
+    "checked": "2026-07-10"
+  },
+  "470-ABPU": {
+    "item": "dac-100g-qsfp28",
+    "len": "5m",
+    "ok": true,
+    "title": "Dell Networking Cable QSFP28 to QSFP28 100GbE Passive Copper Direct Attach Cable - 5 meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-abpu/",
+    "checked": "2026-07-10"
+  },
+  "470-ADXZ": {
+    "item": "aoc-100g-qsfp28",
+    "len": "2m",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-cable-qsfp28-to-qsfp28-100gbe-active-optical-optics-included-2-meter-cust-kit/apd/470-adxz/pc-accessories",
+    "checked": "2026-07-10"
+  },
+  "470-ACLU": {
+    "item": "aoc-100g-qsfp28",
+    "len": "3m",
+    "ok": true,
+    "title": "Dell Networking Cable, QSFP28 to QSFP28, 100GbE, Active Optical Cable (Optics Included) - 3 m | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-aclu/",
+    "checked": "2026-07-10"
+  },
+  "470-ABPI": {
+    "item": "aoc-100g-qsfp28",
+    "len": "7m",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-cable-qsfp28-to-qsfp28-100gbe-active-optical-optics-included-cable7-meter-customer-kit/apd/470-abpi/pc-accessories",
+    "checked": "2026-07-10"
+  },
+  "470-ABPM": {
+    "item": "aoc-100g-qsfp28",
+    "len": "10m",
+    "ok": true,
+    "title": "Dell Networking Cable, QSFP28 to QSFP28, 100GbE, Active Optical Cable (Optics Included), 10 meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-abpm/",
+    "checked": "2026-07-10"
+  },
+  "470-ABPJ": {
+    "item": "aoc-100g-qsfp28",
+    "len": "30m",
+    "ok": true,
+    "title": "Dell Networking Cable, QSFP28 to QSFP28, 100GbE, Active Optical (Optics included), 30 Meter, Customer Kit | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-abpj/",
+    "checked": "2026-07-10"
+  },
+  "407-BBWV": {
+    "item": "sr4-100g-qsfp28",
+    "len": "SR4 MMF",
+    "ok": true,
+    "title": "Dell Networking Transceiver, 100GbE QSFP28 SR4, MPO,MMF ,No FEC Capable | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/407-bbwv/",
+    "checked": "2026-07-10"
+  },
+  "407-BBVO": {
+    "item": "dr-100g-qsfp28",
+    "len": "CWDM4 2km",
+    "ok": true,
+    "title": "Dell Networking Transceiver, QSFP28, 100GbE, CWDM4 | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/407-bbvo/",
+    "checked": "2026-07-10"
+  },
+  "407-BCWC": {
+    "item": "dr-100g-qsfp28",
+    "len": "LR4 10km",
+    "ok": true,
+    "title": "Dell Networking Transceiver, 100GbE QSFP28, LR4, 10km SMF, LC Duplex | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/407-bcwc/",
+    "checked": "2026-07-10"
+  },
+  "470-ABQF": {
+    "item": "brk-100g-4x25",
+    "len": "2m DAC",
+    "ok": true,
+    "title": "Dell Networking Cable, 100GbE QSFP28 to 4xSFP28 Passive Direct Attach Breakout Cable - 2 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-abqf/",
+    "checked": "2026-07-10"
+  },
+  "470-ABQB": {
+    "item": "brk-100g-4x25",
+    "len": "3m DAC",
+    "ok": true,
+    "title": "Dell Networking Cable, 100GbE QSFP28 to 4xSFP28 Passive Direct Attach Breakout Cable - 3 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-abqb/",
+    "checked": "2026-07-10"
+  },
+  "470-ACIJ": {
+    "item": "brk-100g-4x25",
+    "len": "10m AOC",
+    "ok": true,
+    "title": "Dell Networking Cable 100GbE QSFP28 to 4xSFP28 25GbE, Active Optical Breakout , 10 Meter, Customer Kit | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-acij/",
+    "checked": "2026-07-10"
+  },
+  "470-ACUI": {
+    "item": "dac-200g-qsfp56",
+    "len": "0.5m",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-200gbe-qsfp28-dd-passive-direct-attach-cable-no-fec-05meter/apd/470-acui/wifi-and-networking",
+    "checked": "2026-07-10"
+  },
+  "470-ACUL": {
+    "item": "dac-200g-qsfp56",
+    "len": "1m",
+    "ok": true,
+    "title": "Dell Networking, 200GbE QSFP28-DD Passive Direct Attach Cable, No FEC, 1 Meter, Customer Kit | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-acul/",
+    "checked": "2026-07-10"
+  },
+  "470-ACUN": {
+    "item": "dac-200g-qsfp56",
+    "len": "2m",
+    "ok": true,
+    "title": "Dell Networking 200Gbe QSFP28-DD Passive Direct Attach Cable, No FEC - 2 meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-acun/",
+    "checked": "2026-07-10"
+  },
+  "470-ACWC": {
+    "item": "brk-200g-2x100",
+    "len": "2m DAC",
+    "ok": true,
+    "title": "Dell Networking, 200GbE QSFP28-DD to 2 x 100GbE QSFP28 Passive DAC, Breakout,No FEC,2 Meter,CustKit | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-acwc/",
+    "checked": "2026-07-10"
+  },
+  "470-ACUE": {
+    "item": "brk-200g-2x100",
+    "len": "5m AOC",
+    "ok": true,
+    "title": "Dell Networking Cable 200Gbe QSFP28-DD to 2x100GbE QSFP28 Active Optical Cable, Breakout, No FEC - 5 m | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-acue/",
+    "checked": "2026-07-10"
+  },
+  "470-ADYS": {
+    "item": "dac-400g-qsfpdd",
+    "len": "0.5m",
+    "ok": true,
+    "title": "Dell Networking, 400G Q56DD Passive Copper Direct Attach Cable, 0.5 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-adys/",
+    "checked": "2026-07-10"
+  },
+  "470-ADYU": {
+    "item": "dac-400g-qsfpdd",
+    "len": "1m",
+    "ok": true,
+    "title": "Dell Networking, 400G Q56DD Passive Copper Direct Attach Cable, 1 meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-adyu/",
+    "checked": "2026-07-10"
+  },
+  "470-ADYT": {
+    "item": "dac-400g-qsfpdd",
+    "len": "2m",
+    "ok": true,
+    "title": "Dell Networking, 400G Q56DD Passive Copper Direct Attach Cable, 2 Meter | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/470-adyt/",
+    "checked": "2026-07-10"
+  },
+  "407-BCID": {
+    "item": "dr4-400g-qsfpdd",
+    "len": "SR4.2 100m OM4",
+    "ok": true,
+    "title": "Dell Networking Transceiver, 400GbE QSFP56-DD, SR4.2-ON, 100 m OM4, MPO12, Customer kit | Dell USA",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/x/apd/407-bcid/",
+    "checked": "2026-07-10"
+  },
+  "407-BCIB": {
+    "item": "dr4-400g-qsfpdd",
+    "len": "FR4 2km",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-transceiver-400gbe-qsfp56-dd-fr4-2km-smf-lc-duplex/apd/407-bcib/networking",
+    "checked": "2026-07-10"
+  },
+  "470-AEDF": {
+    "item": "brk-400g-4x100",
+    "len": "3m ACC",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-cable-400gbe-qsfp56-dd-to-4xqsfp28-100gbe-active-copper-cable-breakout-3-meter/apd/470-aedf/pc-accessories",
+    "checked": "2026-07-10"
+  },
+  "470-AEDL": {
+    "item": "brk-400g-4x100",
+    "len": "5m ACC",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-cable-400gbe-qsfp56-dd-to-4xqsfp28-100gbe-active-copper-cable-breakout-5-meter/apd/470-aedl/networking",
+    "checked": "2026-07-10"
+  },
+  "470-AEDN": {
+    "item": "brk-400g-4x100",
+    "len": "7m ACC",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-cable-400gbe-qsfp56-dd-to-4xqsfp28-100gbe-active-copper-cable-breakout-7-meter/apd/470-aedn/networking",
+    "checked": "2026-07-10"
+  },
+  "407-BDHR": {
+    "item": "osfp112-800g-vr8",
+    "len": "VR8 50m OM4",
+    "ok": false,
+    "title": "",
+    "dellPart": "",
+    "url": "https://www.dell.com/en-us/shop/dell-networking-transceiver-800g-osfp112-vr8-50m-om4-mmf-mpo16-apc/apd/407-bdhr/wifi-and-networking",
+    "checked": "2026-07-10"
+  }
+}

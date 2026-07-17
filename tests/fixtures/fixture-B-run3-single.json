@@ -1,0 +1,40 @@
+{
+  "_comment": "GOLDEN FIXTURE B — backtest Run 3 CORRECTED (docs/backtests/BACKTEST-2026-07-15.md). Single fabric, NO redundancy. Per maintainer rulings 2026-07-16 (B4/B6 increment): hosts are SINGLE-HOMED (1 of the 2 NIC ports used, the other spare) → 60 links, and a 2-leaf design has NO new spine tier — the leaves uplink DIRECT to the customer's existing core (border-leaf), matching the engine's >2-leaf rule and the backtest's stated preference. So: 2x S4348T-ON, 60x Cat6A, no S5232F spine, no leaf-to-spine AOC, mgmtcable 62, no ICL, no pair language. Diff semantics per Amendment 3: structured essentials only. Two deliberate exceptions: the no-ToR-pair phrase-absence check and the absence assertions (spine / leaf-to-spine uplink qty 0).",
+  "migrationNote": "This is the spine-less / direct-to-core variant. When J2's uplinkTarget lands (INPUT-SCHEMA.md §1.4), this fixture keeps pinning the 'existing-core' value; a separate with-spine fixture (the 'new-spine' growth opt-in) is added then. coreHandoff:'our-side' (J3) is already the shape pinned here.",
+  "name": "Fixture B — 60x R660/R760, 10GBase-T 2-port, 2 racks, single fabric no redundancy",
+  "engine": "recommend",
+  "verity": true,
+  "input": {
+    "targets": [
+      {
+        "platformId": "poweredge-general",
+        "units": 60,
+        "nic": { "vendor": "Broadcom", "speed": "10GBase-T", "portsPerNic": 2, "nicsPerUnit": 1 }
+      }
+    ],
+    "racks": 2,
+    "redundancy": "single",
+    "deployType": "add",
+    "includeMgmt": true,
+    "includeCoreUplink": true,
+    "coreSpeed": "100GbE",
+    "trafficProfile": "balanced"
+  },
+  "expected": [
+    { "label": "leaf switches — ONE per rack, single-homed hosts (not 4, not 8)", "category": "Switch", "on": "model", "match": "^S4348T-ON$", "qty": 2, "knownDiff": null },
+    { "label": "NO new spine — a 2-leaf design uplinks direct to the existing core (engine >2-leaf rule + backtest preference; growth-spine is J2's opt-in)", "category": "Switch", "on": "model", "match": "^S5232F-ON$", "qty": 0, "knownDiff": null },
+    { "label": "OOB switches — one per DECLARED rack (2, not 3)", "category": "Management", "on": "model", "match": "^S3248T-ON$", "qty": 2, "knownDiff": null },
+    { "label": "host cabling — 60 links (single-homed: 1 of 2 NIC ports used, 2nd spare), 1 Cat6A each", "category": "Cable/Optic", "on": "mk", "match": "^host\\|.*\\|cat6a-host$", "qty": 60, "knownDiff": null },
+    { "label": "NO pair interconnect — no pairs exist", "category": "Cable/Optic", "on": "item", "match": "ICL|peer.?link|VLTi", "qty": 0, "knownDiff": null },
+    { "label": "NO leaf-to-spine uplinks — no spine tier exists; uplinks go direct to core", "category": "Cable/Optic", "on": "mk", "match": "^uplink\\|.*\\|aoc-100g-qsfp28$", "qty": 0, "knownDiff": null },
+    { "label": "OOB cabling within-rack — 60 hosts + 2 leaf switch mgmt ports (no spine; OOB not self-cabled per ruling 2026-07-16) = 62", "category": "Cable/Optic", "on": "mk", "match": "^mgmtcable$", "qty": 62, "knownDiff": null },
+    { "label": "OOB inter-rack uplinks — 1 per rack x 2", "category": "Cable/Optic", "on": "mk", "match": "^mgmtuplink$", "qty": 2, "knownDiff": null },
+    { "label": "inter-network transceivers — leaves direct to core, our side only (2)", "category": "Cable/Optic", "on": "mk", "match": "^core$", "qty": 2, "knownDiff": null },
+    { "label": "inter-network patch cords — 2 per link x 2 links", "category": "Cable/Optic", "on": "mk", "match": "^core-patch$", "qty": 4, "knownDiff": null },
+    { "label": "DFM subscription", "category": "Software", "on": "item", "match": "Fabric Manager|DFM", "qty": 1, "knownDiff": null }
+  ],
+  "noExtraSwitchModels": true,
+  "phraseAbsence": [
+    { "label": "no ToR-pair language anywhere — pairs are a redundancy construct (backtest Fixture B LANGUAGE rule)", "phrase": "ToR pair", "knownDiff": null }
+  ]
+}

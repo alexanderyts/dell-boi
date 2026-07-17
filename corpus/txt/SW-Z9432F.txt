@@ -1,0 +1,313 @@
+Specification Sheet
+
+                                                  Dell PowerSwitch
+
+                                                  Z9432F-ON
+
+                                                  High-performance, high-density open networking 400GbE
+
+                                                  multi-rate aggregation switch
+
+The Z9432F-ON 100/400GbE fixed switch comprises Dell Technologies' latest disaggregated hardware and
+
+software data center networking solutions, providing state-of-theart, high-density 100/400 GbE ports and a
+
+broad range of functionality to meet the growing demands of today's data center environment. This
+
+innovative, next-generation open networking high-density aggregation switch offers optimum flexibility and
+
+cost-effectiveness for the web 2.0, enterprise, mid-market and cloud service providers with demanding compute
+
+and storage traffic environments.
+
+The compact PowerSwitch Z9432F-ON provides industryleading density of either 32 ports of 400GbE in
+
+QSFP56- DD form factor or 128 ports of 100 or up to 144 ports of 10/25/50 (via breakout), in a 1RU design.
+
+Using industry-leading hardware and a choice of Enterprise SONiC Distribution by Dell Technologies, Enterprise
+
+SONiC Distribution by Dell Technologies, Dell SmartFabric OS10 or select 3rd party network operating systems
+
+and tools, the Z9432F-ON switch incorporates multiple architectural features that optimize data center network
+
+flexibility, efficiency and availability, including IO panel to PSU and PSU to IO panel airflow* for hot/cold aisle
+
+environments, redundant, hot-swappable power supplies and fans and delivers non-blocking performance for
+
+workloads sensitive to packet loss. The compact Z9432F-ON model provides multi-rate speed, enabling denser
+
+footprints and simplifying migration to 400Gbps.
+
+Priority-based flow control (PFC), data center bridge exchange (DCBX) and enhanced transmission selection
+
+(ETS) make the Z9432F-ON ideally suited for DCB environments.
+
+The Dell PowerSwitch Z9432F-ON switch supports the open source Open Network Install Environment (ONIE)
+
+for zero touch installation of Enterprise SONiC Distribution by Dell Technologies, Dell SmartFabric OS10 as well
+
+as of alternative network operating systems.
+
+Key applications
+
+·  Organizations looking to enter the software defined data center era with a choice of networking
+
+   technologies designed to maximize flexibility
+
+·  High-density multi-rate 100/400GbE ToR server aggregation in high-performance data center
+
+   environments at the desired fabric speed
+
+·  Small-scale Fabric implementation via the Z9432FON switch in leaf and spine along with S-Series
+
+   10/25/40/50/100GbE ToR switches enabling costeffective aggregation of 100/400 uplinks
+
+·  High-density 10/25/40/50/100GbE ToR server access in high-performance data center environments
+
+Dell PowerSwitch Z9432F-ON
+
+© 2025 Dell Inc. or its subsidiaries.
+·     Multi-functional 10/25/40/50/100/400GbE switching in High Performance Computing Clusters or other
+
+      business-sensitive deployments requiring the highest bandwidth.
+
+·     iSCSI and FCOE deployment, including DCB converged lossless transactions
+
+Key features
+
+·     1RU high-density 100/400GbE aggregation switch with up to 32 ports of 400GbE (QSFP56-DD) or up to
+
+      128 ports of 100GbE or up to 144 ports of 10/25/50GbE*(using breakout cable)
+
+·     Multi-rate 400GbE ports support 10/25/40/50/100GbE. 40GbE ports support 10/40GbE
+
+·     Scalable L2 and L3 Ethernet switching with QoS and a full complement of standards-based IPv4 and IPv6
+
+      features, including OSPF and BGP routing support
+
+·     25.6Tbps non-blocking (full duplex), switching fabric delivers line-rate performance under full load on
+
+      Z9432F-ON
+
+·     L2 multipath support via Virtual Link Trunking (VLT) and Routed VLT support
+
+·     Converged network support for DCB, with priority flow control (802.1Qbb), ETS (802.1Qaz), DCBx and
+
+      iSCSI TLV support
+
+·     Supports Routable RoCE to enable convergence of compute and storage on Active Fabric
+
+·     IO panel to PSU airflow or PSU to IO panel airflow
+
+·     Redundant, hot-swappable power supplies and fans
+
+·     Supports the open source Open Network Install Environment (ONIE) for zero touch installation of
+
+      alternate network operating systems
+
+·     Accelerated mounting kits reducing time and resources for switch rack installation
+
+·     Power-efficient operation up to 45°C helping reduce cooling costs in temperature-constrained
+
+      deployments
+
+Product                                Description
+
+                                       Z9432F, 32x 400GbE QSFP56-DD, 2x AC PSU, Fan module, I/O Panel to PSU Airflow
+
+Z9432F-ON                              Z9432F, 32x 400GbE QSFP56-DD, 2x AC PSU, Fan module, I/O Panel to PSU Airflow, TAA Certified
+
+                                       Z9432F, 32x 400GbE QSFP56-DD, 2x AC PSU, Fan module, PSU to I/O Panel Airflow
+
+                                       Z9432F, 32x 400GbE QSFP56-DD, 2x AC PSU, Fan module, PSU to I/O Panel Airflow, TAA Certified
+
+Dell SW Options                        Dell SmartFabric OS10
+
+                                       Enterprise SONiC Distribution by Dell Technologies
+
+                                       AC Power Supply, IO Panel to PSU Airflow
+
+Redundant power supplies               AC Power Supply, PSU to IO Panel Airflow
+
+                                       DC Power Supply, IO Panel to PSU Airflow
+
+                                       DC Power Supply, PSU to IO Panel Airflow
+
+Fans                                   Fan module, IO Panel to PSU Airflow
+
+                                       Fan module, PSU to IO Panel Airflow
+
+Optics, Cables and Cable               Enterprise SONiC Distribution by Dell Technologies
+
+Management                             Please refer to Dell Networking Transceivers and Cables spec sheet for complete list of optics and
+
+                                       cables. for a complete list of optics and cables.
+
+2 | Dell PowerSwitch Z9432F-ON
+
+© 2025 Dell Inc. or its subsidiaries.
+Technical specifications
+
+Physical                                              Performance                                                                                Emissions
+
+1 RJ45 console/management port with                   Switch fabric capacity: 25.6Tbps (full duplex)                                             Australia/New Zealand: AS/NZS CISPR 22:
+
+RS232 signaling and Micro USB-B port                  Forwarding capacity: 5.2Bpps                                                               2006, Class A
+
+1 10/100/1000BASE-T Ethernet for                      Latency: sub 850ns                                                                         Canada: ICES-003, Issue-4, Class A
+
+management                                                                                                                                       Europe: EN 55022: 2006+A1:2007 (CISPR 22:
+
+1 USB 2.0 type A storage port 32x400GbE               Packet buffer memory: 132MB                                                                2006), Class A
+
+QSFP56-DD ports + 2xSFP+ 10GbE                        NPU Pipeline is programmable capable using                                                 Japan: VCCI V3/2009 Class A
+
+                                                      NPL
+
+Chassis                                               CPU: Intel Denverton C3758 8 Core @ 2.2GHz                                                 USA: FCC CFR 47 Part 15, Subpart B:
+
+                                                                                                                                                 2011, Class A
+
+Size: 1 RU, 43 x 438 x 550 mm (1.72 x 17.3 x          CPU memory: 32GB DDR4 ECC
+
+21.7 inches)                                          MAC addresses: 156K                                                                        Immunity
+
+Weight: 9.98 kg (22 lbs)                              ARP table: 16K standalone, 8K shared                                                       EN 300 386 V1.4.1:2008 EMC for
+
+                                                                                                                                                 Network Equipment
+
+Environmental                                         IPv4 routes: up to 400K (ALPM)                                                             EN 55024: 1998 + A1: 2001 + A2: 2003
+
+Power supply: 100-240 VAC 50/60H*                     IPv6 routes: 300K                                                                          EN 61000-3-2: Harmonic Current Emissions
+
+Max Power consumption: 1404 Watts                     Multicast hosts: 1K                                                                        EN 61000-3-3: Voltage Fluctuations
+
+Typ. Power consumption: 900 Watts                     Multicast IPv6 Routes : 4K                                                                 and Flicker
+
+Max Operating specifications:
+
+                                                      Layer 2 VLANs: 4K                                                                          EN 61000-4-2: ESD
+
+AC max. operating specifications:                     MSTP: 64 instances                                                                         EN 61000-4-3: Radiated Immunity
+
+Operating temperature: 0° to 45°C
+
+(32° to 113°F)                                        LAG load balancing: Based on layer 2, IPv4 or                                              EN 61000-4-4: EFT
+
+Operating humidity: 5 to 90% (RH),                    IPv6 headers                                                                               EN 61000-4-5: Surge
+
+non-condensing                                        Timing Card PTP/1588 and Sync-E                                                            EN 61000-4-6: Low Frequency
+
+Max. non-operating specifications:                    Trusted Platform Module                                                                    Conducted Immunity
+
+Storage temperature: ­40° to 70°C                     Supports up to 4 ports of 20W optics when in
+
+(­40° to 158°F)                                       IO/PSU airflow direction
+
+Storage humidity: 5 to 95% (RH),                                                                                                                 RoHS
+
+non-condensing                                        Supports up to 15W optics in all QSFP56-DD                                                 All Z Series components are EU RoHS
+
+                                                      ports                                                                                      compliant.
+
+Fresh air compliant to 45°C                           For Network Operating System (NOS) specific
+
+Support AC both lowline and highline power            features, refer to Dell SmartFabric OS10                                                   Certifications**
+
+modes                                                 and Enterprise SONiC Distribution by Dell                                                  Available with US Trade Agreements Act
+
+                                                      Technologies spec sheets.                                                                  (TAA) compliance
+
+Redundancy
+
+Hot swappable redundant power (2 per                  Regulatory compliance                                                                      USGv6 Host and Router Certified on Dell
+
+switch, 1 + 1 redundancy except with using                                                                                                       Networking1
+
+lowline power)*                                       Safety                                                                                     IPv6 Ready for both Host and Router
+
+Hot swappable redundant fans (7 per switch,           UL/CSA 60950-1, Second Edition                                                             UCR DoD APL (core and distribution
+
+6 + 1 redundancy)                                     EN 60950-1, Second Edition                                                                 ALSAN switch)
+
+                                                      IEC 60950-1, Second Edition Including                                                      Warranty
+
+                                                      All National Deviations and Group                                                          1 year return to depot constrained
+
+                                                      Differences
+
+                                                      EN 60825-1 Safety of Laser Products Part 1:
+
+                                                      Equipment Classification Requirements and
+
+                                                      User's Guide
+
+                                                      EN 60825-2 Safety of Laser Products Part 2:
+
+                                                      Safety of Optical Fibre Communication
+
+                                                      Systems
+
+                                                      FDA Regulation 21 CFR 1040.10 and 1040.11
+
+*100V - 127V lowline power solution is non-redundant
+
+**Federal Certifications are granted on an OS specific basis - please reference the SONiC and OS10 spec sheets for latest certification updates
+
+3 | Dell PowerSwitch Z9432F-ON
+
+© 2025 Dell Inc. or its subsidiaries.
+IT Lifecycle Services for Networking
+
+Experts, insights and ease
+
+Our highly trained experts, with innovative tools and proven processes, help you transform your IT investments
+
+into strategic advantages.
+
+                          Plan & Design
+
+                          Let us analyze your multivendor environment and deliver a comprehensive report and action
+
+                          plan to build upon the existing network and improve performance.
+
+                          Deploy & Integrate
+
+                          Get new wired or wireless network technology installed and configured with ProDeploy
+
+                          Reduce costs, save time, and get up and running fast.
+
+                          Educate
+
+                          Ensure your staff builds the right skills for long- term success. Get certified on Dell
+
+                          Networking technology and learn how to increase performance and optimize infrastructure.
+
+                          Manage & Support
+
+                          Gain access to technical experts and quickly resolve multivendor networking challenges
+
+                          with ProSupport. Spend less time resolving network issues and more time innovating.
+
+                          Optimize
+
+                          Maximize performance for dynamic IT environments with Dell Optimize. Benefit from in-depth
+
+                          predictive analysis, remote monitoring and a dedicated systems analyst for your network.
+
+                          Retire
+
+                          We can help you resell or retire excess hardware while meeting local regulatory guidelines
+
+                          and acting in an environmentally responsible way.
+
+Learn more at DellTechnologies.com/Services
+
+Learn more about                         Contact a Dell  View more resources                Join the conversation with
+
+Dell solutions                      Technologies Expert                                     #DellTechnologies
+
+© 2025 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of
+
+their respective owners.
+

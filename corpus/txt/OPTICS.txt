@@ -1,0 +1,1530 @@
+Spec Sheet
+
+Dell networking                          transceivers and cables
+
+                                         Dell Technologies provides optical and cabling options for each Ethernet
+
+                                         speed. Long- and short-range optical connectivity options are suited to
+
+Features and benefits                    a wide range of data center and campus applications. For the shortest
+
+                                         connections, passive copper direct attach cable (DAC) is a simple and cost-
+
+·  Hot-swappable for simplified          effective solution.
+
+   maintenance (no power-down
+
+   required for installation or          1GbE solutions
+
+   replacement)                          1GbE SFP optical transceivers include short-reach (SX), and long-reach
+
+·  Smallest and lowest power             (LX). A 1000BASE-T transceiver facilitates twisted-pair copper connections.
+
+   10GbE, 25GbE, 40GbE,
+
+   100GbE, 2×100GbE, 400GbE              10GbE solutions
+
+   and 800GbE optical form
+
+   factors in the industry               10GbE SFP+ optical transceivers include short-reach (SR), long-reach (LR)
+
+·  Optical interoperability of SFP,      and extended long-reach (ER and ZR). The 10GbE SFP+ receptacle will also
+
+   SFP+, SFP28 with selected             recognize 1GbE SFP transceivers. A 10Gbase-T transceiver facilitates twist-
+
+   QSFP and QSFP-DD modules              ed-pair copper connections.
+
+·  Offers pay-as-you-use                 The 10GBase-T with rate adaptive feature can run at 10G on the host side
+
+   model for lower total cost of         and can be negotiated to any speed at far end link partner or line side.
+
+   ownership (TCO) and ease of
+
+   technology migration                  25GbE solutions
+
+·  Reliability ensured by rigorous       25GbE SFP28 optical transceivers include short-reach (SR), extended short-
+
+   optics validation, qualification      reach (ESR) and long-reach (LR) variations. In 25GbE networking environ-
+
+   and certification                     ments, the 100 and 400GBE ports can be broken out into four 25GbE lanes by
+
+·  Dell product specification            use of either active optical (AOC) or passive copper (DAC) breakout cables.
+
+   encoding feature allows               You can utilize 25GbE optics in 100GbE and 400GbE ports using a (QSA28)
+
+   Dell Networking platforms             pluggable adapter.
+
+   to recognize certified and
+
+   supported transceivers
+
+·  Guaranteed to work with Dell          40GbE solutions
+
+   Networking platforms over             40GbE (4×10GbE) QSFP+ optical transceivers include short-reach (SR4),
+
+   temperature and process               and long-reach (LR4). In many cases, 1GbE SFP and 10GbE SFP+ optics can
+
+   variations with optimal               be readily inserted, recognized, and utilized in the 40GbE QSFP+ receptacle
+
+   performance                           using a (QSA28) pluggable adapter. The adapter supports standard SFP and
+
+                                         SFP+ optics in a QSFP+ socket providing backwards compatibility, while the
+
+                                         40GbE port for future bandwidth expansion.
+
+Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+40GbE QSFP+ ports support both optical and passive copper (DAC) breakout cables where the four 10GbE lanes are
+
+broken out into four individual 10GbE SFP+ interfaces. This solution can be deployed with a single active optical
+
+cable (AOC) with integrated QSFP+ and SFP+ transceivers or using a passive fiber breakout cable.
+
+Dell enables cost-savings through the reuse of a legacy 10GbE fiber plant to support newer 40GbE connections with
+
+our 40GbE duplex (multimode) fiber solutions. These solutions use wavelength multiplexing (SM4) and/or directional
+
+multiplexing (BIDI) to transport 40GbE over a single (multimode) fiber pair.
+
+100GbE solutions
+
+100GbE (4×25GbE) QSFP28 optical transceivers include short-reach (SR4), intermediate-reach (CWDM4), long-reach
+
+(LR4), extended short-reach (ESR4), 2km intermediate reach (FR1), 10km long-reach (LR1), multimode SR1.2 (BiDi),
+
+multimode short-reach (SWDM4, 40/100GbE dual rate PSM4, and extended long-reach (ER4-lite). Standard 10GbE
+
+SFP+ and 25GbE SFP28 optics can be readily inserted, recognized, and utilized in the 100GbE QSFP28 receptacle
+
+using a (QSA28) pluggable adapter. Although this reduces the effective throughput of the 100GbE port to 25GbE, it
+
+provides an immediate low-cost transceiver solution while preserving the option for later bandwidth expansion. The
+
+hermetically sealed LR4 can be used for liquid immersion use cases.
+
+100GbE QSFP28 ports support both optical and passive copper breakout cables. Each of the four 25 GbE lanes can
+
+be broken out into four individual SFP28 interfaces. This solution can be deployed with a single active optical cable
+
+(AOC) with integrated QSFP28 and SFP28 transceivers or by a passive fiber breakout cable/multiplexer.
+
+Dual 100GbE solutions
+
+To maximize front panel density, some Dell switches support QSFP28- DD (double density) modules which transport
+
+two 100GbE data streams while consuming the same face plate area as a single 100GbE QSFP28 module. For mul-
+
+timode fiber distances of 100 meters or less a pluggable transceiver module can be used. Point-to-point DACs and
+
+AOCs will facilitate shorter links as well as breakout applications.
+
+200GbE solutions
+
+There's a new 200G optic being released in FY25, QSFP56 short-reach SR4. This module can transport 50GbE over 4
+
+lanes.
+
+400GbE solutions
+
+Our newest family of optical transceivers are 400GbE QSFP56-DD. These transceivers may be short-reach (SR4.2-ON, SR8, and
+
+VR4) over multimode fiber or intermediate-reach (FR4, EDR4, LR4, LDR4, and Open ZR+) over single mode fiber. Point-to- point
+
+DACs and AOCs are available.
+
+400GbE (8 × 50G PAM4) ports on one switch may be connected to 100GbE QSFP28 (4 × 25G NRZ) by taking advantage of the
+
+gearboxes embedded in the pluggable modules. As a result, a 400GbE QSFP56- DD EDR4 module may be broken out over sin-
+
+gle-mode fiber to feed four 100GbE QSFP28 FR modules. SR4.2-ON module may be broken out over multimode fiber to feed four
+
+100GbE QSFP28 SR1.2 modules. An active Ethernet cable also facilitates 400GbE QSFP56-DD to four 100GbE QSFP28 breakouts.
+
+Open ZR+ can transport 1x400GbE over 120 km up to 1,000 km (please reach out to PDM before selling this optic due to required
+
+use of EDFA and/or MUX, DEMUX.
+
+800GbE
+
+The new 800GbE transceivers are OSFP112. These transceivers may be short reach (2VR4) multimode fiber or inter-
+
+mediate reach (2EDR4) single mode fiber. The 800G O112 2VR4/2EDR4 utilizes 2xMPO12 receptacles and supports
+
+1x800, 2x400, 4x200, and 8x100 modes of operation. Point to point DACs (1-4) and 800G to 2x400G Q112 breakout
+
+cables (1-4M) will also be available.
+
+Testing and warranties
+
+Dell Networking applies a rigorous process in qualifying and maintaining all optics to guarantee a strict adherence to
+
+IEEE standards, as well as stringent reliability testing to guarantee a consistent and trustworthy solution.
+
+All optics and cables released by Dell Networking have passed comprehensive optical analytics check as well as an
+
+extensive dynamic test suite. Dell-labeled optics are warrantied alongside the Dell switches in which they are de-
+
+ployed.
+
+2 | Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+          SFP+ DAC                     QSFP+ DAC              SFP SFP+                  QSFP+                 QSA28
+
+            QSFP+                  QSFP+ DAC breakout         QSFP+ MPO pigtail         SFP RJ45              QSFP-DD
+
+Dell Networking transceivers and cables. See tables for product details.
+
+Model        Connec-                   Wave-      Trans-      Dis-        Transmit-     Receiver      Power   Notes
+
+             tor Type                  length(s)  mission     tance       ter Power     Power         Dissi-
+
+                                       (nm)       Medium      (max.)      (dBm)         (dBm)         pation
+
+                                                                                                      (max.;
+
+                                                                                                      W)
+
+Fast Ethernet (100 Mb/s) SFP transceivers
+
+                                                  MMF FDDI
+
+             duplex LC                            MMF OM1                 -15.0 to      -31.0 to              operates up to
+
+SFP-100M-FX  PC/ UPC                   1310       MMF OM2     2 km        -20.0         -14.0         1.1     85°C
+
+                                                  MMF OM3
+
+                                                  MMF OM4
+
+Gigabit Ethernet SFP transceivers
+
+                                                  MMF OM1     300 m                     -18.0 to              operates up to
+
+SFP-1G-SX    duplex LC                 850        MMF OM2     550 m       -9.0 to -2.5                0.5
+
+             PC/ UPC                              MMF OM3     550 m                     0.0                   85°C
+
+                                                  MMF OM4     550 m
+
+SFP-1G-LX    duplex LC                 1310       SMF         10 km       -9.5 to -3.0  -19.0 to      1.1     operates up to
+
+             PC/ UPC                                                                    -3.0                  85°C
+
+SFP-1G-T     RJ-45                     N/A        CAT5        100 m       N/A           N/A           1.5     operates up to
+
+                                                                                                              85°C
+
+10-Gigabit Ethernet SFP+ transceivers
+
+                                                  MMF FDDI    26 m
+
+             duplex LC                            MMF OM1     33 m
+
+SFP-10G-SR   PC/ UPC                   850        MMF OM2     82 m        -7.3 to -1.0  -9.9 to -1.0  1.0
+
+                                                  MMF OM3     300 m
+
+                                                  MMF OM4     400 m
+
+SFP-10G-LR   duplex LC                 1310       SMF         10 km       -8.2 to       -14.4 to      1.5
+
+             PC/ UPC                                                      +0.5          +0.5
+
+SFP-10G-ER   duplex LC                 1550       SMF         40 km       -4.7 to       -15.8 to      1.5
+
+                   UPC                                                    +4.0          -1.0
+
+SFP-10G-ZR   duplex LC                 1550       SMF         80 km       0.0 to +4.0   -22.0 to      1.5
+
+                   UPC                                                                  -7.0
+
+                                                  CAT6A       30 m
+
+SFP-10G-T    RJ-45                     N/A        (10G)       100 m       N/A           N/A           <2.5
+
+                                                  CAT5A (1G)
+
+3 | Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Model          Connec-               Wave-      Trans-      Dis-    Transmit-     Receiver      Power   Notes
+
+               tor Type              length(s)  mission     tance   ter Power     Power         Dissi-
+
+                                     (nm)       Medium      (max.)  (dBm)         (dBm)         pation
+
+                                                                                                (max.;
+
+                                                                                                W)
+
+SFP-10G-T                                       CAT6A       30 m
+
+LOW POWER      RJ-45                 N/A        (10G)       100 m   N/A           N/A           <2.0
+
+                                                CAT5A (1G)
+
+                                                                                                        Rate adaptive
+
+                                                                                                        equates at host
+
+                                                CAT6A                                                   side running at
+
+SFP-10G-T      RJ-45                 N/A        (10G)       30 m    N/A           N/A           2.4     10G and line
+
+Rate Adaptive                                   CAT5A (1G)  100 m                                       side can negoti-
+
+                                                                                                        ate to 10G, 5G,
+
+                                                                                                        2.5G, 1G, and
+
+                                                                                                        100M
+
+16G Fibre Channel SFP+ transceivers
+
+SFP-16GFC-     duplex LC             850        MMF OM3     100 m   -7.8 to 0.0   -13.5 to 0.0  1.0
+
+SW (EOL)       PC/ UPC                          MMF OM4     125 m
+
+25-Gigabit Ethernet SFP28 transceivers
+
+SFP28-25G-                                                                                              Capable of 10-12
+
+SR (Supports   duplex LC                        MMF OM3     70 m                  -10.3 to              BER over 30 m
+
+both FEC       PC/ UPC               850        MMF OM4     100 m   -8.4 to +2.4  +2.4          1.2     of OM3 or 40 m
+
+and NO-FEC                                                                                              of OM4 when
+
+operations)                                                                                             FEC is disabled
+
+SFP28-25G-     duplex LC             850        MMF OM3     200 m   -8.4 to +2.4  -11.9 to      1.2
+
+ESR            PC/ UPC                          MMF OM4     300 m                 +3.0
+
+SFP28-25G-LR   duplex LC             1310       SMF         10 km   -7.0 to +2.0  -11.3 to      1.5
+
+               PC/ UPC                                                            +2.0
+
+Quad 32G Fibre Channel QSFP28 transceivers
+
+                                                                                  -10.4 to              Compatible
+
+Q28-128GFC-    MPO-12                850        MMF OM3     70 m    -8.5 to +2.4  +2.4          3.5     with 4×32GFC
+
+SW4                                             MMF OM4     100 m   /lane         /lane                 or 4×16GFC
+
+                                                                                                        breakout
+
+40-Gigabit Ethernet QSFP+ transceivers
+
+QSFP-40G-      MPO-12                           MMF OM3     100 m   -7.6 to +2.4  -9.0 to +2.4          Can operate in
+
+SR4            PC/ UPC               850        MMF OM4     150 m   /lane         /lane         1.5     1×4 breakout
+
+                                                                                                        mode
+
+                                     850        MMF OM3     200 m                                       Not compliant
+
+QSFP-40G-      duplex LC             880        MMF OM4     250 m   -7.6 to +3.0  -9.0 to +3.0  2.0     with SWDM4
+
+SM4            PC/ UPC               910        MMF OM5     350 m   /lane         /lane                 40GbE MSA
+
+                                     940
+
+QSFP-40G-      duplex LC             850        MMF OM3     100 m   -4.0 to +5.0  -7.5 to +5.0          +10°C minimum
+
+BIDI           PC/ UPC               900        MMF OM4     150 m   /lane         /lane         3.5     operating
+
+                                                MMF OM5     200 m                                       temperature
+
+                                     1271                                         -13.7 to
+
+QSFP-40G-      duplex LC             1291       SMF         10 km   -7.0 to +2.3  +2.3          3.5
+
+SM4            PC/ UPC               1311                           /lane         /lane
+
+                                     1331
+
+                                     1271
+
+QSFP-40G-      Duplex LC             1291       SMF         10km    -7.0 to 2.3   -13.7 to 2.3  8. 3.5
+
+LR4                                  1311
+
+                                     1331
+
+4 | Dell networking transceivers and cables
+
+      © 2026 Dell Inc. or its subsidiaries.
+Model          Connec-    Wave-           Trans-   Dis-    Transmit-     Receiver      Power   Notes
+
+               tor Type   length(s)       mission  tance   ter Power     Power         Dissi-
+
+                          (nm)            Medium   (max.)  (dBm)         (dBm)         pation
+
+                                                                                       (max.;
+
+                                                                                       W)
+
+100-Gigabit Ethernet QSFP28 transceivers
+
+                                                                                               Can only interop
+
+                                                                                               w/ another
+
+                                          MMF OM3  70 m                                        SR1.2 and
+
+Q28-100G-      duplex LC  850             MMF OM4  100 m   -6.2 to +4 /  -7.9 to +4/   3.5     400G-SR4.2;
+
+SR1.2                     908             MMF OM5  150 m   lane          lane                  substitute use
+
+                                                                                               of 100G-BiDi
+
+                                                                                               but will not
+
+                                                                                               interop
+
+                                                                                               Can operate in
+
+Q28-100G-                                                                                      1×4 breakout
+
+SR4            MPO-12                     MMF OM3  70 m    -8.4 to +2.4  -10.3 to              mode; 10-12
+
+(Supports FEC  PC/ UPC    850             MMF OM4  100 m   /lane         +2.4          3.5     BER over 30 m
+
+and NO-FEC                                                               /lane                 of OM3 or 40 m
+
+operations)                                                                                    of OM4 when
+
+                                                                                               FEC disabled
+
+Q28-100G-                                 MMF OM3  170 m   -8.3 to +2.4  -10.3 to              Can operate in
+
+ESR4           MPO-12     850             MMF OM4  300 m   /lane         +2.4          3.5     1×4 breakout
+
+                                                                         /lane                 mode
+
+Q28-100G-                 850             MMF OM3  70 m    -6.0 to +4.0  -7.9 to +4.0          Compatible with
+
+BIDI           duplex LC  910             MMF OM4  100 m   /lane         /lane         3.5     Cisco 100G-BIDI
+
+                                          MMF OM5  150 m                                       transceivers
+
+                          850             MMF OM3  75 m
+
+Q28-100G-      duplex LC  880             MMF OM4  100 m   -7.5 to +3.4  -9.4 to +3.4  3.5
+
+SWDM4          PC/ UPC    910             MMF OM5  150 m   /lane         /lane
+
+                          940
+
+                          1271                                           -11.5 to
+
+Q28-100G-      duplex LC  1291            SMF      2 km    -6.5 to +2.5  +2.5          3.5
+
+CWDM4          PC/ UPC    1311                             /lane         /lane
+
+                          1331
+
+                                                                                               Can interop with
+
+Q28-100G-LR1   duplex LC  1310            SMF      10 km   -1.4 to +4.5  -7.7 to +4.5  <4.0    100G-FR1/LR1,
+
+                                                                                               400G-
+
+                                                                                               EDR4/LDR4
+
+                          1296                                           -10.6 to
+
+Q28-100G-LR4   duplex LC  1300            SMF      10 km   -4.3 to +4.5  +4.5          <4.0
+
+(Gen 3)                   1305                             /lane         /lane
+
+                          1309
+
+                          1296                                                                 Similar spec as
+
+Q28-100G-LR4   duplex LC  1300                             -4.3 to +4.5  -10.6 to              Gen 3, but this
+
+(Gen 4)        UPC        1305            SMF      10 km   /lane         +4.5 /lane    <4.0    one can be
+
+                          1309                                                                 submerged in
+
+                                                                                               liquid
+
+                                                                                               Single
+
+                                                                                               wavelength
+
+               duplex LC                                                                       transmitter;
+
+Q28-100G-FR    UPC        1310            SMF      2 km    -2.4 to +4.0  -6.4 to +4.5  4.0     compatible with
+
+                                                                                               Q56DD-400G-
+
+                                                                                               DR4 for 1×4
+
+                                                                                               breakout
+
+5 | Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Model          Connec-    Wave-             Trans-   Dis-        Transmit-     Receiver       Power   Notes
+
+               tor Type   length(s)         mission  tance       ter Power     Power          Dissi-
+
+                          (nm)              Medium   (max.)      (dBm)         (dBm)          pation
+
+                                                                                              (max.;
+
+                                                                                              W)
+
+                                                                                                      Specifications
+
+                          1296                                                                        for use with
+
+Q28-100G-      duplex LC  1300                       40 km       2.9 to +4.5   -20.9 to -4.9          FEC, max.
+
+ER4-lite       UPC        1305              SMF      (with FEC)  /lane         /lane          4.5     distance is 30
+
+                          1309                                                                        km (Rx min.
+
+                                                                                                      -16.9 dBm)
+
+                                                                                                      without FEC
+
+                                                                                                      Will eventually
+
+                                                                                                      be replaced by
+
+Q28-100G/                                            40G - 10                                         Q28-
+
+40G-                                                 km          -8.2 to +0.5  -14.4 to               100G/40G
+
+PSM4-          MPO-12     1310              SMF      100G - 2    /lane         +0.5 /lane     3.5     PSM4-
+
+IR                                                   km                                               10; 4x10G or
+
+                                                                                                      4x25G breakout
+
+                                                                                                      modes sup-
+
+                                                                                                      ported
+
+                                                                 40G: -8.2 to  40G: -14.4
+
+Q28-100G/                                            40G - 10    +0.5 /lane    to +0.5 /              Will eventu-
+
+40G-           MPO-12     1310              SMF      km          100G: -7.0    lane           3.5     ally replace
+
+PSM4-                                                100G - 10   to +2.0 /     100G: -13.3            Q28-100G/40G
+
+10                                                   km          lane          to +2.0 /              PSM4-IR
+
+                                                                               lane
+
+                                                                                                      Adaptor to use
+
+               SFP+ or                                                                                SFP+ or SFP28
+
+QSA-Q28-S28    SFP28      N/A               N/A      N/A         N/A           N/A            N/A     modules in
+
+                                                                                                      QSFP+ QSFP28
+
+                                                                                                      receptacles
+
+Q28-100G-      MPO12      850nm             MMF      100m        -8.4 to 2.4   -10.3 to 2.4   3.5
+
+SR4-G2         PC/ UPC
+
+Q28-100G-FR    LC
+
+(Gen 3) - low  UPC        1310              SMF      2km         -2.4 to 4.0   -6.4 to 4.5    3.5
+
+power
+
+100-Gigabit Ethernet SFP56-DD transceivers
+
+S56DD-100G-    duplex LC  1311              SMF      2km         -2.4 to +4.0  -6.4 to +4.5   3.5
+
+FR             UPC
+
+S56DD-100G-    duplex LC  1311              SMF      10km        -1.4 to +4.5  -7.7 to +4.5   3.5
+
+LR             UPC
+
+S56DD-100G-               850               MMF OM3  70 m        -6.2 to +4 /  -8.2 to +4 /
+
+SR1.2          duplex LC  910               MMF OM4  100 m       lane          lane           3.5
+
+                                            MMF OM5  100 m
+
+6 | Dell networking transceivers and cables
+
+    © 2026 Dell Inc. or its subsidiaries.
+Model         Connec-    Wave-                    Trans-   Dis-    Transmit-     Receiver      Power       Notes
+
+              tor Type   length(s)                mission  tance   ter Power     Power         Dissi-
+
+                         (nm)                     Medium   (max.)  (dBm)         (dBm)         pation
+
+                                                                                               (max.;
+
+                                                                                               W)
+
+Dual 100-Gigabit Ethernet QSFP28-DD transceivers
+
+                                                                                                           MPO-12DD is a
+
+                                                                                                           two-row double
+
+                                                                                                           density MPO-12;
+
+                                                                                                           capable of 10-
+
+                                                                                                           12 BER over 30
+
+                                                                                                           m of OM3 or 40
+
+                                                                                                           m of OM4 when
+
+                                                                                 -10.3 to                  FEC is disabled.
+
+Q28DD-200G/   MPO-12-DD  850                      MMF OM3  70 m    -8.4 to +2.4  +2.4          5.0         Compatible with
+
+80G- 2SR4                                         MMF OM4  100 m   /lane         /lane                     Q28-100G-
+
+                                                                                                           SR4-G2 or QSF-
+
+                                                                                                           P+-40G-SR4 for
+
+                                                                                                           1x2 break out.
+
+                                                                                                           Compatible with
+
+                                                                                                           SFP28-25G- SR-
+
+                                                                                                           G2 or SFP+-
+
+                                                                                                           10G-SR for 1x8
+
+                                                                                                           break out.
+
+200-Gigabit Ethernet QSFP56-DD transceivers
+
+                                                                                                           Can interop
+
+Q56-200G-     MPO-12     850                      MMF OM3  70 m    -6.0 to +4.0  -8.4 to +4.0  4.5         with another
+
+SR4           UPC                                 MMF OM4  100 m   /lane         /lane                     200G-SR4 or
+
+                                                                                                           400G-SR8
+
+400-Gigabit Ethernet QSFP56-DD transceivers
+
+                                                                                                           Electrical in-
+
+                                                                                                           terface: 8x50G
+
+                                                                                                           PAM4; Media in-
+
+                                                                                                           terface: 4x100G
+
+                                                                                                           PAM4; 1x400G,
+
+400G- Q56DD-  MPO-12                              MMF OM3  30 m    -4.6 to +4.0  -6.4 to +4.0              4x100G, &
+
+VR4           APC        850                      MMF OM4  50 m    /lane         /lane         8.0         2x200G modes
+
+                                                                                                           supported;
+
+                                                                                                           Please note
+
+                                                                                                           connector is
+
+                                                                                                           APC (angled),
+
+                                                                                                           which is differ-
+
+                                                                                                           ent from UPC
+
+                                                                                               13.5
+
+                                                                                               (4x100G
+
+                                                                                               port mode
+
+                                                                                               with
+
+                                                                                               media- fec
+
+                                                                                               option=     Compatible with
+
+400G- Q56DD-  MPO-12     850                      MMF OM3  70 m    -6.2 to +4.0  -8.2 to +4.0  custom)     Q28-100G-
+
+SR4.2-ON      PC         910                      MMF OM4  100 m   /lane         /lane         12.0        SR1.2 for 1x4
+
+(Gen 2)                                           MMF OM5  150 m                               (1x400G     breakout
+
+                                                                                               or 4x100G
+
+                                                                                               port mode
+
+                                                                                               with
+
+                                                                                               media- fec
+
+                                                                                               op-
+
+                                                                                               tion=ieee)
+
+                                                                                                           Can interop with
+
+400G- Q56DD-  MPO-12     850                      MMF OM3  70 m    -6.2 to +4.0  -8.2 to +4.0              100G-SR1.2 or
+
+SR4.2-ON      PC         908                      MMF OM4  100 m   /lane         /lane         12.0        another SR4.2
+
+(Gen 3)                                           MMF OM5  150 m                                           in 4x100G or
+
+                                                                                                           1x400G modes
+
+7 | Dell networking transceivers and cables
+
+     © 2026 Dell Inc. or its subsidiaries.
+Model         Connec-    Wave-         Trans-   Dis-    Transmit-     Receiver      Power   Notes
+
+              tor Type   length(s)     mission  tance   ter Power     Power         Dissi-
+
+                         (nm)          Medium   (max.)  (dBm)         (dBm)         pation
+
+                                                                                    (max.;
+
+                                                                                    W)
+
+                                                                                            Can interop with
+
+400G- Q56-    MPO-12     850           MMF OM3  70 m    -6.2 to +4.0  -8.2 to +4.0          100G-SR1.2 or
+
+DD-SR4.2-ON   PC         908           MMF OM4  100 m   /lane         /lane         12.0    another SR4.2
+
+(Gen 4)                                MMF OM5  150 m                                       in 4x100G or
+
+                                                                                            1x400G modes
+
+                                                                                            Can interop with
+
+                                                                                            200G-SR4 in
+
+400G- Q56DD-  MPO-16     850           MMF OM3  70 m    -6.5 to +4.0  -8.4 to +4.0  8.5     2x200G mode
+
+SR8 (Gen 2)   APC                      MMF OM4  100 m   /lane         /lane                 and support
+
+                                                                                            1x400G &
+
+                                                                                            4x100G
+
+                                                                                            Compatible with
+
+400G- Q56DD-  MPO-12     1310          SMF      2 km    -2.4 to +4.0  -6.4 to +4.5  10.0    Q28-100G-FR
+
+EDR4 (Gen 2)                                            /lane         /lane                 for
+
+                                                                                            1×4 breakout
+
+                                                                                            Updated EDR4
+
+                                                                                            (Gen 2) version:
+
+                                                                                            2x200G,
+
+                                                                                            1x400G, &
+
+400G- Q56DD-  MPO-12     1310          SMF      2 km    -2.9 to +4.0  -5.9 to +4.0  8.0     4x100G modes
+
+EDR4 (Gen 3)  APC                                       /lane         /lane                 are supported
+
+                                                                                            and lower watt-
+
+                                                                                            age; Can interop
+
+                                                                                            with DR4 (500
+
+                                                                                            m)/DR4+ (2 km)
+
+                         1271
+
+400G- Q56DD-  duplex LC  1291          SMF      2 km    3.3 to +3.5   -7.3 to +3.5  10.0
+
+FR4 (Gen 2)   UPC        1311                           /lane         /lane
+
+                         1331
+
+                         1271
+
+400G- Q56DD-  duplex LC  1291          SMF      10 km   -2.8 to +4.0  -9.1 to +4.0  10.0
+
+LR4           UPC        1311                           /lane         /lane
+
+                         1331
+
+                                                                                            Compatible with
+
+400G- Q56DD-  MPO-12     1310          SMF      10 km   -1.4 to +4.5  -7.7 to +4.5  10.0    Q28-100G-LR
+
+LDR4          APC                                       /lane         /lane                 for
+
+                                                                                            1x4 break out
+
+8 | Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Model         Connec-    Wave-             Trans-   Dis-     Transmit-      Receiver      Power   Notes
+
+              tor Type   length(s)         mission  tance    ter Power      Power         Dissi-
+
+                         (nm)              Medium   (max.)   (dBm)          (dBm)         pation
+
+                                                                                          (max.;
+
+                                                                                          W)
+
+                                                                                                  This optic is
+
+                                                                                                  qualified on a
+
+                                                                                                  case-by-case
+
+                                                                                                  basis. Reach
+
+                                                                                                  out to Net-
+
+                                                                                                  working PLM
+
+                                                                                                  to specify cus-
+
+400G- Q56DD-             tunable                                                                  tomer use case
+
+ZR+*          duplex LC  DWDM              SMF      1000 km  -15.0 to -8.0  12.0 to 0     21.0    for guidance.
+
+                                                                                                  SONiC OS ONLY.
+
+                                                                                                  Customers
+
+                                                                                                  are required to
+
+                                                                                                  use additional
+
+                                                                                                  equipment:
+
+                                                                                                  EDFA (optical
+
+                                                                                                  amplifier) and/
+
+                                                                                                  or MUX/DEMUX
+
+800-Gigabit Ethernet QSFP112 transceivers
+
+                                                                                                  Supported
+
+                                                                                                  breakout
+
+800G- O112-   2xMPO-12                     MMF OM3  30 m     -4.6 to +4.0   -6.4 to +4.0          modes: 1x800,
+
+2VR4          APC        850               MMF OM4  50 m     /lane          /lane         16.0    2x400 (physi-
+
+                                                                                                  cal), 4x200 (vir-
+
+                                                                                                  tual), and 8x100
+
+                                                                                                  (physical).
+
+                                                                                                  Supported
+
+                                                                                                  breakout
+
+800G- O112-   2xMPO-12                                       -2.9 to +4.0   -5.9 to +4.0          modes: 1x800,
+
+2EDR4         APC        1310              SMF      2 km     /lane          /lane         16.0    2x400 (physi-
+
+                                                                                                  cal), 4x200 (vir-
+
+                                                                                                  tual), and 8x100
+
+                                                                                                  (physical).
+
+                         1271
+
+800G-         Duplex LC  1291              SMF      2 km     -3.2 to 4.4    -7.2 to 4.4   14.5
+
+O112-2FR4*    APC        1311                                /lane          /lane
+
+                         1331
+
+800G-         MPO-16                       MMF OM3  30 m     -4.6 to +4.0   -6.3 to +4.0
+
+O112-VR8      APC        850               MMF OM4  50 m     /lane          /lane         15.0
+
+                                           MMF OM5  50 m
+
+800G-                                                                                             Supported with
+
+O112-2DR4-    2xMPO-12   1310              SMF      2 km     -2.4 to 4.0    -6.4 to 4.5   16.0    400G-Q112-
+
+DSPLPO        APC                                                                                 DR4-LPO Optic
+
+                                                                                                  on Server Side
+
+800G-O112-    MPO-16     1311              SMF      2 km     -3.1 to 4      -7.1 to 4     14.5
+
+EDR8          APC
+
+800G-O112-    MPO-16     1310              SMF      500m     -2.9 to 4      -5.9 to 4     8.5
+
+DR8-LPO       APC
+
+800G-O112-    2xMPO-12   1310              SMF      500m     -2.9 to 4      -5.9 to 4     8.5
+
+2DR4-LPO      APC
+
+800G-O112-    2xMPO-12   850               MMF OM4  50m      -4.6 to 4      -6.3 to 4     3.5
+
+2VR4-DSPLPO
+
+*Supported in upcoming software release
+
+9 | Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Dell passive optical    cables
+
+Model                   Available                                  Connection                 Transmission   Notes
+
+                        lengths (m)                                                           medium
+
+Passive optical cables
+
+CBL-MTP12-OM4-xM        1, 3, 5, 10, 25                            MPO-12 to MPO-12           MMF OM4
+
+CBL-LC-OM4-xM           1, 2, 3, 5, 10, 30                         LC to LC                   MMF OM4
+
+CBL-MTP12-4LC-OM4-xM    3, 5, 7, 15                                MPO-12 to 4 × LC           MMF OM4
+
+CBL-MPO12-4LC-SMF-5M    5                                          MPO-12 to 4 × LC           SMF
+
+CBL-MPO12DD-2MPO12-     3, 7                                       MPO-12DD to 2 × MPO-12     MMF OM4
+
+OM4-xM
+
+CBL-MPO12DD-OM4-xM      3, 7                                       MPO-12DD to MPO-12DD       MMF OM4
+
+CBL-MPO12-APC-OM4-xM    3, 5                                       MPO-12/APC to MPO12/APC    MMF OM4
+
+CBL-MPO12-APC-SMF-xM    3, 5                                       MPO-12/APC to MPO-12/APC   SMF
+
+* Supported in upcoming software release
+
+All transceivers operate at 0 to 70ºC unless otherwise indicated.
+
+Dell Active Optical Cables (AOC), Active Electrical Cables (AEC), and Direct                                 Attach Cables  (DAC)
+
+Model                   Available                                  Connection        Transmission  Power Dissipation  Notes
+
+                        Lengths (m)                                                  Medium        per end (max.; W)
+
+10-Gigabit Ethernet Active Optical and Direct Attach Cable
+
+DAC-SFP-10G-xM          0.5, 1, 2, 3, 5, 7                         SFP+ to SFP+      copper
+
+AOC-SFP-10G-xM          2, 3, 5, 10, 15                            SFP+ to SFP+      optical       1.5
+
+10-Gigabit Ethernet Active Optical and Direct Attach Cable
+
+                                                                                                                      1, 2, 3 m
+
+DAC-SFP-25G-xM          1, 2, 2.5, 3, 5                            SFP28 to SFP28    copper                           can operate
+
+                                                                                                                      without FEC
+
+AOC-SFP-25G-xM          2, 7, 10, 20                               SFP28 to SFP28    optical       1.5                Operates
+
+                                                                                                                      with FEC
+
+40-Gigabit Ethernet Active Optical and Direct Attach Cable
+
+DAC-QSFP-40G-xM         0.5, 1, 3, 5                               QSFP+ to QSFP+    copper
+
+AOC-QSFP-40G-xM         3, 10                                      QSFP+ to QSFP+    optical       1.5
+
+DAC-QSFP-4SFP-10G-xM    1, 3, 5                                    QSFP+ to 4 ×      copper
+
+                                                                   SFP+
+
+                                                                   QSFP+ to 4 ×                                       Supports
+
+AOC-QSFP-4SFP-10G-xM    10,30                                      SFP+              optical       1.5, 1.0           4×10G or
+
+                                                                                                                      4×1G
+
+Dual 40-Gigabit Ethernet Active Optical Cable
+
+AOC-Q28DD-8SFP-10G-xM   10                                         QSFP28-DD to 8    optical
+
+                                                                   × SFP+
+
+10| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Model                    Available           Connection                     Transmission   Power Dissipation  Notes
+
+                         Lengths (m)                                        Medium         per end (max.; W)
+
+100-Gigabit Ethernet Active Optical and Direct Attach Cable
+
+DAC-QSFP-100G-xM         0.5, 1, 2, 3, 5     QSFP28 to                      copper
+
+                                             QSFP28
+
+                                                                                                              Q56 end is
+
+DAC-S56DD-Q56-SFF-       1, 2, 3             S56DD to Q56                   copper                            compliant
+
+100G-xM                                                                                                       to SFF-8636
+
+                                                                                                              coding
+
+AOC-QSFP-100G-xM         3, 7, 10, 30        QSFP28 to                      optical        3.5
+
+                                             QSFP28
+
+DAC-QSFP-4SFP28-25G-     2, 3, 5             QSFP28 to 4 ×                  copper
+
+xM                                           SFP28
+
+AOC-QSFP- 4SFP28- 25G-   10                  QSFP28 to 4 ×                  optical        3.5, 1.5
+
+xM                                           SFP28
+
+Dual 100-Gigabit Ethernet Active Optical and Direct Attach Cable
+
+DAC-Q28DD-2Q28- 100G-    2, 3                QSFP28-DD to 2 ×               copper
+
+xM                                           QSFP28
+
+AOC-Q28DD-2Q28- 100G-    5, 15               QSFP28-DD to 2 ×               optical        5.0, 3.5
+
+xM                                           QSFP28
+
+DAC-Q28DD-8S28-25G-xM    2, 3                QSFP28-DD to 8 ×               copper
+
+                                             SFP28
+
+AOC-Q28DD-8S28-25G-xM    10                  QSFP28-DD to 8 ×               optical        5.0, 1.2
+
+                                             SFP28
+
+200-Gigabit Ethernet Active Optical and Direct Attach cable
+
+DAC-Q28DD-200G-xM        0.5, 1, 2, 3        Q28DD to Q28DD                 copper
+
+AOC-Q28DD-200G-xM        5, 10, 20           Q28DD to Q28DD                 optical        <4.0
+
+400-Gigabit Ethernet Active Optical, Active Copper and Direct Attach Cable
+
+DAC-Q56DD-400G-xM        0.5, 1, 2           QSFP56-DD to                   copper
+
+                                             QSFP56- DD
+
+                                                                                                              Q56 end is
+
+DAC-Q56DD-4Q56-SFF-      1, 2, 3             Q56DD to Q56                   copper                            compliant
+
+100G-xM                                                                                                       to SFF-8636
+
+                                                                                                              coding
+
+                                                                                                              Q56 end is
+
+DAC-Q56DD-2Q56-SFF-      1, 2, 3             Q56DD to Q56                   copper                            compliant
+
+200G-xM                                                                                                       to SFF-8636
+
+                                                                                                              coding
+
+                                                                                                              Q56 200GbE
+
+                                                                                                              breakout end
+
+                                                                                                              can plug into
+
+DAC-Q56DD-2Q56-CMIS-                                                                                          Broadcom
+
+200G-xM                  1, 2, 3, 4, 5       Q56DD to Q56                   copper                            57608
+
+                                                                                                              NIC only;
+
+                                                                                                              Supports
+
+                                                                                                              1x400 or
+
+                                                                                                              2x200
+
+DAC-Q56DD-8xSFP56-xM     2.5                 Q56DD to S56                   copper
+
+AOC-Q56DD-400G-xM        10, 15, 30          QSFP56-DD to                   optical        10.0
+
+                                             QSFP56- DD
+
+AOC-[400G-Q56DD]-[200G-  3, 5, 10, 30        Q56DD to 2 x                   optical        8.5; 4.5
+
+2Q56]-xM                                     QSFP56
+
+AOC-Q56DD-4Q28-100G-     3, 7, 15, 30        Q56DD to Q28                   optical        8.0, 2.5
+
+xM
+
+AEC-Q56DD-400G-xM        3, 5                QSFP56-DD to                   active copper  8.5
+
+                                             QSFP56- DD
+
+11| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Model                  Available             Connection      Transmission  Power Dissipation  Notes
+
+                       Lengths (m)                           Medium        per end (max.; W)
+
+AEC-Q56DD-4Q28- 100G-  3                     QSFP56-DD to
+
+xM
+
+4 × QSFP28             active copper         8.0; 3.5
+
+800-Gigabit Ethernet Active Optical and Direct Attach Cable
+
+DAC-O112-800G-xM       1, 2, 3, 4            OSFP112 to      copper
+
+                                             OSFP112
+
+                                                                                              QSFP112
+
+                                                                                              400G
+
+                                                                                              breakout end
+
+DAC-O112-800G2x400G-                         OSFP112 to                                       can plug into
+
+Q112-xM                1, 2, 3, 4            QSFP112         copper                           Broadcom
+
+                                                                                              57608
+
+                                                                                              NIC only;
+
+                                                                                              Supports
+
+                                                                                              1x400 only
+
+AEC-O112-800G-xM*      2, 3, 4               OSFP112 to      Copper cable  10.0
+
+                                             OSFP112
+
+* Supported in upcoming software release
+
+12| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Product Support
+
+10GbE            SFP-10G-SR            SFP-10G-LR  SFP-10G-ER  SFP-10G-ZR  SFP-10G-T
+
+Z9100                                                                      
+
+Z9264F                                                                     
+
+Z9332F                                                                     
+
+Z9664F                                                                     
+
+Z9432                                                                      
+
+S5232F                                                                     
+
+S5448F                                                                     
+
+S6100                                                          
+
+S6010                                                                      
+
+S4348F                                                                     
+
+S41x8x                                                                     
+
+S4248                                                                      
+
+S4112                                                                      
+
+S4048x                                                                     
+
+S5048                                                          
+
+S52xx                                                                      
+
+S3048                                                                      
+
+S3100                                                          
+
+N3224/N3248x                                                               
+
+S3248T                                                                     
+
+N32xx                                                                      
+
+E3248x                                                                     
+
+E3224F                                                                     
+
+N20xx/N30xx                                                                
+
+MX9116n                                                                    
+
+S5148                                                                      
+
+13| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Product Support
+
+25GbE transceivers  SFP28-25G-SR                                                   SFP28-25G-ESR  SFP28-25G-LR
+
+Z9100                                                                                             
+
+Z9264F                                                                                            
+
+Z9332F                                                                                            
+
+Z9432F                                                                                            
+
+S5232F                                                                                            
+
+S5448F                                                                                            
+
+S41x8                                                                                             
+
+S4248                                                                                             
+
+S4112                                                                                             
+
+S52xxF                                                                                            
+
+N32xx                                                                                             
+
+MX9116n                                                                                           
+
+MX5108n                                                                                           
+
+*** Population of SFP-10G-T transceivers may be limited due to power constraints.
+
+14| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Product Support
+
+40GbE            SR4  ESR4                   LM4  SM4  BIDI  PSM4-  LR4  ER4
+
+transceivers                                                 LR
+
+Z9264                                                               
+
+Z9100                                                               
+
+Z9332                                                                    
+
+Z9432                                                                    
+
+Z9664F                                                                   
+
+S52xx                                                                    
+
+S54xx                                                               
+
+S6100                                                                    
+
+S4348F                                                              
+
+S41x8                                                                    
+
+S4248x                                                                   
+
+S4112x                                                                   
+
+S4048x                                                                   
+
+S5048                                                                    
+
+S52xx                                                                    
+
+N22XX                                                               
+
+N32XX                                                               
+
+S3248T                                                              
+
+E3248                                                               
+
+MX9116n                                                             
+
+MX5108n                                                             
+
+MXL IO Agg.                                                         
+
+C7000            
+
+C9010                                                                    
+
+15| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Ordering Information
+
+100GbE        SR4  ESR4  SWDM4         BIDI  SR1.2  CWDM4  FR  PSM4-  PSM4-  LR1  LR4  ER4-  QSA-QS
+
+transceivers                                                   10     IR               lite  FP28-
+
+                                                                                             SFP28
+
+Z9100                                                                                        
+
+Z9264                                                                                        
+
+Z9332                                                                                        
+
+Z9432                                                                                        
+
+Z9664                                                                                        
+
+S52xx                                                                                        
+
+S5448X                                                                                       
+
+S6100                                                                                        
+
+S4348F                                                                                       
+
+S41x8                                                                                        
+
+S4248                                                                                        
+
+S4112                                                                                        
+
+S4048                                                                                        
+
+S5048                                                                                        
+
+S52XXF                                                                                       
+
+N32xx                                                                                  
+
+S3248T                                                                                       
+
+E32xx                                                                                        
+
+MX9116n                                                                                      
+
+MX5108n                                                                                      
+
+S5148                                                                                  
+
+S5000                                                                                        
+
+S6000                                                                                        
+
+Z9500                                                                                        
+
+16| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Ordering Information
+
+Dual 100GbE              S56DD-100G-              S56DD-100G-  S56DD-100G-         Q28DD-             Q28DD- 200G-
+
+/ 40GbE transceivers     FR                       LR           SR1.2               80G-2SR4           2SR4
+
+Z9332F                                                                                                      
+
+Z9432F                                                                                                      
+
+Z9664F                                                                                                      
+
+S5448F                                                                                                      
+
+S5248                                                                                                       
+
+MX9116n                                                                                                     
+
+MX7116n                                                                                                     
+
+200GbE                   Q56-200G-SR4
+
+transceivers
+
+Z9432F                                    
+
+Z9332F                                    
+
+Z9664F                                    
+
+400GbE        400G-Q56-                   400G-   400G-        400G-        400G-          400G-      400G-
+
+transceivers  DD-SR4.2-                   Q56DD-  Q56DD-       Q56DD-       Q56DD-         Q56DD-LR4  Q56DD-
+
+              ON                          EDR4    VR4          FR4          LDR4                      SR8
+
+Z9332F                                                                                       
+
+Z9432F                                                                                                      
+
+Z9664F                                                                                                      
+
+S5448                                                                                        
+
+MX8116n               
+
+800GbE                   800G-O112-               800G-O112-   800G-O112-          Q28DD-             800G-O112-
+
+transceivers             2VR4                     2EDR4        2FR4                80G-2SR4           2DR4-DSPLPO
+
+Z9864F                                                                                                      
+
+*Supported in upcoming software releases
+
+17| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Ordering Information
+
+Model                              Product description
+
+Fast Ethernet (100 Mb/s ) SFP transceivers
+
+SFP-100M-FX                        100MbE SFP optical module, up to 2 km over 2 parallel MMFs
+
+Gigabit Ethernet SFP transceivers
+
+SFP-1G-SX                          1GbE SFP optical module, short-reach, up to 500 m over 2 parallel MMFs
+
+SFP-1G-LX                          1GbE SFP optical module, long-reach, up to 10 km over 2 parallel SMFs
+
+SFP-1G-ZX                          1GbE SFP optical module, extended-reach, up to 80 km over 2 parallel SMFs
+
+SFP-1G-T                           1GbE SFP electrical 1000BASE-T module, up to 100 m over single CAT5 cable.
+
+10-Gigabit Ethernet SFP+ transceivers
+
+SFP-10G-SR                         10GbE SFP+ optical module, short-reach, up to 400 m over 2 parallel MMFs
+
+SFP-10G-SR-12                      10GbE SFP+ optical module, short-reach, up to 400 m over 2 parallel MMFs, package of 12
+
+SFP-10G-LR                         10GbE SFP+ optical module, long-reach, up to 10 km over 2 parallel SMFs
+
+SFP-10G-ER                         10GbE SFP+ optical module, extended-reach, up to 40 km over 2 parallel SMFs
+
+SFP-10G-ZR                         10GbE SFP+ optical module, extended-reach, up to 80 km over 2 parallel SMFs
+
+SFP-10G-T                          10GbE SFP+ electrical 10GBASE-T module, up to 30 m over single CAT6A cable
+
+Model                              Product description
+
+16G Fibre Channel SFP+ transceivers
+
+SFP-16GFC-SW                       16GFC SFP+ optical module, short-reach, up to 125 m over 2 parallel MMFs
+
+Quad 16G Fibre Channel QSFP+ transceivers
+
+QSFP-64GFC-SW4                     Quad 16GFC QSFP+ optical module, short-reach, up to 100 m over 8 parallel MMFs
+
+25-Gigabit Ethernet SFP28 transceivers
+
+SFP28-25G-SR                       25GbE SFP28 optical module, short-reach, up to 100 m over 2 parallel MMFs
+
+SFP28-25G-ESR                      25GbE SFP28 optical module, extended- short-reach, up to 300 m over 2 parallel MMFs
+
+SFP28-25G-LR                       25GbE SFP28 optical module, long-reach, up to 10 km over 2 parallel SMFs
+
+40-Gigabit Ethernet QSFP+ transceivers
+
+SFP-40G-SR4                        40GbE QSFP+ optical module, short-reach, up to 150 m over 8 parallel MMFs
+
+QSFP-40G-SM4                       40GbE QSFP+ optical module, SWDM, short-reach, up to 300 m over 2 parallel MMFs
+
+QSFP-40G-BIDI                      40GbE QSFP+ optical module, bi-directional, short-reach, up to 160 m over 2 parallel MMFs
+
+QSFP-40G-PSM4-LR                   40GbE QSFP+ optical module, long-reach, up to 10 km over 8 parallel SMFs
+
+QSFP-40G-LR4                       40GbE QSFP+ optical module, long-reach, up to 10 km over 2 parallel SMFs
+
+100-Gigabit Ethernet QSFP28 transceivers
+
+Q28-100G-FR                        100GbE QSFP28 optical module, intermediate-reach, up to 2 km over 2 parallel SMFs, single wavelength
+
+Q28-100G-SR4                       100GbE QSFP28 optical module, short-reach, up to 100 m over 8 parallel MMFs
+
+Q28-100G-ESR4                      100GbE QSFP28 optical module, extended short-reach, up to 300 m over 8 parallel MMFs
+
+Q28-100G-SWDM4                     100GbE QSFP28 optical module, SWDM, short-reach, up to 150 m over 2 parallel MMFs
+
+Q28-100G-BIDI                      100GbE QSFP28 optical module, bi-directional, short-reach, up to 150 m over 2 parallel MMFs - Cisco
+
+                                   compatible
+
+18| Dell networking transceivers and cables
+
+© 2026 Dell Inc. or its subsidiaries.
+Model                        Product description
+
+Q28-100G-LR4                 100GbE QSFP28 optical module, long-reach, up to 10 km over 2 parallel SMFs
+
+Q28-100G-ER4-lite            100GbE QSFP28 optical module, extended-reach, up to 35 km over 2 parallel SMFs
+
+QSA-Q28-S28                  100GbE QSFP28 to 25GbE SFP28 adapter
+
+400-Gigabit Ethernet QSFP56-DD transceivers
+
+400G-Q56DD-SR8               400GbE QSFP56-DD optical module, short-reach up to 100 m over 16 parallel MMFs
+
+400G-Q56DD-SR4.2-ON          400GbE QSFP56-DD optical module, short-reach up to 150 m over 8 parallel MMFs - open networking
+
+400G-Q56-DD-VR4              400GbE QSFP56-DD optical module, MPO12, very short-reach up to 50 m OM4/30 m OM3 MMF
+
+400G-Q56-DD-LR4              400GbE QSFP56-DD optical module, LC duplex, long-reach up to 10 km SMF
+
+400G-Q56-DD-LDR4             400GbE QSFP56-DD optical module, MPO12, long-reach up to 10 km SMF
+
+400G-Q56-DD-ZR+              400GbE QSFP56-DD optical module, open ZR+, LC duplex, reach up to 1000 km SMF
+
+400G-Q56DD-EDR4              400GbE QSFP56-DD optical module, intermediate-reach up to 2 km over 8 parallel SMFs
+
+400G-Q56DD-FR4               400GbE QSFP56-DD optical module, intermediate-reach up to 2 km over 2 parallel SMFs
+
+800-Gigabit Ethernet OSFP112 transceivers
+
+800G-O112-2EDR4              800GbE OSFP112 optical module, 2xMPO12, extended-reach up to 2 km SMF
+
+800G-O112-2VR4               800GbE OSFP112 optical module, 2xMPO12, very short-reach up to 50 m OM4/30 m OM3 MMF
+
+800G-O112-2FR4*              800GbE OSFP112 optical module, LC duplex, reach up to 2km SMF
+
+800G-O112-VR8                800GbE OSFP112 optical module, MPO-16, reach up to 50m OM5
+
+800G-O112-2DR4-DSPLPO        800GbE OSFP112 optical module, 2xMPO12, reach up to 2km
+
+Learn More at Dell.com/Networking
+
+Learn more about Dell                        Contact a Dell        View more resources                            Join the conversation
+
+Networking solutions         Technologies Expert
+
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks
+
+of their respective owners.
+

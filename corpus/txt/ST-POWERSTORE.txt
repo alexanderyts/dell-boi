@@ -1,0 +1,471 @@
+   Data Sheet
+
+   Dell PowerStore
+
+   Smart choice for all-flash storage
+
+PowerStore is #1 in ease of use1
+
+   PowerStore is the only storage system with a certified MyCX
+
+   scoring methodology by Bain & Company (the inventors of the Net
+
+   Promoter System®.)2 Read the white paper.                        Welcome to the best value in enterprise storage
+
+Future-Proof                                                        The current period of unprecedented change across the global business and
+
+                                                                    technology landscapes has been particularly impactful for storage, where IT
+
+·  Lifecycle Extension with ProSupport ­                            managers are dealing with an explosion in both the amount and the distribution
+
+   Industry's most flexible upgrade program                         of data.  No longer confined to a centralized location, today's applications are
+
+   simplifies every phase of storage ownership                      powered by data that is now captured and stored everywhere, residing in
+
+·  Built for performance ­ End-to-end NVMe,                         diverse formats both inside and outside the core data center.
+
+   autonomous active/active design delivers high                    To keep pace with rapid transformation in an AI-accelerated world, companies
+
+   IOPS, sub-millisecond latency.                                   are adopting new distributed IT strategies such as multicloud and edge
+
+·  Scale up and scale out ­ Easy, plug-and-play                     computing. Many of these deployments are well underway ­ and businesses
+
+   expansion to over 23 PBe per cluster.3                           that have not transitioned to a modern approach are realizing they need to
+
+                                                                    catch up fast!  But as solution scope and diversity increases, companies also
+
+·  Cyber resiliency ­ Built for 6 9s availability4 and              know they can't afford to add complexity. Today's infrastructure must be future-
+
+   Zero Trust cybersecurity.  Native metro                          proof and simple. As plans change (and change again), IT managers want
+
+   replication with witness, multicloud backup.                     storage that will adapt seamlessly. Storage that just works.
+
+Efficient                                                           PowerStore's software-driven architecture is designed to give you a permanent
+
+                                                                    agility advantage while eliminating management complexity.     It can simplify
+
+·  Lower-cost QLC options, 5:1 Data Reduction                       your operations for the long term, helping you achieve both today's goals ­ and
+
+   Guarantee,5  28% improved density,6 multiple                     the ones you have yet to set.
+
+   ENERGY STAR® certs
+
+·  Self-optimizing ­ Built-in machine learning                      Adaptable architecture
+
+   optimizes environment without manual effort.                     The PowerStore advantage begins with a comprehensive lineup of enterprise
+
+·  Non-disruptive hardware updates ­ Protect                        capabilities that provide maximum headroom and flexibility for change.
+
+   investments and ensure your workloads are                        Any workload
+
+   always running on the latest technology.
+
+                                                                    PowerStore's unified design consolidates block and enterprise file storage
+
+Easy to Use                                                         formats in a single high-density footprint, providing a convenient, easy-to-
+
+·  Any workload ­ Single unified platform supports                  manage platform for broad innovation.  Ideal for both general purpose and
+
+   across block, enterprise file, and containers.                   specialized workloads, PowerStore supports applications as diverse as large-
+
+                                                                    scale databases, cloud native apps, edge-based IoT analytics, and file-based
+
+·  Programmable infrastructure ­ Streamline                         content repositories.
+
+   DevOps, automate end-to-end workflows,                           The platform fits seamlessly into existing infrastructures, with multi-protocol
+
+   innovate with multicloud.                                        physical network support (including 32Gb FC and 100Gb Ethernet) and options
+
+·  All-inclusive software subscription ­ No                         to meet specialized industry requirements, such as DC/low-line-power, NEBS-
+
+   license fees, non-stop PowerStore innovation.                    ready solutions or government compliance. No matter where your business
+
+                                                                    strategy takes you, PowerStore's full-featured, adaptable design can help you
+
+·  AIOPs ­ Simplify planning, reduce risk with                      build your unique breakthrough.
+
+   predictive analytics and GenAI assistant.                        Built for performance
+
+New in PowerStore 4.3                                               Consistent, predictable performance has long been a baseline for workload
+
+                                                                    success ­ but the new key requirement for distributed IT is performance that
+
+   Sync and async file replication over Fibre                       can expand and grow with your needs.
+
+   Channel, file metro replication.                                 Built from the ground up for NVMe technology, PowerStore provides the choice
+
+   30TB QLC for PowerStore 5200Q and 3200Q.                         of either NVMe TLC or QLC SSDs within the appliance base chassis and
+
+   Enhanced file management features including                      expansion enclosures plus NVMe/TCP and NVMe/FC in the external network.
+
+   NFS 4.2 and performance analytics.                               This end-to-end NVMe ecosystem delivers extremely high IOPS and sub-
+
+                                                                    millisecond latency, ensuring long-lasting value through multiple solution
+
+                                                                    lifecycles.
+
+   © 2025 Dell Inc. or its subsidiaries.
+Scale up and scale out
+
+Expanding the capabilities of your initial PowerStore configuration is simple and
+
+efficient, as performance and capacity may be scaled independently.        Each
+
+PowerStore appliance features dual active-active nodes, and can grow with
+
+single-drive granularity to over 6.1 PBe NVMe capacity.8 Any combination of
+
+appliances can be clustered in a federated configuration for increased
+
+processing power and capacities exceeding 23 PBe NVMe capacity.3
+
+Enterprise availability
+
+No matter how you grow, PowerStore's patented Dynamic Resiliency Engine
+
+(DRE) safeguards business-critical data, leveraging advanced virtualization
+
+methods to protect against simultaneous drive failures while maintaining high
+
+levels of efficiency and cost savings.
+
+In multi-appliance environments, native file, block and vVols replication
+
+provides data mobility and policy-based secure and immutable snapshot
+
+protection for any workload. Across shorter distances (up to 60 miles), native
+
+metro synchronous replication gives you a software-only, zero RTO/RPO high
+
+availability solution, configurable in as few as six clicks9 ­ for no extra cost!
+
+PowerStore's PowerProtect DD integration even lets you set up and manage
+
+remote or multicloud backups directly from PowerStore Manager UI, using the
+
+included Instant Access feature for easy, granular restores.
+
+Cybersecurity
+
+PowerStore keeps you ahead of evolving cybersecurity threats with capabilities
+
+like Secure Snapshots, Data-at-Rest Encryption, Multi-Factor Authentication,
+
+File Level Retention (FLR), Hardware Root of Trust, security analytics and new
+
+STIG mode for US Federal/DoD environments.10   Data security is fundamental
+
+to PowerStore's DNA, and the platform's NIST-aligned development helps
+
+organizations of all kinds accelerate Zero Trust adoption to protect, prevent and
+
+recover from attacks more quickly and easily than ever.
+
+Built-in intelligence makes change EASY
+
+But just having the capability to respond to change isn't enough ­ you need
+
+change to be simple and non-disruptive.
+
+Self-optimizing appliance
+
+PowerStore's integrated intelligence auto-tunes efficiency, performance, and
+
+availability without manual intervention on your part, even when you make
+
+rapid strategy shifts.  All storage services are configured automatically as soon
+
+as you insert a new drive.  As the solution evolves, intelligent data reduction,
+
+backed by Dell's industry leading 5:1 DRR guarantee, 5 keeps capacity and
+
+power costs consistently low, minimizing your data footprint in the background
+
+without compromising performance.
+
+AI/ML processes eliminate dozens of labor-intensive tasks and decision points,
+
+for both individual and clustered appliances.  From volume placement to
+
+migrations, resource balancing and issue resolution, PowerStore enables faster
+
+delivery of applications and services with up to 99% less management
+
+interaction.11  Additional intelligence handles metadata tiering and QoS, and
+
+the included SmartFabric Storage Software even eliminates manual effort in
+
+the network with the industry's first automated end-to-end NVMe deployment.12
+
+Proactive health analytics
+
+When you do need to make decisions, PowerStore lets you move forward
+
+quickly with intelligent analysis and connected insights across multiple
+
+infrastructure categories ­ including servers, storage, networking and cloud.
+
+PowerStore's AIOps application, Dell AIOps, speeds time to resolution with a
+
+new GenAI assistant, reduces cybersecurity risk, improves staff productivity
+
+and forecasts future needs ­ with convenient cloud-based access from any
+
+mobile device.
+                                                      Programmable infrastructure
+
+                                                      PowerStore intelligence simplifies your overall ecosystem, streamlining
+
+                                                      application development and automating storage workflows via a powerful
+
+                                                      REST API and integrations with leading orchestration frameworks.         DevOps
+
+                                                      users can shorten deployments from days to seconds,13 provisioning
+
+                                                      PowerStore directly from Kubernetes using the platform's Ansible, Terraform
+
+                                                      and Container Storage Interface (CSI) plug-in integrations. Dell Container
+
+                                                      Storage Modules (CSMs) bring additional enterprise storage functions to
+
+                                                      Kubernetes, facilitating cloud native workloads, and Amazon EKS support lets
+
+                                                      you run container orchestration across public and on-premises clouds.
+
+                                                      Two-way VMware integrations
+
+                                                      PowerStore offers both end-to-end VMware visibility within the PowerStore
+
+                                                      Manager interface and the ability to provision VM-level PowerStore services
+
+                                                      directly from vSphere.  No matter which management perspective you prefer,
+
+                                                      these integrations help you analyze and control how PowerStore resources
+
+                                                      are consumed in a VMware environment, minimizing effort and risk, and
+
+Dell Private Cloud                                    providing quicker time to solution.
+
+                                                      Additional integrations include vRO, VAAI and VASA support with the VSI
+
+Build private clouds faster and easier                plugins, native block, vVols, and file datastores, vVols-over-NVMe networks
+
+                                                      and native vVols replication.   These capabilities make PowerStore well-suited
+
+                                                      for both standalone VMware storage deployments as well as a complement to
+
+                                                      HCI solutions such as Dell VxRail nodes.
+
+                                                      Hybrid and Multicloud
+
+                                                      PowerStore's software-driven architecture offers additional flexibility with
+
+                                                      support for a range of hybrid cloud and multicloud services.  From VMware
+
+                                                      Cloud Foundation (VCF) solutions that extend on-prem vSphere management
+
+                                                      to the cloud, to hyper-efficient encrypted backup with PowerProtect Data
+
+                                                      Domain Virtual Edition Cloud Tier or two-way migration between Dell APEX
+
+                                                      Block Storage for Public Cloud, PowerStore helps you leverage the strengths
+
+Dell Private Cloud (DPC) solutions leverage Dell      of individual cloud providers while reducing overall cost and maintaining
+
+Automation Platform (DAP) orchestration software      complete control of your data.
+
+to help you onboard, provision and manage private     Continuously modern
+
+clouds. Built on best-of-breed Dell PowerEdge and
+
+Dell PowerStore solutions with AI-driven              If the advantages stopped here, this powerful lineup of enterprise features
+
+automation for full-stack composability,              would already offer incredible future-proofing value. But the platform is also
+
+organizations can deploy an enterprise-class on-      designed to simplify transitions when PowerStore technology itself evolves.
+
+prem cloud with 90% fewer manual steps and no
+
+vendor lock-in. Integrated with your preferred 3rd-   Non-stop innovation
+
+party OS, DPC delivers appliance-like simplicity      PowerStore's container-based software architecture, known as
+
+with the flexibility, efficiency and independent      PowerStoreOS, improves performance, fault tolerance and security by
+
+scalability of disaggregated infrastructure.          isolating individual OS components as microservices.  This unique flexibility
+
+                                                      also allows the PowerStore engineering team to deliver new features and
+
+Flexible consumption models                           enhancements at an unprecedented pace, passing innovations quickly to
+
+                                                      customers in the form of non-disruptive upgrades.
+
+You choose how to deploy and purchase                 All-inclusive software subscription
+
+Deploy PowerStore as a standalone appliance or        All array software is included with the hardware purchase ­ both the initial OS
+
+as the storage foundation within your Dell Private    version and the ongoing performance and feature upgrades.     There are no
+
+Cloud turnkey deployment. Either way, Dell offers     licenses to buy and maintain, and all software enhancements are provided
+
+flexible purchase options to simplify storage         without cost, for the life of the product.14
+
+acquisition to match the needs of your organization.
+
+From traditional CAPEX to APEX Subscriptions          Seamless hardware upgrades
+
+offerings that align spending with usage,             PowerStore's modular hardware platform is also designed to remain
+
+PowerStore optimizes both technological and           continuously modern.    For example, Gen 1 customers can upgrade the
+
+financial outcomes.  Whether you're adding storage    performance of their current appliance to a Gen 2 equivalent (or higher model)
+
+only, or launching an end-to-end solution involving   via a simple node/controller swap ­ keeping their existing drives, base chassis
+
+multiple product categories, we'll make sure you      and any expansion enclosures.        These data-in-place upgrades are
+
+get the best possible return on your IT spend ­ both  accomplished without downtime or application impact.
+
+at the start and as you expand your environment.
+             Moving to PowerStore                          Lifecycle Extension with ProSupport
+
+Migrate from any array                                     PowerStore's non-disruptive hardware upgrades are very cost-effective
+
+PowerStore makes it easier than ever to upgrade            when purchased as add-on options ­ but Dell takes the benefit one step
+
+with built-in tools and workflows. Discover and            farther by combining world-class support and flexible technology upgrades
+
+import data from any Dell or third-party platform in       within the new Lifecycle Extension with ProSupport program16.
+
+as few as seven clicks15 using PowerStore
+
+Manager's built-in wizard. Simplify your upgrade to        Simplify your ownership experience and unleash the full potential of your
+
+a modern, future-proof platform with agentless             PowerStore investment with premier benefits including:
+
+array-to-array transfers that automatically remap
+
+hosts while keeping workload performance high                        ·  World-class support services: Receive 24/7 access to live experts
+
+throughout the process.                                                 and access to insightful dashboards
+
+File migration options                                               ·  Flexible technology upgrades: Choose from higher model
+
+Import file data to PowerStore from legacy Dell                         upgrades, capacity refreshes, scale-outs, and next generation
+
+arrays with built-in tools or use advanced DataDobi                     platform upgrades
+
+DobiMigrate file migration software for third party                  ·  Appointed technical advisor: Simplify your PowerStore upgrade
+
+arrays. DobiMigrate simplifies large, complex                           and efficiency planning with expert recommendations.
+
+migration projects and is trusted by IT teams around
+
+the world.                                                 Get enterprise-class support aligned to the criticality of your systems and
+
+                                                           engage with appointed technical advisors for expert guidance on maximizing
+
+                                                           the ongoing value of your PowerStore appliance. Use the flexible upgrades
+
+Dell Technologies Services                                 that best fit your business needs with included professional deployment
+
+                                                           services, allowing you to modernize your entire solution effortlessly. It's the
+
+Choice and flexibility throughout the life of              closest thing you can get to a cloud-like experience with on-prem storage,
+
+your appliance                                             ensuring your workloads are always running on the latest technology.
+
+End-to-end ProSupport and ProDeploy services               Trust your flexible future to Dell
+
+help you configure, support and optimize
+
+PowerStore, making your new infrastructure solution        And of course, we're talking about a leading storage offer from Dell
+
+easy to adopt and manage.
+
+                                                           Technologies, which means you get all the advantages of working with a
+
+                                                           trusted world-class infrastructure provider. You'll never be limited to a single
+
+                                                           solution or deployment template. Dell has the broad business experience
+
+                                                           and deep workload knowledge to help you keep your options open in a
+
+                                                           rapidly changing world.
+
+                                                           From portfolio scope, supply chain excellence, and top-tier ProSupport and
+
+                                                           ProDeploy services, to financial flexibility through a range of consumption
+
+                                                           and subscription options, and robust FutureProof program guarantees and
+
+                                                           assurances, the broader Dell Technologies advantage is yet another
+
+                                                           fundamental strength of the overall PowerStore experience.
+
+                                                           Get ready for a no-limits future. As PowerStore helps you build your next
+
+                                                           breakthrough ­ and the one after that ­ you can trust this continuously
+
+                                                           modern platform will be a long-term enabler of your business success.
+
+                                                           See PowerStore Spec Sheet for additional details.
+
+                                                           1 ­ Based on Dell Technologies analysis using double-blinded, competitive benchmark Net Promoter Score (NPS) data gathered by third-party commissioned by Dell for 2H FY25
+
+                                                           2 ­ Based on Dell analysis comparing midrange storage providers as of June 2025. Dell Technologies was accredited with 2-star MyCX rating by Bain & Company for the period of June 2024 to
+
+                                                           June 2025. Note: MyCX Accreditation is a proprietary rating of Bain & Company, Inc. ("Bain"). Bain does not certify or endorse any Dell product or service.
+
+                                                           3 ­ Assumes 5:1 average data reduction.   Single appliance max for PowerStore 500 is 6.1PBe.  Max for other PowerStore models is 5.9PBe. Actual results may vary, depending on data types .
+
+                                                           4  ­ 99.9999% system availability in customer environments, running target code levels, as measured April 2022. Actual results vary.
+
+                                                           4- Based on Dell analysis of data reduction and effective capacity guarantees offered by primary storage competitors compared with Dell's All-Flash Data Reduction Guarantee program ­ April 2024.
+
+                                                           See terms and conditions for details at: All-Flash Data Reduction Guarantee Terms and Conditions ­ May 20, 2024. Actual data reduction rates will vary.
+
+PowerStore   is OEM-Ready. If you would like to OEM        5 ­.5:1 average rate guaranteed for reducible data types.            Rates for individual applications may vary.  See Future-Proof program terms and conditions for details.
+
+PowerStore   and make it part of your solution, with Dell  6  ­ Based on comparing maximum effective PowerStore capacities of   4:1 versus average 5:1 data reduction. Actual results vary, refer to Power Sizer for capacity data in your environment.
+
+                                                           7  ­ Based on internal testing comparing call support resolution and Smart Support auto healing time to resolution.
+
+branding or  un-branded, we can support you.               8 ­ Assumes 5:1 average data reduction.   Single appliance max for PowerStore 500 is 6.1PBe.  Max for other PowerStore models is 5.9 PBe. Actual results vary, refer to Power Sizer for capacity
+
+                                                           data in your environment.
+
+                                                           9 - Based on minimum steps and timeframe required to configure synchronous replication between two previously installed PowerStore appliances across a metro area distance. Actual steps vary by
+
+                                                           solution
+
+                                                           10 ­ With PowerStoreOS 3.5, PowerStore is hardened to meet the security requirements of the US Federal Government and is on the DoDIN Approved Product List (APL).
+
+                                                           11 ­ Based on Dell analysis of staff time required to maintain balanced PowerStore cluster vs. traditional multi-array deployment, March 2020.  Factors in effort required to monitor, plan,         define and
+
+                                                           execute volume migrations.                Actual results will vary.
+
+                                                           12 ­ Based on Dell analysis comparing NVMe/TCP discovery and registration with PowerMax/PowerStore using SmartFabric Storage Software vs competitive storage solutions, March 2022.
+
+                                                           13 ­ Based on Dell analysis of effort required to deploy workloads with and without Ansible and vRO orchestration integrations, March 2020. Factors in effort required to monitor, plan, define and
+
+                                                           execute volume migrations.                Actual results will vary.
+
+                                                           14 ­ See Future-Proof program terms and conditions for details.
+
+                                                           15 ­ Based on Dell analysis of minimum effort required to execute non-disruptive migration of volume group using PowerStore's built-in migration tools for Unity, SC Series, PS Series and VNX
+
+                                                           arrays, March 2020.                 Actual results will vary.
+
+                                                           16 - Lifecycle Extension offer may vary by region. Please contact your Dell representative to confirm availability
+
+                                  Learn More about                                                                                                                             Contact a Dell
+
+                                              PowerStore                                                                                                 Technologies Expert
+
+© 2025 Dell Inc. or its subsidiaries. All Rights Reserved. Dell, EMC and other trademarks are
+
+trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective
+
+owners. Reference Number: H18234
+

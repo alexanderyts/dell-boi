@@ -1,0 +1,313 @@
+Specification Sheet
+
+                                                  Dell PowerSwitch
+
+                                                  Z9664F-ON
+
+                                                  High-performance, high-density open networking 400GbE
+
+                                                  multi-rate aggregation switch
+
+Dell PowerSwitch Z9664F-ON 100/400GbE fixed switch comprises Dell Technologies' latest disaggregated
+
+hardware and software data center networking solutions, providing state-of-the-art, high-density 100/400GbE
+
+ports and a broad range of functionality to meet the growing demands of today's data center environment.
+
+This innovative, next-generation open networking high-density aggregation switch offers optimum flexibility
+
+and costeffectiveness for the web 2.0, edge, large enterprises, mid-market and cloud service providers with
+
+demanding compute and storage traffic environments.
+
+The compact PowerSwitch Z9664F-ON provides highdensity of either 64 ports of 400GbE in QSFP56-DD form
+
+factor or 256 ports of 100GbE in a 2RU design, and can be used as a 10/25/40/50/100/200 switch via breakout
+
+cables for a maximum of 256 ports.
+
+Using industry-leading hardware and a choice of Enterprise SONiC Distribution by Dell Technologies, Enterprise
+
+SONiC Distribution by Dell Technologies, Dell SmartFabric OS10 or select 3rd party network operating systems
+
+and tools, the Z9664F-ON switch incorporates multiple architectural features that optimize data center network
+
+flexibility, efficiency and availability, including IO panel to PSU and PSU to IO panel airflow for hot/ cold aisle
+
+environments, redundant, hot-swappable power supplies and fans and delivers non-blocking performance for
+
+workloads sensitive to packet loss. The compact Z9664F-ON model provides multi-rate speed, enabling denser
+
+footprints and simplifying migration to 400Gbps.
+
+Priority-based flow control (PFC), data center bridge exchange (DCBX) and enhanced transmission selection
+
+(ETS) make the Z9664F-ON ideally suited for DCB environments.
+
+The Dell PowerSwitch Z9664F-ON switch supports the Open Network Install Environment (ONIE) for zero
+
+touch installation of Enterprise SONiC Distribution by Dell Technologies, Dell SmartFabric OS10 as well as of
+
+alternative network operating systems.
+
+Key applications
+
+·  Organizations looking to enter the softwaredefined data center era with a choice of networking
+
+   technologies designed to maximize flexibility
+
+·  High-density multi-rate 100/400GbE ToR/MoR server aggregation in high-performance data center
+
+   environments at the desired fabric speed
+
+·  Fabric implementation in leaf and spine along with S-series ToR switches enabling cost-effective
+
+   aggregation of 100/400 uplinks
+
+Dell PowerSwitch Z9664F-ON
+
+© 2025 Dell Inc. or its subsidiaries.
+·     Multi-functional 10/25/40/50/100/200/400GbE switching in High Performance Computing clusters or
+
+      other business-sensitive deployments requiring the highest bandwidth
+
+·     iSCSI and FCOE deployment, including DCB converged lossless transactions
+
+·     NVMe/TCP and Dell SmartFabric Storage Software (SFSS) support for automation of storage services on
+
+      a wide range of existing IP fabrics
+
+·     Autonomous data center network fabric deployment, expansion and lifecycle management with
+
+      SmartFabric Services (SFS), automating and simplifying networking
+
+Key features
+
+·     2RU high-density 100/400GbE aggregation switch with up to 64 ports of 400GbE (QSFP56-DD) or up to
+
+      256 ports of 100GbE or 10/25/40/50/100/200GbE ports (with breakout cables)
+
+·     Multi-rate 400GbE ports support 10/25/40/50/100/200/400GbE
+
+·     51.2Tbps non-blocking (full duplex), switching fabric delivers line rate performance under full load on
+
+      Z9664F-ON
+
+·     IO panel to PSU airflow or PSU to IO panel airflow*
+
+·     Redundant, hot-swappable power supplies and fans
+
+·     Supports the open-source ONIE for zero touch installation of alternate network operating systems
+
+·     Accelerated mounting kits reducing time and resources for switch rack installation
+
+·     Power-efficient operation up to 45°C helping reduce cooling costs in temperature-constrained
+
+      deployments
+
+Product                                Description
+
+                                       Z9664F-ON, 64x 400GbE QSFP56-DD, 2x AC PSU, Fan module, I/O Panel to PSU Airflow
+
+Z9664F-ON                              Z9664F-ON, 64x 400GbE QSFP56-DD, 2x AC PSU, Fan module, I/O Panel to PSU Airflow, TAA Certified
+
+                                       Z9664F-ON, 64x 400GbE QSFP56-DD, 2x AC PSU, Fan module, PSU to I/O Panel Airflow
+
+                                       Z9664F-ON, 64x 400GbE QSFP56-DD, 2x AC PSU, Fan module, PSU to I/O Panel Airflow, TAA Certified
+
+Dell SW Options                        Enterprise SONiC Distribution by Dell Technologies
+
+                                       Dell SmartFabric OS10
+
+                                       AC Power Supply, IO Panel to PSU Airflow
+
+Redundant power supplies               AC Power Supply, PSU to IO Panel Airflow
+
+                                       DC Power Supply, IO Panel to PSU Airflow
+
+                                       DC Power Supply, PSU to IO Panel Airflow
+
+Fans                                   Fan module, IO Panel to PSU Airflow
+
+                                       Fan module, PSU to IO Panel Airflow
+
+Optics, Cables and Cable               Please refer to Dell Networking Transceivers and Cables spec sheet for complete list of optics and
+
+Management                             cables. for a complete list of optics and cables.
+
+*Note that units configured in the PSU to IO airflow direction are subject to tighter restrictions for power consumptions on cables and optics used for 400GbE port
+
+2 | Dell PowerSwitch Z9664F-ON
+
+© 2025 Dell Inc. or its subsidiaries.
+Technical specifications
+
+Physical                                                Performance                                                                                 Emissions
+
+1 RJ45 console/management port with                     Switch fabric capacity: 51.2Tbps (full duplex)                                              AS/NZS CISPR: 32, Class A
+
+RS232 signaling and USB type C port                     Forwarding capacity: 10.2Bpps                                                               ICES-003, Class A
+
+1 10/100/1000BASE-T Ethernet for                        Latency: sub 850ns                                                                          EN55032, Class A
+
+management
+
+1 USB 3.0 type A storage port 64x400GbE                 Packet buffer memory: 113.66MB: 56.83MB                                                     VCCI-CISPR 32, Class A
+
+QSFP56-DD ports + 2xSFP+ 10GbE                          per                                                                                         FCC CFR 47 Part 15, Subpart B
+
+                                                        Ingress Traffic Manager (ITM)
+
+Chassis                                                 NPU Pipeline is programmable capable using                                                  Immunity
+
+Size: 2 RU, 438.5 x 630 x 87.5 mm (W x D x              NPL                                                                                         EN 300 386 EMC for Network Equipment
+
+H), 17.26 x 24.80 x 3.45 inches (W x D x H)             CPU: Intel Ice Lake-D LCC D-1714 4 core @                                                   EN 55035
+
+Switch without PSU and Fan tray: 18.46 kg               2.3GHz (up to 3.4GHz in Turbo mode)                                                         EN 61000-3-2 Harmonic Current Emissions
+
+(40.68 lbs)                                             CPU memory: 32GB DDR4 ECC                                                                   EN 61000-3-3 Voltage Fluctuations and
+
+Switch with PSU and Fan trays: 23 kg                    MAC addresses: 156K                                                                         Flicker
+
+(50.71 lbs)                                             ARP table: 16K standalone, 8K shared                                                        EN 61000-4-2 ESD
+
+Environmental                                           IPv4 routes: up to 400K (ALPM)                                                              EN 61000-4-3 Radiated Immunity
+
+Power supply: 100-240 VAC 50/60 Hz**                    IPv6 routes: 300K                                                                           EN 61000-4-4 EFT
+
+Max. power consumption: 2125 Watts                      Multicast hosts: 1K                                                                         EN 61000-4-5 Surge
+
+Typ. power consumption: 500 Watts***                                                                                                                EN 61000-4-6 Low Frequency Conducted
+
+Max. operating specifications:                          Multicast IPv6 Routes : 4K
+
+AC max. operating specifications:                       Layer 2 VLANs: 4K                                                                           Immunity
+
+Operating temperature: 0° to 45°C                       MSTP: 64 instances                                                                          RoHS
+
+(32° to 113°F)
+
+Operating humidity: 5 to 90% (RH),                      LAG load balancing: Based on layer 2, IPv4 or                                               All Z Series components are EU RoHS
+
+non-condensing                                          IPv6 headers                                                                                compliant.
+
+Max. non-operating specifications:                      Timing Card PTP/1588 and Sync-E
+
+Storage temperature: ­40° to 70°C                       Trusted Platform Module                                                                     Certifications****
+
+(­40° to 158°F)                                         Supports up to 4 ports of 20W optics when in                                                Available with US Trade Agreements Act
+
+                                                        IO/PSU airflow direction                                                                    (TAA) compliance
+
+Storage humidity: 5 to 95% (RH),                                                                                                                    USGv6 Host and Router Certified on Dell
+
+non-condensing                                          Supports up to 15W optics in all QSFP56-DD                                                  Networking1
+
+Fresh air compliant to 45°C                             ports in I/P mode, some restrictions in P/I
+
+                                                        mode                                                                                        IPv6 Ready for both Host and Router
+
+Support AC both lowline and highline power              For Network Operating System (NOS) specific                                                 UCR DoD APL (core and distribution
+
+modes                                                   features, refer to Dell SmartFabric OS10                                                    ALSAN switch)
+
+                                                        and Enterprise SONiC Distribution by Dell                                                   GB 40050-2021 Critical network devices
+
+Redundancy                                              Technologies spec sheets.                                                                   security common requirements
+
+Hot swappable redundant power (2 per
+
+switch, 1 + 1 redundancy except with low-line           Regulatory compliance                                                                       Warranty
+
+power)**                                                Safety                                                                                      1 year return to depot constrained
+
+Hot swappable redundant fans (4 per switch,             UL/CUL 62368-1
+
+3+1 redundancy)
+
+                                                        IEC/EN 60950-1 Including All National
+
+                                                        Deviations and Group Differences
+
+                                                        IEC/EN 62368-1 Including All National
+
+                                                        Deviations and Group Differences
+
+                                                        EN 60825-1 Safety of Laser Products Part 1:
+
+                                                        Equipment Classification Requirements and
+
+                                                        User's Guide
+
+                                                        EN 60825-2 Safety of Laser Products Part 2:
+
+                                                        Safety of Optical Fibre Communication
+
+                                                        Systems
+
+                                                        FDA Regulation 21 CFR 1040.10 and 1040.11
+
+**100V - 127V low-line power solution is non-redundant
+
+***Typical power consumption measured at 25°C ambient with 50% load on all ports
+
+**** Federal Certifications are granted on an OS specific basis - please reference the SONiC and OS10 spec sheets for latest certification updates
+
+3 | Dell PowerSwitch Z9664F-ON
+
+© 2025 Dell Inc. or its subsidiaries.
+IT Lifecycle Services for Networking
+
+Experts, insights and ease
+
+Our highly trained experts, with innovative tools and proven processes, help you transform your IT investments
+
+into strategic advantages.
+
+                          Plan & Design
+
+                          Let us analyze your multivendor environment and deliver a comprehensive report and action
+
+                          plan to build upon the existing network and improve performance.
+
+                          Deploy & Integrate
+
+                          Get new wired or wireless network technology installed and configured with ProDeploy
+
+                          Reduce costs, save time, and get up and running fast.
+
+                          Educate
+
+                          Ensure your staff builds the right skills for long- term success. Get certified on Dell
+
+                          Networking technology and learn how to increase performance and optimize infrastructure.
+
+                          Manage & Support
+
+                          Gain access to technical experts and quickly resolve multivendor networking challenges
+
+                          with ProSupport. Spend less time resolving network issues and more time innovating.
+
+                          Optimize
+
+                          Maximize performance for dynamic IT environments with Dell Optimize. Benefit from in-depth
+
+                          predictive analysis, remote monitoring and a dedicated systems analyst for your network.
+
+                          Retire
+
+                          We can help you resell or retire excess hardware while meeting local regulatory guidelines
+
+                          and acting in an environmentally responsible way.
+
+Learn more at DellTechnologies.com/Services
+
+Learn more about                         Contact a Dell  View more resources                Join the conversation with
+
+Dell solutions                      Technologies Expert                                     #DellTechnologies
+
+© 2025 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of
+
+their respective owners.
+

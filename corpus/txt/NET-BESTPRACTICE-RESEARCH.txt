@@ -1,0 +1,35 @@
+General networking research synthesis — 2026-07-11 (public authoritative sources).
+
+TOPOLOGY
+- Leaf-spine = two-tier Clos; every leaf to every spine, no leaf-leaf/spine-spine; ECMP all links active.
+- Fat-tree = special Clos with EQUAL up/down at every tier (truly non-blocking). All fat-trees are leaf-spine; not all leaf-spine are fat-trees.
+- Spine failure survivability: 2 spines = 50% BW on one failure; 4 spines ≈ 75% (generally acceptable). More spines = more surviving BW.
+- Oversubscription = downlink(server) BW : uplink(spine) BW on a leaf. Lower better. General enterprise ≤3:1; storage/AI 1:1 non-blocking.
+- Emerging: hybrid optical-electronic, CPO for GPU clusters, SRv6 for AI infra (OCP EMEA 2026).
+
+OPTICS & CABLE REACH (current, 2026)
+- Distance zones: DAC 0–2m (dropped from 3m at 800G due to 100G/lane SerDes) · ACC 2–5m · AEC 3–7m (active electrical, thinner, signal conditioning) · AOC 10–100m · optical transceiver 100m+.
+- LPO (Linear Pluggable Optics): host ASIC does signal conditioning, ~40–50% less module power; hyperscale AI short-reach. CPO (co-packaged) emerging. Watch for 2027–28 refresh.
+- Form factors: QSFP28 100G, QSFP-DD/QSFP56-DD 400G, OSFP 800G/1.6T. OSFP twin-port = 2x400G.
+
+FIBER & CONNECTORS (structured cabling)
+- MPO/MTP fiber count by standard: MPO-8/12 for 40/100G SR4; MPO-16 for 400/800G SR8; MPO-24 high-density backbone. Twin-port OSFP uses 2x MPO-12.
+- Fiber type: MMF OM3/OM4/OM5 for in-building short reach (SR4 <100m OM4 standard); SMF OS2 for FR/LR/anything leaving building (DCI). 
+- Polarity: Type B for direct parallel-optic links (40G+); Type A for cassette/modular; document uniformly across facility.
+- Polish: MMF (OM3/4/5) = UPC; SMF OS2 (DR/FR/LR) = APC. APC and UPC CANNOT be mixed on a link (high loss).
+- Jacket color: aqua=OM3/OM4, lime=OM5, yellow=OS2 (Erika-violet=OM4 some vendors).
+
+STRUCTURED CABLING BOM (what a REAL cabling BOM itemizes) — the channel: transceiver → MPO trunk → MPO cassette/patch panel → LC patch cord → device.
+- Trunk cables: multi-fiber backbone between panels, never terminate to individual LC.
+- MPO cassettes: MPO rear ↔ LC/SC front fan-out (8/12/24f).
+- Patch panels: 19" rack-mount high-density crossconnect.
+- MPO-LC breakout/fan-out: 1 MPO-12 → 6 LC duplex.
+- Plan the WHOLE channel + consistent polarity BEFORE ordering (a 5-min plan saves a day of troubleshooting; wrong MPO can mean re-cabling a hall).
+
+OPEN STANDARDS / WORKFLOW
+- SONiC: vendor-agnostic NOS on SAI; revenue projected ~$8B by 2027. Northbound: gNMI, gRPC, OpenConfig YANG, REST, SNMP, CLI.
+- Telemetry: gNMI/gRPC streaming + OpenConfig models → observability/AIOps.
+- ZTP: power-on self-config from network → no truck roll, eliminates human config error (the #1 outage cause).
+- IaC: version-controlled config push + drift detection (deviation from desired state).
+
+Sources: network-switch.com, thenetworkdna.com, Corning spine-leaf 101, Axiom 400/800/1.6T optics selection, Vitex 800G DAC/AEC/AOC guide, AscentOptics OSFP/LPO, FS/Fibermall MPO guides, Fluke MPO testing, Cisco/OCP SONiC, LightCounting AEC/LPO.

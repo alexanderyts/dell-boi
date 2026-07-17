@@ -1,0 +1,787 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Ecosystem Architecture &#8212; NVIDIA Enterprise AI Factory Design Guide White Paper</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/nvidia-sphinx-theme.css?v=933278ad" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=767de534" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" type="text/javascript"
+  data-document-language="true" charset="UTF-8" data-domain-script="3e2b62ff-7ae7-4ac5-87c8-d5949ecafff5">
+</script>
+<script type="text/javascript">
+  function OptanonWrapper() {
+    var event = new Event('bannerLoaded');
+    window.dispatchEvent(event);
+  }
+</script>
+<script src="https://images.nvidia.com/aem-dam/Solutions/ot-js/ot-custom.js" type="text/javascript">
+</script>
+
+
+    <script rel="preload" src="_static/modal-table.js"></script>
+    <script src="_static/documentation_options.js?v=91d07486"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scrollspy-patch.js?v=edc4054a"></script>
+    <script src="_static/external-links.js"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=65e89d2a"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ecosystem-architecture';</script>
+    <script src="_static/version-patch.js?v=3e13fdd2"></script>
+
+<script type="text/javascript" src="https://assets.adobedtm.com/5d4962a43b79/c1061d2c5e7b/launch-191c2462b890.min.js"></script>
+
+    <link rel="canonical" href="https://docs.nvidia.com/ai-enterprise/planning-resource/ai-factory-white-paper/latest/ecosystem-architecture.html" />
+    <link rel="icon" href="_static/favicon.png"/>
+
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Deployment Strategies" href="deployment-strategies.html" />
+    <link rel="prev" title="Confidential Computing for AI" href="confidential-computing-for-ai.html" />
+
+<link rel="preload" as="image" href="https://www.nvidia.com/content/dam/1x1-00000000.png">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="May 27, 2026"/>
+
+    <meta name="docs_products" content="NVIDIA AI Enterprise">
+    <meta name="docs_version" content="Enterprise AI Factory Design Guide White Paper (Latest)">
+    <meta name="docs_books" content="NVIDIA Enterprise AI Factory Design Guide White Paper">
+    
+
+
+  <script >bazadebezolkohpepadr="40416675"</script><script type="text/javascript" src="https://docs.nvidia.com/akam/13/268b52f"  defer></script></head>
+
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+<img src="https://www.nvidia.com/content/dam/1x1-00000000.png" width="1" height="1" style="display:none;" alt="country_code">
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/nvidia-logo-horiz-rgb-blk-for-screen.svg" class="logo__image only-light" alt="NVIDIA Enterprise AI Factory Design Guide White Paper - Home"/>
+    <img src="_static/nvidia-logo-horiz-rgb-wht-for-screen.svg" class="logo__image only-dark pst-js-only" alt="NVIDIA Enterprise AI Factory Design Guide White Paper - Home"/>
+  
+  
+    <p class="title logo__title">NVIDIA Enterprise AI Factory Design Guide White Paper</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+
+<div>
+  <ul class="bd-navbar-elements navbar-nav">
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://docs.nvidia.com/ai-enterprise/">Documentation Home</a>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/nvidia-logo-horiz-rgb-blk-for-screen.svg" class="logo__image only-light" alt="NVIDIA Enterprise AI Factory Design Guide White Paper - Home"/>
+    <img src="_static/nvidia-logo-horiz-rgb-wht-for-screen.svg" class="logo__image only-dark pst-js-only" alt="NVIDIA Enterprise AI Factory Design Guide White Paper - Home"/>
+  
+  
+    <p class="title logo__title">NVIDIA Enterprise AI Factory Design Guide White Paper</p>
+  
+</a>
+
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+
+<div>
+  <ul class="bd-navbar-elements navbar-nav">
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://docs.nvidia.com/ai-enterprise/">Documentation Home</a>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Table of Contents">
+  <p class="bd-links__title" role="heading" aria-level="1">Table of Contents</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">NVIDIA Enterprise AI Factory Design Guide White Paper</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ai-factory-overview.html">Enterprise AI Factory Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agentic-ai-in-the-factory.html">Agentic AI in the Factory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confidential-computing-for-ai.html">Confidential Computing for AI</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Ecosystem Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment-strategies.html">Deployment Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validated-full-stack-ai-factories.html">Validated Full Stack AI Factories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="future-directions-ecosystem.html">Future Directions &amp; Ecosystem</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notices.html">Notices</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Ecosystem Architecture</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+<div class="header-article-item">
+  <div class="d-flex justify-content-end w-100">
+    <a href="https://surveys.hotjar.com/4904bf71-6484-47a7-83ff-4715cceabdb5" id="openPopupButton">Is this page helpful?</a>
+  </div>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ecosystem-architecture">
+<h1>Ecosystem Architecture<a class="headerlink" href="#ecosystem-architecture" title="Link to this heading">#</a></h1>
+<p>This section provides an overview of the hardware and software solutions in the enterprise ecosystem that leverage NVIDIA technology to form an NVIDIA Enterprise AI Factory.  Additionally, it contains information regarding our various ecosystem partners who offer solutions for components of the AI Factory, including Enterprise Kubernetes, storage, observability, security and developer tools.</p>
+<section id="hardware-infrastructure">
+<h2>Hardware Infrastructure<a class="headerlink" href="#hardware-infrastructure" title="Link to this heading">#</a></h2>
+<p>The hardware design for the Enterprise AI Factory prioritizes scalability and elasticity, facilitating horizontal scaling of compute with NVIDIA Blackwell GPUs, infrastructure and advanced security acceleration with NVIDIA BlueField DPUs, optimized networking with Spectrum-X Ethernet, and services using Enterprise ready Kubernetes Platform. This state-of- art hardware ensures performance for achieving the necessary latency and throughput for real-time inference and complex agent interactions. GPU resource optimization is achieved by leveraging effective scheduling, utilization, and management of high-density GPU resources.</p>
+<section id="accelerated-computing-platform">
+<h3>Accelerated Computing Platform<a class="headerlink" href="#accelerated-computing-platform" title="Link to this heading">#</a></h3>
+<p>Enterprise AI, particularly for complex agentic systems, demands substantial computational resources that challenge traditional data center capabilities. Agentic systems execute diverse workloads, from sequential task processing and logical reasoning to parallel data analysis and model inference. This operational diversity requires a balanced computing architecture that effectively utilizes CPUs for control, orchestration, and serial tasks, DPUs for infrastructure acceleration and advanced security and GPUs for massively parallel computations inherent in AI model training, inference, and complex data manipulation.</p>
+<p>Accelerated computing platforms, integrating powerful GPUs, CPUs, DPUs alongside high-speed networking, all optimized via specialized software stacks, provide the necessary performance, efficiency, and security for these demanding workloads. This approach yields significant improvements in processing speed and energy efficiency over CPU-centric computing.</p>
+<p>The NVIDIA Enterprise AI Factory Design Guide is designed for compatibility with multiple accelerated computing platforms based on the NVIDIA Blackwell architecture. With support for infrastructure based upon RTX PRO™ 4500 Blackwell Server Edition, RTX PRO™ 6000 Blackwell Server Edition, or HGX™ B200/B300, enterprises can unlock the full potential of AI in their data center infrastructure, from accelerating simulations and data analysis to enabling real-time generative design and visualization.</p>
+<p>NVIDIA Enterprise AI Factory Validated Design: Accelerated Computing Platforms</p>
+<ul class="simple">
+<li><p><strong>NVIDIA RTX PRO™ 4500 Blackwell Server Edition</strong> is an energy-efficient multi-workload accelerator designed to deliver breakthrough performance across a broad range of enterprise workloads, from AI inference, data science, and processing, to video and high-end visual computing. With a power-efficient, 165W design, the RTX PRO 4500 Blackwell provides flexible capabilities and powerful acceleration in a compact single-slot PCIe form factor compatible with a wide range of mainstream data center platforms.</p></li>
+<li><p><strong>NVIDIA RTX PRO™ 6000 Blackwell Server Edition</strong> delivers a powerful combination of AI and visual computing capabilities to accelerate enterprise data center workloads. This 600W, dual-slot PCIe GPU is equipped with 96GB of ultra-fast GDDR7 memory, it provides powerful multi-workload performance for a broad range of use cases - from agentic AI, physical AI, and scientific computing to rendering, 3D graphics, and video.</p></li>
+<li><p><strong>The NVIDIA HGX™ B200 Configurations</strong> of eight GPUs are available as 8-GPU configurations with high-speed NVLink interconnects, enhanced compute, and larger memory capacity to tackle demanding AI applications and HPC workloads. This premier accelerated x86 scale-up platform designed for the most demanding generative AI, data analytics, and high-performance computing (HPC) workloads and features 1.4 terabytes (TB) of GPU memory and 64 terabytes per second (TB/s) of memory bandwidth and delivers 144/72 PFLOPS of FP4 and 296 TFLOPS of FP64 compute performance.</p></li>
+<li><p><strong>The NVIDIA HGX™ B300 Configurations</strong> of eight GPUs are available as 8-GPU configurations with high-speed NVLink interconnects, enhanced compute, and larger memory capacity to tackle the most demanding AI applications, delivering 1.5x more NVFP4 dense compute and 2x attention performance versus HGX B200. NVIDIA Blackwell Ultra-based HGX systems are designed for the most demanding AI workloads and features 2.1 terabytes (TB) of GPU memory and 64 terabytes per second (TB/s) of memory bandwidth and delivers 144/108 PFLOPS of FP4 compute performance.</p></li>
+</ul>
+<p>As detailed in NVIDIA Enterprise RA’s, these systems are built on NVIDIA-Certified System servers, designed for optimal performance. For inference-focused platforms, selection criteria prioritize these characteristics:</p>
+<ul class="simple">
+<li><p><strong>Inference Performance</strong>: High efficiency at various precisions (e.g., FP16, INT8, and newer formats like FP4/FP6 for Blackwell) delivers low-latency and high-throughput model serving.</p></li>
+<li><p><strong>GPU Memory (VRAM)</strong>: Sufficient GPU Memory (VRAM) capacity and high bandwidth are paramount for accommodating the large language models (LLMs) prevalent in Retrieval Augmented Generation (RAG) applications, handling large batch sizes during inference, and supporting the extensive context windows often required by these sophisticated AI agents. Modern NVIDIA GPUs, such as the NVIDIA RTX™ PRO 6000 Blackwell Server Edition with its flexible design and substantial VRAM, or the compute focused NVIDIA B200 Tensor Core GPUs which offer exceptionally large memory footprints, are designed to meet these demands. Reference configurations for AI platforms frequently specify significant memory per GPU to ensure that these complex models and their data can be efficiently processed, enabling low-latency responses and high-throughput performance for AI factory operations.</p></li>
+<li><p><strong>Scalability and Interconnects</strong>: While massive multi-node training setups might be less of a focus, efficient GPU-to-GPU communication via technologies like NVIDIA NVLink can still be beneficial for certain inference scenarios (e.g., model or pipeline parallelism for very large models) and for accelerating the data processing stages in RAG. Server configurations like PCIe Optimized or HGX systems cater to different scales and performance needs.</p></li>
+</ul>
+<p><a class="reference external" href="https://www.nvidia.com/en-us/networking/products/data-processing-unit/">NVIDIA BlueField</a> data processing units (DPUs) are essential for creating high-performance, secure and efficient AI Factories. They offload and accelerate critical tasks such as software-defined networking, storage, and security, freeing up CPU and GPU resources to focus on AI computation. Leveraging purpose-built hardware accelerators and dedicated Arm cores, BlueField supports faster, more secure cloud deployment, zero-trust multi-tenancy, accelerated data access, and real-time threat detection. This enables enterprises to build AI systems that are more scalable, resilient, and optimized for modern, cloud-native infrastructure.</p>
+</section>
+<section id="nvidia-certified-systems">
+<h3>NVIDIA Certified Systems<a class="headerlink" href="#nvidia-certified-systems" title="Link to this heading">#</a></h3>
+<p>The <a class="reference external" href="https://docs.nvidia.com/certification-programs/latest/nvidia-certified-systems.html">NVIDIA-Certified Systems</a> program has assembled the industry’s most complete set of accelerated workload performance tests to help its partners deliver the highest performing systems. NVIDIA-Certified Systems are tested with the most powerful enterprise NVIDIA GPUs and networking and are evaluated by NVIDIA engineers for performance, functionality, scalability, and security. NVIDIA-Certified Systems have been proven to deliver predictable performance and enable enterprises to quickly deploy optimized platforms for AI, Data Analytics, HPC, high-density VDI, and other accelerated workloads in the data center, at the Edge, and on the desktop.</p>
+<p>NVIDIA has expanded the NVIDIA-Certified Systems program beyond servers designed for the data center to include GPU-powered workstations, high-density VDI systems, and Edge devices. NVIDIA-Certified systems for the data center are tested both as single nodes and in a 2-node configuration. Workstations, high-density VDI, and Edge systems in the NVIDIA-Certified systems program are evaluated on their standalone performance with the NVIDIA GPUs within a single system.</p>
+<p>Guidelines for configuring NVIDIA-Certified Systems to achieve best results for running a range of accelerated computing workloads can be found <a class="reference external" href="https://docs.nvidia.com/certification-programs/latest/nvidia-certified-configuration-guide.html">here</a>.</p>
+</section>
+<section id="nvidia-certified-storage">
+<h3>NVIDIA Certified Storage<a class="headerlink" href="#nvidia-certified-storage" title="Link to this heading">#</a></h3>
+<p>A key component of the Enterprise AI Factory is its storage solution. Given the continuous and high-volume data flow required throughout the AI development and deployment lifecycle, the storage infrastructure can potentially become a significant bottleneck if not architected correctly to meet these intensive demands. Therefore, the solution must possess several essential features to handle demanding AI environments. These include the scalability to manage exponentially growing datasets and model sizes, and the flexibility to support diverse data types and access patterns, ranging from high-throughput sequential reads for training to low-latency random access for inference and vector databases. Furthermore, robust data protection mechanisms like snapshots, replication, and disaster recovery are critical, as are comprehensive security features such as encryption at rest and in transit to safeguard sensitive information.</p>
+<p>To meet these diverse workload requirements, the Enterprise AI Factory’s storage solution utilizes a tiered storage architecture from various vendors. A crucial element of this architecture is NVIDIA-Certified Storage, which adheres to stringent performance and reliability standards specifically for AI tasks. This certification ensures efficient data access, which is vital for handling large model weights, managing Vector Database I/O for Retrieval Augmented Generation (RAG), and supporting knowledgebases for AI Agents. Having been vetted for these crucial characteristics, the certified storage provides a dependable, high-performance, secure, and scalable infrastructure, thereby enhancing the overall efficiency and stability of the AI Factory. This empowers partners and customers to build AI factories that efficiently leverage massive amounts of data, leading to faster, more accurate, and reliable AI models.</p>
+<p>The NVIDIA-Certified Storage program offers two levels of certification: Foundation and Enterprise. These storage certifications integrate seamlessly with corresponding NVIDIA Enterprise RAs to ensure that storage systems possess the necessary performance to support North-South networking and effectively feed data to compute nodes. The Foundation-level storage certification certifies storage partners for PCIe-optimized reference configurations specifically for the NVIDIA RTX PRO 6000 Blackwell Server Edition. The larger-scale Enterprise-level storage certification validates storage partners for HGX reference configurations, particularly for the NVIDIA HGX B200.</p>
+<p>A key part of operating an AI Factory is its ability to perform knowledge retrieval through continuous data ingestion, indexing, and embedding across all enterprise data storage. An AI Factory can optionally incorporate these benefits through the NVIDIA AI Data Platform (AIDP). An AIDP provides high-performance, secure data retrieval for AI via a reference design to meet the data requirements of modern AI workloads. It seamlessly ingests, embeds, and indexes enterprise data across multiple modalities to unlock insights. It brings together NVIDIA accelerated computing, networking, and NVIDIA AI software along with partner innovations in data management and security.</p>
+</section>
+<section id="nvidia-networking">
+<h3>NVIDIA Networking<a class="headerlink" href="#nvidia-networking" title="Link to this heading">#</a></h3>
+<p>Low-latency networking facilitates efficient data exchange, which is valuable for AI inference, especially in multi-node scenarios. For user-facing applications like AI agents, low latency directly reduces the perceived delay, improving key metrics like Time-To-First-Token (TTFT) and overall response time for a better user experience. When large models are split across multiple GPUs or nodes– using techniques like pipeline or tensor parallelism for inference– each stage of computation depends on timely communication between devices. In these scenarios, even microsecond-scale delays can accumulate, and tail latency—the slowest portion of the communication distribution—can significantly degrade overall performance. Reducing both average and tail latency is essential for ensuring consistent, fast, and responsive AI services at scale.</p>
+<p>The <a class="reference external" href="https://www.nvidia.com/en-us/networking/spectrumx/">NVIDIA Spectrum-X Networking Platform</a> is purpose-built for AI Factories, delivering advanced transport offloads that accelerate collective operations combined with congestion-aware routing and hardware-based scheduling, directly addressing tail-latency issues that bottleneck multi-node AI workloads.</p>
+<p><a class="reference external" href="https://www.nvidia.com/en-us/networking/products/data-processing-unit/">NVIDIA BlueField data</a> processing units (DPUs) are essential for creating high-performance, secure, and efficient AI factories. They offload and accelerate critical tasks such as software-defined networking, storage, and security, freeing up CPU and GPU resources to focus on AI computation. Leveraging purpose-built hardware accelerators and dedicated Arm cores, BlueField supports faster, more secure cloud deployment, zero-trust multi-tenancy, accelerated data access, and real-time threat detection. This enables enterprises to build AI systems that are more scalable, resilient, and optimized for modern, cloud-native infrastructure.</p>
+</section>
+<section id="nvidia-enterprise-reference-architectures">
+<h3>NVIDIA Enterprise Reference Architectures<a class="headerlink" href="#nvidia-enterprise-reference-architectures" title="Link to this heading">#</a></h3>
+<p>The hardware design follows the NVIDIA Enterprise Reference Architecture (Enterprise RA) guidance which is tailored for enterprise-class deployments, ranging up to 256 GPUs. Depending on the base technology, they include configurations for 4 up to 32 nodes, complete with the appropriate networking topology, switching, and allocations for storage and control plane nodes. Enterprise RAs are right-sized for enterprise-scale deployments, it provides deployment guides, cluster characterization, and sizing guides for common enterprise AI implementations.  NVIDIA Enterprise RAs are designed to support a diverse range of workloads, including AI pre-training, post-training, long thinking inference, HPC, and data analytics. These designs provide a versatile foundation for enterprise AI with a focus on on-premises, single-tenant, Ethernet-based environments.</p>
+<p>For more details on these prescriptive Blackwell design patterns and components for building Enterprise AI Factories—as well as the</p>
+<p>NVIDIA-Certified system used in the Enterprise AI Factory—please refer to the <a class="reference external" href="https://docs.nvidia.com/enterprise-reference-architectures/index.html">NVIDIA Enterprise Reference Architecture whitepaper</a>.
+When selecting hardware components for an AI platform, several factors come into play to ensure the system meets the demanding needs of AI workloads.</p>
+</section>
+</section>
+<section id="enterprise-ai-enterprise-infrastructure-software">
+<h2>Enterprise AI Enterprise Infrastructure Software<a class="headerlink" href="#enterprise-ai-enterprise-infrastructure-software" title="Link to this heading">#</a></h2>
+<p>The NVIDIA AI Enterprise Infrastructure software encompasses all necessary components for managing and optimizing infrastructure along with AI workloads. NVIDIA provides Release Branches to meet organizational needs. The NVIDIA Kubernetes Operators facilitate a standardized management of NVIDIA GPUs, AI models, and network resources within Kubernetes environments. The following table outlines the components and versions of the NVIDIA AI Enterprise Infrastructure software.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>Software</p></th>
+<th class="head"><p>Version</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GPU Driver</p></td>
+<td><p>NVIDIA Linux Driver</p></td>
+<td><p>570.133.20+</p></td>
+<td><p>Supported by the GPU Operator 25.03+</p></td>
+</tr>
+<tr class="row-odd"><td><p>GPU Management</p></td>
+<td><p>NVIDIA GPU Operator</p></td>
+<td><p>25.03+</p></td>
+<td><p>Simplifies the deployment of NVIDIA AI Enterprise by automating the management of all NVIDIA software components needed to provision GPUs in Kubernetes (drivers, toolkit, DCGM).</p></td>
+</tr>
+<tr class="row-even"><td><p>Network Management (Hardware)</p></td>
+<td><p>NVIDIA Network Operator</p></td>
+<td><p>v25.1.0+</p></td>
+<td><p>Simplifies the provisioning and management of NVIDIA networking resources in a Kubernetes cluster (NVIDIA NICs, integrates with NetQ.)</p></td>
+</tr>
+<tr class="row-odd"><td><p>DPU Software</p></td>
+<td><p>NVIDIA DOCA</p></td>
+<td><p>v3.2</p></td>
+<td><p>Provides a robust foundation for accelerated infrastructure microservices, frameworks, and APIs that enhance performance, security, and scalability on the DPU.</p></td>
+</tr>
+<tr class="row-even"><td><p>DPU Provisioning, Lifecycle Management, and Orchestration</p></td>
+<td><p>NVIDIA DOCA Platform Framework (DPF) Operator</p></td>
+<td><p>v25.7.1</p></td>
+<td><p>Provides an automated way to provision, configure, and manage fleets of NVIDIA BlueField DPUs, enabling administrators to streamline lifecycle operations, orchestrate DOCA services at scale, and reliably chain advanced networking, data, and security functions to complex Kubernetes workflows.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Network Management (Software)</p></td>
+<td><p>NVIDIA NetQ</p></td>
+<td><p>Required</p></td>
+<td><p>Validated Ethernet fabric management.</p></td>
+</tr>
+<tr class="row-even"><td><p>AI Workload and GPU Orchestration</p></td>
+<td><p>Run:ai</p></td>
+<td><p>v2.21+</p></td>
+<td><p>Dynamic scheduling and orchestration to accelerate AI workload throughput and maximize GPU utilization</p></td>
+</tr>
+<tr class="row-odd"><td><p>Standardized model deployment across every AI workload</p></td>
+<td><p>NVIDIA Dynamo-Triton</p></td>
+<td><p>26.02</p></td>
+<td><p>Enterprise-grade inference server</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="software-partner-integrations">
+<h2>Software Partner Integrations<a class="headerlink" href="#software-partner-integrations" title="Link to this heading">#</a></h2>
+<p>NVIDIA’s comprehensive ecosystem of technology experts include ISVs that bring advanced skills to design, build, and deliver the AI-accelerated computing solutions by integrating NVIDIA AI Enterprise libraries and developer tools into their platforms. A tight collaboration between NVIDIA and our software partner developers and engineers ensures highly optimized and reliable performance over the lifetime of supported application releases. The following software partners have enterprise product offerings that provide components for building Enterprise AI Factories and are categorized as follows:</p>
+<figure class="align-default">
+<img alt="_images/ecosystem-architecture-01.png" src="_images/ecosystem-architecture-01.png" />
+</figure>
+<section id="agentops-ai-platforms">
+<h3>AgentOps AI Platforms<a class="headerlink" href="#agentops-ai-platforms" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://cohere.com/north">Cohere North</a></strong> - North by Cohere is an enterprise AI agent platform that lets organizations securely deploy chat, search, and workflow-automation agents over their own data, running in so sensitive information never leaves their control; it combines large language models with retrieval over internal “sources of truth” to handle tasks such as internal Q&amp;A, while offering and tools to build customizable multi‑step agents that can act across business systems.</p></li>
+<li><p><strong><a class="reference external" href="https://www.crewai.com/">CrewAI</a></strong> - CrewAI is an open-source framework for orchestrating role-playing, autonomous AI agents. Deployable on-premise, it allows developers to build sophisticated multi-agent systems that can collaborate to solve complex tasks. In an NVIDIA AI Factory, CrewAI can leverage LLMs deployed as NVIDIA NIMs for agent reasoning and decision-making, with the underlying computations accelerated by NVIDIA hardware. This enables the creation of powerful, customized agentic workflows that benefit from NVIDIA’s accelerated computing and AI software stack.</p></li>
+<li><p><strong><a class="reference external" href="https://www.dataiku.com/">Dataiku</a></strong> - Dataiku is available as an on-premise enterprise AI platform that integrates with Kubernetes environments running NVIDIA GPUs. It allows for the development and operationalization of models that can leverage NVIDIA accelerated libraries and supports workflows that may incorporate NVIDIA NIM for inference, all accelerated by NVIDIA hardware. It also offers both a low-code and advanced workflow building platform.</p></li>
+<li><p><strong><a class="reference external" href="https://www.datastax.com/products/ai-platform-as-a-service-paas">DataStax</a></strong> - DataStax provides enterprise solutions built on Apache Cassandra® and with OpenSearch, deployable on-premise via Kubernetes operators like KubeStax (or the open-source K8ssandra). These offerings deliver a highly scalable NoSQL database with integrated vector search capabilities, making them well-suited as a foundational data layer for an AI Factory, particularly for powering real-time Generative AI and RAG applications. The ability to handle massive datasets and provide low-latency vector search is critical for AI agents developed with frameworks like Langflow that rely on retrieving context for LLMs like NVIDIA NIM. By serving as a robust backend for contextual data and vector embeddings, DataStax’s on-premise solutions support AI agents accelerated by NVIDIA hardware and leveraging NVIDIA’s accelerated libraries. DataStax products include Hyper Converged Database (on premise database), AI Platform (powered by NVIDIA AI Enterprise), Langflow (with NIM integrations) and Hybrid Search (semantic and vector search powered by NeMo Retriever).</p></li>
+<li><p><strong><a class="reference external" href="https://www.datarobot.com/">DataRobot</a></strong> - DataRobot significantly accelerates the AI development lifecycle by automating many of the complex and time-consuming tasks involved in building, training, deploying, and managing models, including <a class="reference external" href="https://www.datarobot.com/solutions/partners/nvidia/">embedded support</a> for deploying NVIDIA AI Enterprise and NVIDIA NIM. For an AI Factory focused on agents, DataRobot can help rapidly prototype and deploy the resources that might power the intelligence of these agents, allowing developers to focus more on the agentic logic and integration rather than model tuning from scratch. Its features also ensure models are monitored and managed effectively in production.</p></li>
+<li><p><strong><a class="reference external" href="https://distyl.ai/">Distyl</a></strong> - Distillery, Distyl’s enterprise agent platform, enables enterprises to build and operate advanced AI agents that plan and execute complex workflows across distributed systems and data sources. Distillery and Context Mesh, Distyl’s unified semantic layer, are deployable within an Enterprise AI Factory and connect enterprise data and systems into governed workflows, orchestrating tools, and specialized agents to safely execute enterprise processes at scale.</p></li>
+<li><p><strong><a class="reference external" href="https://domino.ai/">Domino Data Lab</a></strong> - Domino Data Lab, an NVIDIA AI Accelerated program partner, offers an on-premise MLOps platform integrating with NVIDIA AI Enterprise. It scales GPU infrastructure efficiently on NVIDIA hardware and governs models, supporting AI agent development using NVIDIA accelerated libraries and NIM.</p></li>
+<li><p><strong><a class="reference external" href="https://www.elastic.co/">Elastic</a></strong> - The Elastic Stack (Elasticsearch, Kibana, Beats, Logstash) provides on-premise solutions for search, observability, and security. For AI Factories, Elasticsearch’s vector search is essential for RAG applications (storing embeddings generated by models on NVIDIA GPUs and queried by NIM-powered agents). The broader stack enables log aggregation, metrics monitoring (including NVIDIA GPU metrics via DCGM exporters), and visualization (Kibana) of the entire AI platform, supporting workloads using NVIDIA accelerated libraries and NIM.</p></li>
+<li><p><strong><a class="reference external" href="http://h2o.ai">H2O.ai</a></strong> - H2O.ai offers an on-premise AI platform (H2O AI Cloud, including Enterprise h2oGPTe and Driverless AI) designed for building and deploying both predictive and generative AI models, including agentic AI applications. Their software is optimized for NVIDIA GPUs (leveraging NVIDIA RAPIDS and accelerated libraries) and supports Kubernetes for scalability. This enables enterprises to develop and operationalize AI agents that can utilize NVIDIA NIM for inference, all within their own data centers on NVIDIA hardware.</p></li>
+<li><p><strong><a class="reference external" href="https://jfrog.com/">JFrog Artifactory</a></strong> - Artifactory is a universal artifact repository manager. In an AI Factory, this is crucial for managing the lifecycle of all binaries, including container images from NGC for AI applications and agents, Python packages, model files, and other dependencies. It provides a single source of truth for all build artifacts, supports versioning, and integrates with CI/CD tools to ensure reproducible and reliable builds and deployments. Its security features, particularly when combined with JFrog Xray, provide deep artifact analysis, vulnerability scanning, and license compliance, which are critical for maintaining a secure software supply chain. JFrog integrates with NVIDIA NIM by embedding NIM microservices and models into Artifactory’s unified artifact management framework, enabling centralized governance, secure distribution, and streamlined DevSecOps workflows post-organizational approval.</p></li>
+<li><p><strong><a class="reference external" href="https://www.langchain.com/langchain">LangChain</a></strong> - LangChain is an open source framework with a pre-built agent architecture and integrations for any model or tool, so you can build agents that adapt as fast as the ecosystem evolves.</p></li>
+<li><p><strong><a class="reference external" href="https://www.superannotate.com/">SuperAnnotate</a></strong> - SuperAnnotate provides a comprehensive data annotation platform that supports on-premise data storage and workflows, crucial for AI data preparation. It integrates with NVIDIA technologies like NVIDIA NeMo Evaluator, allowing AI teams to incorporate both human and AI-assisted (LLM-as-a-judge) evaluation for data quality and model assessment. This supports the development of high-quality datasets for training models that will be accelerated by NVIDIA hardware and potentially served via NIM.</p></li>
+<li><p><strong><a class="reference external" href="http://unstructured.io">Unstructured.io</a></strong> - Through its integration with NVIDIA NeMo Retriever Extraction, Unstructured enables high-performance processing of multimodal content—such as text, tables, and charts—from large-scale, complex documents like enterprise PDFs. This collaboration empowers enterprises to prepare vast and varied data efficiently for AI agents and RAG systems, leveraging the speed and accuracy of NVIDIA-accelerated libraries and hardware to meet the demands of scalable, high-performance AI deployments.</p></li>
+<li><p><strong><a class="reference external" href="https://www.vmware.com/products/cloud-infrastructure/private-ai-foundation-nvidia">VMware Private AI Foundation with NVIDIA</a></strong> - VMware Private AI Foundation with NVIDIA allows enterprises to leverage their existing VMware infrastructure to run AI/ML workloads using NVIDIA AI Enterprise and NVIDIA GPUs (including vGPU capabilities). This solution enables enterprises to run RAG workflows, fine-tune and customize LLM models, and inference workloads in a familiar operational model for IT teams, enabling them to manage and scale AI applications alongside traditional enterprise workloads, with a focus on governance, security, and efficient resource utilization.</p></li>
+</ul>
+</section>
+<section id="observability-partners">
+<h3>Observability Partners<a class="headerlink" href="#observability-partners" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://arize.com/">Arize AI</a></strong> - Arize AI’s engineering platform offers AI observability and evaluation, integrating with NVIDIA NeMo microservices to enable enterprises to build reliable agentic AI. This collaboration creates an AI data flywheel, enhancing LLM performance by combining Arize’s evaluation tools with NVIDIA NeMo’s capabilities for model training, evaluation, and safety guardrails. Consequently, enterprises can automatically identify LLM failure modes, route complex cases for human feedback, and continuously refine their models through targeted fine-tuning. This process facilitates the development and deployment of accurate agentic AI systems, supported by Arize’s self-hosted deployment option for on-premise AI application management.</p></li>
+<li><p><strong><a class="reference external" href="https://www.datadoghq.com/">Datadog</a></strong> - Datadog is a comprehensive observability platform providing AI application monitoring and security insights. It offers broad visibility across infrastructure, applications, and logs. For an NVIDIA Enterprise AI Factory, Datadog can monitor the performance of deployed AI agents, track custom business metrics, provide distributed tracing to understand request flows through complex agent interactions, and offer security monitoring for production workloads. Its ability to correlate data from various sources, including from OTEL, helps in quickly identifying and resolving issues.</p></li>
+<li><p><strong><a class="reference external" href="https://www.dynatrace.com/solutions/ai-observability/">Dynatrace</a></strong> - Dynatrace delivers full-stack observability, and AI-powered analytics to enterprises. It automatically discovers, maps, and monitors complex, dynamic cloud environments, providing real-time visibility into applications, infrastructure, user experience, and key business metrics. With its proprietary AI engine, Davis®, Dynatrace enables DevOps, SRE, and security teams to proactively detect anomalies, accelerate issue resolution, and optimize performance at scale. As an NVIDIA partner, Dynatrace also offers on-premise observability for Kubernetes clusters running NVIDIA GPUs, AI workloads and applications leveraging NVIDIA AI Enterprise, NIM, and accelerated libraries.</p></li>
+<li><p><strong><a class="reference external" href="https://www.fiddler.ai/">Fiddler AI</a></strong> - Fiddler AI is an AI Observability and Model Performance Management (MPM) platform designed to help MLOps and data science teams monitor, explain, analyze, and improve production AI models. For an Enterprise AI Factory deploying numerous agents powered by potentially complex models (including LLMs), Fiddler AI provides crucial capabilities for detecting model drift, data integrity issues, performance degradation, and biases. Its explainability features help understand model predictions, which is vital for debugging agent behavior and ensuring responsible AI practices. Integration with NVIDIA platforms can ensure that models running on NVIDIA hardware are effectively monitored for operational health and predictive performance.</p></li>
+<li><p><strong><a class="reference external" href="https://www.langchain.com/langsmith-platform">LangSmith</a></strong> - LangSmith Observability gives you complete visibility into agent behavior. Trace your preferred framework or integrate LangSmith with any agent stack. Get a real-time view of how your agents are performing, pinpoint the issues hurting latency, cost, and response quality. Automatically analyze and cluster your traces to detect usage patterns, common agent behaviors, and failure modes.</p></li>
+<li><p><strong><a class="reference external" href="https://www.servicenow.com/products/ai-control-tower.html">ServiceNow AI Control Tower</a></strong> - ServiceNow AI Control Tower controls and governs any AI, with confidence. Enterprise organizations are stuck with blind spots, manual reviews, and no way to prove value. ServiceNow AI Control Tower brings order to the chaos: discovering your entire AI footprint, managing AI lifecycle, governing risk and regulations automatically, securing every agent and identity, monitoring agents’ bottlenecks, and measuring ROI across any model and agent.</p></li>
+<li><p><strong><a class="reference external" href="https://www.splunk.com/">Splunk</a></strong> - Splunk Observability ensures the digital resilience of your applications, infrastructure, and business processes by providing complete visibility into performance problems, their root causes, and their business impact – so teams can resolve issues faster and focus on what matters most. Observability for AI – AI Agent Monitoring and AI Infrastructure Monitoring – ensures the performance, quality, security, and cost of your entire AI application stack, including agents, LLMs, and AI Infrastructure. This helps teams pinpoint and resolve reliability issues as they scale, build trust, and improve user experiences. For an NVIDIA Enterprise AI Factory, Splunk can ingest telemetry via the Splunk Distribution of the OpenTelemetry Collector and Prometheus receivers to capture NVIDIA GPU metrics (for example from NVIDIA DCGM in the GPU Operator), while monitoring NVIDIA NIM for LLM inferencing through the NVIDIA NIM Operator in NVIDIA AI Enterprise so teams can track GPU utilization, latency, and model behavior in a single integrated observability platform.</p></li>
+<li><p><strong><a class="reference external" href="https://wandb.ai/">Weights &amp; Biases</a></strong> - Weights &amp; Biases provides powerful tools for visualizing, debugging, and iterating on AI/ML models, with W&amp;B Weave being a primary component for these tasks. Weave allows AI Developers to create dynamic, interactive dashboards and reports to deeply analyze model outputs, track predictions, compare model versions, and understand complex datasets. While W&amp;B also supports experiment tracking (logging metrics, hyperparameters, and artifacts), its strength with Weave in providing rich, shareable insights into model behavior and data makes it invaluable for collaboration on complex AI agent development, debugging, and performance management within the NVIDIA Enterprise AI Factory.</p></li>
+</ul>
+</section>
+<section id="security-partners">
+<h3>Security Partners<a class="headerlink" href="#security-partners" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://www.activefence.com/">ActiveFence</a></strong> - ActiveFence provides a platform that connects to on-premise solutions for Trust &amp; Safety, integrating NVIDIA NeMo Guardrails, specializing in detecting and mitigating harmful content (e.g., hate speech, disinformation, CSAM) in online platforms. For an Enterprise AI Factory deploying agents that interact with user-generated content or generate content themselves, ActiveFence helps ensure agent outputs are safe and compliant, protecting the integrity of applications running on NVIDIA hardware.</p></li>
+<li><p><strong><a class="reference external" href="https://www.armis.com/blog/armis-supercharges-security-for-ai-factories-with-nvidia/">Armis</a></strong> - Armis Centrix integrates with NVIDIA BlueField DPUs to deliver cyber exposure management for Enterprise AI Factory environments. By embedding Armis’ technology directly onto BlueField, the platform provides continuous visibility, security and control across hosts, hypervisors, VMs, containers, and network flows without adding CPU overhead. It identifies vulnerabilities, misconfigurations, and threats and can initiate automated response actions when needed. This integration delivers a hardware-accelerated, scalable approach for securing enterprise AI factories of any size.</p></li>
+<li><p><strong><a class="reference external" href="https://www.checkpoint.com/ai/cloudprotect/">Check Point Software</a></strong> - Check Point AI Cloud Protect provides end-to-end security for AI factories. It integrates with NVIDIA BlueField to run network and host security controls directly on the DPU, so the host’s computing resources (CPU/GPU) remain dedicated to AI workloads. The platform applies identity-based access control, virtual patching, and intrusion prevention to stop unauthorized access, data poisoning, and model theft. It also uses NVIDIA DOCA Argus telemetry to inspect processes in real time and block malicious workloads or compromised models. This approach gives security teams full-stack visibility and enforcement for AI infrastructure without impacting performance.</p></li>
+<li><p><strong><a class="reference external" href="https://www.cisco.com/site/us/en/products/security/ai-defense/index.html">Cisco AI Defense</a></strong> - Cisco AI Defense is an end-to-end AI security solution that protects applications across the AI lifecycle by discovering AI assets, validating models and applications, and enforcing runtime guardrails against threats such as prompt injection, data leakage, and unsafe outputs. It gives security teams a unified view of AI usage, applies automated “algorithmic red teaming” to test models and agents at scale, and uses policy-based controls to keep AI behavior aligned with enterprise risk, compliance, and safety requirements. In an NVIDIA Enterprise AI Factory, Cisco AI Defense integrates with NVIDIA AI Enterprise via NVIDIA NeMo Guardrails, combining Cisco’s runtime protection and AI threat intelligence with NeMo Guardrails’ framework for defining conversational and contextual policies so organizations can wrap consistent safety, security, and privacy controls around NVIDIA powered AI applications running on Kubernetes based infrastructure in the data center or cloud.</p></li>
+<li><p><strong><a class="reference external" href="https://www.crowdstrike.com/">CrowdStrike</a></strong> - CrowdStrike provides robust endpoint detection and response (EDR) and threat intelligence capabilities. In an Enterprise AI Factory, CrowdStrike secures the hardware, containers, and AI application endpoints. Its cloud-native platform provides real-time visibility and threat hunting capabilities leveraging NVIDIA AI Enterprise, which are essential for securing the valuable IP (models, data) and the operational integrity of the AI platform.</p></li>
+<li><p><strong><a class="reference external" href="https://www.f5.com/products/big-ip/next/kubernetes-on-nvidia-bluefield-dpu">F5</a></strong> - F5 BIG-IP Next for Kubernetes (BNK) accelerated on NVIDIA BlueField DPUs offloads critical networking and security functions including AI proxy, load balancing, TLS termination, firewall, API protection, intrusion detection, and encryption onto the DPU’s programmable Arm cores and hardware acceleration engines. By offloading, the solution frees host CPU for general-purpose computing while GPUs focus solely on AI workloads, improving overall infrastructure efficiency and delivering measurable performance gains for AI inference. Beyond offloading, BNK’s programmable data plane enables intelligent LLM routing through integration with NVIDIA NIM classifiers, dynamically directing inference requests to the most suitable model based on query complexity. This delivers faster response and offers token governance capabilities to enforce compliance requirements and usage policies.</p></li>
+<li><p><strong><a class="reference external" href="https://www.fortinet.com/corporate/about-us/newsroom/press-releases/2025/fortinet-delivers-isolated-infrastructure-acceleration-for-the-ai-factory-with-nvidia">Fortinet</a></strong> - Fortinet FortiGate-VM integrates with NVIDIA BlueField to provide firewalling and segmentation directly in the data center infrastructure that powers AI Factories. Running within the DPU’s isolated environment, FortiGate-VM offloads inspection and policy enforcement from the host CPU, which helps preserve application performance while supporting zero-trust initiatives. This approach gives security teams infrastructure-level controls that scale with high-bandwidth and latency-sensitive AI workloads.</p></li>
+<li><p><strong><a class="reference external" href="https://www.galileo.ai">Galileo</a></strong> - Galileo’s AI reliability platform enables enterprise-scale evaluation, iteration, monitoring, and protection of generative AI applications, with on-premises deployment. Its integration with NVIDIA NeMo microservices facilitates AI data flywheels for continuous optimization and high accuracy in agentic AI. This is achieved through comprehensive evaluation with NVIDIA NeMo Evaluator, assessing agent reasoning and awareness; real-time observability for production insights feeding the flywheel; and Galileo Protect with NVIDIA NeMo Guardrails for robust, low-latency safety measures against hallucinations and malicious inputs while ensuring compliance.</p></li>
+<li><p><strong><a class="reference external" href="https://www.paloaltonetworks.com/blog/2025/10/secure-ai-factory-palo-alto-networks-nvidia/">Palo Alto Networks</a></strong> - Palo Alto Networks Prisma AIRS integrates with NVIDIA BlueField to deliver zero trust, real-time security inside the Enterprise AI Factory. With the security stack running on the DPU and NVIDIA DOCA Argus providing runtime threat detection purpose-built for AI, Prisma AIRS offers agentless detection and enforcement across data ingestion, training, and inference while preserving performance. This secure-by-design approach isolates and monitors each workload at the infrastructure layer. Enterprise security teams gain consistent visibility and control over AI pipelines and can protect sensitive data and models at scale without added operational overhead.</p></li>
+<li><p><strong><a class="reference external" href="http://securiti.ai">Securiti.ai</a></strong> - Securiti.ai offers an AI-powered Data+AI Security &amp; Governance platform that can be deployed on-premise. For an Enterprise AI Factory, it provides critical capabilities for discovering, classifying, and securing sensitive data used in AI model training and RAG pipelines, including those leveraging NVIDIA NIM and accelerated libraries. Its ability to enforce data privacy and governance policies across the AI lifecycle is crucial for responsible AI development on NVIDIA hardware.</p></li>
+<li><p><strong><a class="reference external" href="https://www.trendmicro.com/en_us/business/products/one-platform.html">Trend Micro</a></strong> - Trend Micro provides comprehensive cybersecurity solutions that can be deployed on-premises or cloud, offering protection for servers, containers, and networks within the Enterprise AI Factory. Their <a class="reference external" href="https://www.trendmicro.com/en_us/partners/alliance-partners/explore-alliance-partners/nvidia.html">solutions leverage NVIDIA AI</a> and accelerated computing to help secure the underlying infrastructure (including NVIDIA-Certified systems) and workloads running NVIDIA AI Enterprise, NIM, and accelerated libraries from malware, vulnerabilities, and other threats. With Trend Vision One™ integrated with NVIDIA BlueField, security monitoring and enforcement operate directly within the data-center infrastructure, continuously collecting and analyzing host and network telemetry alongside global threat intelligence to detect anomalies in real time.</p></li>
+</ul>
+</section>
+<section id="software-platforms">
+<h3>Software Platforms<a class="headerlink" href="#software-platforms" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://www.accenture.com/us-en/services/data-ai/ai-refinery">Accenture AI Refinery</a></strong> - AI Refinery is an Enterprise Gen AI / Agentic AI platform designed to help companies turn raw AI technology into useful business solutions. Built on NVIDIA technology and NVIDIA AI Enterprise software, AI Refinery supports the entire life cycle of the enterprise Generative and Agentic AI – from model customization &amp; serving, agent building &amp; evaluation, knowledge &amp; data processing to governance &amp; observability. Leveraging AI Factory, AI Refinery can deploy pre-built industry solutions on-premise at an accelerated rate. AI Refinery platform enables orchestration of agents from ecosystem providers through Accenture’s proprietary trusted agent huddle.</p></li>
+<li><p><strong><a class="reference external" href="https://www.ey.com/en_gl/newsroom/2025/03/ey-launching-ey-ai-agentic-platform-created-with-nvidia-ai-to-drive-multi-sector-transformation-starting-with-tax-risk-and-finance-domains">EY.ai Agentic Platform</a></strong> – EY.ai Agentic Platform is designed to deliver secure and scalable AI solutions for organizations, starting with tax, risk, and finance. It automates processes and enhances decision-making for better business outcomes, while maintaining data privacy and regulatory compliance. The platform will be built on NVIDIA AI Enterprise software, NIM microservices, and the NeMo Framework, trained on EY’s curated data and shaped by EY’s deep domain expertise. EY.ai Agentic Platform with NVIDIA Enterprise AI Factory delivers data security, control and low latency to the enterprises that need them most in their transformation journey.</p></li>
+<li><p><strong><a class="reference external" href="https://www.nutanix.com/products/nutanix-enterprise-ai">Nutanix Enterprise AI</a></strong> - Nutanix Enterprise AI provides a full-stack, on-premise AI software platform built on the Nutanix Cloud Platform (NCP), often incorporating their “GPT-in-a-Box” concept. Beyond core HCI, it offers integrated MLOps capabilities, tools for managing large language models, and simplified deployment of AI workloads. It’s designed in partnership with NVIDIA to run NVIDIA AI Enterprise software, including NIMs and accelerated libraries, on NVIDIA-Certified Systems or systems with NVIDIA GPUs, providing a streamlined path for developers to build and deploy AI agents.</p></li>
+<li><p><strong><a class="reference external" href="https://www.palantir.com/">Palantir</a></strong> - Palantir is an enterprise software platform that connects data, logic, workflows, and security into one operational layer for an organization. In a reference architecture, it is often described as the system that turns fragmented data sources into governed applications, analytics, and AI-driven workflows through its Foundry, AIP, and Ontology layers.</p></li>
+<li><p><strong><a class="reference external" href="https://www.nvidia.com/en-us/solutions/ai-factories/red-hat/">Red Hat AI Factory with NVIDIA</a></strong> - As the foundation for the Red Hat AI Factory with NVIDIA, Red Hat OpenShift is a production-grade hybrid cloud platform that extends standard Kubernetes with comprehensive, enterprise-level features. It provides a robust environment for managing complex, stateful AI workloads and multi-tenant architectures, ensuring a consistent operational experience across bare metal, virtual machines, and public clouds. The platform offers enhanced security out-of-the-box—including Security Context Constraints (SCCs) and integrated container registries with security scanning—alongside integrated CI/CD pipelines and developer tools that streamline the AI lifecycle. In this co-engineered environment, OpenShift integrates seamlessly with NVIDIA’s accelerated stack through the NVIDIA GPU, Network, and NIM Operators, which automate infrastructure management to optimize hardware utilization. While the platform supports advanced high-performance networking via NVIDIA BlueField-3 and DOCA to offload infrastructure tasks and improve resource efficiency, its primary value lies in providing a stable, scalable, and safeguarded foundation. This allows enterprises to deploy high-throughput inference frameworks like llm-d and NVIDIA Dynamo with the reliability and support required for mission-critical AI applications.</p></li>
+<li><p><strong><a class="reference external" href="https://www.suse.com/products/ai/factory-with-nvidia/">SUSE AI Factory with NVIDIA</a></strong> - an end-to-end “digital factory” for the enterprise. By embedding the bleeding-edge capabilities of NVIDIA AI Enterprise software into the rigorous governance of SUSE AI, we are empowering enterprises to assemble and deploy mission-critical AI workloads anywhere.</p></li>
+<li><p><strong><a class="reference external" href="https://www.vmware.com/products/cloud-foundation.html">VMware Cloud Foundation (VCF)</a></strong> - VCF is a full stack private cloud platform offering scalable, and secure infrastructure for building and operating cloud native AI workloads. VCF enables organizations to build and operate automated Modern Private Cloud data centers at scale. VMware Private AI Foundation delivers capabilities such as GPU Monitoring, Model Store, Model Runtime, Agent Builder, Vector Database and Data Indexing and Retrieval along with out of the box integration with NVIDIA AI Enterprise and NVIDIA Run:ai.</p></li>
+<li><p><strong><a class="reference external" href="https://www2.deloitte.com/us/en/pages/consulting/solutions/zora-generative-ai-agent.html">Zora AI by Deloitte</a></strong> - Zora AI is an Enterprise Agentic AI platform that simplifies operations, boosts productivity and efficiency, and drives more confident decision-making in enterprises. Zora AI agents deliver industry-specific solutions, augmented with extensive industry knowledge and reasoning capabilities leveraging NVIDIA NIM and NeMo. Zora AI enacts Deloitte’s Trustworthy AI™ principles, including a human feedback loop, to establish transparency and trust with users. With the NVIDIA Enterprise AI Factory, Zora AI can help its customers in regulated industries deploy AI systems on-premises quickly, offering strong data security guarantees and flexibility in technology options within a trusted ecosystem.</p></li>
+</ul>
+</section>
+<section id="enterprise-cloud-native-platforms">
+<h3>Enterprise Cloud Native Platforms<a class="headerlink" href="#enterprise-cloud-native-platforms" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a></strong> - Canonical provides a few offerings for on-premise Kubernetes solutions with full-lifecycle automation and long term support. Each integrates with the NVIDIA GPU Operator for leveraging NVIDIA hardware acceleration. They support the deployment of NVIDIA AI Enterprise, enabling AI workloads with NIM and accelerated libraries. Canonical’s focus on open-source, model-driven operations and ease of use offers enterprises flexible options for building their AI Factory on NVIDIA-accelerated infrastructure.</p></li>
+<li><p><strong><a class="reference external" href="https://www.nutanix.com/products/kubernetes-management-platform">Nutanix Kubernetes Platform (NKP)</a></strong> - As part of its on-premise Nutanix Cloud Platform (NCP), the Nutanix Kubernetes Platform (NKP) simplifies enterprise Kubernetes management by reducing operational complexity and ensuring consistent, secure deployment across hybrid multicloud environments. It provides centralized fleet management, policy enforcement, and AI-driven observability to streamline Day 2 operations. For AI workloads, NKP can run NVIDIA AI Enterprise, including NVIDIA NIM and NeMo, enabling enterprises to deploy and scale agentic AI applications efficiently. This collaboration allows IT teams to leverage optimized AI models, GPU-accelerated infrastructure, and secure endpoints while maintaining control over data privacy and costs.</p></li>
+<li><p><strong><a class="reference external" href="https://rafay.co/press-release/rafay-systems-accelerates-enterprise-ai-with-nvidia-bluefield-3-dpus-and-nvidia-rtx-pro-servers">Rafay Systems</a></strong> - Rafay’s platform enables enterprises to deploy and operate secure, multi-tenant AI Factories at scale. Leveraging NVIDIA AI Enterprise and NVIDIA NIM microservices, it provides a strong foundation for running production AI workloads with consistent operations and enterprise controls. Through integration with NVIDIA BlueField DPUs. Rafay accelerates networking and security services, improving performance, isolation, and operational efficiency across AI infrastructure. The platform is extensible, enabling enterprises to deploy additional infrastructure and security services from leading solution partners to support advanced networking, security, and traffic management requirements.</p></li>
+<li><p><strong><a class="reference external" href="https://www.redhat.com/en/technologies/cloud-computing/openshift">Red Hat OpenShift</a></strong> - As the foundation for the Red Hat AI Factory with NVIDIA, Red Hat OpenShift is a production-grade hybrid cloud platform that extends standard Kubernetes with comprehensive, enterprise-level features. It provides a robust environment for managing complex, stateful AI workloads and multi-tenant architectures, ensuring a consistent operational experience across bare metal, virtual machines, and public clouds. The platform offers enhanced security out-of-the-box—including Security Context Constraints (SCCs) and integrated container registries with security scanning—alongside integrated CI/CD pipelines and developer tools that streamline the AI lifecycle. In this co-engineered environment, OpenShift integrates seamlessly with NVIDIA’s accelerated stack through the NVIDIA GPU, Network, and NIM Operators, which automate infrastructure management and utilize Dynamic Resource Allocation (DRA) to optimize hardware utilization. While the platform supports advanced high-performance networking via NVIDIA BlueField-3 and DOCA to offload infrastructure tasks and improve resource efficiency, its primary value lies in providing a stable, scalable, and safeguarded foundation. This allows enterprises to deploy high-throughput inference frameworks like llm-d and NVIDIA Dynamo with the reliability and support required for mission-critical AI applications.</p></li>
+<li><p><strong><a class="reference external" href="https://www.spectrocloud.com/solutions/kubernetes-on-nvidia">Spectro Cloud Palette</a></strong> - Palette is a Kubernetes management platform for deploying and operating clusters across on-premises, edge, and cloud environments. Palette supports Kubernetes-based AI workloads on NVIDIA accelerated systems, providing a consistent operational model for enterprise AI infrastructure. It enables enterprises to manage multi-cluster, multi-environment AI factory deployments with centralized lifecycle management, policy-based configuration, and operational consistency across heterogeneous infrastructure. Through integration with NVIDIA BlueField DPUs using NVIDIA DOCA, Palette offloads networking and security functions to the infrastructure layer. This enables accelerated networking, traffic isolation, and policy enforcement without consuming host CPU or GPU resources, helping maintain predictable performance and security as AI workloads scale.</p></li>
+<li><p><strong><a class="reference external" href="https://www.suse.com/products/rancher/">SUSE Rancher Prime</a></strong> - is a complete Kubernetes management platform that helps organizations run Kubernetes anywhere. It can provision clusters through hosted providers, install Kubernetes on compute nodes, or import existing clusters. SUSE Rancher Prime centralizes authentication and RBAC, enabling administrators to manage access across clusters from one location. It also provides monitoring, alerting, external log shipping, Helm-based application management, and workload deployment SUSE Rancher Prime: Continuous Delivery.</p></li>
+<li><p><strong><a class="reference external" href="https://www.vmware.com/products/app-platform/tanzu">VMware Tanzu Platform</a></strong> - is a pre-engineered, agentic application platform for private cloud that accelerates and secures the development, scaling, and operation of agentic AI applications and tools. Tanzu Platform abstracts the complexity of agentic application delivery for developers, empowering velocity by automating the deployment of custom or out-of-the-box agents to an elastic application runtime, with autoscaling, built-in guardrails and a standardized path to production that streamlines frequent code changes and redeployments. To help IT teams govern and secure AI agents and applications, Tanzu Platform safely hosts and brokers agentic services and tools, such as MCP servers, providing automated lifecycle management, observability, identity management and governed access giving developers and agents access to the tools they need. By offering a curated set of capabilities, Tanzu Platform establishes scalable patterns and built-in best practices, making AI adoption faster and safer for developers. <a class="reference external" href="https://www.vmware.com/products/cloud-infrastructure/vsphere-kubernetes-service">VMware vSphere Kubernetes Service (VKS)</a> is the CNCF-certified Kubernetes runtime built into VMware Cloud Foundation that benefits cloud admins from a single platform for running VMs and containers with multiple Kubernetes versions and enterprise-grade security.</p></li>
+</ul>
+</section>
+<section id="storage-solution-platforms">
+<h3>Storage Solution Platforms<a class="headerlink" href="#storage-solution-platforms" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://www.ddn.com/">DDN</a></strong> - DDN provides high-performance, on-premise storage solutions (e.g., EXAScaler) frequently used in NVIDIA DGX SuperPOD and other large-scale AI/HPC deployments. They are NVIDIA-Certified and offer strong support for NVIDIA GPUDirect Storage, ensuring maximum data throughput to NVIDIA GPUs. DDN’s focus on massive parallelism and scalability makes them ideal for the most demanding AI training workloads and data-intensive tasks within an AI Factory utilizing NVIDIA NIM and accelerated libraries. They provide CSI drivers for Kubernetes integration.</p></li>
+<li><p><strong><a class="reference external" href="https://www.dell.com/en-us/shop/scc/sc/storage-products">Dell</a></strong> - Dell AI Data Platform delivers an open, modular foundation built to feed GPUs with high‑performance data for modern AI workloads. Dell PowerScale is widely deployed in NVIDIA DGX SuperPODs, and offers support for NVIDIA GPUDirect Storage. Dell Lightning File System scales AI factories, enabling extreme parallelism for massive training and inference pipelines. Dell ObjectScale provides cloud‑native S3‑over‑RDMA object storage for high‑bandwidth data lakes and unstructured pipelines.</p></li>
+<li><p><strong><a class="reference external" href="https://www.hitachivantara.com/en-us/why-choose-hv">Hitachi Vantara</a></strong> - Hitachi Vantara’s on-premise enterprise storage integrates into NVIDIA-powered AI infrastructures and can support NVIDIA GPUDirect Storage for NVIDIA GPUs. They provide CSI drivers for Kubernetes, allowing for automated provisioning and management of persistent storage, enhancing data throughput for AI tasks utilizing NVIDIA accelerated libraries and NIM on NVIDIA hardware.</p></li>
+<li><p><strong><a class="reference external" href="https://www.hpe.com/us/en/storage.html">HPE</a></strong> - HPE offers a range of on-premise enterprise storage solutions, including Alletra for mission-critical workloads and HPE GreenLake for File Storage, which are designed to support AI/ML data pipelines. These solutions can be part of NVIDIA-Certified configurations and support technologies like NVIDIA GPUDirect Storage. With CSI drivers for Kubernetes, HPE storage provides a scalable and resilient foundation for AI Factory data, supporting applications using NVIDIA NIM and accelerated libraries on NVIDIA hardware.</p></li>
+<li><p><strong><a class="reference external" href="https://www.ibm.com/storage/nvidia">IBM Storage Scale</a></strong> - is built for AI, high-performance computing, and analytics supporting the full range of NVIDIA technologies. IBM Storage Scale provides the flexibility of software-defined global data platform, extensible metadata, multi-tenancy, container native/CSI, and high-throughput object storage, while <a class="reference external" href="https://www.ibm.com/products/storage-scale-system">Storage Scale System</a>, is optimized for clustered low-latency, scalable performance for the most demanding enterprise deployments.</p></li>
+<li><p><strong><a class="reference external" href="https://www.netapp.com/">NetApp</a></strong> - NetApp provides on-premise, NVIDIA-Certified storage solutions optimized for GPU-accelerated workloads on NVIDIA hardware. Through its Astra Trident CSI driver, it offers seamless and dynamic storage provisioning for Kubernetes, supporting high-performance access for applications using NVIDIA accelerated libraries and NIM. This ensures efficient data handling with robust data management features for AI.</p></li>
+<li><p><strong><a class="reference external" href="https://www.nutanix.com/library/datasheets/nus">Nutanix Unified Storage</a></strong> - As part of its on-premise Nutanix Cloud Platform (NCP), Nutanix Unified Storage offers integrated file, object, and block storage solutions. These are designed to support AI workloads running on the HCI platform, which itself supports NVIDIA AI Enterprise and vGPU. The storage is provisioned and managed within the Nutanix ecosystem, providing a simplified and scalable data foundation for AI applications, including those using NVIDIA NIM and accelerated libraries on NVIDIA hardware, with CSI driver support for Kubernetes.</p></li>
+<li><p><strong><a class="reference external" href="https://www.purestorage.com/products/unstructured-data-storage/flashblade-s.html">Pure Storage</a></strong> - Pure Storage provides on-premise all-flash solutions like FlashBlade and FlashArray, optimized for NVIDIA GPU-direct technologies and NVIDIA-Certified Systems. They offer robust Kubernetes integration through their Pure Service Orchestrator (CSI driver) and Portworx by Pure Storage for cloud-native storage and data management, ensuring high IOPS and low latency for AI workloads using NVIDIA accelerated libraries and NIM on NVIDIA hardware.</p></li>
+<li><p><strong><a class="reference external" href="https://www.vastdata.com/">Vast</a></strong> - Vast Data’s on-premise platform is designed for high-throughput, low-latency access, often integrating with NVIDIA GPUDirect Storage to accelerate AI/ML workloads (using NIM and accelerated libraries) on NVIDIA GPUs. <a class="reference external" href="https://www.vastdata.com/platform/insightengine">VAST InsightEngine</a> eliminates the bottlenecks of traditional AI architectures, enabling real-time, event-driven AI decision-making. Its CSI driver enables dynamic provisioning and simplified storage management for containerized AI applications within Kubernetes environments, ideal for massive datasets and vector databases.</p></li>
+<li><p><strong><a class="reference external" href="https://www.weka.io/">Weka</a></strong> - Weka offers a high-performance, on-premise parallel file system (WEKApod often built on NVIDIA-Certified Systems) specifically engineered for AI/ML and HPC workloads. It provides exceptional throughput and low latency, supports NVIDIA GPUDirect Storage, and is frequently chosen for large-scale NVIDIA GPU deployments. Its robust CSI driver ensures seamless integration with Kubernetes for demanding AI training and inference tasks utilizing NVIDIA NIM and accelerated libraries.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="confidential-computing-for-ai.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Confidential Computing for AI</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="deployment-strategies.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Deployment Strategies</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+
+
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-infrastructure">Hardware Infrastructure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accelerated-computing-platform">Accelerated Computing Platform</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-certified-systems">NVIDIA Certified Systems</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-certified-storage">NVIDIA Certified Storage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-networking">NVIDIA Networking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-enterprise-reference-architectures">NVIDIA Enterprise Reference Architectures</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enterprise-ai-enterprise-infrastructure-software">Enterprise AI Enterprise Infrastructure Software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-partner-integrations">Software Partner Integrations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#agentops-ai-platforms">AgentOps AI Platforms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observability-partners">Observability Partners</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#security-partners">Security Partners</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software-platforms">Software Platforms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enterprise-cloud-native-platforms">Enterprise Cloud Native Platforms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storage-solution-platforms">Storage Solution Platforms</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+<script type="text/javascript">if (typeof _satellite !== "undefined") {_satellite.pageBottom();}</script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+<a class="footer-brand logo" href="https://www.nvidia.com">
+  <img src="_static/nvidia-logo-horiz-rgb-1c-blk-for-screen.svg" class="logo__image only-light" alt="NVIDIA"/>
+  <img src="_static/nvidia-logo-horiz-rgb-1c-wht-for-screen.svg" class="logo__image only-dark" alt="NVIDIA"/>
+</a></div>
+      
+        <div class="footer-item">
+
+<div class="footer-links">
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/">Privacy Policy</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/privacy-center/">Your Privacy Choices</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/">Terms of Service</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/accessibility/">Accessibility</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/company-policies/">Corporate Policies</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/product-security/">Product Security</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/contact/">Contact</a>
+  
+  
+  
+</div>
+</div>
+      
+        <div class="footer-item">
+
+
+
+
+  <p class="copyright">
+    
+      Copyright © 2021-2026, NVIDIA Corporation.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="last-updated">
+  Last updated on May 27, 2026.
+  <br/>
+</p></div>
+      
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+  <noscript><img src="https://docs.nvidia.com/akam/13/pixel_268b52f?a=dD0zZDE5ZjU4OGFjMmMzMDM4YmJhMjkwY2NlOTI3MTVlNGY3YmEyZjkwJmpzPW9mZg==" style="visibility: hidden; position: absolute; left: -999px; top: -999px;" /></noscript></body>
+</html>

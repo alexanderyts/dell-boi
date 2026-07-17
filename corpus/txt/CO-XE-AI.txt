@@ -1,0 +1,878 @@
+Spec Sheet
+
+                                            PowerEdge XE series
+
+                                            Unlock the power of AI and high-performance computing with the
+
+                                            Dell PowerEdge XE portfolio.
+
+            PowerEdge XE9680
+
+                                            A comprehensive lineup of servers designed to meet the rigorous
+
+Purpose Built                               demands of modern AI workloads.
+
+·  The leader in AI infrastructure          Next-Level Performance
+
+   As noted in the Forrester® AI            Designed for those requiring unmatched reliability and disruptive
+
+   Infrastructure Wave                      computational power, the PowerEdge XE Servers are engineered with
+
+·  7:1 Consolidation capable*               cutting-edge hardware and optimized for intensive workloads. These
+
+·  Up to 73% Boost in power efficiency*     servers incorporate advanced processor and GPU architectures,
+
+Intelligent                                 expansive memory configurations, and high-bandwidth I/O
+
+                                            capabilities to ensure exceptional performance in computationally
+
+·  Up to $50k Savings through power and     demanding scenarios.
+
+   management optimization*1
+
+·  80% of PowerEdge servers achieve                                          ·  Tailored for AI model training
+
+   EPEAT Climate+ designation*1
+
+·  Up to 150min Less time to manage per                                      ·  High-performance computing
+
+   100 servers*1                                                                (HPC)
+
+·  Industry leading intelligent management                                   ·  Available as standalone units or
+
+   - iDRAC 10 integrated controller and                                         as part of the latest Integrated
+
+   - OpenManage Enterprise                  PowerEdge XE9680L/XE9685L           Rack Scalable Systems program
+
+Cyber Resilient
+
+·  3.5x More security features than         Cyber Resilient Architecture for Zero Trust
+
+   competitor*1
+
+·  Zero Trust Adoption Capable              IT environment & operations
+
+·  Factory-to-Site Assurance with Secured   Security is integrated into every phase of the PowerEdge lifecycle,
+
+   Component Verification                   including protected supply chain and factory-to-site integrity
+
+Sustainability                              assurance. Silicon-based root of trust anchors end-to-end boot
+
+                                            resilience while Multi-Factor Authentication (MFA) and role-based
+
+·  Engineered for Efficiency PowerEdge      access controls ensure trusted operations.
+
+   servers have reduced Energy Intensity    Learn more
+
+   (EI) by 83% over the past 8 years
+
+·  Efficient Up to 73% boost in             Boost Productivity with Dell system management
+
+   power efficiency                         solutions
+
+                                            Simplify infrastructure management with iDRAC for secure, remote
+
+                                            server administration, OpenManage Enterprise to streamline lifecycle
+
+                                            management, and AI-enabled AIOps to optimize infrastructure
+
+                                            and applications. Automate tasks, get real-time alerts, and scale
+
+                                            effortlessly to boost productivity, performance, and uptime.
+
+PowerEdge XE series
+   Security                                      Maximize performance without thermal limitations
+
+   Integrated into every phase of     the  life  Address growing data center challenges caused by AI and dense
+
+   cycle                                         computing workloads using a range of solutions that enhance
+
+                                                 data center cooling strategies, optimize system performance, and
+
+                                                 empower organizations to balance efficiency, performance, and
+
+                                                 sustainability. Learn more
+
+   Secure supply                                                        XE Servers, Scalable Architecture
+
+          chain                                                         for Future Growth.
+
+                                                                        ·  Dell Technologies' Integrated Rack Systems
+
+                      Secure server                                        are purpose-built to support scalable
+
+                          lifecycle                                        architectures for businesses anticipating
+
+   Root of Trust                                                           future growth.
+
+   and end-to-end                                                       ·  Dell rack scale integration streamlines
+
+   verified boot                                                           deployment with pre-validated
+
+          resilience                                                       configurations to reduce setup and
+
+                          Data                                             integration complexity.
+
+                          protection                                       Learn more
+
+                                                    IR5000
+
+                                                 Expert assistance from Dell Technologies Services
+
+                                                 ProSupport Plus for Infrastructure.
+
+                                                 ·  Maximize server uptime with proactive and predictive support and
+
+                                                    24/7 access to senior engineers
+
+                                                 ·  Benefit from an assigned customer advocate focused on your
+
+                                                    desired outcomes
+
+                                                 ·  Rest easier knowing you have third-party collaboration and
+
+                                                    mission critical response for Severity 1 issues
+
+                                                 Further optimize server performance with Dell Technologies Services
+
+                                                 expert consulting, deployment, managed services and more. Learn
+
+                                                 about ProSupport Plus for Infrastructure and Services.
+
+   Learn more about how PowerEdge XE Servers can provide unparalleled performance, scalability and seamless
+
+   integration into new or existing infrastructures, making them the ideal solution for complex, data-intensive
+
+   environments whether stand-alone or in an Integrated Rack Scalable Solution.
+
+   Dell Products that work better together
+
+                                                 Dell PowerSwitch Z9864F-ON - High-density Ethernet
+
+                                                 fabric switch for powering AI/ML training and
+
+                                                 inferencing clusters.
+
+                                                 Dell PowerVault - PowerVault provides SAN/DAS solutions
+
+                                                 that simplify capacity expansion for PowerEdge Servers
+
+2  | PowerEdge XE series
+      Feature                                          XE9712                                                             XE8712
+
+      Systems
+
+      Processors              Two NVIDIA Grace with 72 cores per processor                  Two NVIDIA Grace with 72 cores per processor
+
+      Memory                  ·  480 GB of LP DDR5 memory with ECC / CPU                    ·  480 GB of LP DDR5 memory with ECC/ CPU
+
+                              ·  288 GB HBM3e / GPU                                         ·  192 GB HBM3e / GPU
+
+      GPUs                    ·  4 Blackwell Ultra GPU's                                    ·  4 Blackwell Ultra GPU's
+
+                              ·  900 GB/s of coherent memory through NVLINK CPU-            ·  900 GB/s of coherent memory through NVLINK CPU-GPU
+
+                                 GPU interconnect                                              interconnect
+
+      Integrated Rack         IR9048                                                        IR7044 or IR7050
+
+      solution
+
+      Rack and Sled Form      ·  IR9048 is a 48 RU (Rack Units) rack                        ·  IR7044 is a 44 OU (Open Rack Units) rack
+
+      Factor                  ·  Each XE9712 sled is 1 RU                                   ·  IR7050 is a 50 OU (Open Rack Units) rack
+
+                              Note: 1 RU = 44.45 mm (1.75 in.) height, and 482.6 mm         ·  Each XE8712 sled is 1 OU
+
+                              (19 in.) width.                                               Note: 1 OU = 48 mm (1.88 inch) height, and 538.98 mm (21.22
+
+                                                                                            inch) width.
+
+      Storage controller      Direct NVMe using CX8 mezz PCIe                               No HBA or PERC, direct NVMe only, OS RAID
+
+      Drives (max capacity),  Up to 8 x EDSFF E1.S (61.44 TB)                               Up to 2 x EDSFF E3.S (15.36 TB)
+
+      hot-swap
+
+      Power Supplies,         ·  6 x 5500 W AC PSUs installed in the power shelf            ·  6 x 5500 W AC PSUs installed in the power shelf (33 kW)
+
+      redundant, hot swap        (33 kW)                                                    ·  Supply power is 54 VDC
+
+                              ·  Supply power is 54 VDC
+
+      Cooling options         ·  Air cooling                                                ·  Direct Liquid Cooling (DLC)
+
+                              ·  Direct Liquid Cooling (DLC)
+
+      PCIe slots              ·  Up to 2 PCIe Gen5 x16 full-height, half-length slots,      ·  Up to 4 PCIe Gen5 x16 full-height, half-length slots, front
+
+                                 front risers only                                             risers only
+
+                              ·  2 x Mezzanine - Gen5/Gen6
+
+      PCIe cards              ·  1 x BF3 SuperNIC Full Height Half Length                   ·  1 x BF3 SuperNIC Full Height Half Length
+
+      Boot Drives             ·  1 x M.2 Boot                                               ·  1 x M.2 Boot
+
+      Network Options         ·  1G integrated LOM                                          ·  1x OCP 3.0 4x & 4x16 FHHL Gen5 PCIe
+
+                              ·  4 x16 CX8 OSFP ports
+
+      Cabled fans             8 STD                                                         8 HPR
+
+      Height                  43.6 mm (1.72 in.)                                            46.45 mm (1.83 in.)
+
+      Width                   438 mm (17.24 in.)                                            560 mm (22.05 in.)
+
+      Depth                   846 mm (33.3 in.)                                             840.85 mm (33.10 in.)
+
+      Bezel                   NA                                                            NA
+
+      Maximum Weight          30 kg (66.14 lb)                                              33.07 kg (72.90 lb)
+
+      Embedded                For XE9712                      For XE9712 with iDRAC         ·  iDRAC10
+
+      Management              ·  Aspeed AST2600 BMC           ·  iDRAC 10 Arbel based
+
+                                 DC-SCI compatible               BMC
+
+                              ·  Dell Customized              ·  BMC-to-NVIDIA HMC for
+
+                                 Reference BMC and BIOS          HPM management
+
+                              ·  BMC-to-NVIDIA HMC for
+
+                                 HPM management
+
+      Front Ports             For XE9712                      For XE9712 with iDRAC         ·  1 x USB 3.0 Type - A port
+
+                              ·  1 x USB 3.0 Type - A port    ·  1 x USB 3.0 Type - A port  ·  1 x RJ45 dedicated BMC port
+
+                              ·  1 x RJ45 (BF3                ·  1 x RJ45 (BF3              ·  1 x DisplayPort
+
+                                 management port -               management port -          ·  1 x OCP 3.0 Gen5
+
+                                 optional                        optional)                  ·  1 x RJ45 (BF3 management port)
+
+                              ·  1x Mini-DisplayPort          ·  1x Mini-DisplayPort
+
+                              ·  1 x BIOS Serial out          ·  1 x USB 2.0 Type-C
+
+                              ·  4 x OSFP                     ·  1x 1Gb LOM
+
+                              ·  1x 1Gb LOM                   ·  1 x RJ45 dedicated
+
+                              ·  1 x RJ45 dedicated BMC          iDRAC port
+
+                                 port
+
+      Rail Support            Static rails for ORv3 IR9048 rack                             Static rails for ORv3 IR7000 rack
+
+      Operating Systems       ·  Canonical Ubuntu Server LTS                                ·  Canonical Ubuntu Server LTS
+
+                                                                                            ·  Red Hat Enterprise Linux
+
+      For specifications and interoperability details, see Dell.com/OSsupport.
+
+3  |  PowerEdge XE series
+   Feature                                       XE9785L                                                XE9780L/ XE9780LAP
+
+   Systems
+
+   Processors             Two 5th Generation AMD EPYC 9005 Series processors        XE9780L: Two Intel Xeon 6 Processors with up to 86 cores per
+
+                          with up to 192 cores per processor                        processor*
+
+                                                                                    XE9780LAP: Two Intel Xeon 6 Processors with up to 128 cores
+
+                                                                                    per processor*
+
+   DDR5 RDIMM slots       24 (6 TB)*                                                XE9780L: 32 (4 TB)
+
+   (max capacity)                                                                   XE9780LAP: 24 (6 TB)*
+
+   GPUs                   8 AMD InstinctTM MI355X 288 GB 1400 W OAM with            8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs, fully
+
+                          AMD Infinity Fabric connectivity                          interconnected with NVIDIA NVLink technology
+
+                          8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs,           8 x NVIDIA HGX B200 180 GB 1000 W SXM6 GPUs, fully
+
+                          fully interconnected with NVIDIA NVLink technology        interconnected with NVIDIA NVLink technology (Available on
+
+                                                                                    XE9780L only)
+
+   Rack                   IR7000 required                                           IR7000 required
+
+   Internal boot          Embedded BOSS: HWRAID 0/1, 2 x M.2 NVMe SSDs              Embedded BOSS: HWRAID 0/1, 2 x M.2 NVMe SSDs
+
+   Embedded OSFP          B300: 8 x CX8 OSFP (default)*                             B300: 8 x CX8 OSFP (default)
+
+   Drives (max capacity)  16 x E1.S (122.88 TB)                                     16 x E1.S (122.88 TB)
+
+                          8 x U.2 NVMe SSDs (245.76 TB)                             8 x U.2 NVMe + 2 x U.2 NVMe drives by PCIe CEM (307.2 TB)*
+
+   Power Supplies,        6 x 5500 W AC PSUs installed in the power shelf           6 x 5500 W AC PSUs installed in the power shelf (33 kW)
+
+   redundant, hot swap    (33 kW)
+
+   Cooling options        Liquid cooled CPUs, GPUs, and NVLink Switches             Liquid cooled CPUs, CX8, GPUs, and NVLink Switches
+
+   Rack height            3 OU compute node installed in IR7000 = 44 or 50 OU       3 OU compute node installed in IR7000 = 44 or 50 OU (Open
+
+                          (Open Rack Units)                                         Rack Units)
+
+   PCIe slots             Up to 12 PCIe Gen5 x16 full-height, half-length slots     Up to 4 PCIe Gen5 x16 full-height, half-length slots
+
+   Network Options        1 x OCP NIC card 3.0 (x16 PCIe lanes)                     1 x OCP NIC card 3.0 (x16 PCIe lanes)
+
+   Hot-swappable fans     4 STD on UBB + 8 STD on HPM                               4 STD on UBB + 8 STD on HPM
+
+   Height                 140.5 mm (5.53 in.)                                       140.5 mm (5.53 in.)
+
+   Width                  537 mm (21.14 in.)                                        537 mm (21.14 in.)
+
+   Depth                  1047.95 mm (41.26 in.) for UBB                            1047.95 mm (41.26 in.) for UBB
+
+                          889.65 mm (35.03 in.) for HPM                             889.65 mm (35.03 in.) for HPM
+
+   Bezel                  NA                                                        NA
+
+   Maximum Weight         95 kg (209.43 lb)                                         107.2 kg (236.33 lb)
+
+   Embedded               iDRAC10, iDRAC Direct, iDRAC RESTful API with             iDRAC10, iDRAC Direct, iDRAC RESTful API with Redfish,
+
+   Management             Redfish, RACADM CLI, iDRAC Service Module                 RACADM CLI, iDRAC Service Module
+
+   Tools                  IPMI                                                      IPMI
+
+   OpenManage             Red Hat Ansible Modules, Terraform Providers              Red Hat Ansible Modules, Terraform Providers
+
+   Integrations
+
+   Integrated Security    Cryptographically signed firmware, Data at Rest           Cryptographically signed firmware, Data at Rest Encryption
+
+                          Encryption (SEDs with local or external key mgmt),        (SEDs with local or external key mgmt), Secure Boot, Secured
+
+                          Secure Boot, Secured Component Verification               Component Verification (Hardware integrity check), Secure
+
+                          (Hardware integrity check), Secure Erase, Silicon Root    Erase, Silicon Root of Trust, System Lockdown, Soldered down
+
+                          of Trust, System Lockdown, Soldered down TPM on           TPM on Mezzanine DC-CSM, Chassis Intrusion Detection.
+
+                          HPM board, Chassis Intrusion Detection, AMD Secure
+
+                          Memory Encryption (SME), AMD Secure Encrypted
+
+                          Virtualization (SEV)
+
+   Front Ports            1 x USB 3.0 Type-A port, 1 x Mini-DisplayPort, 1 x USB    1 x USB 3.0 Type-A port, 1 x Mini-DisplayPort, 1 x USB 2.0
+
+                          2.0 Type-C port, 2 x RJ45 dedicated iDRAC Ethernet        Type-C port, 2 x RJ45 dedicated iDRAC Ethernet port
+
+                          port                                                      Note: All front ports are located on the FIO (front I/O) board
+
+                          Note: All front ports are located on the FIO (front I/O)
+
+                          board
+
+   Internal port          1 x USB 3.1 Type-A                                        1 x USB 3.1 Type-A
+
+   Operating Systems      Canonical Ubuntu Server LTS, Red Hat Enterprise Linux     Canonical Ubuntu Server LTS, Red Hat Enterprise Linux*
+
+   For specifications and interoperability details, see Dell.com/OSsupport.
+
+   Note: * Feature not available at product launch. Refer to the product configurator page on Dell.com to confirm feature availability.
+
+4  | PowerEdge XE series
+   Feature                                              XE9785                                                   XE9780
+
+   Systems
+
+   Processors             Two 5th Generation AMD EPYC 9005 Series processors with     Two 6th Generation Intel Xeon Scalable Processors with up
+
+                          up to 192 cores per processor                               to 86 cores per processor
+
+   DDR5 RDIMM slots       24 (6 TB)                                                   32 (4 TB)
+
+   (max capacity)
+
+   GPUs                   8 AMD InstinctTM MI355X 288 GB 1400 W OAM with AMD          8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs, fully
+
+                          Infinity Fabric connectivity                                interconnected with NVIDIA NVLink technology
+
+                          8 x NVIDIA HGX B300 270 GB 1100 W SXM6 GPUs, fully          8 NVIDIA HGX B200 180 GB 1000 W SXM6 GPUs, fully
+
+                          interconnected with NVIDIA NVLink technology                interconnected with NVIDIA NVLink technology
+
+                                                                                      No GPU configuration
+
+   Internal boot          Boot Optimized Storage Subsystem (BOSS-N1 DC-MHS with       Boot Optimized Storage Subsystem (BOSS-N1 DC-MHS with
+
+                          2 x 2280 M.2 SSDs)                                          2 x 2280 M.2 SSDs)
+
+   Embedded OSFP          B300: 8 x CX8 OSFP (default)                                B300: 8 x CX8 OSFP (default)
+
+   Drives (max capacity)  16 x E3.S NVMe direct drives (245.76 TB)                    16 x E3.S NVMe direct drives (245.76 TB)
+
+                          10 x U.2 NVMe SSDs (153.6 TB)                               10 x U.2 NVMe SSDs (153.6 TB)*
+
+   Power Supplies,        12 x 3200 W Titanium 200-240 VAC or 240 VDC                 12 x 3200 W Titanium 200-240 VAC or 240 VDC
+
+   redundant, hot swap
+
+   Cooling options        Air cooling                                                 Air cooling
+
+   Rack height            10U                                                         10U
+
+   PCIe slots             MI355X: 12 x 75W Gen5 x16 FHHL cards                        B300: 4 x 150W Gen5 x16 FHHL cards
+
+                          B300: 4 x 150W Gen5 x16 FHHL cards                          B200: up to 12 (8 x 75W, 4 x up to 150W) Gen5 x16 FHHL
+
+                                                                                      cards
+
+   Network Options        1 x OCP NIC card 3.0 (x8 PCIe lanes)                        1 x OCP NIC card 3.0 (x8 PCIe lanes)
+
+   Fans                   15 Standard grade GPU fans, All are hot swap fans +         15 Standard grade GPU fans, All are hot swap fans +
+
+                          5 Standard grade CPU fans, All are cold swap fans           5 Standard grade CPU fans, All are cold swap fans
+
+   Height                 439.5 mm (17.30 in.)                                        439.5 mm (17.30 in.)
+
+   Width                  482.3 mm (18.98 in.)                                        482.3 mm (18.98 in.)
+
+   Depth                  1044.7 mm (41.12 in.) with bezel                            1044.7 mm (41.12 in.) with bezel
+
+                          1023 mm (40.27 in.) without bezel                           1023 mm (40.27 in.) without bezel
+
+   Bezel                  Front Security bezel                                        Front Security bezel
+
+   Maximum Weight         172.3 kg (379.86 lb)                                        163.20 kg (359.04 lb)
+
+   Embedded               iDRAC10, iDRAC Direct, iDRAC RESTful API with Redfish,      iDRAC10, iDRAC Direct, iDRAC RESTful API with Redfish,
+
+   Management             iDRAC Service Module                                        iDRAC Service Module
+
+   Tools                  Dell System Update, Dell Repository Manager, Enterprise     Dell System Update, Dell Repository Manager, Enterprise
+
+                          Catalogs, iDRAC RESTful API with Redfish, IPMI,             Catalogs, iDRAC RESTful API with Redfish, IPMI, RACADM
+
+                          RACADM CLI                                                  CLI
+
+   OpenManage             BMC Truesight, OpenManage Integration with ServiceNow,      BMC Truesight, OpenManage Integration with ServiceNow,
+
+   Integrations           RedHat Ansible Modules, Terraform Providers                 RedHat Ansible Modules, Terraform Providers
+
+   Integrated Security    Cryptographically signed firmware, Data at Rest Encryption  Cryptographically signed firmware, Data at Rest Encryption
+
+                          (SEDs with local or external key mgmt), Secure Boot,        (SEDs with local or external key mgmt), Secure Boot,
+
+                          Secured Component Verification (Hardware integrity check),  Secured Component Verification (Hardware integrity check),
+
+                          Secure Erase, Silicon Root of Trust, System Lockdown,       Secure Erase, Silicon Root of Trust, System Lockdown,
+
+                          Soldered down TPM on Mezzanine DC-SCM, Chassis              Soldered down TPM on Mezzanine DC-SCM, Chassis
+
+                          Intrusion Detection, AMD Secure Memory Encryption (SME),    Intrusion Detection
+
+                          AMD Secure Encrypted Virtualization (SEV)
+
+   Front Ports            1 x iDRAC Direct (USB C) port, 2 x RJ45 dedicated iDRAC     1 x iDRAC Direct (USB C) port, 2 x RJ45 dedicated iDRAC
+
+                          Ethernet ports, 1 x USB A, 1 x Mini-DisplayPort             Ethernet ports, 1 x USB A, 1 x Mini-DisplayPort
+
+   Rear ports             NA                                                          NA
+
+   Operating Systems      Canonical Ubuntu Server LTS, Red Hat Enterprise Linux*      Canonical Ubuntu Server LTS, Red Hat Enterprise Linux
+
+   For specifications and interoperability details, see Dell.com/OSsupport.
+
+   Note: * Feature not available at product launch. Refer to the product configurator page on Dell.com to confirm feature availability.
+
+5  | PowerEdge XE series
+   Feature                                       XE9680L                                                     XE9685L
+
+   Systems
+
+   Processors             Two 5th Generation Intel® Xeon® Scalable processors with    Two 5th Generation AMD EPYCTM 9005 Series processors
+
+                          up to 64 cores per processor                                with up to 192 cores per processor
+
+   DDR5 RDIMM slots       32 (4 TB)                                                   24 (3 TB)
+
+   (max capacity)
+
+   GPUs                   8 x NVIDIA HGX B200 180GB 1000 WSXM6 GPUs, fully interconnected with NVIDIA NVLink technology
+
+   Rack                   IR5000 required
+
+   Internal boot          BOSS-N1: HWRAID 1, 2 x M.2 NVMe SSDs
+
+   Drives (max capacity)  8 x 2.5" NVMe/SAS/SATA SSDs (122.88 TB)
+
+   Power Supplies,        3000 WTitanium 200-240 VAC or 240 VDC                       3000 W Titanium 200-240 VAC or 240 VDC
+
+   redundant, hot swap                                                                3000 W when used at 209.1-240 VAC or 240 VDC
+
+                                                                                      2800 W when used at 200-209 VAC
+
+   Cooling options        Liquid cooled CPUs, GPUs, and NVLink Switches
+
+   Rack height            4U
+
+   PCIe slots             Up to 12 PCIe Gen5 x16 full-height, half-length slots
+
+   Embedded NIC           2 x 1 GbE
+
+   Network Options        1 x OCP NIC card 3.0 (x8 PCIe lanes)
+
+   Hot-swappable fans     6 HPR on top layer + 6 HPR on bottom layer
+
+   Height                 174.3 mm (6.86 in.)
+
+   Width                  Upper 2U: 447 mm (17.59 in.)
+
+                          Lower 2U: 434 mm (17.08 in.)
+
+   Depth                  1037.57 mm (40.86 in.) with bezel
+
+                          1025.62 mm (40.37 in.) without bezel
+
+   Bezel                  Optional LCD bezel or security bezel
+
+   Maximum Weight         95.60 kg ( 210.76 lb)                                       91.63 kg ( 202.00 lb)
+
+   Embedded               iDRAC9, iDRAC Direct, iDRAC RESTful API with Redfish, iDRAC Service Module, Dell Connectivity Client
+
+   Management
+
+   OpenManage             CloudIQ for PowerEdge plug in, OpenManage Enterprise        OME APEX AIOps Observability OpenManage Enterprise
+
+   Software               (OME), OpenManage Service plugin, OpenManage Power          (OME), OpenManage Service plugin, OpenManage Power
+
+                          Manager plugin, OpenManage Update Manager plugin            Manager plugin, OpenManage Update Manager plugin
+
+   OpenManage             BMC Truesight, OpenManage Integration with ServiceNow,      OpenManage Integration with ServiceNow, Red Hat Ansible
+
+   Integrations           Red Hat Ansible Modules, Terraform Providers                Modules, Terraform Providers
+
+   Integrated Security    TPM 2.0 FIPS, CC-TCG certified, Cryptographically Signed Firmware, Secure Boot being standard security, Silicon Root of
+
+                          Trust, System Lockdown (requires iDRAC9 Enterprise or Datacenter), Data at Rest Encryption (SEDs with local or external
+
+                          key mgmt), Secured Component Verification (Hardware integrity check) and System Erase on all racks.
+
+   Front Ports            1 x iDRAC Direct (Micro-AB USB) port, 1 x USB 2.0, 1 x VGA
+
+   Rear ports             1 x USB 2.0, 1 x USB 3.0, 1 x iDRAC Direct ethernet port
+
+   Operating Systems      Canonical Ubuntu Server LTS, Red Hat Enterprise Linux
+
+   OEM-ready version      From bezel to BIOS to packaging, your servers can look and feel as if they were designed and built by you with our
+
+   available              OEMR platforms, while XL platforms provide extended transitions and stability for OEM Solutions customers. For more
+
+                          information, visit Dell.com > Solutions > OEM Solutions.
+
+   For specifications and interoperability details, see Dell.com/OSsupport.
+
+6  | PowerEdge XE series
+   Feature                                            XE7745                                                XE7740
+
+   Systems
+
+   Processors             Two 5th Generation AMD EPYCTM 9005 Series processors     Two Intel® Xeon® 6 series processors with up to 144 cores
+
+                          with up to 192 cores per processor                       per processor
+
+   DDR5 RDIMM slots       24 (3 TB)                                                32 (4 TB)
+
+   (max capacity)
+
+   GPUs                   8x PCIe Gen 5 x16 DW-FHFL up to 600 Wor 16x PCIe Gen 5 x16 SW-FHFL up to 75W
+
+                          ·  NVIDIA RTX ProTM 6000 Blackwell Server Edition 600 W  ·  NVIDIA RTX ProTM 6000 Blackwell Server Edition 600 W
+
+                                (DW, 96 GB)                                           (DW, 96 GB)
+
+                          ·  NVIDIA H200 NVL 600 W (DW, 141 GB)                    ·  NVIDIA H200 NVL 600 W (DW, 141 GB)
+
+                          ·  NVIDIA H100 NVL 400 W (DW, 94 GB)                     ·  NVIDIA H100 NVL 400 W (DW, 94 GB)
+
+                          ·  NVIDIA L40S 350 W (DW, 48 GB)                         ·  NVIDIA L40S 350 W (DW, 48 GB)
+
+                          ·  NVIDIA L4 72 W (SW, 24 GB)                            ·  INTEL Gaudi3 600 W (DW, 128 GB)
+
+                                                                                   ·  NVIDIA L4 72 W (SW, 24 GB)
+
+   Internal boot          BOSS-N1: HWRAID 1, 2 x M.2 NVMe SSDs
+
+   Drives (max capacity)  8 x 2.5" NVMe/SAS/SATA SSDs (122.88 TB)
+
+   Power Supplies,        ·  3200 W Titanium 200-240 VAC or 240 VDC
+
+   redundant, hot swap    Multi capacity for 3200 W PSU:3200 W for 220.1-240 VAC or 2900 W for 200-220 VAC
+
+                          ·  3200 W Titanium 277 VAC or 336 VDC
+
+                          ·  2400 W Titanium 200-240 VAC or 240 VDC
+
+   Cooling options        Air cooling
+
+   Rack height            4U
+
+   PCIe slots             Up to 8 PCIe Gen5 x16 SW-FHHL cards, each up to 150 W
+
+   Embedded NIC           NA
+
+   Network Options        1 x OCP NIC card 3.0 (x8 PCIe lanes)
+
+   Hot-swappable fans     4 sets HPR in mid tray + 12 HPR on the front
+
+   Height                 174.3 mm (6.86 in.)
+
+   Width                  482 mm (18.98 in.)
+
+   Depth                  899.56 mm (35.42 in.) with bezel
+
+                          886.73 mm (34.91 in.) without bezel
+
+   Bezel                  Optional security bezel
+
+   Maximum Weight         68.5 Kg (151.02 lb)                                      71.35 Kg (157.30 lb)
+
+   Embedded               iDRAC10, iDRAC Direct, iDRAC RESTful API with Redfish, iDRAC Service Module, RACADM CLI
+
+   Management
+
+   OpenManage Console     OpenManage Enterprise (OME), OME Power Manager, OME Services, OME Update Manager, OME APEX AIOps
+
+                          Observability, OME Integration for VMware vCenter (with VMware Aria Operations)
+
+   Tools                  IPMI
+
+   Change Management      Enterprise Catalogs / Linux Repositories
+
+   OpenManage             Red Hat Ansible Modules, Terraform Providers
+
+   Integrations
+
+   Integrated Security    TPM 2.0 FIPS, CC-TCG certified, Cryptographically Signed Firmware, Chassis Intrusion Detection, Secure Boot being
+
+                          standard security, Silicon Root of Trust, System Lockdown (requires iDRAC10 Enterprise or Datacenter), Data at Rest
+
+                          Encryption (SEDs with local or external key mgmt), Secured Component Verification (Hardware integrity check) and
+
+                          System Erase on all racks.
+
+   Front Ports            1 x USB 2.0 Type-A (optional), 1 x Mini-Display port (optional), 1 x USB 2.0 Type-C dual mode (Host/iDRAC Direct port)
+
+   Rear ports             1 x Dedicated iDRAC/BMC Direct Ethernet port, 2 x USB 3.1 Type-A port, 1 x VGA
+
+   Internal ports         1 x USB 3.1 Type-A
+
+   Operating Systems      Canonical Ubuntu Server LTS, Red Hat Enterprise Linux, SUSE Linux Enterprise Server, VMware ESXi
+
+   and Hypervisors
+
+   OEM-ready version      From bezel to BIOS to packaging, your servers can look and feel as if they were designed and built by you. For more
+
+   available              information, visit Dell.com/OEM.
+
+   For specifications and interoperability details, see Dell.com/OSsupport.
+
+   Note: * Feature not available at product launch. Refer to the product configurator page on Dell.com to confirm feature availability.
+
+7  | PowerEdge XE series
+   Feature                                 XE9680                                XE9640                                         XE8640
+
+   Systems
+
+   Intel® Xeon®           Two 5th Generation Intel® Xeon® Scalable processors with up to 64 cores per processor
+
+   Scalable Processors    Two 4th Generation Intel® Xeon® Scalable processors with up to 56 cores per processor
+
+   with Intel® C741
+
+   chipset:
+
+   DDR5 RDIMM slots       32 (4 TB)
+
+   (max capacity)
+
+   GPUs                   8 NVIDIA HGX H100 80 GB 700 W SXM5            4 NVIDIA H100 or Intel Data Center       4 NVIDIA H100
+
+                          GPUs, fully interconnected with NVIDIA        Max GPU Series 1550
+
+                          NVLink technology or
+
+                          8 NVIDIA HGX H200 141 GB 700 W SXM5
+
+                          GPUs, fully interconnected with NVIDIA
+
+                          NVLink technology or
+
+                          8 NVIDIA HGX H20 96 GB 500 W SXM5
+
+                          GPUs, fully interconnected with NVIDIA
+
+                          NVLink technology or
+
+                          8 AMD Instinct MI300X 192 GB 750 W
+
+                          OAM accelerator with AMD Infinity Fabric
+
+                          connectivity or
+
+                          8 Intel Gaudi 3 128 GB 900 W OAM
+
+                          accelerator with embedded RoCE ports for
+
+                          ethernet connectivity
+
+                          Note: Improve generative AI training
+
+                          performance with GPU-GPU
+
+                          communication and up to 1.5 TB shared
+
+                          coherent GPU memory integrated into
+
+                          these offers.
+
+   Internal controller    PERC H965i (Not supported with Intel          NA                                       NA
+
+                          Gaudi3)
+
+   Internal boot          BOSS-N1: HWRAID 1, 2 x M.2 NVMe SSDs
+
+   Software RAID          S160
+
+   Drives (max capacity)  8 x 2.5" NVMe/SAS/SATA SSDs                   4 x 2.5" NVMe SSDs (61.44 TB)            8 x 2.5" NVMe/SAS/SATA SSDs
+
+                          (122.88 TB) , 16 x E3.S NVMe direct drives                                             (122.88 TB) ,
+
+                          (122.88 TB)                                                                            16 x E3.S NVMe SSDs (122.88 TB)
+
+                          Note: Only 8 x 2.5-inch NVMe SSDs are
+
+                          supported with Intel Gaudi3.
+
+   Power Supplies,        3200 W Titanium 277 VAC or 260-400 VDC        2800 W Titanium 200-240 VAC or           3200 W Titanium 277 VAC or 260-400
+
+   redundant, hot swap    (only available in the US & Canada)           240 VDC                                  VDC
+
+                          3000 W Titanium 200-240 VAC or 240 VDC                                                 2800 W Titanium 200-240 VAC or
+
+                          (only with Intel Gaudi 3)                                                              240 VDC
+
+                          Multi capacity for 3000 W PSU: 3000 W for
+
+                          209.1 - 240 VAC or 2800 W for
+
+                          200 - 209 VAC
+
+                          2800 W Titanium 200-240 VAC or 240 VDC
+
+   Cooling options        Air cooling                                   Liquid Cooling with internal manifold    Air cooling for CPUs + Liquid
+
+                                                                                                                 Assisted Air Cooling for GPU
+
+   Rack height            6U                                            2U                                       4U
+
+   PCIe slots             Up to 10 front-facing PCIe Gen 5 slots, with                                   4 x16 Gen5
+
+                          8 slots available for Intel Gaudi3
+
+   Embedded NIC           2 x 1 GbE
+
+   Embedded OSFP          6 x 800 Gb (only with Intel Gaudi 3)          NA                                       NA
+
+   Network Options        1 x OCP 3.0 (x8 PCIe lanes)
+
+   Hot-swappable fans     10 HPR in mid tray + 10 HPR on the rear       4 sets (dual fan module) HPR             6 STD in mid tray + 5 HPR on the front
+
+                          (up to 12 fans with Intel Gaudi 3)
+
+   Height                 263.2 mm (10.36 in.)                          86.8 mm (3.41 in.                        174.3 mm (6.86 in.)
+
+   Width                  482.0 mm (18.97 in.)                          482 mm (18.97 in.)                       481.91 mm (18.97 in.)
+
+   Depth                  1008.77 mm (39.71 in.) with bezel             926.5 mm (36.47 in.) with bezel          901.4 mm (35.48 in.) with bezel
+
+                          995 mm (39.17 in.) without bezel              912.8 mm (35.93 in.) without bezel       865.54 mm (34.07 in.) without bezel
+
+   Bezel                  Optional LCD bezel or security beze
+
+   Maximum Weight         114.05 kg (251.44 lb)                         46.3 kg (102.07 lb)                      61.4 kg (135.36 lb)
+
+8  | PowerEdge XE series
+Feature                                XE9680                                         XE9640                                XE8640
+
+Embedded                  iDRAC9, iDRAC Direct, iDRAC RESTful API with Redfish, iDRAC Service Module
+
+Management
+
+OpenManage                CloudIQ for PowerEdge plug in, OpenManage Enterprise, OpenManage Service plugin, OpenManage Power Manager
+
+Software                  plugin, OpenManage Update Manager plugin
+
+OpenManage                BMC Truesight, OpenManage Integration with ServiceNow, Red Hat Ansible Modules, Terraform Providers
+
+Integrations
+
+Integrated Security       TPM 2.0 FIPS, CC-TCG certified, TPM 2.0 China NationZ, Cryptographically Signed Firmware, Chassis Intrusion Alert,
+
+                          Secure Boot being standard security, Silicon Root of Trust, System Lockdown (requires iDRAC9 Enterprise or Datacenter),
+
+                          Data at Rest Encryption (SEDs with local or external key mgmt) Secured Component Verification (Hardware integrity
+
+                          check) and System Erase on all racks.
+
+Front Ports               1 x iDRAC Direct (Micro-AB USB) port, 1 x USB 2.0, 1 x VGA
+
+Rear ports                1 x USB 2.0, 1 x USB 3.0, 1 x VGA         1 x USB 2.0, 1 x USB 3.0, 1 x RJ-45  1 x USB 2.0, 1 x USB 3.0, 1 x VGA,
+
+                          1 x RJ45 iDRAC9 ethernet port             iDRAC9 Ethernet port                 1 x RJ45 iDRAC9 ethernet port
+
+Operating Systems         Canonical Ubuntu Server LTS               Canonical Ubuntu Server LTS
+
+and Hypervisors           Red Hat Enterprise Linux                  Red Hat Enterprise Linux
+
+                          SUSE Linux Enterprise Server
+
+                          VMware ESXi
+
+OEM-ready version         From bezel to BIOS to packaging, your servers can look and feel as if they were designed and built by you with our
+
+available                 OEMR platforms, while XL platforms provide extended transitions and stability for OEM Solutions customers. For more
+
+                          information, visit Dell.com > Solutions > OEM Solutions.
+
+To shop for Dell PowerEdge Servers, see Dell.com.
+
+For more information on platform-specific specifications and additional details, refer to the Technical Guide on Dell.com.
+
+Sustainability
+
+From recycled materials in our products and packaging, to thoughtful, innovative options for energy efficiency, the
+
+PowerEdge portfolio is designed to make, deliver, and recycle products to help reduce the carbon footprint and lower
+
+your operation costs. We even make it easy to retire legacy systems responsibly with Dell Technologies Services.
+
+                                                                                                         Follow on Dell.com
+
+                                                                                                                            Follow on X
+
+             Learn more                Contacta Dell                                View more                               Follow on Linkedin
+
+           Dell Networking             Technologies Expert                          resources            Join the conversation with
+
+              solutions                                                                                  #DellTechnologies
+
+Rev A05
+
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of
+
+their respective owners.
+

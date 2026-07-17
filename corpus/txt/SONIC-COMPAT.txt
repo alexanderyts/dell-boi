@@ -1,0 +1,1696 @@
+Dell Enterprise SONiC Distribution
+
+Compatibility Matrix Release 4.4.0
+
+August 2024
+
+Rev. A00
+Copyright
+
+© 2019 - 2024 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of
+
+Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
+         Contents
+
+Chapter  1: Revision history............................................................................................................4
+
+Chapter  2: Introduction.................................................................................................................5
+
+Chapter  3: Dell Technologies PowerSwitch specifications............................................................. 8
+
+Chapter  4: Standard and premium feature matrix.......................................................................... 9
+
+Chapter  5: Scalability.................................................................................................................. 13
+
+Chapter  6: Breakout modes on Dell PowerSwitch platforms........................................................ 22
+
+Chapter  7: Z9864F-ON ports and DAC cable length compatibility................................................ 24
+
+         Contents                                                                                                                             3
+                                                                                                                   1
+
+                                                                                   Revision history
+
+Table 1. Revision history
+
+Revision                      Description
+
+A00 (August 2024)             Initial release of 4.4.0
+
+More documentation
+
+Table 2. More documentation
+
+Document                                                   Description
+
+Enterprise SONiC Distribution by Dell Technologies  User   Software configuration
+
+Guide Release
+
+Enterprise SONiC Distribution by Dell Technologies  Quick  Installation and initial configuration
+
+Start Guide
+
+Enterprise SONiC Distribution by Dell Technologies         Management Framework CLI command syntaxes and examples
+
+Management Framework CLI Reference Guide
+
+Enterprise SONiC Distribution by Dell Technologies         Features, requirements, known issues, and fixed issues
+
+Release Notes
+
+Enterprise SONiC Distribution by Dell Technologies  High   Information about high-power optics
+
+Power Optics Technical Sheet
+
+4  Revision history
+                                                                                                                                    2
+
+                                                                                        Introduction
+
+What is SONiC
+
+SONiC is an open-source, Linux-based network operating system (NOS) that runs on switches from multiple vendors and ASICs.
+
+SONiC stands for Software for Open Networking in the Cloud. It implements standard Layer 2 and Layer 3 protocols, and
+
+provides developers with a straightforward way to add new features.
+
+SONiC offers teams the flexibility to create data center networking solutions, while using the collective strength of a large
+
+ecosystem with an active developer community. SONiC is designed for scalability and is in production today in large data center
+
+fabrics.
+
+Benefits of SONiC include:
+
+    Hardware independence
+
+    Containerized architecture
+
+    Open-sourced
+
+    Access to a growing community
+
+SONiC and Dell Technologies
+
+Dell Technologies introduces Enterprise SONiC Distribution as a hardened, validated, and supported version of SONiC for switch
+
+configuration and monitoring. It includes distribution of open-source community SONiC, and additional features to support the
+
+ecosystem and partners.
+
+Enterprise SONiC supports an intuitive command-line interface, and object-based administration through a REST interface and
+
+gRPC Network Management Interface (gNMI) of Google.
+
+Enterprise SONiC Distribution by Dell Technologies
+
+Enterprise SONiC is offered in bundles to meet customer network requirements.
+
+    Cloud standard
+
+    Cloud premium
+
+    Enterprise standard
+
+    Enterprise premium
+
+    Lite
+
+    NOTE: For supported cables and optics support matrix, reach out to Dell Technologies designated sales representative.
+
+Table 3. Speeds supported in         Enterprise SONiC  on Dell PowerSwitch         Platforms
+
+Dell              800G      400G     200G  100G        50G  40G           25G      10G  5G    2.5  1G                          100  10M
+PowerSwit                                                                                     G                                M
+ch
+
+Z9864F-ON  Default              Yes  Yes   Yes         No            No   No       Yes  No    No   Yes                         No   No
+
+Z9664F-ON           No      Default  Yes   Yes         No            Yes  Yes      Yes  No    No   Yes                         No   No
+
+Z9432F-ON           No      Default  Yes   Yes         Yes           Yes  Yes      Yes  No    No   Yes                         No   No
+
+Z9332F-ON           No      Default  Yes   Yes         No            Yes  Yes      Yes  No    No   Yes                         No   No
+
+Z9264F-ON           No          No   No    Default     No            Yes  Yes      Yes  No    No   Yes                         No   No
+
+S5448F-ON           No          Yes  Yes   Default     Yes           Yes  Yes      Yes  No    No   Yes                         No   No
+
+S5296F-ON           No          No   No    Yes         No            Yes  Default  Yes  No    No   Yes                         No   No
+
+S5248F-ON           No          No   No    Yes         No            Yes  Default  Yes  No    No   Yes                         No   No
+
+                                                                                                   Introduction                         5
+Table 3. Speeds supported in    Enterprise SONiC            on Dell PowerSwitch Platforms        (continued)
+
+Dell           800G       400G  200G               100G     50G  40G        25G  10G        5G   2.5  1G         100        10M
+PowerSwit                                                                                        G                      M
+ch
+
+S5232F-ON      No         No    No                 Default  Yes  Yes        Yes  Yes        No   No   Yes               No  No
+
+S5224F-ON      No         No    No                 Yes      No   Yes  Default    Yes        No   No   Yes               No  No
+
+S5212F-ON      No         No    No                 Yes      No   Yes  Default    Yes        No   No   Yes               No  No
+
+S3248T-ON      No         No    No                 Yes      No   Yes        Yes  Yes        No   No   Default    Yes        Yes
+
+N3248P-        No         No    No                 Yes      No   Yes        Yes  Yes        No   No   Default    Yes        Yes
+
+ON*
+
+N3248PXE-      No         No    No                 Yes      No   Yes        Yes  Default    Yes  Yes  Yes        Yes        Yes
+
+ON*
+
+N3248X-ON      No         No    No                 Yes      No   Yes        Yes  Default    Yes  Yes  Yes        Yes        Yes
+
+N3248TE-       No         No    No                 Yes      No   Yes        Yes  Yes        No   No   Default    Yes        Yes
+
+ON
+
+E3248PXE-      No         No    No                 Yes      No   Yes        Yes  Default    Yes  Yes  Yes        Yes        Yes
+
+ON*
+
+E3248P-        No         No    No                 Yes      No   Yes        Yes  Yes        No   No   Default    Yes        Yes
+
+ON*
+
+    NOTE:
+
+       Platforms that are marked with the * symbol support PoE.
+
+Dell PowerSwitches supported in each bundle
+
+The Lite bundle is supported only on S3248T-ON, N3248P-ON, N3248TE-ON, N3248PXE-ON, N3248X-ON, E3248P-ON,
+
+and E3248PXE-ON switches. These Dell PowerSwitch platforms cannot run the Cloud and Enterprise bundles. All other Dell
+
+PowerSwitch platforms cannot run the Lite bundle.
+
+Table 4. Dell  PowerSwitches    supported in each bundle
+
+Enterprise     E-Series:        S-Series: S3248T-                N-Series:       S-Series: S5296F-    Z-Series: Z9264F-
+SONiC          E3248PXE-ON,     ON                               N3248P-ON,      ON, S5232F-          ON, Z9332F-
+bundle         E3248P-ON                                         N3248PXE-       ON, S5248F-          ON, Z9432F-
+                                                                 ON, N3248TE-    ON, S5224F-          ON, Z9664F-ON,
+                                                                 ON, N3248X-     ON, S5212F-ON,       Z9864F-ON
+                                                                 ON              S5448F-ON
+
+Cloud          Not Supported    Not Supported                    Not Supported   Supported            Supported
+
+Standard
+
+Cloud          Not Supported    Not Supported                    Not Supported   Supported            Supported
+
+Premium
+
+Enterprise     Not Supported    Not Supported                    Not Supported   Supported            Supported
+
+Standard
+
+Enterprise     Not Supported    Not Supported                    Not Supported   Supported            Supported
+
+Premium
+
+Lite           Supported        Supported                        Supported       Not Supported        Not Supported
+
+6       Introduction
+Enterprise SONiC features in                               bundles
+
+Table 5. Features not     available in all  bundles
+
+Enterprise SONiC          Cloud             Cloud          Enterprise     Enterprise     Lite
+feature                   Standard          Premium        Standard       Premium
+
+ACL-based replication     Not Supported     Not Supported  Supported      Supported      Not Supported
+
+Buffer thresholds         Supported         Supported      Supported      Supported      Not Supported
+
+Debug application         Not Supported     Not Supported  Not Supported  Supported      Not Supported
+
+Dot1x authentication      Not Supported     Not Supported  Not Supported  Not Supported  Supported
+
+Dynamic ACLs              Not Supported     Not Supported  Not Supported  Not Supported  Supported
+
+Dynamic load balancing    Supported         Supported      Supported      Supported      Not Supported
+
+gNMI                      Supported         Supported      Supported      Supported      Supported on E-Series
+
+                                                                                         and the S3248T-ON
+
+                                                                                         platform.
+
+Guest VLANs               Not  Supported    Not Supported  Not Supported  Not Supported  Supported
+
+IGMP and IGMP snooping    Not  Supported    Not Supported  Supported      Supported      Supported
+
+Inband flow analytics     Not  Supported    Supported      Not Supported  Supported      Not Supported
+
+(IFA)
+
+IPv4 PIM source-specific  Not  Supported    Not Supported  Supported      Supported      Supported
+
+multicast (SSM)
+
+MAC authentication        Not  Supported    Not Supported  Not Supported  Not Supported  Supported
+
+bypass
+
+Multiple Spanning Tree    Not  Supported    Not Supported  Supported      Supported      Supported
+
+Protocol (MSTP)
+
+Multisite data center     Not  Supported    Not Supported  Supported      Supported      Not Supported
+
+interconnect for VXLAN
+
+EVPN
+
+Network Address           Supported         Supported      Supported      Supported      Not Supported
+
+Translation (NAT)
+
+Packet drop monitoring    Not Supported     Not Supported  Not Supported  Supported      Not Supported
+
+Power over Ethernet       Not Supported     Not Supported  Not Supported  Not Supported  Supported
+
+(PoE)
+
+PVST and RPVST+           Not Supported     Not Supported  Supported      Supported      Supported
+
+Q-in-Q VLAN tunneling     Not Supported     Not Supported  Supported      Supported      Supported
+
+RADIUS-provided VLANs     Not Supported     Not Supported  Not Supported  Not Supported  Supported
+
+RoCEv2                    Supported         Supported      Supported      Supported      Not Supported
+
+Tailstamping              Not Supported     Supported      Not Supported  Supported      Not Supported
+
+Unauthenticated VLANs     Not Supported     Not Supported  Not Supported  Not Supported  Supported
+
+VLAN translation          Not Supported     Not Supported  Supported      Supported      Supported
+
+Voice VLANs               Not Supported     Not Supported  Not Supported  Not Supported  Supported
+
+VXLAN                     Not Supported     Not Supported  Supported      Supported      Supported
+
+VXLAN EVPN                Not Supported     Not Supported  Supported      Supported      Supported
+
+Multihoming
+
+                                                                                               Introduction     7
+                                                                                     3
+
+                             Dell Technologies PowerSwitch
+
+                                                           specifications
+
+Table 6. PowerSwitch specifications
+
+Model        User ports              Uplinks               RAM/SSD     NPU
+
+Z9864F-ON    64x800G QSFP112-DD      2x10G SFP+            32GB/128GB  Tomahawk5
+
+Z9664F-ON    64x400G QSFP56-DD       2x10G SFP+            32GB/128GB  Tomahawk4
+
+Z9432F-ON    32x400G QSFP56-DD       2x10G SFP+            32GB/64GB   Trident4.x11
+
+Z9332F-ON    32x400G QSFP56-DD       2x10G SFP+            16GB/64GB   Tomahawk3
+
+Z9264F-ON    64x100G QSFP28          2x10G SFP+            16GB/32GB   Tomahawk2
+
+S5448F-ON    48x100G SFP56-DD        8x400G QSFP56-DD      32G/128GB   Trident4.x9
+
+                                     2x10G SFP+
+
+S5232F-ON    32x100G QSFP28          2x10G SFP+            16GB/64GB   Trident3.x7
+
+S5296F-ON    96x25G SFP28            8x100G QSFP28         16GB/64GB   Trident3.x7
+
+S5248F-ON    48x25G SFP28            4x100G QSFP28         16GB/64GB   Trident3.x7
+
+                                     2x(2x100G) QSFP28-DD
+
+S5224F-ON    24x25G SFP28            4x100G QSFP28         8GB/32GB    Trident3.x5
+
+S5212F-ON    12x25G SFP28            3x100G QSFP28         8GB/16GB    Trident3.x5
+
+S3248T-ON    48x1GBase-T             4x10G SFP+            16GB/32GB   Trident3.x3
+
+                                     2x100G QSFP28
+
+E3248P-ON    48x1GBase-T             4x10G SFP+            16GB/32GB   Trident3.x3
+
+                                     2x100G QSFP28
+
+E3248PXE-ON  48x10GBase-T            4x25G SFP28           16GB/32GB   Trident3.x5
+
+                                     2x100G QSFP28
+
+N3248P-ON    48x1GBase-T             4x10G SFP+            4GB/8GB     Trident3.x3
+
+                                     2x100G QSFP28
+
+N3248X-ON    48x10GBase-T            4x25G SFP28           4GB/8GB     Trident3.x5
+
+                                     2x100G QSFP28
+
+N3248PXE-ON  48x10GBase-T            4x25G SFP28           4GB/8GB     Trident3.x5
+
+                                     2x100G QSFP28
+
+N3248TE-ON   48x1GBase-T             4x10G SFP+            4GB/32GB    Trident3.x3
+
+                                     2x100G QSFP28
+
+8      Dell Technologies PowerSwitch specifications
+                                                                                                              4
+
+                      Standard and                  premium feature matrix
+
+Table 7.  Standard feature matrix
+
+-         Features           Z9864F  Z9664F  Z9432  Z9332  Z9264F  S5448  S5232  S522  N3248            N3248P
+                             -ON     -ON     F-ON   F-ON   -ON     F-ON   F-ON   4F-   X-ON             -ON
+                                                                          S5248  ON    N3248            E3248P-
+                                                                          F-ON   S521  PXE-             ON
+                                                                          S5296  2F-   ON               N3248T
+                                                                          F-ON   ON    E3248P           E-ON
+                                                                                       XE-ON            S3248T-
+                                                                                                        ON
+
+Layer 2   STP - PVST/        Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          RPVST+
+
+          PVST/RPVST+        No      No      Yes    No     Yes     Yes    Yes    Yes   Yes              Yes
+
+          over MCLAG
+
+          Link aggregation   Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          Link aggregation   Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          fallback
+
+          LACP individual    Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          LLDP               Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          UDLD               Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          IGMP snooping      Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          ACL-based Layer 2  Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          forwarding
+
+          DHCP snooping      Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          Q-in-Q             No      No      Yes    No     No      Yes    Yes    Yes   Yes              Yes
+
+          VLAN stacking      No      No      Yes    No     No      Yes    Yes    Yes   Yes              Yes
+
+          Port security      No      No      No     No     No      Yes    Yes    Yes   Yes              Yes
+
+Layer 3   BGPv4/v6           Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          IPv4/v6 static     Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          routing
+
+          BFD                Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          VRRP               Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          ECMP               Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          DHCP relay         Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          OSPFv2             Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          NAT                No      No      No     No     Yes     No     Yes    Yes   No               No
+
+          L3 IGMP            Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          PIM SSM            Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes              Yes
+
+          IP SLA             Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   No               No
+
+          (ICMP/TCP track)
+
+                                                                   Standard and premium feature matrix           9
+Table 7. Standard feature matrix (continued)
+
+-         Features             Z9864F  Z9664F  Z9432  Z9332  Z9264F  S5448  S5232  S522  N3248   N3248P
+                               -ON     -ON     F-ON   F-ON   -ON     F-ON   F-ON   4F-   X-ON    -ON
+                                                                            S5248  ON    N3248   E3248P-
+                                                                            F-ON   S521  PXE-    ON
+                                                                            S5296  2F-   ON      N3248T
+                                                                            F-ON   ON    E3248P  E-ON
+                                                                                         XE-ON   S3248T-
+                                                                                                 ON
+
+          Policy-based         Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   No      No
+
+          routing
+
+          Routed sub-          No      No      Yes    No     No      Yes    Yes    Yes   Yes     No
+
+          interfaces
+
+          Adaptive routing     Yes     Yes     No     No     No      No     No     No    No      No
+
+          (ARS/DLB)
+
+          QPN hashing          Yes     Yes     Yes    No     No      No     No     No    No      No
+
+          Flow-based           Yes     Yes     No     No     No      No     No     No    No      No
+
+          hashing
+
+          Versatile hashing    Yes     Yes     No     No     No      No     No     No    No      No
+
+ACLs      L2 ACLs              Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          L3 ACLs              Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          Receive ACLs         Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          Route-maps           Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          ACL-based            No      No      Yes    Yes    Yes     Yes    Yes    Yes   No      No
+
+          replication
+
+QoS       L2 QoS maps          Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          L3 QoS maps          Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          Queue and buffer     Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          size configuration
+
+          Traffic priority     Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          scheduling (strict,
+
+          WFQ)
+
+          WRED                 Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          ECN                  Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          Priority flow        Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          control
+
+          BUM/storm            No      No      Yes    No     Yes     Yes    Yes    Yes   Yes     Yes
+
+          control
+
+          RoCE V2              Yes     Yes     Yes    Yes    No      No     Yes    No    No      No
+
+Mgmt      Telnet               No      No      No     No     No      No     No     No    No      No
+
+and       SSH                  Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+monitori
+
+ng        SCP                  Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          TFTP                 Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          FTP                  Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          NTP                  Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          SNMPv2/v3            Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+          ZTP                  Yes     Yes     Yes    Yes    Yes     Yes    Yes    Yes   Yes     Yes
+
+10    Standard and premium feature matrix
+Table 7.  Standard feature     matrix  (continued)
+
+-         Features             Z9864F  Z9664F  Z9432  Z9332  Z9264F  S5448     S5232  S522  N3248   N3248P
+                               -ON     -ON     F-ON   F-ON   -ON     F-ON      F-ON   4F-   X-ON    -ON
+                                                                               S5248  ON    N3248   E3248P-
+                                                                               F-ON   S521  PXE-    ON
+                                                                               S5296  2F-   ON      N3248T
+                                                                               F-ON   ON    E3248P  E-ON
+                                                                                            XE-ON   S3248T-
+                                                                                                    ON
+
+          sFlow                Yes     Yes     Yes    Yes    Yes     Yes       Yes    Yes   Yes     Yes
+
+MCLAG     L2                   No      No      Yes    No     Yes     Yes       Yes    Yes   Yes     Yes
+
+          L3                   No      No      Yes    No     Yes     Yes       Yes    Yes   Yes     Yes
+
+          L2 Logical VTEP      No      No      Yes    No     No      Yes       Yes    Yes   Yes     Yes
+
+          L3 Logical VTEP      No      No      Yes    No     No      Yes       Yes    Yes   Yes     Yes
+
+          IGMP snooping        No      No      Yes    No     Yes     Yes       Yes    Yes   Yes     Yes
+
+          MCLAG graceful       No      No      Yes    No     Yes     Yes       Yes    Yes   Yes     Yes
+
+          shutdown
+
+          MCLAG fallback       No      No      Yes    No     Yes     Yes       Yes    Yes   Yes     Yes
+
+          MCLAG LACP           No      No      Yes    No     Yes     Yes       Yes    Yes   Yes     Yes
+
+          individual
+
+EVPN      L2 VXLAN             No      No      Yes    No     No      Yes       Yes    Yes   Yes     Yes
+
+          L3 VXLAN             Yes     No      Yes    No     No      Yes       Yes    Yes   Yes     Yes
+
+          Data Center          No      No      Yes    No     No      Yes       Yes    Yes   No      No
+
+          Interconnect (DCI)
+
+          Multihoming          No      No      Yes    No     No      Yes       Yes    Yes   Yes     Yes
+
+Security  TACACS+              Yes     Yes     Yes    Yes    Yes     Yes       Yes    Yes   Yes     Yes
+
+          RADIUS               Yes     Yes     Yes    Yes    Yes     Yes       Yes    Yes   Yes     Yes
+
+          RBAC                 Yes     Yes     Yes    Yes    Yes     Yes       Yes    Yes   Yes     Yes
+
+System    Dynamic port         Yes     Yes     Yes    Yes    Yes     Yes       Yes    Yes   Yes     Yes
+
+          breakout
+
+          Interface aliasing   Yes     Yes     Yes    Yes    Yes     Yes       Yes    Yes   Yes     Yes
+
+          Display running      Yes     Yes     Yes    Yes    Yes     Yes       Yes    Yes   Yes     Yes
+
+          configuration using
+
+          CLI
+
+          User container       Yes     Yes     Yes    Yes    Yes     Yes       Yes    Yes   Yes     No
+
+          management
+
+          Warm restart         No      No      No     Yes    Yes     No        Yes    Yes   No      No
+
+Telemet   Thresholds           No      No      No     Yes    Yes     No        Yes    Yes   No      No
+
+ry        Snapshots            No      No      No     Yes    Yes     No        Yes    Yes   No      No
+
+                                                                     Standard  and premium feature matrix   11
+Table   8. Premium feature matrix
+
+-       Features       Z9864F-     Z9664F-   Z9432F  Z9332  Z9264F  S5448F-  S523  S522   N3248  N3248T
+                       ON          ON        -ON     F-ON   -ON     ON       2F-   4F-    P-ON,  E-ON
+                                                                             ON    ON     N3248
+                                                                             S524  S5212  X-ON,
+                                                                             8F-   F-ON   N3248
+                                                                             ON           PXE-
+                                                                             S529         ON,
+                                                                             6F-          E3248
+                                                                             ON           PXE-
+                                                                                          ON,
+                                                                                          S3248
+                                                                                          T-ON
+
+Silico  Drop monitor   No          No        No      Yes    No      No       Yes   No     No     No
+
+n       Inband flow    No          No        No      No     No      No       Yes   No     No     No
+
+telem   analyzer (IFA
+
+etry    v2.0)
+
+        Tailstamping   No          No        No      Yes    Yes     No       Yes   No     No     No
+
+12      Standard and premium feature matrix
+                                                                                                                  5
+
+                                                                                               Scalability
+
+Table 9. Z-series scalability
+
+-                                   Z9864F-ON       Z9664F-ON       Z9432F-ON         Z9332F-ON      Z9264F-ON
+
+Number of port channels per         128             128             128               128            128
+
+system
+
+Number of port channel members      128             128             128               128            128
+
+per system
+
+Maximum number of port channel      32              32              32                32             32
+
+members per port channel
+
+Maximum number of PVST              62              62              254               62             510
+
+instances
+
+Maximum number of RPVST             62              62              254               62             510
+
+instances
+
+Maximum number of RPVST VLAN        5000            5000            5000              5000           5000
+
+ports
+
+Number of VLANs per system          3965            3965            3965              3965           3965
+
+Maximum number of VLAN              Depends on the  maximum number  of switch ports.
+
+members per VLAN
+
+Number of VLAN members per          23790           23790           15K(with VLAN     23790          23790
+
+system                                                              stacking)
+
+                                                                    23790(without
+
+                                                                    VLAN stacking
+
+Maximum number of SAG per           512             512             3965              512            1k
+
+system
+
+Maximum number of MCLAG             Not supported   Not supported   3965              Not supported  1k
+
+unique IP VLAN L3 interfaces (SVI)
+
+per system
+
+Maximum number of VLAN L3           3965            3965            3965              3965           3965
+
+interfaces (SVI) per system (if
+
+VRRP, SAG, and MCLAG unique IP
+
+interfaces are not configured)
+
+Maximum number of Layer 3           512             512             1k                512            1k
+
+interfaces on physical, port
+
+channel, and subinterface ports
+
+supported per system
+
+Maximum number of MAC               8k/8k *         8k              32k               8k/8k *        40k/256k *
+
+addresses per system
+
+Maximum number of VRFs per          1000            1000            1000              512            1000
+
+system
+
+Maximum number of IPv4 routes       1M              1M              1M                196k           196k
+
+per system (default mode)
+
+Maximum number of IPv6 routes       1M              1M              1M                32k (<=64b)    32k (<=64b)
+
+per system (default mode by prefix                                                    25k (>64b)     25k (>64b)
+
+length)
+
+                                                                                                     Scalability  13
+Table 9. Z-series scalability (continued)
+
+-                                Z9864F-ON      Z9664F-ON      Z9432F-ON      Z9332F-ON      Z9264F-ON
+
+Maximum number of IPv4 routes    Not supported  Not supported  Not supported  Not supported  280k
+
+per system (route scale maximum
+
+mode)
+
+Maximum number of IPv6 routes    Not supported  Not supported  Not supported  Not supported  32k (<=64b,
+
+per system (route scale maximum                                                              >64b)
+
+mode)
+
+Maximum number of static routes  2k             2k             2k             2k             2k
+
+per system
+
+Maximum number of BGP routes     1M             1M             1M             IPv4 - 196k    IPv4 default
+
+per system                                                                                   mode - 196k
+
+                                                                                             IPv6 default
+
+                                                                                             mode - 32k
+
+                                                                                             (<=64b), 25k
+
+                                                                                             (>64b)
+
+                                                                              IPv6 - 32k     IPv4 route scale
+
+                                                                              (<=64b), 25k   mode - 280k
+
+                                                                              (>64b)         IPv6 route scale
+
+                                                                                             mode - 32k
+
+                                                                                             (<=64b, >64b)
+
+Maximum number of BGP routes     1M             1M             1M             IPv4 - 196k    IPv4 default
+
+RIB IN                                                                                       mode - 196k
+
+                                                                                             IPv6 default
+
+                                                                                             mode - 32k
+
+                                                                                             (<=64b), 25k
+
+                                                                                             (>64b)
+
+                                                                                             IPv4 route scale
+
+                                                                                             mode - 280k
+
+                                                                              IPv6 - 32k     IPv6 route scale
+
+                                                                              (<=64b), 25k   mode - 32k
+
+                                                                              (>64b)         (<=64b, >64b)
+
+Maximum number of BGP            512            512            512            512            512
+
+neighbors
+
+Maximum number of ECMP groups    1023           1023           1023           1023           1023
+
+Maximum number of paths in an    128            128            128            128            128
+
+ECMP group
+
+Maximum number of BFD sessions   128            128            128            128            128
+
+IP SLA - ICMP tracker            50             50             50             50             50
+
+IP SLA - TCP tracker             50             50             50             50             50
+
+Maximum number of ARP            16k            16k            30k            16k            32k
+
+supported per system
+
+Maximum number of ND supported   8k             8k             15k            8k             16k
+
+per system
+
+Maximum number of OSPF routers   50             50             50             50             50
+
+per OSPF area
+
+Maximum number of OSPF-enabled   128            128            128            128            128
+
+L3 interfaces
+
+14      Scalability
+Table 9. Z-series scalability (continued)
+
+-                                      Z9864F-ON  Z9664F-ON  Z9432F-ON  Z9332F-ON  Z9264F-ON
+
+Maximum number of OSPFv2               128        128        128        128        128
+
+neighbors
+
+Maximum number of OSPF intra-          5,000      5,000      5,000      5,000      5,000
+
+area routes
+
+Maximum number interarea               5,000      5,000      5,000      5,000      5,000
+
+summary routes
+
+Maximum number of OSPF external        40,000     40,000     40,000     40,000     40,000
+
+(type-5) routes
+
+Maximum number of VRRP                 128        128        128        128        128
+
+instances
+
+Maximum number of VRRP enabled         128        128        128        128        128
+
+interfaces
+
+Maximum number of VRRP                 16         16         16         16         16
+
+instances per interface
+
+Maximum number of tracked              8          8          8          8          8
+
+interfaces per VRRP instance
+
+Maximum IP address per VRRP            4          4          4          4          4
+
+instance
+
+Maximum number of IPv4 only ACL        2          2          2          2          3
+
+tables that are applied to interfaces
+
+at ingress
+
+Maximum number of IPv4 ACL             255        255        1023       256**      256
+
+rules per applied ACL table at
+
+ingress
+
+Maximum number of IPv6 only ACL        2          2          2          1          1
+
+tables that are applied to interfaces
+
+at ingress
+
+Number of IPv6 ACL rules per           255        255        1023       256**      256
+
+applied ACL table at ingress
+
+Maximum number of IPv4 only            1          1          1          1          1
+
+ACL tables applied to interfaces at
+
+egress
+
+Maximum number of IPv4 ACL             127        127        511        128        256
+
+rules per applied ACL tables at
+
+egress
+
+Maximum number of IPv6 only            1          1          1          1          1
+
+ACL tables applied to interfaces at
+
+egress
+
+Number of IPv6 ACL rules per           127        127        511        128        256
+
+applied ACL tables at egress
+
+Maximum number of egress MAC           1          1          1          1          1
+
+only ACL tables/features applied to
+
+an interface
+
+Maximum number of MAC ACL              127        127        511        128        256
+
+rules per applied ACL table/feature
+
+at egress
+
+Maximum number of ingress MAC          2          2          2          2          3
+
+only ACL tables/features applied to
+
+an interface
+
+                                                                                   Scalability  15
+Table 9. Z-series scalability (continued)
+
+-                                    Z9864F-ON       Z9664F-ON      Z9432F-ON      Z9332F-ON      Z9264F-ON
+
+Maximum number of MAC ACL            255             255            1023           256            256
+
+rules per applied ACL table/feature
+
+at Ingress
+
+Maximum number of MST                61              61             64             61             61
+
+instances
+
+Maximum number of VLAN ports         5000            5000           5000           5000           5000
+
+for MST
+
+Maximum number of NAT entries        0               0              0              0              1024
+
+(static plus dynamic)
+
+Maximum number of port mirroring     3               3              3              3              3
+
+sessions per system
+
+Maximum number of SPAN/              3               3              3              3              3
+
+ERSPAN mirroring sessions per
+
+system
+
+Maximum number of BGP EVPN           256             256            256            256            256
+
+sessions
+
+Maximum EVPN MAC addresses           Not supported   Not supported  32k            Not supported  Not supported
+
+Maximum VXLAN tunnels                512 (Without    Not supported  512 (Without   Not supported  Not supported
+
+                                     primary IP                     primary IP
+
+                                     addresses                      addresses
+
+                                     (PIP))                         (PIP)) 256
+
+                                                                    (With PIP)
+
+                                     256 (With PIP)
+
+Maximum number of L2 VNIs            Not supported   Not supported  3965           Not supported  Not supported
+
+Maximum number of L3 VNIs            1k              Not supported  1k             Not supported  Not supported
+
+(VRF)
+
+Maximum number of IPMC (L3)          512             512            8k             512            8k
+
+forwarding entries
+
+Overlay routes                       IPv4 - 1M       Not supported  IPv4 - 340k    Not supported  Not supported
+
+                                     IPv6 - 1M                      IPv6 - 340k
+
+Maximum number of flow groups        Not supported   Not supported  Not supported  253            253
+
+for silicon telemetry features
+
+Maximum number of IFA sessions       Not supported   Not supported  Not supported  Not supported  Not supported
+
+Maximum number of drop monitor       Not supported   Not supported  Not supported  253            Not supported
+
+sessions
+
+Maximum number of tailstamping       Not supported   Not supported  Not supported  Not supported  253
+
+sessions
+
+Maximum number of IGMP               512             512            512            512            512
+
+Snooping entries
+
+Max number of DHCPv4 Snooping        12k / 1k        12k / 1k       12k / 1k       12k / 1k       12k / 1k
+
+entries (dynamic/static)
+
+Max number of DHCPv6 Snooping        12k / 1k        12k / 1k       12k / 1k       12k / 1k       12k / 1k
+
+entries (dynamic/static)
+
+PAC : Maximum Clients (802.1x/       Not supported   Not supported  Not supported  Not supported  Not supported
+
+MAB) supported on the Switch
+
+PAC : Maximum Clients (802.1x/       Not supported   Not supported  Not supported  Not supported  Not supported
+
+MAB) supported per port
+
+16      Scalability
+Table 9. Z-series scalability (continued)
+
+-                                      Z9864F-ON         Z9664F-ON           Z9432F-ON          Z9332F-ON         Z9264F-ON
+
+PAC : Maximum ACL rules                Not supported     Not supported       Not supported      Not supported     Not supported
+
+supported per (802.1x/MAB) Client
+
+Q-in-Q single tag                      Not supported     Not supported       1983               Not supported     Not supported
+
+Q-in-Q double tag                      Not supported     Not supported       1983               Not supported     Not supported
+
+Maximum number of active PBR           510               510                 2046               512               2304
+
+entries per system
+
+EVPN multihoming maximum ESIs          Not supported     Not supported       128                Not supported     Not supported
+
+per VTEP
+
+EVPN multihoming maximum VNIs          Not supported     Not supported       4k                 Not supported     Not supported
+
+per ESI
+
+EVPN multihoming maximum               Not supported     Not supported       4                  Not supported     Not supported
+
+VTEPs in an ES
+
+Routed subinterfaces                   Not supported     Not supported       750                Not supported     Not supported
+
+Table 10. E, N, S-series scalability
+
+-                                  S5448F-ON        S5232F-ON,          S5224F-ON,          N3248P-ON,         N3248PXE-ON,
+                                                    S5248F-ON,          S5212F-ON           E3248P-ON,         E3248PXE-ON,
+                                                    S5296F-ON                               N3248TE-ON,        N3248X-ON
+                                                                                            S3248T-ON
+
+Number of port channels per        128              128                 128                 8                  8
+
+system
+
+Number of port channel             128              128                 128                 64                 64
+
+members per system
+
+Maximum number of port             32               32                  32                  8                  8
+
+channel members per port
+
+channel
+
+Maximum number of PVST             254              510                 510                 510                510
+
+instances
+
+Maximum number of RPVST            254              510                 510                 510                510
+
+instances
+
+Maximum number of RPVST            5000             5000                5000                1000               1000
+
+VLAN ports
+
+Number of VLANs per system         3965             3965                3965                3965               3965
+
+Maximum number of VLAN             Depends on  the    maximum  number   of switch  ports.
+
+members per VLAN
+
+Number of VLAN members per         15k (with        12k                 12k                 3965               3965
+
+system                             VLAN
+
+                                   stacking)
+
+                                   23790
+
+                                   (without
+
+                                   VLAN
+
+                                   stacking)
+
+Maximum number of SAG per          3965             3965                3965                1k                 1k
+
+system
+
+Maximum number of MCLAG            3965             3965                3965                1k                 1k
+
+unique IP VLAN L3 interfaces
+
+(SVI) per system
+
+                                                                                                               Scalability       17
+Table 10. E, N, S-series scalability (continued)
+
+-                                  S5448F-ON      S5232F-ON,        S5224F-ON,        N3248P-ON,     N3248PXE-ON,
+                                                  S5248F-ON,        S5212F-ON         E3248P-ON,     E3248PXE-ON,
+                                                  S5296F-ON                           N3248TE-ON,    N3248X-ON
+                                                                                      S3248T-ON
+
+Maximum number of VLAN L3          3965           3965              3965              1k             1k
+
+interfaces (SVI) per system (if
+
+VRRP, SAG, and MCLAG unique
+
+IP interfaces are not configured)
+
+Maximum number of Layer 3          1k             1k                1k                1k             1k
+
+interfaces on physical, port
+
+channel, and subinterface ports
+
+supported per system
+
+Maximum number of MAC              32K/224k  *    64k/224k *        64k/224k *        8k             8k
+
+addresses per system
+
+Maximum number of VRFs per         1000           1000              1000              32             32
+
+system
+
+Maximum number of IPv4 routes      1M             81k               81k               8158           8158
+
+per system (default mode)
+
+Maximum number of IPv6 routes      1M             32k (<=64b)       32k (<=64b)       4096           4096
+
+per system (default mode by                       25k (>64b)        25k (>64b)
+
+prefix length)
+
+Maximum number of IPv4             Not supported  160k              160k              Not supported  Not supported
+
+routes per system (route scale
+
+maximum mode)
+
+Maximum number of IPv6             Not supported  65k (<=64b,       65k (<=64b,       Not supported  Not supported
+
+routes per system (route scale                    >64b)             >64b)
+
+maximum mode)
+
+Maximum number of static           2k             2k                1024              1024           1024
+
+routes per system
+
+Maximum number of BGP routes       1M             IPv4 default      IPv4 default      IPv4 - 8158    IPv4 - 8158
+
+per system                                        mode - 81k        mode - 81k
+
+                                                  IPv6 default      IPv6 default
+
+                                                  mode - 32k        mode - 32k
+
+                                                  (<=64b), 25k      (<=64b), 25k
+
+                                                  (>64b)            (>64b)
+
+                                                  IPv4 route scale  IPv4 route scale
+
+                                                  mode - 160k       mode - 160k
+
+                                                  IPv6 route scale  IPv6 route scale  IPv6 - 4096    IPv6 - 4096
+
+                                                  mode - 65k        mode - 65k
+
+                                                  (<=64b, >64b)     (<=64b, >64b)
+
+Maximum number of BGP routes       1M             IPv4 default      IPv4 default      IPv4 - 8158    IPv4 - 8158
+
+RIB IN                                            mode - 81k        mode - 81k
+
+                                                  IPv6 default      IPv6 default
+
+                                                  mode - 32k        mode - 32k
+
+                                                  (<=64b), 25k      (<=64b), 25k
+
+                                                  (>64b)            (>64b)
+
+                                                  IPv4 route scale  IPv4 route scale
+
+                                                  mode - 160k       mode - 160k
+
+                                                  IPv6 route scale  IPv6 route scale  IPv6 - 4096    IPv6 - 4096
+
+                                                  mode - 65k        mode - 65k
+
+                                                  (<=64b, >64b)     (<=64b, >64b)
+
+18      Scalability
+Table 10. E, N, S-series scalability (continued)
+
+-                               S5448F-ON  S5232F-ON,  S5224F-ON,  N3248P-ON,   N3248PXE-ON,
+                                           S5248F-ON,  S5212F-ON   E3248P-ON,   E3248PXE-ON,
+                                           S5296F-ON               N3248TE-ON,  N3248X-ON
+                                                                   S3248T-ON
+
+Maximum number of BGP           512        512         256         128          128
+
+neighbors
+
+Maximum number of ECMP          1023       1023        1023        256          256
+
+groups
+
+Maximum number of paths in an   128        128         128         16           16
+
+ECMP group
+
+Maximum number of BFD           128        128         64          64           64
+
+sessions
+
+IP SLA - ICMP tracker           50         50          50          25           50
+
+IP SLA - TCP tracker            50         50          50          25           50
+
+Maximum number of ARP           30k        32k         16k         6144         6144
+
+supported per system
+
+Maximum number of ND            15k        16k         8k          2560         2560
+
+supported per system
+
+Maximum number of OSPF          50         50          50          50           50
+
+routers per OSPF area
+
+Maximum number of OSPF-         128        128         128         64           64
+
+enabled L3 interfaces
+
+Maximum number of OSPFv2        128        128         128         64           64
+
+neighbors
+
+Maximum number of OSPF intra-   5,000      5,000       5,000       2,500        2,500
+
+area routes
+
+Maximum number interarea        5,000      5,000       5,000       2,500        2,500
+
+summary routes
+
+Maximum number of OSPF          40,000     40,000      20,000      8k           8k
+
+external (type-5) routes
+
+Maximum number of VRRP          128        128         128         64           64
+
+instances
+
+Maximum number of VRRP          128        128         128         64           64
+
+enabled interfaces
+
+Maximum number of VRRP          16         16          16          8            8
+
+instances per interface
+
+Maximum number of tracked       8          8           8           8            8
+
+interfaces per VRRP instance
+
+Maximum IP address per VRRP     4          4           4           4            4
+
+instance
+
+Maximum number of IPv4 only     2          3           3           4            3
+
+ACL tables that are applied to
+
+interfaces at ingress
+
+Maximum number of IPv4 ACL      1023       768         768         512          768
+
+rules per applied ACL table at
+
+ingress
+
+Maximum number of IPv6 only     2          3           3           4            3
+
+ACL tables that are applied to
+
+interfaces at ingress
+
+                                                                                Scalability   19
+Table 10. E, N, S-series scalability (continued)
+
+-                                 S5448F-ON     S5232F-ON,      S5224F-ON,      N3248P-ON,     N3248PXE-ON,
+                                                S5248F-ON,      S5212F-ON       E3248P-ON,     E3248PXE-ON,
+                                                S5296F-ON                       N3248TE-ON,    N3248X-ON
+                                                                                S3248T-ON
+
+Number of IPv6 ACL rules per      1023          768             768             512            768
+
+applied ACL table at ingress
+
+Maximum number of IPv4 only       1             1               1               1              1
+
+ACL tables applied to interfaces
+
+at egress
+
+Maximum number of IPv4 ACL        511           512             512             512            512
+
+rules per applied ACL tables at
+
+egress
+
+Maximum number of IPv6 only       1             1               1               1              1
+
+ACL tables applied to interfaces
+
+at egress
+
+Number of IPv6 ACL rules per      511           512             512             256            512
+
+applied ACL tables at egress
+
+Maximum number of egress          1             1               1               1              1
+
+MAC only ACL tables/features
+
+applied to an interface
+
+Maximum number of MAC ACL         511           512             512             512            512
+
+rules per applied ACL table/
+
+feature at egress
+
+Maximum number of ingress         2             3               3               4              3
+
+MAC only ACL tables/features
+
+applied to an interface
+
+Maximum number of MAC ACL         1023          768             768             512            768
+
+rules per applied ACL table/
+
+feature at Ingress
+
+Maximum number of MST             64            64              64              64             64
+
+instances
+
+Maximum number of VLAN ports      5000          5000            5000            1000           1000
+
+for MST
+
+Maximum number of NAT entries     0             1023            1023            Not supported  Not supported
+
+(static plus dynamic)
+
+Maximum number of port            3             3               3               3              3
+
+mirroring sessions per system
+
+Maximum number of SPAN/           3             3               3               3              3
+
+ERSPAN mirroring sessions per
+
+system
+
+Maximum number of BGP EVPN        256           256             128             64             64
+
+sessions
+
+Maximum EVPN MAC addresses        32k/224k*     64k/224k*       64k/224k*       8k             8k
+
+Maximum VXLAN tunnels             512 (Without  512 (Without    512 (Without    128            128
+
+                                  primary IP    primary IP      primary IP
+
+                                  addresses     addresses       addresses
+
+                                  (PIP))        (PIP))          (PIP))
+
+                                  256 (With     256 (With PIP)  256 (With PIP)
+
+                                  PIP)
+
+Maximum number of L2 VNIs         3965          3965            3965            2k             2k
+
+20      Scalability
+Table 10. E, N, S-series scalability (continued)
+
+-                               S5448F-ON      S5232F-ON,     S5224F-ON,     N3248P-ON,     N3248PXE-ON,
+                                               S5248F-ON,     S5212F-ON      E3248P-ON,     E3248PXE-ON,
+                                               S5296F-ON                     N3248TE-ON,    N3248X-ON
+                                                                             S3248T-ON
+
+Maximum number of L3 VNIs       1k             1k             1k             32             32
+
+(VRF)
+
+Overlay routes                  IPv4 - 340k    IPv4 - 81k     IPv4 - 81k     IPv4 - 8k      IPv4 - 8k
+
+                                IPv6 - 340k    IPv6 - 25k     IPv6 - 25k     IPv6 - 4K      IPv6 - 4K
+
+Maximum number of IPMC (L3)     8k             8k             8k             8k             8k
+
+forwarding entries
+
+Maximum number of flow groups   Not supported  253            Not supported  Not supported  Not supported
+
+for silicon telemetry features
+
+Maximum number of IFA           Not supported  249            Not supported  Not supported  Not supported
+
+sessions
+
+Maximum number of drop          Not supported  253            Not supported  Not supported  Not supported
+
+monitor sessions
+
+Maximum number of               Not supported  253            Not supported  Not supported  Not supported
+
+tailstamping sessions
+
+Maximum number of IGMP          512            512            512            512            512
+
+Snooping entries
+
+Max number of DHCPv4            12k / 1k       12k / 1k       12k / 1k       3k / 1k        3k / 1k
+
+Snooping entries (dynamic/
+
+static)
+
+Max number of DHCPv6            12k / 1k       12k / 1k       12k / 1k       3k / 1k        3k / 1k
+
+Snooping entries (dynamic/
+
+static)
+
+PAC : Maximum Clients (802.1x/  Not supported  Not supported  Not supported  512            512
+
+MAB) supported on the Switch
+
+PAC : Maximum Clients (802.1x/  Not supported  Not supported  Not supported  48             48
+
+MAB) supported per port
+
+PAC : Maximum ACL rules         Not supported  Not supported  Not supported  60             60
+
+supported per (802.1x/MAB)
+
+Client
+
+Q-in-Q single tag               1983           1983           1983           1983           1983
+
+Q-in-Q double tag               1983           1983           1983           1983           1983
+
+Maximum number of active PBR    2046           2304           2304           2048           2304
+
+entries per system
+
+EVPN multihoming maximum        128            128            128            64             64
+
+ESIs per VTEP
+
+EVPN multihoming maximum        4k             4k             4k             1k             1k
+
+VNIs per ESI
+
+EVPN multihoming maximum        4              4              4              4              4
+
+VTEPs in an ES
+
+Routed subinterfaces            750            750            750            Not supported  Not supported
+
+* The first value corresponds to Layer 3 switch profile mode (default mode), and the second value corresponds to Layer 2
+
+switch profile mode.
+
+** For the Z9332F-ON, one ACL table can have 512 entries while the other can have 256. It is not deterministic which table is
+
+512 when tables are added and deleted (marked as 256).
+
+                                                                                            Scalability                        21
+                                                                                                           6
+
+           Breakout modes on Dell PowerSwitch
+
+                                                                                      platforms
+
+This information lists the breakout modes for each supported switch.
+
+Table 11. Breakout modes on Dell PowerSwitch platforms
+
+Platform   Breakout modes                                             Default breakout mode
+
+S3248T-ON  1x100G, 1x40G, 4x25G, 4x10G, 1x25G,                        The listed breakout modes are supported
+
+           1x10G                                                      on ports 1/53 and 1/54.
+
+S5212F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The listed breakout modes are
+
+                                                                         supported on port 1/13 - 1/15.
+
+                                                                         Port 1/1 to 1/12 do not support
+
+                                                                         breakout and are 25G by default.
+
+                                                                         You can use them at 10G or 1G using
+
+                                                                         the speed command.
+
+S5224F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The listed breakout modes are
+
+                                                                         supported on port 1/25 - 1/28.
+
+                                                                         Port 1/1 to 1/24 do not support
+
+                                                                         breakout and are 25G by default.
+
+                                                                         You can use them at 10G or 1G using
+
+                                                                         the speed command.
+
+S5232F-ON  1x100G, 1x40G, 2x50, 4x25G, 4x10G                             Listed Breakout modes are supported
+
+                                                                         on port 1/1 - 1/31.
+
+                                                                         Port 1/32 does not support 4x25G or
+
+                                                                         4x10G modes. To configure Port1/32
+
+                                                                         to operate at 40G, use the speed
+
+                                                                         40000 command.
+
+                                                                         2x50G is validated only for a specific
+
+                                                                         case with 100G DAC.
+
+S5248F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The listed breakout modes are
+
+                                                                         supported on port 1/49 - 1/56.
+
+                                                                         Port 1/1 to 1/48 do not support
+
+                                                                         breakout and are 25G by default.
+
+                                                                         You can use them at 10G or 1G
+
+                                                                         using the port-group command.
+
+                                                                         For more information about using
+
+                                                                         the port-group command, see the
+
+                                                                         User Guide.
+
+S5296F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The listed breakout modes are
+
+                                                                         supported on port 1/97 - 1/104.
+
+                                                                         Port 1/1 to 1/96 do not support
+
+                                                                         breakout and are 25G by default.
+
+                                                                         You can use them at 10G or 1G
+
+                                                                         using the port-group command.
+
+                                                                         For more information about using
+
+                                                                         the port-group command, see the
+
+                                                                         User Guide.
+
+S5448F-ON    Port 1/1 to 1/4 and 1/53 to                              -
+
+             1/56: 1x25G, 1x10G, 1x100G, 1x40G,
+
+22  Breakout modes on Dell PowerSwitch platforms
+Table 11. Breakout  modes  on  Dell  PowerSwitch platforms (continued)
+
+Platform                             Breakout modes                         Default breakout mode
+
+                                       1x200G, 2x40G, 2x200G, 2x100G,
+
+                                       4x25G, 4x10G, 4x100G, 1x400G
+
+                                       Port 1/5 to 1/52: 1x25G, 1x10G,
+
+                                       1x100G, 1x40G, 1x200G, 1x400G,
+
+                                       2x40G, 2x200G, 2x100G, 4x25G,
+
+                                       4x10G, 2x50G, 4x100G
+
+Z9264F-ON                            1x100G, 1x40G, 4x25G, 4x10G, 1x25G,    -
+
+                                     1x10G
+
+Z9332F-ON                            1x400G, 2x200G, 2x100G, 2x40G,         -
+
+                                     4x100G, 1x100G, 1x40G, 1x200G, 8x25G,
+
+                                     8x10G, 4x25G, 4x10G, 1x25G, 1x10G
+
+Z9432F-ON                            1x400G, 2x200G, 2x100G, 2x40G,         -
+
+                                     4x100G, 1x100G, 1x40G, 1x200G, 8x50G,
+
+                                     8x25G, 8x10G, 4x25G, 4x10G, 1x25G,
+
+                                     1x10G
+
+Z9664F-ON                            1x400G, 2x200G, 2x100G, 2x40G,         -
+
+                                     4x100G, 1x100G, 1x40G, 4x25G, 4x10G,
+
+                                     1x25G, 1x10G
+
+Z9864F-ON                            1x800G, 4x200G, 2x400G, 2x200G (50G    -
+
+                                     PAM4), 2x100G (25G NRZ), 8x100G
+
+N and E-series                       1x100G, 1x40G, 4x25G, 4x10G, 1x25G,    The listed breakout modes  are  supported
+
+                                     1x10G                                  on ports 1/53 and 1/54.
+
+                                                     Breakout modes         on Dell PowerSwitch platforms   23
+                                                                                                                                7
+
+          Z9864F-ON ports and DAC cable length
+
+                                                              compatibility
+
+The 800G OSFP112 passive copper cables come in various lengths. On the Z9864F-ON platform, certain ports have a limitation
+
+on the maximum cable length that can be used on them.
+
+Z9864F-ON port-to-port connection
+
+The following port map displays the groups of ports and the cable lengths that they support when connection is made to
+
+another Z9864F-ON 800G OSFP112 port. If the length is exceeded, the link may not come up or become unreliable.
+
+When you design your system wiring to use passive copper DAC cables, ensure that you use the correct cable on each port as
+
+follows:
+
+1.  Port group 1 includes ports 9 to 24 and 41 to 56, and supports Dell-branded DAC cables 1m, 2m, 3m, and 4m.
+
+2.  Port group 2 includes ports 1 to 8, 25 to 32, 37 to 40, and 57 to 60, and supports Dell-branded DAC cables 1m, 2m, and 3m.
+
+3.  Port group 3 includes ports 33 to 36 and 61 to 64 and supports Dell-branded DAC cables 1m and 2m.
+
+Z9864F-ON port-to-Dell Broadcom Ethernet NIC connection
+
+If you connect the Z9864F-ON platform from any of the 1 to 64 port to a Dell Broadcom BCM57608 2x200G PCIe Ethernet NIC,
+
+ensure that you use Dell-branded passive copper DAC cables of 1m, 2m, 3m, or 4m. If the length exceeds, the link may not come
+
+up or become unreliable.
+
+24        Z9864F-ON ports and DAC cable length compatibility
+

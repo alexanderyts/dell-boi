@@ -1,0 +1,34 @@
+{
+  "_comment": "GOLDEN FIXTURE A2 — the SPINE-LESS dual variant (J2 uplinkTarget:'existing-core'; backtest invariant 6). Same 2-rack DUAL design as Fixture A (VLT/MC-LAG pair per rack + 4x 100G DAC ICL — a redundant pair still needs its peer-link) but the leaves uplink DIRECT to the customer's existing core: NO new spine tier, NO leaf-to-spine AOC. Proves uplinkTarget changes the hardware, not a label.",
+  "name": "Fixture A2 — 60x R660/R760, 10GBase-T, 2 racks, dual, SPINE-LESS (uplink to existing core)",
+  "engine": "recommend",
+  "verity": true,
+  "input": {
+    "targets": [
+      { "platformId": "poweredge-general", "units": 60, "nic": { "vendor": "Broadcom", "speed": "10GBase-T", "portsPerNic": 2, "nicsPerUnit": 1 } }
+    ],
+    "racks": 2,
+    "redundancy": "dual",
+    "deployType": "add",
+    "includeMgmt": true,
+    "includeCoreUplink": true,
+    "coreSpeed": "100GbE",
+    "trafficProfile": "balanced",
+    "uplinkTarget": "existing-core"
+  },
+  "expected": [
+    { "label": "leaf — 2 per rack as a pair x 2 racks (dual, unchanged from A)", "category": "Switch", "on": "model", "match": "^S4348T-ON$", "qty": 4, "knownDiff": null },
+    { "label": "NO new spine — existing-core: the leaves are the border to the core", "category": "Switch", "on": "model", "match": "^S5232F-ON$", "qty": 0, "knownDiff": null },
+    { "label": "OOB — one per declared rack", "category": "Management", "on": "model", "match": "^S3248T-ON$", "qty": 2, "knownDiff": null },
+    { "label": "host cabling — 120 (dual-homed, both ports across the pair)", "category": "Cable/Optic", "on": "mk", "match": "^host\\|.*\\|cat6a-host$", "qty": 120, "knownDiff": null },
+    { "label": "redundant-pair ICL — 4 (the pair still needs a peer-link even spine-less)", "category": "Cable/Optic", "on": "item", "match": "ICL|peer.?link|VLTi", "qty": 4, "knownDiff": null },
+    { "label": "NO leaf-to-spine AOC — no spine tier exists", "category": "Cable/Optic", "on": "mk", "match": "^uplink\\|.*\\|aoc-100g-qsfp28$", "qty": 0, "knownDiff": null },
+    { "label": "OOB cabling — 60 hosts + 4 leaf switch mgmt ports (no spine) = 64", "category": "Cable/Optic", "on": "mk", "match": "^mgmtcable$", "qty": 64, "knownDiff": null },
+    { "label": "OOB inter-rack uplinks — 1 per rack x 2", "category": "Cable/Optic", "on": "mk", "match": "^mgmtuplink$", "qty": 2, "knownDiff": null },
+    { "label": "inter-network transceivers — EVERY leaf pair uplinks to core (R6: 2 per pair x 2 pairs = 4, not a fixed 2 that would strand half the leaves)", "category": "Cable/Optic", "on": "mk", "match": "^core$", "qty": 4, "knownDiff": null },
+    { "label": "inter-network patch cords — 2 per link x 4 links", "category": "Cable/Optic", "on": "mk", "match": "^core-patch$", "qty": 8, "knownDiff": null },
+    { "label": "DFM subscription", "category": "Software", "on": "item", "match": "Fabric Manager|DFM", "qty": 1, "knownDiff": null }
+  ],
+  "noExtraSwitchModels": true,
+  "phraseAbsence": []
+}

@@ -1,0 +1,299 @@
+Z9864F-ON Spec Sheet
+
+                                                         Dell PowerSwitch Z9864F-ON
+
+                                                         High-performance, high-density open networking 800GbE
+
+                                                         multi-rate AI fabric switch
+
+Dell PowerSwitch Z9864F-ON 800GbE fixed switch comprises Dell Technologies' latest disaggregated hardware
+
+and software data center networking solutions, providing state-of-the-art, high-density 100/200/400/800 GbE
+
+ports and a broad range of functionality to meet the growing demands of today's data center environment. This
+
+innovative, next-generation open networking high-density aggregation switch offers optimum flexibility and
+
+cost-effectiveness for artificial intelligence (AI) and machine learning (ML) fabric solutions, Web 2.0, enterprise,
+
+and Tier1/Tier2 cloud service provider data center networks with intensive compute and storage traffic, cloud,
+
+IoT, AI and streaming video requirements.
+
+The PowerSwitch Z9864F-ON provides high-density of 64 ports of 800GbE in a OSFP112 form factor and 2U
+
+design. It can also be used as a 100/200/400 switch via breakout cables for a maximum of 320 ports.
+
+Using industry-leading hardware and featuring Enterprise SONiC by Dell Technologies, the Z9864F-ON switch
+
+incorporates multiple architectural features that optimize data center fabric network flexibility, efficiency and
+
+availability, including IO panel to PSU and PSU to IO panel airflow for hot/cold aisle environments, redundant,
+
+hot-swappable power supplies and fans and delivers non-blocking performance for workloads sensitive to
+
+packet loss. The Z9864F-ON provides multi-rate speeds, enables denser footprints and simplifies migration
+
+to 800Gbps.
+
+Priority-based flow control (PFC), data center bridge exchange (DCBX), RoCEv2 and enhanced transmission
+
+selection (ETS) make the Z9864F-ON ideally suited for DCB environments.
+
+The Z9864F-ON hardware adds AI/ML fabric support enhancements such as versatile hashing*, adaptive
+
+routing*, cognitive routing*, enhanced priority-based flow control queue configuration support*, increased AI
+
+observability* and Dell SmartFabric Manager* support.
+
+The Dell PowerSwitch Z9864F-ON switch supports the open-source Open Network Install Environment (ONIE)
+
+for zero touch installation of Enterprise SONiC by Dell Technologies, as well as of alternative network operating
+
+systems (when applicable).
+
+*Future software release for full feature functionality
+
+Dell PowerSwitch Z9864F-ON Spec Sheet
+
+© 2024 Dell Inc. or its subsidiaries.
+Key applications                                       Key features
+
+·  Organizations looking to enter the software-        ·  2U high-density 100/200/400/800GbE
+
+   defined data center era with a choice of               aggregation switch with up to 64 ports of 800GbE
+
+   networking technologies designed to                    (OSFP112 PAM4), 128 ports of 400GbE (100GbE
+
+   maximize flexibility                                   PAM4, breakout mode), 256 ports of 200GbE
+
+·  High-capacity Ethernet fabrics for AI/ML training      (breakout mode)**, 320 ports of 100GbE (breakout
+
+   and inferencing clusters, with up-to 8K GPU nodes      mode), or 256x100G and either 32x800G or
+
+   in a single two-tier 400G fabric                       64x400G**
+
+·  High density multi-rate 100/200/400/800GbE          ·  OSFP112 ports support 100/200/400/800GbE
+
+   ToR/MoR server aggregation in high-performance      ·  102.4Tbps switching capacity (full duplex),
+
+   data center environments at the desired                51.2Tbps non-blocking (half duplex)
+
+   fabric speed                                        ·  IO panel to PSU airflow or PSU to IO panel airflow
+
+·  Fabric implementation in leaf and spine along       ·  AC or DC* PSU support
+
+   with S-series ToR switches enabling cost-effective
+
+   aggregation of 100/200/400/800 uplinks              ·  Redundant, hot-swappable power supplies
+
+·  Multi-functional 100/200/400/800GbE switching          and fans
+
+   in High Performance Computing clusters or other     ·  Supports the open-source ONIE for zero-touch
+
+   business-sensitive deployments requiring the           installation of alternate network operating
+
+   highest bandwidth                                      systems
+
+·  DCB* and RoCEv2 converged lossless                  ·  Power-efficient design, implemented in a
+
+   transactions                                           monolithic 5nm die package
+
+·  NVMe/TCP and Dell SmartFabric Storage               ·  Power-efficient operation up to 45°C, helping
+
+   Software support for automation of storage             reduce cooling costs in temperature-constrained
+
+   services on a wide range of existing IP fabrics        deployments
+
+·  Autonomous data center network fabric
+
+   deployment, expansion and lifecycle management
+
+   with SmartFabric Services, automating and
+
+   simplifying networking
+
+**Provisional breakout support at RTS
+
+2 | Dell PowerSwitch Z9864F-ON Spec Sheet
+
+© 2024 Dell Inc. or its subsidiaries.
+Product                                  Description
+
+Z9864F-ON                                Z9864F-ON, 64x 800GbE OSFP112, 2x SFP+, TAA Certified, with ONIE bootloader
+
+Network Operating System                 Enterprise SONiC Distribution by Dell Technologies
+
+                                         AC ­ IO Panel to PSU Airflow, 2 AC PSUs and 4 fans
+
+Airflow Kits                             AC ­ PSU to IO Panel Airflow, 2 AC PSUs and 4 fans
+
+                                         DC ­ IO Panel to PSU Airflow, 2 DC PSUs and 4 fans
+
+                                         DC ­ PSU to IO Panel Airflow, 2 DC PSUs and 4 fans
+
+Optics, Cables and Cable                 Please refer to Dell Networking Transceivers and Cables spec sheet for complete list of optics and cables.
+
+Management
+
+Technical specifications
+
+Hardware specifications                                     Performance                                     Regulatory compliance
+
+Physical                                                    Switch fabric capacity: 51.2Tbps (half duplex)  Safety
+
+64x800GbE OSFP112, 2x10GbE SFP+ ports                       Forwarding capacity: 20.3Bpps                   UL/CUL 62368-1
+
+1 RJ45 console/management via RS232                         Latency: sub-700ns                              IEC/EN 62368-1 Including All National
+
+1 USB-C for serial access console/                          Packet buffer memory: 165.2MB: 82.6MB per       Deviations and Group Differences
+
+management                                                  Ingress Traffic Manager (ITM) (there are 2 per  EN 60825-1 Safety of Laser Products Part 1:
+
+                                                            NPU)                                            Equipment Classification Requirements and
+
+1 RJ45 10/100/1000BaseT Ethernet for                        NPU Pipeline is programmable capable using      User's Guide
+
+management                                                  NPL
+
+1 USB 3.0 Type A storage port                               CPU: Intel® Xeon® D-1714 4 core @               EN 60825-2 Safety of Laser Products Part
+
+                                                                                                            2: Safety of Optical Fibre Communication
+
+Chassis                                                     2.3GHz (up to 3.4GHz in Turbo mode) CPU         Systems
+
+                                                            memory: 32GB DDR4 ECC                           FDA Regulation 21 CFR 1040.10 and 1040.11.
+
+Size: 2U, 438.5 x 630 x 87.3 mm (W x D x H),                MAC addresses: 156K
+
+17.26 x 24.80 x 3.43 inches (W x D x H)                     ARP table: 16K standalone, 8K shared            Emissions
+
+Switch without PSU and Fan tray: 44.1 lbs                   IPv4 routes: up to 400K (ALPM)                  AS/NZS CISPR: 32, Class A
+
+(20 kg)                                                     IPv6 routes: 300K Multicast hosts: 1K           ICES-003, Class A
+
+Switch with PSU and Fan trays: 55.8 lbs (25.3 kg)           Multicast IPv6 routes: 4K
+
+                                                            Layer 2 VLANs: 4K MSTP: 64 instances            EN55032/55035, Class A
+
+Environmental                                                                                               VCCI-CISPR 32, Class A
+
+Power supply: 100-240 VAC 50/60 Hz                          LAG load balancing: Based on layer 2, IPv4 or
+
+                                                            IPv6 headers                                    FCC CFR 47 Part 15, Subpart B, Class A
+
+AC/DC inlet IEC60320 C20                                    Timing Card supporting SyncE with Stratum
+
+Max. power available:                                       3E class OCXO                                   Immunity
+
+·  AC High Line: 3000W                                      Timing card supporting PTP/1588 providing       EN 300 386 EMC for Network Equipment
+
+·  AC Low Line: 1500W                                       Class C Phase performance or better             EN 55035
+
+·  DC: 3200W                                                                                                EN 61000-3-2 Harmonic Current Emissions
+
+Max. utilized: 2848W                                        Security                                        EN 61000-3-3
+
+Typ. power consumption: 1500W***                            Hardware Root of Trust features                 Voltage Fluctuations and Flicker
+
+Max. operating specifications:                              Secure Boot                                     EN 61000-4-2 ESD
+
+Operating temperature: 32° to 113°F (0°to45°C)              Trusted Platform Module TPM 2.0                 EN 61000-4-3 Radiated Immunity
+
+Operating humidity: 8 to 90% (RH),                          Optics Performance                              EN 61000-4-4 EFT
+
+non-condensing                                                                                              EN 61000-4-5 Surge
+
+                                                            Supports up to 64 ports of 18W optics when      EN 61000-4-6 Low Frequency Conducted
+
+Max. non-operating specifications:                          in IO/PSU airflow direction                     Immunity
+
+Storage temperature: -40° to 149°F                          Supports up to 32 ports of 17W optics when
+
+(­40° to 65°C)                                              in PSU/IO airflow direction operating at 35°C   RoHS
+
+Storage humidity: 5 to 95% (RH),                            Supports up to 64 ports of DAC cable when       All Z-series components are EU RoHS
+
+non-condensing                                              in PSU/IO airflow direction operating at 45°C   compliant
+
+Support lowline and highline AC power                       and no optics support when operating at 45°C
+
+modes                                                       For Network Operating System (NOS)              Certifications
+
+Redundancy                                                  specific features, refer to Enterprise SONiC    Available with US Trade Agreements Act
+
+                                                            Distribution by Dell Technologies spec sheet.   (TAA) compliance
+
+Hot swappable redundant power                               Each switch unit comes with Console cables      IPv6 Ready for both Host and Router
+
+(1+1 redundancy)****                                        and an Accelerated Rack Mount rail kit.
+
+Hot swappable redundant fans (3+1                                                                           Warranty
+
+redundant fan module). Each fan module                                                                      1 year return to depot constrained
+
+with one dual-stacked fan.
+
+*** Typical power consumption measured at 25°C ambient with 100% load on all ports with DAC
+
+**** Power redundancy is supported only in high power mode
+
+3 | Dell PowerSwitch Z9864F-ON Spec Sheet
+
+© 2024 Dell Inc. or its subsidiaries.
+IT Lifecycle Services for Networking
+
+Experts, insights and ease
+
+Our highly trained experts, with innovative tools and proven processes, help you transform your IT investments into
+
+strategic advantages.
+
+                       Plan & Design
+
+                       Let us analyze your multivendor environment and deliver a comprehensive report and action
+
+                       plan to build upon the existing network and improve performance.
+
+                       Deploy & Integrate
+
+                       Get new wired or wireless network technology installed and configured with ProDeploy.
+
+                       Reduce costs, save time, and get up and running fast.
+
+                       Educate
+
+                       Ensure your staff builds the right skills for long- term success. Get certified on Dell
+
+                       Networking technology and learn how to increase performance and optimize infrastructure.
+
+                       Manage & Support
+
+                       Gain access to technical experts and quickly resolve multivendor networking challenges with
+
+                       ProSupport. Spend less time resolving network issues and more time innovating.
+
+                       Optimize
+
+                       Maximize performance for dynamic IT environments with Dell Optimize. Benefit from in-depth
+
+                       predictive analysis, remote monitoring and a dedicated systems analyst for your network.
+
+                       Retire
+
+                       We can help you resell or retire excess hardware while meeting local regulatory guidelines
+
+                       and acting in an environmentally responsible way.
+
+Learn more at DellTechnologies.com/Services
+
+Learn more                            Contact a Dell  View more resources                Join the conversation with
+
+Dell Networking                  Technologies Expert                                     #DellTechnologies
+
+solutions
+
+© 2024 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their
+
+respective owners.
+

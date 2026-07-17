@@ -1,0 +1,51 @@
+Networking topology best-practice research for tool challenge — 2026-07-11 (authoritative public sources).
+
+AI / GPU FABRIC (Juniper AI DC design, GPU backend fabric guides, thenetworkdna)
+- Leaf-to-server tier MUST be non-blocking 1:1. Aggregation 2:1 / core 4:1 acceptable ONLY with same-pod GPU affinity scheduling. Safe default: 1:1 throughout.
+- Rail-optimized backend: Rail N = all #N GPUs interconnect via the N-th leaf. Replicate the rail stripe to scale.
+- Four AI networks: back-end (GPU east-west, rail), front-end (north-south users/data), storage, out-of-band mgmt — kept separate.
+- Two-tier leaf-spine reach ~2,000 GPUs; beyond → 3-tier Clos with super-spines.
+- Switch fabric-capacity ≠ port-capacity: a 12.8T switch with 32×400G = 25.6T bidir is already ~2:1 before cabling — check ASIC forwarding vs total port BW.
+
+POWERSCALE BACK-END (Dell H16346.2 / H17682 leaf-spine best practices — AUTHORITATIVE)
+- Two back-end interfaces int-1/int-2 (a.k.a int-a/int-b) run ACTIVE/PASSIVE; primary NIC → primary switch, secondary NIC → SEPARATE switch. NO inter-switch link (OneFS handles failover).
+- Leaf-spine introduced OneFS 8.2; every leaf to every spine; EVEN distribution of leaf→spine links.
+- HARD LIMIT: max cluster size for 10/25/40 GbE nodes = 252 nodes.
+- Back-end switches: S5232, Z9100, Z9264 in SmartFabric mode (also Z9664 for 100/200G flat).
+- All connections single link / single cable node↔back-end switch.
+
+STORAGE PROTOCOL
+- NVMe-RoCE → lossless (PFC+ECN/DCQCN) + non-blocking 1:1. iSCSI / NVMe-TCP → standard fabric, ≤2:1, jumbo MTU 9216. NVMe-TCP: SFSS automates discovery.
+
+GENERAL / ENTERPRISE DC
+- 3:1 oversubscription = general-purpose enterprise STANDARD (servers avg 20–40% NIC). 2:1 conservative; AI/storage 1:1.
+- Traffic shifted 80% east-west (was 80% north-south) → leaf-spine over 3-tier.
+- ToR pair for a single rack; leaf-spine for multi-rack/east-west; super-spine (3-tier) beyond one pod's spine radix.
+- Every leaf to EVERY spine; never leaf-leaf / spine-spine; ECMP all links active.
+
+EDGE / CAMPUS — SONiC ONLY (Dell Enterprise SONiC Edge deployment guide — AUTHORITATIVE)
+- L3 leaf-spine underlay; MC-LAG from leaf(access) to spine(distribution) for redundancy/multihoming, loop-free L2 without STP.
+- PoE switches (SONiC 4.1+): E3248PXE-ON, E3248P-ON, N3248PXE-ON. PoE power mgmt dynamic @ 90% threshold, per-device-type.
+- Spanning-tree EDGE port on downstream ports; 802.1x endpoint security.
+- OS10 is end-of-sale for E-series → SONiC only on edge/campus (per user constraint + product lifecycle).
+
+Sources: Juniper "Designing Data Centers for AI Clusters" PDF, cloudswit.ch GPU backend fabric guide, Dell PowerScale Leaf-Spine Best Practices (H17682) + Ethernet Back-end Overview (H16346.2), Dell Enterprise SONiC Edge deployment guide (infohub), network-switch.com leaf-spine vs 3-tier 2026, thenetworkdna AI DC networking.
+
+=== PLATFORM-SPECIFIC NETWORKING (research refreshed 2026-07-11, current guidance) ===
+POWERFLEX (Dell H18390 Networking Best Practices)
+- LACP LAG (switch-dependent) → MC-LAG (MLAG); SDS MLAG IP + MDM MLAG IP. systemBond = LACP.
+- Up to 8 networks/install; 2 data networks standard, 4 for high-perf/trunk. Heavy east-west (inter-node rebuild/rebalance + data access) → favor low oversubscription / non-blocking.
+POWERMAX 2500/8500 (H14531 iSCSI + NVMe/TCP guides)
+- Front-end 25G (Clearsky SLIC) / 100G; iSCSI + NVMe/TCP + SRDF. Each host ≥2 paths per node (MPIO). Jumbo MTU 9000/9216.
+POWERSTORE (H18241.7, 2024 — current)
+- Ethernet: multiple switches with LACP + VLTi/MC-LAG; each node cabled to ALL linked switches. Each host ≥2 paths per node. iSCSI jumbo MTU 9000. PowerStore X models do NOT use LACP.
+OBJECTSCALE — dual-network (public front-end + private back-end) LACP; 25G (EX500/EX5000) / 100G (XF960).
+AZURE LOCAL / APEX — Switch-Embedded Teaming (SET, switch-independent); ToR must be on Microsoft's approved switch list; small (2–3 node) can be switchless storage.
+
+=== EVPN-VXLAN UNDERLAY (Cisco/Juniper/Dell OS10 guides, current) ===
+- Underlay MTU 9216 (server MTU + 50B VXLAN overhead). Anycast gateway: shared VIP + common anycast MAC per VLAN across the leaf pair. Private ASN plan; eBGP spine-leaf, unique AS per leaf; ECMP across spines. P2P links /30 or /31 or unnumbered. Anycast RP on super-spine for BUM/multicast.
+
+=== BREAKOUT (current optics guides) ===
+- 400G QSFP-DD = 8×50G PAM4; breakout 4×100G. PAM4≠NRZ: a legacy 100G-SR4 (NRZ) will NOT link to a 400G PAM4 breakout — must match (this is the S5448F SFP56-DD caveat). 32×400G → 128×100G. Non-blocking preserved when 4×100G = 400G source. Breakout DAC in-rack / AOC 10–100m; APC polish; FEC must match both ends; Velcro not zip-ties.
+
+Currency note: OneFS back-end 252-node max still current in OneFS 9.x. PowerStore best-practice guide current rev H18241.7 (2024). All topology/optics guidance cross-checked against 2026 sources.

@@ -1,0 +1,999 @@
+MMS4X00-NM 800Gbps Twin-port OSFP
+
+2x400Gb/s InfiniBand and Ethernet
+
+Single Mode DR8 500m
+       Table of Contents
+
+1      Introduction................................................................................3
+
+1.1    Key Features ....................................................................................3
+
+1.2    Applications..................................................................................... 4
+
+2      Application Overview.....................................................................5
+
+2.1    Twin-port Transceiver Connectivity Scenarios .............................................5
+
+3      Pin Description ............................................................................7
+
+3.1    OSFP Pin Description ..........................................................................7
+
+3.1.1  OSFP Module Pad Layout .................................................................. 8
+
+3.2    Control Signals (OSFP).........................................................................8
+
+3.3    Diagnostics and Other Features..............................................................8
+
+4      Specifications............................................................................ 10
+
+4.1    Absolute Maximum Specifications ......................................................... 10
+
+4.2    Recommended Operating Conditions and Power Supply Requirements ............. 10
+
+4.3    Electrical Specifications .................................................................... 11
+
+4.3.1  Electrical Specification for Low Speed Signal ........................................11
+
+4.4    Optical Specifications ....................................................................... 11
+
+4.5    Mechanical Specifications .................................................................. 13
+
+4.6    Labels .......................................................................................... 13
+
+4.6.1  Transceiver Labeling and Fiber Polarity ...............................................13
+
+4.6.2  Back shell Label ...........................................................................13
+
+4.6.3  Regulatory Compliance ..................................................................14
+
+4.7    Connector and Cabling Details............................................................. 14
+
+4.7.1  MPO-12/APC Optical Connector ........................................................14
+
+4.7.2  Handling and Cleaning ...................................................................15
+
+4.7.3  Cable Management Guidelines ..........................................................16
+
+5      Ordering Information ................................................................... 17
+
+5.1    Part Numbers and Description ............................................................. 17
+
+6      Document Revision History ............................................................ 18
+
+                                                                                                             2
+1 Introduction
+
+The NVIDIA MMS4X00-NM is an InfiniBand and Ethernet 800Gb/s, 2x400Gb/s Twin-port OSFP, DR8
+
+single mode, parallel, 8-channel transceiver using two, 4-channel MPO-12/APC optical connectors at
+
+400Gb/s each. The parallel single mode, datacenter reach 8-channel (DR8) design uses 100G-PAM4
+
+modulation and has a maximum fiber reach of 500-meters using 8 single mode fibers. The 500-meter
+
+length assumes two optical patch panels in the link.
+
+The Twin-port DR8 transceiver is a key NVIDIA innovation with two internal transceiver engines
+
+enabling 64-ports of 400Gb/s in a 32-OSFP cage Quantum-2 switch. Spectrum-4 switches have 32 or
+
+64 cages and enable 64-128 400G ports.  The transceiver firmware supports both InfiniBand and
+
+Ethernet and is automatically enabled depending on the protocol of the switch attached to.
+
+The Quantum-2 and Spectrum-4 switches require finned-top OSFP shells for extra transceiver
+
+cooling. The main application for MMS4X00-NM is linking two switches together from 100-to-500-
+
+meter link length. 500-meter transceivers have purple marking. A flat top version (-NM-FLT) is
+
+offered for DGX-H100 systems.
+
+The 500-meter MMS4X00-NM part is similar to the 100-meter MMS4X00-NS, only extensively tested up
+
+to 500-meters use cases and may employ a different error correction scheme.
+
+The transceiver combinations guarantee optimal operation in NVIDIA end-to-end InfiniBand systems
+
+and a rigorous production tested to ensure the best out-of-the-box installation experience,
+
+performance, and durability.
+
+                                        Finned Top Transceiver
+
+     Images are for illustration purposes only. Product labels,  colors,  and  lengths  may  vary.
+
+1.1  Key Features
+
+·    800G DR8 single mode transceiver
+
+·    8-channels of 100G-PAM4 electrical modulation
+
+·    Two MPO-12/APC optical connectors
+
+·    Two ports of 4-channel 100G-PAM4 optical modulation
+
+·    Supports two straight 400Gb/s fiber cables for 800Gb/s
+
+·    Finned-top OSFP for air-cooled switches
+
+·    1310nm EML laser
+
+·    500m Max reach
+
+·    17-Watts max power
+
+·    1.5 Watt low-power sleep mode
+
+·    Single 3.3V power supply
+
+·    Class 1 laser safety
+
+·    Hot pluggable, RoHS compliant
+
+·    OSFPmsa.org compliant
+
+·    CMIS 4.0 compliant
+
+·    Case temperature range of 0°C to +70°C
+
+                                                                                                    3
+1.2  Applications
+
+·    Used to link Quantum-2 or Spectrum-4 air-cooled switches together
+
+                                                                        4
+2 Application Overview
+
+The Twin-port transceiver is a key innovation for expanding the 400G NDR InfiniBand Quantum-2 and
+
+400GbE Spectrum-4 Ethernet (400G IB/EN) switch capabilities.  The line rate is 400Gb/s for both
+
+400GbE Ethernet and NDR InfiniBand based on the 100G-PAM4 modulation. The switches use Twin
+
+port OSFP cages supporting two transceiver engines in a single OSFP form-factor plug creating
+
+800Gb/s electrical to the switch and 2x400G optics using two MPO/-12/APC optical connectors.
+
+Both switches and use the same Twin port, 2x400G OSFP plugs for transceivers, copper DACs and
+
+ACCs and are only used in Quantum-2 and Spectrum-4 OSFP air-cooled switches.
+
+Switches maintain separate protocols. The MMS4X00-NM transceiver includes both InfiniBand and
+
+Ethernet protocols which is activated depending on the switch protocol the transceiver is inserted
+
+into.
+
+2.1    Twin-port Transceiver Connectivity Scenarios
+
+The twin-ports enable several unique configurations to connect switches to switches, ConnectX-7
+
+adapters, and BlueField-3 DPUs.
+
+The primary use case for the MMS4X00-NM transceiver is to link multiple switches together at
+
+reaches from 100 to 500 meters. Theys can also link to single port 400G OSFP or QSFP112 form-
+
+factor transceivers used in ConnectX-7 adapters and/or BlueField-3 DPUs but only up to their 100-
+
+meter maximum reach.
+
+The electronics, optics and optical connectors are the same for both single port OSFP and QSFP112
+
+form-factors. Both ConnectX-7 and BlueField-3 devices can be used with Twin port OSFP transceivers
+
+at the same time with their respective form-factor type.
+
+·      Twin port OSFP single mode transceivers remain at 17 Watts for all configurations.
+
+·      Twin-Port transceivers require ordering two fibers at specific lengths required
+
+·      Each fiber cable can each be different lengths. Both fibers need to be same type: both
+
+       straight or both splitters and not mixed.
+
+·      Both fibers should be the approximately same length to avoid inducing different latency
+
+       delays in the fibers (4.5ns/meter).
+
+·      Straight and splitter fibers cannot be used at the same time in Twin port OSFP transceivers.
+
+·      NVIDIA supplies single mode, crossover, straight fiber cables up to 100-meters straight and 50-
+
+       meters for splitters that enable linking transceivers directly together. Customers should seek
+
+       third-party fiber suppliers for reaches beyond 100-meters and calculate optical power link
+
+       budgets.
+
+The combinations of Twin port 2x400G OSFP, 400G single port OSFP/QSFP112, ConnectX-7 and
+
+BlueField-3 all contains both InfiniBand and Ethernet protocols which is activated upon inserting
+
+into an InfiniBand or Ethernet switch. This enables one set of cables, transceivers, adapters and
+
+DPUs to have multiple uses in a network ­ especially in DGX systems where low-latency InfiniBand
+
+switching may be used for GPU-to-GPU networking and Ethernet switching systems for storage and
+
+cluster communication.
+
+The use cases include:
+
+1.     Switch-to-switch at 800Gb/s
+
+       This configuration enables transferring 800Gb/s between two switches using one, 17-Watt
+
+       twin-port, finned-top DR8 transceivers in each switch and two straight, crossover fibers
+
+                                                                                                        5
+    cables (MFP7E30-Nxxx) up to 100-meters for NVIDIA supplied cables or 3rd party supplied fiber
+
+    cables up to 500-meters including a crossover fiber segment in the link.
+
+2.  Switch-to-two switches at 400Gb/s
+
+    The two 400G ports in the first switch Twin port OSFP transceivers can also be routed to two
+
+    separate switches at 400Gb/s. Additional ports in the second and third transceivers can be
+
+    then routed to more switches.
+
+                                                                                                   6
+3 Pin Description
+
+The device is OSFP MSA Specification for OSFP Octal Small  Form Factor   Pluggable Module Rev. 1.12
+
+compliant, see www.osfpmsa.org.
+
+3.1     OSFP Pin      Description
+
+   Pin        Symbol             Description     Pin             Symbol          Description
+
+1       GND           Ground                     31        GND           Ground
+
+2       Tx2p          Transmitter Non-Inverted   32        Rx2p          Receiver Non-Inverted
+
+                      Data Input                                         Data Output
+
+3       Tx2n          Transmitter Inverted Data  33        Rx2n          Receiver Inverted Data
+
+                      Input                                              Output
+
+4       GND           Ground                     34        GND           Grounds
+
+5       Tx4p          Transmitter Non-Inverted   35        Rx4p          Receiver Non-Inverted
+
+                      Data Input                                         Data Output
+
+6       Tx4n          Transmitter Inverted Data  36        Rx4n          Receiver Inverted Data
+
+                      Input                                              Output
+
+7       GND           Ground                     37        GND           Ground
+
+8       Tx6p          Transmitter Non-Inverted   38        Rx6p          Receiver Non-Inverted
+
+                      Data Input                                         Data Output
+
+9       Tx6n          Transmitter Inverted Data  39        Rx6n          Receiver Inverted Data
+
+                      Input                                              Output
+
+10      GND           Ground                     40        GND           Ground
+
+11      Tx8p          Transmitter Non-Inverted   41        Rx8p          Receiver Non-Inverted
+
+                      Data input                                         Data Output
+
+12      Tx8n          Transmitter Inverted Data  42        Rx8n          Receiver Inverted Data
+
+                      Input                                              Output
+
+13      GND           Ground                     43        GND           Ground
+
+14      SCL           2-wire serial interface    44        INT / RSTn    Module Interrupt /
+
+                      clock                                              Module Reset
+
+15      VCC           +3.3V Power                45        VCC           +3.3V Power
+
+16      VCC           +3.3V Power                46        VCC           +3.3V Power
+
+17      LPWn / PRSn   Low-Power Mode /           47        SDA           2-wire Serial interface
+
+                      Module Present                                     data
+
+18      GND           Ground                     48        GND           Ground
+
+19      Rx7n          Receiver Inverted Data     49        Tx7n          Transmitter Inverted Data
+
+                      Output                                             Input
+
+20      Rx7p          Receiver Non-Inverted      50        Tx7p          Transmitter Non-Inverted
+
+                      Data Output                                        Data Input
+
+21      GND           Ground                     51        GND           Ground
+
+22      Rx5n          Receiver Inverted Data     52        Tx5n          Transmitter Inverted Data
+
+                      Output                                             Input
+
+                                                                                                     7
+Pin             Symbol          Description     Pin             Symbol             Description
+
+23        Rx5p          Receiver Non-Inverted   53   Tx5p               Transmitter            Non-Inverted
+
+                        Data Output                                     Data Input
+
+24        GND           Ground                  54   GND                Ground
+
+25        Rx3n          Receiver Inverted Data  55   Tx3n               Transmitter            Inverted Data
+
+                        Output                                          Input
+
+26        Rx3p          Receiver Non-Inverted   56   Tx3p               Transmitter            Non-Inverted
+
+                        Data Output                                     Data Input
+
+27        GND           Ground                  57   GND                Ground
+
+28        Rx1n          Receiver Inverted Data  58   Tx1n               Transmitter            Inverted Data
+
+                        Output                                          Input
+
+29        Rx1p          Receiver Non-Inverted   59   Tx1p               Transmitter            Non-Inverted
+
+                        Data Output                                     Data Input
+
+30        GND           Ground                  60   GND                Ground
+
+3.1.1       OSFP Module Pad Layout
+
+The Active Optical Cable (AOC) pin assignment is SFF-8679 compliant.
+
+3.2    Control Signals (OSFP)
+
+The transceivers are CMIS 4.0 compliant, management interface and OSFP 4.1 compliant form factor
+
+and interfaces. The control signals shown in the pad layout are implemented with the following
+
+functions:
+
+       Name                    Function                               Description
+
+LPWn/PRSn               Input/output            Multi-level signal for low power control from host to
+
+                                                module and module presence indication from module to
+
+                                                host. This signal requires the circuit as described in the
+
+                                                OSFP Specification.
+
+INT/RSTn                Input,/output           Multi-level signal for interrupt request from module to
+
+                                                host and reset control from host to module. This signal
+
+                                                requires the circuit as described in the OSFP
+
+                                                Specification.
+
+SCL                     BiDir                   2-wire serial clock signal. Requires pull-up resistor to
+
+                                                3.3V on host.
+
+SDA                     Bidir                   2-wire serial data signal. Requires pull-up resistor to
+
+                                                3.3V on host.
+
+3.3    Diagnostics and Other Features
+
+The transceiver has a microcontroller with functions for monitoring supply voltage, temperature,
+
+laser bias current, optical transmit and receive levels with associated warning and alarm thresholds
+
+                                                                                                              8
+that can be read by the switch software and viewed remotely.
+
+The transceiver supports the OSFP MSA specification and has the following key features:
+
+Physical layer link optimization:
+
+·  Adaptive Tx input equalization
+
+·  Programmable Rx output amplitude
+
+·  Programmable Rx output pre-cursor
+
+·  Programmable Rx output post-cursor
+
+Digital Diagnostic Monitoring (DDM):
+
+·  Rx receive optical power monitor for each lane
+
+·  Tx transmit optical power monitor for each lane
+
+·  Tx bias current monitor for each lane
+
+·  Supply voltage monitor
+
+·  Transceiver case temperature monitor
+
+·  Warning and Alarm thresholds for each DDM function (not user programmable)
+
+Page 13h and 14h Module Diagnostics
+
+·  Host side and line side loopback
+
+·  PRBS generator and checker on host and line interfaces
+
+Interrupt indications:
+
+·  Tx & Rx LOS indication
+
+·  Tx & Rx LOL indication
+
+·  Tx fault indication
+
+Other CMIS 4.0 functions
+
+·  FW upgrade supported via CDB commands.
+
+                                                                                         9
+4 Specifications
+
+4.1       Absolute Maximum Specifications
+
+Absolute maximum ratings are those beyond which damage to the device may occur.
+
+Prolonged operation between the operational specifications and absolute maximum ratings is         not
+
+intended and may cause permanent device degradation.
+
+Parameter                           Symbol               Min      Max              Units
+
+Storage Temperature                 TS                   -40      85               °C
+
+Operating Case Temperature          TOP                  0        70               °C
+
+Supply Voltage                      Vcc                  -0.5     3.6              V
+
+Relative Humidity (non-             RH ­ Option 1        5        95               %
+
+condensing)
+
+Control Input Voltage               VI                   -0.3     Vcc+0.5          V
+
+            ·  Transceiver performance is guaranteed above 15°C.
+
+            ·  Module temperature per DDMI readout of up to 75°C is allowed.
+
+4.2       Recommended Operating                    Conditions and Power
+
+          Supply Requirements
+
+Parameter                      Symbol       Min       Typ         Max                       Units
+
+Power Supply Voltage           VCC          3.135     3.3         3.465                     V
+
+Instantaneous peak current at  ICC_IP       -         -           6800                      mA
+
+hot plug
+
+Sustained peak current at hot  ICC_SP       -         -           5670                      mA
+
+plug
+
+Maximum Power Dissipation      PD           -         16          17                        W
+
+Maximum Power Dissipation,     PDLP         -         -           1.5                       W
+
+Low Power Mode
+
+Signaling Rate per Lane        SRL          -         53.125      -                         GBd
+
+Two Wire Serial Interface      -            100       -           1000                      kHz
+
+Clock Rate
+
+Power Supply Noise Tolerance   -            -         -           25                        mV
+
+(10Hz - 10MHz)
+
+Rx Differential Data Output    -            -         100         -                         Ohm
+
+Load
+
+Operating Distance             -            2         -           (OPN dependent)           m
+
+                                                                                                        10
+4.3      Electrical Specifications
+
+Parameter                                  Symbol       Min         Typ          Max            Units
+
+Receiver (Module Output)
+
+Peak-peak AC common-mode                   VCMLF        -           -            32             mV
+
+voltage                                    VCMFB                                 80
+
+Differential output Voltage (Long                       -           -            845            mV
+
+mode)
+
+Differential output Voltage (Short                      -           -            600            mV
+
+mode)
+
+Eye height, differential                                15          -            -              mV
+
+Differential Termination Mismatch                       -           -            10             %
+
+Transition Time (min, 20% to 80%)                       8.5         -            -              ps
+
+DC common mode Voltage                                  -350        -            2850           mV
+
+Transmitter (Module Input)
+
+Differential pk-pk input Voltage                        750         -            -              mV
+
+tolerance
+
+Differential termination mismatch                       -           -            10             %
+
+Single-ended voltage tolerance                          -0.4        -            3.3            V
+
+range
+
+DC common mode Voltage                                  -350        -            2850           mV
+
+Notes:
+
+Amplitude customization beyond these specs is dependent on validation in customer            system.
+
+4.3.1      Electrical        Specification         for Low       Speed Signal
+
+Parameter                             Symbol            Min            Max                   Units
+
+Module output SCL and SDA             VOL               0              0.4                   V
+
+                                      VOH               VCC-0.5        VCC+0.3               V
+
+Module Input SCL and SDA              VIL               -0.3           VCC*0.3               V
+
+                                      VIH               VCC*0.7        VCC+0.5               V
+
+4.4      Optical Specifications
+
+Parameter                          Symbol          Min        Typ        Max           Unit         Notes
+
+Transmitter
+
+Wavelength                         C               1304.5     1311       1317.5        nm
+
+Side Mode Suppression Ratio        SMSR            30         -          -             dB
+
+                                                                                                           11
+Parameter                      Symbol      Min     Typ                    Max     Unit        Notes
+
+Average Launch Power, each     AOPL        -1.0    -                      4.0     dBm         1
+
+lane
+
+Outer Optical Modulation       TOMA        -3.0    -                      5.0     dBm         2
+
+Amplitude (OMAouter), each
+
+lane
+
+Launch Power in terms of       TOMA-TDECQ  -2.2    -                      -       dBm
+
+OMAouter minus TDECQ, each
+
+lane
+
+Transmitter and Dispersion     TDECQ       -       -                      3.4     dB
+
+Eye Closure for PAM4
+
+(TDECQ), each lane
+
+Average Launch Power of OFF    TOFF        -       -                      -15     dBm
+
+Transmitter, each lane
+
+Extinction Ratio, each lane    ER          3.5     5.0                    7.0     dB
+
+RIN21.4OMA                     RIN         -       -                      -136    dB/Hz
+
+Optical Return Loss Tolerance  ORL         -       -                      21.4    dB
+
+Transmitter Reflectance        TR          -       -                      -26     dB          3
+
+Receiver
+
+Wavelength                     C           1304.5  1311                   1317.5  nm
+
+Damage Threshold, average      AOPD        5       -                      -       dBm
+
+optical power, each lane
+
+Average Receive Power, each    AOPR        -5.0    -                      4.0     dBm
+
+lane
+
+Receive Power (OMAouter),      OMA-R       -       -                      4.2     dBm
+
+each lane
+
+Receiver Reflectance           RR          -       -                      -26     dB
+
+Receiver Sensitivity           SOMA        -       -                      -4.4    dBm         4
+
+(OMAouter), each lane
+
+Stressed Receiver Sensitivity  SRS         -       -                      -1.9    dBm         5
+
+(OMAouter), each lane
+
+Conditions of stressed
+
+receiver sensitivity test
+
+Stressed eye closure for PAM4                      3.4                            dB
+
+(SECQ)
+
+OMAouter of each aggressor                         4.2                            dBm
+
+lane
+
+Notes:
+
+1.      Average launch power, each lane (min) is informative and not the principal indicator of signal
+
+        strength.
+
+2.      Even if TDECQ < 1.4dB, OMAouter (min) must exceed this value.
+
+3.      Transmitter reflectance is defined looking into the transmitter.
+
+4.      Receiver sensitivity (OMAouter), each lane (max) is informative and is defined for a
+
+        transmitter with SECQ of 0.9 dB.
+
+                                                                                                        12
+    5.  Measured with conformance test signal at TP3 for the BER = 2.4x10-4
+
+4.5     Mechanical Specifications
+
+Finned-top Twin-port for air-cooled Quantum-2 InfiniBand or Spectrum-4 Ethernet Switches: Bottom,
+
+Side, and Top Views:
+
+Enlarged view of detail A and B:
+
+        Images are for illustration purposes only. Product labels, colors, and  form may vary.
+
+4.6     Labels
+
+4.6.1    Transceiver Labeling and Fiber Polarity
+
+Transceiver port labeling and lane routing. Txn/Rxn refers to the OSFP pin      description.
+
+Green label denotes NVIDIA-designed
+
+Yellow pull-tab denotes single mode optics
+
+Purple label denotes 500-meter reach
+
+4.6.2    Back shell Label
+
+The label applied on the transceiver's back-shell is illustrated below.  Note   that the Images  are  for
+
+illustration purposes only. Labels look and placement may vary.
+
+                                     Transceiver Label (Illustration)
+
+        Images are for illustration purposes only. Product labels, colors, and form may vary.
+
+4.6.2.1  Transceiver Back-Shell Label              Serial Number Legend
+
+Symbol                Meaning                      Notes
+
+MT                    Manufacturer name (Mellanox  2 digits (alphanumeric)
+
+                      Technologies)
+
+YY                    Year of manufacturing        2 last digits of the year (numeric)
+
+WW                    Week of manufacturing        2 digits (numeric)
+
+                                                                                                           13
+JC                 Manufacturer Site:        Two characters
+
+or                 JC ­ Option 1 (China)
+
+DM                 DM ­ Option 2 (Malaysia)
+
+SSSSS              Serial number             5 digits (decimal numeric) for serial number,
+
+                                             starting from 00001.
+
+4.6.3    Regulatory Compliance
+
+The transceiver is a Class 1 laser product. It is certified per the following standards:
+
+Feature                           Agency     Standard
+
+Laser Eye Safety                  FDA/CDRH   CDRH 21 CFR 1040 and Laser Notice 50
+
+Electrical Safety                 CB         IEC 62368
+
+Electrical Safety                 UL/CSA     UL 62368 and CAN/CSAN 62368
+
+4.7      Connector and Cabling Details
+
+4.7.1    MPO-12/APC Optical Connector
+
+The Twin-port NDR transceiver has a unique NVIDIA patented design enabling two, multiple-push-on/
+
+angled-polished-connector 12-fiber (MPO-12/APC) optical connectors per single OSFP form-factor by
+
+turning the optical connectors vertically in the twin-port transceiver end. This enables it to host two
+
+NDR transceivers inside, each with its own MPO-12/APC optical connector operating independently
+
+that can link to another Twin-port transceiver or to a single-port 400Gb/s NDR transceiver.
+
+The MPO-12 has a 12-fiber ribbon but only 8-fibers are used ­ four transmit and four receive fibers
+
+for the 4-channels 100G-PAM4.
+
+    ·  The APC design minimizes back reflections and signal interference by diverting back reflected
+
+       light from the fiber face to be absorbed into the fiber cladding.
+
+    ·  A positioning key on top of the connector together with the alignment pins define the fiber
+
+       position numbering scheme to align pin 1 in the optical connector to pin 1 in the transceiver
+
+       also called "polarity"
+
+    ·  Transceivers have alignment pins for precise positioning of the cable connector against the
+
+       optical beams. The fiber cable has alignment holes matching the transceiver's pins.
+
+    ·  Important to note that transceivers have pins. Optical connectors have holes used with
+
+       transceivers have holes. Optical connectors with pins are not compatible with transceivers
+
+       and used in trunk cabling to connect two fiber cables together.
+
+The MPO-12/APC optical connector is used in both the 100G-PAM4 based single mode and multimode
+
+fiber cables.
+
+Single mode optics is denoted by a yellow-colored pull tab and yellow-colored optical fiber. Green
+
+plastic shell on the MPO-12/APC connector denotes Angled Polish Connector and is not compatible
+
+with Ultra-flat Polished Connectors (UPC) used with slower line rate transceivers.
+
+    MPO-12/APC Showing 4-Transmit and 4-Receive Fibers and Angled Polish Connector End face
+
+                                                                                                         14
+4.7.1.1   NVIDIA Supplied Crossover Type-B Fiber Cables
+
+Linking two transceivers directly together requires aligning the transceiver laser sources with the
+
+correct photo detectors in the receive transceiver. Transmit and receive fibers are switched inside
+
+the cable enabling two transceivers to be directly connected to each other. This is called a Type-B
+
+crossover fiber.
+
+Each of the two 4-channel NDR ports in the Twin-port transceiver has its own 4-channel optical cable
+
+that can link to two single-port 400Gb/s transceiver. Two fiber cables are needed for each Twin-port
+
+transceiver. Fiber cables are crossover cable Type-B that aligns the transmit laser with the opposite
+
+transceiver's receiver photodetector allowing to directly connect two transceivers together to
+
+maintain minimum optical losses, lowest back reflections, longest reach and increased reliability
+
+without the use of optical patch panels.
+
+NVIDIA supplies crossover, single mode fiber cables up to 100-meters. For length from 100-to-500-
+
+meters, a crossover fiber segment must be implemented in the link to align transmit lasers with
+
+receiver photodetectors. This can be implemented by building the fiber cable as a crossover cable,
+
+or adding a NVIDIA crossover cable in the link, or via an optical patch panel with a crossover
+
+segment.
+
+Note: Refer to the Recommended Fiber Cables table for more information.
+
+Transceivers have alignment pins for precise positioning of the cable connector against the optical
+
+beams. The fiber cable has alignment holes matching the transceiver's pins.
+
+4.7.2     Handling and Cleaning
+
+The transceiver can be damaged by exposure to current surges and over voltage events. Take care
+
+to restrict exposure to the conditions defined in Absolute Maximum Ratings. Observe normal
+
+handling precautions for electrostatic discharge-sensitive devices.
+
+The transceiver is shipped with dust caps on both the electrical and the optical port. The cap on the
+
+optical port should always be in place when there is no fiber cable connected. The optical
+
+connector has a recessed connector surface which is exposed whenever it has no cable nor cap.
+
+Important note 1: Keep both the fiber and transceiver dust caps.
+
+Important note 2: Clean both transceiver receptacle and cable connector prior to insertion of the
+
+fiber cable, to prevent contamination from it.
+
+The dust cap ensures that the optics remain clean during transportation. Standard cleaning tools
+
+and methods should be used during installation and service. Liquids must not be applied.
+
+Important note 3: 80% of transceiver link problems are related to dirty optical connectors.
+
+                                                                                                       15
+4.7.3  Cable Management Guidelines
+
+For more information and general interconnect management and installation, see NVIDIA Cable
+
+Management Guidelines and FAQ Application Note.
+
+                                                                                             16
+5 Ordering Information
+
+5.1  Part Numbers  and Description
+
+OPN                Description
+
+MMS4X00-NM         NVIDIA twin port OSFP transceiver, 800b/s, 2x400Gbps, 2xMPO-12/
+
+                   APC, 1310nm SMF, up to 500m, finned-top
+
+MMS4X00-NM-FLT     NVIDIA twin port OSFP transceiver, 800b/s, 2x400Gbps, 2xMPO-12/
+
+                   APC, 1310nm SMF, up to 500m, flat-top
+
+                                                                                    17
+6 Document Revision History
+
+Rev  Date                            Description
+
+1.3  Mar. 2024  Added DDMI note in the Specifications section.
+
+1.2  Nov. 2023  Added case tempreture note.
+
+                Minor edits.
+
+1.1  Apr. 2023  ·  Updated the document for Ethernet support.
+
+                ·  Minor text edits
+
+1.0  Dec. 2022  Initial release.
+
+                                                                18
+Notice
+
+This document is provided for information purposes only and shall not be regarded as a warranty of a certain
+
+functionality, condition, or quality of a product. Neither NVIDIA Corporation nor any of its direct or indirect subsidiaries
+
+and affiliates (collectively: "NVIDIA") make any representations or warranties, expressed or implied, as to the accuracy
+
+or completeness of the information contained in this document and assumes no responsibility for any errors contained
+
+herein. NVIDIA shall have no liability for the consequences or use of such information or for any infringement of patents
+
+or other rights of third parties that may result from its use. This document is not a commitment to develop, release, or
+
+deliver any Material (defined below), code, or functionality.
+
+NVIDIA reserves the right to make corrections, modifications, enhancements, improvements, and any other changes to
+
+this document, at any time without notice. Customer should obtain the latest relevant information before placing orders
+
+and should verify that such information is current and complete.
+
+NVIDIA products are sold subject to the NVIDIA standard terms and conditions of sale supplied at the time of order
+
+acknowledgement, unless otherwise agreed in an individual sales agreement signed by authorized representatives of
+
+NVIDIA and customer ("Terms of Sale"). NVIDIA hereby expressly objects to applying any customer general terms and
+
+conditions with regards to the purchase of the NVIDIA product referenced in this document. No contractual obligations
+
+are formed either directly or indirectly by this document.
+
+NVIDIA products are not designed, authorized, or warranted to be suitable for use in medical, military, aircraft, space, or
+
+life support equipment, nor in applications where failure or malfunction of the NVIDIA product can reasonably be
+
+expected to result in personal injury, death, or property or environmental damage. NVIDIA accepts no liability for
+
+inclusion and/or use of NVIDIA products in such equipment or applications and therefore such inclusion and/or use is at
+
+customer's own risk.
+
+NVIDIA makes no representation or warranty that products based on this document will be suitable for any specified use.
+
+Testing of all parameters of each product is not necessarily performed by NVIDIA. It is customer's sole responsibility to
+
+evaluate and determine the applicability of any information contained in this document, ensure the product is suitable
+
+and fit for the application planned by customer, and perform the necessary testing for the application in order to avoid a
+
+default of the application or the product. Weaknesses in customer's product designs may affect the quality and reliability
+
+of the NVIDIA product and may result in additional or different conditions and/or requirements beyond those contained in
+
+this document. NVIDIA accepts no liability related to any default, damage, costs, or problem which may be based on or
+
+attributable to: (i) the use of the NVIDIA product in any manner that is contrary to this document or (ii) customer product
+
+designs.
+
+No license, either expressed or implied, is granted under any NVIDIA patent right, copyright, or other NVIDIA intellectual
+
+property right under this document. Information published by NVIDIA regarding third-party products or services does not
+
+constitute a license from NVIDIA to use such products or services or a warranty or endorsement thereof. Use of such
+
+information may require a license from a third party under the patents or other intellectual property rights of the third
+
+party, or a license from NVIDIA under the patents or other intellectual property rights of NVIDIA.
+
+Reproduction of information in this document is permissible only if approved in advance by NVIDIA in writing, reproduced
+
+without alteration and in full compliance with all applicable export laws and regulations, and accompanied by all
+
+associated conditions, limitations, and notices.
+
+THIS DOCUMENT AND ALL NVIDIA DESIGN SPECIFICATIONS, REFERENCE BOARDS, FILES, DRAWINGS, DIAGNOSTICS, LISTS,
+
+AND OTHER DOCUMENTS (TOGETHER AND SEPARATELY, "MATERIALS") ARE BEING PROVIDED "AS IS." NVIDIA MAKES NO
+
+WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO THE MATERIALS, AND EXPRESSLY
+
+DISCLAIMS ALL IMPLIED WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.
+
+TO THE EXTENT NOT PROHIBITED BY LAW, IN NO EVENT WILL NVIDIA BE LIABLE FOR ANY DAMAGES, INCLUDING WITHOUT
+
+LIMITATION ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, PUNITIVE, OR CONSEQUENTIAL DAMAGES, HOWEVER CAUSED AND
+
+REGARDLESS OF THE THEORY OF LIABILITY, ARISING OUT OF ANY USE OF THIS DOCUMENT, EVEN IF NVIDIA HAS BEEN
+
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. Notwithstanding any damages that customer might incur for any reason
+
+whatsoever, NVIDIA's aggregate and cumulative liability towards customer for the products described herein shall be
+
+limited in accordance with the Terms of Sale for the product.
+
+Trademarks
+
+NVIDIA, the NVIDIA logo, and Mellanox are trademarks and/or registered trademarks of NVIDIA Corporation and/
+or Mellanox Technologies Ltd. in the U.S. and in other countries. Other company and product names may be trademarks
+
+of the respective companies with which they are associated.
+
+Copyright
+
+© 2024 NVIDIA Corporation & affiliates. All Rights Reserved.
+

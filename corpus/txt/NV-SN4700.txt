@@ -1,0 +1,891 @@
+Ethernet Switching for AI and the Cloud | NVIDIA 
+
+ NVIDIA Home 
+ NVIDIA Home 
+
+ Menu 
+ Menu icon 
+
+ Menu 
+ Menu icon 
+
+ Close 
+ Close icon 
+
+ Close 
+ Close icon 
+
+ Close 
+ Close icon 
+
+ Caret down icon 
+ Accordion is closed, click to open. 
+
+ Caret down icon 
+ Accordion is closed, click to open. 
+
+ Caret up icon 
+ Accordion is open, click to close. 
+
+ Caret right icon 
+ Click to expand 
+
+ Caret right icon 
+ Click to expand 
+
+ Caret right icon 
+ Click to expand menu. 
+
+ Caret left icon 
+ Click to collapse menu. 
+
+ Caret left icon 
+ Click to collapse menu. 
+
+ Caret left icon 
+ Click to collapse menu. 
+
+ Shopping Cart 
+ Click to see cart items 
+
+ Search icon 
+ Click to search 
+
+ Visit your regional NVIDIA website for local content, pricing, and where to buy partners specific to your country. 
+
+ Argentina 
+ Australia 
+ België (Belgium) 
+ Belgique (Belgium) 
+ Brasil (Brazil) 
+ Canada 
+ Česká Republika (Czech Republic) 
+ Chile 
+ Colombia 
+ Danmark (Denmark) 
+ Deutschland (Germany) 
+ España (Spain) 
+ France 
+ India 
+ Italia (Italy) 
+ México (Mexico) 
+ Middle East 
+ Nederland (Netherlands) 
+ Norge (Norway) 
+ Österreich (Austria) 
+ Peru 
+ Polska (Poland) 
+ Rest of Europe 
+ România (Romania) 
+ Singapore 
+ Suomi (Finland) 
+ Sverige (Sweden) 
+ Türkiye (Turkey) 
+ United Kingdom 
+ United States 
+ 대한민국 (South Korea) 
+ 中国大陆 (Mainland China) 
+ 台灣 (Taiwan) 
+ 日本 (Japan) 
+
+ Continue 
+
+ Skip to main content 
+
+ Artificial Intelligence Computing Leadership from NVIDIA 
+
+ Networking 
+
+ Platforms
+
+ Platforms 
+
+ BlueField DPU 
+
+ Advanced computing platform powering AI data centers 
+
+ Spectrum-X Ethernet 
+
+ Ethernet platform for hyperscale AI cloud networking 
+
+ Quantum-X800 InfiniBand 
+
+ High-bandwidth InfiniBand switching for giant AI clusters 
+
+ Quantum-2 InfiniBand 
+
+ InfiniBand networking for cloud‑native supercomputing at scale 
+
+ Products
+
+ Products 
+
+ Ethernet Product Overview 
+
+ High performance Spectrum Ethernet for accelerated AI networking 
+
+ DPUs 
+
+ Infrastructure accelerators for AI‑optimized data centers 
+
+ InfiniBand Product Overview 
+
+ Quantum InfiniBand platform for high‑performance AI and HPC 
+
+ Cables & Transceivers 
+
+ 800G and 400G Ethernet and InfiniBand cables and transceivers 
+
+ Ethernet Switches 
+
+ Spectrum Ethernet switches for AI & HPC workloads 
+
+ Ethernet SuperNICs 
+
+ High performance Ethernet SuperNICs for advanced AI networking 
+
+ InfiniBand Switches & Appliances 
+
+ InfiniBand switches provide high performance and dense ports 
+
+ ConnectX InfiniBand Adapters 
+
+ ConnectX InfiniBand accelerates scalable AI and HPC workloads 
+
+ Silicon Photonics 
+
+ Co-packaged silicon photonics for massive AI networking 
+
+ ConnectX Ethernet NICs 
+
+ High performance ConnectX Ethernet for AI and cloud workloads 
+
+ Software
+
+ Software 
+
+ Networking Software Overview 
+
+ Software suites to optimize Ethernet and InfiniBand networking 
+
+ DOCA 
+
+ Scale agentic AI securely on BlueField and ConnectX 
+
+ DSX Air 
+
+ NVIDIA Air builds full-stack simulations for AI data center infrastructure 
+
+ Cumulus 
+
+ Linux-based data center network OS 
+
+ NetQ 
+
+ Real-time AI data center network observability 
+
+ UFM 
+
+ InfiniBand data center fabric management platform 
+
+ Pure SONiC 
+
+ Open-source Linux network OS for switches 
+
+ Support
+
+ Support 
+
+ Enterprise Support Portal 
+
+ NVIDIA Enterprise Application Hub login portal 
+
+ Firmware Download 
+
+ NVIDIA Networking firmware download center 
+
+ End-of-life Products 
+
+ End-of-life and support status for products 
+
+ Product Documentation 
+
+ NVIDIA networking product and software documentation 
+
+ InfiniBand Drivers 
+
+ InfiniBand and VPI software downloads and drivers 
+
+ Ethernet Drivers 
+
+ Ethernet adapter drivers and acceleration software 
+
+ Buy 
+
+ US 
+
+ Sign In
+
+ NVIDIA Account 
+
+ Logout 
+
+ Log In 
+ LogOut 
+
+ Skip to main content 
+
+ Artificial Intelligence Computing Leadership from NVIDIA 
+
+ 0 
+
+ US 
+
+ Sign In 
+
+ NVIDIA Account 
+
+ Logout 
+
+ Login 
+ LogOut 
+
+ NVIDIA 
+ NVIDIA logo 
+
+ Networking 
+
+ Platforms
+
+ BlueField DPU 
+
+ Advanced computing platform powering AI data centers 
+
+ Spectrum-X Ethernet 
+
+ Ethernet platform for hyperscale AI cloud networking 
+
+ Quantum-X800 InfiniBand 
+
+ High-bandwidth InfiniBand switching for giant AI clusters 
+
+ Quantum-2 InfiniBand 
+
+ InfiniBand networking for cloud‑native supercomputing at scale 
+
+ Products
+
+ Ethernet Product Overview 
+
+ High performance Spectrum Ethernet for accelerated AI networking 
+
+ DPUs 
+
+ Infrastructure accelerators for AI‑optimized data centers 
+
+ InfiniBand Product Overview 
+
+ Quantum InfiniBand platform for high‑performance AI and HPC 
+
+ Cables & Transceivers 
+
+ 800G and 400G Ethernet and InfiniBand cables and transceivers 
+
+ Ethernet Switches 
+
+ Spectrum Ethernet switches for AI & HPC workloads 
+
+ Ethernet SuperNICs 
+
+ High performance Ethernet SuperNICs for advanced AI networking 
+
+ InfiniBand Switches & Appliances 
+
+ InfiniBand switches provide high performance and dense ports 
+
+ ConnectX InfiniBand Adapters 
+
+ ConnectX InfiniBand accelerates scalable AI and HPC workloads 
+
+ Silicon Photonics 
+
+ Co-packaged silicon photonics for massive AI networking 
+
+ ConnectX Ethernet NICs 
+
+ High performance ConnectX Ethernet for AI and cloud workloads 
+
+ Software
+
+ Networking Software Overview 
+
+ Software suites to optimize Ethernet and InfiniBand networking 
+
+ DOCA 
+
+ Scale agentic AI securely on BlueField and ConnectX 
+
+ DSX Air 
+
+ NVIDIA Air builds full-stack simulations for AI data center infrastructure 
+
+ Cumulus 
+
+ Linux-based data center network OS 
+
+ NetQ 
+
+ Real-time AI data center network observability 
+
+ UFM 
+
+ InfiniBand data center fabric management platform 
+
+ Pure SONiC 
+
+ Open-source Linux network OS for switches 
+
+ Support
+
+ Enterprise Support Portal 
+
+ NVIDIA Enterprise Application Hub login portal 
+
+ Firmware Download 
+
+ NVIDIA Networking firmware download center 
+
+ End-of-life Products 
+
+ End-of-life and support status for products 
+
+ Product Documentation 
+
+ NVIDIA networking product and software documentation 
+
+ InfiniBand Drivers 
+
+ InfiniBand and VPI software downloads and drivers 
+
+ Ethernet Drivers 
+
+ Ethernet adapter drivers and acceleration software 
+
+ Buy 
+
+ This site requires Javascript in order to view all its content. Please enable Javascript in order to access all the functionality of this web site. Here are the instructions how to enable JavaScript in your web browser. 
+
+ Accelerated Ethernet Switching for AI and the Cloud 
+
+ Introduction 
+
+ Benefits 
+
+ Products 
+
+ Highlights 
+
+ Product Tables 
+
+ Software 
+
+ OEM Partners 
+
+ Next Steps 
+
+ Introduction 
+
+ Benefits 
+
+ Products 
+
+ Highlights 
+
+ Product Tables 
+
+ Software 
+
+ OEM Partners 
+
+ Next Steps 
+
+ Introduction 
+
+ Benefits 
+
+ Products 
+
+ Highlights 
+
+ Product Tables 
+
+ Software 
+
+ OEM Partners 
+
+ Next Steps 
+
+ Try For Free 
+
+ Introduction
+
+ NVIDIA Spectrum Ethernet Switches
+
+ NVIDIA Spectrum™ Ethernet switches accelerate networking for all layers of software and hardware. Fully standards-based Ethernet, they power NVIDIA Spectrum-X™ Ethernet for AI and support both traditional, pluggable, optical connectivity and groundbreaking co-packaged silicon photonics networking. Spectrum Ethernet switches enable operational efficiency with a wide variety of network operating system choices, including NVIDIA® Cumulus® Linux and Pure SONiC . Spectrum Ethernet switches also offer innovative digital twins with NVIDIA DSX Air and network visibility through NVIDIA NetQ™ . 
+
+ Spectrum-6 Ethernet Switches Scale NVIDIA Rubin-Based AI Factories
+
+ The new NVIDIA Spectrum-X Ethernet Photonics switch systems improve power efficiency and uptime by 5x. 
+
+ Read Press Release
+
+ NVIDIA Spectrum-X Ethernet Is Designed to Accelerate AI Workloads
+
+ The Spectrum-X Ethernet platform improves AI performance by 1.6x while increasing the predictability and power efficiency of Ethernet-based AI clouds. 
+
+ Watch Video
+
+ Read Whitepaper
+
+ Benefits
+
+ Spectrum Switch Portfolio Features
+
+ Accelerated
+
+ Best-in-class hardware performance with zero-touch accelerated RDMA over Converged Ethernet (RoCE) 
+
+ Innovative
+
+ New silicon photonics switches for enhanced resiliency, power efficiency, and uptime for AI 
+
+ Optimized
+
+ Designed and tested for full-stack, end-to-end NVIDIA solutions 
+
+ Open
+
+ Choice and flexibility at all tiers of the stack through open NOS support 
+
+ Simulated
+
+ Hosted data center simulation for end-to-end AI infrastructure 
+
+ Reliable
+
+ Exclusive features that enable fairness, predictability, and actionable visibility 
+
+ New Co-Packaged Silicon Photonic Networking Switches to Scale to Millions of GPUs, Multi-Site AI Factories
+
+ Learn More 
+
+ Products
+
+ Spectrum Ethernet Switch Hardware
+
+ NVIDIA Spectrum-6 SN6000 Series 
+
+ The SN6000 family of Ethernet switches offers unprecedented network scale for AI factories through co-packaged optics, doubling bandwidth per lane compared to the previous generation and significantly improving network resiliency. 
+
+ Learn More About the Spectrum-6 ASIC
+
+ Explore the SN6000 Series
+
+ Learn More About Silicon Photonics
+
+ NVIDIA Spectrum-4 SN5000 Series 
+
+ Purpose-built for AI, the SN5000 family is the world’s first Ethernet switch portfolio suitable for deep learning workloads, connecting cloud-scale GPU compute at speeds up to 800 gigabits per second (Gb/s). 
+
+ Learn More About the Spectrum-4 ASIC
+
+ Explore the SN5000 Series
+
+ NVIDIA Spectrum-3 SN4000 Series 
+
+ Built for cloud-scale networking, the SN4000 family combines industry-leading features with groundbreaking performance to support modern scale-out distributed data center applications for all speeds up to 400 Gb/s. 
+
+ Learn More About the Spectrum-3 ASIC
+
+ Explore the SN4000 Series
+
+ NVIDIA Spectrum-2 SN3000 Series 
+
+ Ideal for leaf and spine data center network solutions, the SN3000 series delivers maximum flexibility with port speeds up to 200 Gb/s per port and port density that enables full-rack connectivity to any server at any speed. 
+
+ Learn More About the Spectrum-2 ASIC
+
+ Explore the SN3000 Series
+
+ NVIDIA Spectrum SN2000 Series 
+
+ With speeds up to 100 Gb/s, the SN2000 series provides unique switch form factors that integrate into hyperconverged infrastructure and software-defined storage management systems for ease of deployment and administration. 
+
+ Learn More About the Spectrum ASIC
+
+ Explore the SN2000 Series
+
+ Highlights
+
+ Max Port Speed 
+ 800 Gb/s 
+
+ Max Flow Counters 
+ 512K entries 
+
+ Max Access-Control Lists (ACLs) 
+ 512K entries 
+
+ Network Address Translation (NAT) 
+ 100K+ entries 
+
+ Max IPV4 Routes 
+ 512K entries 
+
+ Product Tables
+
+ Ethernet Switch Family
+
+ SN6000 
+
+ SN5000 
+
+ SN4000 
+
+ SN3000 
+
+ SN2000 
+
+ Connectors 
+ 800Gb/s Ports 
+ 400Gb/s Ports 
+ 200Gb/s Ports 
+ 100Gb/s Ports 
+ Height 
+ Max Throughput 
+
+ SN6810-LD 
+ 128x MMC-12 (co-packaged optics) 
+ 128 
+ 256 
+ 512 
+ 512 + 2 
+ 2U 
+ 102.4 Tb/s 
+
+ SN6800-LD 
+ 512x MMC-12 (co-packaged optics) 
+ - 
+ - 
+ 2,048 
+ 2,048 + 8 
+ 5U 
+ 409.6 Tb/s (4x 102.4 Tb/s) 
+
+ SN6600-LD 
+ 64x OSFP 2x 800 Gb/s 
+ 128 
+ 256 
+ 512 
+ 512 + 2 
+ 2U 
+ 102.4 Tb/s 
+
+ SN6600 
+ 64x OSFP 2x 800 Gb/s 
+ 128 
+ 256 
+ 512 
+ 512 + 2 
+ 3U 
+ 102.4 Tb/s 
+
+ SN6200-LD 
+ 32x OSFP 2x 800GbE + 256x 200G ports connected to backplane 
+ -* 
+ -* 
+ 256* 
+ 256* + 2 
+ 1U 
+ 102.4 Tb/s 
+
+ *Front-facing ports only; back-facing ports are for intra-rack connectivity and are connected to the backplane. 
+
+ Connectors 
+ 800GbE Ports 
+ 400GbE Ports 
+ 200GbE Ports 
+ 100GbE Ports 
+ 50GbE Ports 
+ 40GbE Ports 
+ 25/10/1GbE Ports 
+ Height 
+ Max Throughput 
+ Total Packets per Second 
+
+ SN5610 
+ 64x OSFP 800GbE + 2 SFP28 25GbE 
+ 64 
+ 128 
+ 256 
+ 256 
+ 256 
+ 128 
+ 256 + 2 
+ 2U 
+ 51.2Tb/s 
+ 33.3Bpps 
+
+ SN5600 
+ 64x OSFP 800GbE + 1 SFP28 25GbE 
+ 64 
+ 128 
+ 256 
+ 256 
+ 256 
+ 128 
+ 256 + 1 
+ 2U 
+ 51.2Tb/s 
+ 33.3Bpps 
+
+ SN5600D 
+ 64x OSFP 800GbE + 1 SFP28 25GbE 
+ 64 
+ 128 
+ 256 
+ 256 
+ 256 
+ 128 
+ 256 + 1 
+ 2U 
+ 51.2Tb/s 
+ 33.3Bpps 
+
+ SN5400 
+ 64x QSFP-DD 400GbE + 2x SFP28 25GbE 
+ — 
+ 64 
+ 128 
+ 256 
+ 256 
+ 128 
+ 256 + 2 
+ 2U 
+ 25.6Tb/s 
+ 33.3Bpps 
+
+ Connectors 
+ 400GbE Ports 
+ 200GbE Ports 
+ 100GbE Ports 
+ 50GbE Ports 
+ 40GbE Ports 
+ 25/10/1GbE Ports 
+ Height 
+ Max Throughput 
+ Total Packets per Second 
+
+ SN4600C 
+ 64x QSFP28 100GbE 
+ — 
+ — 
+ 64 
+ 128 
+ 64 
+ 128 
+ 2U 
+ 6.4Tb/s 
+ 8.4Bpps 
+
+ SN4700 
+ 32x QSFPDD 400GbE 
+ 32 
+ 64 
+ 128 
+ 128 
+ 64 
+ 128 
+ 1U 
+ 12.8Tb/s 
+ 8.4Bpps 
+
+ Connectors 
+ 200GbE Ports 
+ 100GbE Ports 
+ 50GbE Ports 
+ 40GbE Ports 
+ 25/10/1GbE Ports 
+ Height 
+ Max Throughput 
+ Total Packets per Second 
+
+ SN3420 
+ 12x QSFP28 100GbE + 48x SFP28 25GbE 
+ — 
+ 12 
+ — 
+ 12 
+ 48+48 
+ 1U 
+ 2.4Tb/s 
+ 3.57Bpps 
+
+ Connectors 
+ 100GbE Ports 
+ 50GbE Ports 
+ 40GbE Ports 
+ 25/10/1GbE Ports 
+ Height 
+ Max Throughput 
+ Total Packets per Second 
+
+ SN2201 
+ 48x RJ45 + 4x QSFP28 100GbE 
+ 4 
+ 8 
+ 4 
+ 16 (25/10G), 48 (1G) 
+ 1U 
+ 448Gb/s 
+ 667Mpps 
+
+ Software
+
+ Spectrum Networking Software
+
+ NVIDIA DSX Air
+
+ With DSX Air, organizations can build full-stack simulations of their data center infrastructure before a single piece of hardware is unboxed. This includes design, testing, validation, and ongoing operation of network provisioning, automation, security policies, and more. 
+
+ Learn More
+
+ NVIDIA Cumulus
+
+ NVIDIA Cumulus Linux, the world’s most robust open networking operating system, includes a comprehensive list of advanced, modern networking features and is built for scale. 
+
+ Learn More
+
+ NVIDIA NetQ
+
+ NVIDIA NetQ is a modern operations tool designed to provide holistic, real-time visibility, troubleshooting, and lifecycle management of your modern data center. 
+
+ Learn More
+
+ NVIDIA Pure SONiC
+
+ NVIDIA offers Pure SONiC, a community-developed, open source network operating system based on Linux that runs on switches from multiple vendors and powers some of the largest data centers in the world. 
+
+ Learn More
+
+ OEM Partners
+
+ Who We’re Working With
+
+ Next Steps
+
+ Ready to Get Started?
+
+ Get a Free Trial of NVIDIA Networking Software
+
+ Simulate a fully automated network topology using NVIDIA DSX Air. 
+
+ Get Started 
+
+ Discover Networking for the Era of AI
+
+ The network is ultimately responsible for AI performance, acting as the backbone of the data center to harness the power of generative AI.. 
+
+ Read Whitepaper 
+
+ Learn About the Spectrum-X Ethernet Platform
+
+ The Spectrum-X Ethernet platform is designed specifically to improve the performance and efficiency of Ethernet-based AI infrastructure. 
+
+ Read Datasheet 
+
+ Platforms 
+
+ BlueField DPU 
+
+ Spectrum-X Ethernet 
+
+ Quantum-X800 InfiniBand 
+
+ Quantum-2 InfiniBand 
+
+ DOCA 
+
+ Products 
+
+ Ethernet Product 
+
+ InfiniBand Product 
+
+ Networking Software 
+
+ Resources 
+
+ How to Buy 
+
+ Support 
+
+ Networking Blogs 
+
+ Documentation 
+
+ Networking Community 
+
+ NVIDIA Academy 
+
+ NVIDIA Deep Learning Institute 
+
+ Ethernet Drivers 
+
+ InfiniBand Drivers 
+
+ Company Info 
+
+ About Us 
+
+ Company Overview 
+
+ Investors 
+
+ Venture Capital (NVentures) 
+
+ NVIDIA Foundation 
+
+ Research 
+
+ Social Responsibility 
+
+ Technologies 
+
+ Careers 
+
+ Follow NVIDIA Networking 
+
+ ' title=' '>
+
+ ' title=' '>
+
+ NVIDIA 
+
+ United States
+
+ Privacy Policy 
+
+ Your Privacy Choices 
+
+ Terms of Service 
+
+ Accessibility 
+
+ Corporate Policies 
+
+ Product Security 
+
+ Contact 
+
+ Copyright 2026 NVIDIA Corporation

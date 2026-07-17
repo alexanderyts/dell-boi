@@ -1,0 +1,3 @@
+# Harvest — new / changed since last run  (2026-07-10T04:09:24.792Z)
+
+- [SONIC-COMPAT] Enterprise SONiC Distribution Compatibility Matrix (features & supported platforms)  →  corpus/txt/SONIC-COMPAT.txt   (AUTHORITATIVE: which PowerSwitch models run Enterprise SONiC + which features (MC-LAG) per platform/release)

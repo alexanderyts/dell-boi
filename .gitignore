@@ -1,0 +1,17 @@
+node_modules/
+dist/
+
+# ---------------------------------------------------------------------------
+# Loose reference PDFs at the REPO ROOT (~199 MB) — reading material the
+# maintainer dropped in, not inputs to the app or the tests. Nothing at runtime
+# or in the suite reads them, and their provenance is already recorded in
+# docs/sources.csv. Ignored so a clone stays small.
+#
+# NOTE the deliberate asymmetry (ruling 2026-07-16d, option 3): corpus/ IS
+# tracked — both corpus/raw/*.pdf (~53 MB) and corpus/txt/*.txt. Those are the
+# HARVESTED sources that back CITATION-LOG rows, so a citation can be re-verified
+# from a clone alone. That's the whole point of the citation log; the root PDFs
+# have no such job. This pattern is root-anchored (`/*.pdf`), so it does not
+# reach corpus/raw/.
+# ---------------------------------------------------------------------------
+/*.pdf

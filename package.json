@@ -1,0 +1,18 @@
+{
+  "name": "dell-networking-bom-advisor",
+  "version": "0.65.0",
+  "private": true,
+  "description": "Zero-install, client-side tool that builds technically-sound Dell PowerSwitch / NVIDIA Spectrum networking BOMs for storage & server attach. The app itself ships with no dependencies and runs by opening index.html.",
+  "scripts": {
+    "test": "node tests/run-all.js",
+    "build": "node tools/build-single.js"
+  },
+  "comments": {
+    "app": "The application has ZERO runtime dependencies — index.html + js/ + styles.css run offline in any browser.",
+    "test": "The test battery uses jsdom for the DOM suites. Install it once (npm i) or point JSDOM_DIR at an existing jsdom. Suites needing it SKIP cleanly if absent.",
+    "run": "npm test  — runs all suites, exits non-zero on any failure (use as a pre-share gate). npm run build — packs the hosted single-file bundle."
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

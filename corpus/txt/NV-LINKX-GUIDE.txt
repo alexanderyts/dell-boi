@@ -1,0 +1,123 @@
+Networking Interconnect | Networking 
+
+ Skip to main content 
+
+ Networking
+
+ Auto
+
+ Light
+
+ Dark
+
+ Main navigation 
+
+ Networking
+
+ Auto
+
+ Light
+
+ Dark
+
+ Close navigation 
+
+ Main 
+
+ Breadcrumbs 
+
+ Networking 
+
+ Networking Interconnect
+
+ The NVIDIA® LinkX® product family of cables and transceivers provides the industry’s most complete line of 10, 25, 40, 50, 100, 200, 400 and 800GbE in Ethernet and EDR, HDR, NDR and XDR in InfiniBand products for Cloud, HPC, Web 2.0, Enterprise, telco, storage and artificial intelligence, data center applications. 
+
+ 1600G
+
+ 1600G Copper
+
+ MCA4K00 1600Gbps to 1600Gbps OSFP Active Copper Cable Product Specifications MCA4K50 1600Gbps to 1600Gbps OSFP Active Copper Cable MCA7K10 1600Gb/s to 2x800Gb/s, OSFP to 2xOSFP, IHS to RHS Active Copper Splitter Cable 
+
+ 1600G Transceivers
+
+ MMS4B10-XM TRO 1600Gbps OSFP Twin-Port 2xDR4, 2xMPO (APC) 1310nm SMF Transceiver (up to 500m) NVIDIA MMS4C1X FRO 1600Gbps, 2xDR4, Twin-port OSFP, 2xMPO (APC), 1310nm Single Mode Transceiver (up to 500m) NVIDIA MMS4A00 1600Gbps, 2xDR4, Twin-port OSFP, 2xMPO, 1310nm Single Mode Transceiver (up to 500m) 
+
+ 400
+
+ 400G AOC
+
+ MFA7U10-H00x 400Gb/s OSFP to 2x200Gb/s QSFP56 HDR Active Optical Splitter Cable 
+
+ 400G Transceivers
+
+ MMA1Z00-NS400 400Gb/s, Single-port, QSFP112 Multimode SR4 Transceivers Product Specifications MMS1V00-WM 400GbE QSFP-DD DR4 Transceiver Product Specifications MMS4X00-NS400 400Gb/s Single-port OSFP Single Mode DR4 Transceivers Product Specifications MMA4Z00-NS400 400Gb/s Single-port OSFP 400Gb/s Multimode SR4 50m MMA4Z00-NS400-T 400Gb/s Single-port OSFP 400Gb/s Multimode 50m NVIDIA MMA1Z00-NS400-T 400Gb/s, Single-port, QSFP112 Multimode Transceivers Product Specifications NVIDIA MMS1X00-NS400 400Gb/s Single-port QSFP112 Single Mode Transceivers Product Specifications 
+
+ 100G
+
+ 100G Cooper
+
+ MCP1600-E0xxEyy 100Gb/s QSFP28 DAC Cable Product Specifications 
+
+ 100G Transceivers
+
+ MMS1V70-CM 100GbE QSFP28 DR1 MMA1B00-C100D 100GbE QSFP28 MMF SR4 
+
+ Accessories
+
+ MAM1Q00A-QSA NVIDIA DynamiX QSA™, QSFP+ to SFP+ Adapter Product Specifications MAM1Q00A-QSA28 NVIDIA DynamiX QSA™ QSA28, QSFP28 to SFP28 Adapter Product Specifications MFP7E10-Nxxx Optical Multimode Fiber Cable Product Specifications MFP7E20-Nxxx Optical Multimode Splitter Fiber Cable Product Specifications MFP7E30-Nxxx MPO-to-MPO Single-mode Fiber Cable Product Specifications MFP7E40-Nxxx Single mode 1:2 Fiber Splitter Cable Product Specifications 
+
+ 800G
+
+ 800G Cooper
+
+ MCA4J80-Nxxx 800Gb/s Twin-port OSFP to 2x400Gb/s OSFP InfiniBand ACC Product Specifications MCP4Y10-Nxxx Twin-port 2x400Gb/s OSFP to 2x400Gb/s OSFP Passive DAC Product Specifications MCP7Y00-Nxxx 800Gb/s Twin-port 2x400G OSFP to 2x400G OSFP Passive DAC Splitter Product Specifications 
+
+ 800G Transceivers
+
+ MMS4X00-NM-T 800Gbps Twin-port OSFP 2x400Gb/s Single Mode 500m MMS4X00-NM 800Gbps Twin-port OSFP 2x400Gb/s InfiniBand and Ethernet Single Mode 2xDR4 500m MMS4X50-NM 800Gbps Twin-port OSFP 2xFR4, 2x400Gb/s Single Mode, 2km MMS4X00-NS 800Gbps Twin-port OSFP 2x400Gb/s Single Mode 2xDR4 100m MMA4Z00-NS-T 800Gb/s Twin-port OSFP, 2x400Gb/s Multimode, 50m MMS4X00-NS-T 800Gbps Twin-port OSFP 2x400Gb/s Single Mode 100m NVIDIA MMS4A20 800Gbps, DR4 Single-port OSFP, MPO, 1310nm Single Mode, RHS (500m) Transceiver MMS4X00-NM16 NVIDIA Ethernet 800Gbps OSFP Twin-port Finned Transceiver OSFP 1xMPO16 1310nm SMF up to 500m MMS4X00-NM-HGX 800Gbps Twin-port OSFP 2x400Gb/s InfiniBand and Ethernet Single Mode 2xDR4 500m MMS4X90-NR 800Gbps, 2xLR4, OSFP, 2xLC-LC, 1310nm SMF, Finned Twin-port Transceiver (up to 10km) 
+
+ 200G
+
+ 200G AOC
+
+ MFS1S00-HxxxV 200Gb/s QSFP56 MMF AOC Product Specifications 
+
+ 200G Transceivers
+
+ MMS1W50-HM 200Gb/s QSFP56 FR4 
+
+ Under 25G
+
+ MMA2P00-AS 25GbE SFP28 MMF Transceiver Product Specifications 
+
+ Products No Longer For Sale
+
+ 800G
+
+ MCP7Y10-Nxxx 800Gbs Twin-port OSFP to 2x400G QSFP112 DAC Splitter 1-3m Product Specifications MCA7J65-Nxxx 800Gbps Twin-port OSFP to 2x400Gbps QSFP112 ACC Splitter MCA7J70-Nxxx 800Gb/s Twin-port OSFP to 4x200Gb/s OSFP ACC Splitter Product Specifications MCA7J75-Nxxx 800Gbps Twin-port OSFP to 4x200Gbps QSFP112 ACC Splitter MCA7J60-Nxxx 800Gbs Twin-port OSFP to 2x400Gbs OSFP ACC Splitter Product Specifications 
+
+ 400G
+
+ MCP7Y60-Hxxx 400Gb/s Twin-port 2x200G OSFP to 2x200G QSFP56 DAC Splitter & 2x100GbE/EDR Product Specifications MCP7Y70-Hxxx 400Gb/s Twin-port 2x200G OSFP to 4x100G QSFP56 DAC Splitter Product Specifications MCP1660-W0xxEyy QSFP-DD DAC Cable Product Specifications MCP7H60-W0xxRyy 400GbE to 2x200GbE, QSFP-DD to 2xQSFP56 DAC Splitter Cable Product Specifications MCP7F60-W0xxRyy 400GbE to 4x100GbE, QSFP-DD to 4xQSFP56 DAC Splitter Cable Product Specifications 
+
+ 200G
+
+ MMA1T00-HS HDR QSFP56 MMF Transceiver Product Specifications MMA1T00-VS 200GbE QSFP56 MMF Transceiver Product Specifications MCP1650-H0xxEyy 200Gb/s QSFP56 DAC Product Specifications MCP7H50-H0xxRyy 200Gb/s QSFP56 to 2x100Gb/s 2xQSFP56 DAC Splitter Cable Product Specifications MFS1S50-H0xxV 200Gb/s QSFP56 to 2x100Gb/s QSFP56 Low Latency MMF AOC Product Specifications MFS1S90-H0xxE 2x200Gb/s QSFP56 to 2x200Gb/s QSFP56 MMF AOC Product Specifications MFS1S00-VxxxE 200GbE QSFP56 MMF AOC Product Specifications MFS1S00-HxxxE 200Gb/s QSFP56 MMF AOC Product Specifications MFS1S50-H0xxE 200Gb/s QSFP56 to 2x100Gb/s QSFP56 MMF AOC Product Specifications MCP7H50-V0xxRyy 200Gb/s QSFP56 to 2x100GbE 2xQSFP56 DAC Splitter Cable Product Specifications MCP1650-V0xxEyy 200GbE QSFP56 DAC Product Specifications 
+
+ 100G
+
+ MMA1L10-CR 100GbE QSFP28 LR4 Transceiver Product Specifications MMA1L30-CM 100GbE QSFP28 CWDM4 Transceiver Product Specifications MMA1B00-E100 100Gb/s Transceiver Product Specifications MCP1600-C0xxEyyz 100GbE QSFP28 DAC Cable Product Specifications MFA1A00-xxxx 100Gb/s QSFP28 MMF Active Optical Cable Product Specifications MCP7F00-A0xxRyyz 100GbE QSFP28 to 4x25GbE 4xSFP28 DAC Product Specifications MCP7H00-G0xxxxxxx 100GbE QSFP28 to 2x50GbE 2xQSFP28 DAC Splitter Product Specifications 
+
+ 25G
+
+ MMA2L20-AR 25GbE SFP28 LR Transceiver Product Specifications MCP2M00-A0xxEyyz 25GbE SFP28 DAC Cable Product Specifications MFA2P10-AXXX 25GbE SFP28 AOC 
+
+ Privacy Policy 
+ Your Privacy Choices 
+ Terms of Service 
+ Accessibility 
+ Corporate Policies 
+ Product Security 
+ Contact 
+
+ Copyright Powered by Scroll Sites & Atlassian Confluence

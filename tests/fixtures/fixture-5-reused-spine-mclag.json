@@ -1,0 +1,30 @@
+{
+  "_comment": "GOLDEN FIXTURE #5 — reused-spine leaf-spine, RE-RULED per 2026-07-16c (spare-port EVPN-MH scope + Ruling 1 leaf step-up). 12x PowerEdge R660 (2x25G) frontend + 6x PowerStore 5200T (nvme-tcp) storage, dual, reusing the customer's existing S5232F-ON spine (NOT re-quoted). Both fabrics are spined redundant pairs; under the spare-port scope each is MC-LAG/VLT WITH an ICL because the leaf affords uplinks + peer-link. Two re-rules vs the 16b hand-verified BOM: (1) FRONTEND — the density-only ladder picked the economy S5224F-ON (4 uplink ports; 3 spine uplinks leave no room for the ICL, dropping the pair to EVPN-MH); Ruling 1 steps it up to the STANDARD S5248F-ON (6 uplink ports; 3 up + 2 ICL fit) so it is MC-LAG + ICL as the verified BOM shows. (2) STORAGE — re-pinned to MC-LAG + ICL (PowerStore systemBond:true = an LACP aggregate across both ToRs, which mandates a peer-link). This reverses the 16b hand-verified 'storage A/B without ICL' reading, and that reversal is now FINAL: ruling 2026-07-16 (maintainer), verified against H18157.11 'Dell PowerStore: Clustering and High Availability' (Apr 2026) — multi-appliance cluster ICM/ICD traffic rides an LACP bond through the ToRs, cross-switch bonds require VLTi ('must be configured'), and the HA reference diagram (Fig. 43) shows the ToR pair interconnected with LACP/vPC labels. 6x 5200T is multi-appliance = the strongest case for the requirement. See CITATION-LOG -> 'PowerStore storage fabric', status CURRENT.",
+  "name": "Fixture #5 — 12x R660 (2x25G) + 6x PowerStore 5200T, dual, reused S5232F-ON spine",
+  "engine": "recommend",
+  "input": {
+    "targets": [
+      { "platformId": "poweredge-general", "units": 12 },
+      { "platformId": "powerstore", "units": 6 }
+    ],
+    "redundancy": "dual",
+    "includeMgmt": true,
+    "storageProtocol": "nvme-tcp",
+    "deployType": "add",
+    "reuseExistingSpine": true
+  },
+  "expected": [
+    { "label": "leaf — S5248F-ON x4 (2 frontend + 2 storage); frontend STEPPED UP from S5224F-ON so its MC-LAG ICL fits (Ruling 1)", "category": "Switch", "on": "model", "match": "^S5248F-ON$", "qty": 4, "knownDiff": null },
+    { "label": "NO S5224F-ON — the economy leaf is stepped up for the redundant MC-LAG frontend (kept only for non-redundant/economy)", "category": "Switch", "on": "model", "match": "^S5224F-ON$", "qty": 0, "knownDiff": null },
+    { "label": "reused spine NOT re-quoted — existing S5232F-ON is the customer's; absent from this BOM", "category": "Switch", "on": "model", "match": "^S5232F-ON$", "qty": 0, "knownDiff": null },
+    { "label": "frontend host cabling — 12 servers x 2x25G = 24 DAC", "category": "Cable/Optic", "on": "mk", "match": "^host\\|poweredge-general\\|frontend\\|dac-25g-sfp28$", "qty": 24, "knownDiff": null },
+    { "label": "storage host cabling — 6 PowerStore x 8 = 48 DAC", "category": "Cable/Optic", "on": "mk", "match": "^host\\|powerstore\\|storage\\|dac-25g-sfp28$", "qty": 48, "knownDiff": null },
+    { "label": "frontend leaf-to-spine uplinks — 3/leaf x 2 leaves = 6 AOC (to the reused spine)", "category": "Cable/Optic", "on": "mk", "match": "^uplink\\|poweredge-general\\|frontend\\|aoc-100g-qsfp28$", "qty": 6, "knownDiff": null },
+    { "label": "storage leaf-to-spine uplinks — 3/leaf x 2 leaves = 6 AOC", "category": "Cable/Optic", "on": "mk", "match": "^uplink\\|powerstore\\|storage\\|aoc-100g-qsfp28$", "qty": 6, "knownDiff": null },
+    { "label": "frontend MC-LAG ICL — 2x 100G DAC (1 pair, peer-link fits on stepped-up S5248F-ON)", "category": "Cable/Optic", "on": "mk", "match": "^peer\\|poweredge-general\\|frontend\\|dac-100g-qsfp28$", "qty": 2, "knownDiff": null },
+    { "label": "storage MC-LAG ICL — 2x 100G DAC (PowerStore systemBond = LACP across both ToRs → peer-link required; FINAL per H18157.11, ruling 2026-07-16)", "category": "Cable/Optic", "on": "mk", "match": "^peer\\|powerstore\\|storage\\|dac-100g-qsfp28$", "qty": 2, "knownDiff": null },
+    { "label": "OOB — one S3248T-ON (single rack)", "category": "Management", "on": "model", "match": "^S3248T-ON$", "qty": 1, "knownDiff": null }
+  ],
+  "noExtraSwitchModels": true,
+  "phraseAbsence": []
+}

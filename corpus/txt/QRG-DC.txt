@@ -1,0 +1,394 @@
+                                                                                                                           NETWORKING
+
+                                                                                                                           QUICK REFERENCE GUIDE
+
+                                                                                                                           Last update: June 2026
+
+    AI Fabric Ethernet Switches                                                                                            100/400/800GbE, 1.6TbE Multi-rate
+
+    Overview                                                                                                       High-performance, high-density 100/400/800GbE                                                              multi-rate aggregation and AI fabric switches
+
+g           Models               SN6800-LD            SN6810-LD          SN6600-LD              SN6600                     SN5610                                                                                  SN5600D                      SN5400                   SN4700
+
+    NPU                         NVIDIA® SpectrumTM-6  NVIDIA Spectrum-6  NVIDIA Spectrum-6      NVIDIA Spectrum-6  NVIDIA® SpectrumTM-4                                                                            NVIDIA Spectrum-4  NVIDIA Spectrum-4              NVIDIA Spectrum-3
+
+    Form factor                  5U (MGX1.2)          2U (MGX1.2)        2U (MGX1.2)            3U (EIA)                   2U (EIA)                                                                                2U (MGX1.x)                  2U (EIA)                 1U (EIA)
+
+    Performance
+
+    Switching capacity (Tbps)    409.6                102.4              102.4                  102.4                      51.2                                                                                    51.2                         25.6                           12.8
+
+    Forwarding capacity (Bpps)   96                   24                 24                     24                         33.3                                                                                    33.3                         33.3                           8.4
+
+    Buffer size (MB)             4 x 160              160                160                    160                        160                                                                                     160                          160                            64
+
+    Latency (ns)                 850                  850                850                    850                        <850                                                                                    <850                         620                      <650
+
+    Ports*
+
+    10GbE (SFP+)                 N/A                  N/A                N/A                    N/A                256 (breakout)+2                                                                                256 (breakout)+1   256 (breakout)+2                   128 (breakout)
+
+    25GbE (SFP28)                N/A                  N/A                N/A                    N/A                256 (breakout)                                                                                  256 (breakout)+1   256 (breakout)+2                   128 (breakout)
+
+    40GbE (QSFP+)                N/A                  N/A                N/A                    N/A                        N/A                                                                                     N/A                          N/A                            N/A
+
+    50GbE (QSFP28)               N/A                  N/A                N/A                    N/A                128 (breakout)                                                                                  256 (breakout)               256 (breakout)           128 (breakout)
+
+    50GbE (SFP56)                N/A                  N/A                N/A                    N/A                256 (breakout)                                                                                  256 (breakout)               256 (breakout)           128 (breakout)
+
+    100GbE                      2048+8 (breakout)     512+2 (breakout)   512+2 (breakout)       512 (breakout)     256 (breakout)                                                                                  256 (breakout)               256 (breakout)           128 (breakout)
+
+sf  200GbE                       2048 (breakout)      512 (breakout)     512 (breakout)         512 (breakout)     256 (breakout)                                                                                  256 (breakout)               128 (breakout)           64 (breakout)
+
+    400GbE                       N/A                  256 (breakout)     256 (breakout)         256 (breakout)     128 (breakout)                                                                                  128 (breakout)               64 (QSFP-DD)             32 (QSFP-DD)
+
+    800GbE                       N/A                  128 (MMC-12)       128 (breakout)         128 (breakout)     64 (OSFP112)                                                                                    64 (OSFP112)                 N/A                            N/A
+
+    1.6TbE                       N/A                  N/A                64 (OSFP224)           64 (OSFP224)               N/A                                                                                     N/A                          N/A                            N/A
+
+    Power and cooling
+
+    Power consumption (W)        8032 (normal)        1800 (normal)      1800 (normal)          1800 (normal)      900 (normal)                                                                                    940 (normal)                 670 (normal)             630 (normal)
+
+    Power options                DC busbar            DC busbar          DC busbar              AC                         AC                                                                                      DC busbar                    AC                             AC
+
+    Redundant power              N/A                  N/A                1+1                    1+1                        2+2                                                                                     N/A                          1+1                      1+1
+
+    Airflow / DLC                                     DLC 100%, UQD08                                              Air I/P (C2P)                                                                                                                Air I/P or P/I (C2P  or  P2C)
+
+    Features
+
+    Operating Systems                                            Enterprise SONiC Distribution  by Dell Technologies (phased rollout), NVIDIA                                                                      Cumulus Linux, Linux Switch
+
+    iSCSI optimization                                                                                 Optimized for RoCE
+
+    VXLAN                                                                                            Routing and Bridging
+
+    * SN5610 has 64 OSFP + 2 SFP28 connectors, SN5600D has 64 OSFP + 1 SFP28 connectors, 400GbE and lower speeds use OSFP. Port configuration capacities represent HW supportable modes. SW support varies by OS.
+AI Fabric Ethernet Switches (cont.)
+
+Overview
+
+              Models          Z9964FL-ON                            Z9964F-ON       Z9864F-ON                                 Z9664F-ON               Z9432F-ON
+
+NPU                           Broadcom® TomahawkTM6  Broadcom Tomahawk 6            Broadcom Tomahawk 5       Broadcom Tomahawk 4                     Broadcom TridentTM4-X11
+
+Form factor                          2U (ORv3)                      3U (EIA)        2U (EIA)                                  2U (EIA)                1U (EIA)
+
+Performance
+
+Switching capacity (Tbps)            102.4                          102.4           51.2                                      25.6                    12.8
+
+Forwarding capacity (Bpps)           37.6                           37.6            20.3                                      10.2                    5.2
+
+Buffer size (MB)                     267                            267             165                                       114                     132
+
+Latency (ns)                         850                            850             <700                                      <850                    <850
+
+Ports*
+
+10GbE (SFP+)                         2                              2               2                                         256 (breakout)+2        144 (breakout)+2
+
+25GbE (SFP28)                        N/A                            N/A             N/A                                       256 (breakout)          144 (breakout)
+
+40GbE (QSFP+)                        N/A                            N/A             N/A                                       128 (breakout)          64 (breakout)
+
+50GbE (QSFP28)                       N/A                            N/A             N/A                                       128 (breakout)          128 (breakout)+16 (QSA) (PAM4)
+
+50GbE (SFP56)                        N/A                            N/A             N/A                                       256 (breakout)          128 (breakout)
+
+100GbE                        512 (breakout)                        512 (breakout)  320 (breakout)                            256 (breakout)          128 (breakout)
+
+200GbE                        512 (breakout)                        512 (breakout)  256 (breakout)                            128 (breakout)          64 (breakout)
+
+400GbE                        256 (breakout)                        256 (breakout)  128 (breakout)                            64 (QSFP-DD)            32 (QSFP-DD)
+
+800GbE                        128 (breakout)                        128 (breakout)  64 (OSFP112)                              N/A                     N/A
+
+1.6TbE                        64 (OSFP224)                          64 (OSFP224)    N/A                                       N/A                     N/A
+
+Power consumption (W)                4207 (max)                     4987 (Max)      2848 (max)/1500 (normal)  2125 (max)/500 (normal)                 1404 (max)/900 (normal)
+
+Power options                        DC busbar                      AC              AC or DC                                  AC or DC                AC or DC
+
+Redundant power                      N/A                            1+1             1+1                                       1+1                     1+1
+
+Airflow / DLC                 DLC 85%, UQD06, I/P                                                             Air I/P or P/I
+
+Operating Systems             Enterprise SONiC Distribution by Dell Technologies    Enterprise SONiC Distribution by Dell Technologies;         Dell  SmartFabric OS10*
+
+iSCSI optimization                              Optimized for RoCE                  N/A                       iSCSI optimization and FSB              iSCSI optimization and FSB
+
+VXLAN                                       Routing and Bridging                                    Routing and Bridging**                            Routing and Bridging**
+
+* TAA Certified for FED only
+
+**SONiC only
+AI Fabric InfiniBand Switches
+
+Overview                                                                 Highest-performance, end-to-end  400/800 Gb/s networking designed for massive-scale  AI.
+
+             Models            QM9700/9790                     QM9701    Q3200-RA                                        Q3400-RA                                  Q3401-RD
+
+NPU                                            NVIDIA QuantumTM2                                                         NVIDIA Quantum 3
+
+Form factor                                    2U                                                                               4U
+
+Performance
+
+Switching capacity (Tbps)                      25.6                      57.6                                            115.2                                     115.2
+
+Latency (ns)                                   N/A                       N/A                                             N/A                                       N/A
+
+Physical Interfaces
+
+800Gb/s (OSFP)                                 32                        NA                                              NA                                        NA
+
+1.6Tb/s (OSFP)                                 N/A                       36                                              72                                        72
+
+Supported Ports
+
+100Gb/s                                        N/A                       NA                                              NA                                        NA
+
+200Gb/s                                        128                       NA                                              NA                                        NA
+
+400Gb/s                                        64                        144                                             288                                       288
+
+800Gb/s                                        N/A                       72                                              144                                       144
+
+Power and cooling
+
+Power consumption (W)          640-747                         720-1660  862-3486                                        2900-7000                                 2900-7000
+
+Power options                  AC                    DC busbar                                            AC                                                       DC busbar
+
+Airflow                        Air I/P or P/I                                                             Air I/P (C2P)
+
+                               (C2P or P2C)
+
+Features
+
+Operating Systems                              NVIDIA MLNX-OS                                                 NVIDIA Networking OS Software  (NVOS)
+S-Series Data Center Switches                                                         10/25/40/50/100/200/400GbE
+
+Overview                                High-performance, open networking 25GbE for compute and storage connectivity or 100/400GbE spine/leaf switches offering optimum flexibility and  cost  effectiveness
+
+                  Models       S5212F-ON               S5224F-ON                      S5232F-ON                         S5248F-ON                S5296F-ON                                     S5448F-ON
+
+NPU                                     Broadcom       Trident3-X5                                            Broadcom Trident3-X7                                                             Broadcom Trident4-X9
+
+Form factor                    1 U compact                          1U                    1U                            1U                              2U                                                    1U
+
+Performance
+
+Switching capacity (Tbps)      2.16                                 2.16              6.4                               4.0                             6.4                                                   16
+
+Forwarding capacity (Bpps)     880 Mpps                             1.42              4.8                               3.0                             4.8                                                   2.6
+
+Buffer size (MB)                                                                      32                                                                                                                      82
+
+Latency (ns)                   906                                  881               877                               847                             850                                    1135
+
+Ports
+
+10GbE (SFP+)                   12+12 (breakout)        24+16 (breakout)               124 (breakout)+2                  48+32 (breakout)         96+32 (breakout)                              48+24 (breakout)+2
+
+25GbE (SFP28)                  12+12 (breakout)        24+16 (breakout)               124 (breakout)                    48+32 (breakout)         96+32 (breakout)                              48+24 (breakout)
+
+40GbE (QSFP28)                 3                                    4                 32                                4+4 (breakout)                  8                                      16 (breakout)
+
+50GbE (QSFP28)                 6 (breakout)            8 (breakout)                   64 (breakout)                     16 (breakout)            16 (breakout)                                 16 (breakout)
+
+50GbE (SFP56)                                                                         N/A                                                                                                      48 + 24 (Breakout)
+
+100GbE (QSFP28)                3                                    4                 32                                4+4 (breakout)                  8                                      32 (breakout)
+
+100GbE (SFP56-DD)                                                                     N/A                                                                                                                     48
+
+400GbE (QSFP56-DD)                                                                    N/A                                                                                                                     8
+
+Power and cooling
+
+Max. power consumption (W)     304 (max)/140 (normal)  455 (max)/200 (normal)         635 (max)/360 (normal)  647 (max)/310 (normal)             893 (max)/457 (normal)                        920 (max)/250 (normal)
+
+Power options                                                                                           AC or DC
+
+Redundant power                2 fixed                                                                                  2 hot swappable
+
+Airflow                                                                                                 Air I/P or P/I
+
+Features
+
+Operating Systems                                                         Enterprise  SONiC Distribution by Dell Technologies; Dell SmartFabric  OS10*
+
+iSCSI optimization                                                                         iSCSI optimization and FSB
+
+VXLAN                                                                                         Routing and Bridging
+
+* TAA Certified for FED only
+S-Series Data Center Switches                                                                         1/10/25/40/50/100GbE
+
+Overview                                                   High-performance open networking 10GbE top-of-rack switches with 100GbE uplinks for compute and storage connectivity
+
+                   Models      S4112F-ON              S4112T-ON       S4128F-ON               S4128T-ON        S4148F-ON                S4148T-ON      S4348F-ON                      S4348T-ON
+
+NPU                                                                   Broadcom Maverick                                                                                          Broadcom Trident3-X5
+
+Form factor                         1 U compact                                                                                         1U
+
+Performance
+
+Switching capacity (Gbps)                        840                                   960                                        1760                 2160                                    2160
+
+Forwarding capacity (Mpps)                       625                                   720                                        1320                 1007                                    1007
+
+Buffer size (MB)                                                                          12                                                           32                                      32
+
+Latency (ns)                                <800                      <800                    <2.3 s           <800                         <2.3 s     <650                                    <3.5 s
+
+Ports
+
+1/10GBase-T                    N/A                    12              N/A                     28               N/A                          48         N/A                                     48
+
+1GbE (SFP)                     12+12 (breakout)       N/A             28+8 (breakout)         8 (breakout)     48+24 (breakout)         24 (breakout)  48                                      N/A
+
+10GbE (SFP+)                   12+12 (breakout)       12 (breakout)   28+8 (breakout)         8 (breakout)     48+24 (breakout)         24 (breakout)  48+12 (breakout)               12 (breakout)
+
+25GbE (SFP28)                       12 (breakout)                           8 (breakout)                             16 (breakout)                     12 (breakout)                  12 (breakout)
+
+40GbE (QSFP28)                                   3                                     2                             4+2 (QSFP+)                       6                                       6
+
+50GbE (QSFP28)                      6 (breakout)                            4 (breakout)                             8 (breakout)                      N/A                                     N/A
+
+100GbE (QSFP28)                                  3                                     2                                          4                    6                                       6
+
+Power and cooling
+
+Power consumption (W)          180 (max)/             200 (max)/      260 (max)/              300 (max)/       370 (max)/               440 (max)/     362 (max)/                     393 (max)/
+
+                               90 (normal)            120 (normal)    160 (normal)            250 (normal)     200 (normal)             320 (normal)   119 (normal)                   222 (normal)
+
+Power options                                    AC                                                                               AC or DC
+
+Redundant power supplies       Fixed, redundant power supply and fan                                        2                                          Fixed, redundant power supply and fan
+
+Airflow                                                                                                        Air I/P or P/I
+
+Features
+
+Operating Systems                                                     Dell SmartFabric OS10*                                                           Enterprise SONiC Distribution by Dell
+
+                                                                                                                                                                                 Technologies
+
+iSCSI optimization                                                    iSCSI optimization and FSB                                                                                 N/A
+
+Multicast routing                                                     PIM-SM, PIM-SSM                                                                                            IPv4 PIM-SSM
+
+VXLAN                                                                                                       Routing and Bridging
+
+* TAA Certified for FED only
+Out-of-Band Management Switches
+
+Overview                                                                                    Ethernet switches  for out-of-band  data  center  management
+
+                  Models                                S3248T-ON                                                                                         SN2201
+
+NPU                                                     Broadcom Trident3-X3                                                                              NVIDIA Spectrum
+
+Form factor                                             1U                                                                                                1U
+
+Performance
+
+Switching capacity (Gbps)                               576                                                                                               448
+
+Forwarding Capacity (Mpps)                              800                                                                                               667
+
+Buffer size (MB)                                        8                                                                                                 16
+
+Latency (s)                                             2.38                                                                                              N/A
+
+Ports
+
+1GBase-T                                                48                                                                                                48
+
+10GbE (SFP+)                                            4                                                                                                 16
+
+100GbE (QSFP28)                                         2                                                                                                 4
+
+Power and cooling
+
+Power consumption (W)                                   212 (max)                                                                                         100 (typical)
+
+Power options                                           AC or DC                                                                                          AC
+
+Redundant power supplies                                2                                                                                                 2
+
+Airflow                                                 Air I/P or P/I                                                                        Air I/P or P/I (C2P or P2C)
+
+Features
+
+Operating system                     Enterprise  SONiC  Distribution by Dell Technologies;  Dell  SmartFabric  OS10*                          NVIDIA Cumulus Linux, SONiC, Linux  Switch
+
+iSCSI optimization storage features                     N/A                                                                                               Optimized for RoCE
+
+VXLAN                                                   L2 and L3                                                                                         Bridging and Routing
+
+* TAA Certified for FED only
+Edge switches
+
+Overview                                                 High performance        open networking 1GbE and 10GbE multigigabit switches for modern workloads at  the network edge
+
+Models                                                   E3224F-ON                                              E3248P-ON                                      E3248PXE-ON
+
+NPU                                                                                 Broadcom Trident3-X3                                                       Broadcom Trident3-X5
+
+Form factor                                                                                                     1U
+
+Switch capacity (Gbps)                                   528                                                        576                                                          1560
+
+Forwarding capacity (Mpps)                               733                                                        800                                                          2167
+
+Buffer size                                              8 MB                                                       8 MB                                                         32 MB
+
+1G                                                       24 (SFP)                                               48 (GBASE-T)                                                     -
+
+5GBase-T Multigig (1/2.5/5G)                                                                                    -
+
+10GBase-T Multigig (1/2.5/5/10G)                         -                                                          -                                                            48
+
+10G (SFP+)                                               4                                                          4                                                            -
+
+25G (SFP28)                                              -                                                          -                                                            4
+
+100GbE (QSFP28)                                                                                              2  (Rear side)
+
+Power-over-Ethernet ports                                -                                                   48x 802.3at (30W) PoE                             48x 802.3bt Type-4 (90W) PoE
+
+Power and cooling
+
+Max power consumption (watts)                            230                                                        1683                                                         4869
+
+Power options                                            AC                                                         AC                                                           AC
+
+Internal power supplies                                                          2  hot swappable redundant  power supplies. 1 PSU included 2nd PSU optional.
+
+Redundant power                                          550W AC                                                1050W AC                                                     1600W AC
+
+Airflow                                                                                                      Air I/P or P/I
+
+Features
+
+Operating Systems                                        Dell SmartFabric OS10*                                     Enterprise SONiC Distribution by Dell      Technologies
+
+* TAA Certified for FED only
+
+Learn more at Dell.com/Networking
+
+© 2026 Dell Inc. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. NVIDIA, the NVIDIA logo, Cumulus, Spectrum are trademarks and/or
+
+registered trademarks of NVIDIA Corporation in the U.S. and/or other countries. Broadcom and Tomahawk are among the trademarks of Broadcom Corporation
+
+and/or its affiliates in the United States, certain other countries and/or the EU. Other trademarks may be trademarks of their respective owners.
+
+    Networking Quick Reference Guide | June 2026 | v2.1
+

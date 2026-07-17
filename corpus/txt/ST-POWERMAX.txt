@@ -1,0 +1,714 @@
+Specification  Sheet
+
+                      DELL POWERMAX
+
+                      Dell PowerMax 2500 and 8500
+
+                      The latest PowerMax models redefine performance at scale, delivering industry-
+
+                      leading cyber resiliency, AI-driven automation, and exceptional efficiency to help you
+
+                      unlock the full potential of your data. Built on the innovative PowerMaxOS 10 and a
+
+                      cutting-edge NVMe scale-out architecture, these systems incorporate advanced
+
+                      global inline data reduction to provide unmatched adaptability, high availability, and
+
+                      performance--empowering your organization to stay ahead in a competitive
+
+                      landscape.
+
+                      The PowerMax 2500 offers a compelling solution for mission-critical storage,
+
+                      delivering up to 7x1 more capacity (8 PBe) in half the footprint of previous models.
+
+                      With the industry's most comprehensive data services, the 2500 is designed to
+
+                      handle demanding mixed workloads--block, file, and mainframe--while ensuring the
+
+                      highest levels of data availability and cyber resiliency. Both the PowerMax 2500 and
+
+                      8500 models come with an industry-leading data reduction guarantee of 5:1 for Open
+
+                      Systems and 3:1 for Mainframe, providing exceptional efficiency.
+
+                      For organizations requiring massive consolidation, the PowerMax 8500 delivers
+
+                      unparalleled performance at scale. Supporting up to 16 nodes and a total capacity of
+
+                      18 PBe, it simplifies operations and reduces total cost of ownership (TCO). Ideal for
+
+Dell PowerMax         the most demanding mixed workloads, the 8500 ensures uninterrupted operations
+
+Array                 and features advanced cyber resiliency, including Cyber Recovery Service for
+
+                      PowerMax (cyber vault), offered through Dell Professional Services.
+
+                      Powered by the Dynamic Fabric architecture and Flexible RAID, PowerMax offers a
+
+                      scalable, flexible design that allows independent growth of nodes and storage
+
+                      capacity in single-drive increments. Leveraging Intel® Xeon® Scalable processors
+
+                      and the latest storage technologies--end-to-end NVMe, InfiniBand 100Gb/s, dual-
+
+                      ported NVMe flash drives, NVMe/TCP connectivity, and hardware-based data
+
+                      reduction--PowerMax is designed for 6 nines of availability. Additionally, it features
+
+                      intelligent PDUs for real-time power monitoring and alerting, ensuring continuously
+
+                      modern storage through Dell's Future-Proof program.
+
+                      Specifications
+
+                      Scale up and Scale out
+
+                      PowerMax is built from modular storage components for compute and storage media.
+
+                      The compute modules are packaged as node pairs. Each node pair contains two
+
+                      PowerMax compute nodes, complete software and licensing, cache memory,
+
+                      redundant power, and connectivity modules. These are combined with 48-slot
+
+                      Dynamic Media Enclosures (DMEs) to configure NVMe flash drives. PowerMax
+
+                      arrays are delivered with the Inclusive Software package. NVMe drive capacity can
+
+                      be added to the system to scale up to a total effective capacity of 8 PBe on the
+
+                      PowerMax 2500 and up to 18 PBe on the PowerMax 8500.
+
+                      Detailed specifications and a comparison of the PowerMax 2500 and 8500 arrays
+
+                      follow:
+
+               1Based on Dell's internal analysis comparing Effective Storage Capacity of the PowerMax 2500 compared with the PowerMax 2000, April 2025.
+
+               Actual storage capacities will vary.
+
+Dell PowerMax © 2026 Dell Inc. subsidiaries.
+Array family                                   PowerMax 2500                                  PowerMax 8500
+
+Node Pairs
+
+NUMBER OF NODE PAIRS                           1 to 2                                         1 to 8
+
+NODE PAIR MODULE                               3U                                             3U
+
+                                               Memory config 16-3: Intel Xeon Gold 5218 2.8   Memory config 2-3: Intel Xeon Gold 6254 3.9
+
+CPU                                            GHz with 16 core1                              GHz with 18 core1
+
+                                               Memory config 4 and 5: Intel Xeon Gold 6240L   Memory Config 4 and 5: Intel Xeon Gold 8280L
+
+CORE NUMBER PER CPU/PER NODE                   Memcfg 16-3: 16/64/128                         Memcfg 1-3: 18/72/576
+
+PAIR/PER SYSTEM                                Memcfg 4 and 5: 18/72/1444                     Memcfg 4 and 5: 20/112/7363,4
+
+DYNAMIC FABRIC                                 Direct Connection InfiniBand:                  InfiniBand Dual Redundant Fabric:
+
+                                               100 Gbps per port                              100 Gbps per port
+
+CACHE
+
+CACHE-SYSTEM MIN (RAW)                         896GB                                          1792GB
+
+CACHE-SYSTEM MAX (RAW)                         15.36TB                                        45.056TB3
+
+CACHE-PER NODE PAIR OPTIONS                    896GB, 1.792TB, 3.584TB, 7.680TB               1.792TB, 3.584TB, 7.680TB
+
+VAULT
+
+VAULT STRATEGY                                 Vault to Flash                                 Vault to Flash
+
+VAULT IMPLEMENTATION                           2 to 4 NVMe SED Flash Module/Node Pair2        4 NVMe SED Flash Module /Node Pair2
+
+FRONT-END I/O MODULES
+
+MAX. FRONT-END I/O MODULES/NODE PAIR           8                                              8
+
+                                               2 x 100Gb/s (Ethernet, iSCSI, SRDF, NVMe/TCP)  2 x 100Gb/s (Ethernet, iSCSI, SRDF, NVMe/TCP)
+
+                                               4 x 64Gb/s (FC, NVMe, SRDF)5                   4 x 64Gb/s (FC, NVMe, SRDF)5
+
+FRONT-END I/O MODULES AND PROTOCOLS            4 x 32Gb/s (FC, NVMe/FC, FICON, SRDF)          4 x 32Gb/s (FC, NVMe/FC, FICON, SRDF)
+
+SUPPORTED                                      4 x 25Gb/s (Ethernet, iSCSI, SRDF, NVMe/TCP)   4 x 25Gb/s (Ethernet, iSCSI, SRDF, NVMe/TCP)
+
+                                               4 x 10Gb/s (Ethernet, iSCSI, SRDF, NVMe/TCP)   4 x 10Gb/s (Ethernet, iSCSI, SRDF, NVMe/TCP)
+
+                                               1 x zHyperlink Port (MF, zHyperlink)           1 x zHyperlink Port (MF, zHyperlink)
+
+POWERMAX FILE MODULES
+
+MAX FILE I/O MODULES/SOFTWARE NODES            4                                              4
+
+                                               10 Gb/s: 4 x 10Gb/s File                       10 Gb/s: 4 x 10Gb/s File
+
+FILE I/O MODULES SUPPORTED                     25 Gb/s: 4 x 25Gb/s File                       25 Gb/s: 4 x 25Gb/s File
+
+POWERMAX FILE SOFTWARE NODES
+
+MAX SOFTWARE FILE NODES                        4 (1 per Node, 2 per Node pair)                8 (1 per Node, 2 per Node pair)
+
+MAX FILE CAPACITY/ARRAY (PETABYTES             8PiBe                                          18PiBe
+
+USABLE)
+
+1 CPUs run continuously in turbo mode, except at significantly high ambient temperatures.
+
+2 Encryption will be disabled if not ordered.
+
+3 Memory Config 4 is limited to a maximum of 4 node pairs in PowerMax 8500.
+
+4 Expanded cores only for Memory Config 4 and 5.
+
+5 Only multi-mode support is available.
+
+6 Not available with SRDF in PowerMax 2500.
+Array family                                       PowerMax 2500                                        PowerMax 8500
+
+CAPACITY, DRIVES
+
+Max Capacity per Array (Open)1,7                   8PiBe / 8.8 PBe                                      18 PiBe / 20 PBe
+
+Base capacity (Open)                               30.72TBu                                             30.72Tbu
+
+Max Capacity per Array (Mainframe)7, 8             3.8PiBe / 4.1PBe                                     9.8 PiBe / 10.7PBe
+
+Base capacity (Mainframe)                          15.36TBu                                             15.36Tbu
+
+Incremental Flash Capacity Upgrades                TLC: 3.84TB, 7.68TB, 15.36TB, 30.72TB3               TLC: 3.84TB, 7.68TB, 15.36TB, 30.72TB3
+
+                                                   QLC: 15.36TB, 30.72TB3
+
+Maximum Drives per Array                           96                                                   384
+
+Maximum Drives per System Bay                      96/192/2882                                          192/384
+
+Minimum Drive Count per System                     6 (Mainframe) / 10 (Open)                            6 (Mainframe) / 10 (Open)
+
+NVMe DRIVES
+
+NVMe units accepted (2.5 in.)                      3.84TB, 7.68TB, 15.36TB9, 30.72TB3,9                 3.84TB, 7.68TB, 15.36TB9, 30.72TB3,9
+
+Interface BE                                       Dual PCIe Gen 3 x8 NVMe attached interface           NVMe/NVMeoF via Dual 100G Infiniband        Fabric
+
+                                                   RAID 1 (1+1)                                         RAID 1 (1+1)
+
+Flexible RAID options with support                 RAID 5 (4+1)6           RAID 6 (12+2)                RAID 5 (8+1)               RAID 6 (12+2)
+
+                                                   RAID 5 (8+1)            RAID 6 (24+2)11              RAID 5 (12+1)              RAID 6 (24+2)11
+
+                                                   RAID 5 (12+1)
+
+Mixed RAID group support                           No                                                   No
+
+Support for Mixed Drive Capacities                 Yes3                                                 Yes3
+
+NVMe DYNAMIC MEDIA ENCLOSURE
+
+48 x 2.5" Drive DME                                Yes                                                  Yes
+
+CABINET SETTINGS
+
+Standard 19" bays                                  Yes                                                  Yes
+
+System Bay configurations                          Up to 3 Systems/Bay                                  Up to 6 Node Pairs/Bay4,5
+
+Third-party rack mount option                      Yes                                                  Yes
+
+DISPERSION
+
+Standard and third-party enclosures                N/A -- single floor tile system                      Yes
+
+PRE-CONFIGURATION FROM FACTORY
+
+100% Thin Provisioned                              Yes                                                  Yes
+
+HOST SUPPORT
+
+Open Systems                                       Yes                                                  Yes
+
+Mainframe                                          Yes                                                  Yes
+
+Mixed Mainframe and Open Systems                   Yes                                                  Yes
+
+POWER OPTIONS
+
+Input power options                                Single phase or three-phase                          Single phase or three-phase
+
+                                                   Delta or Wye                                         Delta or Wye
+
+POWER DISTRIBUTION UNIT
+
+Intelligent PDU                                    Default10                                            Default10
+
+1 Maximum capacity per array based on 5:1 Data Reduction.
+
+2 288 drives can be supported in a single cabinet when three systems are packaged in the same rack.
+
+3 Up to two consecutive compatible drive capacities, e.g. 3.84TB and 7.68TB are supported per storage resource pool (SRP.)
+
+4 This is based on a dense configuration. System bay configuration can also support balanced configuration.
+
+5 Dense configurations allow 6 node pairs in System Bay 1 and 2 additional node pairs in System Bay 2.
+
+6 R5(4+1) is MF only and supports only 3.84TB drives.
+
+7 PB is base-10 decimal notation (1000x1000x1000x1000x1000). PiB is base-2 binary notation (1024x1024x1024x1024x1024).
+
+8 Maximum mainframe capacity is based on 3:1 Data Reduction.
+
+9 Refer to Table 1 (page 4) for more information.
+
+10 PowerMax offers an intelligent PDU by default with PowerMax 10.1 release that enables real-time telemetry and monitoring          of  power,
+
+voltage, current, external temperature, and humidity.
+
+11 Only 15.36TB and 30.72TB drive capacities are supported with R6(24+2).
+Array family                                    PowerMax 2500                                         PowerMax         8500
+
+SRDF AND FRONT-END I/O PROTOCOLS COMPATIBLE
+
+100 Gb/s Ethernet Host Ports, iSCSI Ports, NVMe/TCP Ports, SRDF Ports
+
+Maximum/Node Pair                               16                                                    16
+
+Maximum number per array                        32                                                    128
+
+64 Gb/s FC Host Ports, NVMe Ports, SRDF Ports
+
+Maximum/Node Pair                               32                                                    32
+
+Maximum number per array                        64                                                    256
+
+32 Gb/s FC Host Ports, FICON Ports, SRDF Ports
+
+Maximum/Node Pair                               32                                                    32
+
+Maximum number per array                        64                                                    256
+
+25 Gb/s Ethernet Host Ports, iSCSI Ports (Optical), SRDF Ports (Optical), NVMe/TCP  Ports  (Optical)
+
+Maximum/Node Pair                               32                                                    32
+
+Maximum number per array                        64                                                    256
+
+10 Gb/s Ethernet Host Ports, iSCSI Ports (Optical), SRDF Ports (Optical), NVMe/TCP  Ports  (Optical)
+
+Maximum/Node Pair                               32                                                    32
+
+Maximum number per array                        64                                                    256
+
+zHyperlink ports
+
+Maximum number of ports/Node Pair               2                                                     2
+
+Maximum number of ports per array               4                                                     4
+
+EMBEDDED File Ports
+
+10 Gb/s File ports
+
+Maximum number of software data                 16                                                    16
+
+transfer/ports
+
+Maximum number of ports per array               64                                                    256
+
+25 Gb/s File ports
+
+Maximum number of software data                 16                                                    16
+
+transfer/ports
+
+Maximum number of ports per array               64                                                    256
+
+Table 1 ­ QLC/TLC 15 TB and 30 TB drives RAID support
+
+Drive                R1(1+1)                    R5(4+1)  R5(8+1)                    R5(12+1)               R6(12+2)          R6(24+2)
+
+QLC 15.36                 No                    No       2500 Only                  No                     2500 Only         No
+
+QLC 30.72                 No                    No                     No           No                     2500 Only1        No
+
+TLC 15.36                 Yes                   No       Yes                        Yes                    Yes               Yes
+
+TLC 30.72                 No                    No       Yes                        No                     Yes               Yes
+
+1 Supported with Mem Config 2, 3, 4, 5 (not 1)
+Figure 1 - System bay dispersion
+
+System Bay Dispersion allows customers to separate any individual or contiguous group of system bays by up to a distance of 82
+
+feet (25 meters) from System Bay 1. This provides unsurpassed datacenter flexibility in solving floor loading constraints or
+
+working around obstacles that might preclude fully contiguous configurations. This is applicable only to the PowerMax 8500, as
+
+the PowerMax 2500 is a single-bay solution.
+
+                                                 25 meters/82 feet
+
+                                                 System Bay Dispersion
+
+Support for flash drives
+
+The PowerMax 2500 and PowerMax 8500 support the latest dual-ported native NVMe Flash units. All drives support two
+
+independent I/O channels with automatic failover fault isolation. Consult your Dell sales representative for the latest list of
+
+supported drives and types. All capacities are based on 1 GB = 1,000,000,000 bytes. Actual usable capacity may vary by
+
+configuration.
+
+Table 2 - 2.5" NVMe flash drives used in base systems and capacity pack upgrades
+
+   Platform support          PowerMax 2500/8500  PowerMax 2500/8500                  PowerMax 2500/8500              PowerMax 2500/8500
+
+                                                                                                                     Mem Config 4 Only
+
+   Nominal capacity (GB)     38401                                       76801                        153601         307201
+
+   Type                      NVMe Flash                                  NVMe Flash                   NVMe Flash     NVMe Flash
+
+   Raw capacity (GB)         3840                                        7680                         15360             30720
+
+   Open systems              3840.30                                     7680.61                      15047.65       30095.05
+
+   formatted capacity (GB)2
+
+   Mainframe 3390            3840.30                                     7680.61                                     30095.05
+
+   formatted capacity (GB)2                                                                           15047.65
+
+1  In any configuration, capacity upgrades can contain a maximum of two different underlying drive sizes to achieve  the best useful capacity
+
+   desired. This is automatically optimized by the configuration tools.
+
+2  Formatted capacities shown are for RAID 5 (12+1). Values vary slightly with different RAID types.
+Table 3 - Energy consumption and heat dissipation at <26°C and >35°C
+
+Component                                         PowerMax 2500                                                                PowerMax 8500
+
+                        Maximum total power            Maximum heat dissipation               Maximum total power                      Maximum heat dissipation
+
+Maximum power and       consumption                              (Btu/h)                      consumption                                      (Btu/h)
+
+heat dissipation at             (kVA)                                                                 (kVA)
+
+temperatures
+
+< 26°C 2 and > 35°C 3   < 26°C         > 35°C          < 26°C             > 35°C              < 26°C                           > 35°C  < 26°C                           > 35°C
+
+System Cabinet 1,
+
+Single (Node Pair,      2.213          3.131           7,551              10.683              N/A                              N/A     N/A                              N/A
+
+Single DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+Two (Single Node Pair,  4.426          6.262           15,102             21,366              N/A                              N/A     N/A                              N/A
+
+Single DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+Three (Single Node      6.639          9.393           22,654             32,049              N/A                              N/A     N/A                              N/A
+
+Pair, Single DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+One (Dual Node Pair,    3.724          5.113           12.706             17.445              N/A                              N/A     N/A                              N/A
+
+Single DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+Two (Dual Node Pair,    7.448          10.225          25.412             34.890              N/A                              N/A     N/A                              N/A
+
+Single DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+Three (Dual Node Pair,  11.171         15.338          38.119             52.335              N/A                              N/A     N/A                              N/A
+
+Single DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+One (Dual Node Pair,    4.426          6.262           15,102             21,366              N/A                              N/A     N/A                              N/A
+
+Dual DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+Two (Dual Node Pair,    8.852          12.524          30,205             42,732              N/A                              N/A     N/A                              N/A
+
+Dual DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+Three (Dual Node Pair,  13.278         18.785          45,307             64,099              N/A                              N/A     N/A                              N/A
+
+Dual DME)
+
+PowerMax 2500
+
+System Cabinet 1,
+
+Balanced (Four Node     N/A                       N/A  N/A                N/A                 11.178                           14.736  38,140                           50,281
+
+Pair, Four DME)
+
+PowerMax 8500
+
+System Cabinet 2,
+
+Balanced (Four Node     N/A                       N/A  N/A                N/A                 10.846                           14.404  37,007                           49,148
+
+Pair, Four DME)
+
+PowerMax 8500
+
+System Cabinet 1,
+
+Dense (Six Node Pair,   N/A                       N/A                     N/A                 14.899                           19.376  50,839                           66,115
+
+Four DME)                                              N/A
+
+PowerMax 8500
+
+System Cabinet 2,
+
+Balanced (Two Node      N/A                       N/A                     N/A                 7.124                            9.764   24,308                           33,315
+
+Pair, Four DME)                                        N/A
+
+PowerMax 8500
+
+1 Power values for configurations with two, three, and four node pairs, placed in the System 2 Enclosure (PowerMax 8500 only)
+
+2 Values at <26 °C reflect the maximum values in a more stable state during normal operation
+
+3 Power values and heat dissipations are shown at >35 °C to reflect the higher power levels associated with both the battery recharge cycle and the initiation of high
+
+ambient temperature Adaptive Cooling algorithms.
+Table 4 - Physical specifications
+
+Component                                                 Height          Width                 Depth    Weight (maximum
+
+                                                          (in./cm)        (in./cm)       (in./cm)                    lb/kg)
+
+System Bay 1, Four Node Pair, Four DME (Balanced)         78.4/199.2      23.5/60        47.3/120                    1537/697
+
+PowerMax 8500
+
+System Bay 2, Four Node Pair, Four DME (Balanced)         78.4/199.2      23.5/60        47.3/120                    1410/640
+
+PowerMax 8500
+
+System Bay 1, Six Node Pair, Four DME (Dense)             78.4/199.2      23.5/60        47.3/120                    1806/819
+
+PowerMax 8500
+
+System Bay 2, Dual Node Pair, Four DME (Dense)            78.4/199.2      23.5/60        47.3/120                    1136/515
+
+PowerMax 8500
+
+System Bay 1, Single Node Pair, Single DME                78.4/199.2      23.5/60        45.2/114.8                  675/306
+
+PowerMax 2500
+
+System Bay 1, Dual Node Pair, Single DME                  78.4/199.2      23.5/60        45.2/114.8                  813/369
+
+PowerMax 2500
+
+System Bay 1, Dual Node Pair, Dual DME                    78.4/199.2      23.5/60        45.2/114.8                  900/408
+
+PowerMax 2500
+
+System Bay 1, Three Node Pair, Three DME                  78.4/199.2      23.5/60        45.2/114.8                  1125/510
+
+PowerMax 2500
+
+System Bay 1, Four Node Pair, Four DME                    78.4/199.2      23.5/60        45.2/114.8                  1375/624
+
+PowerMax 2500
+
+System Bay 1, Six Node Pair, Six DME                      78.4/199.2      23.5/60        45.2/114.8                  1838/834
+
+PowerMax 2500
+
+Input power requirements
+
+Table 5 - Single phase North                    American, International and Australian
+
+                                                North American 3-wire               International and Australian 3-wire
+
+Specification                                   connection                          connection
+
+                                                (2 L and 1 G)1                      (1 L, 1 N and 1 G)1
+
+Input nominal voltage                              200 - 240 VAC +/- 10% L ­ L nom  220 - 240 VAC +/- 10% L ­ N nom
+
+Frequency                                          50 - 60 Hz                       50 - 60 Hz
+
+Circuit Breakers                                   30 A                             30 or 32 A
+
+Power zones                                        Two                              Two
+
+PowerMax 2500 minimum input line cord              One-Node Pair, one-DME system: One 30 A or 32 A single-phase line cord per power
+
+requirements per system                            zone for each system.
+
+PowerMax 2500 maximum input line                   Two-Node Pair, two-DME system: Two 30 A or 32 A single-phase line cords per power
+
+cord requirements per system                       zone.
+
+PowerMax 8500 minimum input line cord              One-Node Pair, one-DME system: One 30 A or 32 A single-phase line cord per power
+
+requirements per system                            zone.
+
+PowerMax 8500 maximum input line                   Six-Node Pair, four-DME system in one rack: Six 30 A or 32 A single-phase line cords
+
+cord requirements per system                       per power zone.
+
+1L = line or phase, N = neutral, G = ground
+Table 6 - Three-phase          North         American, International, Australian
+
+                                             North American (DELTA)               International (WYE) 5-wire
+
+Specification                                4-wire connection                    connection (3 L, 1 N and 1 G)1
+
+                                             (3 L and 1 G)1
+
+Input voltage 2                              200 - 240 VAC +/- 10% L ­ L nom      220 - 240 VAC +/- 10% L ­ N nom
+
+Frequency                                    50 - 60 Hz                           50 - 60 Hz
+
+Circuit Breakers                             50 A                                 30/32 A
+
+Power zones                                  Two                                  Two
+
+Minimum power requirements at                One 50 A three-phase line cord per   One 30 A or 32 A three-phase line cord
+
+customer site                                power zone.                          per power zone.
+
+Maximum power requirements at                Two 50 A three-phase line cords per  Two 30 A or 32 A three-phase line cords
+
+customer site3                               power zone.                          per power zone.
+
+1L = line or phase, N = neutral, G = ground
+
+2An imbalance of AC input currents may exist on the three-phase power source feeding the array, depending on the configuration.
+
+The customer's electrician must be alerted to this possible condition to balance the phase-by-phase loading conditions within the
+
+customer's data center
+
+3A second input AC line cord must be added for each power zone when the total number of Node Pairs and DAEs (combined) in a
+
+rack reaches seven.
+
+Table 7 - Radio frequency interference
+
+Electro-magnetic fields which include radio frequencies can interfere with the operation of electronic equipment. Dell
+
+products have been certified to withstand radio frequency interference in accordance with EN61000-4-3. In Data Centers
+
+that employ intentional radiators, such as cell phone repeaters, the maximum ambient RF field strength should not
+
+exceed 3 volts/meter.
+
+Repeater power level           Recommended minimum
+
+               (watts)         distance (feet/meters)
+
+                 1             9.84 FT (3 M)
+
+                 2             13.12 (4 M)
+
+                 5             19.69 FT (6 M)
+
+                 7             22.97 FT (7 M)
+
+                 10            26.25 FT (8 M)
+
+                 12            29.53 FT (9 M)
+
+                 15            32.81 FT (10 M)
+Table 8 - Dell Technologies global services
+
+Dell Technologies World Class                            Services
+
+Implementation services                                                           ·  Dell ProDeploy Enterprise Suite
+
+                                                                                  ·  Dell Data Migration Services
+
+                                                                                  ·  Dell Residency Services
+
+                                                                                  ·  Dell Data Sanitization Services for Enterprise
+
+Support services                                                                  ·  Dell ProSupport Enterprise Suite
+
+                                                                                  ·  Dell Keep Your Hard Drive for Enterprise
+
+Managed services                                                                  ·  Dell Managed Services for Storage
+
+Dell Technologies Consulting Services                                             ·  Cyber Recovery Services for PowerMax (Cyber Vault)
+
+                                                                                  ·  Advisory Services workshops
+
+Dell Technologies Education Services                                              ·  PowerMax technical training courses and certifications
+
+Support technology and services                                                   ·  MyService360
+
+                                                                                  ·  Secure Remote Services, SupportAssist Enterprise
+
+DECLARATION OF CONFORMITY
+
+Dell Technologies IT equipment complies with all applicable regulatory requirements for electromagnetic compatibility,
+
+product safety, and environmental standards when placed on the market. Detailed regulatory information and
+
+compliance verification are available on the Dell standards compliance website. http://dell.com/regulatory_compliance
+
+This product has been tested and verified whether it will work within the permitted range of environmental attributes of
+
+ashrae's 2-level operating condition class between 10°C and 35°C and within the corresponding relative humidity
+
+range.
+
+                                                                                                                                     Join the conversation
+
+Learn more about Dell                  Contact a Dell Expert                                       See more features                   with #POWERMAX
+
+        PowerMax
+
+© 2022, 2023, 2024, 2025, 2026 Dell Inc. subsidiaries. All rights reserved.
+
+Dell and the other trademarks are the property of Dell Inc. or its subsidiaries.
+
+Other trademarks may belong to their respective owners.
+

@@ -1,0 +1,499 @@
+-->
+
+ LinkX Cables and Transceivers | NVIDIA 
+
+ NVIDIA Home 
+ NVIDIA Home 
+
+ Menu 
+ Menu icon 
+
+ Menu 
+ Menu icon 
+
+ Close 
+ Close icon 
+
+ Close 
+ Close icon 
+
+ Close 
+ Close icon 
+
+ Caret down icon 
+ Accordion is closed, click to open. 
+
+ Caret down icon 
+ Accordion is closed, click to open. 
+
+ Caret up icon 
+ Accordion is open, click to close. 
+
+ Caret right icon 
+ Click to expand 
+
+ Caret right icon 
+ Click to expand 
+
+ Caret right icon 
+ Click to expand menu. 
+
+ Caret left icon 
+ Click to collapse menu. 
+
+ Caret left icon 
+ Click to collapse menu. 
+
+ Caret left icon 
+ Click to collapse menu. 
+
+ Shopping Cart 
+ Click to see cart items 
+
+ Search icon 
+ Click to search 
+
+ Skip to main content 
+
+ Artificial Intelligence Computing Leadership from NVIDIA 
+
+ Networking 
+
+ Platforms 
+
+ Platforms 
+
+ BlueField DPU 
+
+ Advanced computing platform powering AI data centers 
+
+ Spectrum-X Ethernet 
+
+ Ethernet platform for hyperscale AI cloud networking 
+
+ Quantum-X800 InfiniBand 
+
+ High-bandwidth InfiniBand switching for giant AI clusters 
+
+ Quantum-2 InfiniBand 
+
+ InfiniBand networking for cloud‑native supercomputing at scale 
+
+ Products 
+
+ Products 
+
+ Ethernet Product Overview 
+
+ High performance Spectrum Ethernet for accelerated AI networking 
+
+ DPUs 
+
+ Infrastructure accelerators for AI‑optimized data centers 
+
+ InfiniBand Product Overview 
+
+ Quantum InfiniBand platform for high‑performance AI and HPC 
+
+ Cables & Transceivers 
+
+ 800G and 400G Ethernet and InfiniBand cables and transceivers 
+
+ Ethernet Switches 
+
+ Spectrum Ethernet switches for AI & HPC workloads 
+
+ Ethernet SuperNICs 
+
+ High performance Ethernet SuperNICs for advanced AI networking 
+
+ InfiniBand Switches & Appliances 
+
+ InfiniBand switches provide high performance and dense ports 
+
+ ConnectX InfiniBand Adapters 
+
+ ConnectX InfiniBand accelerates scalable AI and HPC workloads 
+
+ Silicon Photonics 
+
+ Co-packaged silicon photonics for massive AI networking 
+
+ ConnectX Ethernet NICs 
+
+ High performance ConnectX Ethernet for AI and cloud workloads 
+
+ Software 
+
+ Software 
+
+ Networking Software Overview 
+
+ Software suites to optimize Ethernet and InfiniBand networking 
+
+ DOCA 
+
+ Scale agentic AI securely on BlueField and ConnectX 
+
+ DSX Air 
+
+ NVIDIA Air builds full-stack simulations for AI data center infrastructure 
+
+ Cumulus 
+
+ Linux-based data center network OS 
+
+ NetQ 
+
+ Real-time AI data center network observability 
+
+ UFM 
+
+ InfiniBand data center fabric management platform 
+
+ Pure SONiC 
+
+ Open-source Linux network OS for switches 
+
+ Support 
+
+ Support 
+
+ Enterprise Support Portal 
+
+ NVIDIA Enterprise Application Hub login portal 
+
+ Firmware Download 
+
+ NVIDIA Networking firmware download center 
+
+ End-of-life Products 
+
+ End-of-life and support status for products 
+
+ Product Documentation 
+
+ NVIDIA networking product and software documentation 
+
+ InfiniBand Drivers 
+
+ InfiniBand and VPI software downloads and drivers 
+
+ Ethernet Drivers 
+
+ Ethernet adapter drivers and acceleration software 
+
+ Buy 
+
+ US 
+
+ Sign In
+
+ NVIDIA Account 
+
+ Logout 
+
+ Log In 
+ Log Out 
+
+ Skip to main content 
+
+ Artificial Intelligence Computing Leadership from NVIDIA 
+
+ 0 
+
+ US 
+
+ Sign In 
+
+ NVIDIA Account 
+
+ Logout 
+
+ Login 
+ LogOut 
+
+ NVIDIA 
+ NVIDIA logo 
+
+ Networking 
+
+ Platforms
+
+ BlueField DPU 
+
+ Advanced computing platform powering AI data centers 
+
+ Spectrum-X Ethernet 
+
+ Ethernet platform for hyperscale AI cloud networking 
+
+ Quantum-X800 InfiniBand 
+
+ High-bandwidth InfiniBand switching for giant AI clusters 
+
+ Quantum-2 InfiniBand 
+
+ InfiniBand networking for cloud‑native supercomputing at scale 
+
+ Products
+
+ Ethernet Product Overview 
+
+ High performance Spectrum Ethernet for accelerated AI networking 
+
+ DPUs 
+
+ Infrastructure accelerators for AI‑optimized data centers 
+
+ InfiniBand Product Overview 
+
+ Quantum InfiniBand platform for high‑performance AI and HPC 
+
+ Cables & Transceivers 
+
+ 800G and 400G Ethernet and InfiniBand cables and transceivers 
+
+ Ethernet Switches 
+
+ Spectrum Ethernet switches for AI & HPC workloads 
+
+ Ethernet SuperNICs 
+
+ High performance Ethernet SuperNICs for advanced AI networking 
+
+ InfiniBand Switches & Appliances 
+
+ InfiniBand switches provide high performance and dense ports 
+
+ ConnectX InfiniBand Adapters 
+
+ ConnectX InfiniBand accelerates scalable AI and HPC workloads 
+
+ Silicon Photonics 
+
+ Co-packaged silicon photonics for massive AI networking 
+
+ ConnectX Ethernet NICs 
+
+ High performance ConnectX Ethernet for AI and cloud workloads 
+
+ Software
+
+ Networking Software Overview 
+
+ Software suites to optimize Ethernet and InfiniBand networking 
+
+ DOCA 
+
+ Scale agentic AI securely on BlueField and ConnectX 
+
+ DSX Air 
+
+ NVIDIA Air builds full-stack simulations for AI data center infrastructure 
+
+ Cumulus 
+
+ Linux-based data center network OS 
+
+ NetQ 
+
+ Real-time AI data center network observability 
+
+ UFM 
+
+ InfiniBand data center fabric management platform 
+
+ Pure SONiC 
+
+ Open-source Linux network OS for switches 
+
+ Support
+
+ Enterprise Support Portal 
+
+ NVIDIA Enterprise Application Hub login portal 
+
+ Firmware Download 
+
+ NVIDIA Networking firmware download center 
+
+ End-of-life Products 
+
+ End-of-life and support status for products 
+
+ Product Documentation 
+
+ NVIDIA networking product and software documentation 
+
+ InfiniBand Drivers 
+
+ InfiniBand and VPI software downloads and drivers 
+
+ Ethernet Drivers 
+
+ Ethernet adapter drivers and acceleration software 
+
+ Buy 
+
+ Overview 
+
+ Ethernet 
+
+ Infiniband 
+
+ Shop Now 
+
+ Interconnect 
+
+ Overview 
+
+ Ethernet 
+
+ Infiniband 
+
+ Shop Now 
+
+ You are viewing this site using an out of date version of Internet Explorer. Some functionality may not work as required. 
+
+ This site requires Javascript in order to view all its content. Please enable Javascript in order to access all the functionality of this web site. Here are the instructions how to enable JavaScript in your web browser. 
+
+ NVIDIA LinkX Cables and Transceivers 
+
+ InfiniBand and Ethernet interconnects for 100G/200G/400G and 800G infrastructures. 
+
+ Explore the industry’s most complete line of Ethernet and InfiniBand interconnects with exceptional low latency, low power, and reliability for AI and accelerated computing. NVIDIA® LinkX® products can link upward in NVIDIA Quantum and Spectrum™ architectures for switch-to-switch applications, downward for top-of-rack switch links to ConnectX® smart network adapters, and to BlueField® DPUs in compute servers and storage subsystems. 
+
+ Product Lines 
+
+ 400Gb/s OSFP (100G-PAM4 Modulation) InfiniBand and Ethernet 
+
+ 800 gigabits per second (Gb/s) and 400Gb/s cables and transceivers are used for linking Quantum-2 InfiniBand and Spectrum-4 SN5600 Ethernet switches together and with ConnectX-7 network adapters, BlueField-3 DPUs, and NVIDIA DGX™ H100 GPU systems. The product line consists of direct-attach cables (DAC) reaching up to 3 meters (m), linear active copper cables from 3m to 5m, multimode optics to 50m, and single-mode optics to 100m, 500m, and 2 kilometers (km). Switches only use twin-port octal small form factor pluggable (OSFP) connectors. ConnectX-7 uses both OSFP and QSFP112, and BlueField-3 uses QSFP112 only. 
+
+ Learn More 
+
+ Parts List 
+
+ 400Gb/s QSFP-DD (50G-PAM4 Modulation) Ethernet only 
+
+ 400Gb/s cables and transceivers are used for linking Spectrum-4 SN5400 and Spectrum-3 SN4000 series Ethernet switches with ConnectX-6/7 network adapters and BlueField-2/3 DPUs. The product line consists of DAC cables reaching up to 2.5m, active optical cables from 3m to 100m, multimode optics up to 100m, and single-mode optics up to 500m, 2km, and 10km. Switches use quad small form factor double density (QSFP-DD) connectors, while ConnectX-6 and BlueField-2 use QSFP56 and QSFP28 connectors. 
+
+ Learn More 
+
+ Parts List 
+
+ 200Gb/s QSFP56 (50G-PAM4 Modulation) InfiniBand and Ethernet 
+
+ 200Gb/s cables and transceivers are used for linking Quantum InfiniBand and 200GbE Spectrum-2/3/4 Ethernet switches with ConnectX-6/7 network adapters, BlueField-2/3 DPUs, and DGX A100 GPU systems. The product line consists of DAC cables reaching up to 2.5m, active optical cables from 3m to 100m, multimode optics to 100m, and single-mode optics to 2km. Switches, ConnectX-6/7, and BlueField-2/3 use QSFP56 connectors. 
+
+ Learn More 
+
+ Parts List 
+
+ 100Gb/s QSFP28 (25G-NRZ Modulation) InfiniBand and Ethernet 
+
+ 25Gb/s and 100Gb/s cables and transceivers are used for linking Enhanced Data Rate (EDR) InfiniBand and 100GbE Spectrum-1/2/3/4 Ethernet switches with ConnectX-6/7 network adapters and BlueField-2/3 DPUs. The product line consists of DAC cables reaching up to 5m, active optical cables to 100m, multimode optics to 100m, and single-mode optics to 500m, 2km, 10km, and 40km. Switches, ConnectX-6/7, and BlueField-2/3 use QSFP28 and SFP28 connectors. 
+
+ Learn More 
+
+ Parts List 
+
+ Configuration Tool 
+
+ Get Started 
+
+ Ready to Purchase 
+
+ How to Buy 
+
+ Platforms 
+
+ BlueField DPU 
+
+ Spectrum-X Ethernet 
+
+ Quantum-X800 InfiniBand 
+
+ Quantum-2 InfiniBand 
+
+ DOCA 
+
+ Products 
+
+ Ethernet Product 
+
+ InfiniBand Product 
+
+ Networking Software 
+
+ Resources 
+
+ How to Buy 
+
+ Support 
+
+ Networking Blogs 
+
+ Documentation 
+
+ Networking Community 
+
+ NVIDIA Academy 
+
+ NVIDIA Deep Learning Institute 
+
+ Ethernet Drivers 
+
+ InfiniBand Drivers 
+
+ Company Info 
+
+ About Us 
+
+ Company Overview 
+
+ Investors 
+
+ Venture Capital (NVentures) 
+
+ NVIDIA Foundation 
+
+ Research 
+
+ Social Responsibility 
+
+ Technologies 
+
+ Careers 
+
+ Sign up for News 
+
+ Subscribe
+
+ Follow NVIDIA Networking 
+
+ Facebook 
+
+ LinkedIn 
+
+ Twitter 
+
+ NVIDIA 
+
+ United States
+
+ Privacy Policy 
+
+ Your Privacy Choices 
+
+ Terms of Service 
+
+ Accessibility 
+
+ Corporate Policies 
+
+ Product Security 
+
+ Contact 
+
+ Copyright © 2026 NVIDIA Corporation
