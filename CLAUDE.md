@@ -11,22 +11,32 @@ Structural redesign per docs/RESTRUCTURE-3.md (the plan of record).
 contracts are approved and landed; Phase 1 invariants + golden fixtures are live;
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
-### State at end of session 2026-07-17
-- **Version 0.65.4** (`js/version.js` = the single source of truth; `package.json`
-  tracks it). CHANGELOG.md has the 0.65.1–0.65.4 entries.
+### State at end of session 2026-07-23
+- **Version 0.65.5** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1–0.65.5 entries.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
-- **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
-- **BLOCKED ON MAINTAINER: nothing.** All R16 sweep findings triaged and closed same
-  day. Two OPEN citation TASKS remain (listed further below) — non-blocking re-rule
-  triggers. **G-024** (railNicCage per-target) is intentionally OPEN — feature-gated,
-  not a fix-it-later gap; see below.
-- **This session:** corpus intake → G-006 CLOSED → R12 tail reconfirmed complete →
-  G-022/R11 CLOSED → G-023/R16 CLOSED (refresh core-uplink wired) → reachability sweep
-  run (4 findings) → **maintainer triaged all 5 findings same-day, all landed**:
-  coreType wizard question added; edge-branch hardcodes now disclosed (guided +
-  Discovery); Discovery's missing core question documented as intentional in SPEC;
-  railNicCage tracked as G-024 with an interim 2+-AI-target warning and an explicit
-  no-speculative-plumbing rule. **Next fresh session:** R14.
+- **IN PROGRESS: nothing.** No half-built fix, no partial refactor. Slice 1 of the R14
+  replan (below) shipped clean; Slices 2–4 are fully specified but not started.
+- **BLOCKED ON MAINTAINER: nothing.** G-026 (new this session — E3224F-ON's fiber-edge
+  branch also catches `poe==='none'`) is flagged for the maintainer, not blocking.
+  **G-024** (railNicCage per-target) remains intentionally OPEN — feature-gated.
+- **This session — R14 grilled, not implemented as written:** `/grill-with-docs` run
+  against `docs/R14-WORKORDER.md` (a prior session's design-only work order) found its
+  central premise false — the code already states NVIDIA Spectrum runs Cumulus, not
+  Dell Enterprise SONiC (ruling v0.29.0), and the work order's proposed `nvidiaNos`
+  input would have overturned that tested, corpus-backed ruling without noticing it
+  existed. Full replan written to `docs/R14-WORKORDER.md`'s successor (the session's
+  plan file, folded into DESIGN-LOG below) as 4 slices. **Slice 1 shipped this
+  session (v0.65.5):** an independent, unrelated defect found while verifying the
+  plan — `engine.js:1603`'s DCI-forces-long-reach clause has never actually forced
+  long reach (dead condition since introduction); a DCI-class core uplink left at
+  the wizard's default reach could be quoted with short-reach optics for a metro
+  link. Fixed + regression-tested; stash-verify caught a false-positive test on the
+  first attempt (see DESIGN-LOG 2026-07-23, GAPS G-025). **Slices 2–4 (the NOS
+  model, the DFM gate, the wizard question merge) are queued next, unstarted** —
+  see QUEUE below. Also ruled this session: **OS10 is dropped portfolio-wide as a
+  quotable NOS choice** (maintainer: "OS10 shouldn't be quoted, it's end of sale") —
+  not yet implemented in code.
 
 ### G-023 / R16 closed 2026-07-17 — a fixed engine defect is still open if no UI reaches it
 B7 (2026-07-16) made `recommendRefresh`'s `includeCoreUplink` actually price the uplink
@@ -138,15 +148,27 @@ All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16
 
 ### QUEUE FOR NEXT SESSION — in priority order
 > **NOTE for a fresh session — this note has now been right five times; trust it.**
-> The **R12 tail**, **corpus intake**, **G-006**, **R11/G-022**, **R16/G-023**, and the **R16
-> sweep triage** (all 5 rulings) are all **DONE** as of 2026-07-17 (verified with stash-based
-> regression checks throughout — see DESIGN-LOG 2026-07-17d, GAPS G-023/G-024). If you are
-> handed a queue listing any of those as outstanding, that queue is stale — **verify against
-> the suite before doing the work.** Nothing is blocked on the maintainer. Start at (1) = R14.
+> The **R12 tail**, **corpus intake**, **G-006**, **R11/G-022**, **R16/G-023**, the **R16
+> sweep triage** (all 5 rulings), and now **R14 Slice 1** (the DCI long-reach defect, v0.65.5)
+> are all **DONE** as of 2026-07-23 (verified with stash-based regression checks throughout —
+> see DESIGN-LOG 2026-07-17d / 2026-07-23, GAPS G-023/G-024/G-025). If you are handed a queue
+> listing any of those as outstanding, that queue is stale — **verify against the suite before
+> doing the work.** Nothing is blocked on the maintainer. Start at (1) = R14 Slice 2.
 
-1. **R14** — NVIDIA-stack BOMs must state NOS per switch (SONiC vs Cumulus; Dell AI
-   = SONiC); DFM auto-attach needs an applicability rule (DFM manages Dell
-   Enterprise SONiC, not NVIDIA/Cumulus).
+1. **R14 Slices 2–4** — `docs/R14-WORKORDER.md` §MECHANICAL is **superseded**; do not
+   implement it verbatim (see DESIGN-LOG 2026-07-23 for why). Follow the replacement
+   plan instead — **Slice 2 (v0.66.0): the NOS model** (structured per-model
+   `nosSupported` catalog fact replacing the free-text `os` string; drop the wizard's
+   NOS question; new Dell switches pin to Enterprise SONiC per the OS10 ruling;
+   E3224F-ON kept with an end-of-sale disclosure; per-switch NOS statement on every
+   switch BOM line) → **Slice 3 (v0.66.1): the DFM gate** (all SIX `addVerity`/DFM
+   entry points, not the three the work order named — `wizard.js:987,1002,1022,1037,
+   1091` + `app.js:146`; gate on the Slice 2 catalog fact) → **Slice 4 (v0.66.2): the
+   wizard core-distance question merge** (D4, now safe since the underlying engine
+   defect is fixed). Each slice: tests in the same commit, stash-verified, full suite
+   green before/after. Recommended model: Sonnet for Slices 3–4; start Slice 2 on
+   Sonnet but escalate if the `nos`/VLT removal reaches further into
+   `engine.js:1243-1310` than expected (redundancy-method selection).
 2. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
    the maintainer doesn't think were selected. Determine seed-default vs wizard; if
    seed, fix + make NIC defaults visible + platform-seed invariant + F710

@@ -664,6 +664,16 @@ try {
   const dciBom = $('#tab-bom').textContent;
   check('guided/coreType: "Longer run" reaches the engine as a DCI-class uplink',
     /second site \(DCI\)/i.test(dciBom) && /DCI: confirm distance\/optics/i.test(dciBom));
+  // Regression (2026-07-23, R14 grill): this run leaves the "Same room / campus, or a long
+  // run..." coreReach question at its wizard default (dciPicks has no entry for it, so the
+  // loop clicks past it) — exactly the case where the old engine.js:1603 clause was a no-op and
+  // silently quoted SHORT-reach optics for a DCI-class link. Assert the OPTIC MODEL is the
+  // Q28-100G-LR4 part, not a bare /LR4/i substring test — the SHORT-reach Q28-100G-FR's own
+  // catalog description contains the text "(LR4 for 10km)" as a comparison note, so a loose
+  // substring match passes even when the SHORT-reach optic was picked (caught in stash-verify:
+  // this exact check was a false-positive silent pass until narrowed to the model string).
+  check('guided/coreType: "Longer run" + reach left at default still picks the LR4 (long-reach) optic, not FR (short-reach)',
+    /Q28-100G-LR4/.test(dciBom) && !/Q28-100G-FR\s*·.*inter-network/.test(dciBom));
 } catch (e) { check('guided/coreType DCI no exception', false, e.message); }
 
 try {

@@ -923,6 +923,44 @@ leaves are meant to be "underpopulated" for an odd rack count.
   verify manually, so nothing ships wrong in the meantime; building the plumbing before a real
   deal demands it would be scope the maintainer explicitly declined to carry.
 
+### G-025 — DCI core uplink's long-reach clause was a no-op — CLOSED 2026-07-23 (v0.65.5)
+- **Severity:** HIGH — wrong hardware quoted, not just a missing disclosure. A rep answering
+  "different building / campus / metro" for the core uplink, but leaving the separate reach
+  question at its wizard default, got a **short-reach optic quoted for a metro link** — that link
+  cannot come up as built.
+- **Where:** `js/engine.js:1603`. The clause `ctype === 'dci' && input.coreReach !== 'auto'` could
+  only be true when `coreReach` was already `'longreach'` (its only other legal value per
+  `INPUT-SCHEMA.md`), which had already satisfied the OR's first clause. The DCI branch has never
+  changed the result since it was introduced (2026-07-17d, R16 sweep finding #1).
+- **Found:** not by a targeted audit — surfaced while grilling `docs/R14-WORKORDER.md`'s D4 wizard
+  merge proposal against the live code (session 2026-07-23). `INPUT-SCHEMA.md:64,67` and the
+  `wizard.js:473-478` comment both correctly describe the *intended* behavior, so neither doc
+  needed correcting — only the engine wasn't living up to its own spec.
+- **Fix:** `longReach = input.coreReach === 'longreach' || ctype === 'dci' || (coreVendor ===
+  'dell' && farLongReach)` — unconditional on `ctype==='dci'`.
+- **Test:** `tests/unit-engine.js` (new case, explicit `coreReach:'auto'` alongside `coreType:
+  'dci'` — the prior case only ever passed `coreReach` as `undefined`, which happened to mask the
+  bug since `undefined !== 'auto'` is true) and `tests/harness/test-dom.js` (guided-wizard DCI
+  flow, strengthened to assert the actual optic model). **Verified as a real guard:** stashing the
+  `engine.js` fix alone turned both assertions red.
+- **False-positive caught mid-fix:** the first draft of the `test-dom.js` assertion used a loose
+  `/LR4/i` substring match, which passed even against the unfixed bug — the short-reach
+  `Q28-100G-FR` optic's own catalog description text contains "(LR4 for 10km)" as a comparison
+  note (`optics.js:129`). Narrowed to the distinct `Q28-100G-LR4` model string before trusting it.
+  Logged as a reusable lesson, not just a fix detail — see DESIGN-LOG 2026-07-23.
+
+### G-026 — E3224F-ON's fiber-edge branch also catches `poe==='none'`, so a copper no-PoE edge can get a fiber switch — OPEN, flagged not fixed 2026-07-23
+- **Severity:** unassessed — found as a side observation while reviewing the E3224F-ON edge-access
+  picker for the R14 OS10 ruling (`docs/R14-WORKORDER.md`'s replacement plan, Slice 2, not yet
+  implemented). Not investigated further this session — explicitly not fixed silently, per
+  standing rule 4 (findings go to the maintainer before being acted on).
+- **Where:** `js/engine.js:1907`: `(accessSpeed === 'fiber' || poe === 'none') ? byId('e3224f-on')
+  : byId('e3248p-on')`. A **copper, 1G, no-PoE** edge request (`accessSpeed !== 'fiber'`, `poe ===
+  'none'`) currently routes to E3224F-ON — a 24-port **fiber SFP** switch — rather than a copper
+  BaseT model with PoE simply disabled.
+- **Next step:** confirm with the maintainer whether this is intentional (no-PoE copper edge is
+  rare enough that fiber-SFP is an acceptable substitute) or a real miss-route, before touching it.
+
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now
   that real PNs are visible in `optics.js` (many `dellPN: 'verify'`

@@ -5,7 +5,36 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.65.4**
+Current version: **0.65.5**
+
+---
+
+## 0.65.5 — DCI core uplinks could be quoted with short-reach optics (2026-07-23)
+
+**What this means for a quote:** a rep who told the tool the core uplink was a **longer run —
+different building / campus / metro** (DCI-class), but left the "same room / long run" reach
+question at its default, got the DCI note on the BOM but the **wrong optic** — a 2 km short-reach
+part, not the 10 km long-reach part a metro link actually needs. Every quote built this way (via
+the guided wizard's DCI question, added last session, or the Expert Form's separate `coreType`/
+`coreReach` controls) was affected if the reach question wasn't also touched.
+
+**Root cause:** `engine.js`'s DCI-forces-long-reach logic checked `coreReach !== 'auto'` — but
+`coreReach` only ever has two values, `'auto'` or `'longreach'` (per `INPUT-SCHEMA.md`), so that
+condition could only be true when `coreReach` was *already* `'longreach'`, which had already
+satisfied the check one clause earlier. The DCI clause has never actually changed the outcome
+since it was introduced. Found and fixed same-day via a design-grilling session on the (unrelated)
+R14 work order — the fix is a one-line correctness change: `coreType:'dci'` now forces long-reach
+unconditionally, with no dependency on what the reach question was left at.
+
+**Also found while stash-verifying the fix:** the first version of the regression test for this
+used a loose `/LR4/i` text match — which passed even under the *unfixed* buggy code, because the
+short-reach optic's own catalog description contains the substring "(LR4 for 10km)" as a
+comparison note. Narrowed to match the actual optic model instead of a substring, per standing
+practice of stash-verifying every fix (revert the fix alone, confirm the assertion goes red).
+
+**Reconfirm:** any existing quote with a DCI-class core uplink (built before today) should be
+re-checked — the core optic may need to change from short-reach to long-reach if the customer's
+actual distance requires it.
 
 ---
 

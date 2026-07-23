@@ -296,6 +296,17 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
   t('core legacy coreFarEnd:other → coreVendor other', rec(Object.assign({}, base, { coreFarEnd: 'other' })).coreUplink.coreVendor === 'other');
   const dci = rec(Object.assign({}, base, { coreType: 'dci' }));
   t('core DCI: defaults to long reach', dci.coreUplink && dci.coreUplink.longReach === true);
+  // Regression (2026-07-23, R14 grill): the wizard/expert form send coreReach:'auto' EXPLICITLY
+  // as the default (wizard.js), not undefined. The old buggy clause `ctype==='dci' &&
+  // coreReach!=='auto'` was only ever exercised by the test above (which omits coreReach,
+  // leaving it undefined — undefined!=='auto' is true, masking the bug). With 'auto' explicitly
+  // set, undefined!=='auto' is false and the old code fell through to short-reach. Assert the
+  // ACTUAL OPTIC, not just the flag, so this can't regress the same way twice.
+  const dciAuto = rec(Object.assign({}, base, { coreType: 'dci', coreReach: 'auto' }));
+  const dciAutoLine = dciAuto.bom.find(b => (b._mk || '') === 'core');
+  t('core DCI + coreReach explicitly auto: STILL long reach (not silently short-reach)',
+    dciAuto.coreUplink && dciAuto.coreUplink.longReach === true && dciAutoLine && /LR4/i.test(dciAutoLine.item),
+    dciAutoLine && dciAutoLine.item);
   const dflt = rec(base);
   t('core default: short/campus reach unchanged (FR-class optic, not the LR4 SKU)', /^Q28-100G-FR/.test((dflt.bom.find(b => (b._mk || '') === 'core') || { item: '' }).item));
 })();

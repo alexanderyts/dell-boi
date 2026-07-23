@@ -9,6 +9,66 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-23 — R14 grilled: work order's premise was false; DCI long-reach defect found and fixed (Slice 1 of 4)
+
+**Trigger:** `docs/R14-WORKORDER.md`, prepared by a prior design-only session, asked the next
+session to implement its §MECHANICAL "verbatim" against §RULED decisions. Grilling it against
+the live code (`/grill-with-docs`) before implementing — per standing rule 3, never silently
+match a plan that contradicts what the code shows — found the work order's central premise false,
+in the direction that would have shipped a worse quote than today's.
+
+**What the work order got wrong:** it claimed the engine "silently hardcodes SONiC for NVIDIA
+fabrics" and proposed a global `nvidiaNos` input defaulting to `'sonic'`. In fact `validate.js`
+already states NVIDIA Spectrum runs Cumulus, not Dell Enterprise SONiC (ruling v0.29.0,
+CHANGELOG:1415), with `selftest.js` assertions protecting it. `corpus/txt/SONIC-COMPAT.txt` (the
+authoritative Enterprise SONiC matrix, re-verified readable this session with a positive control
+after an early binary-unsafe grep returned a false zero) still contains zero occurrences of
+SN5600/SN5610/SN4700/SN2201/Spectrum/NVIDIA. The misread traced to a genuine vocabulary
+collision: **four** distinct things wear the word "SONiC" in this codebase (Dell Enterprise
+SONiC; Dell SONiC on Spectrum — `AI-SPECTRUM.txt` H04658, SN5600/SN5610/SN2201 only; NVIDIA Pure
+SONiC, a community distro — `NV-SN4700.txt:777`; NVIDIA Cumulus Linux), stored in one ambiguous
+catalog string. `js/catalog/switches.js`'s `os: 'NVIDIA Cumulus Linux / SONiC'` on SN4700 reads
+as Dell-SONiC-capable if you don't know the SONiC there is the community one.
+
+**Rulings made this session** (full detail + evidence: `docs/R14-WORKORDER.md`'s replacement
+plan, saved as the session's plan file — DFM applicability becomes a per-model catalog fact
+rather than a wizard input; DFM attaches to Dell PowerSwitch SN5600/SN5610/SN2201 only,
+verify-flagged; **OS10 is dropped portfolio-wide as a quotable NOS choice** (maintainer: "OS10
+shouldn't be quoted, it's end of sale") — new Dell switches are Enterprise SONiC, VLT/OS10
+wording survives only for the customer's *existing* gear; E3224F-ON stays quotable with an
+end-of-sale disclosure (it is OS10-only and the tool's only fiber-SFP edge switch — dropping it
+outright would remove a deal type with no substitute); terminology extends `SPEC.md` +
+`js/catalog/glossary.js`, no new `CONTEXT.md`/`docs/adr/`.
+
+**Independent defect found while verifying D4 (the core-reach/core-type wizard merge):**
+`engine.js:1603`'s DCI-forces-long-reach clause — `ctype === 'dci' && input.coreReach !== 'auto'`
+— could only be true when `coreReach` was *already* `'longreach'` (its only other value per
+`INPUT-SCHEMA.md`), which had already satisfied the clause before it. **The DCI clause has never
+changed the outcome since it was introduced.** A rep answering "different building / campus /
+metro" but leaving the reach question at its wizard default got short-reach optics quoted for a
+metro link. `INPUT-SCHEMA.md:64,67` and the `wizard.js:473-478` comment (written during the
+2026-07-17d sweep above) correctly describe the *intended* behavior — the bug was purely in the
+engine not living up to its own spec, so those doc lines needed no correction, only the code.
+Fixed in v0.65.5: `longReach = input.coreReach === 'longreach' || ctype === 'dci' || ...` —
+unconditional. Shipped as its own patch release, independent of the other R14 rulings, because it
+is a live quote defect with no dependency on them.
+
+**Stash-verify caught a false-positive test on the first attempt.** The first version of the
+`test-dom.js` regression check used `/LR4/i.test(bom)` — which passed even against the *unfixed*
+buggy engine, because the short-reach `Q28-100G-FR` optic's own catalog description contains the
+substring "(LR4 for 10km)" as a comparison note (`optics.js:129`). Narrowed to match the actual
+`Q28-100G-LR4` model string. Recorded here because it's a reusable lesson: a regex assertion
+against rendered BOM text can pass by matching a *different* part's description, not the part
+that was actually picked — stash-verify (revert the fix alone, confirm red) is what caught it,
+not code review.
+
+**Sequencing:** implemented as 4 slices rather than one release, so each stash-verifies honestly
+— v0.65.5 (this defect, shipped), then v0.66.0 (NOS model), v0.66.1 (DFM gate — 6 `addVerity`
+entry points, not the 3 the work order named), v0.66.2 (wizard merge). `docs/R14-WORKORDER.md`
+§MECHANICAL is superseded; §RULED D1/D3 survive, D2/D4 are revised per the above.
+
+---
+
 ## 2026-07-17d — R16 reachability sweep triage: 5 rulings, all landed same-day
 
 **Change:** the maintainer triaged all four sweep findings from the R16 session (GAPS G-023)

@@ -1592,7 +1592,13 @@
         : (!borderLeafInfo && !spinedFab && hasFabricUplink(coreSrcSw)) ? coreSrcSw.uplink : coreSrcSw.access;
       const coreSrcReused = !!(srcSpineReused && !borderLeafInfo);
       // Reach + far-end vendor: 'longreach' = 10 km single-mode LR/LR4 (inter-building/metro,
-      // or a far-away third-party core); DCI implies long reach unless explicitly set 'auto'.
+      // or a far-away third-party core); DCI (coreType:'dci') is UNCONDITIONALLY long-reach — a
+      // second site/campus/metro link is never short-reach regardless of what coreReach was left
+      // at. (Bug fixed 2026-07-23, R14 grill: the old clause read `ctype==='dci' && coreReach
+      // !=='auto'` — but coreReach's only two values are 'auto'|'longreach' per INPUT-SCHEMA.md,
+      // so that condition could only be true when coreReach was ALREADY 'longreach', meaning the
+      // clause never changed the result. A DCI answer with coreReach left at its 'auto' default
+      // was silently quoted with short-reach optics for a metro link.)
       // A THIRD-PARTY far end is fully supported — only OUR side's optic is quoted; the interop
       // rule is both ends run the SAME IEEE PMD (SR4↔SR4, LR4↔LR4), never "same brand".
       // coreFarPort (asked only when coreVendor=dell & the core model is unknown) tells us the far
@@ -1600,7 +1606,7 @@
       // must match), which selects the LR optic instead of SR. This is what makes coreFarPort SIZING.
       const farPort = input.coreFarPort;
       const farLongReach = farPort && typeof farPort === 'object' && /SMF|single|LR|\bLC\b/i.test(`${farPort.media || ''} ${farPort.connector || ''} ${farPort.reach || ''}`);
-      const longReach = input.coreReach === 'longreach' || (ctype === 'dci' && input.coreReach !== 'auto') || (coreVendor === 'dell' && farLongReach);
+      const longReach = input.coreReach === 'longreach' || ctype === 'dci' || (coreVendor === 'dell' && farLongReach);
       // J3 far-side handoff by coreVendor (see the input parsing above).
       const includeFar = coreVendor === 'dell';                       // Dell-into-Dell → far-side optics quotable
       const farVerify = includeFar && !coreFarModel && (!farPort || farPort === 'unknown');
