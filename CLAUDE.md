@@ -12,10 +12,22 @@ contracts are approved and landed; Phase 1 invariants + golden fixtures are live
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
 ### State at end of session 2026-07-23
-- **Version 0.66.2** (`js/version.js` = the single source of truth; `package.json`
-  tracks it). CHANGELOG.md has the 0.65.1–0.66.2 entries.
+- **Version 0.66.3** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1–0.66.3 entries.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
 - **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
+- **This session, after R14 closed — `/improve-codebase-architecture` → `/grill-with-docs` →
+  v0.66.3 (GAPS G-029):** switch BOM-line note assembly (leaf/pod-spine/super-spine/border-leaf)
+  had TWO hand-coded paths for the same text — one at line creation, one in `addLine()`'s merge
+  branch — the exact structural cause behind G-022 and G-027 (same bug, twice). Hardened into one
+  function (`switchLineNote`, in `js/engine.js`, exposed via `window._engineHelpers` matching the
+  `switchNosNote`/`dfmStatus` precedent), called on every fact-change rather than patched at each
+  of the two known instances. Auditing the 4 call sites for this refactor found a live (if never
+  reported) instance of the same class of gap on POD-SPINE lines specifically — only the leaf site
+  had ever passed `network`/`dedicated` to `addLine`, so a spine merge across two networks landing
+  on the same model silently lost its breakdown. Closed as part of the same change. Stash-verified
+  two ways (whole-file revert crashes the suite; single-call-site revert turns exactly the new
+  spine-line assertion red). Full reasoning: DESIGN-LOG 2026-07-23e, GAPS G-029.
 - **BLOCKED ON MAINTAINER: nothing.** G-026 (E3224F-ON's fiber-edge branch also
   catches `poe==='none'`) is flagged for the maintainer, not blocking. **G-024**
   (railNicCage per-target) remains intentionally OPEN — feature-gated.

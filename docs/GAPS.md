@@ -1022,6 +1022,43 @@ leaves are meant to be "underpopulated" for an odd rack count.
   `coreType`/`coreReach` documenting intent the engine hadn't caught up to — same shape, opposite
   direction: here the PROXY was checked, not the FACT).
 
+### G-029 — switch-line note assembly hardened into one function, closing the G-022/G-027 recurrence — CLOSED 2026-07-23 (v0.66.3)
+- **Severity:** MEDIUM (architecture) — not a new user-visible defect on its own; this is the
+  hardening G-027 explicitly predicted would be worth doing "rather than relying on catching it
+  by hand again" once the same bug shipped a second time. Found via `/improve-codebase-architecture`
+  + `/grill-with-docs`, not by a live scenario this time — a genuine fix-before-it-bites case.
+- **Where:** `js/engine.js`'s `addLine()`. A switch line's `note` was assembled by hand at each of
+  4 call sites (leaf/pod-spine/super-spine/border-leaf), then re-assembled a SECOND, differently
+  coded way inside `addLine()`'s merge branch. Two hand-written paths for the same fact is exactly
+  the structural cause of G-022 (per-network breakdown dropped on merge) and G-027 (NOS statement
+  dropped on merge) — same bug, two different appended facts, same split.
+  - **A live gap this closed in passing, not just theoretical:** only the LEAF call site ever
+    passed `network`/`dedicated` to `addLine`. The pod-spine/super-spine/border-leaf call sites
+    never did — so a pod-spine merge across two separate networks landing on the same model (a
+    real, reachable scenario: e.g. general-purpose frontend + PowerFlex storage both sizing to
+    S5232F-ON) silently fell to the bare qty bump with no per-network breakdown at all. Found while
+    scoping this refactor, not before.
+- **Fix:** one function, `switchLineNote(fields)`, is now the ONLY place a switch line's note gets
+  written — called once at line creation and again on every merge, off structured fields
+  (`_detail`, `_breakdown: [{network, qty, dedicated}, ...]`, `nos`) rather than string-mutated.
+  All 4 `category:'Switch'` call sites in `recommend()` now supply `network`/`dedicated` (a
+  synthetic constant label where no real network concept applies, e.g. border-leaf's
+  `'core/DCI'`), so the old `'; +more'` fallback is now switch-line dead code — retired for
+  Switch lines specifically, left in place for the categories that never opted in (cable/uplink/
+  edge/RA lines use distinct `mergeKey`s per network already and never reach the default-key path).
+- **Test:** `tests/unit-engine.js`, new block after the R11 tests — direct unit tests of
+  `switchLineNote()` itself (exposed via `window._engineHelpers`, same precedent as
+  `hasFabricUplink`/`dfmStatus`), plus a live pod-spine cross-network merge scenario (general +
+  PowerFlex, both landing on S5232F-ON) proving the newly-closed gap. **Verified as a real guard:**
+  stashing `js/engine.js` alone crashes the suite outright (`switchLineNote` doesn't exist);
+  reverting only the pod-spine call site's `network`/`dedicated` fields turns exactly the new
+  spine-line assertion red and nothing else.
+- **Generalizable lesson:** G-027 named the fix in advance — "a lint-style check that no field
+  appended to `note` at a call site is absent from the merge-regeneration branch" — and the
+  simplest version of that check is structural, not a lint rule: make it impossible to have two
+  code paths in the first place. One function, called on every fact-change (creation counts as
+  one), closes the entire recurrence class rather than the two specific instances found by hand.
+
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now
   that real PNs are visible in `optics.js` (many `dellPN: 'verify'`

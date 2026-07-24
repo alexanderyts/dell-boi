@@ -1022,6 +1022,43 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
     singleLeaf && /^Leaf\/ToR —/.test(singleLeaf.note) && !/total —/.test(singleLeaf.note), singleLeaf && singleLeaf.note);
 })();
 
+/* ---- R14 architecture refactor (2026-07-23): switchLineNote is the ONE function that writes
+ * every switch line's note — called at creation and again on every merge, so a fact (the
+ * per-network breakdown, the NOS statement) can never be added on one path and silently dropped
+ * on the other (G-022, then G-027 — the same bug shipped twice from this exact split). Direct
+ * unit tests below exercise the function itself; the live scenario after them proves the gap
+ * this closes for SPINE lines specifically — before this refactor, pod-spine/super-spine/
+ * border-leaf lines never passed `network`/`dedicated` at all, so a spine merge across two
+ * separate networks silently fell to the bare '; +more' tag instead of the R11 breakdown leaf
+ * lines already got. ---- */
+(() => {
+  const sln = window._engineHelpers.switchLineNote;
+  t('switchLineNote: single contributor prints the detail text unchanged, no NOS',
+    sln({ _detail: 'Leaf/ToR — Widget frontend (25GbE)', _breakdown: [{ network: 'frontend', qty: 2 }] })
+      === 'Leaf/ToR — Widget frontend (25GbE)');
+  t('switchLineNote: single contributor + NOS appends the NOS suffix',
+    sln({ _detail: 'Leaf/ToR — Widget frontend (25GbE)', _breakdown: [{ network: 'frontend', qty: 2 }], nos: 'Dell Enterprise SONiC' })
+      === 'Leaf/ToR — Widget frontend (25GbE) · NOS: Dell Enterprise SONiC');
+  t('switchLineNote: two contributors switch to the terse rollup, dropping _detail entirely',
+    sln({ _detail: 'IGNORED', _breakdown: [{ network: 'frontend', qty: 5 }, { network: 'storage', qty: 4, dedicated: true }], nos: 'Dell Enterprise SONiC' })
+      === '9 total — 5× frontend, 4× storage (dedicated, physically separate) · NOS: Dell Enterprise SONiC');
+
+  // Live scenario: general (frontend) + PowerFlex (storage) both land on the S5232F-ON pod-spine
+  // at this scale — a merge the OLD spine addLine calls never opted into (no network/dedicated
+  // fields). Stash-verify: reverting just the pod-spine call site's `network`/`dedicated` fields
+  // turns this red (the note falls back to bare qty with no breakdown, no '; +more' either since
+  // that fallback never fires for a Switch-category line pre- or post-fix at this mergeKey).
+  const merged = rec({ targets: [{ platformId: 'poweredge-general', units: 80 }, { platformId: 'powerflex', units: 40 }],
+    redundancy: 'dual', includeMgmt: true, fabricArchitecture: 'separate' });
+  const spineLine = merged.bom.find(l => l.category === 'Switch' && l.model === 'S5232F-ON');
+  t('R14/spine: cross-network pod-spine merge enumerates the breakdown (closes the spine-line gap)',
+    spineLine && /^\d+ total — \d+× frontend, \d+× storage · NOS: Dell Enterprise SONiC$/.test(spineLine.note),
+    spineLine && spineLine.note);
+  t('R14/spine: breakdown sums to the line qty (same arithmetic-integrity discipline as R11)',
+    spineLine && (spineLine.note.match(/(\d+)×/g) || []).reduce((s, m) => s + parseInt(m, 10), 0) === spineLine.qty,
+    spineLine && spineLine.note);
+})();
+
 /* ---- Sweep finding #5 (2026-07-17, maintainer ruling — GAPS G-023): railNicCage is a single
  * top-level engine input, not per-Target. Interim measure (no plumbing until a real deal demands
  * it): warn when 2+ AI targets exist, since they silently share one cage answer. ---- */

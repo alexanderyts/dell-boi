@@ -5,7 +5,30 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.2**
+Current version: **0.66.3**
+
+---
+
+## 0.66.3 — Switch BOM-line descriptions now written by one function, not two (2026-07-23)
+
+**What this means for a quote:** no change to any quote you'd have seen before — this is an
+internal hardening, not a new behavior — with one exception: a pod-spine line that merges two
+separate networks onto the same switch model (e.g. a general-purpose fabric and a storage fabric
+both sizing to the same spine) now correctly shows the per-network split, the way leaf lines
+already did. Before this fix that split silently didn't appear on spine lines. No live quote is
+known to have hit this, but it's the same class of gap as two earlier fixes this session (v0.66.0,
+v0.66.1) — worth closing before it does.
+
+**Why:** a switch line's description text was being assembled by hand in two different places —
+once when the line is first created, and differently again whenever a second network's switches
+get folded into it. That split is exactly what let two earlier bugs ship (a dropped network
+breakdown, then separately a dropped NOS statement) — a fact added in one place, forgotten in the
+other. Now there's exactly one function that writes that text, called every time the underlying
+facts change, so there's no second path left to fall out of sync.
+
+See `docs/DESIGN-LOG.md` (2026-07-23e) and `docs/GAPS.md` (G-029) for the full reasoning —
+surfaced by `/improve-codebase-architecture`, then grilled to a specific design before any code
+changed, then stash-verified.
 
 ---
 

@@ -9,6 +9,58 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-23e — switch-line note assembly hardened into one function (v0.66.3) — GAPS G-029
+
+**Change:** `/improve-codebase-architecture` surfaced `addLine()`'s note assembly as the top
+recommendation after R14 closed — the same fact (a switch line's descriptive text) was being
+written TWICE, by two differently-coded paths: by hand at whichever of the 4 `category:'Switch'`
+call sites created the line, and again, differently, in `addLine()`'s merge branch when a second
+network's switches folded in. That split is the exact structural cause of both G-022 (2026-07-17,
+the per-network breakdown silently dropped on merge) and G-027 (2026-07-23b, the NOS statement
+silently dropped on merge) — same bug, twice, on two different appended facts. G-027's own entry
+named the fix in advance: "a third occurrence would be worth hardening `addLine()` itself...
+rather than relying on catching it by hand again."
+
+**Grilled per `/grill-with-docs` + `/domain-modeling` before any code changed.** Four decisions,
+explained here in the plain terms used with the maintainer during the grill:
+
+1. **Scope: all 4 main-path switch lines** (leaf, pod-spine, super-spine, border-leaf) — not just
+   the leaf line G-022/G-027 actually hit. The Edge/Refresh/RA lines use separate functions
+   (`recommendEdge`/`recommendRefresh`/the RA path) and were left alone.
+2. **One function writes the note, exposed the same way `switchNosNote`/`dfmStatus` already are**
+   (private inside the engine's IIFE, attached to `window._engineHelpers` for direct testing) —
+   matching established precedent rather than inventing a new exposure pattern.
+3. **One shape covers both the single-contributor and merged case**: every switch line now stores
+   its facts as real fields — `_detail` (the full descriptive text, written once) and `_breakdown`
+   (an array of `{network, qty, dedicated}`, one entry per contributor) — instead of a note string
+   that means something different depending on how many times it's been touched.
+4. **Recompute the note from those facts every single time they change** — creation counts as a
+   change — so there is exactly ONE call to the note-writer (`switchLineNote`), not a separate
+   create-path call and merge-path call that could drift apart again. This is the actual fix: it
+   doesn't patch the two known instances, it removes the second code path they both came from.
+
+**A live gap closed in passing, not just a theoretical hardening.** Auditing all 4 call sites for
+this refactor found only the LEAF site had ever passed `network`/`dedicated` to `addLine` — the
+other three never did. A pod-spine merge across two separate networks landing on the same model
+(concretely: a general-purpose frontend fabric and a PowerFlex storage fabric both sizing to
+S5232F-ON at moderate scale — a reachable, unremarkable scenario, not an edge case) silently fell
+to the bare `'; +more'` tag with no per-network breakdown at all. This was never reported and
+never had a symptom on record; it's the same defect class as G-022, just never noticed on the
+spine tier. Fixed as part of the same change, since the new shape naturally covers it.
+
+**Verification.** `tests/unit-engine.js` gained a direct unit-test block for `switchLineNote()`
+(single contributor, two-contributor rollup, with/without NOS) plus a live pod-spine merge
+scenario asserting the newly-closed spine-line gap. Stash-verified two ways: reverting
+`js/engine.js` wholesale crashes the suite outright (the function doesn't exist without the fix);
+reverting only the pod-spine call site's two new fields turns exactly the new spine-line
+assertion red and nothing else — confirming the test catches the specific thing it claims to.
+Full harness 19/19 green throughout, xfail 0.
+
+See GAPS.md G-029 for the full before/after and the generalizable lesson (a structural fix beats
+a lint rule when the lint rule's only job would be "don't reintroduce the second code path").
+
+---
+
 ## 2026-07-23d — R14 Slice 4 landed: the two core-distance wizard questions merged (v0.66.2) — R14 CLOSED
 
 **Change:** implements Slice 4, the last of the R14 replan (work order M4/D4). The guided

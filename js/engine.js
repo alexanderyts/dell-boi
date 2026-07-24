@@ -376,6 +376,32 @@
     return byId('sr-25g-sfp28');
   }
 
+  // R14 architecture refactor (2026-07-23): a switch line's note used to be assembled BY HAND
+  // twice — once here-adjacent, at whichever of the 4 call sites created the line, and a second,
+  // differently-coded time in addLine's merge branch. That split is exactly what let G-022 and
+  // then G-027 ship: a fact appended at line-creation (first the per-network breakdown, later the
+  // NOS statement) silently vanished the moment a second network's switches merged into the same
+  // line, because the merge path regenerated the note without knowing that fact existed. Same bug,
+  // twice, from the same structural cause. switchLineNote() is now the ONLY place a switch line's
+  // note gets written — called once at creation and again on every merge — so there is no second
+  // path left to drift out of sync.
+  //   `_detail` — the full role-specific description (e.g. "Leaf/ToR — PowerScale frontend
+  //     (25GbE); 2/fabric × 2"), written once at creation, never touched again.
+  //   `_breakdown` — one {network, qty, dedicated} entry per contributor, starting with the
+  //     creator and growing by one entry per merge (DERIVATIONS §1's per-network enumeration).
+  //   `nos` — the catalog NOS fact for the model (switchNosNote()), unchanged by merges since a
+  //     merge is always same-model (mergeKey defaults to category|model).
+  // A single contributor (the common case) prints `_detail` unchanged; two or more print the
+  // terse "N total — X× net1, Y× net2 (dedicated, physically separate)" rollup so a merge can
+  // never mask something that matters (e.g. PowerScale's h16346-mandated backend isolation).
+  function switchLineNote(fields) {
+    const bd = fields._breakdown || [];
+    const base = bd.length <= 1 ? fields._detail
+      : `${bd.reduce((s, b) => s + b.qty, 0)} total — `
+        + bd.map(b => `${b.qty}× ${b.network}${b.dedicated ? ' (dedicated, physically separate)' : ''}`).join(', ');
+    return base + (fields.nos ? ` · NOS: ${fields.nos}` : '');
+  }
+
   // Dedup: switches consolidate by model (one line, total qty); cables pass a `mergeKey`
   // so host / uplink / breakout / peer cables stay DISTINCT per fabric+role (accurate BOM).
   function addLine(bom, line) {
@@ -383,36 +409,24 @@
     const existing = bom.find(b => (b._mk || (b.category + '|' + (b.model || b.item))) === key);
     if (existing) {
       existing.qty += line.qty;
-      // R11 (DERIVATIONS §1: switch lines merge across NETWORKS by design — the group key is
-      // (model, role), deliberately not (model, role, network) — but the note must enumerate the
-      // per-network breakdown so the merge never masks something that matters, e.g. PowerScale
-      // backend isolation ("4 total" reading as one homogeneous frontend pool when 2 of the 4 are
-      // the dedicated, physically-separate backend switches h16346 requires). Only lines that
-      // declare `line.network` opt into this — cable/uplink/edge/RA lines use distinct mergeKeys
-      // per network already and never reach this path; only switch lines fall back to the bare
-      // model key. The note is REGENERATED from structured per-network data, never string-mutated,
-      // so it can't drift from what qty shows (same discipline as §1's "notes are generated, never
-      // authored" — this is the leaf-line half of that rule; the '+more' path below is the
-      // fallback for lines that never declared a network to break down).
-      if (line.network) {
-        if (!existing._networkBreakdown) existing._networkBreakdown = [{ network: existing.network, qty: existing.qty - line.qty, dedicated: existing.dedicated }];
-        const entry = existing._networkBreakdown.find(b => b.network === line.network);
-        if (entry) entry.qty += line.qty; else existing._networkBreakdown.push({ network: line.network, qty: line.qty, dedicated: line.dedicated });
-        existing.note = `${existing.qty} total — ` + existing._networkBreakdown
-          .map(b => `${b.qty}× ${b.network}${b.dedicated ? ' (dedicated, physically separate)' : ''}`).join(', ')
-          // R14 (2026-07-23): a merge is ONLY ever same-model (mergeKey defaults to category|model),
-          // so `existing.nos` — carried from whichever contributor created this line — is the SAME
-          // NOS for every contributor. The note is fully REGENERATED above (G-022 discipline), which
-          // would otherwise silently drop a `· NOS: ...` suffix appended at line-creation time the
-          // moment a second network merges in (found via a live scenario while adding this field —
-          // an AI-platform's general-workload NIC group merging SN4700 lines across storage+frontend
-          // networks lost its NOS statement on the SECOND contributor). Re-append here so it can't.
-          + (existing.nos ? ` · NOS: ${existing.nos}` : '');
+      // R11 (DERIVATIONS §1): switch lines merge across NETWORKS by design — the group key is
+      // (model, role), deliberately not (model, role, network). Every category:'Switch' call
+      // site provides `network`/`dedicated` (a synthetic constant label where a real network
+      // concept doesn't apply, e.g. border-leaf), so the '; +more' fallback below is now
+      // switch-only dead code — kept for the categories that never opted into this (cable/
+      // uplink/edge/RA lines use distinct mergeKeys per network already and never reach here).
+      if (line.category === 'Switch') {
+        existing._breakdown.push({ network: line.network, qty: line.qty, dedicated: line.dedicated });
+        existing.note = switchLineNote(existing);
       } else if (existing.note && existing.note.indexOf('; +more') < 0) existing.note += '; +more';
       return;
     }
     const nl = Object.assign({ qty: 0 }, line); nl._mk = key; delete nl.mergeKey; nl.qty = line.qty;
-    if (nl.nos && nl.note) nl.note += ` · NOS: ${nl.nos}`;
+    if (nl.category === 'Switch') {
+      nl._detail = nl.note;
+      nl._breakdown = [{ network: nl.network, qty: nl.qty, dedicated: nl.dedicated }];
+      nl.note = switchLineNote(nl);
+    }
     bom.push(nl);
   }
 
@@ -1446,6 +1460,11 @@
         warnings.push({ severity: 'warn', message: `${grp.key}: this add-on now exceeds a flat 2-tier spine's capacity and needs a 3-tier Clos (pod-spines + super-spine) — "reuse existing spine" no longer fully covers this scale. The FULL pod-spine/super-spine hardware below is quoted as new; manually net out only the ~${grp.spineCount} pod-spine switches the customer already physically owns (out of ${grp.totalPodSpines} total) before finalizing — the super-spine tier is entirely new.`, source: R.leafSpine.source });
       addLine(bom, { category: 'Switch', vendor: grp.spine.vendor, item: grp.spine.model + (is3Tier ? ' — Pod-spine' : ''), model: grp.spine.model, qty: grp.totalPodSpines || grp.spineCount,
         mergeKey: is3Tier ? ('podspine-sw|' + k) : undefined,
+        // network/dedicated: a flat 2-tier spine (undefined mergeKey → default category|model key)
+        // CAN merge across groups sharing a model — e.g. separate frontend and storage fabrics
+        // both landing on the same spine rung — so this opts into the same per-network breakdown
+        // leaf lines already use (R11), closing the gap for spine lines specifically.
+        network: f0.network, dedicated: grp.dedicated,
         dellPN: grp.spine.dellPN, verify: grp.spine.verify, specConfirmed: grp.spine.specConfirmed, source: grp.spine.source,
         nos: switchNosNote(grp.spine),
         note: note + (grp.spine.switchingCapacity ? ` · ${grp.spine.switchingCapacity}` : '') });
@@ -1461,6 +1480,10 @@
         // pod-spine tier, it must stay its own BOM line (different rack, different role); merging
         // by model alone (the default for Switch lines) would hide the tier split from the BOM.
         addLine(bom, { category: 'Switch', vendor: grp.superSpine.vendor, item: grp.superSpine.model + ' — Super-spine', model: grp.superSpine.model, qty: grp.superSpineCount, mergeKey: 'superspine-sw|' + k,
+          // mergeKey is unique per group `k`, so this never actually merges with another group's
+          // super-spine today (deliberately — see the comment above this block) — network/dedicated
+          // are supplied anyway so every Switch line shares one shape (see switchLineNote).
+          network: f0.network, dedicated: grp.dedicated,
           dellPN: grp.superSpine.dellPN, verify: grp.superSpine.verify, specConfirmed: grp.superSpine.specConfirmed, source: grp.superSpine.source,
           nos: switchNosNote(grp.superSpine),
           note: `Super-spine (3-tier Clos top tier) — ${f0.target.platform.family} ${f0.network}; every ${grp.spine.model} pod-spine (${grp.totalPodSpines} total) uplinks to every super-spine` + (grp.superSpine.switchingCapacity ? ` · ${grp.superSpine.switchingCapacity}` : '') });
@@ -1541,6 +1564,10 @@
         const borderSw = C.switches.find(x => x.id === (Math.max(upG, coreGbps) >= 400 ? 'z9432f-on' : 's5232f-on'));
         const spinesN = topTierCount || 2;
         addLine(bom, { category: 'Switch', vendor: borderSw.vendor, item: borderSw.model + ' — Border-leaf', model: borderSw.model, qty: 2, mergeKey: 'border-sw|' + borderSw.id,
+          // this addLine runs at most once per recommend() call (guarded above, outside any
+          // per-network loop), so there is no real "network" to break down — the constant label
+          // is here only so every Switch line shares one shape (see switchLineNote).
+          network: 'core/DCI', dedicated: false,
           dellPN: borderSw.dellPN, verify: borderSw.verify, specConfirmed: borderSw.specConfirmed, source: borderSw.source,
           nos: switchNosNote(borderSw),
           note: `Border-leaf pair — dedicated external / DCI egress (EVPN-VXLAN border VTEP); MC-LAG pair uplinked to the ${spinedFab.superSpine ? 'super-spine' : 'spine'}, terminating the core/DCI links (keeps north-south off the spine ports)` + (borderSw.switchingCapacity ? ` · ${borderSw.switchingCapacity}` : '') });
@@ -2248,5 +2275,9 @@
   // is the whole class of seam bug the restructure kills). Additive only — no engine output
   // changes from exposing these.
   window._engineHelpers = { speedToGbps, isBaseT, pickLeaf, pickSpine,
-    pickHostCable, pickUplinkCable, pickBreakout, resolveUplinkBreakout, fiberCordFor, pickCoreOptic };
+    pickHostCable, pickUplinkCable, pickBreakout, resolveUplinkBreakout, fiberCordFor, pickCoreOptic,
+    // R14 architecture refactor (2026-07-23): the one function that writes every switch line's
+    // note, exposed directly so tests can hand it synthetic facts (single vs. multi-contributor
+    // breakdown, with/without NOS, with/without dedicated) without building a full design.
+    switchLineNote };
 })();
