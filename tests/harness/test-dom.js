@@ -897,7 +897,7 @@ try {
   $('#f-fabstyle').value = 'mclag'; $('#f-storage-proto').value = '';
   $('#f-traffic').value = 'balanced'; $('#f-roadmap').value = 'none';
   $('#f-deploy').value = 'new'; $('#f-reuse').checked = true;
-  $('#f-nos').value = 'sonic'; $('#f-fabricarch').value = 'sharedSpine'; $('#f-core').checked = false;
+  $('#f-fabricarch').value = 'sharedSpine'; $('#f-core').checked = false;
   $('#btn-generate').click();
   check('3-tier: results rendered', !$('#results').hidden);
   const res3 = win.UI.last;

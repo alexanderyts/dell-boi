@@ -5,7 +5,45 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.65.5**
+Current version: **0.66.0**
+
+---
+
+## 0.66.0 — OS10 dropped; every switch line states its NOS; NVIDIA "SONiC" corrected (2026-07-23)
+
+**What this means for a quote:**
+- **SmartFabric OS10 is no longer offered as a network-OS choice on any new quote.** The
+  maintainer ruled it end-of-sale ("OS10 shouldn't be quoted, it's end of sale"). New Dell
+  switches are always Dell Enterprise SONiC, redundancy is always MC-LAG — the "Which network
+  operating system?" question is gone from both the guided wizard and the Expert Form. VLT/OS10
+  wording still appears, but ONLY when describing a customer's EXISTING switches in Refresh mode
+  — never a new design. **E3224F-ON stays quotable** for fiber edge (it's the only fiber-SFP
+  E-series model and there's no substitute) but its BOM line now says so plainly: "SmartFabric
+  OS10 — end of sale; no Enterprise SONiC path on this model." Before this fix its line
+  incorrectly claimed "Dell Enterprise SONiC" like every other edge model, which was never true
+  for this one.
+- **Every switch line on the BOM now states its NOS.** Leaf, pod-spine, super-spine, and
+  border-leaf lines all carry a `· NOS: ...` statement, read from the catalog rather than
+  guessed. NVIDIA Spectrum switches state what they can actually run: NVIDIA Cumulus Linux or
+  NVIDIA Pure SONiC on every model, PLUS a verify-flagged Dell SONiC path on exactly three models
+  — SN5600, SN5610, SN2201 — the only ones Dell's own documentation (H04658, "AI Fabrics with
+  NVIDIA Spectrum and Enterprise SONiC") names as "Dell PowerSwitch ... with Dell SONiC."
+- **Corrected a mislabeling:** the catalog previously described every NVIDIA Spectrum switch as
+  running "NVIDIA Cumulus Linux / SONiC" — which reads as if the SONiC there is Dell's. It's
+  actually NVIDIA's own **Pure SONiC**, a different, community-built distro with no Dell Fabric
+  Manager support. Corrected on all seven Spectrum models.
+
+**Root cause, worth knowing:** this whole slice started from grilling a prior session's R14 work
+order, which read that old catalog string and concluded Dell Fabric Manager applied to every
+NVIDIA switch — it doesn't. See `docs/DESIGN-LOG.md` (2026-07-23) for the full account, including
+a real bug found and fixed mid-implementation: the per-switch NOS statement was silently getting
+dropped whenever two networks shared the same switch model on the BOM (the merge logic rebuilds
+that line's note from scratch and was discarding anything appended to the original) — fixed at
+the root in `addLine()`, not papered over.
+
+**Reconfirm:** nothing on an already-quoted BOM changes hardware — this is disclosure and one
+dropped question, not a resizing. A quote built with OS10 forced via a non-UI path (API/test use)
+now silently produces Enterprise SONiC/MC-LAG hardware instead.
 
 ---
 

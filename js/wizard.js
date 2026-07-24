@@ -432,12 +432,9 @@
       { v: 'yes', label: 'Yes (recommended)', desc: 'Dedicated switch for iDRAC / BMC access' },
       { v: 'no', label: 'No', desc: 'Skip OOB' }
     ], default: 'yes' },
-    { id: 'nos', type: 'choice', q: 'Which network operating system?',
-      help: 'Sets the redundancy method used', listenFor: ['Enterprise SONiC (Dell)', 'SmartFabric OS10', 'EVPN', 'VLT'],
-      options: [
-      { v: 'sonic', label: 'Dell Enterprise SONiC (recommended)', desc: 'EVPN Multihoming (leaf-spine) / MC-LAG (ToR pair)' },
-      { v: 'os10', label: 'SmartFabric OS10', desc: 'VLT / VLTi' }
-    ], default: 'sonic' },
+    // 'nos' wizard question REMOVED (R14, 2026-07-23, maintainer ruling: "OS10 shouldn't be
+    // quoted, it's end of sale"). New Dell switches are Enterprise SONiC — no rep-facing choice.
+    // VLT/OS10 wording survives only on paths describing a customer's EXISTING gear (refresh).
     { id: 'uplinkTarget', type: 'choice', q: 'How should the new leaves reach the rest of the network?',
       help: 'New spine = a self-contained pod we quote end-to-end. Existing core = the leaves plug straight into your current aggregation — no new spine.',
       listenFor: ['“we already have a core / aggregation”', 'spine has capacity', 'collapsed core', 'greenfield pod', '“just need the leaves”'],
@@ -811,7 +808,7 @@
     railSpeed: 'GPU rail NIC', aiDataSpec: 'FE/storage NIC', secondRailSpeed: '2nd target rails',
     nic2Spec: '2nd NIC type', nic2Network: '2nd NIC connects to', nic2Speed: '2nd NIC speed', nic2Ports: '2nd NIC ports', nic2Count: '2nd NICs/unit',
     racks: 'Racks', leaf100: '100G leaf', leaf25: '25G leaf', aiTransport: 'RDMA transport', traffic: 'Traffic pattern', roadmap: 'Speed roadmap', redundancy: 'Resilience', growth: 'Growth headroom',
-    oob: 'OOB mgmt', nos: 'Network OS', uplinkTarget: 'Uplink target', core: 'Core uplink', coreVendor: 'Core vendor', coreReach: 'Core reach', coreType: 'Core class', coreFarModel: 'Core model', coreFarPort: 'Core far port', borderLeaf: 'Core egress', verity: 'DFM', railNicCage: 'Rail NIC connector',
+    oob: 'OOB mgmt', uplinkTarget: 'Uplink target', core: 'Core uplink', coreVendor: 'Core vendor', coreReach: 'Core reach', coreType: 'Core class', coreFarModel: 'Core model', coreFarPort: 'Core far port', borderLeaf: 'Core egress', verity: 'DFM', railNicCage: 'Rail NIC connector',
     vendor: 'Incumbent network', currentSpeed: 'Current speeds', workloads: 'Growing workloads',
     aiModelD: 'GPU server', railSpeedD: 'GPU rail NIC', nasModelD: 'PowerScale model', topologyNow: 'Current topology', swCount: 'Switches to replace', portsPer: 'Ports/switch', speedNow: 'Speed today', targetSpeed: 'Target speed', distribution: 'Agg/core refresh',
     pains: 'Pain points', dellPlat: 'Dell in play', scale: 'Scale', timeline: 'Timeframe'
@@ -1040,7 +1037,7 @@
       } else if (state.category === 'edge') {
         const eInput = { endpoints: state.units, poe: 'poe+', accessSpeed: '1g',
           edgeRedundancy: state.redundancy === 'single' ? 'single' : 'vlt-pair', distribution: 'new',
-          nos: state.nos || 'sonic', includeMgmt: state.oob !== 'no' };
+          nos: 'sonic', includeMgmt: state.oob !== 'no' };
         // Sweep finding #2 (2026-07-17, maintainer ruling): disclose, don't ask — the dedicated
         // Edge Form already gives full control over PoE class, access speed, uplink class, and
         // distribution reuse; the guided wizard's edge branch stays a fast/simplified path but
@@ -1070,7 +1067,7 @@
         const gInput = {
           targets,
           redundancy: state.redundancy, growthHeadroom: parseFloat(state.growth), includeMgmt: state.oob !== 'no',
-          nos: state.nos || 'sonic', stack: state.stack, fabricArchitecture: state.fabricArch || 'sharedSpine',
+          nos: 'sonic', stack: state.stack, fabricArchitecture: state.fabricArch || 'sharedSpine',
           placement: state.placement, structuredInPlace: state.structured === 'inplace', breakout: state.breakout,
           racks: state.racks, leaf100: state.leaf100, leaf25: state.leaf25, aiTransport: state.aiTransport || 'roce',
           trafficProfile: state.traffic, speedRoadmap: state.roadmap, storageProtocol: state.storageProto || null, fabricInterconnect: state.fabStyle || 'mclag',

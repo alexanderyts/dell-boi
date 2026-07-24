@@ -61,7 +61,9 @@ function randomRecommendInput() {
   const anyAi = targets.some(t => { const p = C.platforms.find(x => x.id === t.platformId); return p && p.workload === 'ai'; });
   const input = {
     targets, redundancy: pick(['dual', 'single']), growthHeadroom: pick([0, 0.15, 0.25, 0.5, 1]),
-    includeMgmt: chance(0.9), nos: pick(['sonic', 'os10']), fabricArchitecture: pick(['converged', 'sharedSpine', 'separate']),
+    // nos no longer varied: R14 (2026-07-23) pinned recommend() to 'sonic' — OS10 is dropped
+    // portfolio-wide as a new-build choice (fuzzing it would just re-test a documented no-op).
+    includeMgmt: chance(0.9), nos: 'sonic', fabricArchitecture: pick(['converged', 'sharedSpine', 'separate']),
     placement: pick(['in-rack', 'adjacent', 'structured']), structuredInPlace: chance(0.3),
     breakout: pick(['auto', 'on', 'none']), racks: chance(0.35) ? randInt(2, 80) : 1,
     leaf100: pick(['auto', 's5448f', 's5232f', 'z9264f']), leaf25: pick(['auto', 's5212f', 's5224f', 's5248f', 's5296f']), aiTransport: pick(['roce', 'uec']),

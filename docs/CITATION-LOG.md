@@ -15,7 +15,9 @@ Columns:
 - **Source doc** — document code + section/page/table
 - **Enforced in** — file/rule that consumes this fact
 - **Verified** — last date someone actually re-checked it against a current doc
-- **Status** — `CURRENT` | `NEEDS RECHECK` | `STALE — action needed`
+- **Status** — `CURRENT` | `NEEDS RECHECK` | `STALE — action needed` | `MAINTAINER-ATTESTED` (a
+  business/lifecycle ruling the maintainer stated directly, not backed by a vendor document —
+  see the OS10 end-of-sale row for the precedent; never conflate with a vendor citation)
 
 ---
 
@@ -87,6 +89,8 @@ correct because it shipped first. Upgraded to STALE pending that check.
 | Claim | Source doc | Enforced in | Verified | Status |
 |---|---|---|---|---|
 | S41xx series (S4148F-ON, S4128F-ON, S4112F-ON) end of sale | `corpus/txt/QRG-DC.txt` — checked 2026-07-15: doc exists but does NOT state "end of sale"/EOL for S4112/S4128/S4148 anywhere | catalog `eol:true` flag | 2026-07-15 (checked, inconclusive) | NEEDS RECHECK (not confirmed OR contradicted by the corpus doc — EOL status likely needs a dedicated Dell lifecycle/EOL notice, not a QRG) |
+| SmartFabric OS10 end of sale (dropped portfolio-wide as a NEW-BUILD NOS choice) | **MAINTAINER-ATTESTED, NOT VENDOR-CITED.** Same class of gap as the S41xx row above — `SW-E3200.txt`, `SONIC-OS10.txt`, `DOC-SONIC-SS.txt`, `QRG-DC.txt` all searched 2026-07-23, zero hits for "end of sale"/EOS re: OS10. The maintainer (a Dell networking rep) stated it directly in an R14 design-review session: "OS10 shouldn't be quoted, it's end of sale." Ruling accepted and implemented on that authority — it is NOT presented anywhere in the code/docs as a vendor citation. | `js/wizard.js` (NOS question removed), `index.html` (`#f-nos` select removed), `js/engine.js` (`nos` pinned `'sonic'`) | 2026-07-23 (maintainer ruling; no vendor doc found) | MAINTAINER-ATTESTED — not a vendor citation; re-check trigger is a dedicated Dell lifecycle/EOL notice surfacing (same trigger as the S41xx row) |
+| Dell SONiC on Spectrum (SN5600, SN5610, SN2201 only) — Dell PowerSwitch branding + Dell SONiC, per Dell's own doc | `corpus/txt/AI-SPECTRUM.txt:25` (H04658, Mar 2026): "the release of high-performance NVIDIA Spectrum Ethernet switches with Dell SONiC... The portfolio now includes Dell PowerSwitch SN5600, SN5610, and SN2201." Corroborated by `corpus/txt/MG-VERITY-DOC.txt` §4.7.10 (Spectrum-X fabric types in Verity/DFM's own device-import docs; "Cumulus" appears 0 times in that 437KB document). NOT corroborated by `corpus/txt/SONIC-COMPAT.txt` (the Enterprise SONiC compatibility matrix) — re-verified 2026-07-23 with a binary-safe grep + positive control (Z9864F/S5448F/MC-LAG all present, SN-series/Spectrum/NVIDIA/Mellanox all absent, 0 hits). Silent, not contradicting — no other Spectrum model is named. | `js/catalog/switches.js` — `nosSupported:['dell-sonic',...]` + `dfmVerify:true` on `sn5600`/`sn5610`/`sn2201` ONLY | 2026-07-23 | CURRENT, `verify:true` on the DFM BOM line (two Dell sources agree, the matrix is silent not contradicting — not yet the "two independent docs agree verbatim" bar the G-006 precedent set for dropping `verify`) |
 | S4348F-ON replacement specs (2.16 Tbps, 48×10G SFP+, +12 breakout, 6×100G uplinks) | `corpus/txt/QRG-DC.txt`, S-series table: "Switching capacity (Gbps) ... 2160" (S4348F-ON col), "10GbE (SFP+) ... 48+12 (breakout)", "100GbE (QSFP28) ... 6" — all match exactly | leaf ladder | 2026-07-15 | CURRENT |
 | S4348T-ON specs (native RJ45, multi-rate 1/10GBase-T, 2.16 Tbps, 6×100G uplinks) | `corpus/txt/QRG-DC.txt`, S-series table: "Switching capacity (Gbps) ... 2160" (S4348T-ON col), "1/10GBase-T ... 48" (native RJ45 access, matches exactly), "40GbE (QSFP28) ... 6" (uplink port count) | copper leaf ladder | 2026-07-15 | CURRENT (was: user-directed correction, unconfirmed against a spec sheet — now directly confirmed) |
 

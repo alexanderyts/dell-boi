@@ -270,7 +270,7 @@
       const input = {
         targets,
         redundancy: $('#f-redundancy').value, growthHeadroom: parseFloat($('#f-growth').value),
-        includeMgmt: $('#f-mgmt').checked, nos: $('#f-nos').value, stack: $('#f-stack').value,
+        includeMgmt: $('#f-mgmt').checked, nos: 'sonic', stack: $('#f-stack').value,
         fabricArchitecture: $('#f-fabricarch').value,
         placement: $('#f-placement').value, structuredInPlace: $('#f-structured').checked, breakout: $('#f-breakout').value,
         racks: $('#f-racks').value, leaf100: $('#f-leaf100').value, leaf25: $('#f-leaf25').value, aiTransport: $('#f-ai-transport').value,

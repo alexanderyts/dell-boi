@@ -329,6 +329,18 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
   if (e32.fabrics[0].leaf.model === 'E3224F-ON') {
     t('E3224F broken redundancy: context.edge.method is null (no phantom ICL in the topology)', e32.context.edge.method === null, e32.context.edge.method);
   }
+  // R14 (2026-07-23): E3224F-ON's access line must disclose OS10/end-of-sale, NOT claim
+  // "Dell Enterprise SONiC" — it has no SONiC path at all (unlike the note text before this fix,
+  // which said "Dell Enterprise SONiC" unconditionally for every E-series model).
+  const e3224Line = e32.bom.find(b => b.model === 'E3224F-ON');
+  t('R14: E3224F-ON BOM line discloses OS10/end-of-sale, not Dell Enterprise SONiC',
+    e3224Line && /SmartFabric OS10.*end of sale/i.test(e3224Line.note) && !/\bDell Enterprise SONiC\b/i.test(e3224Line.note), e3224Line && e3224Line.note);
+  // Regression guard: the common copper edge case (E3248P-ON) must STILL say Dell Enterprise
+  // SONiC — the fix must not have widened the disclosure to every edge model.
+  const e48 = window.recommendEdge({ endpoints: 96, poe: 'poe+', accessSpeed: '1g', edgeRedundancy: 'single', distribution: 'new', includeMgmt: true });
+  const e3248Line = e48.bom.find(b => b.model === 'E3248P-ON');
+  t('R14: E3248P-ON BOM line still says Dell Enterprise SONiC (fix scoped to E3224F-ON only)',
+    e3248Line && /Dell Enterprise SONiC/i.test(e3248Line.note), e3248Line && e3248Line.note);
   // non-structured 400G standalone uplinks: the note must say fiber is still needed
   const g400 = rec({ platformId: 'poweredge-general', units: 150, redundancy: 'dual', includeMgmt: true, placement: 'in-rack', leaf100: 's5448f', breakout: 'none', nic: { speed: '100GbE', portsPerNic: 2, nicsPerUnit: 1 } });
   const up400 = g400.bom.find(b => (b._mk || '').indexOf('uplink|') === 0 && /400/.test(b.item || ''));
@@ -350,6 +362,27 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
     t('nvidia AI: spine count = port math, not one-per-uplink', af.spineCount === Math.max(2, Math.ceil(totalUp / 128)), `${af.spineCount} spines for ${totalUp} uplinks`);
   }
   t('nvidia AI example: no hard errors', !ai.warnings.some(w => w.severity === 'error'));
+  // R14 (2026-07-23, work-order D3): every Switch BOM line states its NOS, read from the
+  // catalog fact — SN5600 is one of the three Dell-SONiC-verify-flagged Spectrum models
+  // (AI-SPECTRUM H04658), so its line names Dell SONiC too, verify-flagged.
+  const aiLeafLine = ai.bom.find(b => b.model === 'SN5600' && b.category === 'Switch');
+  t('R14: SN5600 leaf line states NOS incl. verify-flagged Dell SONiC (dfmVerify model)',
+    aiLeafLine && /NOS: NVIDIA Cumulus Linux \/ NVIDIA Pure SONiC \/ Dell SONiC on Spectrum \(verify\)/.test(aiLeafLine.note), aiLeafLine && aiLeafLine.note);
+  // A general (non-AI) NVIDIA-stack fabric picks SN4700 — NOT one of the three dfmVerify models —
+  // so its line must NOT claim a Dell SONiC path. NOTE: `stack` only governs AI-WORKLOAD fabrics
+  // (a general-platform target ignores it and always gets Dell hardware — confirmed while writing
+  // this test); the real SN4700 case is an AI-platform target's non-rail (general-workload) NIC
+  // group under the NVIDIA stack (same shape as audit-independent.js's regress-ai-platform... repro).
+  const nvGeneral = rec({ targets: [{ platformId: 'poweredge-ai', units: 29, gpusPerServer: 1, railNic: { speed: '400GbE', model: 'ConnectX-8' }, nic: { vendor: 'Intel', speed: '100GbE', portsPerNic: 2, nicsPerUnit: 2 } }], redundancy: 'dual', growthHeadroom: 0, includeMgmt: true, placement: 'adjacent', stack: 'nvidia' });
+  const sn4700Line = nvGeneral.bom.find(b => b.model === 'SN4700' && b.category === 'Switch');
+  // regex not end-anchored: this line merges across 2+ networks (storage+frontend), whose note
+  // may carry a trailing "; +more" from an unrelated contributor — only the NOS substring matters here.
+  t('R14: SN4700 leaf line states Cumulus/Pure SONiC only, no Dell SONiC claim (not a dfmVerify model)',
+    sn4700Line && / · NOS: NVIDIA Cumulus Linux \/ NVIDIA Pure SONiC\b/.test(sn4700Line.note) && !/Dell SONiC/.test(sn4700Line.note), sn4700Line && sn4700Line.note);
+  // Dell-stack leaf line states Dell Enterprise SONiC (nos is pinned, R14).
+  const dellStack = rec({ platformId: 'poweredge-general', units: 20, redundancy: 'dual', includeMgmt: true });
+  const dellLeafLine = dellStack.bom.find(b => b.category === 'Switch' && b.note && / · NOS: /.test(b.note));
+  t('R14: Dell-stack leaf line states Dell Enterprise SONiC', dellLeafLine && / · NOS: Dell Enterprise SONiC$/.test(dellLeafLine.note), dellLeafLine && dellLeafLine.note);
   // small cluster collapses to the ERA "2 switches per SU" shape — a non-blocking SN5600 pair
   const small = rec({ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, stack: 'nvidia', redundancy: 'dual', includeMgmt: true });
   const sf = small.fabrics.find(f => f.network === 'aifabric');

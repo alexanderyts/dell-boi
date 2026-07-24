@@ -9,6 +9,66 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-23b — R14 Slice 2 landed: OS10 dropped, per-switch NOS statement, NVIDIA "SONiC" corrected (v0.66.0)
+
+**Change:** implements the R14-grill session's replacement plan (see the entry below), Slice 2 of
+4. `SPEC.md` §4 rewritten: OS10 is no longer a new-build NOS choice anywhere in the tool (guided
+wizard question removed, Expert Form `#f-nos` select removed, `js/engine.js`'s `nos` const pinned
+`'sonic'` unconditionally in the main `recommend()` path). New §4z added, naming the four things
+that share the word "SONiC" in this codebase's sources — Dell Enterprise SONiC, Dell SONiC on
+Spectrum (three named models only), NVIDIA Pure SONiC, NVIDIA Cumulus Linux — since conflating
+them is exactly what produced R14's original bad premise.
+
+**Catalog change:** `js/catalog/switches.js` gained a structured `nosSupported` fact per switch
+(replacing free-text-only `os`), plus `dfmVerify:true` on SN5600/SN5610/SN2201 — the three models
+`AI-SPECTRUM.txt:25` (H04658) names as "Dell PowerSwitch ... with Dell SONiC." The other four
+Spectrum models (SN4700/SN5400/SN5600D/SN6810) had their `os` display string corrected from
+"NVIDIA Cumulus Linux / SONiC" (ambiguous — reads as Dell's) to explicitly name NVIDIA Pure
+SONiC, sourced to `NV-SN4700.txt:777` ("community-developed, open source"). `redundancyMethods`'
+`DELL_LEAF_SPINE` dropped `'vlt'` (documentation-accuracy only — confirmed via grep that no code
+path reads the `'vlt'` value specifically, only `'evpn-mh'`/`'mclag'`) and `s4148f-on`'s capability
+entry was fixed from `DELL_SONIC_ONLY` to `[]` (its own `os` field has always said OS10-only; the
+old CAP entry contradicted it — inert since it's `eol:true` and never selected, but wrong data).
+
+**A real bug found and fixed mid-implementation, not just a doc/test exercise.** Adding the
+per-switch NOS statement (work-order D3, kept) by string-appending `· NOS: ...` onto each switch
+line's `note` worked for a single-network line — but `addLine()`'s existing merge logic (from
+G-022, 2026-07-17) *regenerates* a switch line's note from scratch whenever a second network
+merges into the same model, to keep the per-network breakdown from drifting. That regeneration
+silently discarded the appended NOS text on the second+ contributor — caught live via an
+AI-platform target's non-rail (general-workload) NIC group, which merges SN4700 lines across
+storage and frontend networks. Fixed at the root: NOS is now a first-class `nos` field on the
+line object (not embedded in `note` text), and `addLine()`'s merge-regeneration path re-appends
+it — safe because a merge is only ever same-model by construction (`mergeKey` defaults to
+`category|model`), so every contributor to one merged line has the identical NOS value. This is
+the second time this exact merge path has silently dropped information appended after the fact
+(G-022 was the first, for the per-network breakdown itself) — the lesson generalizes: anything
+appended to a `note:` string on a `category:'Switch'` addLine call must be re-verified against a
+multi-network merge scenario, not just a single-network one.
+
+**E3224F-ON's edge-access BOM line was independently found to be wrong**, unrelated to the merge
+bug: its note read "Edge/access (Dell Enterprise SONiC)" unconditionally for every E-series
+model, including E3224F-ON — which has no Enterprise SONiC path at all (`switches.js`'s own `os`
+field already said so). Fixed to disclose OS10/end-of-sale on that one model only, verified with
+a regression guard that the common copper case (E3248P-ON) still says Dell Enterprise SONiC.
+
+**Contract change:** `docs/contracts/INPUT-SCHEMA.md`'s `nos` row reclassified from `SIZING` to
+`PINNED` — it no longer changes hardware on the main path, so `tests/invariants.js`'s
+`INPUT-EFFECT` pair for it was retired (a SIZING-only invariant) and replaced with an explicit
+inverse guard: `nos:'sonic'` vs `nos:'os10'` now produce IDENTICAL hardware, and no new-build BOM
+contains VLT/VLTi/OS10 regardless of what's passed. Stash-verified: reverting `js/engine.js`
+alone turned all 4 new `unit-engine.js` assertions and both new `invariants.js` assertions red.
+
+`docs/CITATION-LOG.md` gained two rows: the OS10 end-of-sale ruling marked **MAINTAINER-ATTESTED,
+NOT VENDOR-CITED** (a new status value, added to the doc's own enum — same class of gap as the
+pre-existing S41xx row; zero hits for "end of sale" across the four candidate corpus docs), and
+the Dell-SONiC-on-Spectrum claim marked `CURRENT`/`verify:true` (two Dell sources agree, the
+compatibility matrix is silent not contradicting — re-verified with a binary-safe grep + positive
+control after the original v0.29.0 finding used a grep that silently skipped the non-UTF-8 matrix
+file). `js/catalog/glossary.js` gained hover tooltips for all four NOS terms.
+
+---
+
 ## 2026-07-23 — R14 grilled: work order's premise was false; DCI long-reach defect found and fixed (Slice 1 of 4)
 
 **Trigger:** `docs/R14-WORKORDER.md`, prepared by a prior design-only session, asked the next

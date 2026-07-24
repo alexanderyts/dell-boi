@@ -35,6 +35,21 @@
   function supportsEvpnMh(sw) {
     return !!(sw && Array.isArray(sw.redundancyMethods) && sw.redundancyMethods.indexOf('evpn-mh') >= 0);
   }
+  // R14 (2026-07-23, work-order D3, kept) — the NOS a switch BOM line states. Dell switches on
+  // the NEW-BUILD main path are always Dell Enterprise SONiC (nos is pinned — see the `nos`
+  // const above); NVIDIA Spectrum switches have no chosen NOS input anymore (R14-D2 was
+  // DROPPED — DFM applicability is a per-model catalog fact, not a wizard question), so the
+  // line states what the model CAN run, per the catalog's own `nosSupported`/`dfmVerify` facts
+  // — not inferred from `npu` (npu can't express "no SONiC path", which is the E3224F case).
+  function switchNosNote(sw) {
+    if (!sw) return '';
+    if (/NVIDIA/i.test(sw.vendor || '')) {
+      return sw.dfmVerify
+        ? 'NVIDIA Cumulus Linux / NVIDIA Pure SONiC / Dell SONiC on Spectrum (verify)'
+        : 'NVIDIA Cumulus Linux / NVIDIA Pure SONiC';
+    }
+    return 'Dell Enterprise SONiC';
+  }
 
   /* ---- vendor/stack-aware switch selection ----------------------------- */
   // Core data-center (general) ALWAYS leads with Dell PowerSwitch.
@@ -365,11 +380,20 @@
         const entry = existing._networkBreakdown.find(b => b.network === line.network);
         if (entry) entry.qty += line.qty; else existing._networkBreakdown.push({ network: line.network, qty: line.qty, dedicated: line.dedicated });
         existing.note = `${existing.qty} total — ` + existing._networkBreakdown
-          .map(b => `${b.qty}× ${b.network}${b.dedicated ? ' (dedicated, physically separate)' : ''}`).join(', ');
+          .map(b => `${b.qty}× ${b.network}${b.dedicated ? ' (dedicated, physically separate)' : ''}`).join(', ')
+          // R14 (2026-07-23): a merge is ONLY ever same-model (mergeKey defaults to category|model),
+          // so `existing.nos` — carried from whichever contributor created this line — is the SAME
+          // NOS for every contributor. The note is fully REGENERATED above (G-022 discipline), which
+          // would otherwise silently drop a `· NOS: ...` suffix appended at line-creation time the
+          // moment a second network merges in (found via a live scenario while adding this field —
+          // an AI-platform's general-workload NIC group merging SN4700 lines across storage+frontend
+          // networks lost its NOS statement on the SECOND contributor). Re-append here so it can't.
+          + (existing.nos ? ` · NOS: ${existing.nos}` : '');
       } else if (existing.note && existing.note.indexOf('; +more') < 0) existing.note += '; +more';
       return;
     }
     const nl = Object.assign({ qty: 0 }, line); nl._mk = key; delete nl.mergeKey; nl.qty = line.qty;
+    if (nl.nos && nl.note) nl.note += ` · NOS: ${nl.nos}`;
     bom.push(nl);
   }
 
@@ -422,7 +446,13 @@
     let headroom = (input.growthHeadroom != null && !isNaN(input.growthHeadroom)) ? input.growthHeadroom : R.growth.defaultHeadroom;
     headroom = Math.min(2, Math.max(0, headroom));
     const wantDual = input.redundancy !== 'single';
-    const nos = input.nos === 'os10' ? 'os10' : 'sonic';
+    // R14 ruling (2026-07-23, maintainer): "OS10 shouldn't be quoted, it's end of sale" —
+    // dropped portfolio-wide as a quotable NEW-BUILD choice. This is the "new fabrics" function
+    // (recommend()) — pinned to 'sonic'/MC-LAG unconditionally, regardless of input.nos. VLT/OS10
+    // terminology survives only in recommendRefresh(), which describes a customer's EXISTING
+    // switches, not a new quote. input.nos is still accepted (silently ignored) rather than
+    // thrown on, for input back-compat.
+    const nos = 'sonic';
     // Network architecture — a customer intent question, not a soft default. Three real
     // shapes: 'converged' (compute + storage share ONE leaf tier, VLAN-segmented — no
     // physical separation), 'sharedSpine' (separate leaf per network, one shared spine tier
@@ -1073,6 +1103,7 @@
         // undifferentiated pool once merged; `dedicated` marks the h16346-mandated isolated network.
         network: fs.network, dedicated: fs.network === 'backend' && fs.target.platform.backendIndependent,
         dellPN: leaf.dellPN, verify: leaf.verify, specConfirmed: leaf.specConfirmed, source: leaf.source,
+        nos: switchNosNote(leaf),
         note: `Leaf/ToR — ${fam} ${fs.network} (${fs.speed}); ${fs.leavesPerFabric}/fabric × ${fs.fabricsN}` + (leaf.switchingCapacity ? ` · ${leaf.switchingCapacity}` : '') });
       // R9 (backtest 2026-07-16b): LOW-UTILIZATION note — when RACK count (not port demand) drove the
       // switch count (perRack), a leaf can run far below its port capacity. Surface it so the rep can
@@ -1275,7 +1306,7 @@
           // fabric whose uplinks fill the leaf falls to EVPN-MH — the spare-port choice, always warned.
           const wantsPeerPair = !spine || fs.iclFits;   // no-spine ToR pair (explicit MC-LAG), OR any spined redundant fabric with spare ports for the ICL
           if (wantsPeerPair) {
-            fs.redundancyMethod = nos === 'os10' ? 'vlt' : 'mclag';
+            fs.redundancyMethod = 'mclag';   // nos is pinned 'sonic' (R14 ruling) — MC-LAG is the only new-build peer-pair mechanism
           } else {   // spine && !fs.iclFits (AUTO mode) — uplinks fill the leaf, EVPN-MH is the purpose-built mechanism
             if (supportsEvpnMh(leaf)) {
               fs.redundancyMethod = 'evpn-mh';
@@ -1397,6 +1428,7 @@
       addLine(bom, { category: 'Switch', vendor: grp.spine.vendor, item: grp.spine.model + (is3Tier ? ' — Pod-spine' : ''), model: grp.spine.model, qty: grp.totalPodSpines || grp.spineCount,
         mergeKey: is3Tier ? ('podspine-sw|' + k) : undefined,
         dellPN: grp.spine.dellPN, verify: grp.spine.verify, specConfirmed: grp.spine.specConfirmed, source: grp.spine.source,
+        nos: switchNosNote(grp.spine),
         note: note + (grp.spine.switchingCapacity ? ` · ${grp.spine.switchingCapacity}` : '') });
       // 3-TIER: super-spine switches + pod-spine <-> super-spine cabling. Every pod-spine reaches
       // every super-spine (Clos), 1 link each — the LINK RATE is the pod-spine's own port speed
@@ -1411,6 +1443,7 @@
         // by model alone (the default for Switch lines) would hide the tier split from the BOM.
         addLine(bom, { category: 'Switch', vendor: grp.superSpine.vendor, item: grp.superSpine.model + ' — Super-spine', model: grp.superSpine.model, qty: grp.superSpineCount, mergeKey: 'superspine-sw|' + k,
           dellPN: grp.superSpine.dellPN, verify: grp.superSpine.verify, specConfirmed: grp.superSpine.specConfirmed, source: grp.superSpine.source,
+          nos: switchNosNote(grp.superSpine),
           note: `Super-spine (3-tier Clos top tier) — ${f0.target.platform.family} ${f0.network}; every ${grp.spine.model} pod-spine (${grp.totalPodSpines} total) uplinks to every super-spine` + (grp.superSpine.switchingCapacity ? ` · ${grp.superSpine.switchingCapacity}` : '') });
         const podGbps = speedToGbps((grp.spine.access && grp.spine.access.speed) || '100GbE') || 100;
         const superGbps = speedToGbps((grp.superSpine.access && grp.superSpine.access.speed) || '100GbE') || 100;
@@ -1490,6 +1523,7 @@
         const spinesN = topTierCount || 2;
         addLine(bom, { category: 'Switch', vendor: borderSw.vendor, item: borderSw.model + ' — Border-leaf', model: borderSw.model, qty: 2, mergeKey: 'border-sw|' + borderSw.id,
           dellPN: borderSw.dellPN, verify: borderSw.verify, specConfirmed: borderSw.specConfirmed, source: borderSw.source,
+          nos: switchNosNote(borderSw),
           note: `Border-leaf pair — dedicated external / DCI egress (EVPN-VXLAN border VTEP); MC-LAG pair uplinked to the ${spinedFab.superSpine ? 'super-spine' : 'spine'}, terminating the core/DCI links (keeps north-south off the spine ports)` + (borderSw.switchingCapacity ? ` · ${borderSw.switchingCapacity}` : '') });
         const bUp = pickUplinkCable(upG, false, placement === 'structured' || racks > 1);
         const bUp2 = bUp && bUp.category === 'transceiver';   // standalone optic → 2 per link (one each end)
@@ -1956,9 +1990,15 @@
 
     const bom = [], warnings = [];
     const add = l => addLine(bom, l);
+    // R14 ruling (2026-07-23, maintainer: "OS10 shouldn't be quoted, it's end of sale"): E3224F-ON
+    // is kept quotable — it's the only fiber-SFP edge switch, and the OS10 ruling drops OS10 as a
+    // CHOICE, not hardware that has no substitute — but its line must disclose the fact, not say
+    // "Dell Enterprise SONiC" (which this note did unconditionally before, even for this model —
+    // E3224F-ON has NO Enterprise SONiC path at all, see switches.js).
+    const accNos = acc.id === 'e3224f-on' ? 'SmartFabric OS10 — end of sale; no Enterprise SONiC path on this model' : 'Dell Enterprise SONiC';
     add({ category: 'Switch', vendor: acc.vendor, item: acc.model, model: acc.model, qty: accessSwitches,
       dellPN: acc.dellPN, verify: acc.verify, specConfirmed: acc.specConfirmed, source: acc.source,
-      note: `Edge/access (Dell Enterprise SONiC) — ${perSw}× ${acc.access.speed}${poe !== 'none' ? ' 802.3' + (poe === 'poe++' ? 'bt PoE++ (90W)' : 'at PoE+ (30W)') : ' (no PoE)'} per switch` + (e3224fBroken ? `; ${pairs} pair(s) REQUESTED — NOT achievable as MC-LAG on this model, see error` : (redundant ? `; deployed as ${pairs} MC-LAG pair(s)` : '')) });
+      note: `Edge/access (${accNos}) — ${perSw}× ${acc.access.speed}${poe !== 'none' ? ' 802.3' + (poe === 'poe++' ? 'bt PoE++ (90W)' : 'at PoE+ (30W)') : ' (no PoE)'} per switch` + (e3224fBroken ? `; ${pairs} pair(s) REQUESTED — NOT achievable as MC-LAG on this model, see error` : (redundant ? `; deployed as ${pairs} MC-LAG pair(s)` : '')) });
     // MC-LAG ICL peer-link between each access pair (2× SFP per pair) — never priced for the
     // E3224F-ON+redundant combination: that peer-link cannot actually be configured (no SONiC path).
     if (redundant && iclOptic && !e3224fBroken) add({ category: 'Cable/Optic', vendor: 'Dell', item: iclOptic.desc + ' — MC-LAG ICL', model: iclOptic.desc + ' — MC-LAG ICL', qty: pairs * iclPerPair, mergeKey: 'edge-acc-icl',

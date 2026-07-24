@@ -117,6 +117,15 @@ single-target design, so there is structurally nothing to converge.
   validate check #4.
 
 ## 4. Redundancy (OS-aware — SONiC ≠ OS10)
+- **OS10 is dropped portfolio-wide as a NEW-BUILD choice** *(R14 ruling, 2026-07-23, maintainer:
+  "OS10 shouldn't be quoted, it's end of sale")*. New Dell switches are always **Dell Enterprise
+  SONiC**; the wizard's NOS question and the Expert Form's NOS select are both removed —
+  `recommend()` pins `nos:'sonic'` unconditionally, so **MC-LAG is the single redundancy
+  mechanism on new fabrics**. VLT/OS10 wording below survives ONLY where the tool describes a
+  customer's **EXISTING** switches (`recommendRefresh()`) — never a new quote. See §NOS
+  Terminology at the end of this section for the four distinct "SONiC"s this repo has to keep
+  apart (the R14 grilling session found the ambiguity had already caused one bad design-review
+  premise).
 - **Mechanism selection is SPARE-PORT scoped** *(ruling 2026-07-16c, Option b — supersedes the
   old "SONiC leaf-spine always → EVPN-MH" rule)*: MC-LAG/VLT is the customer-standard pair
   mechanism, and its peer-link (ICL) costs 2 leaf ports. **Any redundant A/B fabric whose leaf has
@@ -129,16 +138,19 @@ single-target design, so there is structurally nothing to converge.
   rather than dropping the peer-link (§4a). Port-driven EVPN-MH is **always announced** (never
   silent). — enforced: engine redundancy block (`wantsPeerPair = !spine || iclFits`, `iclFits`
   recomputed against final uplinks), step 3b leaf step-up, `tests/fixtures/fixture-5-*`.
-- **SONiC stand-alone L2 ToR pair → MC-LAG** (inter-chassis peer-link / ICL).
+- **SONiC stand-alone L2 ToR pair → MC-LAG** (inter-chassis peer-link / ICL). This is the ONLY
+  mechanism a new-build quote produces (R14, above).
 - **SmartFabric OS10 → VLT** (VLT interconnect / VLTi). VLT is OS10-only, not SONiC. *(h04600;
-  OS10 WP h19795)* — enforced: `rules.redundancy.methods`, engine per-fabric.
+  OS10 WP h19795)* — **describes existing customer gear only** (R14, above); no new-build path
+  produces it. — enforced: `rules.redundancy.methods`, `recommendRefresh()`.
 - SONiC port channels use **LACP by default**; recommend LACP for node-to-leaf bonded NICs
   (LACP-individual as fallback). *(h19678.3)* — enforced: validate LACP info.
 - **Redundant (dual) vs non-redundant (single) changes the HARDWARE, not just a label**
   *(ruling 2026-07-16, backtest B4)* — enforced: engine sizing + `tests/invariants.js`,
   `tests/fixtures/`:
   - **Dual** = dual-homed hosts (both NIC ports, one to each leaf of a pair) → a leaf **pair per
-    rack** and a peer-link **ICL** (VLT on OS10 / MC-LAG on SONiC, per §4 above).
+    rack** and a peer-link **ICL** (MC-LAG on new-build Enterprise SONiC; VLT only when describing
+    existing OS10 gear, per §4 above).
   - **Single** = **single-homed** hosts: each host uses **one** NIC port to its single leaf, the
     other port **spare** → half the host links, **one leaf per rack**, **no ICL**, no "pair"
     language. The host-cable note states the spare port explicitly on the quote.
@@ -160,6 +172,27 @@ single-target design, so there is structurally nothing to converge.
      policy substitution. An **explicit** ToR-MC-LAG topology (a no-spine pair) keeps its hard
      feasibility gate — never a silent EVPN-MH swap. — enforced: engine `supportsEvpnMh` +
      `fs.iclFits` (recomputed) + step 3b, `tests/unit-engine.js`, `tests/harness/audit-principles.js` (P6).
+
+### 4z. NOS Terminology — four distinct "SONiC"s *(R14, 2026-07-23)*
+The word "SONiC" names four different things in this codebase's sources; conflating them is what
+produced R14's original (incorrect) work order — it read a catalog string mentioning "SONiC" on
+an NVIDIA switch and concluded Dell Fabric Manager applied, when the SONiC named there is a
+different, unrelated distro. Keep these apart:
+- **Dell Enterprise SONiC** — Dell's commercial distro for PowerSwitch. Has the compatibility
+  matrix (`SONIC-COMPAT.txt`), DFM support, and is the ONLY new-build choice (§4 above).
+- **Dell SONiC on Spectrum** — `AI-SPECTRUM.txt` (H04658, Ch.4, Mar 2026) names EXACTLY THREE
+  NVIDIA Spectrum models — **SN5600, SN5610, SN2201** — as "Dell PowerSwitch ... with Dell SONiC."
+  DFM applies here too, but `verify:true`-flagged: the compatibility matrix doesn't list these
+  models yet (silent, not contradicting). Catalog field: `nosSupported` includes `'dell-sonic'`
+  AND `dfmVerify:true` on these three switches ONLY — no other Spectrum model.
+- **NVIDIA Pure SONiC** — a COMMUNITY open-source distro NVIDIA also offers
+  (`NV-SN4700.txt:777`: "community-developed, open source"). **NOT** Dell Enterprise SONiC, no
+  DFM support, despite sharing the word "SONiC."
+- **NVIDIA Cumulus Linux** — NVIDIA's own commercial NOS. No DFM support.
+
+Every Spectrum switch in the catalog runs Cumulus or Pure SONiC; SN5600/SN5610/SN2201
+additionally carry the verify-flagged Dell-SONiC path. Never infer DFM applicability from the
+presence of the substring "SONiC" in a switch's `os` display string — read `nosSupported`.
 
 ### 4a. Redundancy is an input to leaf selection *(ruling 2026-07-16c, Ruling 1)*
 A redundant, MC-LAG-eligible 25G fabric's leaf must afford **uplinks + the 2-port ICL**. The

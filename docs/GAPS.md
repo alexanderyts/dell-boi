@@ -951,8 +951,11 @@ leaves are meant to be "underpopulated" for an odd rack count.
 
 ### G-026 — E3224F-ON's fiber-edge branch also catches `poe==='none'`, so a copper no-PoE edge can get a fiber switch — OPEN, flagged not fixed 2026-07-23
 - **Severity:** unassessed — found as a side observation while reviewing the E3224F-ON edge-access
-  picker for the R14 OS10 ruling (`docs/R14-WORKORDER.md`'s replacement plan, Slice 2, not yet
-  implemented). Not investigated further this session — explicitly not fixed silently, per
+  picker for the R14 OS10 ruling. **Note: Slice 2 (the OS10 ruling itself) landed 2026-07-23,
+  v0.66.0** — that shipped work fixed a DIFFERENT, related defect on the same BOM line (E3224F-ON's
+  note wrongly claimed "Dell Enterprise SONiC"; see GAPS/DESIGN-LOG 2026-07-23b). This gap — the
+  `poe==='none'` routing question below — was deliberately left untouched within that same slice
+  and remains open. Not investigated further this session — explicitly not fixed silently, per
   standing rule 4 (findings go to the maintainer before being acted on).
 - **Where:** `js/engine.js:1907`: `(accessSpeed === 'fiber' || poe === 'none') ? byId('e3224f-on')
   : byId('e3248p-on')`. A **copper, 1G, no-PoE** edge request (`accessSpeed !== 'fiber'`, `poe ===
@@ -960,6 +963,36 @@ leaves are meant to be "underpopulated" for an odd rack count.
   BaseT model with PoE simply disabled.
 - **Next step:** confirm with the maintainer whether this is intentional (no-PoE copper edge is
   rare enough that fiber-SFP is an acceptable substitute) or a real miss-route, before touching it.
+
+### G-027 — per-switch NOS statement silently dropped on same-model cross-network merge — CLOSED 2026-07-23 (v0.66.0)
+- **Severity:** MEDIUM — a disclosure line (which NOS a switch runs), not a hardware/qty defect,
+  but the SAME merge-drops-appended-data pattern as G-022 (which was HIGH — that one hid a
+  compliance-mandated backend isolation fact). This is the second occurrence of the pattern.
+- **Where:** `js/engine.js`'s `addLine()`. Adding the R14 per-switch NOS statement (work-order D3)
+  by string-appending `` · NOS: <text>`` onto a switch line's `note:` at creation time worked for a
+  single-network line, but `addLine()`'s existing G-022 merge logic *regenerates* `note` from
+  scratch (`existing.note = ...`) whenever a SECOND network merges into the same switch model —
+  silently discarding the appended NOS suffix on that second+ contributor.
+- **Found:** live, while adding a test for an AI-platform target's non-rail (general-workload) NIC
+  group under the NVIDIA stack — that scenario merges SN4700 lines across storage AND frontend
+  networks, and the merged line's NOS text vanished on the second contributor. Not found by
+  inspection; found by actually running the new test against the new code.
+- **Fix:** NOS is now a first-class `nos` field on the switch line object, not text embedded in
+  `note`. `addLine()`'s merge-regeneration path re-appends `` · NOS: ${existing.nos}`` after
+  rebuilding the note. Safe because a merge is only ever same-model by construction (`mergeKey`
+  defaults to `category|model`), so every contributor to one merged line shares the identical NOS
+  value — no risk of picking the wrong one.
+- **Test:** `tests/unit-engine.js` "R14" block — the SN5600 (single-network) and SN4700
+  (merged, 2-network) cases are both asserted; the SN4700 case is exactly the one that caught the
+  bug. **Verified as a real guard:** stashing `js/engine.js` alone turned both assertions red (and
+  4 others — see GAPS G-025's neighbor entry / DESIGN-LOG 2026-07-23b for the full stash-verify).
+- **Generalizable lesson:** anything appended to a `note:` string on a `category:'Switch'`
+  `addLine` call must be tested against a MULTI-network merge scenario, not just a single-network
+  one — the merge path silently regenerates that string and will drop anything not re-derived
+  from a structured field. This is the second time this exact class of bug has been found on this
+  exact function (G-022 was the first) — a third occurrence would be worth hardening `addLine()`
+  itself (e.g. a lint-style check that no field appended to `note` at a call site is absent from
+  the merge-regeneration branch) rather than relying on catching it by hand again.
 
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now

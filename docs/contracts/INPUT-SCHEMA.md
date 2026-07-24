@@ -37,7 +37,7 @@ enforces them today (js/engine.js).
 | `units` | int | clamp 1–100000 | LEGACY | Single-target back-compat |
 | `modelId`, `gpusPerServer`, `railNic`, `nic`, `nic2` | (as Target fields) | — | LEGACY | Single-target back-compat aliases |
 | `redundancy` | `'dual'` \| `'single'` | anything ≠ `'single'` → dual | **DEFECT (B4)** | SHOULD size pairs+ICL vs single switches. Backtest runs 2 vs 3 produced byte-identical hardware — labels changed, hardware didn't. Phase 2/3 must make this SIZING; Phase 1 invariant 4 pins it. |
-| `nos` | `'sonic'` \| `'os10'` | ≠ `'os10'` → sonic | SIZING | Redundancy method: EVPN-MH / MC-LAG (SONiC) vs VLT (OS10) — changes ICL lines and terminology (per J1, the BOM term must match the OS) |
+| `nos` | `'sonic'` (only) | any value → sonic | **PINNED** | New-build redundancy is ALWAYS MC-LAG / Enterprise SONiC. **DECIDED (R14, 2026-07-23, maintainer ruling): "OS10 shouldn't be quoted, it's end of sale" — dropped portfolio-wide as a quotable NEW-BUILD choice.** No UI control (removed from both the guided wizard and the Expert Form). The input key is still accepted rather than thrown on — `'os10'` is silently ignored, never producing VLT/VLTi terminology — for input back-compat. VLT/OS10 wording survives only in `recommendRefresh()`, which describes a customer's EXISTING switches, not a new quote. |
 | `growthHeadroom` | number | default from rules; clamp 0–2 | SIZING | Reserves access ports; can add leaves |
 | `fabricArchitecture` | `'converged'` \| `'sharedSpine'` \| `'separate'` | invalid → sharedSpine | SIZING | Whether targets share leaves, share only the spine, or get fully separate fabrics |
 | `separateFabrics` | bool | — | LEGACY | Old boolean; maps true→separate, else sharedSpine |
@@ -162,7 +162,7 @@ Every `#f-*` element maps to an engine field — the full list, in form order:
 `#f-structured`→structuredInPlace · `#f-breakout`→breakout ·
 `#f-fabstyle`→fabricInterconnect · `#f-storage-proto`→storageProtocol ·
 `#f-traffic`→trafficProfile · `#f-roadmap`→speedRoadmap (DISPLAY) ·
-`#f-deploy`→deployType · `#f-reuse`→reuseExistingSpine · `#f-nos`→nos ·
+`#f-deploy`→deployType · `#f-reuse`→reuseExistingSpine ·
 `#f-mgmt`→includeMgmt · `#f-fabricarch`→fabricArchitecture ·
 `#f-core`→includeCoreUplink · `#f-core-type`→coreType ·
 `#f-core-speed`→coreSpeed · `#f-core-layer`→coreLayer (DISPLAY) ·
@@ -202,7 +202,8 @@ Step id → engine field (steps that only route or gate are marked):
 (only asked when 2+ targets; single-target guided silently defaults to sharedSpine) ·
 `traffic`→trafficProfile · `leaf100`/`leaf25`→leaf overrides · `roadmap`→speedRoadmap ·
 `redundancy`→redundancy (DEFECT B4) · `growth`→growthHeadroom · `oob`→includeMgmt ·
-`nos`→nos · `core`→includeCoreUplink+coreSpeed · `coreFar`→coreReach+coreFarEnd ·
+(no `nos` question — R14, 2026-07-23: OS10 dropped portfolio-wide; hardcoded `nos:'sonic'`) ·
+`core`→includeCoreUplink+coreSpeed · `coreFar`→coreReach+coreFarEnd ·
 `borderLeaf`→borderLeaf · `verity`→opts.verity.
 
 ### 3.5 Express

@@ -127,7 +127,12 @@ const sig = r => r.bom
     ['nic.nicsPerUnit', BT(), (() => { const d = BT(); d.targets[0].nic.nicsPerUnit = 2; return d; })(), null],
     ['nic2 present vs absent', BT(), REPRO(), null],
     ['redundancy dual vs single (BACKTEST B4 — flipped: single is single-homed + fewer switches, no ICL)', BT(), Object.assign(BT(), { redundancy: 'single' }), null],
-    ['nos sonic vs os10 (ToR pair — ICL terminology per J1)', Object.assign(TOR(), { nos: 'sonic' }), Object.assign(TOR(), { nos: 'os10' }), null],
+    // 'nos sonic vs os10' pair REMOVED (R14, 2026-07-23, maintainer ruling: "OS10 shouldn't be
+    // quoted, it's end of sale" — dropped portfolio-wide). recommend() now pins nos:'sonic'
+    // unconditionally; input.nos no longer changes hardware on this (new-build) path, so this
+    // pair would fail the INPUT-EFFECT premise by design, not by regression. `nos` is
+    // reclassified PINNED in INPUT-SCHEMA.md (was SIZING). The inverse regression guard —
+    // proving os10 is silently ignored rather than the pin quietly breaking — lives just below.
     ['growthHeadroom 0 vs 1 (single-rack so port math, not racks, drives leaves)', G25({ racks: 1 }), G25({ racks: 1, growthHeadroom: 1 }), null],
     ['fabricArchitecture converged vs separate (2 targets)', TWO({ fabricArchitecture: 'converged' }), TWO({ fabricArchitecture: 'separate' }), null],
     ['placement in-rack vs structured', G25(), G25({ placement: 'structured' }), null],
@@ -163,6 +168,18 @@ const sig = r => r.bom
     catch (e) { ok = false; det = 'THREW: ' + e.message; }
     t(`input-effect: ${label}`, ok, det, tag);
   });
+
+  // R14 (2026-07-23): explicit guard that nos:'os10' is SILENTLY IGNORED on new-build
+  // recommend() — the inverse of the removed input-effect pair above. Proves the pin didn't
+  // quietly regress (sonic and os10 inputs must be hardware-IDENTICAL) and that no VLT/OS10
+  // terminology leaks into a new-build BOM regardless of what's passed.
+  (() => {
+    const sonicRes = rec(Object.assign(TOR(), { nos: 'sonic' })), os10Res = rec(Object.assign(TOR(), { nos: 'os10' }));
+    t('R14: nos:sonic vs nos:os10 produce IDENTICAL new-build hardware (OS10 dropped, ruling 2026-07-23)',
+      sig(sonicRes) === sig(os10Res), { sonic: sig(sonicRes), os10: sig(os10Res) });
+    t('R14: new-build BOM never says VLT/VLTi/OS10, even when nos:os10 is explicitly forced',
+      !os10Res.bom.some(b => /\bVLT\b|VLTi|OS10/.test(b.item || '') || /\bVLT\b|VLTi|OS10/.test(b.note || '')));
+  })();
 
   // edge + refresh + RA entry points
   const edgePairs = [

@@ -18,9 +18,35 @@
  *   portsBySpeed        = MAX HW-supportable ports at each speed (breakout modes;
  *                         SW support varies by OS). This is the multi-rate map.
  *   access / uplink     = the engine's default native config for sizing.
+ *   os                  = human-readable NOS description shown in the UI/BOM notes.
+ *   nosSupported        = STRUCTURED capability fact (R14, 2026-07-23) — which of the
+ *                         controlled-vocabulary NOSes this hardware can actually run:
+ *                         'dell-sonic'  = Dell Enterprise SONiC (has DFM support + the
+ *                                         compatibility matrix; the ONLY value that makes
+ *                                         DFM applicable — see dfmVerify below).
+ *                         'os10'       = Dell SmartFabric OS10. A HARDWARE capability fact
+ *                                         only — as of the OS10 ruling (2026-07-23, "OS10
+ *                                         shouldn't be quoted, it's end of sale") this is
+ *                                         never offered as a NEW-build choice; it survives
+ *                                         only to describe a customer's EXISTING gear.
+ *                         'cumulus'    = NVIDIA Cumulus Linux (NVIDIA commercial NOS).
+ *                         'pure-sonic' = NVIDIA Pure SONiC — a COMMUNITY open-source distro
+ *                                         (corpus/txt/NV-SN4700.txt:777). This is NOT Dell
+ *                                         Enterprise SONiC and does NOT carry DFM support —
+ *                                         despite the name collision that made the R14 work
+ *                                         order misread this catalog's old free-text `os`
+ *                                         string as "SONiC-capable → DFM applies".
+ *   dfmVerify            = true only on switches where Dell SONiC-on-Spectrum support is
+ *                         asserted by ONE Dell source (AI-SPECTRUM H04658 Ch.4 + Verity's
+ *                         own Spectrum-X fabric types) but the Enterprise SONiC Compatibility
+ *                         Matrix doesn't list the model yet (silent, not contradicting) — so
+ *                         DFM attach on these three is real but carries `verify:true`.
  *
- * OS: PowerSwitch = "Enterprise SONiC Distribution by Dell Technologies; Dell
- *     SmartFabric OS10". Spectrum = "NVIDIA Cumulus Linux / SONiC".
+ * OS: PowerSwitch = Dell Enterprise SONiC or SmartFabric OS10 (see the OS10 ruling above).
+ *     Spectrum    = NVIDIA Cumulus Linux or NVIDIA Pure SONiC (community) on every model;
+ *                   SN5600/SN5610/SN2201 ADDITIONALLY have a Dell-SONiC-on-Spectrum path
+ *                   (AI-SPECTRUM H04658 names exactly these three as "Dell PowerSwitch ...
+ *                   with Dell SONiC") — no other Spectrum model is on that list.
  * ========================================================================== */
 window.CATALOG = window.CATALOG || {};
 
@@ -31,6 +57,7 @@ window.CATALOG.switches = [
   {
     id: 's5212f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S5212F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident3-X5',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '1U compact', rackU: 1, roles: ['leaf', 'tor'], switchingCapacity: '2.16 Tbps',
     access: { count: 12, speed: '25GbE', media: 'SFP28' },
     uplink: { count: 3, speed: '100GbE', media: 'QSFP28' },
@@ -41,6 +68,7 @@ window.CATALOG.switches = [
   {
     id: 's5224f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S5224F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident3-X5',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '1U', rackU: 1, roles: ['leaf', 'tor'], switchingCapacity: '2.16 Tbps',
     access: { count: 24, speed: '25GbE', media: 'SFP28' },
     uplink: { count: 4, speed: '100GbE', media: 'QSFP28' },
@@ -51,6 +79,7 @@ window.CATALOG.switches = [
   {
     id: 's5248f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S5248F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident3-X7',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '1U', rackU: 1, roles: ['leaf', 'tor'], switchingCapacity: '4.0 Tbps',
     access: { count: 48, speed: '25GbE', media: 'SFP28' },
     uplink: { count: 6, speed: '100GbE', media: 'QSFP28' }, // up to 8x100G via 2x QSFP28-DD breakout
@@ -62,6 +91,7 @@ window.CATALOG.switches = [
   {
     id: 's5296f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S5296F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident3-X7',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '2U', rackU: 2, roles: ['leaf', 'tor'], switchingCapacity: '6.4 Tbps',
     access: { count: 96, speed: '25GbE', media: 'SFP28' },
     uplink: { count: 8, speed: '100GbE', media: 'QSFP28' },
@@ -73,6 +103,7 @@ window.CATALOG.switches = [
   {
     id: 's5232f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S5232F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident3-X7',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '1U', rackU: 1, roles: ['leaf', 'spine'], switchingCapacity: '6.4 Tbps',
     access: { count: 32, speed: '100GbE', media: 'QSFP28' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -84,6 +115,7 @@ window.CATALOG.switches = [
   {
     id: 'z9264f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9264F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Tomahawk-2',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '2U', rackU: 2, roles: ['leaf', 'spine'], switchingCapacity: '12.8 Tbps',
     access: { count: 64, speed: '100GbE', media: 'QSFP28' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -96,6 +128,7 @@ window.CATALOG.switches = [
   {
     id: 's5448f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S5448F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident4-X9',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '1U', rackU: 1, roles: ['leaf', 'tor', 'spine'], switchingCapacity: '16 Tbps',
     access: { count: 48, speed: '25/50/100GbE', media: 'SFP56-DD' },
     uplink: { count: 8, speed: '400GbE', media: 'QSFP56-DD' },
@@ -109,6 +142,7 @@ window.CATALOG.switches = [
   {
     id: 's4348f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S4348F-ON',
     os: 'Enterprise SONiC (Dell)', npu: 'Broadcom Trident3-X5',
+    nosSupported: ['dell-sonic'],
     formFactor: '1U', rackU: 1, roles: ['leaf', 'tor'], switchingCapacity: '2.16 Tbps',
     access: { count: 48, speed: '10GbE', media: 'SFP+' },
     uplink: { count: 6, speed: '100GbE', media: 'QSFP28' },
@@ -122,6 +156,7 @@ window.CATALOG.switches = [
     // nothing in the engine selects it for a new BOM anymore. Replacement: S4348F-ON above.
     id: 's4148f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S4148F-ON', eol: true,
     os: 'SmartFabric OS10', npu: 'Broadcom Maverick',
+    nosSupported: ['os10'],
     formFactor: '1U', rackU: 1, roles: ['leaf', 'tor'], switchingCapacity: '1.76 Tbps',
     access: { count: 48, speed: '10GbE', media: 'SFP+' },
     uplink: { count: 6, speed: '40/100GbE', media: 'QSFP28' },
@@ -133,6 +168,7 @@ window.CATALOG.switches = [
   {
     id: 's4348t-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S4348T-ON',
     os: 'Enterprise SONiC (Dell)', npu: 'Broadcom Trident3-X5',
+    nosSupported: ['dell-sonic'],
     formFactor: '1U', rackU: 1, roles: ['leaf', 'tor', 'access'], switchingCapacity: '2.16 Tbps',
     access: { count: 48, speed: '1/10GBase-T', media: 'RJ45' },
     uplink: { count: 6, speed: '100GbE', media: 'QSFP28' },
@@ -145,6 +181,7 @@ window.CATALOG.switches = [
   {
     id: 'z9432f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9432F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident4-X11',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '1U (EIA)', rackU: 1, roles: ['spine', 'leaf'], switchingCapacity: '25.6 Tbps',
     access: { count: 32, speed: '400GbE', media: 'QSFP-DD' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -156,6 +193,7 @@ window.CATALOG.switches = [
   {
     id: 'z9664f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9664F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Tomahawk 4',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '2U (EIA)', rackU: 2, roles: ['spine'], switchingCapacity: '51.2 Tbps',
     access: { count: 64, speed: '400GbE', media: 'QSFP-DD' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -167,6 +205,7 @@ window.CATALOG.switches = [
   {
     id: 'z9864f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9864F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Tomahawk 5',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '2U (EIA)', rackU: 2, roles: ['spine'], switchingCapacity: '102.4 Tbps',
     access: { count: 64, speed: '800GbE', media: 'OSFP112' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -178,6 +217,7 @@ window.CATALOG.switches = [
   {
     id: 'z9964f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9964F-ON',
     os: 'Enterprise SONiC (Dell)', npu: 'Broadcom Tomahawk 6',
+    nosSupported: ['dell-sonic'],
     formFactor: '3U (EIA)', rackU: 3, roles: ['spine'], switchingCapacity: '204.8 Tbps',
     access: { count: 64, speed: '1.6TbE', media: 'OSFP224' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -187,10 +227,17 @@ window.CATALOG.switches = [
     dellPN: 'verify', verify: true, specConfirmed: true, source: GUIDE
   },
 
-  /* ==================== NVIDIA SPECTRUM ETHERNET (via Dell) — AI east-west == */
+  /* ==================== NVIDIA SPECTRUM ETHERNET (via Dell) — AI east-west ==
+   * OS (R14, 2026-07-23): every Spectrum model runs NVIDIA Cumulus Linux or NVIDIA Pure SONiC
+   * (a COMMUNITY distro, NOT Dell's — corpus/txt/NV-SN4700.txt:777). AI-SPECTRUM H04658 Ch.4
+   * additionally names EXACTLY THREE models — SN5600, SN5610, SN2201 — as "Dell PowerSwitch ...
+   * with Dell SONiC"; those three (and ONLY those three) also carry `dell-sonic` + `dfmVerify`.
+   * No other Spectrum model (SN4700/SN5400/SN5600D/SN6810) is on that list — do not add
+   * `dell-sonic` to them without a corpus source naming them specifically. ========== */
   {
     id: 'sn4700', vendor: 'NVIDIA (via Dell)', line: 'Spectrum', model: 'SN4700',
-    os: 'NVIDIA Cumulus Linux / SONiC', npu: 'NVIDIA Spectrum-3',
+    os: 'NVIDIA Cumulus Linux / NVIDIA Pure SONiC (community — NOT Dell Enterprise SONiC; absent from AI-SPECTRUM H04658\'s Dell-SONiC-on-Spectrum list)', npu: 'NVIDIA Spectrum-3',
+    nosSupported: ['cumulus', 'pure-sonic'],
     formFactor: '1U (EIA)', rackU: 1, roles: ['leaf', 'spine'], switchingCapacity: '12.8 Tbps',
     access: { count: 32, speed: '400GbE', media: 'QSFP-DD' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -201,7 +248,8 @@ window.CATALOG.switches = [
   },
   {
     id: 'sn5400', vendor: 'NVIDIA (via Dell)', line: 'Spectrum', model: 'SN5400',
-    os: 'NVIDIA Cumulus Linux / SONiC', npu: 'NVIDIA Spectrum-4',
+    os: 'NVIDIA Cumulus Linux / NVIDIA Pure SONiC (community — NOT Dell Enterprise SONiC; absent from AI-SPECTRUM H04658\'s Dell-SONiC-on-Spectrum list)', npu: 'NVIDIA Spectrum-4',
+    nosSupported: ['cumulus', 'pure-sonic'],
     formFactor: '2U (EIA)', rackU: 2, roles: ['leaf', 'spine'], switchingCapacity: '25.6 Tbps',
     access: { count: 64, speed: '400GbE', media: 'QSFP-DD' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -212,7 +260,8 @@ window.CATALOG.switches = [
   },
   {
     id: 'sn5610', vendor: 'NVIDIA (via Dell)', line: 'Spectrum', model: 'SN5610',
-    os: 'NVIDIA Cumulus Linux / SONiC', npu: 'NVIDIA Spectrum-4',
+    os: 'Dell PowerSwitch SN5610 — Dell SONiC on Spectrum (AI-SPECTRUM H04658 Ch.4; verify — not yet on the Enterprise SONiC Compatibility Matrix) / NVIDIA Cumulus Linux / NVIDIA Pure SONiC', npu: 'NVIDIA Spectrum-4',
+    nosSupported: ['dell-sonic', 'cumulus', 'pure-sonic'], dfmVerify: true,
     formFactor: '2U (EIA)', rackU: 2, roles: ['leaf', 'spine'], switchingCapacity: '51.2 Tbps',
     access: { count: 64, speed: '800GbE', media: 'OSFP112' },
     // the 2x SFP28 are a mgmt/breakout-assist pair, NOT a fabric-uplink-capable tier — fabric
@@ -227,7 +276,8 @@ window.CATALOG.switches = [
   },
   {
     id: 'sn5600', vendor: 'NVIDIA (via Dell)', line: 'Spectrum', model: 'SN5600',
-    os: 'NVIDIA Cumulus Linux / SONiC', npu: 'NVIDIA Spectrum-4',
+    os: 'Dell PowerSwitch SN5600 — Dell SONiC on Spectrum (AI-SPECTRUM H04658 Ch.4; verify — not yet on the Enterprise SONiC Compatibility Matrix) / NVIDIA Cumulus Linux / NVIDIA Pure SONiC', npu: 'NVIDIA Spectrum-4',
+    nosSupported: ['dell-sonic', 'cumulus', 'pure-sonic'], dfmVerify: true,
     formFactor: '2U (EIA)', rackU: 2, roles: ['leaf', 'spine'], switchingCapacity: '51.2 Tbps',
     access: { count: 128, speed: '400GbE', media: 'OSFP (twin-port)' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -238,7 +288,8 @@ window.CATALOG.switches = [
   },
   {
     id: 'sn5600d', vendor: 'NVIDIA (via Dell)', line: 'Spectrum', model: 'SN5600D',
-    os: 'NVIDIA Cumulus Linux / SONiC', npu: 'NVIDIA Spectrum-4',
+    os: 'NVIDIA Cumulus Linux / NVIDIA Pure SONiC (community — NOT Dell Enterprise SONiC; absent from AI-SPECTRUM H04658\'s Dell-SONiC-on-Spectrum list)', npu: 'NVIDIA Spectrum-4',
+    nosSupported: ['cumulus', 'pure-sonic'],
     formFactor: '2U (MGX1.x)', rackU: 2, roles: ['leaf', 'spine'], switchingCapacity: '51.2 Tbps',
     access: { count: 64, speed: '800GbE', media: 'OSFP112' },
     // see sn5610: the 1x SFP28 is a mgmt/breakout-assist port, not a fabric-uplink tier.
@@ -261,7 +312,8 @@ window.CATALOG.switches = [
     // cooled chassis) is a hyperscale-tier system beyond what a typical Dell channel engagement
     // specs — not modeled here.
     id: 'sn6810', vendor: 'NVIDIA (via Dell)', line: 'Spectrum', model: 'SN6810',
-    os: 'NVIDIA Cumulus Linux / SONiC', npu: 'NVIDIA Spectrum-6',
+    os: 'NVIDIA Cumulus Linux / NVIDIA Pure SONiC (community — NOT Dell Enterprise SONiC; absent from AI-SPECTRUM H04658\'s Dell-SONiC-on-Spectrum list)', npu: 'NVIDIA Spectrum-6',
+    nosSupported: ['cumulus', 'pure-sonic'],
     formFactor: '2U (EIA)', rackU: 2, roles: ['leaf', 'spine'], switchingCapacity: '102.4 Tbps',
     access: { count: 128, speed: '800GbE', media: 'OSFP112' },
     uplink: { count: 0, speed: '-', media: '-' },
@@ -275,6 +327,7 @@ window.CATALOG.switches = [
   {
     id: 's3248t-on', vendor: 'Dell', line: 'PowerSwitch', model: 'S3248T-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident3-X3',
+    nosSupported: ['dell-sonic', 'os10'],
     formFactor: '1U', rackU: 1, roles: ['management', 'oob'], switchingCapacity: '0.576 Tbps',
     access: { count: 48, speed: '1GBase-T', media: 'RJ45' },
     uplink: { count: 6, speed: '10/100GbE', media: 'SFP+ / QSFP28' },
@@ -284,7 +337,8 @@ window.CATALOG.switches = [
   },
   {
     id: 'sn2201', vendor: 'NVIDIA (via Dell)', line: 'Spectrum', model: 'SN2201',
-    os: 'NVIDIA Cumulus Linux / SONiC', npu: 'NVIDIA Spectrum',
+    os: 'Dell PowerSwitch SN2201 — Dell SONiC on Spectrum (AI-SPECTRUM H04658 Ch.4; verify — not yet on the Enterprise SONiC Compatibility Matrix) / NVIDIA Cumulus Linux / NVIDIA Pure SONiC', npu: 'NVIDIA Spectrum',
+    nosSupported: ['dell-sonic', 'cumulus', 'pure-sonic'], dfmVerify: true,
     formFactor: '1U', rackU: 1, roles: ['management', 'oob'], switchingCapacity: '0.448 Tbps',
     access: { count: 48, speed: '1GBase-T', media: 'RJ45' },
     uplink: { count: 4, speed: '10/25GbE', media: 'SFP28' },
@@ -297,6 +351,7 @@ window.CATALOG.switches = [
   {
     id: 'e3224f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'E3224F-ON',
     os: 'SmartFabric OS10 ONLY — NOT on the Enterprise SONiC compatibility matrix (no SONiC MC-LAG)', npu: 'Broadcom Trident3-X3',
+    nosSupported: ['os10'],
     formFactor: '1U', rackU: 1, roles: ['edge', 'access'], switchingCapacity: '0.528 Tbps',
     access: { count: 24, speed: '1/10GbE', media: 'SFP' },
     // TWO uplink classes — the situation picks which goes up: `uplink` = the 2×100G rear pair,
@@ -311,6 +366,7 @@ window.CATALOG.switches = [
   {
     id: 'e3248p-on', vendor: 'Dell', line: 'PowerSwitch', model: 'E3248P-ON',
     os: 'Enterprise SONiC (Lite bundle) — MC-LAG confirmed per compatibility matrix', npu: 'Broadcom Trident3-X3',
+    nosSupported: ['dell-sonic'],
     formFactor: '1U', rackU: 1, roles: ['edge', 'access'], switchingCapacity: '0.576 Tbps',
     access: { count: 48, speed: '1GBase-T', media: 'RJ45 (PoE 802.3at 30W)' },
     // TWO uplink classes — uplink at 10G (4×SFP+) or 100G (2×QSFP28 rear) per situation;
@@ -325,6 +381,7 @@ window.CATALOG.switches = [
   {
     id: 'e3248pxe-on', vendor: 'Dell', line: 'PowerSwitch', model: 'E3248PXE-ON',
     os: 'Enterprise SONiC (Lite bundle) — MC-LAG confirmed per compatibility matrix', npu: 'Broadcom Trident3-X5',
+    nosSupported: ['dell-sonic'],
     formFactor: '1U', rackU: 1, roles: ['edge', 'access'], switchingCapacity: '1.56 Tbps',
     access: { count: 48, speed: '1/2.5/5/10GBase-T (multigig)', media: 'RJ45 (802.3bt Type-4 90W PoE)' },
     // TWO uplink classes — uplink at 25G (4×SFP28) or 100G (2×QSFP28 rear) per situation;
@@ -348,17 +405,28 @@ window.CATALOG.switches = [
  * run MC-LAG *and* EVPN-MH on Enterprise SONiC — only E3224F-ON specifically lacks them
  * (OS10-only, absent from the SONiC matrix). A missing id resolves to [] (fail-loud:
  * unknown capability is treated as none, never silently assumed).
+ *
+ * 'vlt' REMOVED from DELL_LEAF_SPINE (R14, 2026-07-23, OS10 ruling): no code path ever
+ * reads for the 'vlt' value specifically (only 'evpn-mh' and 'mclag' are consulted —
+ * see supportsEvpnMh() in engine.js), so this is a documentation-accuracy fix with zero
+ * behavior change, not a functional one. It stops this capability table from claiming a
+ * NEW-build VLT path that the OS10 ruling says is no longer offered.
+ * s4148f-on FIXED from DELL_SONIC_ONLY to [] (documentation-accuracy only — it is
+ * eol:true and the engine never selects it for a new BOM): its own `os` field has always
+ * said "SmartFabric OS10" only, but the old CAP entry claimed SONiC-only redundancy
+ * capability (mclag/evpn-mh) — self-contradictory data, inert in practice, fixed to match
+ * the same OS10-only, no-SONiC-path pattern as E3224F-ON.
  * ========================================================================== */
 (function () {
-  const DELL_LEAF_SPINE = ['mclag', 'vlt', 'evpn-mh'];   // SONiC + OS10 VXLAN leaf/spine
+  const DELL_LEAF_SPINE = ['mclag', 'evpn-mh'];          // Enterprise SONiC leaf/spine (new-build)
   const DELL_SONIC_ONLY = ['mclag', 'evpn-mh'];          // Enterprise SONiC (no OS10 VLT listed on the entry)
-  const NVIDIA = ['mlag', 'evpn-mh'];                    // NVIDIA Spectrum (Cumulus / SONiC)
+  const NVIDIA = ['mlag', 'evpn-mh'];                    // NVIDIA Spectrum (Cumulus / Pure SONiC / Dell SONiC where dfmVerify)
   const CAP = {
     's5212f-on': DELL_LEAF_SPINE, 's5224f-on': DELL_LEAF_SPINE, 's5248f-on': DELL_LEAF_SPINE,
     's5296f-on': DELL_LEAF_SPINE, 's5232f-on': DELL_LEAF_SPINE, 'z9264f-on': DELL_LEAF_SPINE,
     's5448f-on': DELL_LEAF_SPINE, 'z9432f-on': DELL_LEAF_SPINE, 'z9664f-on': DELL_LEAF_SPINE,
     'z9864f-on': DELL_LEAF_SPINE, 's3248t-on': DELL_LEAF_SPINE,
-    's4348f-on': DELL_SONIC_ONLY, 's4148f-on': DELL_SONIC_ONLY, 's4348t-on': DELL_SONIC_ONLY,
+    's4348f-on': DELL_SONIC_ONLY, 's4148f-on': [], 's4348t-on': DELL_SONIC_ONLY,
     'z9964f-on': DELL_SONIC_ONLY,
     'sn4700': NVIDIA, 'sn5400': NVIDIA, 'sn5610': NVIDIA, 'sn5600': NVIDIA, 'sn5600d': NVIDIA,
     'sn6810': NVIDIA, 'sn2201': NVIDIA,

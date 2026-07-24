@@ -332,12 +332,9 @@
           <input id="f-reuse" type="checkbox" checked /> Reuse existing spine (add-to-existing — incremental BOM only)
         </label>
 
-        <label>Network OS (sets the redundancy method)
-          <select id="f-nos">
-            <option value="sonic" selected>Dell Enterprise SONiC — EVPN-MH / MC-LAG</option>
-            <option value="os10">SmartFabric OS10 — VLT / VLTi</option>
-          </select>
-        </label>
+        <!-- "Network OS" select REMOVED (R14, 2026-07-23): OS10 is end-of-sale and no longer a
+             quotable new-build choice (maintainer ruling). New Dell switches are Enterprise
+             SONiC — app.js hardcodes nos:'sonic', no rep-facing control needed. -->
 
         <label class="checkbox">
           <input id="f-mgmt" type="checkbox" checked /> Include out-of-band (iDRAC/BMC) management network
