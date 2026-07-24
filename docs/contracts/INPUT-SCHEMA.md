@@ -204,6 +204,12 @@ Step id → engine field (steps that only route or gate are marked):
 `redundancy`→redundancy (DEFECT B4) · `growth`→growthHeadroom · `oob`→includeMgmt ·
 (no `nos` question — R14, 2026-07-23: OS10 dropped portfolio-wide; hardcoded `nos:'sonic'`) ·
 `core`→includeCoreUplink+coreSpeed · `coreFar`→coreReach+coreFarEnd ·
+**R14 Slice 4 (2026-07-23):** `coreReach`+`coreType` MERGED into one wizard question,
+`coreDistance` (`'room'`\|`'building'`\|`'offsite'`) → `coreType` (`'offsite'`→`'dci'`, else
+`'core'`) AND `coreReach` (`'building'`/`'offsite'`→`'longreach'`, else `'auto'`) — both engine
+fields set consistently from one answer; the impossible dci+short-reach combination can no
+longer be produced from the guided wizard. Refresh path (§3.7) is unaffected — it never had a
+`coreType` question, only `coreReach`.
 `borderLeaf`→borderLeaf · `verity`→opts.verity.
 
 ### 3.5 Express

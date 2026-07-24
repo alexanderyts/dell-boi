@@ -5,7 +5,26 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.1**
+Current version: **0.66.2**
+
+---
+
+## 0.66.2 — Guided wizard's two near-duplicate "how far is the core?" questions merged into one (2026-07-23)
+
+**What this means for a quote:** the guided wizard used to ask a rep about the core uplink's
+distance TWICE in a row, worded almost identically ("Same room / campus, or a long run to
+another building?" then "Is the core in the same building, or a longer run — different building
+/ campus / metro?") — because they secretly controlled two different things (which optic vs
+which uplink class), a distinction no rep-facing wording made clear. Now it's one question with
+three answers — same room/rack/row, elsewhere in the building, or a different building/campus/
+metro — and each answer sets both correctly. There's no longer a way to accidentally answer the
+two questions inconsistently (e.g. picking "different building" but leaving the other question's
+default, which is exactly the Slice 1 defect this release's siblings fixed).
+
+**This closes out R14.** All four slices are shipped: the DCI long-reach defect (v0.65.5), OS10
+dropped + per-switch NOS statements (v0.66.0), the DFM attach gate (v0.66.1), and this question
+merge. See `docs/DESIGN-LOG.md` for the full account, including two real defects found and fixed
+along the way that weren't in the original plan.
 
 ---
 

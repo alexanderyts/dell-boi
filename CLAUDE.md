@@ -12,47 +12,31 @@ contracts are approved and landed; Phase 1 invariants + golden fixtures are live
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
 ### State at end of session 2026-07-23
-- **Version 0.66.1** (`js/version.js` = the single source of truth; `package.json`
-  tracks it). CHANGELOG.md has the 0.65.1–0.66.1 entries.
+- **Version 0.66.2** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1–0.66.2 entries.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
-- **IN PROGRESS: nothing.** No half-built fix, no partial refactor. Slices 1–3 of the
-  R14 replan (below) shipped clean; Slice 4 is fully specified but not started.
+- **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
 - **BLOCKED ON MAINTAINER: nothing.** G-026 (E3224F-ON's fiber-edge branch also
   catches `poe==='none'`) is flagged for the maintainer, not blocking. **G-024**
   (railNicCage per-target) remains intentionally OPEN — feature-gated.
-- **This session — R14 grilled, not implemented as written:** `/grill-with-docs` run
-  against `docs/R14-WORKORDER.md` (a prior session's design-only work order) found its
-  central premise false — the code already states NVIDIA Spectrum runs Cumulus, not
-  Dell Enterprise SONiC (ruling v0.29.0), and the work order's proposed `nvidiaNos`
-  input would have overturned that tested, corpus-backed ruling without noticing it
-  existed. Full replan (superseding `docs/R14-WORKORDER.md` §MECHANICAL) shipped as
-  4 slices. **Slice 1 (v0.65.5):** an independent, unrelated defect found while
-  verifying the plan — `engine.js:1603`'s DCI-forces-long-reach clause has never
-  actually forced long reach (dead condition since introduction); fixed +
-  regression-tested; stash-verify caught a false-positive test on the first attempt
-  (DESIGN-LOG 2026-07-23, GAPS G-025). **Slice 2 (v0.66.0):** OS10 dropped
-  portfolio-wide as a quotable NOS choice (maintainer: "OS10 shouldn't be quoted,
-  it's end of sale") — wizard question + Expert Form select both removed, `engine.js`'s
-  `nos` pinned `'sonic'` unconditionally; every switch BOM line now states its NOS
-  from a new structured catalog fact (`nosSupported`/`dfmVerify`); NVIDIA Spectrum's
-  mislabeled "SONiC" corrected to name NVIDIA's own community **Pure SONiC**, distinct
-  from Dell's; E3224F-ON's edge line was found independently wrong (claimed "Dell
-  Enterprise SONiC" with no path to it — now discloses OS10/EOS). A real bug found +
-  fixed mid-slice: the NOS statement was silently dropped by `addLine()`'s
-  merge-regeneration whenever two networks shared a switch model — the SAME bug class
-  as G-022, second occurrence (GAPS G-027). **Slice 3 (v0.66.1, this session): the DFM
-  gate.** `window.dfmStatus(res)` — one shared predicate reading the ACTUAL switches on
-  the finished BOM — wired into all SIX `addVerity` sites (the work order named three;
-  the Expert Form's, inside `DesignIO.run()`, was the missed one). An all-Cumulus/
-  Pure-SONiC design no longer gets DFM at all (info line + NetQ/NVUE pointer instead);
-  a design backed only by SN5600/SN5610/SN2201 still gets DFM, verify-flagged. **A
-  THIRD independent occurrence of the same vendor-blanket bug** was found and fixed in
-  the same pass: `ui.js`'s BOM-tab DFM value card miscounted Dell-vs-NVIDIA switches
-  the same way `validate.js` used to — would have told a rep "DFM doesn't cover this
-  switch" directly under a BOM line saying it does. Stash-verified in two steps
-  (engine.js alone, then wizard.js+app.js alone) — both correctly broke the tests that
-  depend on them. **Slice 4 (the wizard core-distance question merge) is queued next,
-  unstarted** — see QUEUE below.
+- **This session — R14 CLOSED, all 4 slices shipped (v0.65.5 → v0.66.2).**
+  `/grill-with-docs` run against `docs/R14-WORKORDER.md` (a prior session's design-only
+  work order) found its central premise false — the code already stated NVIDIA
+  Spectrum runs Cumulus, not Dell Enterprise SONiC, and the work order's proposed
+  `nvidiaNos` input would have overturned that tested, corpus-backed ruling without
+  noticing it existed. Replanned as 4 slices, all landed: **the DCI long-reach engine
+  defect** (v0.65.5, GAPS G-025) · **OS10 dropped portfolio-wide + per-switch NOS
+  statements + NVIDIA's "SONiC" corrected to name Pure SONiC** (v0.66.0, GAPS G-027 —
+  an `addLine()` merge bug found mid-slice) · **the DFM attach gate wired into all six
+  entry points** (v0.66.1, GAPS G-028 — a vendor-blanket DFM-scoping bug found in
+  THREE independent places, third being `ui.js`'s pitch card) · **the two near-duplicate
+  "how far is the core?" wizard questions merged into one** (v0.66.2). Full reasoning
+  for all four: DESIGN-LOG 2026-07-23 / 23b / 23c / 23d. Every slice was
+  stash-verified (revert the fix alone, confirm the right assertions go red) before
+  being trusted. Two real defects and a three-times-repeated bug pattern were found
+  along the way that were never in the original work order — none of it would have
+  surfaced from implementing that work order verbatim, which is why it was grilled
+  first.
 
 ### G-023 / R16 closed 2026-07-17 — a fixed engine defect is still open if no UI reaches it
 B7 (2026-07-16) made `recommendRefresh`'s `includeCoreUplink` actually price the uplink
@@ -163,45 +147,34 @@ All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16
   Same uplink bandwidth either way; the phantom bought no capacity.
 
 ### QUEUE FOR NEXT SESSION — in priority order
-> **NOTE for a fresh session — this note has now been right seven times; trust it.**
+> **NOTE for a fresh session — this note has now been right eight times; trust it.**
 > The **R12 tail**, **corpus intake**, **G-006**, **R11/G-022**, **R16/G-023**, the **R16
-> sweep triage** (all 5 rulings), **R14 Slice 1** (the DCI long-reach defect, v0.65.5), **R14
-> Slice 2** (the NOS model + OS10 drop, v0.66.0), and now **R14 Slice 3** (the DFM gate, v0.66.1)
-> are all **DONE** as of 2026-07-23 (verified with stash-based regression checks throughout —
-> see DESIGN-LOG 2026-07-17d / 2026-07-23 / 2026-07-23b / 2026-07-23c, GAPS
-> G-023/G-024/G-025/G-027). If you are handed a queue listing any of those as outstanding, that
-> queue is stale — **verify against the suite before doing the work.** Nothing is blocked on the
-> maintainer. Start at (1) = R14 Slice 4 — the last slice of this initiative.
+> sweep triage** (all 5 rulings), and **R14 — ALL FOUR SLICES** (v0.65.5 → v0.66.0 → v0.66.1 →
+> v0.66.2) are all **DONE** as of 2026-07-23 (verified with stash-based regression checks
+> throughout — see DESIGN-LOG 2026-07-17d / 2026-07-23 / 2026-07-23b / 2026-07-23c / 2026-07-23d,
+> GAPS G-023/G-024/G-025/G-027/G-028). `docs/R14-WORKORDER.md` is fully superseded and closed —
+> do not reopen or re-implement any part of it. If you are handed a queue listing any of the
+> above as outstanding, that queue is stale — **verify against the suite before doing the
+> work.** Nothing is blocked on the maintainer. Start at (1) = R15.
 
-1. **R14 Slice 4 (v0.66.2): the wizard core-distance question merge** — the last slice
-   of the R14 replan (`docs/R14-WORKORDER.md` §MECHANICAL D4, now safe to implement
-   since Slice 1 already fixed the underlying engine defect: `coreType:'dci'`
-   genuinely forces long reach now, so merging the two wizard questions can't
-   reintroduce that bug). Replace `wizard.js`'s separate `coreReach`/`coreType`
-   questions in the guided main path with one 3-way "how far is the core?" question
-   (see `docs/R14-WORKORDER.md` M4 for the exact wording/mapping — still valid, D4
-   itself was never in question, only the engine fix it depended on). Guided main
-   path only — the refresh path has `coreReach` with no `coreType`, no duplication
-   there. Tests in the same commit, stash-verified, full suite green before/after.
-   **This closes out R14 entirely** — after this slice, update `docs/R14-WORKORDER.md`
-   itself (or a closing note in DESIGN-LOG) to mark it fully superseded/complete
-   rather than leaving 4 DESIGN-LOG entries as the only record. Recommended model:
-   **Sonnet** — small, fully specified, no new design rulings expected.
-2. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
+1. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
    the maintainer doesn't think were selected. Determine seed-default vs wizard; if
    seed, fix + make NIC defaults visible + platform-seed invariant + F710
    CITATION-LOG row. Non-blocking.
-3. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
+2. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
    R12 CORROBORATED this: the form-factor check flags SFP28 optics into the SN4700's
    QSFP-DD ports as needing QSA28 adapters that aren't quoted. Evaluate an
    SN2410-class 25G leaf; at minimum an R9-style low-util note.
-4. **Mode items** — PowerScale severity (backend "non-blocking not met" should be
+3. **Mode items** — PowerScale severity (backend "non-blocking not met" should be
    ERROR not WARN per h16346; verify which fabric trips it, may clear with R15);
    refresh cabling-compat question; new-OOB-into-existing-env (apply the R3 pattern);
    edge headroom note + access-ICL self-contradiction + the S5200-vs-S4348F
    distribution BUSINESS-RULE (log with the VENDOR-FACT vs BUSINESS-RULE distinction).
-5. **G-024 (railNicCage per-target)** — do NOT pick up speculatively. Feature-gated:
+4. **G-024 (railNicCage per-target)** — do NOT pick up speculatively. Feature-gated:
    only when a real design has 2+ AI targets with genuinely different rail NICs.
+5. **G-026 (E3224F-ON's `poe==='none'` fiber-edge routing)** — flagged for the
+   maintainer 2026-07-23, not yet confirmed. Check with the maintainer before
+   touching `js/engine.js`'s edge access-switch picker.
 6. **Then** resume the renderers slice (G-021 rack renderer) → validators →
    G-020 teardown.
 Backtest queue detail: docs/backtests/BACKTEST-2026-07-16c.md.

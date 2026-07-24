@@ -9,6 +9,49 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-23d — R14 Slice 4 landed: the two core-distance wizard questions merged (v0.66.2) — R14 CLOSED
+
+**Change:** implements Slice 4, the last of the R14 replan (work order M4/D4). The guided
+wizard's `coreReach` ("Same room / campus, or a long run to another building?") and `coreType`
+("Is the core in the same building, or a longer run...?") — two near-duplicate questions, both
+genuinely controlling different engine behavior (the optic vs the uplink class), but worded
+closely enough that the R16 sweep (2026-07-17d) flagged the collision without fixing it — are
+now ONE question, `coreDistance`, with three answers (same room/rack/row, elsewhere in the
+building, different building/campus/metro) mapping onto both `coreType` and `coreReach`
+consistently. This closes the "future wording consolidation" note left open in the 2026-07-17d
+entry above.
+
+**Why this waited for Slice 1 first, not done earlier:** merging the two questions before Slice
+1 fixed `engine.js:1603`'s dead DCI-forces-long-reach clause would have risked PERMANENTLY
+masking that bug — a single merged answer that always sets both fields "correctly" gives no way
+to independently notice the engine wasn't honoring one of them. Sequencing the defect fix first,
+then the merge, was deliberate.
+
+**Refresh path unaffected** — it only ever had `coreReach`, no `coreType`, so there was no
+duplication to merge there; `docs/contracts/INPUT-SCHEMA.md` §3.7 is unchanged. The Expert Form
+also keeps its two separate `#f-core-type`/`#f-core-reach` controls (found and noted in Slice 1)
+— D4 was scoped to the guided wizard specifically, matching the work order.
+
+**Test coverage added a genuinely new case**, not just a rename: the middle answer ("elsewhere in
+the building" → core-class, but still long-reach) was previously only reachable via an
+inconsistent two-question combo or the Expert Form — never exercised end-to-end through the
+guided wizard before this merge. `tests/harness/test-dom.js` now drives all three answers and
+asserts the exact optic model for each. Stash-verified: reverting `js/wizard.js` alone turned 4
+of the new assertions red.
+
+**R14 is now fully closed** — all 4 slices shipped (v0.65.5 → v0.66.0 → v0.66.1 → v0.66.2).
+`docs/R14-WORKORDER.md`'s §MECHANICAL was superseded entry-by-entry across these four dated
+entries; its §RULED D1 and D3 survived largely intact, D2 was dropped (DFM applicability became
+a catalog fact, not a wizard input — Ruling 1 of the 2026-07-23 grill), and D4 landed as
+specified once its dependency was fixed. Two real defects were found and fixed along the way that
+were never in the original work order: the DCI long-reach engine bug (Slice 1, GAPS G-025) and
+the `addLine()` merge-drops-NOS-text bug (Slice 2, GAPS G-027) — plus a vendor-blanket DFM-scoping
+bug found in three independent places (Slice 3, GAPS G-028). None of that would have surfaced
+from implementing the work order verbatim, which is the entire reason `/grill-with-docs` was run
+against it before any code changed.
+
+---
+
 ## 2026-07-23c — R14 Slice 3 landed: the DFM gate, all six entry points (v0.66.1)
 
 **Change:** implements Slice 3 of the R14 replan. A single predicate, `window.dfmStatus(res)`

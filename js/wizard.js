@@ -459,28 +459,23 @@
       { v: 'other', label: 'Another vendor', desc: 'You supply the far-side optics — we quote our side, matched to the same link type' },
       { v: 'unsure', label: 'Not sure yet', desc: 'We quote our side only and flag the far side to verify' }
     ], default: 'unsure' },
-    { id: 'coreReach', type: 'choice', q: 'Same room / campus, or a long run to another building?',
+    // R14 Slice 4 (2026-07-23, work-order M4/D4) — MERGED from two near-duplicate questions
+    // (coreReach + coreType, both "how far is the core?"). The R16 sweep (2026-07-17d) added
+    // coreType alongside the pre-existing coreReach and flagged the wording collision rather
+    // than fixing it, because at the time engine.js's coreType==='dci' branch had a LATENT bug
+    // (Slice 1, v0.65.5 — 'dci' never actually forced long reach). Merging first would have
+    // risked masking that bug behind a single answer; safe now that it's fixed. One question,
+    // one answer, sets BOTH coreType and coreReach consistently — the impossible combination
+    // (dci + short-reach) can no longer be produced from the wizard.
+    { id: 'coreDistance', type: 'choice', q: 'How far is the core you\'re uplinking to?',
       showIf: s => s.core && s.core !== 'none',
-      help: 'Distance sets the optic: short-reach vs 10km long-reach single-mode. (A long run needs single-mode fiber & LR optics on BOTH ends.)',
-      listenFor: ['“it’s in another building”', 'metro / dark fiber', 'single-mode', 'same rack row'],
+      help: 'Distance sets both the optic (short-reach vs 10km long-reach single-mode) and the uplink class (ordinary core/aggregation hop vs a DCI-class second-site link).',
+      listenFor: ['“it’s in another building”', 'metro / dark fiber', 'single-mode', 'same rack row', '“second site”', 'DCI', 'campus interconnect', '“another data center”'],
       options: [
-      { v: 'short', label: 'Same room / campus', desc: 'Short-reach optics (default)' },
-      { v: 'long', label: 'Long run — another building / metro', desc: '10km LR single-mode' }
-    ], default: 'short' },
-    // Sweep finding #1 (2026-07-17, maintainer ruling): coreType was SIZING-classified
-    // ('dci' forces long-reach AND a higher optic-speed floor — engine.js's ctype==='dci'
-    // branches) but had a control ONLY in the expert form. This is distinct from coreReach
-    // above: coreReach picks the OPTIC (short vs 10km LR); this picks the uplink's CLASS
-    // (ordinary core/aggregation vs a second-site/DCI link), which independently forces
-    // long-reach even if coreReach was left at its default.
-    { id: 'coreType', type: 'choice', q: 'Is the core in the same building, or a longer run (different building / campus / metro)?',
-      showIf: s => s.core && s.core !== 'none',
-      help: 'A longer run is treated as a DCI-class uplink — long-reach optics and a higher speed floor, not just a same-site core/aggregation hop.',
-      listenFor: ['“second site”', 'DCI', 'metro / campus interconnect', '“another data center”'],
-      options: [
-      { v: 'core', label: 'Same building', desc: 'Core / aggregation uplink (default)' },
-      { v: 'dci', label: 'Longer run — different building / campus / metro', desc: 'DCI-class uplink' }
-    ], default: 'core' },
+      { v: 'room', label: 'Same room / rack / row', desc: 'Short-reach optics' },
+      { v: 'building', label: 'Elsewhere in the same building (long cable run)', desc: '10km LR single-mode' },
+      { v: 'offsite', label: 'Different building / campus / metro', desc: 'DCI-class uplink' }
+    ], default: 'room' },
     { id: 'coreFarModel', type: 'choice', q: 'Do you know which Dell switch your core is?',
       showIf: s => s.core && s.core !== 'none' && s.coreVendor === 'dell',
       help: 'If you can name it, we match the far-side port from the catalog and skip the next question.',
@@ -808,7 +803,7 @@
     railSpeed: 'GPU rail NIC', aiDataSpec: 'FE/storage NIC', secondRailSpeed: '2nd target rails',
     nic2Spec: '2nd NIC type', nic2Network: '2nd NIC connects to', nic2Speed: '2nd NIC speed', nic2Ports: '2nd NIC ports', nic2Count: '2nd NICs/unit',
     racks: 'Racks', leaf100: '100G leaf', leaf25: '25G leaf', aiTransport: 'RDMA transport', traffic: 'Traffic pattern', roadmap: 'Speed roadmap', redundancy: 'Resilience', growth: 'Growth headroom',
-    oob: 'OOB mgmt', uplinkTarget: 'Uplink target', core: 'Core uplink', coreVendor: 'Core vendor', coreReach: 'Core reach', coreType: 'Core class', coreFarModel: 'Core model', coreFarPort: 'Core far port', borderLeaf: 'Core egress', verity: 'DFM', railNicCage: 'Rail NIC connector',
+    oob: 'OOB mgmt', uplinkTarget: 'Uplink target', core: 'Core uplink', coreVendor: 'Core vendor', coreReach: 'Core reach', coreDistance: 'Core distance', coreFarModel: 'Core model', coreFarPort: 'Core far port', borderLeaf: 'Core egress', verity: 'DFM', railNicCage: 'Rail NIC connector',
     vendor: 'Incumbent network', currentSpeed: 'Current speeds', workloads: 'Growing workloads',
     aiModelD: 'GPU server', railSpeedD: 'GPU rail NIC', nasModelD: 'PowerScale model', topologyNow: 'Current topology', swCount: 'Switches to replace', portsPer: 'Ports/switch', speedNow: 'Speed today', targetSpeed: 'Target speed', distribution: 'Agg/core refresh',
     pains: 'Pain points', dellPlat: 'Dell in play', scale: 'Scale', timeline: 'Timeframe'
@@ -1089,9 +1084,11 @@
           nic: { vendor: state.nicVendor, speed: state.nicSpeed, portsPerNic: state.nicPorts, nicsPerUnit: state.nicCount },
           includeCoreUplink: state.core && state.core !== 'none', coreSpeed: state.core, coreCount: 2, borderLeaf: state.borderLeaf === 'yes',
           uplinkTarget: state.uplinkTarget,
-          coreType: state.coreType === 'dci' ? 'dci' : 'core',
+          // R14 Slice 4: coreDistance is the single merged wizard question; map its one answer
+          // onto BOTH engine fields consistently (mapping per docs/R14-WORKORDER.md M4).
+          coreType: state.coreDistance === 'offsite' ? 'dci' : 'core',
           coreVendor: state.coreVendor || 'unsure',
-          coreReach: state.coreReach === 'long' ? 'longreach' : 'auto',
+          coreReach: (state.coreDistance === 'building' || state.coreDistance === 'offsite') ? 'longreach' : 'auto',
           coreFarModel: (state.coreFarModel && state.coreFarModel !== 'unknown') ? state.coreFarModel : null,
           coreFarPort: (state.coreVendor === 'dell' && state.coreFarModel === 'unknown')
             ? (state.coreFarPort === 'smf' ? { media: 'SMF', connector: 'LC' } : state.coreFarPort === 'mmf' ? { media: 'MMF', connector: 'MPO' } : state.coreFarPort === 'dac' ? { media: 'DAC', connector: 'DAC' } : 'unknown')

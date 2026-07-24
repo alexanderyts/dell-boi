@@ -639,61 +639,61 @@ try {
     /existing core \(far side\)/i.test(acceptBom));
 } catch (e) { check('refresh/R16 accept no exception', false, e.message); }
 
-/* ---- Sweep finding #1 (2026-07-17, maintainer ruling): coreType was SIZING-classified
- * ('dci' forces long-reach optics + a higher speed floor) but had a control ONLY in the expert
- * form — no wizard mode could ever select it. Fixed: guided wizard's new `coreType` question
- * ("Is the core in the same building, or a longer run...?"), conditional on a core uplink
- * existing. This proves the WIZARD path reaches the DCI-class engine behavior, complementing
- * the engine-level input-effect pair already in tests/invariants.js. ---- */
-try {
+/* ---- R14 Slice 4 (2026-07-23, work-order M4/D4): the guided wizard's coreReach + coreType
+ * questions are MERGED into one 3-way `coreDistance` question ("How far is the core you're
+ * uplinking to?" — same room/rack/row, elsewhere in the building, or a different building/
+ * campus/metro). Originally two near-duplicate questions (R16 sweep, 2026-07-17d), safe to
+ * merge only once Slice 1 (v0.65.5) fixed the underlying engine.js bug where 'dci' never
+ * actually forced long reach — merging first would have risked masking that bug behind a
+ * single answer. One question now sets BOTH coreType and coreReach consistently — the
+ * impossible dci+short-reach combination can no longer be produced from the wizard at all
+ * (this test used to specifically exercise "DCI answer, reach left at default"; that scenario
+ * no longer exists because there is no second question to leave at a default). ---- */
+function driveCoreWizard(distanceOptRegex) {
   reset();
   $('.mode-btn[data-mode="guided"]').click();
-  const dciPicks = [
+  const picks = [
     { q: /Uplink to an existing core network/, opt: /100GbE to core/ },
     { q: /What does your existing core run/, opt: /Not sure yet/ },
-    { q: /Is the core in the same building/, opt: /Longer run/ }
+    { q: /How far is the core/, opt: distanceOptRegex }
   ];
   for (let i = 0; i < 60 && !$('#wizard').hidden; i++) {
     const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
-    const pick = dciPicks.find(p => !p.done && p.q.test(q));
+    const pick = picks.find(p => !p.done && p.q.test(q));
     if (pick) { const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => pick.opt.test(b.textContent)); if (btn) { btn.click(); pick.done = true; } }
     $('#wiz-next').click();
   }
-  check('guided/coreType: all three core questions were reached', dciPicks.every(p => p.done), dciPicks.map(p => !!p.done));
-  check('guided/coreType: results rendered', !$('#results').hidden);
-  const dciBom = $('#tab-bom').textContent;
-  check('guided/coreType: "Longer run" reaches the engine as a DCI-class uplink',
+  return { picks, bom: $('#tab-bom').textContent };
+}
+try {
+  // "Different building / campus / metro" → DCI-class AND long-reach, from ONE answer.
+  const { picks, bom: dciBom } = driveCoreWizard(/Different building/);
+  check('guided/coreDistance: the merged question is reached and answered', picks.every(p => p.done), picks.map(p => !!p.done));
+  check('guided/coreDistance: results rendered', !$('#results').hidden);
+  check('guided/coreDistance: "Different building/campus/metro" reaches the engine as a DCI-class uplink',
     /second site \(DCI\)/i.test(dciBom) && /DCI: confirm distance\/optics/i.test(dciBom));
-  // Regression (2026-07-23, R14 grill): this run leaves the "Same room / campus, or a long
-  // run..." coreReach question at its wizard default (dciPicks has no entry for it, so the
-  // loop clicks past it) — exactly the case where the old engine.js:1603 clause was a no-op and
-  // silently quoted SHORT-reach optics for a DCI-class link. Assert the OPTIC MODEL is the
-  // Q28-100G-LR4 part, not a bare /LR4/i substring test — the SHORT-reach Q28-100G-FR's own
-  // catalog description contains the text "(LR4 for 10km)" as a comparison note, so a loose
-  // substring match passes even when the SHORT-reach optic was picked (caught in stash-verify:
-  // this exact check was a false-positive silent pass until narrowed to the model string).
-  check('guided/coreType: "Longer run" + reach left at default still picks the LR4 (long-reach) optic, not FR (short-reach)',
+  // Assert the OPTIC MODEL is the Q28-100G-LR4 part, not a bare /LR4/i substring test — the
+  // SHORT-reach Q28-100G-FR's own catalog description contains "(LR4 for 10km)" as a comparison
+  // note, so a loose substring match would pass even on the wrong optic (Slice 1 lesson).
+  check('guided/coreDistance: "Different building/campus/metro" picks the LR4 (long-reach) optic, not FR (short-reach)',
     /Q28-100G-LR4/.test(dciBom) && !/Q28-100G-FR\s*·.*inter-network/.test(dciBom));
-} catch (e) { check('guided/coreType DCI no exception', false, e.message); }
+} catch (e) { check('guided/coreDistance offsite no exception', false, e.message); }
 
 try {
-  reset();
-  $('.mode-btn[data-mode="guided"]').click();
-  const corePicks = [
-    { q: /Uplink to an existing core network/, opt: /100GbE to core/ },
-    { q: /What does your existing core run/, opt: /Not sure yet/ },
-    { q: /Is the core in the same building/, opt: /Same building/ }
-  ];
-  for (let i = 0; i < 60 && !$('#wizard').hidden; i++) {
-    const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
-    const pick = corePicks.find(p => !p.done && p.q.test(q));
-    if (pick) { const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => pick.opt.test(b.textContent)); if (btn) { btn.click(); pick.done = true; } }
-    $('#wiz-next').click();
-  }
-  const coreBom = $('#tab-bom').textContent;
-  check('guided/coreType: "Same building" (default) does NOT get DCI-class treatment',
-    !/second site \(DCI\)/i.test(coreBom));
-} catch (e) { check('guided/coreType core no exception', false, e.message); }
+  // "Same room / rack / row" (default) → NOT DCI-class, short-reach.
+  const { bom: roomBom } = driveCoreWizard(/Same room/);
+  check('guided/coreDistance: "Same room/rack/row" does NOT get DCI-class treatment', !/second site \(DCI\)/i.test(roomBom));
+  check('guided/coreDistance: "Same room/rack/row" picks the short-reach FR optic, not LR4', /Q28-100G-FR/.test(roomBom) && !/Q28-100G-LR4/.test(roomBom));
+} catch (e) { check('guided/coreDistance room no exception', false, e.message); }
+
+try {
+  // "Elsewhere in the same building" → the M4 middle case: NOT DCI-class, but STILL long-reach.
+  // Only reachable via the OLD two-question flow's inconsistent combos or the Expert Form before
+  // this merge — proves the 3-way mapping (not just the two extremes) is wired correctly.
+  const { bom: buildingBom } = driveCoreWizard(/Elsewhere in the same building/);
+  check('guided/coreDistance: "Elsewhere in the same building" stays core-class, NOT DCI', !/second site \(DCI\)/i.test(buildingBom));
+  check('guided/coreDistance: "Elsewhere in the same building" still picks the LR4 (long-reach) optic', /Q28-100G-LR4/.test(buildingBom) && !/Q28-100G-FR\s*·.*inter-network/.test(buildingBom));
+} catch (e) { check('guided/coreDistance building no exception', false, e.message); }
 
 /* ---- NEW: unlimited additional attach targets (expert form) — the real-world shape:
  * one big pool + several small pools on the SAME platform + two storage platforms. ---- */
