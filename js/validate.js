@@ -218,7 +218,7 @@
     // SN2201) has NO Dell-SONiC path at all — that's the case DFM genuinely needs scoping away
     // from. A dfmVerify model can (verify-flagged) run Dell SONiC, so it's not automatically
     // out of scope the way the old vendor-only check assumed.
-    const hasNonDellSonicNvidia = swModelsUsed.some(m => /NVIDIA/i.test(m.vendor || '') && !(Array.isArray(m.nosSupported) && m.nosSupported.indexOf('dell-sonic') >= 0));
+    const hasNonDellSonicNvidia = swModelsUsed.some(m => /NVIDIA/i.test(m.vendor || '') && !window.isDellSonicCapable(m));
     if (res.bom.some(l => l.model === 'Dell Fabric Manager (DFM)')) {
       if (hasNonDellSonicNvidia)
         push(res, 'warn', 'DFM manages Dell Enterprise SONiC — this design also includes NVIDIA Spectrum switches with no Dell-SONiC path (they run NVIDIA Cumulus Linux / NVIDIA Pure SONiC only). Scope DFM to the Dell-SONiC-capable portion of this design.', 'Dell Fabric Manager (DFM) / Enterprise SONiC Compatibility Matrix');

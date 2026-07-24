@@ -5,7 +5,27 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.3**
+Current version: **0.66.4**
+
+---
+
+## 0.66.4 — DFM applicability check consolidated to one place (2026-07-23)
+
+**What this means for a quote:** no change to any quote — this is internal hardening only. The
+"is this switch manageable by Dell Fabric Manager" check, and the code that attaches the DFM
+software line to a BOM, each had 3–4 separately hand-typed copies across the app (once inside
+the engine, once in the validator, once in the BOM-tab pitch card, and the attach logic itself
+was pasted character-for-character into both the guided wizard and the Expert Form). Now there's
+exactly one of each, and every part of the app calls the same one.
+
+**Why:** the earlier v0.66.3 fix hardened switch BOM-line text against the same kind of drift;
+this session's architecture review flagged DFM applicability as the next case of the same
+pattern — a fact checked several different ways instead of once. Consolidating it removes the
+only other place in the app where that kind of silent disagreement could still happen.
+
+See `docs/DESIGN-LOG.md` (2026-07-23f) and `docs/GAPS.md` (G-030). Verified as a pure refactor —
+the full 19/19 suite passes unchanged, and stash-verify confirms the new direct tests fail hard
+without the fix.
 
 ---
 

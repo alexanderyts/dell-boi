@@ -9,6 +9,50 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-23f — DFM applicability check consolidated (v0.66.4) — GAPS G-030
+
+**Change:** second `/improve-codebase-architecture` candidate implemented this session (Candidate
+B — "DFM capability: the seam that wasn't"). The atomic fact "does this switch model have a
+Dell-SONiC path" — `Array.isArray(sw.nosSupported) && sw.nosSupported.indexOf('dell-sonic') >= 0`
+— was hand-typed independently in three places: `engine.js`'s `dfmStatus()`, `validate.js` check
+#14, and `ui.js`'s `dfmStats()`. Separately, the code that actually attaches the DFM software
+line to a finished design (`addVerity()`) was pasted character-for-character into both
+`wizard.js` and `app.js`, differing only in how each file reaches the catalog (`C()` vs.
+`window.CATALOG` — a difference that only existed because `engine.js` wasn't the one holding it).
+
+**Grilled first, one question.** The only real fork: where does the shared attach body live —
+folded into `engine.js` (matching `dfmStatus`/`switchNosNote` precedent, since it only reads/
+mutates a computed `res` object, no DOM, no wizard state) or kept in `wizard.js` with `app.js`
+calling into it. Chose `engine.js` — the alternative makes the Expert Form depend on the guided
+wizard for something that isn't guided-flow-specific at all. Everything else followed from the
+code as it stood, not from a decision: the predicate needed a resolved switch object (every
+current caller already had one resolved), and `nosSupported` is populated on every catalog
+switch entry (Dell and NVIDIA alike), so one predicate genuinely covers every case.
+
+**Fix:**
+- `isDellSonicCapable(sw)` — the one predicate, in `engine.js`, exposed as
+  `window.isDellSonicCapable`. `dfmStatus()` now calls it instead of re-deriving it (a fourth
+  internal duplication, even though same-file); `validate.js` and `ui.js` call it directly.
+- `attachDfm(res)` — the moved `addVerity()` body, exposed as `window.attachDfm`. `wizard.js`'s
+  `addVerity` is now a one-line delegate (`res => window.attachDfm(res)`), keeping its name and
+  its `window.Wizard._test.addVerity` exposure so `selftest.js`'s existing DFM-gate tests needed
+  zero changes. `app.js`'s pasted copy is deleted; its one call site calls `window.attachDfm`
+  directly.
+- `validate.js`'s separate raw-vendor `hasNvidiaSw` check (a genuinely different question — "is
+  this NVIDIA-vendor," used for the unrelated "plan Cumulus/NVUE skills" message) was
+  deliberately left untouched — out of scope, not overlooked.
+
+**Verification.** Pure refactor — no output should change, and none did: full harness 19/19 green
+before and after, byte-for-byte. New direct unit tests on `isDellSonicCapable()` (Dell switch →
+true, verify-flagged Spectrum model → true, non-verify Spectrum model → false, null-safe).
+Stash-verified: reverting `engine.js`/`wizard.js`/`app.js`/`validate.js`/`ui.js` together crashes
+the suite outright (the new functions don't exist without the fix); restoring them returns to
+320/320 unit-engine assertions passing.
+
+See GAPS.md G-030 for the full before/after.
+
+---
+
 ## 2026-07-23e — switch-line note assembly hardened into one function (v0.66.3) — GAPS G-029
 
 **Change:** `/improve-codebase-architecture` surfaced `addLine()`'s note assembly as the top

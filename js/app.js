@@ -142,21 +142,6 @@
   }
   raSel.addEventListener('change', syncRaHint);
 
-  // R14 Slice 3 (2026-07-23) — same gate as wizard.js's addVerity(); see its comment.
-  function addVerity(res) {
-    const v = (window.CATALOG.solutions || []).find(x => x.id === 'verity');
-    if (!v) return;
-    const status = window.dfmStatus ? window.dfmStatus(res) : { applicable: true, verifyOnly: false };
-    res.warnings = res.warnings || [];
-    if (!status.applicable) {
-      res.warnings.push({ severity: 'info', message: 'Dell Fabric Manager (DFM) not applicable — this fabric runs NVIDIA Cumulus Linux / NVIDIA Pure SONiC, not Dell Enterprise SONiC (DFM manages Dell Enterprise SONiC fabrics only). For the NVIDIA side, use NVIDIA NetQ / NVUE instead.', source: 'Dell Fabric Manager (DFM) applicability — R14' });
-      return;
-    }
-    const line = Object.assign({}, v.bomLine);
-    if (status.verifyOnly) line.note += ' — the Spectrum switches here run Dell SONiC per AI-SPECTRUM H04658, but are not yet listed on the Enterprise SONiC Compatibility Matrix; DFM attach here is verify-flagged.';
-    res.bom.push(line);
-  }
-
   /* ---- Design save / load / share ------------------------------------------
    * A "design" is a portable, JSON-serializable recipe: which engine entry point
    * to call and the exact input. run() replays it deterministically. This powers
@@ -176,7 +161,7 @@
       else if (d.engine === 'recommendRefresh') res = window.recommendRefresh(d.input);
       else if (d.engine === 'recommendEdge') res = window.recommendEdge(d.input);
       else res = window.recommend(d.input);
-      if (d.verity) addVerity(res);
+      if (d.verity) window.attachDfm(res);
       window.UI.render(res, d.guidance || null);
       lastDesign = d;
       return res;

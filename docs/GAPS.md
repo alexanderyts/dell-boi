@@ -1059,6 +1059,35 @@ leaves are meant to be "underpopulated" for an odd rack count.
   code paths in the first place. One function, called on every fact-change (creation counts as
   one), closes the entire recurrence class rather than the two specific instances found by hand.
 
+### G-030 — DFM applicability computed 3 ways, attach body pasted twice — CLOSED 2026-07-23 (v0.66.4)
+- **Severity:** LOW-MEDIUM (architecture) — no known live defect on its own; the risk is the same
+  drift class as G-028 (which WAS a real defect: 3 independent hand-copies of a vendor-blanket
+  check, one of them wrong). Found via `/improve-codebase-architecture` (Candidate B), not a live
+  scenario.
+- **Where:** the fact "does this switch model have a Dell-SONiC path"
+  (`Array.isArray(sw.nosSupported) && sw.nosSupported.indexOf('dell-sonic') >= 0`) was hand-typed
+  independently in `engine.js`'s `dfmStatus()`, `validate.js` check #14, and `ui.js`'s
+  `dfmStats()`. Separately, `addVerity()` — the code that actually attaches the DFM software line
+  — was pasted character-for-character into both `wizard.js` and `app.js`, differing only in how
+  each reached the catalog (`C()` vs. `window.CATALOG`, a difference that only existed because
+  neither file was the natural owner).
+- **Fix:** `isDellSonicCapable(sw)` — one predicate, in `engine.js`, exposed as
+  `window.isDellSonicCapable`; `dfmStatus()`/`validate.js`/`ui.js` all call it instead of
+  re-deriving it. `attachDfm(res)` — the moved `addVerity()` body, exposed as `window.attachDfm`;
+  `wizard.js`'s `addVerity` is now a one-line delegate (keeping its name and
+  `window.Wizard._test.addVerity` exposure, so `selftest.js` needed no changes); `app.js`'s
+  pasted copy is deleted, its call site calls `window.attachDfm` directly.
+- **Test:** `tests/unit-engine.js`, new block after the G-029 tests — direct cases on
+  `isDellSonicCapable()` (Dell switch, verify-flagged Spectrum model, non-verify Spectrum model,
+  null-safety). **Verified as a real guard:** stashing `engine.js`/`wizard.js`/`app.js`/
+  `validate.js`/`ui.js` together crashes the suite outright; restored, all 320 `unit-engine`
+  assertions pass — confirmed a pure refactor, no output changed.
+- **Generalizable lesson:** same shape as G-029 — a fact or a behavior gets duplicated the moment
+  a second entry point needs it, and nothing forces the copies to agree once one of them changes.
+  Both this session's architecture passes (G-029, G-030) closed candidates the codebase's own
+  gap log had already predicted would recur (G-027 named G-029's fix in advance; G-028's "second
+  gap this session where a proxy diverged from the real fact" named the pattern G-030 closes).
+
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now
   that real PNs are visible in `optics.js` (many `dellPN: 'verify'`

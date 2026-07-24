@@ -50,6 +50,14 @@
     }
     return 'Dell Enterprise SONiC';
   }
+  // Architecture refactor (2026-07-23, GAPS G-030): the ATOMIC per-model fact underlying
+  // dfmStatus/validate.js check #14/ui.js's dfmStats — "does this switch model have a Dell-SONiC
+  // path" — used to be typed out as `Array.isArray(m.nosSupported) && m.nosSupported.indexOf
+  // ('dell-sonic') >= 0` independently in all three places. One predicate now; every consumer
+  // calls it instead of re-deriving it.
+  function isDellSonicCapable(sw) {
+    return !!(sw && Array.isArray(sw.nosSupported) && sw.nosSupported.indexOf('dell-sonic') >= 0);
+  }
   // R14 Slice 3 (2026-07-23, work-order M2/D1, kept) — DFM applicability is a PER-MODEL CATALOG
   // FACT (ruling 1), not a wizard question (the work order's `nvidiaNos` input was dropped — see
   // DESIGN-LOG 2026-07-23). Single predicate, read from the ACTUAL switches on the finished BOM
@@ -60,7 +68,7 @@
     const sw = (C.switches || []);
     const models = (res && res.bom || []).filter(l => l.category === 'Switch')
       .map(l => sw.find(s => s.model === l.model)).filter(Boolean);
-    const dellSonicCapable = models.filter(m => Array.isArray(m.nosSupported) && m.nosSupported.indexOf('dell-sonic') >= 0);
+    const dellSonicCapable = models.filter(isDellSonicCapable);
     return {
       applicable: dellSonicCapable.length > 0,
       // true only when EVERY dell-sonic-capable switch backing this design is one of the three
@@ -68,6 +76,25 @@
       // present to anchor the claim without the compatibility-matrix caveat.
       verifyOnly: dellSonicCapable.length > 0 && dellSonicCapable.every(m => m.dfmVerify)
     };
+  }
+  // Architecture refactor (2026-07-23, GAPS G-030): moved out of wizard.js/app.js, which each
+  // had a byte-identical addVerity(res) — the only difference was how each file reaches the
+  // catalog (wizard.js's C() helper vs. app.js's window.CATALOG directly), which vanishes here
+  // since engine.js already aliases `C = window.CATALOG`. wizard.js's addVerity is now a
+  // one-line delegate (keeping its name and window.Wizard._test exposure so selftest.js's
+  // existing DFM-gate tests need no changes); app.js calls this directly.
+  function attachDfm(res) {
+    const v = (C.solutions || []).find(x => x.id === 'verity');
+    if (!v) return;
+    const status = dfmStatus(res);
+    res.warnings = res.warnings || [];
+    if (!status.applicable) {
+      res.warnings.push({ severity: 'info', message: 'Dell Fabric Manager (DFM) not applicable — this fabric runs NVIDIA Cumulus Linux / NVIDIA Pure SONiC, not Dell Enterprise SONiC (DFM manages Dell Enterprise SONiC fabrics only). For the NVIDIA side, use NVIDIA NetQ / NVUE instead.', source: 'Dell Fabric Manager (DFM) applicability — R14' });
+      return;
+    }
+    const line = Object.assign({}, v.bomLine);
+    if (status.verifyOnly) line.note += ' — the Spectrum switches here run Dell SONiC per AI-SPECTRUM H04658, but are not yet listed on the Enterprise SONiC Compatibility Matrix; DFM attach here is verify-flagged.';
+    res.bom.push(line);
   }
 
   /* ---- vendor/stack-aware switch selection ----------------------------- */
@@ -2266,9 +2293,16 @@
   // independent re-derivation check — sharing this with the engine would defeat the point of it
   // being independent, see that file's header).
   window.hasFabricUplink = hasFabricUplink;
-  // Shared by wizard.js/app.js's addVerity() (DFM attach gate, R14 Slice 3) and validate.js
+  // Shared by wizard.js/app.js's DFM attach call sites (R14 Slice 3) and validate.js
   // (DFM scope note) — same "share, don't hand-duplicate" reasoning as hasFabricUplink above.
   window.dfmStatus = dfmStatus;
+  // The atomic per-model fact underneath dfmStatus — also consumed directly by validate.js
+  // check #14 and ui.js's dfmStats(), which each need a per-switch answer, not the whole-design
+  // summary dfmStatus() returns (GAPS G-030).
+  window.isDellSonicCapable = isDellSonicCapable;
+  // The moved addVerity() body (GAPS G-030) — wizard.js keeps a thin delegate under that name
+  // (window.Wizard._test.addVerity stays valid for selftest.js); app.js calls this directly.
+  window.attachDfm = attachDfm;
   // Exposed for the canonical design layer (js/design.js, RESTRUCTURE-3 Phase 2): the
   // cable-line derivation re-uses the ENGINE's own optic/cable pickers so the canonical
   // cable records can never diverge from what the engine actually quoted (that divergence

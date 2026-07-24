@@ -385,7 +385,7 @@
     // line's own NOS statement and validate.js's scope warning.
     const swCat = (window.CATALOG && window.CATALOG.switches) || [];
     const capOf = model => swCat.find(s => s.model === model);
-    const isDellSonic = b => { const c = capOf(b.model); return !!(c && Array.isArray(c.nosSupported) && c.nosSupported.indexOf('dell-sonic') >= 0); };
+    const isDellSonic = b => window.isDellSonicCapable(capOf(b.model));
     const dellSw = swLines.filter(isDellSonic).reduce((s, b) => s + b.qty, 0);
     const nvSw = swLines.filter(b => !isDellSonic(b) && /NVIDIA/i.test(b.vendor || '')).reduce((s, b) => s + b.qty, 0);
     const data = res.fabrics.filter(f => f.network !== 'mgmt');

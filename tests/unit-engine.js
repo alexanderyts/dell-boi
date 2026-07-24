@@ -1059,6 +1059,24 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
     spineLine && spineLine.note);
 })();
 
+/* ---- GAPS G-030 (2026-07-23, architecture refactor #2 — /improve-codebase-architecture
+ * Candidate B): the atomic fact "does this switch model have a Dell-SONiC path" used to be
+ * typed out independently in engine.js's dfmStatus(), validate.js check #14, and ui.js's
+ * dfmStats() — plus addVerity() itself was byte-identical, pasted separately in wizard.js and
+ * app.js. Both consolidated: window.isDellSonicCapable(sw) is now the one predicate;
+ * window.attachDfm(res) is now the one attach body (wizard.js keeps a thin delegate under its
+ * old name so window.Wizard._test.addVerity and every existing DFM-gate test are unchanged). ---- */
+(() => {
+  const sw = window.CATALOG.switches;
+  const dellLeaf = sw.find(s => s.model === 'S5232F-ON');
+  const sn5600 = sw.find(s => /SN5600\b/.test(s.model) && s.dfmVerify);
+  const sn4700 = sw.find(s => /SN4700\b/.test(s.model));
+  t('isDellSonicCapable: plain Dell PowerSwitch → true', window.isDellSonicCapable(dellLeaf) === true, dellLeaf && dellLeaf.model);
+  t('isDellSonicCapable: verify-flagged Spectrum model (SN5600) → true', sn5600 && window.isDellSonicCapable(sn5600) === true, sn5600 && sn5600.model);
+  t('isDellSonicCapable: non-verify-flagged Spectrum model (SN4700) → false', sn4700 && window.isDellSonicCapable(sn4700) === false, sn4700 && sn4700.model);
+  t('isDellSonicCapable: null/undefined switch → false, no throw', window.isDellSonicCapable(null) === false && window.isDellSonicCapable(undefined) === false);
+})();
+
 /* ---- Sweep finding #5 (2026-07-17, maintainer ruling — GAPS G-023): railNicCage is a single
  * top-level engine input, not per-Target. Interim measure (no plumbing until a real deal demands
  * it): warn when 2+ AI targets exist, since they silently share one cage answer. ---- */

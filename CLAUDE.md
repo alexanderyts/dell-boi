@@ -12,22 +12,34 @@ contracts are approved and landed; Phase 1 invariants + golden fixtures are live
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
 ### State at end of session 2026-07-23
-- **Version 0.66.3** (`js/version.js` = the single source of truth; `package.json`
-  tracks it). CHANGELOG.md has the 0.65.1–0.66.3 entries.
+- **Version 0.66.4** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1–0.66.4 entries.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
 - **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
-- **This session, after R14 closed — `/improve-codebase-architecture` → `/grill-with-docs` →
-  v0.66.3 (GAPS G-029):** switch BOM-line note assembly (leaf/pod-spine/super-spine/border-leaf)
-  had TWO hand-coded paths for the same text — one at line creation, one in `addLine()`'s merge
-  branch — the exact structural cause behind G-022 and G-027 (same bug, twice). Hardened into one
-  function (`switchLineNote`, in `js/engine.js`, exposed via `window._engineHelpers` matching the
-  `switchNosNote`/`dfmStatus` precedent), called on every fact-change rather than patched at each
-  of the two known instances. Auditing the 4 call sites for this refactor found a live (if never
-  reported) instance of the same class of gap on POD-SPINE lines specifically — only the leaf site
-  had ever passed `network`/`dedicated` to `addLine`, so a spine merge across two networks landing
-  on the same model silently lost its breakdown. Closed as part of the same change. Stash-verified
-  two ways (whole-file revert crashes the suite; single-call-site revert turns exactly the new
-  spine-line assertion red). Full reasoning: DESIGN-LOG 2026-07-23e, GAPS G-029.
+- **This session, after R14 closed — two `/improve-codebase-architecture` candidates
+  implemented, each grilled via `/grill-with-docs` first:**
+  - **v0.66.3 (GAPS G-029):** switch BOM-line note assembly (leaf/pod-spine/super-spine/
+    border-leaf) had TWO hand-coded paths for the same text — one at line creation, one in
+    `addLine()`'s merge branch — the exact structural cause behind G-022 and G-027 (same bug,
+    twice). Hardened into one function (`switchLineNote`, in `js/engine.js`, exposed via
+    `window._engineHelpers` matching the `switchNosNote`/`dfmStatus` precedent), called on every
+    fact-change rather than patched at each of the two known instances. Auditing the 4 call sites
+    found a live (if never reported) instance of the same class of gap on POD-SPINE lines
+    specifically — only the leaf site had ever passed `network`/`dedicated` to `addLine`, so a
+    spine merge across two networks landing on the same model silently lost its breakdown. Closed
+    as part of the same change. Stash-verified two ways. DESIGN-LOG 2026-07-23e, GAPS G-029.
+  - **v0.66.4 (GAPS G-030):** "is this switch DFM-manageable" was hand-typed 3 ways
+    (`engine.js`'s `dfmStatus()`, `validate.js` check #14, `ui.js`'s `dfmStats()`), and the
+    DFM-attach body (`addVerity()`) was pasted character-for-character into `wizard.js` and
+    `app.js`. Consolidated to `isDellSonicCapable(sw)` + `attachDfm(res)`, both in `engine.js`,
+    exposed on `window`; `wizard.js` keeps a thin delegate under the old name so
+    `window.Wizard._test.addVerity` and `selftest.js` needed zero changes. Pure refactor —
+    verified byte-identical output (19/19 suite, 320/320 unit-engine), stash-verified.
+    DESIGN-LOG 2026-07-23f, GAPS G-030.
+  - Architecture candidates C (one input-mapping table for the wizard vs. the Expert Form,
+    rated Strong), D (switch-catalog capability shape — inline fields vs. a separate CAP map,
+    rated Worth exploring), and E (naming `recommend()`'s internal seams, Worth exploring) remain
+    unexplored. The original HTML report was a temp file, not saved in the repo.
 - **BLOCKED ON MAINTAINER: nothing.** G-026 (E3224F-ON's fiber-edge branch also
   catches `poe==='none'`) is flagged for the maintainer, not blocking. **G-024**
   (railNicCage per-target) remains intentionally OPEN — feature-gated.
