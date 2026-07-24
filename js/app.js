@@ -142,9 +142,19 @@
   }
   raSel.addEventListener('change', syncRaHint);
 
+  // R14 Slice 3 (2026-07-23) — same gate as wizard.js's addVerity(); see its comment.
   function addVerity(res) {
     const v = (window.CATALOG.solutions || []).find(x => x.id === 'verity');
-    if (v) res.bom.push(Object.assign({}, v.bomLine));
+    if (!v) return;
+    const status = window.dfmStatus ? window.dfmStatus(res) : { applicable: true, verifyOnly: false };
+    res.warnings = res.warnings || [];
+    if (!status.applicable) {
+      res.warnings.push({ severity: 'info', message: 'Dell Fabric Manager (DFM) not applicable — this fabric runs NVIDIA Cumulus Linux / NVIDIA Pure SONiC, not Dell Enterprise SONiC (DFM manages Dell Enterprise SONiC fabrics only). For the NVIDIA side, use NVIDIA NetQ / NVUE instead.', source: 'Dell Fabric Manager (DFM) applicability — R14' });
+      return;
+    }
+    const line = Object.assign({}, v.bomLine);
+    if (status.verifyOnly) line.note += ' — the Spectrum switches here run Dell SONiC per AI-SPECTRUM H04658, but are not yet listed on the Enterprise SONiC Compatibility Matrix; DFM attach here is verify-flagged.';
+    res.bom.push(line);
   }
 
   /* ---- Design save / load / share ------------------------------------------

@@ -378,8 +378,16 @@
    * belongs on every Dell SONiC quote. The card translates the design into per-BOM value. */
   function dfmStats(res) {
     const swLines = res.bom.filter(b => (b.category === 'Switch' || b.category === 'Management') && typeof b.qty === 'number');
-    const dellSw = swLines.filter(b => !/NVIDIA/i.test(b.vendor || '')).reduce((s, b) => s + b.qty, 0);
-    const nvSw = swLines.filter(b => /NVIDIA/i.test(b.vendor || '')).reduce((s, b) => s + b.qty, 0);
+    // R14 (2026-07-23): counted by DFM-MANAGEABILITY (nosSupported includes 'dell-sonic'), not
+    // raw vendor string — SN5600/SN5610/SN2201 are NVIDIA-vendor but DFM-manageable (verify-
+    // flagged, AI-SPECTRUM H04658). A vendor-only count would tell a rep "DFM doesn't cover
+    // these" for switches it actually does (verify-flagged), directly contradicting the BOM
+    // line's own NOS statement and validate.js's scope warning.
+    const swCat = (window.CATALOG && window.CATALOG.switches) || [];
+    const capOf = model => swCat.find(s => s.model === model);
+    const isDellSonic = b => { const c = capOf(b.model); return !!(c && Array.isArray(c.nosSupported) && c.nosSupported.indexOf('dell-sonic') >= 0); };
+    const dellSw = swLines.filter(isDellSonic).reduce((s, b) => s + b.qty, 0);
+    const nvSw = swLines.filter(b => !isDellSonic(b) && /NVIDIA/i.test(b.vendor || '')).reduce((s, b) => s + b.qty, 0);
     const data = res.fabrics.filter(f => f.network !== 'mgmt');
     const pairs = data.filter(f => f.redundancyMethod === 'mclag').reduce((s, f) => s + (f.leavesPerFabric || 0), 0);
     const hasAi = data.some(f => f.workload === 'ai');

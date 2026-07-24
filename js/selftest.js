@@ -199,14 +199,30 @@
     const nonNv = fullNv.bom.filter(b => ['Switch', 'Management', 'Cable/Optic'].includes(b.category) && !/NVIDIA/i.test(b.vendor || '') && !/Cat6/.test(b.item || ''));
     ok('FULL NVIDIA stack: all switches + optics NVIDIA (storage/frontend/OOB included)', nonNv.length === 0 && fullNv.fabrics.filter(f => f.network !== 'mgmt').every(f => f.stack === 'nvidia'), nonNv.map(b => b.item).join('; ').slice(0, 60));
 
-    /* ---- NVIDIA NOS = Cumulus (not Dell Enterprise SONiC); Verity scoped accordingly ---- */
-    const nvNos = window.recommend({ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, stack: 'nvidia', redundancy: 'dual', includeMgmt: true });
-    ok('NVIDIA fabric surfaces Cumulus Linux NOS (not Dell Enterprise SONiC)', nvNos.warnings.some(w => /Cumulus/.test(w.message) && /NOT run Dell Enterprise SONiC/i.test(w.message)));
-    nvNos.bom.push({ category: 'Software', vendor: 'Dell (BE Networks)', item: 'Dell Fabric Manager (DFM)', model: 'Dell Fabric Manager (DFM)', qty: 1 });
-    const nvVer = window.recommend({ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, stack: 'nvidia', redundancy: 'dual', includeMgmt: true });
-    nvVer.bom.push({ category: 'Software', vendor: 'Dell (BE Networks)', item: 'Dell Fabric Manager (DFM)', model: 'Dell Fabric Manager (DFM)', qty: 1 });
-    window.validateBOM(nvVer);
-    ok('Verity + NVIDIA switches → scoped warning (Verity manages Dell SONiC, not Cumulus)', nvVer.warnings.some(w => w.severity === 'warn' && /DFM/.test(w.message) && /Cumulus/.test(w.message)));
+    /* ---- R14 Slice 3 (2026-07-23): DFM gate is a per-model catalog fact (window.dfmStatus),
+     * exercised directly via window.Wizard._test.addVerity — the same function every wizard
+     * entry point + the Expert Form call, rather than manually pushing the DFM line (which
+     * bypasses the gate entirely and would test nothing about it). Covers all three shapes:
+     * pure non-verify NVIDIA (not applicable → info line, no DFM line), pure verify-flagged
+     * NVIDIA (DFM attaches, verify-flagged caveat), and mixed (scoped warning). ---- */
+    const addVerity = window.Wizard._test.addVerity;
+    // pure SN4700 (no dell-sonic path at all): DFM does NOT attach; info line names why.
+    const allSn4700 = window.recommend({ platformId: 'poweredge-ai', units: 8, gpusPerServer: 1, railNic: { speed: '100GbE' }, stack: 'nvidia', redundancy: 'dual', includeMgmt: false });
+    ok('DFM gate: all-SN4700 design (no Dell-SONiC path) → status.applicable is false', window.dfmStatus(allSn4700).applicable === false);
+    addVerity(allSn4700);
+    ok('DFM gate: all-SN4700 design → NOT attached; info line explains why (NetQ/NVUE)', !allSn4700.bom.some(b => b.model === 'Dell Fabric Manager (DFM)') && allSn4700.warnings.some(w => w.severity === 'info' && /not applicable/i.test(w.message) && /NetQ|NVUE/.test(w.message)));
+    // pure Dell stack: DFM attaches, no scope warning, no verify caveat added.
+    const dellOnly = window.recommend({ platformId: 'poweredge-general', units: 20, redundancy: 'dual', includeMgmt: true });
+    addVerity(dellOnly);
+    const dellDfmLine = dellOnly.bom.find(b => b.model === 'Dell Fabric Manager (DFM)');
+    ok('DFM gate: pure Dell stack → attaches, no Spectrum verify caveat appended', !!dellDfmLine && !/Spectrum/.test(dellDfmLine.note));
+    // mixed design (SN5600 dfmVerify + SN4700 non-verify, from the earlier FULL NVIDIA scenario's
+    // general-NIC-group leaf): DFM attaches AND validate.js scopes it — real 2-switch-class case.
+    const mixedNv = window.recommend({ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, stack: 'nvidia', redundancy: 'dual', includeMgmt: true });
+    addVerity(mixedNv);
+    ok('DFM gate: mixed SN5600(verify)+SN4700(non-verify) design → DFM still attaches', mixedNv.bom.some(b => b.model === 'Dell Fabric Manager (DFM)'));
+    window.validateBOM(mixedNv);
+    ok('DFM gate: mixed design → validate.js scopes DFM away from the non-Dell-SONiC-capable switches', mixedNv.warnings.some(w => w.severity === 'warn' && /DFM/.test(w.message) && /no Dell-SONiC path/i.test(w.message)));
 
     /* ---- storage protocol drives the fabric class ---- */
     const roce = window.recommend({ platformId: 'powerstore', units: 6, redundancy: 'dual', includeMgmt: true, storageProtocol: 'nvme-roce' });

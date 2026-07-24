@@ -994,6 +994,34 @@ leaves are meant to be "underpopulated" for an odd rack count.
   itself (e.g. a lint-style check that no field appended to `note` at a call site is absent from
   the merge-regeneration branch) rather than relying on catching it by hand again.
 
+### G-028 — DFM/NVIDIA scoping computed by raw vendor string in THREE separate places — CLOSED 2026-07-23 (v0.66.1)
+- **Severity:** MEDIUM — a disclosure/pitch-accuracy defect (which switches DFM covers), not a
+  hardware/qty defect. Trust-eroding rather than build-breaking: two adjacent pieces of UI could
+  contradict each other on the same screen.
+- **Where (three independent occurrences of the same bug):**
+  1. The ORIGINAL R14 work order itself — read a catalog string containing "SONiC" on an NVIDIA
+     switch and concluded DFM applied to none of them (overcorrecting the other way from #2/#3
+     below, but the same root cause: no per-model fact existed to check against).
+  2. `js/validate.js`'s pre-R14 DFM scope check — `hasNvidiaSw = /NVIDIA/i.test(vendor)` — would
+     tell a rep to "scope DFM to the Dell portion" even when the NVIDIA switches present were
+     genuinely Dell-SONiC-capable (SN5600/SN5610/SN2201, once that fact existed post-Slice-2).
+  3. `js/ui.js`'s BOM-tab DFM value card (`dfmStats()`) — same raw-vendor-string count for its
+     "N Dell switches / N NVIDIA switches" pitch bullets, found while implementing Slice 3 — would
+     have told a rep "DFM doesn't cover these NVIDIA switches" directly under a BOM line the
+     Slice-3 gate says it DOES cover.
+- **Fix:** all three now key off `nosSupported.indexOf('dell-sonic') >= 0` (the Slice 2 catalog
+  fact), via the single shared `window.dfmStatus(res)` predicate (`js/engine.js`) — `validate.js`
+  check #14 and `js/ui.js`'s `dfmStats()` both consume it instead of hand-deriving their own
+  vendor check.
+- **Generalizable lesson:** "is this switch NVIDIA-vendor" and "is this switch DFM-manageable"
+  used to be the same question — R14 made them different questions (three specific NVIDIA models
+  answer yes to both) — and every place that had hardcoded the OLD equivalence needed finding,
+  not just the one the work order was about. A vendor string is a cheap, tempting proxy for a
+  capability; this is the second gap this session where a proxy check quietly diverged from the
+  real capability fact once one was introduced (see also G-025's INPUT-SCHEMA.md discussion of
+  `coreType`/`coreReach` documenting intent the engine hadn't caught up to — same shape, opposite
+  direction: here the PROXY was checked, not the FACT).
+
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now
   that real PNs are visible in `optics.js` (many `dellPN: 'verify'`

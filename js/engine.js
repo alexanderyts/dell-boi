@@ -50,6 +50,25 @@
     }
     return 'Dell Enterprise SONiC';
   }
+  // R14 Slice 3 (2026-07-23, work-order M2/D1, kept) — DFM applicability is a PER-MODEL CATALOG
+  // FACT (ruling 1), not a wizard question (the work order's `nvidiaNos` input was dropped — see
+  // DESIGN-LOG 2026-07-23). Single predicate, read from the ACTUAL switches on the finished BOM
+  // (not from `input.stack` or similar — a design can mix, and the BOM is ground truth) so every
+  // DFM attach site (wizard + Expert Form, 6 call sites) shares one answer instead of
+  // hand-duplicating the logic (same "share, don't copy-paste" discipline as hasFabricUplink).
+  function dfmStatus(res) {
+    const sw = (C.switches || []);
+    const models = (res && res.bom || []).filter(l => l.category === 'Switch')
+      .map(l => sw.find(s => s.model === l.model)).filter(Boolean);
+    const dellSonicCapable = models.filter(m => Array.isArray(m.nosSupported) && m.nosSupported.indexOf('dell-sonic') >= 0);
+    return {
+      applicable: dellSonicCapable.length > 0,
+      // true only when EVERY dell-sonic-capable switch backing this design is one of the three
+      // verify-flagged Spectrum models (AI-SPECTRUM H04658) — i.e. no plain Dell PowerSwitch is
+      // present to anchor the claim without the compatibility-matrix caveat.
+      verifyOnly: dellSonicCapable.length > 0 && dellSonicCapable.every(m => m.dfmVerify)
+    };
+  }
 
   /* ---- vendor/stack-aware switch selection ----------------------------- */
   // Core data-center (general) ALWAYS leads with Dell PowerSwitch.
@@ -2220,6 +2239,9 @@
   // independent re-derivation check — sharing this with the engine would defeat the point of it
   // being independent, see that file's header).
   window.hasFabricUplink = hasFabricUplink;
+  // Shared by wizard.js/app.js's addVerity() (DFM attach gate, R14 Slice 3) and validate.js
+  // (DFM scope note) — same "share, don't hand-duplicate" reasoning as hasFabricUplink above.
+  window.dfmStatus = dfmStatus;
   // Exposed for the canonical design layer (js/design.js, RESTRUCTURE-3 Phase 2): the
   // cable-line derivation re-uses the ENGINE's own optic/cable pickers so the canonical
   // cable records can never diverge from what the engine actually quoted (that divergence

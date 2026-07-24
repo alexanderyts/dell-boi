@@ -5,7 +5,29 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.0**
+Current version: **0.66.1**
+
+---
+
+## 0.66.1 — Dell Fabric Manager now attaches (or doesn't) per the actual switches quoted (2026-07-23)
+
+**What this means for a quote:** Dell Fabric Manager (DFM) used to attach to a design whenever
+the rep toggled it on, full stop — regardless of what was actually being quoted. Now it checks:
+- **An all-NVIDIA-Cumulus/Pure-SONiC design no longer gets a DFM line at all.** It gets an info
+  line instead, explaining DFM doesn't apply and pointing at NVIDIA NetQ/NVUE.
+- **A design built on SN5600, SN5610, or SN2201** — the three NVIDIA switches Dell's own
+  documentation names as Dell-SONiC-capable — still gets DFM, with a note flagging that those
+  models aren't yet on Dell's official compatibility list (verify before finalizing).
+- **A mixed design** (some DFM-manageable switches, some not) still gets DFM, and the scope
+  warning on the quote now correctly names only the switches DFM genuinely doesn't cover —
+  previously it would have wrongly flagged an SN5600/SN5610/SN2201 as out of scope too.
+- **The DFM value card on the BOM tab** (the "N Dell switches, one console" pitch) had the exact
+  same miscounting bug, found and fixed in the same pass — it would have told a rep DFM doesn't
+  cover switches the line right above it says it does.
+
+**Reconfirm:** any existing quote with an all-NVIDIA-Cumulus design and DFM manually attached
+should be revisited — that combination no longer auto-attaches, and the rep should confirm
+whether DFM genuinely belongs on that quote.
 
 ---
 

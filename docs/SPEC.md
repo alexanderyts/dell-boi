@@ -452,6 +452,21 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
 - **Dell Fabric Manager (DFM, formerly Verity)** = intent-based networking for Dell Enterprise
   SONiC: single pane of glass, zero-touch provisioning, continuous validation/auto-remediation,
   graceful brownfield migration. *(be-net.com/dell — corpus/MG-DFM-BENET.txt)*.
+- **DFM applicability is a PER-MODEL CATALOG FACT, not a wizard question or a vendor-blanket
+  check** *(R14 ruling 2, 2026-07-23 — supersedes the work order's proposed `nvidiaNos` input,
+  which was never built; see §4z for the terminology this ruling depends on)*. `window.dfmStatus(res)`
+  reads the ACTUAL switches on the finished BOM (ground truth, not `input.stack`) and returns
+  whether DFM applies at all, and whether that applicability rests ENTIRELY on the three
+  verify-flagged Spectrum models (SN5600/SN5610/SN2201) with no plain Dell PowerSwitch backing
+  it. A design with no DFM-manageable switch at all (pure Cumulus/Pure-SONiC NVIDIA) gets an
+  info line naming why and pointing at NetQ/NVUE instead of the software line. A mixed design
+  (some DFM-manageable switches, some genuinely not) still attaches DFM but validate.js scopes
+  it to the manageable portion — "Cumulus" alone is never the scoping test, since a genuinely
+  DFM-manageable NVIDIA switch (dfmVerify) would be wrongly excluded by a raw vendor check.
+  Shared by every attach site — wizard × 5, Expert Form × 1, plus the BOM-tab DFM value card
+  (`js/ui.js`'s Dell/NVIDIA switch counts) — so no entry point can drift from another. — enforced:
+  `js/engine.js` `dfmStatus()`, `js/wizard.js`/`js/app.js` `addVerity()`, `js/validate.js` check
+  #14, `tests/unit-engine.js` "dfmStatus" block, `js/selftest.js`.
 
 ## 9. Optics & cabling
 - **Cable class follows placement / distance:** **passive DAC** in-rack (≤2–3m, ~2m at 800G,

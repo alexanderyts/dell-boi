@@ -898,9 +898,23 @@
     if (s.category === 'edge') { assume('Edge attach sized with a general access profile'); return 'poweredge-general'; }
     assume('Attach target assumed = general servers'); return 'poweredge-general';
   }
+  // R14 Slice 3 (2026-07-23): DFM attach is gated on window.dfmStatus(res) — a per-model catalog
+  // fact (which switches are ACTUALLY on this BOM), not a wizard question. An all-Cumulus/Pure-
+  // SONiC design gets an info line instead of the software line; a design backed only by the
+  // three verify-flagged Spectrum models (SN5600/SN5610/SN2201) gets the line with an added
+  // compatibility-matrix caveat.
   function addVerity(res) {
     const v = (C().solutions || []).find(x => x.id === 'verity');
-    if (v) res.bom.push(Object.assign({}, v.bomLine));
+    if (!v) return;
+    const status = window.dfmStatus ? window.dfmStatus(res) : { applicable: true, verifyOnly: false };
+    res.warnings = res.warnings || [];
+    if (!status.applicable) {
+      res.warnings.push({ severity: 'info', message: 'Dell Fabric Manager (DFM) not applicable — this fabric runs NVIDIA Cumulus Linux / NVIDIA Pure SONiC, not Dell Enterprise SONiC (DFM manages Dell Enterprise SONiC fabrics only). For the NVIDIA side, use NVIDIA NetQ / NVUE instead.', source: 'Dell Fabric Manager (DFM) applicability — R14' });
+      return;
+    }
+    const line = Object.assign({}, v.bomLine);
+    if (status.verifyOnly) line.note += ' — the Spectrum switches here run Dell SONiC per AI-SPECTRUM H04658, but are not yet listed on the Enterprise SONiC Compatibility Matrix; DFM attach here is verify-flagged.';
+    res.bom.push(line);
   }
   function decorate(res) {
     assumptions.forEach(a => res.warnings.unshift({ severity: 'warn', message: 'Assumption: ' + a, source: 'Guided journey default' }));
@@ -1093,5 +1107,5 @@
     } catch (e) { alert('Could not build recommendation: ' + e.message); console.error(e); }
   }
 
-  window.Wizard = { start, wire, _test: { setState: (s, a) => { state = s; assumptions = a || []; }, compose: composeGuidance, guidedPlatformId, primaryPlatform, primaryWorkload } };
+  window.Wizard = { start, wire, _test: { setState: (s, a) => { state = s; assumptions = a || []; }, compose: composeGuidance, guidedPlatformId, primaryPlatform, primaryWorkload, addVerity } };
 })();

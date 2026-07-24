@@ -1045,6 +1045,28 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
     !mixed.warnings.some(x => /rail-NIC-cage/.test(x.message)));
 })();
 
+/* ---- R14 Slice 3 (2026-07-23): window.dfmStatus(res) — the shared DFM-applicability predicate
+ * every addVerity() call site (wizard.js × 5, app.js × 1) reads instead of hand-duplicating.
+ * Tested directly against synthetic BOMs — precise per-branch coverage independent of which
+ * exact recommend() scenario happens to produce which switch mix. ---- */
+(() => {
+  const bomOf = (...models) => ({ bom: models.map(model => ({ category: 'Switch', model })) });
+  t('dfmStatus: pure Dell PowerSwitch → applicable, not verify-only',
+    window.dfmStatus(bomOf('S5248F-ON')).applicable === true && window.dfmStatus(bomOf('S5248F-ON')).verifyOnly === false);
+  t('dfmStatus: pure dfmVerify Spectrum (SN5600 alone) → applicable AND verify-only',
+    window.dfmStatus(bomOf('SN5600')).applicable === true && window.dfmStatus(bomOf('SN5600')).verifyOnly === true);
+  t('dfmStatus: pure non-verify Spectrum (SN4700 alone) → NOT applicable',
+    window.dfmStatus(bomOf('SN4700')).applicable === false);
+  t('dfmStatus: mixed SN5600 (dell-sonic-capable) + SN4700 (not) → still applicable, still verify-only (SN4700 has no dell-sonic capability to dilute it)',
+    window.dfmStatus(bomOf('SN5600', 'SN4700')).applicable === true && window.dfmStatus(bomOf('SN5600', 'SN4700')).verifyOnly === true);
+  t('dfmStatus: mixed Dell (S5248F-ON) + SN5600 → applicable, NOT verify-only (plain Dell hardware backs it)',
+    window.dfmStatus(bomOf('S5248F-ON', 'SN5600')).applicable === true && window.dfmStatus(bomOf('S5248F-ON', 'SN5600')).verifyOnly === false);
+  t('dfmStatus: E3224F-ON alone (OS10-only edge, no dell-sonic) → NOT applicable',
+    window.dfmStatus(bomOf('E3224F-ON')).applicable === false);
+  t('dfmStatus: empty BOM → not applicable, not verify-only (no exception thrown)',
+    window.dfmStatus({ bom: [] }).applicable === false && window.dfmStatus({ bom: [] }).verifyOnly === false);
+})();
+
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);

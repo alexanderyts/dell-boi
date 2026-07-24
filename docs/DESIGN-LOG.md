@@ -9,6 +9,57 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-23c — R14 Slice 3 landed: the DFM gate, all six entry points (v0.66.1)
+
+**Change:** implements Slice 3 of the R14 replan. A single predicate, `window.dfmStatus(res)`
+(new in `js/engine.js`), reads the ACTUAL switches on a finished BOM — not `input.stack`, not a
+vendor string — and returns `{applicable, verifyOnly}`. `applicable` is true iff at least one
+switch on the BOM has `nosSupported.indexOf('dell-sonic') >= 0` (a plain Dell PowerSwitch, or one
+of the three verify-flagged Spectrum models). `verifyOnly` is true iff EVERY dell-sonic-capable
+switch present is one of those three verify-flagged models (no plain Dell hardware backs the
+claim). Wired into all SIX `addVerity` call sites the work order undercounted (it named three):
+`wizard.js` × 5 (Express, Refresh, Edge, guided main, Discovery) and `app.js` × 1 — the Expert
+Form's, which the work order missed entirely (it lives inside `DesignIO.run()`, the save/load/
+share replay path that the "Generate" button also goes through, not an obviously-separate
+"Expert Form" code block).
+
+**Behavior change, not just plumbing:** an all-Cumulus/Pure-SONiC NVIDIA design no longer gets
+the DFM software line at all — it gets an info line naming why and pointing at NVIDIA NetQ/NVUE.
+A design backed only by the three verify-flagged models still attaches DFM, with an appended
+compatibility-matrix caveat on that BOM line. A mixed design (some DFM-manageable switches, some
+genuinely not) still attaches DFM, and `validate.js`'s existing scope warning is now keyed off
+the SAME catalog fact instead of a raw NVIDIA-vendor check — the old check would have wrongly
+told a rep to "scope DFM to the Dell portion" even when the NVIDIA switches present were
+verify-flagged Dell-SONiC-capable ones.
+
+**A third independent occurrence of the vendor-blanket bug, found and fixed in the same pass.**
+`js/ui.js`'s BOM-tab DFM value card computed its "N Dell SONiC switches / N NVIDIA switches"
+counts by raw vendor string too — same bug class as `validate.js`'s pre-fix check. Fixed to use
+`nosSupported` the same way. Left unfixed, the card would have told a rep "DFM doesn't cover
+these NVIDIA switches" for switches the BOM line right above it says DFM DOES cover
+(verify-flagged) — a visible, trust-eroding contradiction on the same screen.
+
+**Test infrastructure note:** `addVerity` lives in a closure inside `wizard.js`/`app.js`, neither
+of which is loaded by `tests/unit-engine.js` (DOM-free, catalog+engine only). Added it to
+`window.Wizard._test` (an existing testing backdoor) so `js/selftest.js` — which DOES load
+`wizard.js` — can exercise the real gate function directly, rather than the old test's approach
+of manually pushing a DFM BOM line and only checking `validate.js`'s downstream reaction (which
+never actually tested whether the gate itself decided to attach). `selftest.js:204/209`'s old
+assertions were retired and replaced with three precise cases (not-applicable, pure-Dell,
+mixed) plus a `dfmStatus()`-specific block in `tests/unit-engine.js` covering all branches
+against synthetic BOMs, independent of which exact `recommend()` scenario happens to produce
+which switch mix.
+
+**Stash-verified in two steps** (the logic spans engine.js + wizard.js/app.js): reverting
+`engine.js` alone removed `window.dfmStatus`, correctly failing `unit-engine.js` and
+`selftest.js` (both call it directly; `wizard.js`/`app.js` degrade gracefully to "always
+attach," which is why `test-dom.js` stayed green under that revert — expected, not a gap, since
+neither of the two tests that DO exercise the not-applicable path ran through a DOM flow).
+Reverting `wizard.js`+`app.js` alone (with `dfmStatus` intact) correctly failed `selftest.js`
+with `addVerity is not a function`. Full suite green after each restore.
+
+---
+
 ## 2026-07-23b — R14 Slice 2 landed: OS10 dropped, per-switch NOS statement, NVIDIA "SONiC" corrected (v0.66.0)
 
 **Change:** implements the R14-grill session's replacement plan (see the entry below), Slice 2 of

@@ -209,17 +209,29 @@
       }
     });
 
-    // 14. Verity / NOS compatibility (SONiC vs Cumulus) ---------------------
-    const hasNvidiaSw = res.fabrics.some(f => f.network !== 'mgmt' && ((f.leaf && /NVIDIA/i.test(f.leaf.vendor)) || (f.spine && /NVIDIA/i.test(f.spine.vendor))));
+    // 14. DFM / NOS compatibility (R14 Slice 3, 2026-07-23 — per-model catalog fact, not a
+    // vendor-blanket check) ---------------------------------------------------------------
+    const swCat = (window.CATALOG && window.CATALOG.switches) || [];
+    const swModelsUsed = res.bom.filter(l => l.category === 'Switch').map(l => swCat.find(s => s.model === l.model)).filter(Boolean);
+    const hasNvidiaSw = swModelsUsed.some(m => /NVIDIA/i.test(m.vendor || ''));
+    // A NVIDIA switch that is NOT one of the three dfmVerify Spectrum models (SN5600/SN5610/
+    // SN2201) has NO Dell-SONiC path at all — that's the case DFM genuinely needs scoping away
+    // from. A dfmVerify model can (verify-flagged) run Dell SONiC, so it's not automatically
+    // out of scope the way the old vendor-only check assumed.
+    const hasNonDellSonicNvidia = swModelsUsed.some(m => /NVIDIA/i.test(m.vendor || '') && !(Array.isArray(m.nosSupported) && m.nosSupported.indexOf('dell-sonic') >= 0));
     if (res.bom.some(l => l.model === 'Dell Fabric Manager (DFM)')) {
-      if (hasNvidiaSw)
-        push(res, 'warn', 'DFM manages Dell Enterprise SONiC (Dell PowerSwitch) — NVIDIA Spectrum switches run Cumulus Linux and are NOT on the Dell Enterprise SONiC compatibility matrix. Scope DFM to the Dell portion of this design.', 'Dell Fabric Manager (DFM) / Enterprise SONiC Compatibility Matrix');
+      if (hasNonDellSonicNvidia)
+        push(res, 'warn', 'DFM manages Dell Enterprise SONiC — this design also includes NVIDIA Spectrum switches with no Dell-SONiC path (they run NVIDIA Cumulus Linux / NVIDIA Pure SONiC only). Scope DFM to the Dell-SONiC-capable portion of this design.', 'Dell Fabric Manager (DFM) / Enterprise SONiC Compatibility Matrix');
       else
-        push(res, 'info', 'Dell Fabric Manager (DFM) runs on Dell Enterprise SONiC — confirm the fabric switches are ordered with Enterprise SONiC (all listed Dell models support it).', 'Dell Fabric Manager (DFM)');
+        push(res, 'info', 'Dell Fabric Manager (DFM) runs on Dell Enterprise SONiC — every switch in this design supports it (see each switch line\'s NOS statement).', 'Dell Fabric Manager (DFM)');
     }
-    // NOS statement for NVIDIA fabrics — Cumulus Linux is the validated NOS
+    // NOS statement for NVIDIA fabrics — per-model, since SN5600/SN5610/SN2201 have a real
+    // (verify-flagged) Dell-SONiC path and a blanket "always Cumulus, never Dell SONiC" claim
+    // would be wrong for exactly those three (this is what caused R14's original misread in
+    // reverse — see DESIGN-LOG 2026-07-23). Each switch's own BOM line already states its NOS
+    // precisely (engine.js switchNosNote); this is a one-line pointer, not a re-assertion.
     if (hasNvidiaSw)
-      push(res, 'info', 'NVIDIA Spectrum switches run NVIDIA Cumulus Linux (the NOS the validated designs use — e.g. Cumulus 5.9.1 qualified for SN5600 with PowerScale). They do NOT run Dell Enterprise SONiC (absent from the compatibility matrix). Plan Cumulus skills/automation (NVIDIA Air / NVUE) for the NVIDIA fabric.', 'NVIDIA Cumulus / Enterprise SONiC Compatibility Matrix / OneFS Supportability Guide');
+      push(res, 'info', 'NVIDIA Spectrum switches in this design run NVIDIA Cumulus Linux or NVIDIA Pure SONiC by default (not Dell Enterprise SONiC) — see each switch line\'s NOS statement for exceptions (SN5600/SN5610/SN2201 can also run Dell SONiC, verify-flagged). Plan Cumulus/NVUE skills for the NVIDIA portion regardless.', 'NVIDIA Cumulus / Pure SONiC / Enterprise SONiC Compatibility Matrix');
 
     // 15. Very large design heads-up ---------------------------------------
     const totalSwitches = res.bom.filter(l => (l.category === 'Switch' || l.category === 'Management') && typeof l.qty === 'number').reduce((s, l) => s + l.qty, 0);
