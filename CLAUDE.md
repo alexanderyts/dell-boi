@@ -11,12 +11,24 @@ Structural redesign per docs/RESTRUCTURE-3.md (the plan of record).
 contracts are approved and landed; Phase 1 invariants + golden fixtures are live;
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
-### State at end of session 2026-07-23
-- **Version 0.66.4** (`js/version.js` = the single source of truth; `package.json`
-  tracks it). CHANGELOG.md has the 0.65.1–0.66.4 entries.
+### State at end of session 2026-07-30
+- **Version 0.66.5** (`js/version.js` = the single source of truth; `package.json`
+  tracks it). CHANGELOG.md has the 0.65.1–0.66.5 entries.
 - **Suite: 19/19 green, xfail 0.** Nothing is red. Nothing is skipped.
 - **IN PROGRESS: nothing.** No half-built fix, no partial refactor.
-- **This session, after R14 closed — two `/improve-codebase-architecture` candidates
+- **2026-07-30 (v0.66.5, GAPS G-031) — the shipped build was silently dead in real browsers.**
+  Every `.js` source file has CRLF line endings (default Windows git checkout); the CSP
+  script-hash `tools/build-single.js` computes for each embedded `<script>` was hashed from the
+  raw (CRLF) bytes, but browsers normalize CRLF→LF before computing that hash themselves per the
+  HTML5 spec — so the hash never matched and every inline script was silently CSP-blocked. Page
+  rendered, nothing was interactive. Invisible to the test suite because jsdom doesn't enforce
+  CSP `<meta>` tags at all — found by opening the actual built file in a real browser
+  (Playwright + Chromium) when the maintainer reported a fresh rebuild "doesn't work." Likely
+  affects any prior Windows-built bundle, **including the already-published claude.ai artifact
+  link** — republish it. Fixed: normalize line endings before hashing. New regression test in
+  `tests/unit-build.js` replicates the browser's normalization without needing a real browser;
+  stash-verified (5 of 15 blocks mismatched on the old tool). DESIGN-LOG 2026-07-30, GAPS G-031.
+- **This session (2026-07-23), after R14 closed — two `/improve-codebase-architecture` candidates
   implemented, each grilled via `/grill-with-docs` first:**
   - **v0.66.3 (GAPS G-029):** switch BOM-line note assembly (leaf/pod-spine/super-spine/
     border-leaf) had TWO hand-coded paths for the same text — one at line creation, one in

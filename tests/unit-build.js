@@ -47,6 +47,29 @@ t('Satoshi font is embedded (base64 data URI, not a broken external ref)', /data
 
 t('CSP connect-src is none (no network egress) in both builds', /connect-src 'none'/.test(standalone) && /connect-src 'none'/.test(hosted));
 
+/* Real bug (2026-07-30): source .js files are checked out with CRLF line endings on Windows,
+ * but the HTML5 parsing spec requires browsers to normalize CR/CRLF to LF while parsing
+ * <script> content BEFORE computing a CSP hash over it. build-single.js used to hash the raw
+ * (CRLF) source — a hash that could never match what a real browser computes, so EVERY inline
+ * script was silently CSP-blocked (the page rendered — it's static HTML/CSS — but no JS ran at
+ * all). jsdom (this suite's DOM) doesn't enforce CSP meta tags, so nothing here caught it; found
+ * by opening the actual built file in a real browser (Playwright/Chromium) and reading the
+ * console. This check replicates the browser's own normalization so a regression here fails the
+ * suite without needing a real browser. */
+(() => {
+  const crypto = require('crypto');
+  const cspMatch = standalone.match(/Content-Security-Policy" content="([^"]*)"/);
+  const csp = cspMatch ? cspMatch[1] : '';
+  const blocks = [...standalone.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]);
+  const mismatched = blocks.filter(content => {
+    const normalized = content.replace(/\r\n|\r/g, '\n');
+    const hash = "'sha256-" + crypto.createHash('sha256').update(normalized, 'utf8').digest('base64') + "'";
+    return !csp.includes(hash);
+  });
+  t(`every embedded script's hash matches what a browser computes after CRLF→LF normalization (${blocks.length} blocks)`,
+    blocks.length > 0 && mismatched.length === 0, `${mismatched.length} of ${blocks.length} blocks mismatched`);
+})();
+
 console.log(`unit-build: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);

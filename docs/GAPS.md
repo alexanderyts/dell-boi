@@ -1088,6 +1088,33 @@ leaves are meant to be "underpopulated" for an odd rack count.
   gap log had already predicted would recur (G-027 named G-029's fix in advance; G-028's "second
   gap this session where a proxy diverged from the real fact" named the pattern G-030 closes).
 
+### G-031 — hosted/standalone build silently non-functional in real browsers — CLOSED 2026-07-30 (v0.66.5)
+- **Severity:** HIGH (distribution-blocking) — the app itself has no known defect; the SHIPPED
+  BUNDLE was dead on arrival for anyone who opened it. Not caught by the test suite; found live
+  when the maintainer tried to share a fresh build.
+- **Where:** `tools/build-single.js` computes a CSP `sha256-` hash for each embedded `<script>`
+  by hashing the source file's raw bytes. Every `.js` source file in the repo has CRLF line
+  endings (default Windows git checkout). The HTML5 spec requires browsers to normalize CR/CRLF
+  to LF before computing that same hash over `<script>` content — so the build tool's hash could
+  never match a real browser's, and every inline script was silently CSP-blocked. Page rendered
+  (static HTML/CSS), nothing was interactive. Likely affects any prior build made on this
+  checkout, including the already-published claude.ai artifact link (see [[hosted-artifact]]).
+- **Why it was invisible:** `tests/unit-build.js` runs against jsdom, which does not enforce CSP
+  `<meta>` tags — this failure mode had zero automated coverage. Found by opening the actual
+  built file in a real browser (Playwright + Chromium) and reading the console.
+- **Fix:** normalize `\r\n`/`\r` → `\n` before hashing (and before embedding, so hash and content
+  agree). New test in `tests/unit-build.js` replicates the browser's normalization directly on
+  the built file's embedded script blocks — no browser needed to catch a regression going
+  forward. **Verified as a real guard:** stashing `build-single.js` alone turns it red (5 of 15
+  blocks mismatched); restored, all pass. Confirmed fixed against an actual browser: clicked
+  through the Express wizard to its first question, zero blocking console errors.
+- **Generalizable lesson:** a build tool's own output needs a check that exercises the ACTUAL
+  runtime environment it's built for, not just the artifact's shape. jsdom is not a browser for
+  security-policy purposes — CSP enforcement is exactly the kind of "looks structurally right,
+  behaves differently at runtime" gap a DOM shim can't catch, the same class of blind spot the
+  project's own adversarial-audit method already names for print/paged-media (see
+  [[adversarial-audit-method]]).
+
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now
   that real PNs are visible in `optics.js` (many `dellPN: 'verify'`

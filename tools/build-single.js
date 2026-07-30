@@ -42,8 +42,16 @@ const SCRIPTS = ['js/version.js', 'js/catalog/switches.js', 'js/catalog/optics.j
 // other inline script (including one an attacker somehow injects). This is the
 // strongest CSP available to a static single-file page (no server for a nonce).
 const scriptHashes = [];
+// Line endings are normalized to LF BEFORE hashing: the HTML5 parsing spec requires browsers to
+// normalize CR/CRLF to LF while parsing <script> content, before computing a CSP hash over it
+// (whatwg.org/html "preprocessing the input stream"). Source files checked out with CRLF (as
+// git does by default on Windows) would otherwise hash differently here than the browser
+// computes at parse time — every inline script silently CSP-blocked, page renders but no JS
+// runs at all. Caught by opening the actual built file in a real browser; jsdom (the test
+// suite's DOM) does not enforce CSP meta tags, so unit-build.js never exercised this failure.
 const js = SCRIPTS.map(f => {
-  const inner = '\n/* ==== ' + f + ' ==== */\n' + fs.readFileSync(path.join(ROOT, f), 'utf8').replace(/<\/script>/gi, '<\\/script>') + '\n';
+  const src = fs.readFileSync(path.join(ROOT, f), 'utf8').replace(/\r\n|\r/g, '\n');
+  const inner = '\n/* ==== ' + f + ' ==== */\n' + src.replace(/<\/script>/gi, '<\\/script>') + '\n';
   scriptHashes.push("'sha256-" + crypto.createHash('sha256').update(inner, 'utf8').digest('base64') + "'");
   return '<script>' + inner + '</script>';
 }).join('\n');

@@ -9,6 +9,47 @@ blame across a dozen commits.
 
 ---
 
+## 2026-07-30 — hosted/standalone build was silently non-functional (v0.66.5) — GAPS G-031
+
+**Found while:** the maintainer asked how to share the current build; after rebuilding
+(`node tools/build-single.js`) and opening `dist/dellboi-standalone.html`, the maintainer
+reported "neither work" (having already tried both `dellboi-hosted.html`, which is body-content
+only and was never meant to be opened directly — that part is expected — and
+`dellboi-standalone.html`, which is a complete page and should have worked).
+
+**Root cause:** every `.js` source file in the repo has CRLF line endings (default on a Windows
+git checkout). `build-single.js` locks each embedded `<script>` down with a CSP `sha256-...`
+hash, computed by hashing the file's raw text as read from disk. The HTML5 parsing spec requires
+browsers to normalize CR/CRLF to LF *before* computing that same hash over `<script>` content
+(whatwg.org/html, "preprocessing the input stream") — so the hash the build tool computed could
+never match what a real browser computes at parse time. Every inline script was silently
+CSP-blocked. The page rendered fine (it's static HTML/CSS underneath) — no console output visible
+without opening dev tools — so it looked like a working page with a dead UI, not a build error.
+
+**Why nothing caught it earlier:** `tests/unit-build.js` (added 2026-07-13) checks structural
+build-output sanity but runs against jsdom, which does not enforce CSP `<meta>` tags at all — so
+this exact failure mode was invisible to every existing automated check. Confirmed by opening the
+actual built file in a real browser (Playwright + Chromium, installed for this one diagnosis) and
+reading the console — the CSP violation messages named the mismatch directly. This is very likely
+not new to this session: any build made on a Windows checkout since the CSP script-hashing was
+added would have the same defect, meaning the already-published claude.ai artifact link may have
+been broken the same way before today's fix.
+
+**Fix:** `build-single.js` now normalizes `\r\n`/`\r` to `\n` on each source file before hashing
+(and before embedding, so the embedded content and the hash describe the same bytes). New
+regression test in `tests/unit-build.js`: extracts every embedded `<script>` block from the built
+standalone file, re-normalizes it the same way a browser's HTML parser would, and confirms the
+resulting hash appears in the page's own CSP. **Verified as a real guard:** stashing
+`tools/build-single.js` alone turns the new assertion red (5 of 15 embedded blocks mismatched);
+restoring it passes. Confirmed fixed against a real browser after the change: the Express wizard
+was clicked through to its first question with zero console errors (aside from a harmless,
+expected `frame-ancestors` warning — that directive can't be enforced via `<meta>` at all, by
+spec, regardless of this bug).
+
+See GAPS.md G-031.
+
+---
+
 ## 2026-07-23f — DFM applicability check consolidated (v0.66.4) — GAPS G-030
 
 **Change:** second `/improve-codebase-architecture` candidate implemented this session (Candidate

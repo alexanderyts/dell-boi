@@ -5,7 +5,32 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.4**
+Current version: **0.66.5**
+
+---
+
+## 0.66.5 — Hosted/standalone build was silently non-functional in real browsers (2026-07-30)
+
+**What this means for a quote:** if you've sent anyone `dist/dellboi-standalone.html` or the
+claude.ai hosted link recently, **it may not have worked for them** — the page would load and
+look normal, but no button, wizard, or form would do anything. This build fixes it.
+
+**Root cause:** every `.js` source file in this repo is checked out with CRLF line endings on
+Windows. The build tool (`tools/build-single.js`) embeds each file as an inline `<script>` and
+locks it down with a Content-Security-Policy hash, computed by hashing the file's raw text. But
+the HTML5 parsing spec requires browsers to normalize CR/CRLF to LF *before* computing that same
+hash — so the hash the build tool computed never matched what a real browser computed, and every
+single inline script was silently blocked by the page's own security policy. The page still
+rendered (it's plain HTML/CSS underneath), so it *looked* fine; nothing was interactive.
+
+**Why the test suite didn't catch it:** the suite's DOM (jsdom) doesn't enforce CSP `<meta>`
+tags at all, so this failure mode was invisible to every automated check that existed. Found by
+opening the actual built file in a real browser and reading the console — not by code review.
+
+**Fix:** `build-single.js` now normalizes line endings before hashing, matching what a browser
+actually does. New regression test in `tests/unit-build.js` replicates the browser's own
+normalization and would fail without the fix (stash-verified: 5 of 15 embedded scripts
+mismatched on the old build tool).
 
 ---
 
