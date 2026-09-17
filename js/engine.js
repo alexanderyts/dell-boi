@@ -496,12 +496,18 @@
       // railNic: the GPU-rail NIC generation (e.g. ConnectX-7 400G on a chassis whose
       // model default is ConnectX-8 800G) — overrides the model's rail speed.
       const railNic = (t.railNic && t.railNic.speed && speedToGbps(t.railNic.speed)) ? { speed: t.railNic.speed, model: t.railNic.model || '' } : null;
+      // G-033: the rail-NIC cage is read PER TARGET first (the Guided wizard nests its answer on
+      // targets[0] — for two months that answer was silently dropped because only the top-level
+      // field was read), then falls back to the design-wide answer resolved below.
+      const cageOf = v => (['osfp', 'qsfp112', 'unsure'].indexOf(v) >= 0 ? v : null);
+      const railNicCageOwn = cageOf(t.railNicCage) || (t.railNic && cageOf(t.railNic.cage))
+        || (C.formFactor && t.railNic && C.formFactor.railNicCageOf(t.railNic.model)) || null;
       // uid: a design can carry SEVERAL targets on the SAME platform (e.g. five separate
       // server pools) — `id` stays the platform id (BOM consolidation keys off it on purpose,
       // so identical hardware/cabling lines merge), but rendering needs a per-INSTANCE key so
       // topology/rack views don't collapse distinct pools into one mislabeled box.
       return { platform, units, gpusPerServer, id: platform.id, uid: ti + ':' + platform.id, modelId: model ? model.id : null,
-        nic: normNic(t.nic), nic2: normNic(t.nic2), railNic,
+        nic: normNic(t.nic), nic2: normNic(t.nic2), railNic, railNicCageOwn,
         label: units + '× ' + platform.model, shortLabel: units + '× ' + platform.family };
     });
 
@@ -553,6 +559,8 @@
     const railNicCage = ['osfp', 'qsfp112', 'unsure'].indexOf(input.railNicCage) >= 0 ? input.railNicCage
       : ((input.railNic && ['osfp', 'qsfp112', 'unsure'].indexOf(input.railNic.cage) >= 0) ? input.railNic.cage
         : ((C.formFactor && input.railNic && C.formFactor.railNicCageOf(input.railNic.model)) || 'unsure'));
+    // Effective cage per target: its own answer, else the design-wide one (G-033).
+    targets.forEach(t => { t.railNicCage = t.railNicCageOwn || railNicCage; });
 
     // 100G leaf preference — 'auto' (right-size ladder: S5232F → S5448F when dense or 1:1
     // required) or an explicit override: s5448f / s5232f / z9264f.
@@ -615,7 +623,9 @@
     // silently gets the SAME cage answer as the first. This is a missing engine capability, not
     // a missing question, so it is NOT plumbed here — only surfaced, so a rep with a genuinely
     // mixed-cage multi-AI-target design sees it rather than trusting a silently-shared answer.
-    if (aiTargetCount >= 2) warnings.push({ severity: 'warn',
+    // G-033: only fires when at least one AI target is actually RIDING the shared answer — a
+    // target that carries its own cage (the wizard's primary target does) is not affected.
+    if (aiTargetCount >= 2 && targets.some(t => t.platform.workload === 'ai' && !t.railNicCageOwn)) warnings.push({ severity: 'warn',
       message: `${aiTargetCount} AI targets in this design share ONE rail-NIC-cage answer (${railNicCage === 'unsure' ? 'not confirmed' : railNicCage.toUpperCase()}) — the engine does not yet support a different cage per target. If these AI targets use DIFFERENT GPU NIC generations/connectors (e.g. one OSFP, one QSFP112), verify the rail splitter part PER TARGET before ordering; a mismatch ships a cable that cannot plug into that target's NIC.`,
       source: 'railNicCage — single global input, not per-Target (GAPS G-023)' });
 
@@ -1188,7 +1198,7 @@
       // R12: the cable must seat in THIS leaf's access cage — pass the real port, and the rail
       // NIC's cage where the part branches on it (twin-port-OSFP 400G rails). `railNicCage` comes
       // from the design input, never a default (ruling 2026-07-16d(a)).
-      const hostCable = pickHostCable(fs.gbps, fsPlacement, nv, isBaseT(fs.speed), leaf && leaf.access, railNicCage);
+      const hostCable = pickHostCable(fs.gbps, fsPlacement, nv, isBaseT(fs.speed), leaf && leaf.access, fs.target.railNicCage);
       // R12: record WHICH optic this fabric resolved, so validate.js can hard-check that it
       // physically seats in the leaf's access cage without re-deriving the pick. Same principle
       // as G-011/uplinkCableQty: consume the engine's resolved value, never recompute it.
@@ -1210,7 +1220,7 @@
         // OSFP variant but VERIFY-flag the line and say so, rather than block the BOM or pretend.
         // flag ONLY where two variants genuinely compete (see farCageVariant) — a part with a single
         // fixed far end (Dell's brk-800g-2x400) has nothing to be unsure about.
-        const cageUnsure = railNicCage === 'unsure' && !!hostCable.farCageVariant;
+        const cageUnsure = fs.target.railNicCage === 'unsure' && !!hostCable.farCageVariant;
         if (cageUnsure) warnings.push({ severity: 'verify', message: `${fam} ${fs.network}: the GPU rail NIC's connector was not confirmed, and the 1:2 rail splitter differs by it — MCP7Y00 (far end 2× OSFP) vs MCP7Y10 (far end 2× QSFP112). Quoted as ${hostCable.model} and flagged: CONFIRM the NIC connector before ordering. Not interchangeable, but a like-for-like swap (no design or quantity impact).`, source: 'NVIDIA LinkX 1:2 splitter selection (corpus NV-LINKX-400G-COMBO) · R12 ruling 2026-07-16d(a)' });
         addLine(bom, { category: 'Cable/Optic', vendor: hostCable.vendor || 'Dell', item: hostCable.desc, model: hostCable.desc, qty: hcQty,
           // links this line actually covers = qty × linksPerAssembly. Carried ON the line so the

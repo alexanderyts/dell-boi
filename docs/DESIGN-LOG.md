@@ -9,6 +9,50 @@ blame across a dozen commits.
 
 ---
 
+## 2026-09-17 — rail-NIC cage is read PER TARGET; the wizard's answer now reaches the engine (v0.66.7) — GAPS G-033
+
+**Found while:** the 2026-09-17 accuracy review's input→engine reachability pass (a
+fresh-context agent tracing every engine-read field back to a UI that sets it). Reproduced with
+the exact input object `wizard.js` builds: rep answers QSFP112 → 32× MCP7Y00; same answer at top
+level → 32× MCP7Y10.
+
+**What was wrong:** `wizard.js` has nested `railNicCage` (and `railNic.cage`) on `targets[0]`
+since the R12 ruling landed (2026-07-16d); `recommend()` resolved the cage ONCE from
+`input.railNicCage` / `input.railNic.cage` and the per-target mapper copied only `speed`/`model`
+off `t.railNic`. So the answer was discarded and every guided NVIDIA 400G AI design fell to the
+`'unsure'` path (MCP7Y00, verify-flagged). Two further gaps in the same seam: the wizard's reveal
+keyed off an EXPLICIT `railSpeed === '400GbE'`, so an XE9680 on "Model default" (400G) was never
+asked; and the Expert Form had no cage control at all.
+
+**Why the suite didn't see it:** `tests/invariants.js`'s input-effect check calls `recommend()`
+directly — it proves the engine responds when a field is fed, not that any entry point feeds it.
+That is exactly how G-023 (`includeCoreUplink` with no UI path) slipped through in July; this is
+the second instance, which is why G-043 (shared input mapping + wire-through test) is logged as a
+structural item rather than fixing fields one at a time.
+
+**Ruling applied (no new policy — R12 stands):** derive-then-ask is unchanged; the fix is where
+the answer is READ. Resolution order per target: `t.railNicCage` → `t.railNic.cage` →
+`formFactor.railNicCageOf(t.railNic.model)` → the design-wide top-level answer → `'unsure'`.
+The wizard's reveal now keys off the EFFECTIVE rail speed (`effectiveRailSpeed()` mirrors the
+engine's model drill-down: override → model `aiSpeed` → platform group). The Expert Form gets
+`#f-rail-cage` (default "Not sure"), passed on `targets[0]` — the same place the wizard puts it.
+
+**G-024 interaction:** the engine now honours a DIFFERENT cage per AI target when each target
+supplies one, and the interim "N AI targets share ONE rail-NIC-cage answer" warning fires only
+when some AI target is actually riding the shared fallback. The feature gate on G-024 is
+unchanged in spirit: no added-target UI question was built (the wizard's added-AI-target flow
+still passes no cage, so it correctly falls back and warns).
+
+**Test:** `tests/unit-engine.js` "G-033" block (per-target wins; model-default rails + target
+cage; nested `railNic.cage`; top-level fallback; nothing → MCP7Y00 + verify unchanged; two
+targets with own cages → Y00 + Y10 and no shared-answer warning; two targets on the shared answer
+→ warning still fires). `tests/harness/test-dom.js` "G-033 WIRE-THROUGH" walks the real Guided
+wizard (XE9680, model-default rails, NVIDIA, answers QSFP112) and the real Expert Form and asserts
+MCP7Y10 on the rendered BOM. Stash-verified: reverting `engine.js` alone turns the engine block
+and both DOM checks red.
+
+---
+
 ## 2026-09-17 — default host NIC config = ONE dual-port NIC (v0.66.6) — GAPS G-032
 
 **Found while:** a full accuracy review (see GAPS "2026-09-17 accuracy review"). Tracing the

@@ -1125,6 +1125,49 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
     window.dfmStatus({ bom: [] }).applicable === false && window.dfmStatus({ bom: [] }).verifyOnly === false);
 })();
 
+/* ---- G-033 (2026-09-17): the rail-NIC cage is read PER TARGET. The Guided wizard has always
+   nested its answer on targets[0] (railNicCage + railNic.cage); the engine only read the top-level
+   field, so every guided NVIDIA 400G AI quote silently got MCP7Y00 verify-flagged whatever the rep
+   answered. These pin: per-target answer wins, nested railNic.cage works, top-level still works as
+   the design-wide fallback, and a target carrying its own cage does not trip the shared-answer warn. */
+(() => {
+  // match the PART NAME at the start of the item — the MCP1660 ICL line's description also
+  // mentions "MCP7Y00/Y10" in prose and must not count
+  const railLine = r => r.bom.find(b => /^MCP7Y(00|10)-Nxxx/.test(b.item) && /aifabric/.test(b.note || ''));
+  const cageWarn = r => r.warnings.some(w => w.severity === 'verify' && /connector was not confirmed/.test(w.message));
+  const base = (t0, extra) => Object.assign({ targets: [Object.assign({ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, modelId: 'xe9680' }, t0)],
+    stack: 'nvidia', redundancy: 'dual', includeMgmt: true }, extra || {});
+  // exactly the wizard's shape: cage on the target, nothing at top level
+  const perTarget = rec(base({ railNic: { speed: '400GbE', model: 'ConnectX-7', cage: 'qsfp112' }, railNicCage: 'qsfp112' }));
+  t('G-033: per-target railNicCage=qsfp112 (wizard shape) → MCP7Y10, not MCP7Y00', !!railLine(perTarget) && /MCP7Y10/.test(railLine(perTarget).item), railLine(perTarget) && railLine(perTarget).item);
+  t('G-033: per-target qsfp112 → no "connector not confirmed" verify flag', !cageWarn(perTarget) && railLine(perTarget).verify === true /* NVIDIA MPN lines are always verify (resell SKU) */ && !/NOT CONFIRMED/.test(railLine(perTarget).note));
+  // model-default rails (railNic null) + cage on the target only — the wizard's XE9680 "Model default" path
+  const modelDefault = rec(base({ railNic: null, railNicCage: 'qsfp112' }));
+  t('G-033: model-default 400G rails + per-target cage → MCP7Y10', !!railLine(modelDefault) && /MCP7Y10/.test(railLine(modelDefault).item), railLine(modelDefault) && railLine(modelDefault).item);
+  // nested railNic.cage alone
+  const nested = rec(base({ railNic: { speed: '400GbE', model: 'ConnectX-7', cage: 'osfp' } }));
+  t('G-033: nested railNic.cage=osfp → MCP7Y00 unflagged', !!railLine(nested) && /MCP7Y00/.test(railLine(nested).item) && !cageWarn(nested));
+  // top-level fallback still honoured when the target carries nothing
+  const topLevel = rec(base({ railNic: { speed: '400GbE', model: 'ConnectX-7' } }, { railNicCage: 'qsfp112' }));
+  t('G-033: top-level railNicCage still applies as the design-wide fallback', !!railLine(topLevel) && /MCP7Y10/.test(railLine(topLevel).item));
+  // nothing anywhere → unsure → MCP7Y00 verify-flagged (unchanged R12 behaviour)
+  const nothing = rec(base({ railNic: { speed: '400GbE', model: 'ConnectX-7' } }));
+  t('G-033: no answer anywhere → MCP7Y00 + verify flag (R12 "unsure" path unchanged)', !!railLine(nothing) && /MCP7Y00/.test(railLine(nothing).item) && cageWarn(nothing));
+  // two AI targets: each with its own cage → different parts, no shared-answer warning
+  const two = rec({ targets: [
+    { platformId: 'poweredge-ai', units: 4, gpusPerServer: 8, modelId: 'xe9680', railNicCage: 'osfp' },
+    { platformId: 'poweredge-ai', units: 4, gpusPerServer: 8, modelId: 'xe9680', railNicCage: 'qsfp112' }
+  ], stack: 'nvidia', redundancy: 'dual', includeMgmt: true });
+  const twoParts = two.bom.filter(b => /^MCP7Y(00|10)-Nxxx/.test(b.item)).map(b => b.item.match(/^MCP7Y(00|10)/)[0]).sort();
+  t('G-033: two AI targets with their OWN cages get their own splitters (Y00 + Y10)', twoParts.join(',') === 'MCP7Y00,MCP7Y10', twoParts.join(','));
+  t('G-033: two AI targets each carrying a cage → no "share ONE rail-NIC-cage answer" warning', !two.warnings.some(w => /share ONE rail-NIC-cage answer/.test(w.message)));
+  const twoShared = rec({ targets: [
+    { platformId: 'poweredge-ai', units: 4, gpusPerServer: 8, modelId: 'xe9680' },
+    { platformId: 'poweredge-ai', units: 4, gpusPerServer: 8, modelId: 'xe9680' }
+  ], stack: 'nvidia', railNicCage: 'osfp', redundancy: 'dual', includeMgmt: true });
+  t('G-033: two AI targets riding the shared top-level answer → interim G-024 warning still fires', twoShared.warnings.some(w => /share ONE rail-NIC-cage answer/.test(w.message)));
+})();
+
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);

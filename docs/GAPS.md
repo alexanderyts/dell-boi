@@ -908,7 +908,11 @@ leaves are meant to be "underpopulated" for an odd rack count.
   BlueField-3/QSFP112).
 - **Where:** `js/engine.js` — `railNicCage` is resolved ONCE, near the top of `recommend()`, from
   the top-level `input.railNicCage`/`input.railNic.cage` (not from any per-`targets[i]` field),
-  then reused for every AI target's rail-splitter pick.
+  then reused for every AI target's rail-splitter pick. **Update 2026-09-17 (G-033):** the engine
+  half is now done — each target's own `railNicCage`/`railNic.cage` is honoured, the top-level
+  answer is the fallback, and the interim warning below fires only when some AI target is
+  actually riding that fallback. What remains gated is the UI half: the wizard's added-AI-target
+  flow and the Expert Form's extra-target rows still pass no cage.
 - **Interim fix (landed, not the real fix):** when 2+ AI targets exist in one design, the engine
   now emits a `severity: 'warn'` line naming the count and telling the rep to verify the rail
   splitter part PER TARGET if the NIC generations differ — so a genuinely mixed-cage design is
@@ -1142,7 +1146,12 @@ G-042, G-043).
   keep the question. Regression: guided-flow DOM test asserting a defaults-only PowerScale/
   PowerEdge design yields the platform's published ports/unit; unit test on `normNic` default.
 
-### G-033 — Guided wizard's rail-NIC-connector answer never reaches the engine (G-023 class) — OPEN 2026-09-17
+### G-033 — Guided wizard's rail-NIC-connector answer never reaches the engine (G-023 class) — CLOSED 2026-09-17 (v0.66.7)
+- **Status:** CLOSED. Engine reads the cage per target (own → nested → derived → top-level
+  fallback → unsure); wizard reveal keys off the EFFECTIVE rail speed (model default counts);
+  Expert Form gained `#f-rail-cage`. Two AI targets with their own cages now get their own
+  splitters (G-024's engine half; its UI half stays gated). Stash-verified: reverting `engine.js`
+  alone turns the engine block + both DOM wire-through checks red. DESIGN-LOG 2026-09-17.
 - **Severity:** HIGH — every guided NVIDIA 400G AI quote since the R12 ruling (2026-07-16)
   has quoted **MCP7Y00 (2× OSFP)** verify-flagged regardless of the rep's answer, with a note
   telling them to confirm the thing they just answered. CONFIRMED with the exact input shape

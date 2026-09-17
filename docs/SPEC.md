@@ -313,8 +313,12 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
   (derive-then-ask). Reading a cage a vendor DECLARES is not defaulting; inferring one from a NIC
   generation that ships in both cages is. Order: explicit answer → an RA that cites it → a NIC
   model the vendor pins → `'unsure'`, which quotes one variant **verify-flagged** rather than
-  blocking (a like-for-like swap: no design or quantity impact). — enforced: `railNicCage`
-  (INPUT-SCHEMA), `formFactor.railNicCageOf`, wizard conditional reveal.
+  blocking (a like-for-like swap: no design or quantity impact). The answer is read **per
+  target** (its own cage, else the design-wide answer) so the wizard's nested answer and a
+  mixed-cage multi-target design both resolve correctly. — enforced: `railNicCage`
+  (INPUT-SCHEMA), `formFactor.railNicCageOf`, wizard conditional reveal (keyed off the
+  effective rail speed), Expert `#f-rail-cage`; `tests/unit-engine.js` G-033 block,
+  `tests/harness/test-dom.js` G-033 wire-through.
 - **A 1:2 assembly carries TWO links per ordered part.** Quantity = links ÷ `linksPerAssembly`,
   never one-per-link. The line carries `linksPerAssembly`/`coversLinks` so the ordered quantity, the
   printed note arithmetic, and every BOM-integrity invariant derive from the SAME number and cannot

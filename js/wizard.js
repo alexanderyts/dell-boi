@@ -17,6 +17,17 @@
   // In an AI flow these describe the FRONT-END / STORAGE NIC (e.g. Broadcom OCP) —
   // the GPU rails are captured separately — and only appear when the user opts in.
   const aiNicGate = s => s.category !== 'ai' || s.aiDataSpec === 'custom';
+  // The rail speed the engine will actually size with: the explicit override, else the chosen
+  // GPU-server model's catalogued default (platforms.js models[].aiSpeed), else the platform's
+  // 400G rail group. Mirrors engine.js's model drill-down so a reveal can key off it (G-033).
+  const effectiveRailSpeed = s => {
+    if (s.railSpeed) return s.railSpeed;
+    const p = C().platforms.find(x => x.id === 'poweredge-ai');
+    const m = p && (p.models || []).find(x => x.id === s.aiModel);
+    if (m && m.aiSpeed) return m.aiSpeed;
+    const g = p && p.portGroups.find(x => x.network === 'aifabric');
+    return (g && g.speed) || '400GbE';
+  };
   const NIC_STEPS = [
     { id: 'nicVendor', type: 'choice', q: 'What NIC is in the hosts?', showIf: aiNicGate,
       help: 'Confirming the actual NIC helps get the port count right',
@@ -301,12 +312,14 @@
     // speed — MCP7Y00 (2× OSFP) vs MCP7Y10 (2× QSFP112). They are not interchangeable, so this is
     // ASKED rather than guessed. Conditional reveal (J2/J3 pattern): only NVIDIA-stack 400G rails
     // land on a twin-port-OSFP switch port that needs the splitter — 800G rails take a direct OSFP
-    // DAC, and the Dell stack's 800G→2×400G breakout has fixed QSFP56-DD far ends. Asking outside
-    // that case would be a question with no effect on the BOM.
+    // DAC. Asking outside that case would be a question with no effect on the BOM.
     // "Not sure" is a real answer: it quotes the MCP7Y00 variant VERIFY-flagged rather than
     // blocking — the swap is like-for-like (same price class, no design or quantity impact).
+    // G-033: the reveal keys off the EFFECTIVE rail speed — the chosen model's default when the
+    // rail NIC was left on "Model default" — not only an explicit 400G override; an XE9680 on its
+    // default (400G) was never asked. The answer rides on targets[0], which the engine now reads.
     { id: 'railNicCage', type: 'choice', q: 'What connector do the GPU rail NICs use?',
-      showIf: s => s.category === 'ai' && s.stack === 'nvidia' && s.railSpeed === '400GbE',
+      showIf: s => s.category === 'ai' && s.stack === 'nvidia' && effectiveRailSpeed(s) === '400GbE',
       help: 'At 400G the switch port is a twin-port OSFP cage, so each port feeds TWO rails through a 1:2 splitter — and the splitter is built for a specific connector at the NIC end. Same price class either way; picking wrong means the cable will not plug in.',
       listenFor: ['“OSFP ConnectX-7”', '“QSFP112”', 'BlueField-3 DPU', '“which NIC card exactly?”'],
       options: [

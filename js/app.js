@@ -255,6 +255,8 @@
       const nicFields = { vendor: $('#f-nic-vendor').value, speed: $('#f-nic-speed').value, portsPerNic: $('#f-nic-ports').value, nicsPerUnit: $('#f-nic-count').value };
       const targets = [{ platformId: sel.value, units: $('#f-units').value, gpusPerServer: gpus, modelId: $('#f-model').value,
         railNic, nic2,
+        // G-033: the rail-NIC connector rides on the target (same place the Guided wizard puts it)
+        railNicCage: $('#f-rail-cage').value || null,
         // AI target: NIC fields describe its front-end/storage group only when opted in
         nic: (p0 && p0.workload === 'ai' && $('#f-ai-datanic').checked) ? nicFields : null }];
       document.querySelectorAll('#extra-targets .target-row').forEach(row => {

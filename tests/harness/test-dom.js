@@ -213,6 +213,48 @@ try {
   check('AI mixed-NIC: rails override note (400G CX-7 over XE9780 default)', /GPU rails set to 400GbE/.test(checksTxt));
 } catch (e) { check('AI mixed-NIC flow no exception', false, e.message); }
 
+/* ---- G-033 WIRE-THROUGH (2026-09-17): the Guided wizard's rail-NIC-connector answer must reach
+   the engine. XE9680 on "Model default" rails (400G) + NVIDIA stack + rep answers QSFP112 →
+   the BOM must carry MCP7Y10, not the MCP7Y00 verify-flagged fallback. This walks the REAL
+   wizard and reads the REAL BOM — the invariants' input-effect test feeds the engine directly
+   and could never see this (that's how it went unnoticed for two months). ---- */
+try {
+  reset();
+  $('.mode-btn[data-mode="guided"]').click();
+  const picks = [
+    { q: /What are you connecting/, opt: /AI \/ GPU servers/ },
+    { q: /Which GPU server/, opt: /XE9680/ },
+    { q: /AI fabric stack/, opt: /NVIDIA Spectrum/ },
+    { q: /Which NIC drives the GPU rails/, opt: /Model default/ },
+    { q: /What connector do the GPU rail NICs use/, opt: /^QSFP112/ }
+  ];
+  for (let i = 0; i < 45 && !$('#wizard').hidden; i++) {
+    const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
+    const pick = picks.find(p => !p.done && p.q.test(q));
+    if (pick) { const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => pick.opt.test(b.textContent)); if (btn) btn.click(); pick.done = true; }
+    $('#wiz-next').click();
+  }
+  check('G-033 guided: connector question is asked on MODEL-DEFAULT 400G rails (not only on an explicit override)', picks[4].done);
+  check('G-033 guided: results rendered', !$('#results').hidden);
+  const bomTxt = $('#tab-bom').textContent;
+  // part NAMES (…-Nxxx) — the MCP1660 ICL line's prose also says "MCP7Y00/Y10" and must not count
+  check('G-033 guided: QSFP112 answer reaches the engine → MCP7Y10 quoted, no MCP7Y00', /MCP7Y10-Nxxx/.test(bomTxt) && !/MCP7Y00-Nxxx/.test(bomTxt), (bomTxt.match(/MCP7Y(00|10)-Nxxx/g) || []).join(','));
+  check('G-033 guided: no "connector not confirmed" flag when the rep answered', !/NIC CONNECTOR NOT CONFIRMED/.test(bomTxt));
+} catch (e) { check('G-033 guided wire-through no exception', false, e.message); }
+
+/* ---- G-033 Expert Form: the new connector select must reach the engine too ---- */
+try {
+  reset();
+  $('.mode-btn[data-mode="expert"]').click();
+  clearTargets();
+  $('#f-platform').value = 'poweredge-ai'; $('#f-units').value = '8'; $('#f-stack').value = 'nvidia';
+  $('#f-rail-speed').value = '400GbE'; $('#f-rail-cage').value = 'qsfp112';
+  $('#btn-generate').click();
+  const bomTxt = $('#tab-bom').textContent;
+  check('G-033 expert: #f-rail-cage=qsfp112 → MCP7Y10 quoted', /MCP7Y10-Nxxx/.test(bomTxt) && !/MCP7Y00-Nxxx/.test(bomTxt), (bomTxt.match(/MCP7Y(00|10)-Nxxx/g) || []).join(','));
+  $('#f-rail-cage').value = 'unsure'; $('#f-rail-speed').value = '';
+} catch (e) { check('G-033 expert wire-through no exception', false, e.message); }
+
 /* ---- DFM PITCH tab: BOM-scaled script + outline toggle ---- */
 try {
   reset();

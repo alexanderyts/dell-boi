@@ -5,7 +5,32 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.6**
+Current version: **0.66.7**
+
+---
+
+## 0.66.7 — The Guided wizard's "GPU rail NIC connector" answer never reached the engine (2026-09-17)
+
+**What this means for a quote:** on every Guided-wizard NVIDIA 400G AI design since 2026-07-16,
+the 1:2 rail-splitter cable was quoted as **MCP7Y00 (2× OSFP far end), verify-flagged, no matter
+what you answered** — a rep who said "QSFP112" (a QSFP112 ConnectX-7 or a BlueField-3) got the
+wrong-connector part plus a note asking them to confirm the thing they'd just answered. Same
+price class, same quantity, but the cable would not plug in. Re-run any NVIDIA 400G AI quote
+where you answered QSFP112. Also: an XE9680 left on "Model default" rails was never asked the
+question at all.
+
+**Root cause:** the wizard stored the answer on the design's first target; the engine only read
+it from the top level of the input. The suite's input-effect test feeds the engine directly, so
+it proved the engine *responds* to the field, never that any form *delivers* it (the same hole
+G-023 fell through).
+
+**Fix:** the engine reads the connector per target (the wizard's shape) with the design-wide
+answer as fallback — which also means two AI targets can now carry different connectors. The
+wizard asks whenever the effective rail speed is 400G (the model's default counts, not only an
+explicit override). The Expert Form gains a "GPU rail NIC connector" select — it had no way to
+say this at all. New tests walk the real wizard and the real Expert Form and read the real BOM
+(`tests/harness/test-dom.js`), plus an engine block for the per-target / nested / fallback
+paths (`tests/unit-engine.js`); stash-verified red without the engine change. GAPS G-033.
 
 ---
 
