@@ -971,7 +971,7 @@
       attach: dellPlat.map(id => ({ platform: platLabel(id) })),
       openItems: assumptions.slice().concat([
         'Confirm exact NIC speeds & port counts per platform config',
-        'Confirm orderable Dell SKUs' + (verityOn ? ' + Verity subscription sizing (BE Networks)' : '')
+        'Confirm orderable Dell SKUs' + (verityOn ? ' + Dell Fabric Manager (DFM) subscription sizing' : '')
       ]),
       timeline: tl[state.timeline] || 'TBD'
     };

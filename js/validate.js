@@ -56,7 +56,7 @@
     // 2. Redundancy --------------------------------------------------------
     if (res.context.redundancy === 'single') {
       push(res, 'error',
-        'Single-fabric selected: no switch-level redundancy. Dell guidance is a dual-fabric MC-LAG pair (SONiC) or VLT pair (OS10) for production storage/server attach.',
+        'Single-fabric selected: no switch-level redundancy. Dell guidance is a dual-fabric MC-LAG pair (Dell Enterprise SONiC) for production storage/server attach.',
         R.redundancy.source);
     }
 
@@ -347,7 +347,9 @@
         push(res, 'info', `PowerScale back-end${tag} leaf ${beFab.leaf.model} is on the Dell-supported back-end list${pn ? ` — VERIFIED Dell PN ${pn} (OneFS Supportability & Compatibility Guide, Table 33)` : ''}. Back-end must be Dell-managed & dedicated; mixed node speeds share a 100G switch via breakout. Newest option: Z9664 (210-BCJH) in 100G/200G FLAT topologies.`, R.backend.source);
       }
       else
-        push(res, 'warn', `PowerScale back-end${tag} must use a Dell-supported, Dell-managed switch — Table 4: ${supported.join(', ')} (also Arista 7308X3 / NVIDIA SN5600 via ETC).${beFab ? ` This tool sized ${beFab.leaf.model}; substitute a supported model.` : ''}`, R.backend.source);
+        // G-036: the "(also Arista 7308X3 / NVIDIA SN5600 via ETC)" clause was dropped — CITATION-LOG
+        // marks that claim STALE (not in the cited doc); an unverified reassurance is not rep-facing text.
+        push(res, 'warn', `PowerScale back-end${tag} must use a Dell-supported, Dell-managed switch — Table 4: ${supported.join(', ')}.${beFab ? ` This tool sized ${beFab.leaf.model}; substitute a supported model.` : ''} Confirm against the current OneFS Supportability & Compatibility Guide.`, R.backend.source);
     });
 
     // 21k. Azure Local / APEX HCI — RDMA + Microsoft-approved ToR ----------
@@ -511,7 +513,7 @@
         }
         // MC-LAG / VLT peer-link — rides the port class matching interconnectSpeed
         if (f.iclCableId && f.interconnectSpeed)
-          checkFit(f.iclCableId, null, f.leaf, portAtSpeed(f.leaf, f.interconnectSpeed), 'MC-LAG/VLT peer-link (ICL)', net);
+          checkFit(f.iclCableId, null, f.leaf, portAtSpeed(f.leaf, f.interconnectSpeed), 'MC-LAG peer-link (ICL)', net);
       });
 
       // core / inter-network uplink — the pairing that was missing entirely (R12 case 1)

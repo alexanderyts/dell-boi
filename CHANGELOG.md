@@ -5,7 +5,33 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.9**
+Current version: **0.66.10**
+
+---
+
+## 0.66.10 — Rep-facing text brought back in line with the rulings, with a permanent sweep (2026-09-17)
+
+**What this means for a quote:** no hardware changes. Several things the app *said* to you had
+drifted from decisions already made, and you could have repeated them to a customer:
+- The Discovery pitch called Dell Fabric Manager **"vendor-agnostic"** (twice). It isn't — DFM
+  manages Dell Enterprise SONiC; the NVIDIA side stays on Cumulus/NetQ. Fixed.
+- A Checks line told you to pull **single-mode** fibre for leaf→spine while the BOM quoted
+  multimode SR optics and an OM4 plant. Now says what the BOM actually needs.
+- The PowerScale back-end warning offered "also Arista 7308X3 / SN5600 via ETC" as supported —
+  a claim the citation log had already marked unverified. Removed until re-sourced.
+- "VLT" still appeared on new-build text (every PowerEdge quote's "Requirement" line, the
+  single-fabric error, two form labels, two Checks lines). New builds are MC-LAG on Dell
+  Enterprise SONiC; VLT only ever describes a customer's existing OS10 gear.
+- "Verity" survived in the Discovery deliverables line and the glossary; one DOM test was even
+  asserting the old name was present. All say DFM now.
+- The Discovery virtualization pitch named a 400G Z9432F-ON as "the 100G spine"; it now names the
+  S5232F-ON / Z9264F-ON ladder the engine actually uses.
+
+**Why it slipped through:** the only automated scan covered BOM line text. Every one of these
+sat in a Checks message, a platform Requirement/Concern, a rules consideration, the Discovery
+pitch or a form label. New suite `tests/unit-reptext.js` runs fourteen representative designs
+through every entry point and sweeps ~1,000 rep-facing strings (plus the static pitch/label
+sources) for retired terms on every test run. GAPS G-036.
 
 ---
 

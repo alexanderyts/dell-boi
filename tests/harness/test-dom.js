@@ -319,7 +319,9 @@ try {
   walkWizard(30);
   check('discovery: results rendered', !$('#results').hidden);
   check('discovery: guidance tab shown', !$('#tab-btn-guidance').hidden);
-  check('discovery: guidance populated', /g-card/.test($('#tab-guidance').innerHTML) && /Verity/.test($('#tab-guidance').innerHTML));
+  // G-036: the guidance must name Dell Fabric Manager (DFM) — the old name "Verity" is no longer
+  // pinned in (it used to be asserted here, which kept the stale name alive).
+  check('discovery: guidance populated (names DFM)', /g-card/.test($('#tab-guidance').innerHTML) && /Dell Fabric Manager|\bDFM\b/.test($('#tab-guidance').textContent));
   check('discovery: starting BOM present', $('#tab-bom tbody').children.length > 0);
 } catch (e) { check('discovery flow no exception', false, e.message); }
 

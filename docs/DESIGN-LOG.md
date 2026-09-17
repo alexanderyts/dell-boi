@@ -9,6 +9,51 @@ blame across a dozen commits.
 
 ---
 
+## 2026-09-17 — rep-facing text re-aligned with rulings + a permanent string sweep (v0.66.10) — GAPS G-036
+
+**Found while:** the 2026-09-17 accuracy review's rep-facing-text pass (a fresh-context agent
+grepping every string the app shows against SPEC's rulings). Eleven hits; six of them "rep would
+say something false", the rest dated wording. None was a hardware defect.
+
+**What was wrong, and the rule each contradicted:**
+- `discovery.js` — "DFM is vendor-agnostic" ×2 → SPEC §8 (DFM = Dell Enterprise SONiC only; the
+  R14 ruling printed on the same quote said the opposite). Also the virtualization pitch's "100G
+  spine (Z9432F-ON)" → SPEC "100G general/storage spine selection" ladder (S5232F → Z9264F).
+- `rules.leafSpine.considerations` — "structured single-mode fiber for leaf→spine" → SPEC §9:
+  the engine quotes SR-class MMF optics and an OM4 plant for those hops.
+- `validate.js` #21i — "(also Arista 7308X3 / NVIDIA SN5600 via ETC)" → CITATION-LOG marks that
+  claim STALE (not in the cited doc). Removed from the rep-facing warning; SPEC §6 now records it
+  as previously-stated-and-unsourced rather than as fact. `rules.backend.powerScaleSupportedOther`
+  stays as data (unread by any code) pending re-sourcing.
+- "VLT" on NEW-build text → SPEC §4 (OS10 dropped): `platforms.js` poweredge-general
+  `requires`, `validate.js` #2, `index.html` two option labels, `rules.leafSpine.note`/
+  `.considerations`, `rules.redundancy.note`, two engine warnings, `validate.js`'s ICL fit label,
+  three E-series `useCase` strings ("VLT/MLAG"). `rules.redundancy.methods.vlt` is kept — it
+  describes existing OS10 gear and no new-build path emits it.
+- "Verity" → DFM rebrand: `wizard.js` Discovery deliverables line, `glossary.js` entry (now
+  "the former name of DFM"). **`tests/harness/test-dom.js` asserted `/Verity/` in the guidance
+  tab** — a test pinning the retired name in; it now asserts DFM.
+- CITATION-LOG's Discovery-AI-pitch row was stale the other way (the pitch already said SN5600/
+  SN5610); row updated.
+
+**Why the suite never saw it:** `tests/invariants.js`'s R14 scan covers BOM item/note strings
+only. Warnings (Checks), platform `requires`/`concerns`, `rules.*.considerations`, the
+Discovery/solutions pitch text and form labels were unscanned — exactly where every hit sat.
+
+**Guard:** new node suite `tests/unit-reptext.js` (registered in `run-all.js`): runs fourteen
+representative designs through `recommend`/`recommendEdge`/`recommendRefresh`/`recommendRA`,
+collects every `warnings[].message` and BOM item+note, adds the static sources (platform
+requires/concerns, rules notes/considerations, discovery + solutions text, non-EOL switch
+`useCase`, `index.html` visible text — ~1,000 strings), and fails on a forbidden-term list
+(VLT/VLTi unless the string says it describes EXISTING gear; Verity unless "formerly/was Verity"
+or a document citation; vendor-agnostic; single-mode-for-leaf; 7308X3/via ETC; "SONiC or
+OS10"). On its first run it caught two further "Verity" mentions in `solutions.js` (a "(was
+Verity)" talking point and a "Verity 6.6 documentation" citation — both legitimate, now
+allow-listed by form). Positive pins hold each specific correction in place. Retiring a term in
+a future ruling = one line added to `FORBIDDEN`.
+
+---
+
 ## 2026-09-17 — S5448F-ON structured hosts take SR1.2, not FR (v0.66.9) — GAPS G-035
 
 **Found while:** the 2026-09-17 accuracy review. `pickHostCable`'s SFP56-DD branch (added with

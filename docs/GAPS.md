@@ -1209,7 +1209,12 @@ G-042, G-043).
 - **Fix:** structured → SR1.2 (matches the QSFP28 ladder's SR4-for-structured rule); FR/LR
   only via the long-reach path. Regression: unit test on the resolved id + plant fibre text.
 
-### G-036 — Rep-facing text contradicts current rulings (DFM "vendor-agnostic", SMF advice, unverified switch-support claim, VLT/Verity) — OPEN 2026-09-17
+### G-036 — Rep-facing text contradicts current rulings (DFM "vendor-agnostic", SMF advice, unverified switch-support claim, VLT/Verity) — CLOSED 2026-09-17 (v0.66.10)
+- **Status:** CLOSED. All six items below corrected (plus the virtualization pitch's Z9432F
+  "100G spine" and three E-series `useCase` "VLT/MLAG" strings found alongside). Permanent guard:
+  `tests/unit-reptext.js` sweeps ~1,000 rep-facing strings from real engine output across every
+  entry point + the static pitch/label sources against a forbidden-term list; the test-dom
+  assertion that pinned "Verity" in now asserts DFM. DESIGN-LOG 2026-09-17.
 - **Severity:** MEDIUM–HIGH (rep would say something false; no hardware impact). Confirmed:
   1. `js/catalog/discovery.js:36,74` — "DFM is **vendor-agnostic**" (twice). False; contradicts
      the R14 ruling printed on the same quote (DFM = Dell Enterprise SONiC only).

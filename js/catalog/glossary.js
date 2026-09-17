@@ -84,7 +84,7 @@ window.CATALOG.glossary = {
   'switch-independent': 'A teaming mode the server handles alone — the switches need no special pairing. Used with storage multipathing.',
   'port-channel': 'Several physical links configured to act as one logical link on the switch side (the switch half of an LACP bond).',
   'incast': 'Many devices sending to one target at once — like everyone merging into one lane. Storage rebuilds cause it; deep-buffer switches absorb it.',
-  'Verity': 'BE Networks' + String.fromCharCode(39) + 's management software for Dell Enterprise SONiC — one console to deploy, monitor and update every switch, with zero-touch provisioning and drift detection.',
+  'Verity': 'The former name of Dell Fabric Manager (DFM) — Dell' + String.fromCharCode(39) + 's management software for Dell Enterprise SONiC: one console to deploy, monitor and update every switch, with zero-touch provisioning and drift detection. Say "DFM" to customers.',
   'ZTP': 'Zero-Touch Provisioning — a switch configures itself from the network when first powered on. No console cable, no truck roll.'
 };
 

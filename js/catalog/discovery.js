@@ -33,14 +33,14 @@ window.CATALOG.discovery = {
       'Design clean and open from day 0 — Dell SONiC + Dell Fabric Manager (DFM) zero-touch provisioning',
       'AI-ready from the start with the Dell AI Factory reference architectures' ] },
     mixed:   { label: 'Mixed / multi-vendor', points: [
-      'Consolidate onto one operating model — Dell Fabric Manager (DFM) is vendor-agnostic and gives a single pane of glass',
+      'Consolidate the Dell estate onto one operating model — Dell Fabric Manager (DFM) gives a single pane of glass for every Dell Enterprise SONiC switch (NVIDIA Spectrum stays on Cumulus / NetQ)',
       'Graceful, low-risk migration path onto open Dell SONiC over time' ] }
   },
 
   /* Growing workload -> plain recommendation + which platform seeds a starting BOM */
   workloads: {
     virtualization: { label: 'Virtualization / general compute',
-      recommendation: '25G top-of-rack (S5248F-ON) with a 100G spine (Z9432F-ON) — the modern standard for VMs and mixed workloads.',
+      recommendation: '25G top-of-rack (S5248F-ON) with a 100G spine (S5232F-ON, Z9264F-ON as it grows) — the modern standard for VMs and mixed workloads.',
       platformSeed: 'poweredge-general' },
     block: { label: 'Block storage',
       recommendation: 'A redundant 25G leaf pair (S5248F-ON) tuned for storage — resilient and low-latency (PowerStore / PowerFlex / PowerMax).',
@@ -71,7 +71,7 @@ window.CATALOG.discovery = {
     complexity:  { label: 'Operational complexity',
       message: 'Dell Fabric Manager (DFM)’s single pane of glass and zero-touch provisioning cut deployment time and day-to-day effort.' },
     lockin:      { label: 'Vendor lock-in',
-      message: 'Open SONiC plus vendor-agnostic Dell Fabric Manager (DFM) means a graceful path off proprietary gear — no lock-in.' },
+      message: 'Open Dell Enterprise SONiC plus Dell Fabric Manager (DFM) means a graceful path off proprietary gear — no lock-in.' },
     aiReady:     { label: 'AI readiness',
       message: 'The Dell AI Factory with NVIDIA gives a validated, rail-optimized Spectrum-X fabric for GenAI.' },
     support:     { label: 'Support / skills gap',

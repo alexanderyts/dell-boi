@@ -1411,7 +1411,7 @@
               fs.redundancyMethod = 'evpn-mh';
               fs.iclFellBack = true;   // drives the visible, never-silent WARN below (R2)
             } else {
-              warnings.push({ severity: 'error', message: `${fam} ${fs.network}: the ${leaf.model} leaf can't fit an MC-LAG/VLT peer-link at this scale (${hasFabricUplink(leaf) ? leaf.uplink.count + ' uplink ports, ' + fs.uplinksPerLeaf + ' needed for spine uplinks' : 'no dedicated uplink ports'}) AND is not a VXLAN leaf that can run EVPN-Multihoming — no redundant fabric is possible on this switch. Pick a larger leaf (S5248F-ON / S5296F-ON) for an MC-LAG pair, or accept a single (non-redundant) design.`, source: 'Enterprise SONiC Compatibility Matrix + leaf-spine port budget' });
+              warnings.push({ severity: 'error', message: `${fam} ${fs.network}: the ${leaf.model} leaf can't fit an MC-LAG peer-link at this scale (${hasFabricUplink(leaf) ? leaf.uplink.count + ' uplink ports, ' + fs.uplinksPerLeaf + ' needed for spine uplinks' : 'no dedicated uplink ports'}) AND is not a VXLAN leaf that can run EVPN-Multihoming — no redundant fabric is possible on this switch. Pick a larger leaf (S5248F-ON / S5296F-ON) for an MC-LAG pair, or accept a single (non-redundant) design.`, source: 'Enterprise SONiC Compatibility Matrix + leaf-spine port budget' });
               fs.redundancyMethod = 'evpn-mh';
             }
           }
@@ -1422,7 +1422,7 @@
         // multihoming rather than surrendering uplink throughput to carve out a peer-link. It is NOT a
         // degraded fallback; the note states the port math so the rep sees WHY, and offers a
         // higher-uplink leaf only as the option for a site whose standard MANDATES an MC-LAG peer-link.
-        if (fs.iclFellBack) warnings.push({ severity: 'warn', message: `${fam} ${fs.network}: this fabric uses EVPN-Multihoming (all-active redundancy, no peer-link) — the correct mechanism here because the ${leaf.model} leaf's ${leaf.uplink ? leaf.uplink.count : 0} uplink ports are fully used by its ${fs.uplinksPerLeaf} spine uplinks, leaving no room for an MC-LAG/VLT peer-link (ICL). This is by design, not a shortfall: cutting spine uplinks to free ICL ports would reduce fabric throughput. Redundancy is fully maintained. If your site standard specifically requires an MC-LAG/VLT peer-link pair, a higher-uplink leaf (S5248F-ON / S5296F-ON) has the spare ports for one.`, source: 'Leaf-spine port budget + Enterprise SONiC Compatibility Matrix' });
+        if (fs.iclFellBack) warnings.push({ severity: 'warn', message: `${fam} ${fs.network}: this fabric uses EVPN-Multihoming (all-active redundancy, no peer-link) — the correct mechanism here because the ${leaf.model} leaf's ${leaf.uplink ? leaf.uplink.count : 0} uplink ports are fully used by its ${fs.uplinksPerLeaf} spine uplinks, leaving no room for an MC-LAG peer-link (ICL). This is by design, not a shortfall: cutting spine uplinks to free ICL ports would reduce fabric throughput. Redundancy is fully maintained. If your site standard specifically requires an MC-LAG peer-link pair, a higher-uplink leaf (S5248F-ON / S5296F-ON) has the spare ports for one.`, source: 'Leaf-spine port budget + Enterprise SONiC Compatibility Matrix' });
         const m = R.redundancy.methods[fs.redundancyMethod];
         if (m.peerLink && leaf.access) {
           const pairs = fs.leavesPerFabric;

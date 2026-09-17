@@ -22,7 +22,7 @@ window.CATALOG.rules = {
       'independent-ab': { label: 'Independent A/B fabrics (air-gapped, no ICL)', peerLink: false,
         note: 'Classic block-SAN pattern: two fully independent fabrics, NO inter-switch link. Valid ONLY for block (iSCSI/NVMe-TCP) with host MPIO and NO switch-dependent (LACP) bonds anywhere — multipathing provides all load balancing and failover. Saves the ICL cables + ports and removes MC-LAG config.' }
     },
-    note: 'Storage & server attach should be dual-homed. Method depends on OS/design: SONiC leaf-spine = EVPN Multihoming (no peer-link); SONiC L2 ToR pair = MC-LAG (ICL peer-link); OS10 = VLT (VLTi). Single-fabric only for lab/PoC.',
+    note: 'Storage & server attach should be dual-homed. New builds run Dell Enterprise SONiC: MC-LAG (ICL peer-link) wherever the leaf has spare ports for it, EVPN Multihoming (no peer-link) where the uplinks fill the leaf. VLT/VLTi describes a customer\'s EXISTING OS10 gear only. Single-fabric only for lab/PoC.',
     source: 'Dell Enterprise SONiC EVPN-MH / MC-LAG guides; SmartFabric OS10 VLT guide'
   },
   mtu: {
@@ -114,18 +114,18 @@ window.CATALOG.rules = {
     maxSpines: 8,                    // ceiling — H18364.2: a leaf connects to 2–8 spines
     spineCountNote: 'Spine COUNT follows the oversubscription math (~1 leaf-uplink per spine): 8 spines for 1:1, 4 for 2:1, 2 for 4:1 (H18364.2 p.10). Floor 2 for redundancy; ceiling ~8 (leaf uplink radix) before a 3-tier super-spine.',
     largeLeafThreshold: 8,           // > this many leaves => "large deployment" considerations
-    note: 'Single rack = VLT leaf pair. Multiple racks or AI => leaf-spine with 2+ spines.',
+    note: 'Single rack = MC-LAG leaf pair. Multiple racks or AI => leaf-spine with 2+ spines.',
     considerations: [
       'Run the fabric as Layer 3 with ECMP + Dynamic Load Balancing (DLB) and enhanced hashing across leaf→spine links',
       'Use BGP EVPN VXLAN for L2 stretch / multitenancy (VRF); a single-tenant GPU compute fabric can run pure L3',
       'Keep leaf/access oversubscription ≤ 2:1 (Dell guidance; general enterprise tolerates 3:1); AI + NVMe-oF storage require 1:1 non-blocking',
-      'Every leaf connects to EVERY spine (Clos) — NEVER leaf-to-leaf or spine-to-spine (it breaks ECMP and can create L2 loops); a ToR pair uses only an MC-LAG/VLT ICL',
+      'Every leaf connects to EVERY spine (Clos) — NEVER leaf-to-leaf or spine-to-spine (it breaks ECMP and can create L2 loops); a ToR pair uses only an MC-LAG ICL',
       'ECMP keeps all spine uplinks active (BGP/OSPF equal-cost paths); use Adaptive Routing / DLB + enhanced hashing to avoid hash polarization',
       'Spine resilience: minimum 2 spines (a single spine is a SPOF); more spines = higher surviving bandwidth on a failure (~4 spines ≈ 75%)',
       'Confirm spine radix covers current leaves + 24–36 month growth; reserve spine ports (or a border-leaf pair) for the core / DCI uplinks',
       'BGP underlay: use private ASNs on a logical, growth-friendly numbering plan; anycast gateway for the overlay',
       'VXLAN underlay MTU ≥ 1600 for the encap overhead — set 9216 end-to-end for best performance',
-      'Use structured single-mode fiber for leaf→spine and cross-rack runs (DAC is in-rack only)',
+      'Leaf→spine and cross-rack runs are optical — AOC within a row, SR-class optics over OM4 multimode across the room, single-mode only when a run leaves the building (DAC is in-rack only)',
       'Beyond a two-tier fabric (~2,000 GPUs) move to a 3-tier Clos with superspines'
     ],
     source: 'Dell Data Center leaf-spine reference architecture'

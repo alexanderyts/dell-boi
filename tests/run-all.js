@@ -31,6 +31,7 @@ const NODE_SUITES = [
   ['unit-contrast', 'tests/unit-contrast.js', 'WCAG AA contrast, both themes'],
   ['unit-build', 'tests/unit-build.js', 'build output sanity — standalone/hosted bundles match source'],
   ['unit-design', 'tests/unit-design.js', 'canonical design layer — device list faithful vs engine + corrective vs fixtures (Phase 2 foundation)'],
+  ['unit-reptext', 'tests/unit-reptext.js', 'rep-facing text sweep — Checks/BOM/pitch/labels never carry a retired term (VLT, Verity, vendor-agnostic…)'],
   ['selftest', 'tests/harness/run-selftest.js', 'catalog + engine self-tests'],
   ['audit-boms', 'tests/harness/audit-boms.js', 'BOM accuracy across guide paths'],
   ['audit-scaling', 'tests/harness/audit-scaling.js', 'monotonic scaling'],

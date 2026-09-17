@@ -360,7 +360,7 @@ window.CATALOG.switches = [
     uplinkAlt: { count: 4, speed: '10GbE', media: 'SFP+' },
     poe: 'none', maxPowerW: 230,
     portsBySpeed: { '1/10G': '24 (SFP)', '10G': '4 (SFP+)', '100G': '2 (QSFP28, rear)' },
-    breakout: 'n/a', useCase: 'Edge/access (fiber): 24x 1/10G SFP + 4x 10G SFP+ + 2x 100G — uplink at 10G or 100G per situation (no PoE). VLT/MLAG',
+    breakout: 'n/a', useCase: 'Edge/access (fiber): 24x 1/10G SFP + 4x 10G SFP+ + 2x 100G — uplink at 10G or 100G per situation (no PoE). SmartFabric OS10 only — no Enterprise SONiC MC-LAG on this model',
     dellPN: 'verify', verify: true, specConfirmed: true, source: GUIDE
   },
   {
@@ -375,7 +375,7 @@ window.CATALOG.switches = [
     uplinkAlt: { count: 4, speed: '10GbE', media: 'SFP+' },
     poe: 'poe+', poeW: 30, maxPowerW: 1683,
     portsBySpeed: { '1G-BaseT': '48 (PoE+ 30W)', '10G': '4 (SFP+)', '100G': '2 (QSFP28, rear)' },
-    breakout: 'n/a', useCase: 'Edge/access: 48x 1G BASE-T 802.3at PoE+ (30W) — uplink at 10G (4×SFP+) or 100G (2×QSFP28) per situation. VLT/MLAG',
+    breakout: 'n/a', useCase: 'Edge/access: 48x 1G BASE-T 802.3at PoE+ (30W) — uplink at 10G (4×SFP+) or 100G (2×QSFP28) per situation. Enterprise SONiC MC-LAG pairs',
     dellPN: 'verify', verify: true, specConfirmed: true, source: GUIDE
   },
   {
@@ -390,7 +390,7 @@ window.CATALOG.switches = [
     uplinkAlt: { count: 4, speed: '25GbE', media: 'SFP28' },
     poe: 'poe++', poeW: 90, maxPowerW: 4869,
     portsBySpeed: { 'mGig-BaseT': '48 (1/2.5/5/10G, 802.3bt 90W)', '25G': '4 (SFP28)', '100G': '2 (QSFP28, rear)' },
-    breakout: 'n/a', useCase: 'Edge/access: 48x multigig 10GBase-T 802.3bt PoE++ (90W) — uplink at 25G (4×SFP28) or 100G (2×QSFP28) per situation. VLT/MLAG',
+    breakout: 'n/a', useCase: 'Edge/access: 48x multigig 10GBase-T 802.3bt PoE++ (90W) — uplink at 25G (4×SFP28) or 100G (2×QSFP28) per situation. Enterprise SONiC MC-LAG pairs',
     dellPN: 'verify', verify: true, specConfirmed: true, source: GUIDE
   }
 ];

@@ -110,7 +110,7 @@ window.CATALOG.platforms = [
         portOptions: '2x 10/25/100/400GbE (OCP 3.0) + optional PCIe/DPU' },
       { role: 'mgmt', count: 1, speed: '1GbE', media: 'RJ45', network: 'mgmt', redundant: false, note: 'iDRAC OOB' }
     ],
-    requires: ['Dual-homed to VLT leaf pair for HA', 'Confirm NIC (OCP 3.0 / PCIe) & speed per config'],
+    requires: ['Dual-homed to an MC-LAG leaf pair for HA', 'Confirm NIC (OCP 3.0 / PCIe) & speed per config'],
     concerns: ['NIC speed/count varies by order — confirm actual config (OCP 3.0 slots)', 'LACP vs active/standby per OS/hypervisor'],
     models: [
       { id: 'r660', label: 'PowerEdge R660 (1U)', note: 'OCP 3.0 10/25/100G' },

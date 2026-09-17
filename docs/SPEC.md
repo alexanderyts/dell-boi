@@ -344,9 +344,11 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
 - **PowerScale back-end VERIFIED PNs (OneFS Supportability Guide Table 33):** S5232 = **210-BCVB**,
   Z9664 = **210-BCJH** (2025; 100G or 200G FLAT topology only), Z9264 = 210-AWOW. — enforced:
   `rules.backend.powerScaleBackendPNs` + validate #21i. Supported back-end switches (Table 4,
-  p.14): S5232F-ON, Z9664F-ON, Z9264-ON (Dell), plus Arista 7308X3 and NVIDIA Spectrum-4 SN5600
-  (via the Dell ETC program, manual config, Cumulus 5.9.1). EOL for back-end: Z9100-ON, S4148F-ON,
-  S4112F-ON. Mixed 100G + 25/10G node speeds share one 100G switch via breakout. — enforced:
+  p.14): S5232F-ON, Z9664F-ON, Z9264-ON (Dell). *(A third-party option — Arista 7308X3 / NVIDIA
+  SN5600 via the Dell ETC program — was previously stated here; CITATION-LOG marks it STALE: the
+  cited document does not contain it. It is no longer shown to the rep and is not a rule until
+  re-sourced.)* EOL for back-end: Z9100-ON, S4148F-ON, S4112F-ON (dates unconfirmed —
+  CITATION-LOG). Mixed 100G + 25/10G node speeds share one 100G switch via breakout. — enforced:
   `rules.backend`, validate #21i.
 - **PowerScale back-end = int-a / int-b, and stays FLAT as long as possible:** two INDEPENDENT
   networks on separate subnets (one node port to each; **OneFS RBM failover — no bonding, no
@@ -449,8 +451,8 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
   targets in the same design remain a Dell pod. — enforced: engine per-target stack + per-stack
   spine groups.
 - **NVIDIA NOS = Cumulus Linux.** SN-series switches are **absent from the Dell Enterprise SONiC
-  compatibility matrix** — they run NVIDIA Cumulus Linux (validated designs qualify Cumulus, e.g.
-  5.9.1 for SN5600 w/ PowerScale ETC). **Dell Fabric Manager (DFM) manages Dell Enterprise SONiC
+  compatibility matrix** — they run NVIDIA Cumulus Linux (or NVIDIA Pure SONiC; see §4z for the
+  three Dell-SONiC-on-Spectrum exceptions). **Dell Fabric Manager (DFM) manages Dell Enterprise SONiC
   only** — scope it to the Dell portion of a mixed design. *(SONiC Compat Matrix; OneFS
   Supportability Guide)* — enforced: validate #14 + NVIDIA-NOS info.
 - **NVIDIA NIC ↔ speed map:** ConnectX-6 Lx = 25G · CX-6 Dx = 100G · CX-6 = 200G · CX-7 = 400G ·
