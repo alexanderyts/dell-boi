@@ -5,7 +5,31 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.5**
+Current version: **0.66.6**
+
+---
+
+## 0.66.6 — Default host NIC config was 2 NICs, doubling host cabling on defaults-accepted quotes (2026-09-17)
+
+**What this means for a quote:** every Guided-wizard (and Expert Form) quote where you left the
+"How many data NICs per server / node?" answer at its default was sized for **two dual-port NICs
+= 4 data ports per host** — twice the platform's published config (one dual-port NIC = 2 ports).
+That doubled the host cables and, on larger designs, the leaf switches. This is the "2× dual-port
+FE NICs I don't think I selected" you saw on the PowerScale F710 (R15). Re-run any recent
+defaults-only quote; it will come back with half the host cabling. Deals where you explicitly
+entered the NIC count are unaffected.
+
+**Root cause:** the wizard's NIC-count question, the added-target NIC-count question, the Expert
+Form's prefilled count, AND the engine's own fallback all defaulted to 2. One dual-port NIC is
+already redundant (one port to each leaf of the pair) — "2" was conflating two NICs with
+dual-homing one.
+
+**Fix:** all four defaults are now 1; the question's help text says why. Also fixed: the design
+header's "ports/unit" figure reported 0 for wizard quotes (it only counted a NIC attached
+directly to the target, not the wizard's global answer) — it now matches the NIC summary next to
+it. Regression tests: a defaults-only Guided walk must quote 2 ports/unit (`tests/harness/
+test-dom.js`), and a blank NIC count must mean one NIC (`tests/unit-engine.js`); both
+stash-verified red on the old defaults. GAPS G-032.
 
 ---
 

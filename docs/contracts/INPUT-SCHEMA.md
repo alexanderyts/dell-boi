@@ -86,7 +86,7 @@ enforces them today (js/engine.js).
 |---|---|---|---|---|
 | `speed` | speed string | `''` (nic2: `'25GbE'`) | SIZING | Host link speed → leaf selection, BaseT routing |
 | `portsPerNic` | int | 2, min 1 | SIZING | Links per NIC |
-| `nicsPerUnit` | int | 2, min 1 (nic2: 1) | SIZING | NICs per unit |
+| `nicsPerUnit` | int | 1, min 1 | SIZING | NICs per unit. **Default 1 (G-032, 2026-09-17)** — one dual-port NIC is the platform default and is already redundant; the previous default of 2 doubled host cabling on every defaults-accepted quote (R15). |
 | `network` | `'storage'` \| `'frontend'` | nic2: `'storage'` | SIZING (**nic2 ONLY**) | Which fabric the 2nd NIC lands on. **DECIDED (D2, 2026-07-16): this field exists on nic2 only — it is removed from the primary NIC shape** (it was read by normNic but consumed by nothing and settable by no UI). Phase 2's canonical build must not carry it on the primary NIC. |
 | `vendor` | string | `''` | DISPLAY | Appears in the NIC label only. **Explicitly does NOT pick optic vendor** (that follows the fabric's `stack`) — a rep choosing "NVIDIA" here gets no LinkX parts from this field alone. |
 | `model` | string | `''` | DISPLAY | Label only; no UI collects it |

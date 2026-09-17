@@ -1126,7 +1126,11 @@ that credit capacity from speed ratios instead of from what's quoted, (d) rep-fa
 drifting from rulings. No engine rewrite is warranted; see the three structural items (G-041,
 G-042, G-043).
 
-### G-032 — Guided wizard defaults to 2 NICs × dual-port = 4 data ports/host (root cause of R15) — OPEN 2026-09-17
+### G-032 — Guided wizard defaults to 2 NICs × dual-port = 4 data ports/host (root cause of R15) — CLOSED 2026-09-17 (v0.66.6)
+- **Status:** CLOSED. All four defaults (wizard `nicCount`, `secondNicCount`, Expert `#f-nic-count`,
+  engine `normNic`) → 1. Also fixed `context.nicPortsPerUnit` (reported 0 for wizard/shorthand
+  callers). Stash-verified: old wizard/form defaults turn 2 DOM checks red; old engine fallback
+  turns the unit test red. R15 is CLOSED by this entry. DESIGN-LOG 2026-09-17.
 - **Severity:** HIGH — every guided quote where the rep accepts the NIC defaults carries **2×
   the host cabling and up to 2× the leaves** vs the platform's published default (one dual-port
   NIC). This is what the maintainer noticed on the F710 (R15: "2× dual-port FE NICs I don't

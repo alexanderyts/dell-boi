@@ -225,6 +225,12 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
   ECN/DCQCN, no-drop queues) AND non-blocking 1:1** — same class as an AI fabric. *(PowerStore/
   PowerMax guides; h04600)* — enforced: `rules.storageProtocol` + engine oversub cap + validate
   #21n.
+- **Default host NIC configuration = ONE dual-port NIC (2 data ports per unit).** Redundancy is
+  the two ports of that one NIC dual-homed across the leaf pair (§4), not two NICs. Every entry
+  point (Guided wizard, added-target spec, Expert Form) and the engine's own fallback default the
+  NIC count to 1; a host with two data NICs is answered as 2 explicitly. — enforced: `normNic()`
+  in `js/engine.js`, wizard `nicCount`/`secondNicCount`, `#f-nic-count`; `tests/harness/test-dom.js`
+  guided-defaults check, `tests/unit-engine.js`.
 - **Second NIC ("nic2") purpose is a customer-stated answer, never assumed.** A host's second NIC
   is just as often a second/legacy LAN or a management-adjacent network as it is storage — the
   Guided wizard and Discovery ask explicitly ("What does the second NIC connect to?" — Storage vs.

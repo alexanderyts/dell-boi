@@ -29,6 +29,9 @@ t('unknown platform throws (not silent garbage)', (() => { try { rec({ platformI
 t('unknown leaf100 falls back to auto', rec({ platformId: 'powerstore', units: 4, leaf100: 'hack' }).context.leaf100 === 'auto');
 t('unknown leaf25 falls back to auto', rec({ platformId: 'powerstore', units: 4, leaf25: 'hack' }).context.leaf25 === 'auto');
 t('nic: garbage counts fall back sane', (() => { const r = rec({ platformId: 'poweredge-general', units: 4, nic: { portsPerNic: 'x', nicsPerUnit: 3 } }); const f = r.fabrics.find(x => x.nicOverride); return f && f.linksPerUnit === 6; })());
+// G-032: a NIC answer with the count left blank means ONE NIC (one dual-port NIC = 2 ports/unit),
+// never 2 NICs — the old default silently doubled host cabling on every defaults-accepted quote.
+t('nic: blank nicsPerUnit defaults to ONE NIC (2 ports/unit), not 2 NICs (4)', (() => { const r = rec({ platformId: 'poweredge-general', units: 4, nic: { speed: '25GbE', portsPerNic: 2 } }); const f = r.fabrics.find(x => x.nicOverride); return f && f.linksPerUnit === 2 && r.context.nicPortsPerUnit === 2; })());
 t('AI without stack throws with guidance', (() => { try { rec({ platformId: 'poweredge-ai', units: 2, gpusPerServer: 8 }); return false; } catch (e) { return /stack/i.test(e.message); } })());
 
 /* ---- leaf-ladder boundaries (the FDC right-sizing must flip at EXACT edges) ---- */

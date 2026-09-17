@@ -9,6 +9,44 @@ blame across a dozen commits.
 
 ---
 
+## 2026-09-17 — default host NIC config = ONE dual-port NIC (v0.66.6) — GAPS G-032
+
+**Found while:** a full accuracy review (see GAPS "2026-09-17 accuracy review"). Tracing the
+queued R15 item ("F710 carried 2× dual-port FE NICs the maintainer doesn't think were selected")
+to its source: not a platform seed (platforms.js correctly encodes one dual-port NIC = 2 ports)
+but the wizard's `nicCount` default of 2, the added-target `secondNicCount` default of 2, the
+Expert Form's `#f-nic-count` prefill of 2, and `normNic()`'s own `|| 2` fallback. Reproduced:
+F710 × 10 at defaults → 4 FE ports/node, 40 links, two leaf pairs.
+
+**Ruling (maintainer-signalled via R15, applied):** the default host NIC configuration is ONE
+dual-port NIC — 2 data ports per unit. Redundancy in this tool means the two ports of that one
+NIC dual-homed across the leaf pair (SPEC §4 "Dual = dual-homed hosts (both NIC ports, one to
+each leaf)"), not two NICs. The question stays; a host that genuinely carries two data NICs is
+answered as 2. The alternative considered — deriving the default from the platform's port
+group (e.g. PowerStore's 8 data ports/appliance) — was NOT taken: the NIC question is an
+explicit "spec the real host" override, and a per-platform silent default would reintroduce
+the same "I didn't select that" surprise from the other direction. A rep who doesn't answer
+gets the platform's published port group untouched (the NIC override only applies when the
+question is answered).
+
+**What was wrong before:** every defaults-accepted Guided/Expert quote sized 2× the host
+cabling and, past a leaf's capacity, 2× the leaves. Invisible to the suite because every test
+that passes a NIC spec passes an explicit `nicsPerUnit`; only the "8 units × 2×2 = 32 links"
+DOM assertion encoded the old default, and it read as a feature.
+
+**Also fixed in passing:** `context.nicPortsPerUnit` (the R5 header figure) counted only a NIC
+attached directly to `targets[0]`, so wizard and shorthand callers — whose NIC arrives at the
+top level — showed 0 ports/unit beside a `nicSummary` that said 2. Now uses the same
+effective-NIC rule step 1 sizes with.
+
+**Test:** `tests/harness/test-dom.js` "guided defaults: host NIC = one dual-port NIC" (walks the
+wizard on defaults, asserts 2 ports/unit) and the corrected "guided+2nd" assertion (16 links,
+2/unit × 8); `tests/unit-engine.js` "blank nicsPerUnit defaults to ONE NIC". Stash-verified:
+restoring the old wizard/form defaults turns both DOM checks red; restoring the engine's `|| 2`
+turns the unit test red.
+
+---
+
 ## 2026-07-30 — hosted/standalone build was silently non-functional (v0.66.5) — GAPS G-031
 
 **Found while:** the maintainer asked how to share the current build; after rebuilding

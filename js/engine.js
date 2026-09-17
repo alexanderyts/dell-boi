@@ -465,7 +465,9 @@
     if (!(parseInt(raw.nicsPerUnit, 10) || parseInt(raw.portsPerNic, 10))) return null;
     const n = { vendor: raw.vendor || '', model: raw.model || '', speed: raw.speed || '', network: raw.network || '',
       portsPerNic: Math.max(1, parseInt(raw.portsPerNic, 10) || 2),
-      nicsPerUnit: Math.max(1, parseInt(raw.nicsPerUnit, 10) || 2) };
+      // G-032: default ONE NIC per unit (the platform default is one dual-port NIC). A default
+      // of 2 here silently doubled host cabling for every caller that left the count blank.
+      nicsPerUnit: Math.max(1, parseInt(raw.nicsPerUnit, 10) || 1) };
     n.portsPerUnit = n.nicsPerUnit * n.portsPerNic;
     n.label = `${n.nicsPerUnit}× ${(n.vendor || '').trim()} ${n.portsPerNic}-port${n.speed ? ' ' + n.speed : ''} = ${n.portsPerUnit} ports/unit`.replace(/\s+/g, ' ').trim();
     return n;
@@ -1788,7 +1790,11 @@
         model: '', qty: t.units, mergeKey: 'ref-nic|' + (t.uid != null ? t.uid : t.id) + '|' + n.speed + '|' + (n.network || 'primary'),
         note: `Reference only — NICs are quoted with the server configuration, NOT this network BOM. This ${n.speed} NIC (${n.portsPerUnit} ports/unit) is the demand source for its fabric; if the server quote changes NICs, re-run this network BOM.` });
     });
-    const primaryPorts = (targets[0].nic ? targets[0].nic.portsPerUnit : 0) + (targets[0].nic2 ? targets[0].nic2.portsPerUnit : 0);
+    // Same effective-NIC rule step 1 sizes with: an explicit per-target spec, else the global
+    // answer for a non-AI primary target. Counting only `targets[0].nic` reported 0 ports/unit for
+    // every wizard/shorthand caller (whose NIC arrives at the top level) while nicSummary said 2.
+    const primaryNic = targets[0].nic || (targets[0].platform.workload !== 'ai' ? nic : null);
+    const primaryPorts = (primaryNic ? primaryNic.portsPerUnit : 0) + (targets[0].nic2 ? targets[0].nic2.portsPerUnit : 0);
     const nicSummary = allNics.length ? allNics.map(x => x.nic.label).join('  +  ') : (nic ? nic.label : '');
 
     const sharedGrp = groups['shared|dell'] || groups['shared|nvidia'];

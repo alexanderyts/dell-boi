@@ -67,6 +67,10 @@ try {
   check('guided: rack SVG rendered', /<svg/.test($('#tab-rack').innerHTML));
   check('guided: checks rendered', $('#tab-checks').children.length > 0);
   check('guided: guidance tab hidden (not discovery)', $('#tab-btn-guidance').hidden);
+  // G-032 regression: a defaults-only guided walk must quote the platform's published host
+  // config — ONE dual-port NIC = 2 data ports/unit — not 2 NICs × 2 ports = 4 (the R15 doubling).
+  const gCtx = win.UI.last && win.UI.last.context;
+  check('guided defaults: host NIC = one dual-port NIC (2 ports/unit), not 2 NICs (4)', !!gCtx && gCtx.nicPortsPerUnit === 2, gCtx && gCtx.nicSummary);
 } catch (e) { check('guided flow no exception', false, e.message); }
 
 /* ---- NEW: interactive topology + rack power rollup ---- */
@@ -120,7 +124,8 @@ try {
   check('guided+2nd: results rendered', !$('#results').hidden);
   const bomTxt = $('#tab-bom').textContent;
   check('guided+2nd: added PowerStore 9200T present', /PowerStore/.test(bomTxt));
-  check('guided+2nd: custom spec lands (8 units × 2×2 ports @100G = 32 links)', /32 link\(s\) \(4\/unit × 8\)/.test(bomTxt));
+  // G-032: the "spec it exactly" defaults are ONE dual-port NIC (2 ports/unit), not 2×2 = 4.
+  check('guided+2nd: custom spec lands at the one-dual-port-NIC default (8 units × 1×2 ports @100G = 16 links)', /16 link\(s\) \(2\/unit × 8\)/.test(bomTxt), (bomTxt.match(/\d+ link\(s\) \(\d+\/unit × 8\)/) || [])[0]);
 } catch (e) { check('guided second-target build-out no exception', false, e.message); }
 
 /* ---- NEW: guided wizard reaches the newly-catalogued platforms (MX7000, PowerVault ME5) ---- */

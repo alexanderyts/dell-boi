@@ -43,9 +43,12 @@
       { v: '1', label: 'Single-port (1)', desc: '' },
       { v: '4', label: 'Quad-port (4)', desc: '' }
     ], default: '2' },
+    // Default 1 (G-032): the platform default is ONE dual-port NIC per host — redundancy is the
+    // two ports of that one NIC dual-homed across the leaf pair, not two NICs. The old default
+    // of 2 doubled every guided quote's host cabling (R15: F710 "2× dual-port NICs I didn't pick").
     { id: 'nicCount', type: 'number', q: 'How many data NICs per server / node?', showIf: aiNicGate,
-      help: 'Total data NICs per unit — drives the port count',
-      listenFor: ['1', '2 (redundancy)', 'more for storage / AI'], default: 2, unknownAssume: 'NICs/unit assumed = 2' },
+      help: 'Total data NICs per unit — drives the port count. One dual-port NIC is already redundant (one port to each leaf); count 2 only if the host really has two data NICs.',
+      listenFor: ['1 (the usual — dual-port, one port per leaf)', '2 NICs (second card for storage / AI / extra bandwidth)'], default: 1, unknownAssume: 'NICs/unit assumed = 1 (one dual-port NIC)' },
     // SECOND NIC TYPE in the same hosts (e.g. LAN on Broadcom + a dedicated storage NIC)
     { id: 'nic2Spec', type: 'choice', q: 'Is there a SECOND, different NIC type in the same hosts?',
       help: 'Mixed NICs are common — e.g. Broadcom OCP for LAN plus a second NIC for storage, a legacy network, or management. The second NIC gets its own fabric sizing.',
@@ -394,7 +397,7 @@
     ], default: '2' },
     { id: 'secondNicCount', type: 'number', q: 'Added target — how many data NICs / I/O modules per unit?',
       showIf: s => s.secondSpec === 'custom', help: 'Total per unit — drives its port count',
-      listenFor: ['1', '2 (redundancy)', 'more for storage'], default: 2, unknownAssume: 'Added target: NICs/unit assumed = 2' },
+      listenFor: ['1 (the usual — dual-port, one port per leaf)', '2 NICs / I/O modules (storage appliances often carry more)'], default: 1, unknownAssume: 'Added target: NICs/unit assumed = 1 (one dual-port NIC)' },
     { id: 'secondMore', type: 'choice', q: 'Add another attach target to this same design?',
       showIf: s => s.second && s.second !== 'none',
       help: 'Build out as big a solution as this design actually needs — a large server pool, several smaller server pools, and multiple storage platforms can all live in one BOM & topology.',
