@@ -186,15 +186,27 @@ window.CATALOG.optics = [
   { id: 'dac-800g-osfp', category: 'dac', speed: '800GbE', media: 'OSFP112', reach: 'DAC 1–4m',
     model: 'DAC-O112-800G-xM', lengths: '1/2/3/4m',
     desc: 'DAC-O112-800G-xM · 800GbE OSFP112 passive DAC (Spectrum-X in-rack)', dellPN: 'verify', verify: true, specConfirmed: true, source: OPTICS_SRC },
-  // 800G OSFP112 switch port -> 2x 400G QSFP56-DD ends. `railsPerAssembly` is what makes the
+  // 800G OSFP112 switch port -> 2x 400G QSFP112 ends. `railsPerAssembly` is what makes the
   // quantity honest: ONE assembly carries TWO 400G links, so qty = links ÷ 2, never one-per-link
-  // (R12 ruling 2026-07-16d(b)). The far ends are QSFP56-DD — this part reaches a QSFP56-DD NIC,
-  // NOT another OSFP switch port, which is why a Dell 400G folded AI Clos (OSFP<->OSFP both ends)
-  // has no cataloged part here and returns null rather than substituting this one.
-  { id: 'brk-800g-2x400', category: 'breakout', speed: '800GbE→2x400GbE', media: 'OSFP112→2xQSFP56-DD', reach: 'DAC 1–4m',
-    railsPerAssembly: 2, farCage: 'qsfp-dd',
-    model: 'DAC-O112-800G2x400G-xM', lengths: '1–4m',
-    desc: 'DAC-O112-800G2x400G-xM · 800G OSFP112 → 2x400G QSFP56-DD breakout DAC (800G switch port → two 400G hosts/rails)', dellPN: 'verify', verify: true, specConfirmed: true, source: OPTICS_SRC },
+  // (R12 ruling 2026-07-16d(b)). The far ends reach a QSFP112 NIC, NOT another OSFP switch port —
+  // which is why a Dell 400G folded AI Clos (OSFP<->OSFP both ends) has no cataloged part here and
+  // returns null rather than substituting this one.
+  // CORRECTED 2026-09-17 (GAPS G-034): this entry said "2xQSFP56-DD" far ends under the model name
+  // DAC-O112-800G2x400G-xM. The Dell Transceivers & Cables Spec Sheet (corpus/txt/OPTICS.txt:1116-
+  // 1126, "800-Gigabit Ethernet ... Direct Attach Cable" table) lists ONE such part:
+  //   DAC-O112-800G2x400G-Q112-xM — "OSFP112 to QSFP112", "400G breakout end can plug into
+  //   Broadcom 57608 NIC only; Supports 1x400 only".
+  // The QSFP112 far end is a different cage AND a different signalling class (100G-PAM4) from
+  // QSFP56-DD; and Dell restricts the part to the Broadcom 57608 NIC. `nicOnly` carries that
+  // restriction as data so the engine can verify-flag the line and the rep sees it on the quote.
+  // Corroboration: the Enterprise SONiC Compatibility Matrix (corpus/txt/SONIC-COMPAT.txt:1687-
+  // 1693) names the Dell Broadcom BCM57608 as the NIC validated against Z9864F-ON ports with
+  // Dell-branded 1–4 m DACs — same part family, same length range.
+  { id: 'brk-800g-2x400', category: 'breakout', speed: '800GbE→2x400GbE', media: 'OSFP112→2xQSFP112', reach: 'DAC 1–4m',
+    railsPerAssembly: 2, farCage: 'qsfp112', nicOnly: 'Broadcom 57608',
+    model: 'DAC-O112-800G2x400G-Q112-xM', lengths: '1/2/3/4m',
+    desc: 'DAC-O112-800G2x400G-Q112-xM · 800G OSFP112 → 2x400G QSFP112 breakout DAC (800G switch port → two 400G rails; Dell spec sheet: far ends plug into the Broadcom 57608 NIC only, 1x400 per end)', dellPN: 'verify', verify: true, specConfirmed: true,
+    source: OPTICS_SRC + ' — "800-Gigabit Ethernet Active Optical and Direct Attach Cable" table: "OSFP112 to QSFP112 … can plug into Broadcom 57608 NIC only; Supports 1x400 only" (corpus/txt/OPTICS.txt:1116-1126, verified 2026-09-17)' },
 
   /* ============================================================================
    * NVIDIA LinkX cables & optics — for NVIDIA Spectrum-X (AI) fabrics.

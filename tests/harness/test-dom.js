@@ -242,6 +242,29 @@ try {
   check('G-033 guided: no "connector not confirmed" flag when the rep answered', !/NIC CONNECTOR NOT CONFIRMED/.test(bomTxt));
 } catch (e) { check('G-033 guided wire-through no exception', false, e.message); }
 
+/* ---- G-034: the connector question is asked on the DELL stack too, and a QSFP112 answer quotes
+   the Q112 assembly with the Dell NIC restriction on the line ---- */
+try {
+  reset();
+  $('.mode-btn[data-mode="guided"]').click();
+  const picks = [
+    { q: /What are you connecting/, opt: /AI \/ GPU servers/ },
+    { q: /Which GPU server/, opt: /XE9680/ },
+    { q: /AI fabric stack/, opt: /Dell PowerSwitch/ },
+    { q: /Which NIC drives the GPU rails/, opt: /Model default/ },
+    { q: /What connector do the GPU rail NICs use/, opt: /^QSFP112/ }
+  ];
+  for (let i = 0; i < 45 && !$('#wizard').hidden; i++) {
+    const q = ($('#wiz-step .wiz-q') || {}).textContent || '';
+    const pick = picks.find(p => !p.done && p.q.test(q));
+    if (pick) { const btn = [...d.querySelectorAll('#wiz-step .wiz-opt')].find(b => pick.opt.test(b.textContent)); if (btn) btn.click(); pick.done = true; }
+    $('#wiz-next').click();
+  }
+  check('G-034 guided/Dell: connector question is asked on the Dell stack', picks[4].done);
+  const bomTxt = $('#tab-bom').textContent;
+  check('G-034 guided/Dell: QSFP112 → DAC-O112-800G2x400G-Q112 quoted with the NIC restriction note', /800G2x400G-Q112/.test(bomTxt) && /NIC RESTRICTION/.test(bomTxt) && /57608/.test(bomTxt));
+} catch (e) { check('G-034 guided/Dell no exception', false, e.message); }
+
 /* ---- G-033 Expert Form: the new connector select must reach the engine too ---- */
 try {
   reset();

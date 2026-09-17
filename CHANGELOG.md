@@ -5,7 +5,36 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.7**
+Current version: **0.66.8**
+
+---
+
+## 0.66.8 — Dell-stack 400G AI rail cable was mis-catalogued; Dell restricts the real part to one NIC (2026-09-17)
+
+**What this means for a quote:** every Dell-PowerSwitch 400G AI design (Z9864F-ON leaves with
+XE9680-class 400G rails) quoted a rail cable described as "800G OSFP112 → 2× 400G QSFP56-DD"
+with no flag. Dell's spec sheet has no such part. The only Dell 800G→2×400G assembly is
+**DAC-O112-800G2x400G-Q112** — far ends are **QSFP112**, and Dell lists it for the **Broadcom
+57608 NIC only**. So: if the customer's GPU NICs are OSFP ConnectX-7/-8, there is no Dell cable
+at all; if they are QSFP112 ConnectX-7 or BlueField-3, the part is outside what Dell lists. Re-run
+any Dell-stack 400G AI quote and read the new flag.
+
+**Now:** the connector question ("What connector do the GPU rail NICs use?") is asked on the
+Dell stack too. QSFP112 or "not sure" → the Q112 assembly is quoted **verify-flagged**, with the
+57608-only restriction printed on the line and in Checks. OSFP → a hard error naming both ways
+out (confirm the NIC is really QSFP112/57608, or build the AI fabric on the NVIDIA stack). The
+catalog entry and a CITATION-LOG row now carry the spec-sheet fact with the line reference.
+
+**Two note bugs found and fixed on the way** (every 1:2 rail line, NVIDIA included): the BOM
+note printed the *assembly* count as the link count ("32 link(s)" for 64 rails, beside its own
+"64 ÷ 2 = 32 assemblies" arithmetic), and the R12 "⚠ NIC CONNECTOR NOT CONFIRMED" note had been
+silently stripped off the line by the note clean-up pass — only the separate Checks warning
+survived. Both fixed; a merged two-NIC cable line now also counts both contributors' links.
+The invariant that had pinned the wrong count in as "correct" now checks qty × links-per-
+assembly. Tests stash-verified. GAPS G-034.
+
+**Open ruling for you:** which NIC do your Dell-stack XE9680 deals actually carry — Broadcom
+57608 or ConnectX-7? Until answered, every Dell 400G rail line stays verify-flagged.
 
 ---
 

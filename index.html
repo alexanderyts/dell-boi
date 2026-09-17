@@ -243,11 +243,11 @@
             <option value="800GbE">ConnectX-8 — 800GbE rails</option>
           </select>
         </label>
-        <label>GPU rail NIC connector <span class="unit-label">(AI, NVIDIA 400G rails — picks the 1:2 splitter)</span>
+        <label>GPU rail NIC connector <span class="unit-label">(AI 400G rails — picks the 1:2 rail assembly)</span>
           <select id="f-rail-cage">
-            <option value="unsure" selected>Not sure — quote the OSFP splitter, flag to verify</option>
-            <option value="osfp">OSFP (OSFP ConnectX-7 / ConnectX-8 → MCP7Y00)</option>
-            <option value="qsfp112">QSFP112 (QSFP112 ConnectX-7, BlueField-3 → MCP7Y10)</option>
+            <option value="unsure" selected>Not sure — quote the default variant, flag to verify</option>
+            <option value="osfp">OSFP (OSFP ConnectX-7 / ConnectX-8 — NVIDIA MCP7Y00; no Dell assembly)</option>
+            <option value="qsfp112">QSFP112 (QSFP112 ConnectX-7, BlueField-3, Broadcom 57608 — NVIDIA MCP7Y10 / Dell Q112)</option>
           </select>
         </label>
         <label>AI fabric stack <span class="unit-label">(no mixing — pick one vendor)</span>

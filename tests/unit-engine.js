@@ -644,8 +644,9 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
   // RE-RULED 2026-07-16d (R12, maintainer, before/after shown). This case previously asserted a
   // FLAT 2-tier on the premise that 65 leaves "fit the 128-port breakout-adjusted radix" — but that
   // 128 was PHANTOM: it credited the Z9864F-ON spine with 400G breakout ports for a leaf↔spine hop
-  // that has no cataloged part (the only Dell 800G→2×400G assembly fans out to QSFP56-DD HOSTS, not
-  // to another OSFP switch). Inter-switch hops between same-cage switches run NATIVE speed, so the
+  // that has no cataloged part (the only Dell 800G→2×400G assembly fans out to QSFP112 NIC ends —
+  // G-034 corrected the far end from QSFP56-DD — not to another OSFP switch). Inter-switch hops
+  // between same-cage switches run NATIVE speed, so the
   // spine has 64 real ports and 65 leaves genuinely do NOT fit flat — by ONE leaf (512 servers still
   // does). Uplink bandwidth is identical either way (32×800G == 64×400G == 25,600G/leaf): the
   // phantom bought no capacity, only an unbuildable BOM. The honest shape is a 3-tier Clos with a
@@ -1166,6 +1167,43 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
     { platformId: 'poweredge-ai', units: 4, gpusPerServer: 8, modelId: 'xe9680' }
   ], stack: 'nvidia', railNicCage: 'osfp', redundancy: 'dual', includeMgmt: true });
   t('G-033: two AI targets riding the shared top-level answer → interim G-024 warning still fires', twoShared.warnings.some(w => /share ONE rail-NIC-cage answer/.test(w.message)));
+})();
+
+/* ---- G-034 (2026-09-17): the Dell 800G→2×400G rail assembly. The catalog said "2× QSFP56-DD" far
+   ends under the name DAC-O112-800G2x400G-xM; Dell's spec sheet lists only DAC-O112-800G2x400G-
+   Q112-xM — OSFP112 → 2× QSFP112, "can plug into Broadcom 57608 NIC only" (corpus/txt/OPTICS.txt:
+   1116-1126). Every Dell-stack 400G AI quote carried the mis-described part with no flag. ---- */
+(() => {
+  const C = window.CATALOG;
+  const brk = C.optics.find(o => o.id === 'brk-800g-2x400');
+  t('G-034 catalog: Dell 800G→2×400G assembly is the Q112 part with QSFP112 far ends', !!brk && /Q112/.test(brk.model) && brk.farCage === 'qsfp112' && /2xQSFP112/.test(brk.media), brk && (brk.model + ' ' + brk.media));
+  t('G-034 catalog: the Broadcom 57608 restriction is carried as data (nicOnly)', !!brk && /57608/.test(brk.nicOnly || ''));
+  t('G-034 catalog: cage table agrees the low end is QSFP112, which a QSFP-DD switch port does NOT accept', !!brk && C.formFactor.lowMediaOf(brk.media) === 'QSFP112' && C.formFactor.fits('QSFP-DD', 'QSFP112').ok === false);
+  const dell = cage => rec({ targets: [{ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, modelId: 'xe9680', railNicCage: cage }], stack: 'dell', redundancy: 'dual', includeMgmt: true });
+  const rail = r => r.bom.find(b => /^DAC-O112-800G2x400G/.test(b.item) && /aifabric/.test(b.note || ''));
+  const q = dell('qsfp112');
+  t('G-034 qsfp112: quotes the Q112 assembly (32 = 64 rails ÷ 2)', !!rail(q) && /Q112/.test(rail(q).item) && rail(q).qty === 32, rail(q) && rail(q).qty);
+  t('G-034 qsfp112: the line is VERIFY-flagged with the 57608-only restriction in its note', !!rail(q) && rail(q).verify === true && /NIC RESTRICTION/.test(rail(q).note) && /57608/.test(rail(q).note));
+  t('G-034 qsfp112: a verify warning names the restriction', q.warnings.some(w => w.severity === 'verify' && /57608 NIC ONLY/.test(w.message)));
+  const u = dell('unsure');
+  t('G-034 unsure: quotes the Q112 assembly, verify-flagged, note says the connector was not confirmed', !!rail(u) && rail(u).verify === true && /connector not confirmed/.test(rail(u).note));
+  const o = dell('osfp');
+  t('G-034 osfp: NO rail cable is quoted (no Dell-catalogued OSFP far end)', !rail(o));
+  t('G-034 osfp: hard error names both remedies (confirm QSFP112/57608, or NVIDIA stack)', o.warnings.some(w => w.severity === 'error' && /OSFP/.test(w.message) && /Broadcom 57608/.test(w.message) && /NVIDIA stack/.test(w.message)), o.warnings.filter(w => w.severity === 'error').map(w => w.message.slice(0, 80)));
+  t('G-034 osfp: the generic "no cataloged optic" shrug does NOT fire in its place', !o.warnings.some(w => /no cataloged in-rack optic for a 400GbE host/.test(w.message)));
+  // NVIDIA path is unchanged by the Dell fix
+  const nv = rec({ targets: [{ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, modelId: 'xe9680', railNicCage: 'osfp' }], stack: 'nvidia', redundancy: 'dual', includeMgmt: true });
+  t('G-034: NVIDIA osfp still quotes MCP7Y00 unflagged (no Dell restriction leaks across stacks)', nv.bom.some(b => /^MCP7Y00-Nxxx/.test(b.item)) && !nv.warnings.some(w => /57608/.test(w.message)));
+  // Found while fixing G-034 — two defects in design.js's G-020 note shim, on every 1:2 rail line:
+  // (a) the printed LINK count was rewritten to the ASSEMBLY count ("32 link(s)" for 64 rails, next
+  //     to an ARITHMETIC segment saying 64 ÷ 2 = 32 assemblies); (b) the optic-metadata scrub also
+  //     dropped any "⚠" flag segment that named a cage, so the R12 "NIC CONNECTOR NOT CONFIRMED"
+  //     line note never actually reached the BOM (only the separate verify warning did).
+  const nvUnsure = rec({ targets: [{ platformId: 'poweredge-ai', units: 8, gpusPerServer: 8, modelId: 'xe9680' }], stack: 'nvidia', redundancy: 'dual', includeMgmt: true });
+  const nvLine = nvUnsure.bom.find(b => /^MCP7Y00-Nxxx/.test(b.item) && /aifabric/.test(b.note || ''));
+  t('note shim: a 1:2 rail line prints the LINK count (64), not the assembly count (32)', !!nvLine && /\b64 link\(s\)/.test(nvLine.note) && nvLine.qty === 32, nvLine && nvLine.note.slice(0, 80));
+  t('note shim: the R12 "NIC CONNECTOR NOT CONFIRMED" flag survives on the BOM line', !!nvLine && /⚠ NIC CONNECTOR NOT CONFIRMED/.test(nvLine.note));
+  t('note shim: the ARITHMETIC segment still agrees with the printed link count', !!nvLine && /64 ÷ 2 = 32 assemblies/.test(nvLine.note));
 })();
 
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);

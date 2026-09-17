@@ -1170,7 +1170,16 @@ G-042, G-043).
   wire-through test that builds the wizard's real `gInput` and asserts MCP7Y10 for a QSFP112
   answer. Structural guard: G-043.
 
-### G-034 — Dell-stack 400G AI rail cable is mis-catalogued; Dell restricts the real part to one NIC — OPEN 2026-09-17
+### G-034 — Dell-stack 400G AI rail cable is mis-catalogued; Dell restricts the real part to one NIC — CLOSED 2026-09-17 (v0.66.8), NIC ruling still OPEN
+- **Status:** CLOSED as a defect. Catalog fact corrected (`DAC-O112-800G2x400G-Q112`, QSFP112
+  far ends, `nicOnly:'Broadcom 57608'`); Dell 400G rails honour `railNicCage` (osfp → hard error
+  + no cable; qsfp112/unsure → Q112 part verify-flagged with the restriction); wizard/Expert ask
+  on the Dell stack; CITATION-LOG row. Found and fixed in passing: the G-020 note shim printed
+  the assembly count as the link count and stripped the R12 "⚠ NIC CONNECTOR NOT CONFIRMED" flag
+  from every 1:2 line; `addLine` now sums `coversLinks` on merge; the invariant that pinned the
+  wrong count now checks qty × linksPerAssembly. Stash-verified. DESIGN-LOG 2026-09-17.
+  **Still open (maintainer):** which NIC do Dell-stack XE9680 deals carry — Broadcom 57608 or
+  ConnectX-7? Until ruled, every Dell 400G rail line is verify-flagged.
 - **Severity:** HIGH — every Dell-stack 400G AI quote (Z9864F-ON leaves, XE9680-class rails)
   carries a rail cable whose catalogued far end does not exist, with no verify flag. CONFIRMED:
   8× XE9680, Dell stack, rail NIC answered OSFP → 32× `DAC-O112-800G2x400G-xM`, no error.

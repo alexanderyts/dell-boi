@@ -9,6 +9,59 @@ blame across a dozen commits.
 
 ---
 
+## 2026-09-17 — Dell 800G→2×400G rail assembly: QSFP112 far ends, Broadcom 57608 only (v0.66.8) — GAPS G-034
+
+**Found while:** the 2026-09-17 accuracy review, checking the catalog's Dell 400G-rail part
+against the corpus. `optics.js` `brk-800g-2x400` said media `OSFP112→2xQSFP56-DD`, `farCage:
+'qsfp-dd'`, model `DAC-O112-800G2x400G-xM`. The Dell Transceivers & Cables Spec Sheet
+(`corpus/txt/OPTICS.txt:1116-1126`) lists exactly one part: **`DAC-O112-800G2x400G-Q112-xM` —
+"OSFP112 to QSFP112 … 400G breakout end can plug into Broadcom 57608 NIC only; Supports 1x400
+only"**; the §800GbE intro (`:154`) calls it the "800G to 2x400G Q112 breakout". Corroborated by
+the Enterprise SONiC Compatibility Matrix (`SONIC-COMPAT.txt:1687-1693`), which names the Dell
+Broadcom BCM57608 as the NIC validated on Z9864F-ON ports with Dell 1–4 m DACs. Reproduced: 8×
+XE9680, Dell stack, rail NIC answered OSFP → 32 assemblies quoted, no flag, no error.
+
+**Why it matters for a quote:** QSFP112 is a different cage AND a different signalling class
+(100G-PAM4) from QSFP56-DD; the two are not interchangeable and the catalog's own ACCEPTS table
+already knew it (QSFP-DD ↔ QSFP112 do not seat). The Dell-stack pick ignored `railNicCage`
+entirely — the R12 never-guess rule had been applied to the NVIDIA splitters only.
+
+**Ruling applied (R12 extended to the Dell stack; the NIC ruling itself is OPEN):**
+- Catalog fact corrected (model, media, `farCage:'qsfp112'`) and the vendor restriction carried
+  as DATA — `nicOnly: 'Broadcom 57608'` — so the engine can act on it and it is citable.
+- `pickHostCable`, Dell OSFP-leaf 400G branch, now honours the cage: `osfp` → **null** (no
+  Dell-catalogued assembly reaches an OSFP NIC) and the caller raises a hard error naming both
+  remedies (confirm QSFP112/57608; or the NVIDIA stack, whose MCP7Y00 reaches OSFP ConnectX-7/-8)
+  — ruling 3's "impossible = hard error naming the remedies" pattern. `qsfp112` / `unsure` → the
+  Q112 part, **verify-flagged** with the 57608-only restriction on the line and a `verify`
+  warning. Any part carrying `nicOnly` gets this treatment generically.
+- The wizard asks the connector question on the Dell stack too; the Expert Form's select is
+  stack-neutral.
+- **Open to the maintainer:** which NIC do Dell-stack XE9680-class deals actually carry? Until
+  ruled, every Dell 400G rail line is verify-flagged (never silent, never blocked).
+
+**Two pre-existing defects found in passing, in `design.js`'s G-020 note shim** — both on every
+1:2 rail line, NVIDIA included:
+1. `repairCableLines` rewrote the note's "N link(s)" to the line's `qty` — correct for 1:1
+   cables, wrong for assemblies (32 for 64 rails, beside an ARITHMETIC segment saying 64 ÷ 2 =
+   32). Now reads `coversLinks` (the field R12 added for exactly this). `tests/invariants.js`'s
+   "host line qty == note's N link(s)" had been pinning the wrong number in as correct — it now
+   asserts qty × linksPerAssembly, the same rule P13 uses.
+2. The optic-metadata scrub dropped ANY segment naming a cage — including the R12 "⚠ NIC
+   CONNECTOR NOT CONFIRMED" flag, which therefore never reached a BOM line (only the separate
+   verify warning did). "⚠" segments are flags, not metadata, and now survive.
+Plus `addLine` now sums `coversLinks` on a merge (a same-target two-NIC copper merge printed the
+first contributor's 120 links for a 240-link line once the shim stopped forcing links = qty).
+
+**Test:** `tests/unit-engine.js` "G-034" block (catalog fact + cage table agree; qsfp112 → Q112
+part, qty 32, verify + restriction note + warning; unsure → same with "connector not confirmed";
+osfp → no rail line + the specific error, generic shrug suppressed; NVIDIA path unchanged; note
+shim: 64 link(s), flag survives, arithmetic agrees). `tests/harness/test-dom.js` "G-034
+guided/Dell" (question asked on the Dell stack; Q112 line with the restriction renders).
+Stash-verified: reverting `optics.js` + `engine.js` + `design.js` turns the block red.
+
+---
+
 ## 2026-09-17 — rail-NIC cage is read PER TARGET; the wizard's answer now reaches the engine (v0.66.7) — GAPS G-033
 
 **Found while:** the 2026-09-17 accuracy review's input→engine reachability pass (a

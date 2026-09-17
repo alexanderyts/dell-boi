@@ -300,9 +300,16 @@
     if (gbps >= 800) return byId('dac-800g-osfp');   // in-rack passive DAC — default
     // 400G rails on a Dell 800G OSFP112 leaf (Z9864F-ON): the port is OSFP, so the QSFP56-DD DAC
     // below cannot seat in it (R12 — this is the Dell-stack twin of the NVIDIA MCP1660 defect).
-    // The port fans out via the 800G→2×400G breakout instead; its far ends are QSFP56-DD, which
-    // suits a QSFP56-DD host NIC. One assembly = 2 rails (see railsPerAssembly).
-    if (gbps === 400 && onCage('OSFP')) return placement === 'structured' ? null : byId('brk-800g-2x400');
+    // The port fans out via the 800G→2×400G breakout instead. One assembly = 2 rails.
+    // G-034 (2026-09-17): Dell's ONLY such assembly (DAC-O112-800G2x400G-Q112) has QSFP112 far
+    // ends, listed for the Broadcom 57608 NIC. So — same never-guess rule as the NVIDIA splitters —
+    // an OSFP rail NIC has NO Dell-catalogued cable from this leaf: return null and let the caller
+    // raise the specific error. 'qsfp112' and 'unsure' quote the Q112 part; the caller verify-flags
+    // it with the NIC restriction (the part's `nicOnly`).
+    if (gbps === 400 && onCage('OSFP')) {
+      if (placement === 'structured' || farCage === 'osfp') return null;
+      return byId('brk-800g-2x400');
+    }
     if (gbps >= 400) return byId('dac-400g-qsfpdd');
     if (gbps >= 200) return byId('dac-200g-qsfp56');
     if (gbps >= 100) return byId('dac-100g-qsfp28');
@@ -436,6 +443,10 @@
     const existing = bom.find(b => (b._mk || (b.category + '|' + (b.model || b.item))) === key);
     if (existing) {
       existing.qty += line.qty;
+      // a merged cable line covers BOTH contributors' links — the note shim (design.js) and P13b
+      // read this field, and a stale first-contributor value printed half the links on a
+      // same-target two-NIC merge (found 2026-09-17 while fixing G-034).
+      if (line.coversLinks != null) existing.coversLinks = (existing.coversLinks || 0) + line.coversLinks;
       // R11 (DERIVATIONS §1): switch lines merge across NETWORKS by design — the group key is
       // (model, role), deliberately not (model, role, network). Every category:'Switch' call
       // site provides `network`/`dedicated` (a synthetic constant label where a real network
@@ -1208,7 +1219,13 @@
       const placeLbl = (fsPlaceDef.cableClass || '') + (fsPlaceDef.reach ? ` · ${fsPlaceDef.reach}` : '') +
         (fsPlacement !== placement ? ' · CROSS-RACK (centralized switches, multi-rack hosts)' : (fs.perRack ? ` · ${wantDual ? 'ToR pair' : 'one leaf'} per rack × ${racks}` : ''));
       if (!hostCable) {
-        warnings.push({ severity: 'warn', message: `${fam} ${fs.network}: no cataloged ${fsPlacement} optic for a ${fs.speed} host connection — this speed/placement combination is beyond current catalog coverage. Engage Dell Advanced Engineering / Services to confirm optics before quoting.`, source: R.leafSpine.source });
+        // G-034: Dell-stack 400G rails off an OSFP112 leaf with an OSFP rail NIC — a specific,
+        // fixable input combination, so it gets its own error naming the remedies (ruling 3,
+        // 2026-07-16d: impossible = hard error, never a silent substitute or a generic shrug).
+        const dellOsfpRail = fs.workload === 'ai' && !nv && fs.gbps === 400 && fs.target.railNicCage === 'osfp'
+          && leaf.access && C.formFactor && C.formFactor.cagesOf(leaf.access.media).indexOf('OSFP') >= 0;
+        if (dellOsfpRail) warnings.push({ severity: 'error', message: `${fam} ${fs.network}: the GPU rail NICs are OSFP, but Dell's only 800G→2×400G rail assembly for the ${leaf.model} (DAC-O112-800G2x400G-Q112) has QSFP112 far ends and is listed by Dell for the Broadcom 57608 NIC only — there is NO Dell-catalogued cable from an OSFP112 leaf port to an OSFP NIC, so this BOM is not buildable as asked and no rail cable is quoted. TWO WAYS TO FIX: (1) confirm the rail NIC is actually QSFP112 (the Broadcom 57608 is the NIC Dell validates against the Z9864F-ON) and re-run with that connector; or (2) build the AI fabric on the NVIDIA stack, whose MCP7Y00 splitter does reach an OSFP ConnectX-7/-8.`, source: 'Dell Networking Transceivers & Cables Spec Sheet 2026 (corpus/txt/OPTICS.txt:1116-1126) · Enterprise SONiC Compatibility Matrix (Z9864F-ON ↔ BCM57608) · GAPS G-034' });
+        else warnings.push({ severity: 'warn', message: `${fam} ${fs.network}: no cataloged ${fsPlacement} optic for a ${fs.speed} host connection — this speed/placement combination is beyond current catalog coverage. Engage Dell Advanced Engineering / Services to confirm optics before quoting.`, source: R.leafSpine.source });
       } else {
         // QUANTITY SEMANTICS (R12 ruling 2026-07-16d(b)): a 1:2 splitter/breakout assembly carries
         // TWO links, so the ordered quantity is links ÷ railsPerAssembly — never one-per-link. The
@@ -1222,16 +1239,22 @@
         // fixed far end (Dell's brk-800g-2x400) has nothing to be unsure about.
         const cageUnsure = fs.target.railNicCage === 'unsure' && !!hostCable.farCageVariant;
         if (cageUnsure) warnings.push({ severity: 'verify', message: `${fam} ${fs.network}: the GPU rail NIC's connector was not confirmed, and the 1:2 rail splitter differs by it — MCP7Y00 (far end 2× OSFP) vs MCP7Y10 (far end 2× QSFP112). Quoted as ${hostCable.model} and flagged: CONFIRM the NIC connector before ordering. Not interchangeable, but a like-for-like swap (no design or quantity impact).`, source: 'NVIDIA LinkX 1:2 splitter selection (corpus NV-LINKX-400G-COMBO) · R12 ruling 2026-07-16d(a)' });
+        // G-034: a part the vendor restricts to a named NIC (catalog `nicOnly`) is quoted
+        // VERIFY-flagged with the restriction on the line — the rep must confirm the NIC model,
+        // not just its connector. Whether the connector was answered or not, the restriction holds.
+        const nicOnly = hostCable.nicOnly || null;
+        if (nicOnly) warnings.push({ severity: 'verify', message: `${fam} ${fs.network}: ${hostCable.model} is listed by Dell for the ${nicOnly} NIC ONLY (far ends ${String(hostCable.farCage || '').toUpperCase()}${fs.target.railNicCage === 'unsure' ? '; the rail NIC connector was not confirmed' : ''}). CONFIRM the GPU rail NIC is a ${nicOnly} before ordering — an OSFP ConnectX-7/-8 has no Dell-catalogued assembly from this leaf, and a QSFP112 ConnectX-7 / BlueField-3 is outside what Dell lists for this part.`, source: 'Dell Networking Transceivers & Cables Spec Sheet 2026 (corpus/txt/OPTICS.txt:1116-1126) · GAPS G-034' });
         addLine(bom, { category: 'Cable/Optic', vendor: hostCable.vendor || 'Dell', item: hostCable.desc, model: hostCable.desc, qty: hcQty,
           // links this line actually covers = qty × linksPerAssembly. Carried ON the line so the
           // BOM-integrity invariant (P13) reads the same number the note prints — a 1:2 assembly
           // must never be mistaken for a 1:1 cable by anything downstream.
           linksPerAssembly: hcLpa, coversLinks: fs.links,
           mergeKey: 'host|' + fs.target.id + '|' + fs.network + '|' + hostCable.id,
-          dellPN: hostCable.dellPN, verify: cageUnsure ? true : hostCable.verify, specConfirmed: cageUnsure ? false : hostCable.specConfirmed, source: hostCable.source,
+          dellPN: hostCable.dellPN, verify: (cageUnsure || nicOnly) ? true : hostCable.verify, specConfirmed: cageUnsure ? false : hostCable.specConfirmed, source: hostCable.source,
           note: `Host-to-leaf for ${fam} ${fs.network} — ${fs.links} link(s) (${fs.linksPerUnit || 0}/unit × ${unitsTot}${fs.singleHomed && fs.sparePorts > 0 ? `; ${fs.sparePorts} NIC port${fs.sparePorts > 1 ? 's' : ''} spare — non-redundant (single-homed) design` : ''}) · ${connector} · ${placeLbl}` +
             (hcLpa > 1 ? ` · ARITHMETIC: 1 assembly carries ${hcLpa} links → ${fs.links} ÷ ${hcLpa} = ${hcQty} assemblies` : '') +
             (cageUnsure ? ' · ⚠ NIC CONNECTOR NOT CONFIRMED: quoted as the 2× OSFP far-end variant. If the rail NICs are QSFP112 (BlueField-3, or a QSFP112 ConnectX-7/-8), the correct part is MCP7Y10. VERIFY before ordering.' : '') +
+            (nicOnly ? ` · ⚠ NIC RESTRICTION (Dell spec sheet): far ends are ${String(hostCable.farCage || '').toUpperCase()} and Dell lists this assembly for the ${nicOnly} NIC only${fs.target.railNicCage === 'unsure' ? ' (rail NIC connector not confirmed)' : ''} — CONFIRM the rail NIC model before ordering.` : '') +
             (hostCable.lengths ? ` · lengths ${hostCable.lengths}` : '') +
             (fsPlacement === 'structured' ? ' · STRUCTURED: switch-side optic shown; host-side optic + fiber plant itemized below' + (structuredInPlace ? ' (patching in place — plant not re-quoted)' : '') : '') });
         // A structured run is a standalone-optic link: TWO transceivers per link, one each end.

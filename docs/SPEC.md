@@ -293,8 +293,15 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
      **native port speed** (a Z9864F-ON pair links OSFP112↔OSFP112 at 800G). Sizing must not credit
      a spine with breakout-adjusted ports for a switch↔switch hop that has no part.
   2. **A breakout is legitimate ONLY when a cataloged part with the correct FAR END exists.** The
-     far ends land on the *other* device — an assembly that fans out to QSFP56-DD hosts cannot
-     reach another OSFP switch port, whatever the speeds say.
+     far ends land on the *other* device — an assembly that fans out to QSFP112 NIC ends cannot
+     reach another OSFP switch port, whatever the speeds say. **Dell's only 800G→2×400G rail
+     assembly is `DAC-O112-800G2x400G-Q112` (OSFP112 → 2× QSFP112), which Dell lists for the
+     Broadcom 57608 NIC only** (spec sheet; corroborated by the SONiC matrix's Z9864F-ON ↔
+     BCM57608 note). On a Dell OSFP112 leaf: an OSFP rail NIC has no Dell-catalogued cable →
+     hard error naming both remedies; QSFP112 / unsure → the Q112 part **verify-flagged** with the
+     restriction. A catalog part carrying `nicOnly` is always quoted verify-flagged with that
+     restriction printed. — enforced: optic `brk-800g-2x400` (`farCage`, `nicOnly`),
+     `pickHostCable` Dell OSFP branch, engine NIC-restriction line; `tests/unit-engine.js` G-034.
   3. **A super-spine candidate qualifies only if it can TERMINATE the pod-spine's uplink speed** —
      native match, or a cataloged breakout with far-ends that seat. Radix alone is not
      qualification. Failing that, step to the **same-speed** switch (the G-001 ladder principle,

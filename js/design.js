@@ -365,7 +365,11 @@
         const opt = opticById(mk.split('|').pop());
         if (opt) {
           const parts = (b.note || '').split(' · ');
-          let head = stripMore(parts[0]).replace(/(\d+) link\(s\)/, `${b.qty} link(s)`);
+          // LINK count, not part count: a 1:2 assembly line has qty = links ÷ 2 (R12), and the
+          // line carries `coversLinks` for exactly this reason — substituting qty here printed
+          // "32 link(s)" for 64 rails beside an ARITHMETIC segment saying "64 ÷ 2 = 32 assemblies".
+          const linkCount = b.coversLinks || (b.qty * (b.linksPerAssembly || 1));
+          let head = stripMore(parts[0]).replace(/(\d+) link\(s\)/, `${linkCount} link(s)`);
           const brk = sourceBreakdown(rec);
           // replace the count parenthetical that follows "link(s)" — NOT the first "(...)" in the
           // note (family names like "Server (general-purpose)" contain their own parentheses).
@@ -374,7 +378,10 @@
             : head.replace(/(\d+ link\(s\))/, `$1 (${brk})`);
           // DROP optic-metadata + WRONG-SPEED segments (cross-media / cross-speed junk); keep the rest
           const DIRTY = /SFP|QSFP|OSFP|\bDAC\b|twinax|AOC\b|MPO|LC duplex|≤\s*\d|\bSR4?\b|\bLR4?\b|\bDR4?\b|\bFR\b|OM4|OS2|\d+G(?=\b)/i;
-          const tail = parts.slice(1).map(stripMore).filter(s => s && !DIRTY.test(s));
+          // A "⚠" segment is a rep-facing FLAG (NIC connector not confirmed, NIC restriction), never
+          // optic metadata — it names cages by necessity and must survive the metadata scrub. Before
+          // this, the R12 "NIC CONNECTOR NOT CONFIRMED" note was silently stripped from every BOM.
+          const tail = parts.slice(1).map(stripMore).filter(s => s && (/^⚠/.test(s) || !DIRTY.test(s)));
           b.note = [head, cleanMedia(opt)].concat(tail).join(' · ');
         }
       }

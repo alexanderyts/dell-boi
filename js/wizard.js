@@ -318,14 +318,16 @@
     // G-033: the reveal keys off the EFFECTIVE rail speed — the chosen model's default when the
     // rail NIC was left on "Model default" — not only an explicit 400G override; an XE9680 on its
     // default (400G) was never asked. The answer rides on targets[0], which the engine now reads.
+    // G-034: asked on the DELL stack too — Dell's only 800G→2×400G rail assembly off a Z9864F-ON
+    // has QSFP112 far ends (spec sheet: Broadcom 57608 NIC only), so an OSFP NIC has no Dell part.
     { id: 'railNicCage', type: 'choice', q: 'What connector do the GPU rail NICs use?',
-      showIf: s => s.category === 'ai' && s.stack === 'nvidia' && effectiveRailSpeed(s) === '400GbE',
-      help: 'At 400G the switch port is a twin-port OSFP cage, so each port feeds TWO rails through a 1:2 splitter — and the splitter is built for a specific connector at the NIC end. Same price class either way; picking wrong means the cable will not plug in.',
-      listenFor: ['“OSFP ConnectX-7”', '“QSFP112”', 'BlueField-3 DPU', '“which NIC card exactly?”'],
+      showIf: s => s.category === 'ai' && effectiveRailSpeed(s) === '400GbE',
+      help: 'At 400G the switch port is an 800G OSFP cage, so each port feeds TWO rails through a 1:2 assembly — built for a specific connector at the NIC end. NVIDIA stack: MCP7Y00 (OSFP) vs MCP7Y10 (QSFP112), same price class. Dell stack: the only Dell assembly has QSFP112 far ends and is listed for the Broadcom 57608 NIC — an OSFP NIC has no Dell-catalogued cable. Picking wrong means the cable will not plug in.',
+      listenFor: ['“OSFP ConnectX-7”', '“QSFP112”', 'BlueField-3 DPU', 'Broadcom 57608', '“which NIC card exactly?”'],
       options: [
-      { v: 'osfp', label: 'OSFP', desc: 'OSFP ConnectX-7 / ConnectX-8 → MCP7Y00 splitter' },
-      { v: 'qsfp112', label: 'QSFP112', desc: 'QSFP112 ConnectX-7, or a BlueField-3 DPU → MCP7Y10 splitter' },
-      { v: 'unsure', label: 'Not sure', desc: 'Quotes the OSFP splitter and flags the line to verify — like-for-like swap if it turns out QSFP112' }
+      { v: 'osfp', label: 'OSFP', desc: 'OSFP ConnectX-7 / ConnectX-8 · NVIDIA → MCP7Y00 splitter · Dell → no Dell-catalogued assembly (hard error)' },
+      { v: 'qsfp112', label: 'QSFP112', desc: 'QSFP112 ConnectX-7, BlueField-3, or Broadcom 57608 · NVIDIA → MCP7Y10 · Dell → DAC-O112-800G2x400G-Q112 (Dell lists it for the 57608 only — flagged)' },
+      { v: 'unsure', label: 'Not sure', desc: 'NVIDIA: quotes the OSFP splitter and flags it (like-for-like swap if QSFP112) · Dell: quotes the Q112 assembly and flags the NIC restriction' }
     ], default: 'unsure' },
     { id: 'aiDataSpec', type: 'choice', q: 'The GPU servers also carry front-end / storage NICs — spec them?',
       showIf: s => s.category === 'ai',

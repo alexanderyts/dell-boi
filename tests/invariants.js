@@ -360,8 +360,12 @@ const sig = r => r.bom
       }
       if (/^host\|/.test(mk) && (m = note.match(/(\d+) link\(s\)/))) {
         const enumd = parseInt(m[1], 10);
-        t(`referential [${designKey}]: host line qty ${b.qty} == note's "${m[0]}"`,
-          b.qty === enumd, { qty: b.qty, enumd });
+        // qty × linksPerAssembly, not bare qty: a 1:2 rail assembly line orders 32 parts for 64
+        // links and its note must say 64 (G-034 found the note shim forcing it to 32 — and this
+        // assertion had been pinning that wrong number in as "correct").
+        const lpa = b.linksPerAssembly || 1;
+        t(`referential [${designKey}]: host line qty ${b.qty} × ${lpa}/assembly == note's "${m[0]}"`,
+          b.qty * lpa === enumd, { qty: b.qty, lpa, enumd });
       }
       if (/^uplink\|/.test(mk) && !isTxMk(mk) && (m = note.match(/(\d+)\/leaf × (\d+)/))) {
         const enumd = parseInt(m[1], 10) * parseInt(m[2], 10);
