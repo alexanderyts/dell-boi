@@ -1115,6 +1115,160 @@ leaves are meant to be "underpopulated" for an odd rack count.
   project's own adversarial-audit method already names for print/paged-media (see
   [[adversarial-audit-method]]).
 
+### 2026-09-17 accuracy review — G-032 … G-043
+Source: a full fresh-context review (engine end-to-end, validate.js, all four catalogs, SPEC,
+CITATION-LOG) plus two independent fresh-context agent passes (rep-facing text vs rulings;
+input→engine reachability). Every entry below marked CONFIRMED was reproduced by running the
+engine or by reading the cited corpus line — not inferred. Pattern: none of these is a
+representation-seam bug of the class RESTRUCTURE-3 killed; they cluster into (a) vendor facts
+wrong or unverified in the catalog, (b) UI→engine plumbing (G-023 class, again), (c) checkers
+that credit capacity from speed ratios instead of from what's quoted, (d) rep-facing text
+drifting from rulings. No engine rewrite is warranted; see the three structural items (G-041,
+G-042, G-043).
+
+### G-032 — Guided wizard defaults to 2 NICs × dual-port = 4 data ports/host (root cause of R15) — OPEN 2026-09-17
+- **Severity:** HIGH — every guided quote where the rep accepts the NIC defaults carries **2×
+  the host cabling and up to 2× the leaves** vs the platform's published default (one dual-port
+  NIC). This is what the maintainer noticed on the F710 (R15: "2× dual-port FE NICs I don't
+  think I selected"). CONFIRMED: F710 × 10, defaults → 4 FE ports/node, 40 links, 2 leaf pairs.
+- **Where:** `js/wizard.js` NIC_STEPS — `nicPorts` default `'2'` AND `nicCount` default `2`
+  (help text "2 (redundancy)" conflates two NICs with dual-homing ONE dual-port NIC). Engine
+  `normNic()` (`js/engine.js`) also defaults `nicsPerUnit` to 2 when unparseable.
+- **Fix:** default `nicCount` to 1 (platform default = one dual-port NIC); engine default 1;
+  keep the question. Regression: guided-flow DOM test asserting a defaults-only PowerScale/
+  PowerEdge design yields the platform's published ports/unit; unit test on `normNic` default.
+
+### G-033 — Guided wizard's rail-NIC-connector answer never reaches the engine (G-023 class) — OPEN 2026-09-17
+- **Severity:** HIGH — every guided NVIDIA 400G AI quote since the R12 ruling (2026-07-16)
+  has quoted **MCP7Y00 (2× OSFP)** verify-flagged regardless of the rep's answer, with a note
+  telling them to confirm the thing they just answered. CONFIRMED with the exact input shape
+  `wizard.js` builds: answer QSFP112 → 32× MCP7Y00; same answer at top level → 32× MCP7Y10.
+- **Where:** `js/wizard.js` nests `railNicCage` (and `railNic.cage`) inside `targets[0]`;
+  `js/engine.js` reads only top-level `input.railNicCage` / `input.railNic.cage`, and the
+  per-target mapper copies only `speed`/`model` off `t.railNic`. The Expert Form has no cage
+  control at all. The wizard only asks when rail speed is explicitly `400GbE` — an XE9680 left
+  on "model default" is never asked.
+- **Why no test caught it:** `tests/invariants.js`'s input-effect check feeds the engine
+  directly and never loads the wizard/Expert Form — it proves the engine RESPONDS to a field,
+  not that any UI DELIVERS it (same hole G-023 fell through). No test passes `railNicCage` at all.
+- **Fix:** engine reads the cage per target (`t.railNicCage` / `t.railNic.cage`) with the
+  top-level value as fallback; wizard asks whenever the target is AI on a twin-port-OSFP/400G
+  path (not only when rail speed was overridden); Expert Form gets a cage select. Regression:
+  wire-through test that builds the wizard's real `gInput` and asserts MCP7Y10 for a QSFP112
+  answer. Structural guard: G-043.
+
+### G-034 — Dell-stack 400G AI rail cable is mis-catalogued; Dell restricts the real part to one NIC — OPEN 2026-09-17
+- **Severity:** HIGH — every Dell-stack 400G AI quote (Z9864F-ON leaves, XE9680-class rails)
+  carries a rail cable whose catalogued far end does not exist, with no verify flag. CONFIRMED:
+  8× XE9680, Dell stack, rail NIC answered OSFP → 32× `DAC-O112-800G2x400G-xM`, no error.
+- **Where:** `js/catalog/optics.js` `brk-800g-2x400`: media `OSFP112→2xQSFP56-DD`, `farCage:
+  'qsfp-dd'`, model `DAC-O112-800G2x400G-xM`. The Dell Transceivers & Cables Spec Sheet
+  (`corpus/txt/OPTICS.txt:1116-1126`) lists only **`DAC-O112-800G2x400G-Q112-xM`**: far end
+  **QSFP112**, "can plug into **Broadcom 57608 NIC only**; supports 1x400 only". The engine's
+  Dell 400G-rail pick (`pickHostCable`, OSFP branch) ignores `railNicCage` entirely.
+- **Fix:** correct the catalog fact (model, media, farCage `qsfp112`, restriction note) +
+  CITATION-LOG row; Dell OSFP-leaf 400G rails honour `railNicCage` like the NVIDIA path
+  (qsfp112 → quote the Q112 part verify-flagged with the 57608-only restriction; osfp → no
+  Dell part, warn; unsure → Q112 verify-flagged). **Open ruling for the maintainer:** which
+  NIC do Dell-stack XE9680 deals actually use (Broadcom 57608 vs ConnectX-7)? Regression: unit
+  tests per cage answer; validate #23 low-end fit now sees QSFP112 (see G-042 for the NIC end).
+
+### G-035 — S5448F-ON structured hosts get a 2 km single-mode optic on a multimode plant — OPEN 2026-09-17
+- **Severity:** HIGH — S5448F-ON is the auto pick above 32 links/fabric at 100G. CONFIRMED:
+  40 servers structured → 160× `S56DD-100G-FR` (OS2 SMF, 2 km) + LC cords + a plant line
+  saying "OM4 MMF in-building". An FR optic does not link over OM4; the quote is either
+  unbuildable as printed or needs a SMF/APC plant it doesn't say. SR1.2 (OM4, 100 m) is the
+  in-building part and is already catalogued.
+- **Where:** `js/engine.js` `pickHostCable`, SFP-DD branch: `structured ? 's56dd-100g-fr' :
+  's56dd-100g-sr'`.
+- **Fix:** structured → SR1.2 (matches the QSFP28 ladder's SR4-for-structured rule); FR/LR
+  only via the long-reach path. Regression: unit test on the resolved id + plant fibre text.
+
+### G-036 — Rep-facing text contradicts current rulings (DFM "vendor-agnostic", SMF advice, unverified switch-support claim, VLT/Verity) — OPEN 2026-09-17
+- **Severity:** MEDIUM–HIGH (rep would say something false; no hardware impact). Confirmed:
+  1. `js/catalog/discovery.js:36,74` — "DFM is **vendor-agnostic**" (twice). False; contradicts
+     the R14 ruling printed on the same quote (DFM = Dell Enterprise SONiC only).
+  2. `js/catalog/rules.js:128` → Checks on every large design: "Use structured **single-mode**
+     fiber for leaf→spine" while the BOM quotes SR4/SR4.2/SR8 (MMF, MPO) and an OM4 plant.
+  3. `js/validate.js` check #21i prints "(also Arista 7308X3 / NVIDIA SN5600 via ETC)" and
+     `docs/SPEC.md §6` states it as fact — CITATION-LOG says STALE (not in the cited doc).
+  4. "VLT" on NEW-build text: `platforms.js` poweredge-general `requires` ("Dual-homed to VLT
+     leaf pair") printed on every PowerEdge quote; `validate.js` #2 "or VLT pair (OS10)";
+     `index.html` labels; `rules.leafSpine.considerations`.
+  5. "Verity" in `wizard.js` Discovery deliverables + glossary; **`tests/harness/test-dom.js`
+     asserts "Verity" is present** (pins the old name in).
+  6. CITATION-LOG row for the Discovery AI pitch is stale the other way (discovery.js already
+     says SN5600/SN5610).
+- **Why:** `tests/invariants.js`'s OS10 scan covers BOM item/note strings only; warnings,
+  platform `requires`/`concerns`, `rules.*.considerations`, discovery/solutions text and form
+  labels are unscanned — exactly where every hit sits.
+- **Fix:** correct the text; add a rep-facing string sweep (every `warnings[].message`,
+  `requires`/`concerns`, `considerations`, discovery/solutions, index.html labels) against a
+  forbidden-term list for the new-build path; fix the test-dom assertion.
+
+### G-037 — Port-budget checker credits breakout ports that have no breakout part behind them (host side) — OPEN 2026-09-17
+- **Severity:** MEDIUM (needs low headroom to bite; silent when it does). `validate.js` #22
+  and the engine's `iclFits`/physical-fit passes multiply a leaf's ports by native÷host speed
+  regardless of what's quoted. On an SN4700 leaf (32×400G) with 100G/25G hosts on 1:1 DACs
+  the budget is credited as 128/512 ports. CONFIRMED at 0% headroom: 56× XE9680 NVIDIA stack
+  → storage leaves at 28 host + 4 uplink + 2 ICL = **34 ports on a 32-port switch, MC-LAG
+  ICLs quoted, zero errors** — the identical Dell design correctly falls to EVPN-MH. Same
+  class as G-007/G-013 (phantom credit), one hop down.
+- **Fix:** derive the host-port budget from the canonical cable records (`linksPerAssembly`,
+  which already exist) — the Phase 2 "validators consume design.js" slice — rather than a
+  speed ratio; interim: credit only when the fabric's resolved host cable IS a breakout.
+
+### G-038 — Full-NVIDIA designs size their non-AI fabrics with S5232F constants — OPEN 2026-09-17
+- **Severity:** MEDIUM (fails loud, but the tool cannot produce a valid design; NVIDIA is the
+  common AI stack). An AI target's storage/frontend groups land on SN4700 (32×400G QSFP-DD)
+  with `availUp = 4` and `uplinkSpeed = '100GbE'` — the h04504 assumption for a 32×100G
+  S5232F. CONFIRMED: 56× XE9680 NVIDIA → storage fabric **7:1** (warned). 25G hosts also need
+  a QSA28 per port (R13). R13 is the missing-25G-rung half; the uplink policy half is new.
+- **Fix:** per-switch uplink policy (count/speed from the leaf's own ports, not a constant)
+  and a 25G/100G Spectrum rung. Design work — needs a ruling on what an NVIDIA storage
+  fabric should look like.
+
+### G-039 — 800G-rail Dell AI (XE9780/85) quotes 800G DACs into the Z9964F-ON's 1.6T ports without part evidence — OPEN 2026-09-17
+- **Severity:** MEDIUM. `pickSpine(≥800,'ai','dell')` → Z9964F-ON (OSFP224); leaf→spine
+  quoted as `DAC-O112-800G-xM` into 1.6T ports (CONFIRMED: 24 servers → 192 DACs into 3×
+  Z9964F). The SPEC's part-evidence gate (ruling #5) was applied to the SUPER-spine pick, not
+  the plain spine. Multi-rack, the same ≤4 m DAC is quoted cross-rack with a note saying not
+  to; the Dell sheet lists 800G-O112-2VR4/VR8/2EDR4 optics that are not catalogued.
+- **Fix (needs ruling):** gate Z9964F-ON as spine until a 1.6T→2×800G part is confirmed, or
+  accept 800G-into-1.6T-port with a verify flag; catalogue the 800G optics for cross-rack.
+
+### G-040 — Structured-plant math assumes duplex LC for every optic — OPEN 2026-09-17
+- **Severity:** MEDIUM (vendor-neutral estimate, but ~6× under). SR4/SR4.2 are MPO-12
+  parallel (8 fibres/link). CONFIRMED: 24 SR4 links → 4 trunks + 8 MPO→LC cassettes quoted;
+  reality ≈ 24 MPO-12 trunks (or 8 MPO-24) and MPO adapter panels, no cassettes.
+- **Fix:** branch the plant model on `fiberCordFor(optic)`'s parallel/duplex classification.
+
+### G-041 — Golden fixtures are not growing; no way for the maintainer to pin a real deal — OPEN 2026-09-17
+- **Severity:** MEDIUM (process). 5 fixtures, all 2026-07-16. RESTRUCTURE-3's "every real
+  deal quoted becomes a fixture" is not happening — the tool's strongest accuracy layer
+  (ground truth) is static. **Fix:** an "Export as fixture" action (input + expected BOM JSON
+  in `tests/fixtures/` format); backfill deals quoted since July.
+
+### G-042 — Vendor facts have no machine-readable provenance; citation cadence has no guard — OPEN 2026-09-17
+- **Severity:** MEDIUM–HIGH (the remaining accuracy ceiling). Catalog facts (media, far-end
+  cage, restrictions — see G-034) are cited in prose comments only; nothing can check "is this
+  verified, by when, does this far end fit the NIC?" CITATION-LOG promises a quarterly recheck
+  (July batch due ~2026-10-15) and nothing surfaces it; STALE rows sit for months (power table:
+  Z9432F-ON 500 W vs QRG 900 W under-estimates rack power; Z9664F-ON 700 vs 500; Z9964F
+  capacity 204.8 vs 102.4). `validate.js` #1 hardcodes the dell.com SKU date "2026-07-10".
+- **Fix:** structured `verified`/`farCage`/`restriction` fields on catalog parts; a suite
+  test that parses CITATION-LOG and fails on STALE rows tied to BOM-affecting code (notices
+  rows past cadence); read the SKU date from `corpus/dellcom-apd-verified.json`; extend
+  validate #23 to the host/NIC end using the platform's port `media`.
+
+### G-043 — Both UI entry points assemble the engine input by hand; no wire-through test — OPEN 2026-09-17
+- **Severity:** MEDIUM (structural cause of nic2 ×2, G-023, G-033). **Fix:** one declarative
+  input-mapping table shared by the Guided wizard and the Expert Form (July architecture
+  "candidate C", rated Strong), plus a wire-through test that builds each entry point's real
+  input object from a filled state and asserts every BOM-affecting INPUT-SCHEMA field lands at
+  the level the engine reads. Also: INPUT-SCHEMA §3.1 still maps `#f-core-farend` (now
+  `#f-core-vendor`); `engine.js` labels the per-target cage gap "G-023" (it is G-024).
+
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now
   that real PNs are visible in `optics.js` (many `dellPN: 'verify'`
