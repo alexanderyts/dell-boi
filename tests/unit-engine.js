@@ -1206,6 +1206,24 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
   t('note shim: the ARITHMETIC segment still agrees with the printed link count', !!nvLine && /64 ÷ 2 = 32 assemblies/.test(nvLine.note));
 })();
 
+/* ---- G-035 (2026-09-17): S5448F-ON structured hosts quoted the 2 km single-mode FR optic while the
+   plant line on the same BOM said "OM4 MMF in-building" — an FR optic does not link over OM4. The
+   in-building structured part is SR1.2 (100 m OM4), matching the QSFP28 ladder's SR4-for-structured. */
+(() => {
+  const r = rec({ platformId: 'poweredge-general', units: 40, redundancy: 'dual', includeMgmt: true, placement: 'structured',
+    nic: { speed: '100GbE', portsPerNic: 2, nicsPerUnit: 1 }, leaf100: 's5448f' });
+  const f = r.fabrics.find(x => x.network === 'frontend');
+  t('G-035: S5448F structured 100G hosts resolve the SR1.2 optic, not FR', f && f.hostCableId === 's56dd-100g-sr', f && f.hostCableId);
+  t('G-035: no S56DD-100G-FR line on a structured host run', !r.bom.some(b => /S56DD-100G-FR/.test(b.item)));
+  const host = r.bom.find(b => /^S56DD-100G-SR1\.2/.test(b.item) && /^Host-to-leaf/.test(b.note || ''));
+  const plant = r.bom.find(b => /^Structured plant/.test(b.note || ''));
+  t('G-035: optic reach (OM4 SR1.2) agrees with the plant line (OM4 MMF in-building)', !!host && !!plant && /OM4/.test(host.item) && /OM4 MMF/.test(plant.note));
+  t('G-035: in-rack S5448F hosts still take SR1.2 (unchanged — no S56DD DAC is catalogued)', (() => {
+    const ir = rec({ platformId: 'poweredge-general', units: 40, redundancy: 'dual', includeMgmt: true, placement: 'in-rack', nic: { speed: '100GbE', portsPerNic: 2, nicsPerUnit: 1 }, leaf100: 's5448f' });
+    return ir.fabrics.find(x => x.network === 'frontend').hostCableId === 's56dd-100g-sr';
+  })());
+})();
+
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);

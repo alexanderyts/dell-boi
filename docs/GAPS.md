@@ -1195,7 +1195,10 @@ G-042, G-043).
   NIC do Dell-stack XE9680 deals actually use (Broadcom 57608 vs ConnectX-7)? Regression: unit
   tests per cage answer; validate #23 low-end fit now sees QSFP112 (see G-042 for the NIC end).
 
-### G-035 — S5448F-ON structured hosts get a 2 km single-mode optic on a multimode plant — OPEN 2026-09-17
+### G-035 — S5448F-ON structured hosts get a 2 km single-mode optic on a multimode plant — CLOSED 2026-09-17 (v0.66.9)
+- **Status:** CLOSED. `pickHostCable` SFP56-DD branch → SR1.2 at every placement. Test: unit-engine
+  G-035 block (structured → `s56dd-100g-sr`, no FR line, optic reach agrees with the plant line).
+  DESIGN-LOG 2026-09-17.
 - **Severity:** HIGH — S5448F-ON is the auto pick above 32 links/fabric at 100G. CONFIRMED:
   40 servers structured → 160× `S56DD-100G-FR` (OS2 SMF, 2 km) + LC cords + a plant line
   saying "OM4 MMF in-building". An FR optic does not link over OM4; the quote is either

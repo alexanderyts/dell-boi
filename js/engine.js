@@ -276,8 +276,12 @@
     // copper part has a QSFP56 far end and a passive DAC can't downshift 50G-PAM4 to a 25G-NRZ
     // QSFP28 NIC (ruling 2026-07-16d(b) — DAC held pending per-NIC verification). In-rack hosts
     // therefore quote the SR1.2 optic: costlier than a DAC, but known-buildable.
-    if (gbps === 100 && onCage('SFP-DD'))
-      return byId(placement === 'structured' ? 's56dd-100g-fr' : 's56dd-100g-sr');
+    // SR1.2 at EVERY placement (G-035, 2026-09-17): the structured branch used to pick the FR part —
+    // a 2 km single-mode optic — while the plant line on the same BOM said "OM4 MMF in-building"
+    // (FR does not link over OM4). SR1.2 (100 m OM4) is the in-building structured part, exactly as
+    // the QSFP28 ladder below picks SR4 for structured; FR/LR are long-reach parts and stay on the
+    // core-uplink reach ladder (pickCoreOptic), not on host runs.
+    if (gbps === 100 && onCage('SFP-DD')) return byId('s56dd-100g-sr');
     if (placement === 'structured') {
       // no cataloged long-reach Dell/general transceiver at 200G or 800G+ (only in-rack DACs
       // exist at those tiers) — null, not a silent fallthrough to the nearest lower tier.

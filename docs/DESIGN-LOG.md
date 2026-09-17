@@ -9,6 +9,28 @@ blame across a dozen commits.
 
 ---
 
+## 2026-09-17 — S5448F-ON structured hosts take SR1.2, not FR (v0.66.9) — GAPS G-035
+
+**Found while:** the 2026-09-17 accuracy review. `pickHostCable`'s SFP56-DD branch (added with
+R12, 2026-07-16d) picked `s56dd-100g-fr` for structured placement and `s56dd-100g-sr` otherwise.
+Reproduced: 40 servers, S5448F-ON, structured → 160× S56DD-100G-FR (OS2 SMF, 2 km) + LC cords +
+a plant line saying "OM4 MMF in-building".
+
+**What was wrong:** FR is a 1310 nm single-mode part; it does not link over OM4 multimode. So
+the BOM contradicted itself (optic vs plant) and, if built as printed on the stated OM4 plant,
+would not come up. The QSFP28 ladder right below has always picked SR4 (OM4) for structured —
+the SFP56-DD branch simply diverged from it when R12 added it.
+
+**Ruling applied (no new policy — SPEC §9 reach ladder):** in-building structured runs use the
+SR-class optic on OM4; FR/LR are long-reach parts and live on the core/inter-network reach ladder
+(`pickCoreOptic`), never on a host run. SR1.2 at every placement (no S56DD DAC is catalogued —
+ruling 2026-07-16d(b) unchanged).
+
+**Test:** `tests/unit-engine.js` "G-035" block — structured resolves `s56dd-100g-sr`, no FR line,
+optic reach agrees with the plant line, in-rack unchanged.
+
+---
+
 ## 2026-09-17 — Dell 800G→2×400G rail assembly: QSFP112 far ends, Broadcom 57608 only (v0.66.8) — GAPS G-034
 
 **Found while:** the 2026-09-17 accuracy review, checking the catalog's Dell 400G-rail part

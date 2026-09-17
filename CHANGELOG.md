@@ -5,7 +5,18 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.8**
+Current version: **0.66.9**
+
+---
+
+## 0.66.9 — S5448F-ON structured host runs quoted a single-mode optic on a multimode plant (2026-09-17)
+
+**What this means for a quote:** any 100G design that landed on the S5448F-ON leaf (the auto
+pick above 32 links per fabric) with "structured cabling" placement quoted **S56DD-100G-FR** —
+a 2 km single-mode optic — on both ends of every host link, while the plant lines on the same
+BOM said "OM4 MMF in-building". FR does not link over OM4: the quote was either unbuildable as
+printed or needed a single-mode plant it didn't say, and FR is the pricier part. Re-run any such
+quote; it now carries **S56DD-100G-SR1.2** (100 m OM4), matching the plant. GAPS G-035.
 
 ---
 

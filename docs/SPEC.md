@@ -539,6 +539,10 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
   (SR/FR/LR/LR4/CWDM4) present LC → LC duplex cords, polish matching the fiber (UPC MMF / APC
   SMF). Never quote LC cords against an MPO port. Itemized for structured host runs, structured
   leaf↔spine runs, and core/inter-network uplinks on transceivers.
+- **Host runs are in-building: SR-class on OM4 at every placement.** Structured host↔leaf runs
+  quote the SR-class optic (SR4 on QSFP28, SR1.2 on the S5448F-ON's SFP56-DD bank) so the optic
+  and the itemized OM4 plant agree; FR/LR live on the core/inter-network reach ladder only. —
+  enforced: `pickHostCable`; `tests/unit-engine.js` G-035.
 - **Reach ladder (what to pick when)**: SR/SR4 ≤100m OM4 MMF (in-building) → FR/CWDM4 2km OS2 SMF
   (campus/between buildings) → **LR/LR4 10km OS2 SMF** (metro/inter-site; SFP-10G-LR, SFP28-25G-LR,
   Q28-100G-LR4, 400G FR4/LR4 — all on the Dell optics sheet; ER 40km / ZR 80km exist at 10G) →
