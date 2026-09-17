@@ -11,6 +11,57 @@ Structural redesign per docs/RESTRUCTURE-3.md (the plan of record).
 contracts are approved and landed; Phase 1 invariants + golden fixtures are live;
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
+### State at end of session 2026-09-17 — accuracy review + Tier 1 fixes
+- **Version 0.66.10.** CHANGELOG has 0.66.6–0.66.10. **Suite: 20/20 green** (new suite
+  `tests/unit-reptext.js` — the rep-facing string sweep). Committed and pushed; hosted artifact
+  republished at v0.66.10.
+- **What happened:** a full fresh-context accuracy review (engine end-to-end, validate, all
+  catalogs, SPEC, CITATION-LOG, plus two independent agent passes: rep-facing text vs rulings;
+  input→engine reachability). 11 defects confirmed live + 3 structural items, logged as
+  **GAPS G-032 … G-043** (one entry each, with reproduction). Verdict on the approach: **no
+  rewrite** — none of the findings is a RESTRUCTURE-3 seam bug; they cluster into (a) vendor
+  facts wrong/unverified in the catalog, (b) UI→engine plumbing (G-023 class, again), (c)
+  checkers crediting capacity from speed ratios instead of from what's quoted, (d) rep-facing
+  text drifting from rulings. DESIGN-LOG has five dated 2026-09-17 entries.
+- **Tier 1 CLOSED this session (each stash-verified, one commit per fix):**
+  - **G-032 (v0.66.6)** — wizard/Expert/engine defaulted to 2 NICs × dual-port = 4 ports/host;
+    now 1 NIC (R15's root cause; **R15 CLOSED**). Also fixed `context.nicPortsPerUnit` (was 0
+    for wizard callers).
+  - **G-033 (v0.66.7)** — the wizard's rail-NIC-connector answer never reached the engine
+    (nested on `targets[0]`, engine read top level only) → every guided NVIDIA 400G AI quote got
+    MCP7Y00 verify-flagged regardless. Engine now reads the cage PER TARGET (G-024's engine
+    half); wizard asks on the effective rail speed (model default counts); Expert Form gained
+    `#f-rail-cage`. Wire-through DOM tests added — the invariants' input-effect test feeds the
+    engine directly and structurally cannot see this class.
+  - **G-034 (v0.66.8)** — Dell's only 800G→2×400G rail assembly is `DAC-O112-800G2x400G-Q112`
+    (QSFP112 far ends, "Broadcom 57608 NIC only", OPTICS.txt:1116-1126); catalog said QSFP56-DD.
+    Corrected with `nicOnly` as data; Dell 400G rails honour the cage (osfp → hard error, no
+    cable; qsfp112/unsure → Q112 part verify-flagged with the restriction). **Found in passing:**
+    design.js's G-020 note shim printed the ASSEMBLY count as the link count on every 1:2 line and
+    stripped every "⚠" flag segment (the R12 "NIC CONNECTOR NOT CONFIRMED" note had never reached
+    a BOM); `addLine` now sums `coversLinks` on merge; the invariant that pinned the wrong count
+    now checks qty × linksPerAssembly.
+  - **G-035 (v0.66.9)** — S5448F-ON structured hosts quoted the 2 km FR optic on an OM4 plant;
+    now SR1.2.
+  - **G-036 (v0.66.10)** — DFM "vendor-agnostic", SMF-for-leaf-spine advice, unverified Arista/
+    ETC claim, "VLT" on new-build text, "Verity" (incl. a DOM test asserting the old name) — all
+    corrected; `unit-reptext.js` sweeps ~1,000 rep-facing strings every run.
+- **OPEN RULINGS for the maintainer (nothing blocked; all verify-flagged meanwhile):**
+  1. **G-034:** which NIC do Dell-stack XE9680 deals carry — Broadcom 57608 or ConnectX-7?
+  2. **G-039:** 800G-rail Dell AI (XE9780/85) quotes 800G DACs into the Z9964F-ON's 1.6T ports
+     with no part evidence — gate the Z9964F as spine, or accept with a verify flag?
+  3. **G-042:** adopt the QRG June 2026 power figures (Z9432F 900 W, Z9664F 500 W) over the
+     untraced existing ones?
+  4. validate #2 raises ERROR on the deliberate 'single' input — downgrade to WARN?
+- **QUEUE — next session, in order:** Tier 2 engine/checker gaps **G-037** (host-side phantom
+  port credit — do it as the Phase 2 "validators consume design.js" slice), **G-038** (full-NVIDIA
+  non-AI fabrics sized with S5232F constants; subsumes R13), **G-039**, **G-040** (plant math for
+  parallel optics); then the structural items **G-041** (export-as-fixture; fixtures haven't grown
+  since July), **G-042** (structured catalog provenance + citation-expiry guard; July citations due
+  ~2026-10-15), **G-043** (shared input mapping + wire-through test — candidate C). G-024 UI half
+  and G-026 remain gated/flagged as before. The "mode items" and renderers→validators→G-020
+  teardown queue below still stands after these.
+
 ### State at end of session 2026-07-30
 - **Version 0.66.5** (`js/version.js` = the single source of truth; `package.json`
   tracks it). CHANGELOG.md has the 0.65.1–0.66.5 entries.
@@ -193,10 +244,9 @@ All are in SPEC.md as current-state rules; reasoning is in DESIGN-LOG 2026-07-16
 > above as outstanding, that queue is stale — **verify against the suite before doing the
 > work.** Nothing is blocked on the maintainer. Start at (1) = R15.
 
-1. **R15** (pending maintainer check) — PowerScale F710 carried 2× dual-port FE NICs
-   the maintainer doesn't think were selected. Determine seed-default vs wizard; if
-   seed, fix + make NIC defaults visible + platform-seed invariant + F710
-   CITATION-LOG row. Non-blocking.
+1. ~~**R15**~~ — **CLOSED 2026-09-17 (G-032, v0.66.6):** it was the wizard/Expert/engine NIC
+   default (2 NICs × dual-port), not a platform seed. See the 2026-09-17 session state above
+   for the current queue (Tier 2 G-037…G-040, then G-041…G-043).
 2. **R13** — NVIDIA leaf ladder has no 25G rung (8× 25G on an SN4700, 32× 400G).
    R12 CORROBORATED this: the form-factor check flags SFP28 optics into the SN4700's
    QSFP-DD ports as needing QSA28 adapters that aren't quoted. Evaluate an
