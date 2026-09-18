@@ -130,7 +130,20 @@
       if (workload === 'ai' || gbps >= 400) return byId('sn5600');
       return byId('sn4700');
     }
-    if (workload === 'ai') return gbps >= 800 ? byId('z9964f-on') : (gbps >= 400 ? byId('z9864f-on') : byId('z9664f-on'));   // dell AI — FDC: Z9864F spine w/ 800G interlinks
+    if (workload === 'ai') {
+      // G-039 ruling (2026-09-18): 800G rails take the SAME-SPEED Z9864F-ON spine (64× 800G
+      // OSFP112 native, DAC-O112-800G cataloged) — ruling #5/#10's part-evidence gate applied to
+      // the PLAIN spine, where it had only ever covered the super-spine. The Z9964F-ON (real:
+      // QRG June 2026, Tomahawk 6, 64× 1.6T OSFP224) reaches 800G only by breakout, and no
+      // 1.6T→2×800G part with OSFP112 far ends is cataloged — quoting 800G DACs into its 1.6T
+      // cages was a link with no part behind it. GATED, not banned: catalog that part and it
+      // re-qualifies here exactly as it does in superSpineTerminates (same shared resolver).
+      if (gbps >= 800) {
+        const flagship = byId('z9964f-on'), same = byId('z9864f-on');
+        return (flagship && same && resolveUplinkBreakout(flagship, same.access.speed, 'auto', false, same.access)) ? flagship : same;
+      }
+      return gbps >= 400 ? byId('z9864f-on') : byId('z9664f-on');   // dell AI — FDC: Z9864F spine w/ 800G interlinks
+    }
     return gbps >= 400 ? byId('z9664f-on') : byId('z9432f-on');
   }
   // SUPER-SPINE (3-tier Clos, top tier) — only reached once a single spine tier's radix can't
@@ -1247,7 +1260,7 @@
         // VERIFY-flagged with the restriction on the line — the rep must confirm the NIC model,
         // not just its connector. Whether the connector was answered or not, the restriction holds.
         const nicOnly = hostCable.nicOnly || null;
-        if (nicOnly) warnings.push({ severity: 'verify', message: `${fam} ${fs.network}: ${hostCable.model} is listed by Dell for the ${nicOnly} NIC ONLY (far ends ${String(hostCable.farCage || '').toUpperCase()}${fs.target.railNicCage === 'unsure' ? '; the rail NIC connector was not confirmed' : ''}). CONFIRM the GPU rail NIC is a ${nicOnly} before ordering — an OSFP ConnectX-7/-8 has no Dell-catalogued assembly from this leaf, and a QSFP112 ConnectX-7 / BlueField-3 is outside what Dell lists for this part.`, source: 'Dell Networking Transceivers & Cables Spec Sheet 2026 (corpus/txt/OPTICS.txt:1116-1126) · GAPS G-034' });
+        if (nicOnly) warnings.push({ severity: 'verify', message: `${fam} ${fs.network}: ${hostCable.model} is listed by Dell for the ${nicOnly} NIC ONLY (far ends ${String(hostCable.farCage || '').toUpperCase()}${fs.target.railNicCage === 'unsure' ? '; the rail NIC connector was not confirmed' : ''}). This IS the NIC Dell's own AI fabric design cables XE9680 rails to ("Broadcom Thor2" = 57608 — SONiC AI Fabrics Networking Guide H04600), so it is the expected NIC on a Dell-stack deal; but the NIC is chosen on the SERVER order, not here. CONFIRM the GPU rail NIC is a ${nicOnly} before ordering — an OSFP ConnectX-7/-8 has no Dell-catalogued assembly from this leaf, and a QSFP112 ConnectX-7 / BlueField-3 is outside what Dell lists for this part.`, source: 'Dell Networking Transceivers & Cables Spec Sheet 2026 (corpus/txt/OPTICS.txt:1116-1126) · Dell Enterprise SONiC AI Fabrics Networking Guide H04600 (corpus/txt/AI-NETGUIDE.txt:177) · GAPS G-034' });
         addLine(bom, { category: 'Cable/Optic', vendor: hostCable.vendor || 'Dell', item: hostCable.desc, model: hostCable.desc, qty: hcQty,
           // links this line actually covers = qty × linksPerAssembly. Carried ON the line so the
           // BOM-integrity invariant (P13) reads the same number the note prints — a 1:2 assembly
@@ -1258,7 +1271,7 @@
           note: `Host-to-leaf for ${fam} ${fs.network} — ${fs.links} link(s) (${fs.linksPerUnit || 0}/unit × ${unitsTot}${fs.singleHomed && fs.sparePorts > 0 ? `; ${fs.sparePorts} NIC port${fs.sparePorts > 1 ? 's' : ''} spare — non-redundant (single-homed) design` : ''}) · ${connector} · ${placeLbl}` +
             (hcLpa > 1 ? ` · ARITHMETIC: 1 assembly carries ${hcLpa} links → ${fs.links} ÷ ${hcLpa} = ${hcQty} assemblies` : '') +
             (cageUnsure ? ' · ⚠ NIC CONNECTOR NOT CONFIRMED: quoted as the 2× OSFP far-end variant. If the rail NICs are QSFP112 (BlueField-3, or a QSFP112 ConnectX-7/-8), the correct part is MCP7Y10. VERIFY before ordering.' : '') +
-            (nicOnly ? ` · ⚠ NIC RESTRICTION (Dell spec sheet): far ends are ${String(hostCable.farCage || '').toUpperCase()} and Dell lists this assembly for the ${nicOnly} NIC only${fs.target.railNicCage === 'unsure' ? ' (rail NIC connector not confirmed)' : ''} — CONFIRM the rail NIC model before ordering.` : '') +
+            (nicOnly ? ` · ⚠ NIC RESTRICTION (Dell spec sheet): far ends are ${String(hostCable.farCage || '').toUpperCase()} and Dell lists this assembly for the ${nicOnly} NIC only${fs.target.railNicCage === 'unsure' ? ' (rail NIC connector not confirmed)' : ''} — the NIC Dell's AI fabric design uses (H04600), but it is chosen on the server order: CONFIRM the rail NIC model before ordering.` : '') +
             (hostCable.lengths ? ` · lengths ${hostCable.lengths}` : '') +
             (fsPlacement === 'structured' ? ' · STRUCTURED: switch-side optic shown; host-side optic + fiber plant itemized below' + (structuredInPlace ? ' (patching in place — plant not re-quoted)' : '') : '') });
         // A structured run is a standalone-optic link: TWO transceivers per link, one each end.

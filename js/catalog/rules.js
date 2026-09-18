@@ -90,7 +90,12 @@ window.CATALOG.rules = {
     // z9664f-on (700) and z9432f-on (500) entries below do NOT match this same table's "normal"
     // column (500 and 900 respectively) — logged as a CITATION-LOG.md row for the citation-
     // verification pass, not changed here without reconciling which source they were built from.
-    switchWatts: { 's5212f-on': 125, 's5224f-on': 135, 's5248f-on': 150, 's5296f-on': 240, 's5232f-on': 165, 'z9264f-on': 430, 's5448f-on': 360, 'z9432f-on': 500, 'z9664f-on': 700, 'z9864f-on': 1500, 'z9964f-on': 4987, 's3248t-on': 110, 's4348t-on': 130, 'e3248p-on': 480, 'e3248pxe-on': 720, 'e3224f-on': 150, 'sn2201': 100, 'sn4700': 760, 'sn5610': 1400, 'sn5600d': 940 },
+    // RULED 2026-09-18 (G-042 power half): a planning estimate may only err HIGH. The QRG is the
+    // only traceable source, so z9432f-on takes its 900 W "normal" figure (was an untraced 500 —
+    // under-estimating rack power is the unsafe direction). z9664f-on STAYS at 700: the QRG says
+    // 500, but lowering an estimate on ONE document is the unsafe direction too — it moves down
+    // only when a second official Dell source agrees (the G-006 two-document standard).
+    switchWatts: { 's5212f-on': 125, 's5224f-on': 135, 's5248f-on': 150, 's5296f-on': 240, 's5232f-on': 165, 'z9264f-on': 430, 's5448f-on': 360, 'z9432f-on': 900, 'z9664f-on': 700, 'z9864f-on': 1500, 'z9964f-on': 4987, 's3248t-on': 110, 's4348t-on': 130, 'e3248p-on': 480, 'e3248pxe-on': 720, 'e3224f-on': 150, 'sn2201': 100, 'sn4700': 760, 'sn5610': 1400, 'sn5600d': 940 },
     // [3] is a conservative FLOOR (mirrors the [1]/[2] entries' spirit — a minimum, not an
     // average) so any future 3U catalog addition doesn't silently repeat this gap; z9964f-on
     // above already has a confirmed named entry and doesn't rely on this fallback.

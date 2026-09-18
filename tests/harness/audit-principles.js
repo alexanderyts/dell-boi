@@ -34,9 +34,13 @@ function conform(name, res) {
   // P4 RoCE lossless set for AI (h04600)
   check('P4', 'RoCEv2 lossless set (PFC + ECN + DCQCN + ARS/DLB) for AI', 'h04600 / h04658',
     name, data.some(f => f.workload === 'ai'), /PFC/.test(warns) && /ECN/.test(warns) && /DCQCN/.test(warns));
-  // P5 redundancy: dual by default; single is flagged
-  check('P5', 'Dual-fabric redundancy (single is flagged error)', 'Dell redundancy guide',
-    name, true, res.context.redundancy === 'dual' ? true : res.warnings.some(w => w.severity === 'error' && /[Ss]ingle-fabric/.test(w.message)));
+  // P5 redundancy: dual by default; single is ALWAYS flagged. Ruling 2026-09-18: a deliberate
+  // 'single' is a WARN on its own and an ERROR when a storage-carrying fabric rides the single
+  // switch (storage/backend network, or VxRail) — so the required severity depends on the design.
+  const p5Storage = data.some(f => f.network === 'storage' || f.network === 'backend') ||
+    (res.targets || [{ platform: res.platform }]).some(t => t.platform && t.platform.id === 'vxrail');
+  check('P5', 'Dual-fabric redundancy (single is flagged: WARN, ERROR when storage rides it)', 'Dell redundancy guide',
+    name, true, res.context.redundancy === 'dual' ? true : res.warnings.some(w => w.severity === (p5Storage ? 'error' : 'warn') && /[Ss]ingle-fabric/.test(w.message)));
   // P6 Clos: leaves connect only to spines; never leaf-leaf/spine-spine. An ICL is legitimate ONLY as
   // an MC-LAG/VLT PEER-LINK bonding a leaf pair — and under the spare-port scope (ruling 2026-07-16c) a
   // spined redundant pair WITH spare uplink ports carries that peer-link too (was: any ICL forbidden on a

@@ -117,6 +117,12 @@ single-target design, so there is structurally nothing to converge.
   validate check #4.
 
 ## 4. Redundancy (OS-aware — SONiC ≠ OS10)
+- **A deliberate `redundancy:'single'` is a WARN, not an ERROR — unless storage rides it.** ERROR
+  is reserved for a BOM that cannot be built or that silently differs from the ask; a single
+  switch is neither. It is an ERROR only when a storage-carrying fabric (a `storage`/`backend`
+  network, or a VxRail) sits on the single switch — one failure takes every path to the data
+  down — and the message says to quote the pair or get written acceptance. — enforced:
+  `validate.js` #2; `tests/unit-engine.js` "validate #2".
 - **OS10 is dropped portfolio-wide as a NEW-BUILD choice** *(R14 ruling, 2026-07-23, maintainer:
   "OS10 shouldn't be quoted, it's end of sale")*. New Dell switches are always **Dell Enterprise
   SONiC**; the wizard's NOS question and the Expert Form's NOS select are both removed —
@@ -300,7 +306,9 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
      BCM57608 note). On a Dell OSFP112 leaf: an OSFP rail NIC has no Dell-catalogued cable →
      hard error naming both remedies; QSFP112 / unsure → the Q112 part **verify-flagged** with the
      restriction. A catalog part carrying `nicOnly` is always quoted verify-flagged with that
-     restriction printed. — enforced: optic `brk-800g-2x400` (`farCage`, `nicOnly`),
+     restriction printed. Broadcom 57608 ("Thor2") is the EXPECTED Dell-stack rail NIC —
+     it is what Dell's own AI fabric guide cables XE9680 rails to (H04600) — and the quote says
+     so, but the flag stays: the NIC is chosen on the server order. — enforced: optic `brk-800g-2x400` (`farCage`, `nicOnly`),
      `pickHostCable` Dell OSFP branch, engine NIC-restriction line; `tests/unit-engine.js` G-034.
   3. **A super-spine candidate qualifies only if it can TERMINATE the pod-spine's uplink speed** —
      native match, or a cataloged breakout with far-ends that seat. Radix alone is not
@@ -310,6 +318,10 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
      explained with an info line naming the reason, so a wide tier reads as a parts decision rather
      than an error. — enforced: `superSpineTerminates` / `pickSuperSpine`, `resolveUplinkBreakout`,
      engine step 2 (`fs.uplinkSpeed` for AI).
+     **The same gate binds the PLAIN spine pick:** 800G-rail Dell AI takes the same-speed
+     Z9864F-ON as spine, not the Z9964F-ON, for as long as no 1.6T→2×800G part with OSFP112 far
+     ends is catalogued. — enforced: `pickSpine` (asks the same `resolveUplinkBreakout`);
+     `tests/unit-engine.js` G-039.
 - **Published RAs cable per their OWN cited document; general cabling rulings bind the COMPUTED
   path only.** `published()` exists to reproduce an endorsed design's own counts and parts, so a
   general engine ruling never overrides a cited RA. **A conflict between the two is a
@@ -651,6 +663,14 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
   checks (leaf-model-agnostic by construction, not special-cased per switch).
 
 ## AI switch selection + AI spine count = port math
+- **Dell AI spine by rail speed:** 400G rails → Z9864F-ON; **800G rails → Z9864F-ON as well**
+  (same-speed, native 800G OSFP112, `DAC-O112-800G` catalogued). The Z9964F-ON (real: QRG June
+  2026, 64× 1.6T OSFP224) is part-evidence-gated out of this pick exactly as it is out of the
+  super-spine ladder (§6) and re-enters automatically with a catalogued 1.6T→2×800G part.
+- **Rack-power planning figures may only err HIGH.** A sourced figure higher than the current one
+  is adopted; a sourced figure LOWER than the current one needs a second official source before
+  the estimate moves down. — enforced: `rules.power.switchWatts` (Z9432F-ON 900 W per QRG;
+  Z9664F-ON held at 700 W against the QRG's 500); `tests/unit-engine.js` G-042.
 - **400G AI rails ride Spectrum-4 SN5600 — leaf AND spine.** Grounded in two published RAs: the
   GB200 NVL72 RA ("Each SU features two SN5600 switches as the aggregation layer or spine layer",
   "SN5600 Leaf switches") and the GB300 NVL72 RA (SN5600 = its 128×400G fabric switch). 800G rails
@@ -671,8 +691,9 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
   (Z9964F-ON @1.6TbE for Dell, SN6810 for NVIDIA) — keeps pod-spine↔super-spine cabling
   same-speed/cataloged instead of forcing an uncataloged cross-speed breakout. No equivalent rung
   exists for Z9864F-ON pod-spines (no second 800G-native Dell spine) or on the NVIDIA side
-  (SN5610→SN6810 is already a same-speed jump straight to the flagship) — both correctly fall
-  through to the flagship.
+  (SN5610→SN6810 is already a same-speed jump straight to the flagship). The NVIDIA case falls
+  through to its flagship; the Dell Z9864F-ON case does NOT — the Z9964F-ON is part-evidence-gated
+  (§6 ruling 3), so that tier stays Z9864F-ON and widens by port math.
 - KNOWN OPEN (documented, deliberate): inside a 3-tier Clos the POD-spine count still uses the
   strict k-per-uplink formula, so very large NVIDIA builds (820+ nodes) can exceed even the SN6810
   flagship's radix and fire the honest 4th-tier warning — that scale is dedicated-SE territory, far

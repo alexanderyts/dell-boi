@@ -137,7 +137,7 @@ window.CATALOG.platforms = [
     concerns: ['CONFIRM GPU NIC (ConnectX-7 vs BlueField-3) & rail count per config', 'Spectrum-X (Ethernet) vs InfiniBand decision — this tool assumes Ethernet/Spectrum-X', 'Cable reach/type at 400/800G is design-critical', 'Power & cooling per rack limits GPU nodes/rack'],
     // Specific GPU-server models — the GPU generation sets the rail speed (400G ConnectX-7 vs 800G ConnectX-8).
     models: [
-      { id: 'xe9680', label: 'PowerEdge XE9680 (8x H100/H200 SXM)', gpusPerServer: 8, aiSpeed: '400GbE', note: 'Hopper / H200 — 400GbE rails (ConnectX-7)' },
+      { id: 'xe9680', label: 'PowerEdge XE9680 (8x H100/H200 SXM)', gpusPerServer: 8, aiSpeed: '400GbE', note: 'Hopper / H200 — 400GbE rails (NVIDIA stack: ConnectX-7 / BlueField-3; Dell Ethernet stack: Broadcom 57608 "Thor2" per H04600 — confirm on the server order)' },
       { id: 'xe9685', label: 'PowerEdge XE9685 (8x AMD Instinct MI300X)', gpusPerServer: 8, aiSpeed: '400GbE', note: 'AMD MI300X — 400GbE rails' },
       { id: 'xe7745', label: 'PowerEdge XE7745 (up to 8x GPU, RTX PRO / H200 NVL)', gpusPerServer: 8, aiSpeed: '400GbE', note: 'PCIe GPU node — 400GbE' },
       { id: 'xe9780', label: 'PowerEdge XE9780 (8x B200 SXM6, Blackwell)', gpusPerServer: 8, aiSpeed: '800GbE', note: 'Blackwell B200 — 800GbE rails (ConnectX-8 SuperNIC)' },

@@ -5,9 +5,39 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.10**
+Current version: **0.66.11**
 
 ---
+
+## 0.66.11 — The four open rulings from the accuracy review, decided and applied (2026-09-18)
+
+**What this means for a quote:**
+- **800G-rail Dell AI (XE9780 / XE9785) no longer quotes the Z9964F-ON as its spine.** The
+  Z9964F-ON is a real switch (Dell's June 2026 quick-reference guide: Tomahawk 6, 64× 1.6T ports),
+  but it only reaches 800G by splitting a 1.6T port in two, and **no Dell cable that does that is
+  in the parts list**. The tool was quoting ordinary 800G DACs into its 1.6T ports — a link with
+  no part behind it. It now quotes the **Z9864F-ON** as spine (native 800G ports, the 800G DAC is a
+  real catalogued part) and adds spines by port math. Same bandwidth; every link is buildable. The
+  Z9964F-ON comes back automatically the day a real 1.6T→2×800G part is catalogued. (GAPS G-039)
+- **"Single fabric" is no longer an automatic red ERROR.** You chose it, and it can be built — so
+  for a compute-only / lab design it is now a yellow WARNING. It **stays a red ERROR when storage
+  rides that single switch** (one switch failure or firmware upgrade = every path to the data
+  down), with wording that tells you to quote the pair or get the customer's written acceptance.
+- **Rack power for the Z9432F-ON was under-estimated** (500 W; Dell's guide says 900 W typical).
+  Now 900. The Z9664F-ON stays at 700 W even though the same guide says 500 — a planning number
+  is only ever allowed to be wrong on the HIGH side until a second Dell document agrees.
+- **Switching-capacity figures on BOM notes now match Dell's published sheet** for the four
+  Z-series AI switches (they were printed doubled: "102.4 Tbps" for a switch Dell lists at 51.2).
+- **Dell-stack XE9680 rails:** Dell's own AI fabric guide (H04600) shows these servers cabled to a
+  **Broadcom Thor2 (57608)** NIC, so that is the *expected* NIC and the quote now says so. The line
+  **stays verify-flagged** anyway — the NIC is picked on the server order, not on the network
+  quote, and the Dell cable only fits that one NIC. (GAPS G-034)
+
+**Still open from G-039:** a multi-rack 800G design still quotes the ≤4 m DAC for cross-rack
+spine links (flagged on the line); Dell's 800G optics for those runs are not catalogued yet.
+
+Tests: 13 new assertions in `tests/unit-engine.js`, each stash-verified (revert the one fix,
+the matching assertions go red). Suite 20/20.
 
 ## 0.66.10 — Rep-facing text brought back in line with the rulings, with a permanent sweep (2026-09-17)
 

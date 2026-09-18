@@ -9,6 +9,54 @@ blame across a dozen commits.
 
 ---
 
+## 2026-09-18 — the four open rulings from the 2026-09-17 review, decided (v0.66.11) — GAPS G-039 / G-042 / G-034
+
+**Context:** the maintainer asked for "the best rulings" on the four items left open, and said of
+the Z9964F-ON: "I don't think that's real?" Each ruling below was made from the corpus, not from
+memory, and each follows a rule this repo had ALREADY ratified — none invents a new principle.
+
+1. **The Z9964F-ON is real — and is now gated as a PLAIN spine too (G-039).** `corpus/txt/QRG-DC.txt:72-118`
+   (Dell Networking QRG, June 2026) lists Z9964F-ON / Z9964FL-ON: Tomahawk 6, 102.4 Tbps, 64×
+   1.6TbE OSFP224, "800GbE 128 (breakout)". The maintainer's doubt was reasonable (it is brand new
+   and appears in exactly one corpus document) but the switch exists. What does NOT exist in the
+   corpus is a 1.6T→2×800G assembly with OSFP112 far ends — the same missing part that got the
+   flagship gated out of the SUPER-spine ladder on 2026-07-16d (SPEC §6 ruling #3/#5, #10).
+   `pickSpine(≥800,'ai','dell')` had never been put through that gate: it returned the flagship
+   and the cabling step then quoted `DAC-O112-800G` into OSFP224 cages. **Ruling: same gate, same
+   resolver** — `pickSpine` asks `resolveUplinkBreakout(flagship, 800GbE, …)`; null → the
+   same-speed Z9864F-ON, tier widens by port math. 24× XE9780: 3× Z9864F-ON spines (192 uplinks ÷
+   64), every link a catalogued same-cage part, 0 errors. Gated, not banned.
+   *Not closed by this:* cross-rack 800G links still quote the ≤4 m DAC (line-flagged); the Dell
+   sheet's 800G-O112 optics need cataloguing with verification — stays open under G-039.
+2. **validate #2 ('single' → ERROR) split by what rides the switch.** ERROR in this tool means
+   "cannot be built, or silently differs from the ask" (rulings #2, #9). A single-switch design is
+   neither — it is the rep's explicit input. So: WARN on its own; ERROR only when a
+   storage-carrying fabric (a `storage`/`backend` network, or a VxRail, whose vSAN rides its
+   one network) sits on it, because there a single failure takes every path to the data down.
+   NOT keyed on `frontend`: general PowerEdge servers use that network name too (caught by the
+   new test before it shipped).
+3. **Power figures: a planning estimate may only err HIGH (G-042, power half).** The QRG is the
+   only traceable source for either number. Z9432F-ON 500 → **900** (QRG "normal"; the untraced
+   500 under-estimated rack power, the unsafe direction). Z9664F-ON **stays 700** although the QRG
+   says 500: lowering an estimate on ONE document is also the unsafe direction, and the QRG row is
+   odd enough (a 1U Trident4 drawing more than a 2U Tomahawk 4) that it wants a second source —
+   the G-006 two-document standard, applied asymmetrically. Same pass: the four Z-series AI
+   `switchingCapacity` strings now carry the QRG figure verbatim (12.8/25.6/51.2/102.4). They were
+   doubled, disagreeing with the QRG AND with each entry's own `breakout` text, and the string is
+   printed on BOM notes.
+4. **Dell-stack XE9680 rail NIC (G-034).** `corpus/txt/AI-NETGUIDE.txt:177` (Dell Enterprise
+   SONiC AI Fabrics Networking Guide, H04600) describes the GPU rail DAC landing "on the Broadcom
+   Thor2" — Thor2 is the BCM5760x family, i.e. the 57608 the spec sheet restricts
+   `DAC-O112-800G2x400G-Q112` to. So Broadcom 57608 is the EXPECTED NIC on a Dell-stack deal, and
+   the warning + line note now say so with the citation. **The verify flag stays**: the NIC is
+   chosen on the server order, the network quote cannot see it, and the cable fits only that NIC.
+   The XE9680 model note no longer says "(ConnectX-7)" as if that held on every stack.
+
+**Regression-verified:** each source file reverted alone turns exactly its own assertions red
+(engine → 3, validate → 1, rules → 1, switches → 2, platforms → 1).
+
+---
+
 ## 2026-09-17 — rep-facing text re-aligned with rulings + a permanent string sweep (v0.66.10) — GAPS G-036
 
 **Found while:** the 2026-09-17 accuracy review's rep-facing-text pass (a fresh-context agent

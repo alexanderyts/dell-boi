@@ -11,6 +11,27 @@ Structural redesign per docs/RESTRUCTURE-3.md (the plan of record).
 contracts are approved and landed; Phase 1 invariants + golden fixtures are live;
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
+### State at end of session 2026-09-18 — the four open rulings, decided (v0.66.11)
+- **Version 0.66.11. Suite 20/20 green.** Committed, pushed, hosted artifact republished.
+- The maintainer asked for "the best rulings" on the four open items (and doubted the Z9964F-ON
+  exists). **All four are RULED and landed — do not re-ask them.** DESIGN-LOG 2026-09-18.
+  1. **Z9964F-ON is REAL** (`corpus/txt/QRG-DC.txt:72-118`, QRG June 2026 — the only corpus doc
+     naming it) **but is now gated out of the plain 800G spine pick too** (G-039): no 1.6T→2×800G
+     part is catalogued, so 800G-rail Dell AI takes the same-speed Z9864F-ON and widens by port
+     math — the same gate the super-spine ladder already had. Re-enters automatically with a part.
+  2. **validate #2:** deliberate `'single'` = WARN; ERROR only when a `storage`/`backend` network
+     or a VxRail rides the single switch. (NOT keyed on `frontend` — general servers use that name.)
+  3. **Power (G-042 half): a planning estimate may only err HIGH.** Z9432F-ON 500 → 900 W (QRG);
+     Z9664F-ON HELD at 700 (QRG says 500 — moves down only on a second official source). Z-series
+     AI `switchingCapacity` strings now the QRG figure verbatim (were doubled).
+  4. **G-034 NIC:** Broadcom 57608 ("Thor2") is the EXPECTED Dell-stack XE9680 rail NIC — Dell's
+     own guide says so (`AI-NETGUIDE.txt:177`, H04600); stated on the quote. **Verify flag stays**
+     (the NIC is chosen on the server order).
+- **Still open under G-039:** cross-rack 800G links quote the ≤4 m DAC (line-flagged); Dell's
+  800G-O112 optics are not catalogued. Folded into the Tier 2 queue below.
+- **OPEN RULINGS: none.** Queue unchanged: G-037 → G-038 (needs the maintainer's view of what an
+  NVIDIA storage fabric should look like) → G-039 remainder → G-040 → G-041/042/043.
+
 ### State at end of session 2026-09-17 — accuracy review + Tier 1 fixes
 - **Version 0.66.10.** CHANGELOG has 0.66.6–0.66.10. **Suite: 20/20 green** (new suite
   `tests/unit-reptext.js` — the rep-facing string sweep). Committed and pushed; hosted artifact
@@ -46,7 +67,7 @@ the backtest defect meter (B1–B7) is at ZERO (all hard guards).
   - **G-036 (v0.66.10)** — DFM "vendor-agnostic", SMF-for-leaf-spine advice, unverified Arista/
     ETC claim, "VLT" on new-build text, "Verity" (incl. a DOM test asserting the old name) — all
     corrected; `unit-reptext.js` sweeps ~1,000 rep-facing strings every run.
-- **OPEN RULINGS for the maintainer (nothing blocked; all verify-flagged meanwhile):**
+- **OPEN RULINGS (ALL FOUR RULED 2026-09-18 — see the block above; kept for history):**
   1. **G-034:** which NIC do Dell-stack XE9680 deals carry — Broadcom 57608 or ConnectX-7?
   2. **G-039:** 800G-rail Dell AI (XE9780/85) quotes 800G DACs into the Z9964F-ON's 1.6T ports
      with no part evidence — gate the Z9964F as spine, or accept with a verify flag?

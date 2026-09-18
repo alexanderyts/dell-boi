@@ -1224,6 +1224,64 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
   })());
 })();
 
+/* ---- RULINGS 2026-09-18 (the four open rulings from the 2026-09-17 accuracy review) ------------- */
+// G-039: 800G-rail Dell AI took the Z9964F-ON (64x 1.6T OSFP224) as its PLAIN spine and quoted 800G
+// DACs into 1.6T cages — a link with no catalogued part (the super-spine pick was already gated on
+// part evidence by ruling #5; the plain spine never was). Same-speed Z9864F-ON instead.
+(() => {
+  const C = window.CATALOG;
+  const r = rec({ targets: [{ platformId: 'poweredge-ai', units: 24, gpusPerServer: 8, modelId: 'xe9780' }], stack: 'dell', redundancy: 'dual', includeMgmt: true, racks: 4 });
+  const f = r.fabrics.find(x => x.network === 'aifabric');
+  t('G-039: 800G-rail Dell AI spine is the same-speed Z9864F-ON, not the 1.6T flagship', f && f.spine && f.spine.id === 'z9864f-on', f && f.spine && f.spine.id);
+  t('G-039: no Z9964F-ON line on the BOM while no 1.6T->2x800G part is catalogued', !r.bom.some(b => /Z9964F/.test(b.model || b.item || '')));
+  t('G-039: spine count is port math on NATIVE 800G ports (uplinks / 64, floor 2)', f && f.spineCount === Math.max(2, Math.ceil(f.totalLeaves * f.uplinksPerLeaf / 64)), f && f.spineCount);
+  t('G-039: every leaf->spine link is a same-cage 800G part, 1 per link', (() => {
+    const l = r.bom.find(b => /^Leaf-to-spine/.test(b.note || '') && /800G/.test(b.item));
+    return !!l && /^DAC-O112-800G-/.test(l.item) && l.qty === f.totalLeaves * f.uplinksPerLeaf;
+  })());
+  t('G-039: 0 hard errors on the re-ruled design', !r.warnings.some(w => w.severity === 'error'), r.warnings.filter(w => w.severity === 'error').map(w => w.message).join(' | '));
+  t('G-039: GATED not banned — the flagship is still in the catalog as a spine-role switch', !!C.switches.find(x => x.id === 'z9964f-on' && x.roles.indexOf('spine') >= 0));
+  // 400G rails are untouched by the ruling
+  const r4 = rec({ targets: [{ platformId: 'poweredge-ai', units: 16, gpusPerServer: 8, modelId: 'xe9680' }], stack: 'dell', redundancy: 'dual', includeMgmt: true });
+  t('G-039: 400G-rail Dell AI spine unchanged (Z9864F-ON)', r4.fabrics.find(x => x.network === 'aifabric').spine.id === 'z9864f-on');
+})();
+
+// validate #2: 'single' is a deliberate input. WARN on its own; ERROR only when storage rides the single switch.
+(() => {
+  const msg = w => /Single-fabric selected/.test(w.message);
+  const gen = rec({ platformId: 'poweredge-general', units: 12, redundancy: 'single', includeMgmt: true });
+  const g = gen.warnings.filter(msg);
+  t('validate #2: single-fabric compute-only design is a WARN, not an ERROR', g.length === 1 && g[0].severity === 'warn', g.map(w => w.severity).join());
+  const sto = rec({ platformId: 'powerstore', units: 2, redundancy: 'single', includeMgmt: true });
+  const s2 = sto.warnings.filter(msg);
+  t('validate #2: single-fabric WITH storage attached stays an ERROR and says why', s2.length === 1 && s2[0].severity === 'error' && /storage/i.test(s2[0].message), s2.map(w => w.severity).join());
+  const dual = rec({ platformId: 'poweredge-general', units: 12, redundancy: 'dual', includeMgmt: true });
+  t('validate #2: a dual design raises neither', !dual.warnings.some(msg));
+})();
+
+// G-042 (power + capacity half): figures the rep is held to must match Dell's published QRG.
+(() => {
+  const C = window.CATALOG;
+  const PW = C.rules.power.switchWatts, cap = id => C.switches.find(x => x.id === id).switchingCapacity;
+  t('G-042: Z9432F-ON typical watts = QRG "normal" 900 (was an untraced 500 — under-estimated rack power)', PW['z9432f-on'] === 900, PW['z9432f-on']);
+  t('G-042: Z9664F-ON is NOT lowered on one document (stays >= 700 until a second source agrees)', PW['z9664f-on'] >= 700, PW['z9664f-on']);
+  t('G-042: Z-series AI switching capacity prints the QRG figure verbatim', cap('z9432f-on') === '12.8 Tbps' && cap('z9664f-on') === '25.6 Tbps' && cap('z9864f-on') === '51.2 Tbps' && cap('z9964f-on') === '102.4 Tbps');
+  t('G-042: each entry agrees with its own breakout text', ['z9664f-on', 'z9864f-on', 'z9964f-on'].every(id => { const sw = C.switches.find(x => x.id === id); return sw.breakout.indexOf(sw.switchingCapacity.replace(' Tbps', 'T')) >= 0; }));
+})();
+
+// G-034 ruling: Broadcom 57608 is the EXPECTED Dell-stack rail NIC (Dell's own design, H04600) — said on
+// the quote — but the line stays verify-flagged because the NIC is chosen on the server order.
+(() => {
+  const r = rec({ targets: [{ platformId: 'poweredge-ai', units: 16, gpusPerServer: 8, modelId: 'xe9680', railNicCage: 'qsfp112' }], stack: 'dell', redundancy: 'dual', includeMgmt: true });
+  const line = r.bom.find(b => /Q112/.test(b.item) && /^Host-to-leaf/.test(b.note || ''));
+  const w = r.warnings.find(x => /57608 NIC ONLY/.test(x.message));
+  t('G-034 ruling: the Q112 rail line stays verify-flagged even with the connector answered', !!line && line.verify === true);
+  t('G-034 ruling: the warning names the Dell design as the reason 57608 is expected, with its citation', !!w && /H04600/.test(w.message) && /AI-NETGUIDE\.txt:177/.test(w.source || ''));
+  t('G-034 ruling: the cited corpus line really names the Broadcom Thor2 NIC', /Broadcom Thor2/.test(fs.readFileSync(path.join(ROOT, 'corpus/txt/AI-NETGUIDE.txt'), 'utf8').split('\n')[176] || ''));
+  const m = window.CATALOG.platforms.find(p => p.id === 'poweredge-ai').models.find(x => x.id === 'xe9680');
+  t('G-034 ruling: the XE9680 model note no longer implies ConnectX-7 on every stack', /57608/.test(m.note) && /ConnectX-7/.test(m.note));
+})();
+
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);

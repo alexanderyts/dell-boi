@@ -1171,6 +1171,10 @@ G-042, G-043).
   answer. Structural guard: G-043.
 
 ### G-034 — Dell-stack 400G AI rail cable is mis-catalogued; Dell restricts the real part to one NIC — CLOSED 2026-09-17 (v0.66.8), NIC ruling still OPEN
+- **NIC RULING 2026-09-18 (v0.66.11):** Broadcom 57608 ("Thor2") is the EXPECTED Dell-stack rail
+  NIC — Dell's own AI fabric guide cables XE9680 rails to it (AI-NETGUIDE.txt:177, H04600). Said
+  on the warning + line note with the citation. The verify flag STAYS (NIC is chosen on the
+  server order; the cable fits only that NIC).
 - **Status:** CLOSED as a defect. Catalog fact corrected (`DAC-O112-800G2x400G-Q112`, QSFP112
   far ends, `nicOnly:'Broadcom 57608'`); Dell 400G rails honour `railNicCage` (osfp → hard error
   + no cable; qsfp112/unsure → Q112 part verify-flagged with the restriction); wizard/Expert ask
@@ -1258,7 +1262,14 @@ G-042, G-043).
   and a 25G/100G Spectrum rung. Design work — needs a ruling on what an NVIDIA storage
   fabric should look like.
 
-### G-039 — 800G-rail Dell AI (XE9780/85) quotes 800G DACs into the Z9964F-ON's 1.6T ports without part evidence — OPEN 2026-09-17
+### G-039 — 800G-rail Dell AI (XE9780/85) quotes 800G DACs into the Z9964F-ON's 1.6T ports without part evidence — SPINE GATE CLOSED 2026-09-18 (v0.66.11); cross-rack 800G optics still OPEN
+- **RULED + FIXED 2026-09-18:** the Z9964F-ON is real (QRG-DC.txt:72-118) but has no catalogued
+  1.6T→2×800G part, so `pickSpine` now applies the SAME part-evidence gate the super-spine
+  ladder has had since 2026-07-16d — 800G rails take the same-speed Z9864F-ON and widen by port
+  math; the flagship re-qualifies automatically when the part is catalogued. 24× XE9780 → 3×
+  Z9864F-ON, 192× DAC-O112-800G, 0 errors. Tests: `unit-engine.js` "G-039" (7), stash-verified.
+- **STILL OPEN:** multi-rack 800G quotes the ≤4 m DAC for cross-rack leaf→spine (line-flagged);
+  the Dell sheet's 800G-O112-2VR4/VR8/2EDR4 optics need cataloguing with verification.
 - **Severity:** MEDIUM. `pickSpine(≥800,'ai','dell')` → Z9964F-ON (OSFP224); leaf→spine
   quoted as `DAC-O112-800G-xM` into 1.6T ports (CONFIRMED: 24 servers → 192 DACs into 3×
   Z9964F). The SPEC's part-evidence gate (ruling #5) was applied to the SUPER-spine pick, not
@@ -1280,6 +1291,10 @@ G-042, G-043).
   in `tests/fixtures/` format); backfill deals quoted since July.
 
 ### G-042 — Vendor facts have no machine-readable provenance; citation cadence has no guard — OPEN 2026-09-17
+- **POWER/CAPACITY HALF RULED 2026-09-18 (v0.66.11):** Z9432F-ON → 900 W (QRG); Z9664F-ON HELD at
+  700 W (a planning estimate may only err high — moves down on a second source); Z-series AI
+  `switchingCapacity` now the QRG figure verbatim. CITATION-LOG rows flipped from STALE. The
+  structural half (provenance fields, citation-expiry test, SKU date) remains OPEN.
 - **Severity:** MEDIUM–HIGH (the remaining accuracy ceiling). Catalog facts (media, far-end
   cage, restrictions — see G-034) are cited in prose comments only; nothing can check "is this
   verified, by when, does this far end fit the NIC?" CITATION-LOG promises a quarterly recheck

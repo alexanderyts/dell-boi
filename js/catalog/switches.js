@@ -177,12 +177,16 @@ window.CATALOG.switches = [
     dellPN: 'verify', verify: true, specConfirmed: true, source: GUIDE
   },
 
-  /* ==================== Z-SERIES / AI-FABRIC ETHERNET (Broadcom) — SPINE ==== */
+  /* ==================== Z-SERIES / AI-FABRIC ETHERNET (Broadcom) — SPINE ====
+   * switchingCapacity (2026-09-18): the four models below print Dell's PUBLISHED figure VERBATIM
+   * (QRG June 2026, corpus/txt/QRG-DC.txt:80 — 12.8 / 25.6 / 51.2 / 102.4). They had carried
+   * doubled (full-duplex) values that disagreed with both the QRG and each entry's own `breakout`
+   * text; the figure lands on BOM notes, where the customer compares it against Dell's sheet. */
   {
     id: 'z9432f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9432F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Trident4-X11',
     nosSupported: ['dell-sonic', 'os10'],
-    formFactor: '1U (EIA)', rackU: 1, roles: ['spine', 'leaf'], switchingCapacity: '25.6 Tbps',
+    formFactor: '1U (EIA)', rackU: 1, roles: ['spine', 'leaf'], switchingCapacity: '12.8 Tbps',
     access: { count: 32, speed: '400GbE', media: 'QSFP-DD' },
     uplink: { count: 0, speed: '-', media: '-' },
     portsBySpeed: { '10G': '144 (breakout) + 2', '25G': '144 (breakout)', '40G': '64 (breakout)', '50G': '128 (breakout) + 16 (QSA)', '100G': '128 (breakout)', '200G': '64 (breakout)', '400G': '32 (QSFP-DD)' },
@@ -194,7 +198,7 @@ window.CATALOG.switches = [
     id: 'z9664f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9664F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Tomahawk 4',
     nosSupported: ['dell-sonic', 'os10'],
-    formFactor: '2U (EIA)', rackU: 2, roles: ['spine'], switchingCapacity: '51.2 Tbps',
+    formFactor: '2U (EIA)', rackU: 2, roles: ['spine'], switchingCapacity: '25.6 Tbps',
     access: { count: 64, speed: '400GbE', media: 'QSFP-DD' },
     uplink: { count: 0, speed: '-', media: '-' },
     portsBySpeed: { '10G': '256 (breakout) + 2', '25G': '256 (breakout)', '40G': '128 (breakout)', '50G': '128 (breakout)', '100G': '256 (breakout)', '200G': '128 (breakout)', '400G': '64 (QSFP-DD)' },
@@ -206,7 +210,7 @@ window.CATALOG.switches = [
     id: 'z9864f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9864F-ON',
     os: 'Enterprise SONiC (Dell) / SmartFabric OS10', npu: 'Broadcom Tomahawk 5',
     nosSupported: ['dell-sonic', 'os10'],
-    formFactor: '2U (EIA)', rackU: 2, roles: ['spine'], switchingCapacity: '102.4 Tbps',
+    formFactor: '2U (EIA)', rackU: 2, roles: ['spine'], switchingCapacity: '51.2 Tbps',
     access: { count: 64, speed: '800GbE', media: 'OSFP112' },
     uplink: { count: 0, speed: '-', media: '-' },
     portsBySpeed: { '100G': '320 (breakout)', '200G': '256 (breakout)', '400G': '128 (breakout)', '800G': '64 (OSFP112)' },
@@ -218,7 +222,7 @@ window.CATALOG.switches = [
     id: 'z9964f-on', vendor: 'Dell', line: 'PowerSwitch', model: 'Z9964F-ON',
     os: 'Enterprise SONiC (Dell)', npu: 'Broadcom Tomahawk 6',
     nosSupported: ['dell-sonic'],
-    formFactor: '3U (EIA)', rackU: 3, roles: ['spine'], switchingCapacity: '204.8 Tbps',
+    formFactor: '3U (EIA)', rackU: 3, roles: ['spine'], switchingCapacity: '102.4 Tbps',
     access: { count: 64, speed: '1.6TbE', media: 'OSFP224' },
     uplink: { count: 0, speed: '-', media: '-' },
     portsBySpeed: { '100G': '512 (breakout)', '200G': '512 (breakout)', '400G': '256 (breakout)', '800G': '128 (breakout)', '1.6T': '64 (OSFP224)' },

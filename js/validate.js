@@ -54,9 +54,20 @@
     }
 
     // 2. Redundancy --------------------------------------------------------
+    // Ruling 2026-09-18: 'single' is an input the rep CHOSE, and a single-switch design is
+    // buildable — so on its own it is a WARN (ERROR is reserved for a BOM that cannot be built or
+    // silently differs from the ask). It stays an ERROR only where a storage-carrying fabric rides
+    // the single switch: there one switch failure or firmware upgrade takes every path to the
+    // data down at once, which is not safe to quote without the customer's explicit sign-off.
     if (res.context.redundancy === 'single') {
-      push(res, 'error',
-        'Single-fabric selected: no switch-level redundancy. Dell guidance is a dual-fabric MC-LAG pair (Dell Enterprise SONiC) for production storage/server attach.',
+      // "storage-carrying" = a dedicated storage/backend network, or a VxRail (vSAN rides its one
+      // network). NOT 'frontend' — general PowerEdge servers use that network name too.
+      const storageOnSingle = res.fabrics.some(f => f.network === 'storage' || f.network === 'backend') ||
+        plats.some(pl => pl && pl.id === 'vxrail');
+      push(res, storageOnSingle ? 'error' : 'warn',
+        storageOnSingle
+          ? 'Single-fabric selected with storage attached: one switch failure or firmware upgrade takes every path to the storage down at once. Dell guidance is a dual-fabric MC-LAG pair (Dell Enterprise SONiC) for production storage — quote the pair, or get the customer\'s written acceptance of the outage risk.'
+          : 'Single-fabric selected: no switch-level redundancy — any switch failure or firmware upgrade is an outage for everything attached. Dell guidance is a dual-fabric MC-LAG pair (Dell Enterprise SONiC) for production. Confirm the customer chose this deliberately (lab / non-production).',
         R.redundancy.source);
     }
 
