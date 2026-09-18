@@ -9,6 +9,23 @@ blame across a dozen commits.
 
 ---
 
+## 2026-09-18c — G-038 ruled: the NVIDIA-stack north-south fabric (decisions only, no engine change)
+
+The maintainer delegated the five blocked decisions. Full text + citations:
+`docs/research/G-038-nvidia-storage-fabric.md` → DECISIONS. The shape of the answer came from
+PART EVIDENCE, not from preference: the only host attach onto an SN5600 that is catalogued and
+verified is the 400G 1:2 assembly (MCP7Y00/Y10). The research pass had proposed MCP7Y60/Y70 for
+200G/100G hosts; reading the LinkX guide line itself shows those are "Twin-port 2x200G OSFP" parts
+— a different cage class, QSFP56 PAM4 far ends, unverified on SN5600, and physically unable to
+link to a QSFP28 NRZ NIC (the ruling-#8 physics). So: 400G converged north-south on SN5600 is the
+NVIDIA-stack default; anything slower rides the fixture-backed Dell ladder as a visible parts
+decision; the SN4700 leaves the path (which closes R13 without adding a 25G Spectrum rung);
+arrays stay on their Dell-published fabric (already true structurally — `fs.stack` is 'nvidia'
+only for an AI platform's own fabrics). **Why record decisions before code:** a fresh session must
+not re-derive these from the research proposal, which they partly overrule.
+
+---
+
 ## 2026-09-18b — host-side port credit comes from the quoted part, read off the canonical design (v0.66.12) — GAPS G-037
 
 **What was wrong:** three places each multiplied a leaf's port count by native÷host speed —

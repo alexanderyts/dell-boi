@@ -1260,7 +1260,14 @@ G-042, G-043).
   which already exist) — the Phase 2 "validators consume design.js" slice — rather than a
   speed ratio; interim: credit only when the fabric's resolved host cable IS a breakout.
 
-### G-038 — Full-NVIDIA designs size their non-AI fabrics with S5232F constants — OPEN 2026-09-17 (RESEARCHED 2026-09-18, awaiting maintainer decisions)
+### G-038 — Full-NVIDIA designs size their non-AI fabrics with S5232F constants — OPEN 2026-09-17 (RESEARCHED + RULED 2026-09-18 — ready to implement, nothing blocked)
+- **RULED 2026-09-18** (full text: `docs/research/G-038-nvidia-storage-fabric.md` → DECISIONS):
+  SN5600 leaf+spine, never SN4700 (closes R13); NVIDIA-stack default = ONE converged north-south
+  network, 2× 400G/server on the verified MCP7Y00/Y10 assembly, NIC cage asked + verify-flagged;
+  a sub-400G NIC on an NVIDIA stack is quoted on the Dell ladder with a "parts decision" info
+  line (no verified Spectrum attach exists; MCP7Y60/Y70 are 2×200G-class, unverified on SN5600);
+  PowerScale never via 1:4 splitters (QSFP56 PAM4 vs QSFP28 NRZ — ruling #8 physics); the HGX PDF
+  is not a blocker (port math, not RA tables). Uplinks from the leaf's own ports, ≤ 2:1.
 - **Research recorded:** `docs/research/G-038-nvidia-storage-fabric.md`. Headline: every NVIDIA /
   Dell reference design found puts storage + frontend/in-band on ONE converged SN5600-class
   fabric (SN5610 in Dell's XE9680 brief), physically separate from the GPU fabric — none uses the

@@ -27,18 +27,26 @@ the backtest defect meter (B1–B7) is at ZERO (all hard guards).
     class of defect (it cost three empty sweeps here).
   - **Do not "simplify" the conversion to `railsPerAssembly` per port** — the SN5600 is catalogued
     as 128 LOGICAL 400G ports, so its 1:2 splitter is 1 link/port; the Z9864F-ON's is 2.
-- **G-038 RESEARCHED, not implemented:** `docs/research/G-038-nvidia-storage-fabric.md`. Every
+- **G-038 RULED 2026-09-18 (all five decisions made — see the DECISIONS section of the research
+  file; do NOT re-ask, and do NOT implement the research pass's original MCP7Y60/Y70 proposal,
+  which the decisions overrule):** SN5600 leaf+spine, never SN4700 (closes R13); NVIDIA-stack
+  default = one converged north-south network, 2× 400G/server on the verified MCP7Y00/Y10
+  assembly, cage asked + verify-flagged; sub-400G NICs on an NVIDIA stack → Dell ladder + "parts
+  decision" info line; PowerScale never via 1:4 splitters; HGX PDF not a blocker. Implementation
+  slices are listed in that file. **Ready to build — nothing blocked.**
+- **G-038 research detail:** `docs/research/G-038-nvidia-storage-fabric.md`. Every
   NVIDIA/Dell reference design puts storage + frontend on ONE converged SN5600-class fabric
   (SN5610 in Dell's XE9680 brief), never SN4700; ~5:3 node-side / 1:1 storage-side, not 7:1; Dell
-  sells no 25G/100G-native Spectrum leaf. **FIVE maintainer decisions are listed in that file —
-  G-038 is blocked on them** (SN5600 vs SN5610 default; XE9680 frontend NIC; 25G devices on an
+  sells no 25G/100G-native Spectrum leaf. **The five questions it raised are ANSWERED (above)** (SN5600 vs SN5610 default; XE9680 frontend NIC; 25G devices on an
   NVIDIA stack; PowerScale via 1:4 splitters; get the HGX RA PDF into the corpus first).
 - **New: G-044** — SN2201 uplinks catalogued as 4× 10/25G SFP28; QRG + NVIDIA sheet + the NVL72 RA
   all say 4× 100G QSFP28. Small, evidence complete, not yet fixed.
 - **SPEC corrected:** "Dell publishes full-duplex capacity" was false (QRG mixes conventions); the
   rule is now "print the vendor's published figure verbatim".
-- **QUEUE:** G-044 (quick) → G-039 remainder (cross-rack 800G optics) → G-040 (parallel-optic plant
-  math) → G-038 once the five decisions are in → G-041/042/043.
+- **QUEUE:** G-044 (quick) → **G-038 (ruled, ready; the biggest remaining accuracy gap for NVIDIA
+  deals)** → G-039 remainder (cross-rack 800G optics) → G-040 (parallel-optic plant math) →
+  **G-042 before G-041/043** (structured catalog provenance is the foundation of the automated
+  corpus-refresh loop the maintainer asked about 2026-09-18).
 
 ### State at end of session 2026-09-18 — the four open rulings, decided (v0.66.11)
 - **Version 0.66.11. Suite 20/20 green.** Committed, pushed, hosted artifact republished.
