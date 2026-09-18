@@ -387,9 +387,18 @@ wins, and S5224F-ON stays for non-redundant / economy designs. — enforced: eng
   + ICL ≤ uplink ports, Σ leaf-uplinks ≤ spine ports (breakout-aware, credited only against a
   catalog-real breakout part — see § AI switch selection). A BOM that requires more ports than the
   switch has is rejected, not warned. — enforced: validate #22.
-- **Switch capacity convention:** Dell PowerSwitch spec sheets publish **full-duplex** switching
-  capacity; NVIDIA Spectrum publishes single-direction. Catalog matches each vendor's own spec
-  sheet convention. Display-only; sizing uses ports, not Tbps. *(Dell switch spec sheets,
+- **A leaf port carries more than one host link ONLY through the quoted 1:N assembly.** Host-side
+  capacity is never credited from a native÷host speed ratio: one 1:1 cable or optic = one whole
+  port, whatever the speeds. The conversion is `hostLinksPerLeafPort(optic, port)` (assembly
+  links × port speed ÷ the assembly's switch-end speed — so a Z9864F-ON 800G port carries 2 rails
+  and an SN5600 400G *logical* port carries 1). The SAME resolved cable sizes the leaf, decides
+  whether an MC-LAG peer-link fits, is quoted on the BOM, and is what validate #22 budgets
+  against (read from the canonical host cable record). — enforced: engine `resolveHostCable` /
+  `linksPerPort`, `Design.hostPortDemand`, validate #22; `tests/unit-engine.js` G-037.
+- **Switch capacity = the vendor's PUBLISHED figure, verbatim.** No duplex convention is applied:
+  Dell's own documents are not consistent (the QRG prints the S-series doubled — S5232F 6.4 Tbps —
+  and the Z-series AI switches not — Z9864F 51.2 Tbps), and the string lands on BOM notes where a
+  customer compares it against Dell's sheet. Display-only; sizing uses ports, not Tbps. *(Dell switch spec sheets,
   harvested — see CITATION-LOG.md for current re-verification status)*
 
 ## 7. Inter-switch & core connectivity

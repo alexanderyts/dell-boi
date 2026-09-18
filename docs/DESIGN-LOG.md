@@ -9,6 +9,50 @@ blame across a dozen commits.
 
 ---
 
+## 2026-09-18b — host-side port credit comes from the quoted part, read off the canonical design (v0.66.12) — GAPS G-037
+
+**What was wrong:** three places each multiplied a leaf's port count by native÷host speed —
+`validate.js` #22, the engine's post-spine physical-fit pass, and the ICL-fit re-check (plus the
+AI sizing radix) — *whether or not a breakout assembly was the cable being quoted*. A 32× 400G leaf
+with 100G hosts on 1:1 DACs was budgeted at 128 ports. Reproduced: 56× XE9680, NVIDIA stack, 0%
+headroom → storage leaf 28 host + 4 uplink + 2 ICL = 34 on 32 ports, MC-LAG ICLs quoted, no error.
+**Found while fixing:** the same on a DELL leaf — 200G hosts (1:1 `dac-200g-qsfp56`) on Z9432F-ON,
+34/32, silent. So this was never an NVIDIA-only problem; G-038's bad sizing merely exposed it.
+(The first sweeps found nothing because the input key is `growthHeadroom`, not `headroom` — the
+default 25% slack is what had been hiding the defect in every suite.)
+
+**The rule (ruling #4, "no phantom credit", applied one hop down):** a leaf port carries more
+than one host link only through a catalogued 1:N assembly that is the part actually quoted.
+`hostLinksPerLeafPort(optic, port)` is the single conversion: `railsPerAssembly × portSpeed ÷
+assemblyHighEndSpeed`, else 1. It needs the speed term because the catalog counts ports two ways:
+Z9864F-ON = 64 physical 800G ports (the 1:2 assembly → 2 links/port); SN5600 = 128 LOGICAL 400G
+ports on 64 twin-port cages (the MCP7Y00 → 2 links in 2 logical ports = 1/port). The first,
+simpler "railsPerAssembly per cage" version doubled the SN5600's radix — caught by the repro
+before any test ran; recorded here so nobody simplifies it back.
+
+**Structure:** one closure, `resolveHostCable(fs)`, now answers "which host cable" for the sizing
+pass, both fit passes AND the BOM step (which used to be the only caller) — so the cable that
+sizes the leaf is by construction the cable that is quoted. `Design.hostPortDemand(result)` reads
+links-per-port off the CANONICAL host cable record and validate #22 consumes that: the first
+validator to read the design rather than re-derive capacity (DERIVATIONS §3, host side). Edge /
+refresh / RA have no canonical cable list yet; they fall back to the fabric's own resolved optic,
+and only if that is missing to the legacy ratio, flagged `legacy:true`.
+
+**RA collapsed pair:** its ISL is counted in rail-speed links but rides the same 1:2 assemblies
+(64 links = 32 ports). The old checker only balanced because it inflated the pool AND counted the
+ISL in logical links. The RA fabric now records `interconnectCableId` and the checker converts
+links → ports from that part. Both published RAs stay error-free (challenge-bp caught this).
+
+**SPEC correction in the same commit:** §6 "Switch capacity convention" said Dell publishes
+full-duplex figures and the catalog follows that. The QRG doesn't (S5232F 6.4 = doubled; Z9864F
+51.2 = not). v0.66.11 had already moved the four Z-series AI strings to the QRG figure; the SPEC
+line now says what is true: print the vendor's published figure verbatim, no convention applied.
+
+**Regression-verified:** old ICL-fit logic restored alone → 3 assertions red ("34 > 32" ×2, "mclag");
+`validate.js` reverted alone → 2 red (the over-commit passes silently).
+
+---
+
 ## 2026-09-18 — the four open rulings from the 2026-09-17 review, decided (v0.66.11) — GAPS G-039 / G-042 / G-034
 
 **Context:** the maintainer asked for "the best rulings" on the four items left open, and said of

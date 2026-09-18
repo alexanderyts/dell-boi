@@ -11,6 +11,35 @@ Structural redesign per docs/RESTRUCTURE-3.md (the plan of record).
 contracts are approved and landed; Phase 1 invariants + golden fixtures are live;
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
+### State at end of session 2026-09-18b — G-037 closed (v0.66.12) + G-038 researched
+- **Version 0.66.12. Suite 20/20 green.** Committed, pushed, hosted artifact republished.
+- **G-037 CLOSED — "no part, no port credit", host side.** Three places multiplied a leaf's ports
+  by native÷host speed whether or not a splitter was quoted (validate #22, the post-spine fit pass,
+  the ICL-fit re-check; plus the AI sizing radix). 34 cables into a 32-port switch, zero errors —
+  on the NVIDIA SN4700 **and, found while fixing, on a Dell Z9432F-ON with 200G hosts**. Now:
+  `hostLinksPerLeafPort(optic, port)` is the one conversion; `resolveHostCable(fs)` is shared by
+  sizing, both fit passes, the ICL re-check and the BOM step; `Design.hostPortDemand()` reads
+  links-per-port off the canonical host cable record and validate #22 budgets against it — **the
+  first validator on the canonical layer (DERIVATIONS §3, host side only)**. RA collapsed pairs
+  record `interconnectCableId`. DESIGN-LOG 2026-09-18b.
+  - **Trap for the next session:** the engine's headroom input is `growthHeadroom`, NOT
+    `headroom`. Probes using the wrong key silently run at the default 25% and hide this whole
+    class of defect (it cost three empty sweeps here).
+  - **Do not "simplify" the conversion to `railsPerAssembly` per port** — the SN5600 is catalogued
+    as 128 LOGICAL 400G ports, so its 1:2 splitter is 1 link/port; the Z9864F-ON's is 2.
+- **G-038 RESEARCHED, not implemented:** `docs/research/G-038-nvidia-storage-fabric.md`. Every
+  NVIDIA/Dell reference design puts storage + frontend on ONE converged SN5600-class fabric
+  (SN5610 in Dell's XE9680 brief), never SN4700; ~5:3 node-side / 1:1 storage-side, not 7:1; Dell
+  sells no 25G/100G-native Spectrum leaf. **FIVE maintainer decisions are listed in that file —
+  G-038 is blocked on them** (SN5600 vs SN5610 default; XE9680 frontend NIC; 25G devices on an
+  NVIDIA stack; PowerScale via 1:4 splitters; get the HGX RA PDF into the corpus first).
+- **New: G-044** — SN2201 uplinks catalogued as 4× 10/25G SFP28; QRG + NVIDIA sheet + the NVL72 RA
+  all say 4× 100G QSFP28. Small, evidence complete, not yet fixed.
+- **SPEC corrected:** "Dell publishes full-duplex capacity" was false (QRG mixes conventions); the
+  rule is now "print the vendor's published figure verbatim".
+- **QUEUE:** G-044 (quick) → G-039 remainder (cross-rack 800G optics) → G-040 (parallel-optic plant
+  math) → G-038 once the five decisions are in → G-041/042/043.
+
 ### State at end of session 2026-09-18 — the four open rulings, decided (v0.66.11)
 - **Version 0.66.11. Suite 20/20 green.** Committed, pushed, hosted artifact republished.
 - The maintainer asked for "the best rulings" on the four open items (and doubted the Z9964F-ON

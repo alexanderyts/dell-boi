@@ -373,9 +373,15 @@
 
     // 22. PHYSICAL PORT BUDGET — a switch cannot be over-committed (hard error)
     //     host ports + ICL(if on access) ≤ access ports; uplinks + ICL(if on uplink) ≤ uplink ports.
+    // G-037 (2026-09-18): the host side is budgeted in PHYSICAL ports READ FROM THE CANONICAL
+    // DESIGN (Design.hostPortDemand — the host cable record's links-per-port), not from a
+    // native÷host speed ratio. The ratio credited a 32× 400G leaf with 128 "ports" for 100G hosts
+    // even when the quoted cable was a 1:1 DAC — 34 cables into 32 ports passed with zero errors.
+    const hostDemand = (window.Design && window.Design.hostPortDemand) ? window.Design.hostPortDemand(res) : [];
     res.fabrics.forEach(f => {
       if (f.network === 'mgmt' || !f.leaf || !f.leaf.access || !f.leavesPerFabric) return;
       const hostPerLeaf = Math.ceil((f.perFabricLinks || 0) / f.leavesPerFabric);
+      const hd = hostDemand.find(x => x.fabric === f) || { linksPerPort: 1, hostPortsPerLeaf: hostPerLeaf, islLinksPerPort: 1, opticModel: null };
       // ICL/ISL physical port consumption PER SWITCH — the divisor differs by shape:
       //  - recommend(): leavesPerFabric already counts PAIRS (1 unit = 2 switches, each pair's
       //    OWN ICL) -> divide interconnectQty by leavesPerFabric directly.
@@ -385,7 +391,7 @@
       const raCollapsedIsl = f.workload === 'ai' && f.totalLeaves === 2 && !f.spine && !!f.interconnectQty;
       let iclPortsPerLeaf = 0;
       if (f.interconnectQty) {
-        if (raCollapsedIsl) iclPortsPerLeaf = f.interconnectQty;
+        if (raCollapsedIsl) iclPortsPerLeaf = Math.ceil(f.interconnectQty / Math.max(1, hd.islLinksPerPort || 1));   // G-037: links → ports via the quoted ISL part
         else if (res.isEdge) iclPortsPerLeaf = (2 * f.interconnectQty) / f.leavesPerFabric;
         else iclPortsPerLeaf = f.interconnectQty / f.leavesPerFabric;
       }
@@ -393,18 +399,18 @@
       // separate SFP28 ports — neither access RJ45 nor 100G uplink — so it budgets against neither)
       const iclOnUplink = iclPortsPerLeaf && hasFabricUplink(f.leaf) && String(f.leaf.uplink.speed) === String(f.interconnectSpeed);
       const iclOnAccess = iclPortsPerLeaf && !iclOnUplink && String(f.leaf.access.speed) === String(f.interconnectSpeed);
-      // breakout-adjust the budget whenever the leaf's native access speed exceeds this fabric's
-      // actual speed — breakout is physically happening regardless of the fabric's workload label.
-      let accessBudget = f.leaf.access.count;
-      { const aG = gbps(f.leaf.access.speed) || gbps(f.speed); const rG = gbps(f.speed); if (aG > rG && rG > 0) accessBudget = accessBudget * Math.floor(aG / rG); }
-      // the RA collapsed-pair ISL shares the SAME breakout-adjusted pool as the GPU rails
+      // The budget is the leaf's real port count. Hosts occupy links ÷ links-per-port (from the
+      // quoted part); an ICL/ISL or an uplink riding this pool occupies one port each.
+      const accessBudget = f.leaf.access.count;
+      // the RA collapsed-pair ISL shares the SAME port pool as the GPU rails
       // themselves. Leaves with NO genuine dedicated fabric-uplink class (S5232F/Z9264F/Z9432F/
       // Z9664F/Z9864F, or an AI leaf whose catalog "uplink" is a mgmt/breakout-assist port like
       // SN5610's 2× 25GbE — see hasFabricUplink) present uplinks on this SAME pool too.
       const uplinksOnAccess = !hasFabricUplink(f.leaf) && f.spine && !!f.uplinksPerLeaf;
-      const accessUsed = hostPerLeaf + (iclOnAccess || raCollapsedIsl ? iclPortsPerLeaf : 0) + (uplinksOnAccess ? (f.uplinksPerLeaf || 0) : 0);
+      const hostPorts = hd.hostPortsPerLeaf;
+      const accessUsed = hostPorts + (iclOnAccess || raCollapsedIsl ? iclPortsPerLeaf : 0) + (uplinksOnAccess ? (f.uplinksPerLeaf || 0) : 0);
       if (accessUsed > accessBudget)
-        push(res, 'error', `${f.network}: ${f.leaf.model} access ports OVER-COMMITTED — ${hostPerLeaf} host${(iclOnAccess || raCollapsedIsl) ? ' + ' + iclPortsPerLeaf + (raCollapsedIsl ? ' ISL' : ' ICL') : ''}${uplinksOnAccess ? ' + ' + f.uplinksPerLeaf + ' uplink' : ''} = ${accessUsed} > ${accessBudget} ports (breakout-adjusted). Add leaves or a bigger switch.`, 'Physical port budget');
+        push(res, 'error', `${f.network}: ${f.leaf.model} access ports OVER-COMMITTED — ${hd.linksPerPort > 1 ? hostPerLeaf + ' host links ÷ ' + hd.linksPerPort + ' per port (' + hd.opticModel + ') = ' + hostPorts : hostPorts} host${(iclOnAccess || raCollapsedIsl) ? ' + ' + iclPortsPerLeaf + (raCollapsedIsl ? ' ISL' : ' ICL') : ''}${uplinksOnAccess ? ' + ' + f.uplinksPerLeaf + ' uplink' : ''} = ${accessUsed} > ${accessBudget} ports${hd.linksPerPort === 1 && gbps(f.leaf.access.speed) > gbps(f.speed) ? ' (the quoted host cable is 1:1 — each host takes a whole ' + f.leaf.access.speed + ' port; no breakout part is quoted, so none is credited)' : ''}. Add leaves or a bigger switch.`, 'Physical port budget');
       if (hasFabricUplink(f.leaf)) {
         // DUAL uplink classes (E-series: 4× SFP+/SFP28 `uplinkAlt` AND 2× 100G `uplink`) —
         // uplinks ride whichever class matches the fabric's uplinkSpeed; the ICL rides the

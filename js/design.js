@@ -462,7 +462,45 @@
     return { ok: stranded.length === 0, stranded };
   }
 
-  const api = { buildDeviceList, groupDevicesForBom, buildCableList, applyCanonicalBom, checkConnectivity };
+  /* ===========================================================================
+   * HOST-PORT DEMAND (DERIVATIONS §3, GAPS G-037) — how many of a leaf's physical
+   * (catalog) access ports its host links really occupy, read off the CANONICAL
+   * host cable record: links ÷ (links one port carries through the QUOTED part).
+   * A 1:1 DAC/optic = 1 link per port, whatever the speed ratio says; a 1:2 rail
+   * assembly = what hostLinksPerLeafPort() derives from the part. This is what
+   * validate #22 budgets against — a validator READING the design, not re-deriving
+   * capacity from native÷host speed (which credited ports no quoted part provides).
+   * Edge / refresh / RA have no canonical cable list yet (later slice): they fall
+   * back to the fabric's own resolved optic, and — only when that is absent too —
+   * to the legacy speed ratio, flagged `legacy: true` so the gap stays visible.
+   * ========================================================================= */
+  function hostPortDemand(result) {
+    if (!result || !result.fabrics) return [];
+    const H = engineHelpers();
+    const gbpsOf = s => (H.speedToGbps ? H.speedToGbps(s) : 0);
+    const list = buildCableList(result);
+    const byKey = new Map((list.cables || []).filter(c => c.role === 'host').map(c => [c.mergeKey, c]));
+    return result.fabrics.filter(f => f.network !== 'mgmt' && f.leaf && f.leaf.access && f.leavesPerFabric).map(f => {
+      const tid = f.bomTargetId != null ? f.bomTargetId : f.targetId;
+      const record = byKey.get('host|' + tid + '|' + f.network + '|' + f.hostCableId) || null;
+      const optic = opticById(record ? record.opticId : f.hostCableId) || null;
+      let linksPerPort = 1, legacy = false;
+      if (optic || !list.partial) linksPerPort = H.hostLinksPerLeafPort ? H.hostLinksPerLeafPort(optic, f.leaf.access) : 1;
+      else {   // non-canonical path with no resolved optic on the fabric — legacy ratio, flagged
+        const aG = gbpsOf(f.leaf.access.speed), rG = gbpsOf(f.speed);
+        if (aG > rG && rG > 0) { linksPerPort = Math.floor(aG / rG); legacy = true; }
+      }
+      const hostLinksPerLeaf = Math.ceil((f.perFabricLinks || 0) / f.leavesPerFabric);
+      // an inter-switch link quoted as a 1:N assembly (the RA collapsed pair's rail-speed ISL)
+      // occupies links ÷ N ports, read from ITS recorded part the same way
+      const islOptic = f.interconnectCableId ? opticById(f.interconnectCableId) : null;
+      const islLinksPerPort = (islOptic && H.hostLinksPerLeafPort) ? H.hostLinksPerLeafPort(islOptic, f.leaf.access) : 1;
+      return { fabric: f, record, opticId: optic ? optic.id : null, opticModel: optic ? (optic.model || optic.id) : null,
+        linksPerPort, hostLinksPerLeaf, hostPortsPerLeaf: Math.ceil(hostLinksPerLeaf / Math.max(1, linksPerPort)), islLinksPerPort, legacy };
+    });
+  }
+
+  const api = { buildDeviceList, groupDevicesForBom, buildCableList, applyCanonicalBom, checkConnectivity, hostPortDemand };
   if (typeof window !== 'undefined') {
     window.Design = api;
     // MIGRATE the main-path BOM onto the canonical layer: wrap window.recommend so every

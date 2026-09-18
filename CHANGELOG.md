@@ -5,9 +5,44 @@ Versioning (pre-1.0): **MAJOR.MINOR.PATCH**
 - **MINOR (0.X.0)** — a new capability or significant change.
 - **PATCH (0.0.X)** — a fix or small iteration within a minor version.
 
-Current version: **0.66.11**
+Current version: **0.66.12**
 
 ---
+
+## 0.66.12 — A switch can no longer be quoted with more cables than it has ports (G-037) (2026-09-18)
+
+**What this means for a quote:** on certain switches the tool could plug **34 cables into a
+32-port switch and report zero errors**. It happened when slower servers sat on a faster switch —
+100G or 25G hosts on an NVIDIA SN4700 (32× 400G), or **200G hosts on a Dell Z9432F-ON** (found
+while fixing; not in the original report). The tool *assumed* each 400G port would be split into
+several slower ports, and budgeted the switch as if it had 64/128/512 ports — but the cable it
+actually quoted was an ordinary one-host-per-port DAC. No splitter was on the BOM, so the extra
+ports did not exist.
+- The rule now: **a port is only counted as split if a splitter cable is actually on the quote.**
+  One ordinary cable = one whole port, whatever the speeds are.
+- The same rule now drives three things that used to each do their own arithmetic: how many
+  switches get quoted, whether the redundant pair has room for its two peer-link cables (if not,
+  it uses the no-peer-link method, stated on the quote — exactly what the Dell version of the same
+  design already did), and the red "over-committed" error check.
+- Real splitters keep their credit: Dell 400G GPU rails (one 800G port → two rails) and NVIDIA's
+  published reference designs are unchanged.
+- It only bit at low growth headroom (the default 25% usually left enough slack to hide it),
+  which is why no golden fixture moved. A sweep of 43,000 fabric designs now finds none
+  over-committed without an error.
+
+**Under the hood:** this is the first checker that reads the *canonical design* (the cable record)
+instead of re-deriving capacity itself — the planned Phase 2 "validators" slice, host side.
+
+**Also corrected:** SPEC said Dell always publishes doubled ("full-duplex") switching-capacity
+figures. Dell's own June 2026 guide doesn't (S-series doubled, Z-series AI not), so the rule is now
+"print Dell's published number as-is" — which is what v0.66.11 already did.
+
+**Logged, not fixed:** the catalog lists the SN2201 management switch's uplinks as 4× 10/25G SFP28;
+Dell's guide and NVIDIA's datasheet both say 4× 100G QSFP28 (GAPS G-044). Research for the NVIDIA
+storage-fabric gap (G-038) is recorded in `docs/research/G-038-nvidia-storage-fabric.md`.
+
+Tests: 13 new assertions incl. a sweep; stash-verified (old engine logic alone → "34 > 32" and the
+wrong redundancy method; old checker alone → the over-commit passes). Suite 20/20.
 
 ## 0.66.11 — The four open rulings from the accuracy review, decided and applied (2026-09-18)
 

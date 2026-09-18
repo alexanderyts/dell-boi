@@ -162,6 +162,13 @@ facts, each mapped to the derivation rule that removes it:
 
 ## Phase 2 implementation status (2026-07-16)
 
+**§3 validators — first slice LIVE 2026-09-18 (G-037, v0.66.12):** the HOST side of the port
+budget (validate #22) reads `Design.hostPortDemand(result)` — links-per-port taken from the
+canonical host cable record — instead of multiplying the port count by a speed ratio. Uplink /
+spine / super-spine budgets and the ICL-presence regex are NOT yet migrated (still the fabric
+fields + `uplinkCableQty`); edge / refresh / RA still have no canonical cable list and use the
+flagged fallback described on `hostPortDemand`.
+
 The §1 BOM derivation is LIVE for the main-path Switch + `host|`/`uplink|` lines
 (`js/design.js` `applyCanonicalBom`, wrapping `recommend`): B1/B3/B5 are killed
 and are now hard guards (`tests/invariants.js`). Seams #4/#8/#10 are **not yet

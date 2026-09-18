@@ -1240,7 +1240,15 @@ G-042, G-043).
   `requires`/`concerns`, `considerations`, discovery/solutions, index.html labels) against a
   forbidden-term list for the new-build path; fix the test-dom assertion.
 
-### G-037 — Port-budget checker credits breakout ports that have no breakout part behind them (host side) — OPEN 2026-09-17
+### G-037 — Port-budget checker credits breakout ports that have no breakout part behind them (host side) — CLOSED 2026-09-18 (v0.66.12)
+- **FIXED:** capacity is credited only through the quoted part. `hostLinksPerLeafPort()` is the
+  one conversion; `resolveHostCable(fs)` is shared by the leaf sizing, both fit passes, the
+  ICL-fit re-check and the BOM step; `Design.hostPortDemand()` reads links-per-port off the
+  canonical host cable record and validate #22 budgets against it (DERIVATIONS §3, first slice).
+  **Wider than logged:** the same silent 34/32 hit DELL Z9432F-ON leaves with 200G hosts on 1:1
+  DACs. RA collapsed pairs now record `interconnectCableId` so their rail-speed ISL converts to
+  ports from its part. Tests: `unit-engine.js` "G-037" (13, incl. a sweep), stash-verified. A
+  43,200-fabric sweep finds no silent over-commit. DESIGN-LOG 2026-09-18b.
 - **Severity:** MEDIUM (needs low headroom to bite; silent when it does). `validate.js` #22
   and the engine's `iclFits`/physical-fit passes multiply a leaf's ports by native÷host speed
   regardless of what's quoted. On an SN4700 leaf (32×400G) with 100G/25G hosts on 1:1 DACs
@@ -1252,7 +1260,12 @@ G-042, G-043).
   which already exist) — the Phase 2 "validators consume design.js" slice — rather than a
   speed ratio; interim: credit only when the fabric's resolved host cable IS a breakout.
 
-### G-038 — Full-NVIDIA designs size their non-AI fabrics with S5232F constants — OPEN 2026-09-17
+### G-038 — Full-NVIDIA designs size their non-AI fabrics with S5232F constants — OPEN 2026-09-17 (RESEARCHED 2026-09-18, awaiting maintainer decisions)
+- **Research recorded:** `docs/research/G-038-nvidia-storage-fabric.md`. Headline: every NVIDIA /
+  Dell reference design found puts storage + frontend/in-band on ONE converged SN5600-class
+  fabric (SN5610 in Dell's XE9680 brief), physically separate from the GPU fabric — none uses the
+  SN4700; published blocking is ~5:3 node-side / 1:1 storage-side, nowhere near 7:1; and Dell
+  sells NO 25G/100G-native Spectrum leaf. Five decisions for the maintainer are listed there.
 - **Severity:** MEDIUM (fails loud, but the tool cannot produce a valid design; NVIDIA is the
   common AI stack). An AI target's storage/frontend groups land on SN4700 (32×400G QSFP-DD)
   with `availUp = 4` and `uplinkSpeed = '100GbE'` — the h04504 assumption for a 32×100G
@@ -1313,6 +1326,16 @@ G-042, G-043).
   input object from a filled state and asserts every BOM-affecting INPUT-SCHEMA field lands at
   the level the engine reads. Also: INPUT-SCHEMA §3.1 still maps `#f-core-farend` (now
   `#f-core-vendor`); `engine.js` labels the per-target cage gap "G-023" (it is G-024).
+
+### G-044 — SN2201 uplink ports are catalogued as 4× 10/25GbE SFP28; both sources say 4× 100GbE QSFP28 — OPEN 2026-09-18
+- **Severity:** MEDIUM (every NVIDIA-stack quote carries SN2201 OOB switches; the uplink optic
+  class follows this field). `js/catalog/switches.js` sn2201 `uplink: { count: 4, speed:
+  '10/25GbE', media: 'SFP28' }`. Dell QRG June 2026 (`corpus/txt/QRG-DC.txt:312-316`): SN2201 =
+  48× 1GBase-T, "10GbE (SFP+) 16", "100GbE (QSFP28) 4" — i.e. 4× QSFP28, 16× 10G by breakout;
+  NVIDIA's datasheet agrees (`corpus/txt/NV-SN4700.txt:744`). Two official sources agreeing =
+  authoritative (the G-006 standard). Found in passing by the G-038 research pass.
+- **Fix:** correct the catalog entry, then re-check what the OOB uplink cabling quotes for an
+  NVIDIA-stack design (QSFP28 parts, not SFP28) and the form-factor check (#23) on it.
 
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now

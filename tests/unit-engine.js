@@ -1282,6 +1282,70 @@ const leaf25At = (u, leaf25) => { const r = rec({ platformId: 'poweredge-general
   t('G-034 ruling: the XE9680 model note no longer implies ConnectX-7 on every stack', /57608/.test(m.note) && /ConnectX-7/.test(m.note));
 })();
 
+/* ---- G-037 (2026-09-18): the host-side port budget credited native÷host-speed "breakout" ports
+   that no quoted part provides. A 32x 400G leaf (SN4700, Z9432F-ON) cabled with 1:1 DACs was
+   budgeted as 64/128/512 ports: 28 hosts + 4 uplinks + 2 ICL = 34 cables into 32 ports, MC-LAG
+   quoted, ZERO errors. Capacity is now credited only through the quoted part (links-per-port read
+   off the canonical host cable record), in the engine's sizing/fit passes AND validate #22. ---- */
+(() => {
+  const C = window.CATALOG, H = window._engineHelpers, D = window.Design;
+  const opt = id => C.optics.find(o => o.id === id), sw = id => C.switches.find(x => x.id === id);
+  // the one conversion everything shares
+  t('G-037: 1:2 rail assembly on a Z9864F-ON (64x 800G ports) = 2 links per port', H.hostLinksPerLeafPort(opt('brk-800g-2x400'), sw('z9864f-on').access) === 2);
+  t('G-037: MCP7Y00 on an SN5600 (catalogued as 128x 400G LOGICAL ports) = 1 link per port', H.hostLinksPerLeafPort(opt('nv-brk-800g-2x400-osfp'), sw('sn5600').access) === 1);
+  t('G-037: a 1:1 DAC on a 400G port = 1 link per port, whatever the speed ratio', H.hostLinksPerLeafPort(opt('nv-dac-100g-qsfp28'), sw('sn4700').access) === 1);
+  t('G-037: no cable resolved = no credit (1)', H.hostLinksPerLeafPort(null, sw('sn4700').access) === 1);
+
+  // physical ports a leaf really spends, straight from the canonical layer
+  const physical = r => D.hostPortDemand(r).map(d => { const f = d.fabric;
+    const icl = f.interconnectQty ? f.interconnectQty / f.leavesPerFabric : 0;
+    const iclOnUp = icl && window.hasFabricUplink(f.leaf) && String(f.leaf.uplink.speed) === String(f.interconnectSpeed);
+    const up = (!window.hasFabricUplink(f.leaf) && f.spine) ? (f.uplinksPerLeaf || 0) : 0;
+    return { f, d, used: d.hostPortsPerLeaf + (iclOnUp ? 0 : icl) + up, cap: f.leaf.access.count }; });
+
+  // the GAPS reproduction: NVIDIA stack, 56x XE9680, 0% headroom
+  const nv = rec({ targets: [{ platformId: 'poweredge-ai', units: 56, gpusPerServer: 8, modelId: 'xe9680', railNicCage: 'osfp' }], stack: 'nvidia', redundancy: 'dual', includeMgmt: true, growthHeadroom: 0 });
+  const st = physical(nv).find(x => x.f.network === 'storage');
+  t('G-037: NVIDIA storage leaf (SN4700, 1:1 100G DACs) no longer over-commits its 32 ports', !!st && st.used <= st.cap, st && (st.used + ' > ' + st.cap));
+  t('G-037: ...it falls to EVPN-MH (no ICL) exactly as the identical Dell design does — not MC-LAG on phantom ports', !!st && st.f.redundancyMethod === 'evpn-mh' && !st.f.interconnectQty, st && st.f.redundancyMethod);
+  t('G-037: the canonical record is what the demand was read from (not a fallback)', !!st && !!st.d.record && st.d.record.opticId === st.f.hostCableId && st.d.legacy === false);
+
+  // found while fixing: the SAME defect on a Dell leaf — 200G hosts, 1:1 QSFP56 DACs, Z9432F-ON
+  const d2 = rec({ platformId: 'poweredge-general', units: 56, redundancy: 'dual', includeMgmt: true, growthHeadroom: 0, nic: { speed: '200GbE', portsPerNic: 2, nicsPerUnit: 1 } });
+  const fe = physical(d2).find(x => x.f.leaf.id === 'z9432f-on');
+  t('G-037: Dell Z9432F-ON with 200G hosts on 1:1 DACs fits its 32 physical ports', !!fe && fe.used <= fe.cap, fe && (fe.used + ' > ' + fe.cap));
+
+  // a real 1:2 assembly IS still credited — Dell 400G rails, 2 rails per 800G port
+  const ai = rec({ targets: [{ platformId: 'poweredge-ai', units: 16, gpusPerServer: 8, modelId: 'xe9680', railNicCage: 'qsfp112' }], stack: 'dell', redundancy: 'dual', includeMgmt: true });
+  const ra = physical(ai).find(x => x.f.network === 'aifabric');
+  t('G-037: a quoted 1:2 rail assembly still earns its credit (rails ÷ 2 ports) and the AI leaf fits', !!ra && ra.d.linksPerPort === 2 && ra.d.hostPortsPerLeaf === Math.ceil(ra.d.hostLinksPerLeaf / 2) && ra.used <= ra.cap, ra && JSON.stringify({ lpp: ra.d.linksPerPort, used: ra.used }));
+
+  // THE CHECKER ITSELF: hand it an over-committed leaf and it must say so (it used to pass 34/32)
+  const bad = rec({ targets: [{ platformId: 'poweredge-ai', units: 56, gpusPerServer: 8, modelId: 'xe9680', railNicCage: 'osfp' }], stack: 'nvidia', redundancy: 'dual', includeMgmt: true, growthHeadroom: 0 });
+  const bf = bad.fabrics.find(f => f.network === 'storage');
+  bf.interconnectQty = 2 * bf.leavesPerFabric; bf.interconnectSpeed = bf.leaf.access.speed; bf.redundancyMethod = 'mclag';   // 28 host + 4 uplink + 2 ICL
+  bad.warnings.length = 0; window.validateBOM(bad);
+  const e22 = bad.warnings.find(w => w.severity === 'error' && /storage: SN4700 access ports OVER-COMMITTED/.test(w.message));
+  t('G-037: validate #22 hard-errors 28 host + 4 uplink + 2 ICL on a 32-port leaf (was credited 128 ports)', !!e22, bad.warnings.filter(w => w.severity === 'error').map(w => w.message).join(' | '));
+  t('G-037: ...and the message says WHY no breakout is credited', !!e22 && /quoted host cable is 1:1/.test(e22.message));
+
+  // published RA collapsed pair: the rail-speed ISL rides 1:2 assemblies too — converted from its part
+  const raRes = window.recommendRA('nvidia-2-8-5-200', C.referenceArchitectures.find(x => x.id === 'nvidia-2-8-5-200').maxGpuNodes);
+  const raf = raRes.fabrics.find(f => f.network === 'aifabric');
+  t('G-037: RA collapsed pair records its ISL part and stays error-free (64 ISL links = 32 ports)', !!raf.interconnectCableId && !raRes.warnings.some(w => w.severity === 'error'), raRes.warnings.filter(w => w.severity === 'error').map(w => w.message).join(' | '));
+
+  // sweep: no design in this band may spend more physical ports than the leaf has without a hard error
+  let silent = [];
+  for (let u = 2; u <= 120; u += 3) [0, 0.1].forEach(gh => {
+    [{ targets: [{ platformId: 'poweredge-ai', units: u, gpusPerServer: 8, modelId: 'xe9680', railNicCage: 'osfp' }], stack: 'nvidia', redundancy: 'dual', includeMgmt: true, growthHeadroom: gh },
+     { platformId: 'poweredge-general', units: u, redundancy: 'dual', includeMgmt: true, growthHeadroom: gh, nic: { speed: '200GbE', portsPerNic: 2, nicsPerUnit: 1 } }].forEach(inp => {
+      const r = rec(inp); if (r.warnings.some(w => w.severity === 'error')) return;
+      physical(r).forEach(x => { if (x.used > x.cap) silent.push(u + '/' + gh + '/' + x.f.network + ':' + x.used + '>' + x.cap); });
+    });
+  });
+  t('G-037 sweep: no silently over-committed leaf, 2-120 units x 0/10% headroom, NVIDIA AI + Dell 200G', silent.length === 0, silent.slice(0, 5).join(', '));
+})();
+
 console.log(`unit-engine: ${pass} passed, ${fail.length} failed`);
 fail.forEach(f => console.log('  ✗ ' + f));
 process.exit(fail.length ? 1 : 0);

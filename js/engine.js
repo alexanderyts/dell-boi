@@ -240,6 +240,19 @@
   // Both are optional so existing callers keep their behavior for the speeds/media where the
   // cage never branches; where it DOES branch (400G NVIDIA rails, 100G SFP56-DD), passing them
   // is what makes the pick buildable instead of merely speed-matched.
+  // G-037 (2026-09-18): how many HOST LINKS one catalog access port of this leaf carries through
+  // THIS cable. 1 for every 1:1 cable/optic. A 1:N assembly carries N links through however many
+  // catalog ports its switch end occupies: DAC-O112-800G2x400G on a Z9864F-ON (64× 800G ports) =
+  // 2 links in 1 port → 2; the MCP7Y00 on an SN5600 (catalogued as 128× 400G LOGICAL ports on
+  // twin-port cages) = 2 links in 2 logical ports → 1. Capacity is credited from the PART that is
+  // quoted, never from a native÷host speed ratio.
+  function hostLinksPerLeafPort(optic, port) {
+    const lpa = (optic && optic.railsPerAssembly) || 1;
+    if (lpa <= 1 || !port) return 1;
+    const hiG = speedToGbps(String(optic.speed || '').split('→')[0]) || 0, portG = speedToGbps(port.speed) || 0;
+    if (!hiG || !portG) return 1;
+    return Math.max(1, Math.floor(lpa * portG / hiG));
+  }
   function pickHostCable(gbps, placement, nv, baseT, port, farCage) {
     const byId = id => C.optics.find(x => x.id === id);
     const portCages = port && port.media ? (C.formFactor ? C.formFactor.cagesOf(port.media) : []) : [];
@@ -816,6 +829,17 @@
       });
     }
 
+    // G-037 — ONE answer to "which host cable does this fabric get, and how many host links does
+    // one leaf port carry through it?", shared by the leaf SIZING, both physical-fit passes, the
+    // ICL-fit re-check and the BOM step. Those passes used to credit a leaf with native÷host-speed
+    // ports (a 32× 400G switch = 128 "ports" for 100G hosts) whether or not a breakout assembly was
+    // the cable being quoted — so a leaf cabled with 1:1 DACs was budgeted as if every port carried
+    // 2/4/16 hosts (34 cables into a 32-port SN4700 or Z9432F-ON, no error). Same phantom-credit
+    // class as G-007/G-013, one hop down. No part → no credit.
+    const fabricPlacement = fs => (racks > 1 && placement === 'in-rack' && !fs.perRack && fs.workload !== 'ai' && fs.target.racksSpanned > 1) ? 'adjacent' : placement;
+    const resolveHostCable = fs => pickHostCable(fs.gbps, fabricPlacement(fs), fs.stack === 'nvidia', isBaseT(fs.speed), fs.leaf && fs.leaf.access, fs.target.railNicCage);
+    const linksPerPort = fs => hostLinksPerLeafPort(resolveHostCable(fs), fs.leaf && fs.leaf.access);
+
     /* 2. size leaves per fabric (stack-aware) */
     specs.forEach(fs => {
       // FULL-NVIDIA: picking the NVIDIA stack makes EVERY fabric of an AI target NVIDIA
@@ -873,8 +897,10 @@
         fs.leaf25Auto = leaf25 === 'auto';   // Ruling 1 leaf step-up (post-harmonize) may revisit this pick
       }
       let radix = (fs.leaf.access && fs.leaf.access.count) || 48;
-      // AI: the leaf presents access ports AT THE RAIL SPEED via breakout (Z9864F 64×800G = 128×400G)
-      if (fs.workload === 'ai') { const accG = speedToGbps(fs.leaf.access.speed) || fs.gbps; if (accG > fs.gbps && fs.gbps > 0) radix = radix * Math.floor(accG / fs.gbps); }
+      // AI: the leaf presents access ports AT THE RAIL SPEED via the QUOTED breakout assembly
+      // (Z9864F 64×800G = 128×400G through the 1:2 rail assembly). G-037: credited from the part,
+      // never from the speed ratio — a rail speed with only a 1:1 cable gets 1 rail per port.
+      if (fs.workload === 'ai') radix = radix * linksPerPort(fs);
       // AI = same-speed folded Clos: a leaf that needs a spine splits its radix HALF down
       // (GPU rails) / HALF up (spine) to stay non-blocking. Single-switch AI uses the full radix.
       fs.aiFolded = fs.workload === 'ai' && (fs.perFabricLinks * (1 + headroom)) > radix;
@@ -1075,14 +1101,16 @@
           // breakout-adjust the radix whenever the leaf's native access speed exceeds this
           // fabric's actual speed (breakout is physically happening regardless of the fabric's
           // workload label — a general/storage NIC group riding an AI-class leaf breaks out too).
-          let radixAdj = leaf.access.count;
-          { const accG = speedToGbps(leaf.access.speed), railG = f.gbps; if (accG > railG && railG > 0) radixAdj = radixAdj * Math.floor(accG / railG); }
+          // G-037: the pool is the leaf's PHYSICAL (catalog) ports. Hosts take links ÷ (links one
+          // port carries through the quoted cable); an uplink takes one port. (The old form
+          // multiplied the pool by the speed ratio, part or no part.)
+          const lpp = linksPerPort(f);
           // NOTE: no ICL/peer-link reservation needed here — every fabric reaching this pass
           // already has a spine (we're inside the `leaves > spineThreshold` branch), and a
           // spine-connected fabric always uses EVPN Multihoming, which has NO peer-link at all
           // (see R.redundancy.methods['evpn-mh'].peerLink === false) — the ICL only exists for
           // a plain ToR pair (no spine), which step 2's upReserve already covers.
-          const perLeafCap = Math.max(1, radixAdj - (f.uplinksPerLeaf || 0));
+          const perLeafCap = Math.max(1, (leaf.access.count - (f.uplinksPerLeaf || 0)) * lpp);
           const neededLeaves = Math.max(f.leavesPerFabric, Math.ceil(f.perFabricLinks / perLeafCap));
           if (neededLeaves > f.leavesPerFabric) { f.leavesPerFabric = neededLeaves; f.totalLeaves = f.leavesPerFabric * f.fabricsN; }
         });
@@ -1221,12 +1249,12 @@
       fs.connector = connector;
       // Multi-rack: a CENTRALIZED fabric (not the per-rack primary) serving a target that
       // SPANS racks has cross-rack host runs — the cable class steps up from DAC to AOC.
-      const fsPlacement = (racks > 1 && placement === 'in-rack' && !fs.perRack && fs.workload !== 'ai' && fs.target.racksSpanned > 1) ? 'adjacent' : placement;
+      const fsPlacement = fabricPlacement(fs);
       const fsPlaceDef = (R.cabling.placements && R.cabling.placements[fsPlacement]) || placeDef;
       // R12: the cable must seat in THIS leaf's access cage — pass the real port, and the rail
       // NIC's cage where the part branches on it (twin-port-OSFP 400G rails). `railNicCage` comes
       // from the design input, never a default (ruling 2026-07-16d(a)).
-      const hostCable = pickHostCable(fs.gbps, fsPlacement, nv, isBaseT(fs.speed), leaf && leaf.access, fs.target.railNicCage);
+      const hostCable = resolveHostCable(fs);   // G-037: the SAME resolver the sizing/fit passes used
       // R12: record WHICH optic this fabric resolved, so validate.js can hard-check that it
       // physically seats in the leaf's access cage without re-deriving the pick. Same principle
       // as G-011/uplinkCableQty: consume the engine's resolved value, never recompute it.
@@ -1404,11 +1432,9 @@
           if (hasFabricUplink(leaf)) {
             fs.iclFits = (fs.uplinksPerLeaf + iclPortsNow) <= leaf.uplink.count;
           } else if (leaf.access) {
-            let radixAdj = leaf.access.count;
-            const accG = speedToGbps(leaf.access.speed), railG = fs.gbps;
-            if (accG > railG && railG > 0) radixAdj = radixAdj * Math.floor(accG / railG);
+            // G-037: physical ports — host links ÷ what one port carries through the quoted cable.
             const linksPerLeafNow = Math.max(1, Math.ceil(fs.perFabricLinks / Math.max(1, fs.leavesPerFabric)));
-            fs.iclFits = (linksPerLeafNow + fs.uplinksPerLeaf + iclPortsNow) <= radixAdj;
+            fs.iclFits = (Math.ceil(linksPerLeafNow / linksPerPort(fs)) + fs.uplinksPerLeaf + iclPortsNow) <= leaf.access.count;
           }
           // Ruling 1 + point (2), 2026-07-16c: the EVPN-MH auto-substitution below is scoped to
           // AUTO-mode mechanism selection on a SPINED fabric. A no-spine ToR PAIR is the explicit
@@ -2039,6 +2065,10 @@
         totalLinks: rails, linksPerUnit: ra.gpusPerNode, unitsN: n, connector: 'OSFP', fabricsN: 1, perFabricLinks: rails, leaf, leavesPerFabric: leaves, totalLeaves: leaves,
         spine, spineCount, spineGroupKey: 'ai', oversub: spine ? 1.0 : null, oversubTarget: 1.0, nonBlocking: true, aiFolded: folded, redundancyMethod: 'evpn-mh',
         interconnectQty: islQty, interconnectSpeed: railSpeed, uplinksPerLeaf, uplinkSpeed: railSpeed, uplinkCableQty: spine ? leaves * uplinksPerLeaf : 0,
+        // G-037: the collapsed-pair ISL is counted in RAIL-speed links but rides the same 1:2
+        // assembly class as the rails — record the part so the port budget converts links → ports
+        // from it (64 ISL links through 1:2 splitters = 32 ports), never from a speed ratio.
+        interconnectCableId: isw ? isw.id : null,
         // R12 — rail/uplink/ISL optics all seat in this fabric's switch cages (leaf, and spine when folded)
         hostCableId: hc ? hc.id : null, iclCableId: isw ? isw.id : null,
         uplinkCableId: spine ? (pickUplinkCable(railGbps, true) || {}).id || null : null },
@@ -2364,7 +2394,7 @@
   // cable records can never diverge from what the engine actually quoted (that divergence
   // is the whole class of seam bug the restructure kills). Additive only — no engine output
   // changes from exposing these.
-  window._engineHelpers = { speedToGbps, isBaseT, pickLeaf, pickSpine,
+  window._engineHelpers = { speedToGbps, isBaseT, pickLeaf, pickSpine, hostLinksPerLeafPort,
     pickHostCable, pickUplinkCable, pickBreakout, resolveUplinkBreakout, fiberCordFor, pickCoreOptic,
     // R14 architecture refactor (2026-07-23): the one function that writes every switch line's
     // note, exposed directly so tests can hand it synthetic facts (single vs. multi-contributor
