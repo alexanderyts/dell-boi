@@ -1,6 +1,4 @@
--->
-
- LinkX Cables and Transceivers | NVIDIA 
+Optical Transceivers and Cables for AI Networking | NVIDIA 
 
  NVIDIA Home 
  NVIDIA Home 
@@ -53,13 +51,52 @@
  Search icon 
  Click to search 
 
+ Visit your regional NVIDIA website for local content, pricing, and where to buy partners specific to your country. 
+
+ Argentina 
+ Australia 
+ België (Belgium) 
+ Belgique (Belgium) 
+ Brasil (Brazil) 
+ Canada 
+ Česká Republika (Czech Republic) 
+ Chile 
+ Colombia 
+ Danmark (Denmark) 
+ Deutschland (Germany) 
+ España (Spain) 
+ France 
+ India 
+ Italia (Italy) 
+ México (Mexico) 
+ Middle East 
+ Nederland (Netherlands) 
+ Norge (Norway) 
+ Österreich (Austria) 
+ Peru 
+ Polska (Poland) 
+ Rest of Europe 
+ România (Romania) 
+ Singapore 
+ Suomi (Finland) 
+ Sverige (Sweden) 
+ Türkiye (Turkey) 
+ United Kingdom 
+ United States 
+ 대한민국 (South Korea) 
+ 中国大陆 (Mainland China) 
+ 台灣 (Taiwan) 
+ 日本 (Japan) 
+
+ Continue 
+
  Skip to main content 
 
  Artificial Intelligence Computing Leadership from NVIDIA 
 
  Networking 
 
- Platforms 
+ Platforms
 
  Platforms 
 
@@ -79,7 +116,7 @@
 
  InfiniBand networking for cloud‑native supercomputing at scale 
 
- Products 
+ Products
 
  Products 
 
@@ -123,7 +160,7 @@
 
  High performance ConnectX Ethernet for AI and cloud workloads 
 
- Software 
+ Software
 
  Software 
 
@@ -155,7 +192,7 @@
 
  Open-source Linux network OS for switches 
 
- Support 
+ Support
 
  Support 
 
@@ -194,7 +231,7 @@
  Logout 
 
  Log In 
- Log Out 
+ LogOut 
 
  Skip to main content 
 
@@ -336,73 +373,298 @@
 
  Buy 
 
- Overview 
-
- Ethernet 
-
- Infiniband 
-
- Shop Now 
-
- Interconnect 
-
- Overview 
-
- Ethernet 
-
- Infiniband 
-
- Shop Now 
-
- You are viewing this site using an out of date version of Internet Explorer. Some functionality may not work as required. 
-
  This site requires Javascript in order to view all its content. Please enable Javascript in order to access all the functionality of this web site. Here are the instructions how to enable JavaScript in your web browser. 
 
- NVIDIA LinkX Cables and Transceivers 
+ NVIDIA LinkX Cables and Transceivers for High-Speed AI Factory Networking
 
- InfiniBand and Ethernet interconnects for 100G/200G/400G and 800G infrastructures. 
+ InfiniBand and Ethernet interconnects for 100G, 200G, 400G, and 800G infrastructures. 
 
- Explore the industry’s most complete line of Ethernet and InfiniBand interconnects with exceptional low latency, low power, and reliability for AI and accelerated computing. NVIDIA® LinkX® products can link upward in NVIDIA Quantum and Spectrum™ architectures for switch-to-switch applications, downward for top-of-rack switch links to ConnectX® smart network adapters, and to BlueField® DPUs in compute servers and storage subsystems. 
+ Watch Video 
 
- Product Lines 
+ Overview 
 
- 400Gb/s OSFP (100G-PAM4 Modulation) InfiniBand and Ethernet 
+ Benefits 
 
- 800 gigabits per second (Gb/s) and 400Gb/s cables and transceivers are used for linking Quantum-2 InfiniBand and Spectrum-4 SN5600 Ethernet switches together and with ConnectX-7 network adapters, BlueField-3 DPUs, and NVIDIA DGX™ H100 GPU systems. The product line consists of direct-attach cables (DAC) reaching up to 3 meters (m), linear active copper cables from 3m to 5m, multimode optics to 50m, and single-mode optics to 100m, 500m, and 2 kilometers (km). Switches only use twin-port octal small form factor pluggable (OSFP) connectors. ConnectX-7 uses both OSFP and QSFP112, and BlueField-3 uses QSFP112 only. 
+ Products 
+
+ Specifications 
+
+ Resources 
+
+ FAQ 
+
+ Next Steps 
+
+ Overview 
+
+ Benefits 
+
+ Products 
+
+ Specifications 
+
+ Resources 
+
+ FAQ 
+
+ Next Steps 
+
+ Overview 
+
+ Benefits 
+
+ Products 
+
+ Specifications 
+
+ Resources 
+
+ FAQ 
+
+ Next Steps 
+
+ Overview Next-Generation Interconnects for NVIDIA AI Factory Networking
+
+ Interconnects have become the critical backbone for scaling artificial intelligence clusters. As AI models grow exponentially, AI factories face physical limitations in bandwidth, distance, reliability, and power efficiency. 
+ NVIDIA LinkX™ optical transceivers, cables, and co-packaged optics (CPO) are an integral part of the NVIDIA full stack AI solution, enabling the performance, reliability, and scale required of AI factories across a range of applications, reaches, and speeds. 
+ LinkX products are supported end-to-end for both NVIDIA Quantum InfiniBand and NVIDIA Spectrum™-X Ethernet architectures for switch-to-switch, server-to-switch, and storage systems. 
+ All LinkX products are fully designed, qualified, tested, and supported in NVIDIA systems to minimize time to first token and to maximize cluster performance and uptime. 
+
+ Co-Packaged Silicon Photonic Networking Switches 
+
+ NVIDIA CPO provides data throughput, low latency, and drastically improved reliability and power efficiency to scale to millions of GPUs in AI factories. 
+
+ Learn About Silicon Photonics
+
+ Spectrum-X Ethernet Photonics: The World’s First Scalable Network for AI Factories
+
+ NVIDIA Spectrum-X Ethernet Photonics directly impacts application-level AI performance, enhancing the productivity and output of gigascale AI factories. 
+
+ Read the Technical Blog
+
+ Benefits
+
+ What are the Benefits of Using NVIDIA Optics and Cables?
+
+ AI Factory Scale
+
+ LinkX enables AI factory-scale networking with optics delivery, capacity, and supply chain resilience designed to support millions of GPUs. 
+
+ Lower Power
+
+ NVIDIA pluggable and co-packaged optics reduce network power, with CPO delivering 5x better power efficiency than off-the-shelf transceivers. 
+
+ Lower Latency
+
+ LinkX optics reduce or eliminate digital signal processing (DSP) retiming, delivering low, consistent latency that improves AI network responsiveness. 
+
+ Resiliency
+
+ NVIDIA optics deliver higher resiliency and fewer failure points, leading to more cluster uptime. 
+
+ End-to-End Support
+
+ LinkX is qualified and tested inside NVIDIA networking systems, giving customers end-to-end performance and support for AI infrastructure. 
+
+ Faster Deployment
+
+ LinkX simplifies installation and serviceability, supports interoperability across systems, and is positioned to deliver faster time to first token. 
+
+ How do NVIDIA CPO Switches With Silicon Photonics Scale to Millions of GPUs and Multi-Site AI Factories?
 
  Learn More 
 
- Parts List 
+ Products Optical Transceivers and Cables for NVIDIA Networking
 
- 400Gb/s QSFP-DD (50G-PAM4 Modulation) Ethernet only 
+ NVIDIA LinkX provides comprehensive, end-to-end interconnect products designed to maximize the performance of NVIDIA Quantum InfiniBand and Spectrum-X Ethernet networking. 
 
- 400Gb/s cables and transceivers are used for linking Spectrum-4 SN5400 and Spectrum-3 SN4000 series Ethernet switches with ConnectX-6/7 network adapters and BlueField-2/3 DPUs. The product line consists of DAC cables reaching up to 2.5m, active optical cables from 3m to 100m, multimode optics up to 100m, and single-mode optics up to 500m, 2km, and 10km. Switches use quad small form factor double density (QSFP-DD) connectors, while ConnectX-6 and BlueField-2 use QSFP56 and QSFP28 connectors. 
+ Optical Transceivers
 
- Learn More 
+ NVIDIA LinkX optical transceivers deliver high-density, low-power, and low-latency fiber interconnects, fully codesigned and validated with NVIDIA Quantum InfiniBand and Spectrum-X Ethernet platforms to ensure seamless interoperability and maximum cluster performance. 
 
- Parts List 
+ Co-Packaged Optics
 
- 200Gb/s QSFP56 (50G-PAM4 Modulation) InfiniBand and Ethernet 
+ NVIDIA LinkX co-packaged optics integrate optical engines directly alongside the switch ASIC, eliminating electrical SerDes loss to deliver significantly lower power consumption, reduced latency, and higher bandwidth density than traditional optics. CPO is purpose-built to scale AI supercluster interconnects to 1.6 terabits per second (Tb/s) and beyond. 
 
- 200Gb/s cables and transceivers are used for linking Quantum InfiniBand and 200GbE Spectrum-2/3/4 Ethernet switches with ConnectX-6/7 network adapters, BlueField-2/3 DPUs, and DGX A100 GPU systems. The product line consists of DAC cables reaching up to 2.5m, active optical cables from 3m to 100m, multimode optics to 100m, and single-mode optics to 2km. Switches, ConnectX-6/7, and BlueField-2/3 use QSFP56 connectors. 
+ Linear Active Copper Cables (LACC)
 
- Learn More 
+ NVIDIA LinkX linear active copper cables integrate active equalization in signal conditioning to extend usable reach over a cost-effective, low-power copper cable. LACCs are optimized for rack-to-rack AI fabric deployments where deterministic, low-latency data movement is critical.  
 
- Parts List 
+ Passive Direct-Attach Copper Cables (DAC)
 
- 100Gb/s QSFP28 (25G-NRZ Modulation) InfiniBand and Ethernet 
+ NVIDIA LinkX passive direct-attach copper cables provide a direct twinaxial copper connection between ports with no active components. This delivers ultra-low power and latency in fixed and breakout configurations for cost-effective, short-reach, top-of-rack, switch-to-server, and switch-to-switch deployments. 
 
- 25Gb/s and 100Gb/s cables and transceivers are used for linking Enhanced Data Rate (EDR) InfiniBand and 100GbE Spectrum-1/2/3/4 Ethernet switches with ConnectX-6/7 network adapters and BlueField-2/3 DPUs. The product line consists of DAC cables reaching up to 5m, active optical cables to 100m, multimode optics to 100m, and single-mode optics to 500m, 2km, 10km, and 40km. Switches, ConnectX-6/7, and BlueField-2/3 use QSFP28 and SFP28 connectors. 
+ Specifications NVIDIA Optical Transceiver and Cable Specifications 
 
- Learn More 
+ Feature 
+ CPO 
+ 1.6T/800G OSFP 
+ 800G/400G OSFP 
+ 400G QSFP-DD 
 
- Parts List 
+ Modulation 
+ 200G PAM4 
+ 200G PAM4 
+ 100G PAM4 
+ 50G PAM4 
 
- Configuration Tool 
+ Protocol 
+ InfiniBand and Ethernet 
+ InfiniBand and Ethernet 
+ InfiniBand and Ethernet 
+ Ethernet only 
+
+ Max DAC Reach 
+ n/a 
+ n/a 
+ 3 m 
+ 2.5 m 
+
+ Max LACC Reach 
+ n/a 
+ 2.5 m 
+ 5 m 
+ 5 m 
+
+ Max Optic Reach 
+ 500 m (DR)/2 km (FR) 
+ 500 m (DR)/2 km (FR) 
+ 500 m (DR)/2 km (FR) 
+ 500 m (DR)/2 km (FR) 
+
+ Switch Connector 
+ MPO12/MMC16 
+ OSFP 
+ OSFP 
+ QSFP-DD 
+
+ Network Interface Card (NIC) Connector 
+ OSFP/QSFP112 
+ OSFP/QSFP112 
+ OSFP/QSFP112 
+ QSFP56/QSFP28 
+
+ Compatible Switches 
+ Q3450-LD, SN6800, SN6810 
+ Q3400/3200, SN6600 
+ QM9700, SN5610 
+ SN5400, SN4700 
+
+ Compatible NICs 
+ NVIDIA ConnectX™-9 
+ ConnectX-7/8 
+ ConnectX-7 
+ ConnectX-6/7 
+
+ Resources Explore Cables and Transceivers Resources
+
+ Accelerate AI with NVIDIA Silicon Photonics-Based Network Switching
+
+ Explore why co-packaged silicon photonics can accelerate AI with benefits like lower power consumption, reduced latency, and network resiliency.  
+
+ Read Silicon Photonics Blog
+
+ Maximize Better Power Efficiency for AI Factories
+
+ Learn how NVIDIA Spectrum-X Ethernet Photonics directly impacts application-level AI performance, enhancing the productivity and output of gigascale AI factories. 
+
+ Read Spectrum-X Ethernet Blog
+
+ Dive Into NVIDIA Co-Packaged Optics-Based Switches
+
+ Take a look inside the NVIDIA silicon photonics-based networking switches. 
+
+ Watch Video
+
+ Delve Into Technical Documentation for LinkX 
+
+ Read more about the industry’s most complete line of 10, 25, 40, 50, 100, 200, 400, and 800GbE in Ethernet products and EDR, HDR, NDR, and XDR in InfiniBand products. 
+
+ Browse Interconnect Documentation
+
+ Frequently Asked Questions About NVIDIA LinkX Cables, Transceivers
+
+ What is NVIDIA LinkX? 
+
+ NVIDIA LinkX is a portfolio of passive and active copper cable, optical transceivers, passive jumper cables, and co-packaged optics (CPO) designed to power high-performance AI factory networking. As an integral part of NVIDIA's full-stack AI solution, LinkX products deliver the bandwidth, reliability, and power efficiency needed to scale modern AI clusters. 
+
+ What networking architectures does LinkX support? 
+
+ LinkX products are supported end-to-end across both NVIDIA Quantum InfiniBand and Spectrum-X Ethernet architectures, making them compatible with a wide range of AI factory network configurations. 
+
+ What types of connections does LinkX enable? 
+
+ LinkX supports switch-to-switch, server-to-switch, and storage system connections, providing comprehensive connectivity across the full AI factory infrastructure. 
+
+ Why are interconnects so important for AI workloads? 
+
+ As AI models grow in scale and complexity, interconnects become the critical backbone of AI clusters. Limitations in bandwidth, distance, reliability, and power efficiency can all bottleneck AI performance. LinkX is purpose-built to address these challenges and keep AI factories running at full capacity at all times. 
+
+ What speeds and distances does LinkX support? 
+
+ LinkX products cover a range of applications, reaches, and speeds up to 1.6 terabits per second (Tb/s). For XDR 2x800G and 1.6T Ethernet deployments, copper options (LACC/AEC) reach up to 2.5–3 meters, while single-mode optical transceivers reach up to 500 meters (DR4) and up to 2 kilometers (FR4). 
+
+ What is CPO and does LinkX offer it? 
+
+ Co-packaged optics (CPO) integrates optical components directly with networking silicon to reduce power consumption and improve signal integrity at high speeds. LinkX includes CPO solutions where silicon photonics modulators are mounted directly on the switch ICs rather than in separate pluggable transceivers. 
+
+ What does XDR mean, and what signaling does it use? 
+
+ XDR (eXtreme Data Rate) is NVIDIA’s 800G InfiniBand generation. It’s based on 200G PAM4 (pulse amplitude modulation with four levels) signaling, which encodes 2 data bits per clock pulse at approximately 100 GHz clock rate, doubling the per-lane throughput compared to NDR’s 100G PAM4. 
+
+ What is the difference between DR4 and FR4 transceivers? 
+
+ DR4 (data center reach) supports up to 500 meters using four parallel channels over eight fibers with MPO-12/APC connectors. FR4 (far reach) supports up to two kilometers by multiplexing four channels of different laser wavelengths into a single fiber pair using Lucent connectors (LCs). The two types are not interchangeable. DR4 is parallel and FR4 is multiplexed, so they can’t be directly linked to each other. 
+
+ What are IHS and RHS transceivers, and when is each used? 
+
+ IHS (integrated heat sink) transceivers have cooling fins built into the plug and are used exclusively in NVIDIA Quantum switches (Q3400, Q3200, and Spectrum SN56x0 Ethernet switches). RHS (riding heat sink) transceivers have a flat-top design and are used in ConnectX-8 adapters, DGX B300, and NVL GB300 compute systems. The two types are not interchangeable due to their different cooling requirements. 
+
+ What’s the difference between active electric cables (AEC) and linear active copper cables (LACC)? 
+
+ Both are active copper cable technologies, but they serve different roles. AECs use digital signal processors (DSPs) at each end to restore and retime signals, enabling reach up to three meters, primarily for switch-to-switch connections, consuming ~27 watts per end. LACCs use lower-power linear amplifier ICs (~4 watts) to extend signal reach up to 2.5 meters and are used for switch-to-adapter (e.g., ConnectX-8) connections. 
+
+ Why are there no passive DAC copper cables for XDR? 
+
+ At XDR’s 200G PAM4 signaling rates, passive DAC cables have a maximum usable length of under 0.7 meters, which is too short to be practical in most deployments. For this reason, all NVIDIA XDR copper cables are active (either LACC or AEC), which extend usable reach to 2.5–3 meters. 
+
+ Why are XDR copper cables shorter than NDR cables? 
+
+ The 200G PAM4 XDR signal operates at a ~100 GHz clock rate, compared to ~50 GHz for NDR’s 100G PAM4. The faster signal transitions cause wires to act more like antennas, radiating signal energy off the cable. This signal degradation limits usable copper length, which is why XDR LACCs are shorter than NDR ACCs. 
+
+ What fiber cables are needed for XDR and CPO deployments? 
+
+ XDR and CPO deployments use the same MPO-12/APC single-mode crossover fiber cables as NDR/400G, meaning customers can reuse existing NDR fiber infrastructure. NVIDIA offers straight and 1:2 splitter MPO-12/APC cables in lengths from three to 150 meters. For reaches beyond 150 meters or LC-LC fiber cables, third-party suppliers such as Corning, Panduit, or CommScope should be used. 
+
+ What type of optical connector do XDR transceivers use? 
+
+ XDR DR4-based transceivers use MPO-12/APC (multiple push-on 12-fiber, angled polished connector) connectors. The angled polish reduces back-reflections that can distort data signals. Only eight of the 12 fiber positions are used: four transmit and four receive. FR4-based transceivers (2 km reach) use LC duplex connectors instead. 
+
+ Can XDR LinkX products work with older NDR or HDR infrastructure? 
+
+ Yes, with some nuance. The Q3200 switch supports NDR 400G cables and transceivers for backwards compatibility with 100G PAM4 and 50G PAM4 HDR. The Q3400 switch supports only select NDR cables and transceivers. XDR transceivers cannot downshift to 100G PAM4 on their own. Backwards compatibility is handled at the switch or host channel adapter (HCA) level, not in the cables or transceivers. 
+
+ Can the Q3450 CPO switch support copper cables? 
+
+ No. Copper cables (DAC, LACC, and AEC) can’t be used with the Q3450 CPO switch. The CPO switch uses MMC-12/APC fiber connections only. 
+
+ Next Steps
+
+ Networking Configuration Tools for InfiniBand and Ethernet Clusters
+
+ NVIDIA provides a series of networking tools to properly configure a cluster based on your choice of interconnect (InfiniBand or Ethernet). 
 
  Get Started 
 
- Ready to Purchase 
+ Take Networking Courses
+
+ Explore deep technical training topics on NVIDIA Quantum InfiniBand networking through the NVIDIA Academy. 
+
+ Learn More 
+
+ Ready to Purchase?
+
+ NVIDIA LinkX products provide AI-optimized connectivity for NVIDIA Spectrum-X switches, Quantum switches, ConnectX NICs, and BlueField™ DPUs. 
 
  How to Buy 
 
@@ -466,17 +728,11 @@
 
  Careers 
 
- Sign up for News 
-
- Subscribe
-
  Follow NVIDIA Networking 
 
- Facebook 
+ ' title=' '>
 
- LinkedIn 
-
- Twitter 
+ ' title=' '>
 
  NVIDIA 
 
@@ -496,4 +752,4 @@
 
  Contact 
 
- Copyright © 2026 NVIDIA Corporation
+ Copyright 2026 NVIDIA Corporation

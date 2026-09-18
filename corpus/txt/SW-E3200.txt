@@ -70,34 +70,34 @@ open-standard protocols.
 
 Dell PowerSwitch E3200-ON Spec Sheet
 
-© 2024 Dell Inc. or its subsidiaries.
+Â© 2024 Dell Inc. or its subsidiaries.
 Hardware, performance and efficiency                                    Deploying, configuring and managing***
 
-·  E3224F-ON: 1RU OS10 switch with 24 line-rate                         ·  USB auto-configuration rapidly deploys the switch with-
+â€¢  E3224F-ON: 1RU OS10 switch with 24 line-rate                         â€¢  USB auto-configuration rapidly deploys the switch with-
 
    1GbE ports of fiber, four integrated 10GbE SFP+                         out complex TFTP configurations or sending technical
 
    ports and 2 integrated 100GbE QSFP28 ports                              staff to remote offices.
 
-   (available in Americas only)                                         ·  Management via an intuitive and familiar CLI, SNMP-
+   (available in Americas only)                                         â€¢  Management via an intuitive and familiar CLI, SNMP-
 
-·  E3248P-ON: 1RU SONiC switch with 48 line-rate 1GbE                      based management console application (including Dell
+â€¢  E3248P-ON: 1RU SONiC switch with 48 line-rate 1GbE                      based management console application (including Dell
 
    copper ports with 802.3at (30W) PoE, four integrated                    OpenManage Network Manager), Telnet or serial
 
    10GbE SFP+ ports and 2 integrated 100GbE QSFP28                         connection.
 
-   ports                                                                ·  Private VLAN extensions and Private VLAN Edge
+   ports                                                                â€¢  Private VLAN extensions and Private VLAN Edge
 
-·  E3248PXE-ON: 1RU SONiC switch with 48 line-rate                         support.
+â€¢  E3248PXE-ON: 1RU SONiC switch with 48 line-rate                         support.
 
-   1G/2.5G/5G/10GbE copper ports with 802.3bt (90W)                     ·  AAA authorization, TACACS+ accounting and RADIUS
+   1G/2.5G/5G/10GbE copper ports with 802.3bt (90W)                     â€¢  AAA authorization, TACACS+ accounting and RADIUS
 
    PoE, four integrated 25GbE SFP28 ports and 2                            support for comprehensive secure access support.
 
    integrated 100GbE QSFP28 ports
 
-·  Available with dual 80 PLUS Platinum certified hot                   ·  Authentication tiering allows network administrators to
+â€¢  Available with dual 80 PLUS Platinum certified hot                   â€¢  Authentication tiering allows network administrators to
 
    swappable internal power supplies. Optional external                    tier port authentication methods such as 802.1x, MAC
 
@@ -107,19 +107,19 @@ Dell PowerSwitch E3200-ON Spec Sheet
 
                                                                            and security.
 
-·  Variable speed fan operation helps decrease cooling                  ·  Achieve high availability and full bandwidth utilization
+â€¢  Variable speed fan operation helps decrease cooling                  â€¢  Achieve high availability and full bandwidth utilization
 
    and power costs.                                                        with MLAG and support firmware upgrades without
 
-·  Energy-Efficient Ethernet** and lower power PHYs                        taking the network offline.
+â€¢  Energy-Efficient Ethernet** and lower power PHYs                        taking the network offline.
 
-   reduce power to inactive ports and idle links, providing             ·  Layer 3 Advanced IPv4 and IPv6 functionality including
+   reduce power to inactive ports and idle links, providing             â€¢  Layer 3 Advanced IPv4 and IPv6 functionality including
 
    energy savings from the power cord to the port.                         BGP, VRF, BFD, PIM-SM/DM/SSM, IGMP/MLD, RIPv1/
 
-·  Dell Fresh Air compliance for operation in environments                 v2, OSPFv2/v3
+â€¢  Dell Fresh Air compliance for operation in environments                 v2, OSPFv2/v3
 
-   up to 113°F (45°C) reduces cooling costs.                            ·  VXLAN support
+   up to 113Â°F (45Â°C) reduces cooling costs.                            â€¢  VXLAN support
 
 ** Not supported by Enterprise SONiC Distribution by Dell Technologies
 
@@ -127,44 +127,44 @@ Dell PowerSwitch E3200-ON Spec Sheet
 
 2  Dell PowerSwitch E3200-ON Spec Sheet
 
-   © 2024 Dell Inc. or its subsidiaries.
+   Â© 2024 Dell Inc. or its subsidiaries.
    Product                        Description
 
                                   Enterprise SONiC Distribution by Dell Technologies options
 
-                                  ·     E3248P-ON IO/PS Airflow: 48x RJ45 10/100/1000Mb 802.3at (up to 30W) PoE auto-sensing ports, 4x 10G SFP+
+                                  â€¢     E3248P-ON IO/PS Airflow: 48x RJ45 10/100/1000Mb 802.3at (up to 30W) PoE auto-sensing ports, 4x 10G SFP+
 
                                         ports, 2x 100G QSFP28 ports, 1x 1050W AC PSU included
 
-   E3200 series                   ·     E3248PXE-ON IO/PS Airflow: 48x RJ45 10M/100M/1G/2.5G/5G/10G 802.3bt (up to 90W) PoE auto-sensing ports;
+   E3200 series                   â€¢     E3248PXE-ON IO/PS Airflow: 48x RJ45 10M/100M/1G/2.5G/5G/10G 802.3bt (up to 90W) PoE auto-sensing ports;
 
                                         4x 25G SFP28 ports, 2x 100G QSFP28 ports, 1x 1600W AC PSU included
 
                                   OS10 option
 
-                                  ·     E3224F-ON IO/PS Airflow, 24x 1G SFP, 4x 10G SFP+ ports, 2x 100G QSFP28 ports, 1x 550W AC PSU included
+                                  â€¢     E3224F-ON IO/PS Airflow, 24x 1G SFP, 4x 10G SFP+ ports, 2x 100G QSFP28 ports, 1x 550W AC PSU included
 
    Power cords                    C13 to NEMA 5-15, 3M
 
                                   C13 to C14, 2M
 
-                                  ·     MPS-1S Shelf, External power shelf to hold 1 PSU (any of 1050W AC, 1600W AC, 2000W AC, 1300W DC),
+                                  â€¢     MPS-1S Shelf, External power shelf to hold 1 PSU (any of 1050W AC, 1600W AC, 2000W AC, 1300W DC),
 
-   Power shelves (optional)             Extends PoE budget for E3248P-ON, E3248PXE-ON ³
+   Power shelves (optional)             Extends PoE budget for E3248P-ON, E3248PXE-ON Â³
 
-                                  ·     MPS-3S Shelf, External power shelf to hold up to 3 PSUs (any combination of 1050W AC or 1600W AC or 2000W
+                                  â€¢     MPS-3S Shelf, External power shelf to hold up to 3 PSUs (any combination of 1050W AC or 1600W AC or 2000W
 
-                                        AC PSUs, or up to three 1300W DC PSUs), Extends PoE budget for E3248P-ON, E3248PXE-ON ³
+                                        AC PSUs, or up to three 1300W DC PSUs), Extends PoE budget for E3248P-ON, E3248PXE-ON Â³
 
-                                  ·     550W AC hot swappable 80 PLUS Platinum certified with IO/PS airflow, adds redundancy to E3224F-ON
+                                  â€¢     550W AC hot swappable 80 PLUS Platinum certified with IO/PS airflow, adds redundancy to E3224F-ON
 
-   ·                                    550W DC hot swappable 80 PLUS Platinum certified with IO/PS airflow, add 2 for redundancy on E3224F-ON
+   â€¢                                    550W DC hot swappable 80 PLUS Platinum certified with IO/PS airflow, add 2 for redundancy on E3224F-ON
 
-   Power supplies                 ·     1050W AC hot swappable, adds redundancy and/or extends PoE budget for E3248P-ON. Also used with MPS-1S
+   Power supplies                 â€¢     1050W AC hot swappable, adds redundancy and/or extends PoE budget for E3248P-ON. Also used with MPS-1S
 
    (optional)                           shelf, MPS-3S Shelf
 
-                                  ·     1600W AC hot swappable, adds redundancy and/or extends PoE budget for E3248PXE-ON. Also used with MPS-
+                                  â€¢     1600W AC hot swappable, adds redundancy and/or extends PoE budget for E3248PXE-ON. Also used with MPS-
 
                                         1S shelf, MPS-3S Shelf
 
@@ -198,15 +198,15 @@ RJ45 console port with RS232 signaling (RJ-45                1683 (E3248P-ON),  
 
       to female DB-9 connector cable included)               4869 (E3248PXE-ON)                             Australia/New Zealand: ACMA RCA Class A
 
-      Auto-negotiation for speed and flow control          Operating temperature: 32° to 113°F (0° to       Canada: ICES Class A; cUL
+      Auto-negotiation for speed and flow control          Operating temperature: 32Â° to 113Â°F (0Â° to       Canada: ICES Class A; cUL
 
-   Auto-MDI/MDIX, port mirroring                             45°C)                                          China: CCC Class A; NAL
+   Auto-MDI/MDIX, port mirroring                             45Â°C)                                          China: CCC Class A; NAL
 
 Flow-based port mirroring                                  Operating relative humidity: 95%                 Europe: CE Class A
 
-Broadcast storm control                                    Storage temperature: ­40° to 158°F               Japan: VCCI Class A
+Broadcast storm control                                    Storage temperature: â€“40Â° to 158Â°F               Japan: VCCI Class A
 
-Energy-Efficient Ethernet per port settings**                (­40° to 70°C)                                 USA: FCC Class A; NRTL UL; FDA 21 CFR
+Energy-Efficient Ethernet per port settings**                (â€“40Â° to 70Â°C)                                 USA: FCC Class A; NRTL UL; FDA 21 CFR
 
 Redundant variable speed fans                              Storage relative humidity: 95%                   1040.10 and 1040.11
 
@@ -228,7 +228,7 @@ Size (1RU, H x W x D):                                     Switch fabric capacit
 
    1.71 in x 17.09 in x 15.75 in (power supply/              528Gbps (E3224F-ON),                           Product meets RoHS compliance standards in
 
-   fan tray handle adds add'l 1.18 in)                       576Gbps (E3248P-ON),                           many countries inclusive of USA, EU, China,
+   fan tray handle adds addâ€™l 1.18 in)                       576Gbps (E3248P-ON),                           many countries inclusive of USA, EU, China,
 
 Approximate weight (Switch with 1 PSU                        1560Gbps (E3248PXE-ON)                         and India. For more country-specific RoHS
 
@@ -254,7 +254,7 @@ installed):                                                Forwarding rate:     
 
 3     Dell PowerSwitch E3200-ON Spec                       Sheet
 
-      © 2024 Dell Inc. or its subsidiaries.
+      Â© 2024 Dell Inc. or its subsidiaries.
 IT Lifecycle Services for Networking
 
 Experts, insights and ease
@@ -301,7 +301,7 @@ Learn more about Dell                         Contact a Dell                  Vi
 
 Networking solutions                          Technologies Expert                                                        with @DellTech
 
-© 2024 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its
+Â© 2024 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its
 
 subsidiaries. Other trademarks may be trademarks of their respective owners.
 

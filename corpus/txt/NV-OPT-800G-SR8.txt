@@ -104,54 +104,54 @@ installation experience, performance, and durability.
 
                                        Flat Top Transceiver
 
-     Images are for illustration purposes only. Product labels, colors, and lengths  may    vary.
+ÔÜ≥    Images are for illustration purposes only. Product labels, colors, and lengths  may    vary.
 
 1.1  Key Features
 
-∑    InfiniBand and Ethernet
+‚Ä¢    InfiniBand and Ethernet
 
-∑    800G SR8 multimode transceiver
+‚Ä¢    800G SR8 multimode transceiver
 
-∑    8-channels of 100G-PAM4 electrical modulation
+‚Ä¢    8-channels of 100G-PAM4 electrical modulation
 
-∑    Two ports of 4-channel 100G-PAM4 optical modulation
+‚Ä¢    Two ports of 4-channel 100G-PAM4 optical modulation
 
-∑    Supports two straight 400Gb/s or two 1:2 splitter fiber   cables  for  200Gb/s
+‚Ä¢    Supports two straight 400Gb/s or two 1:2 splitter fiber   cables  for  200Gb/s
 
-∑    Finned-top OSFP for air-cooled switches
+‚Ä¢    Finned-top OSFP for air-cooled switches
 
-∑    Flat-top OSFP for DGX- H100 or liquid-cooled
+‚Ä¢    Flat-top OSFP for DGX- H100 or liquid-cooled
 
-∑    850nm VCSEL
+‚Ä¢    850nm VCSEL
 
-∑    Maximum reach:
+‚Ä¢    Maximum reach:
 
-     ∑  30m using OM3 fiber
+     ‚Ä¢  30m using OM3 fiber
 
-     ∑  50m using OM4 fiber
+     ‚Ä¢  50m using OM4 fiber
 
-∑    Two MPO-12/APC optical connectors
+‚Ä¢    Two MPO-12/APC optical connectors
 
-∑    17 Watts max power
+‚Ä¢    17 Watts max power
 
-∑    2.0 Watt low-power sleep mode
+‚Ä¢    2.0 Watt low-power sleep mode
 
-∑    Single 3.3V power supply
+‚Ä¢    Single 3.3V power supply
 
-∑    Class 1 laser safety
+‚Ä¢    Class 1 laser safety
 
-∑    Hot pluggable, RoHS compliant
+‚Ä¢    Hot pluggable, RoHS compliant
 
                                                                                                    3
-∑    OSFPmsa.org compliant
+‚Ä¢    OSFPmsa.org compliant
 
-∑    CMIS 4.0 compliant
+‚Ä¢    CMIS 4.0 compliant
 
-∑    Case temperature range 0∞C to +70∞C
+‚Ä¢    Case temperature range 0¬∞C to +70¬∞C
 
 1.2  Applications
 
-∑    Used in Quantum-2 air-cooled switches,  liquid-cooled  and  DGX-H100  systems  to  switches,
+‚Ä¢    Used in Quantum-2 air-cooled switches,  liquid-cooled  and  DGX-H100  systems  to  switches,
 
      ConnectX-7, and BlueField-3 DPUs
 
@@ -196,29 +196,29 @@ Both ConnectX-7 and BlueField-3 devices can be used with Twin port OSFP transcei
 
 time with their respective form-factor type.
 
-∑    Twin-port multimode OSFP transceivers remain at 15 Watts for all configurations linking OSFP
+‚Ä¢    Twin-port multimode OSFP transceivers remain at 15 Watts for all configurations linking OSFP
 
      switches, OSFP and QSFP112 adapters, and DPUs simultaneously.
 
-∑    Linking Twin-port transceivers with 1:2 fiber splitter cables to 400G transceivers
+‚Ä¢    Linking Twin-port transceivers with 1:2 fiber splitter cables to 400G transceivers
 
      automatically creates 200Gb/s transceivers by activating only 2-channels and automatically
 
      reduces power consumption in the 400G transceiver from 8 to 5.5 Watts.
 
-∑    Twin-Port transceivers require ordering two fibers at specific lengths required
+‚Ä¢    Twin-Port transceivers require ordering two fibers at specific lengths required
 
-∑    Each fiber cable can each be different lengths. Both fibers need to be same type: both
+‚Ä¢    Each fiber cable can each be different lengths. Both fibers need to be same type: both
 
      straight or both splitters, and not mixed.
 
-∑    Both fibers should be the approximately same length to avoid inducing different latency
+‚Ä¢    Both fibers should be the approximately same length to avoid inducing different latency
 
      delays in the fibers (4.5ns/meter).
 
-∑    Straight and splitter fibers cannot be used at the same time in Twin port OSFP transceivers.
+‚Ä¢    Straight and splitter fibers cannot be used at the same time in Twin port OSFP transceivers.
 
-∑    NVIDIA supplies multimode, crossover, straight fiber cables up to 100-meters straight and 50-
+‚Ä¢    NVIDIA supplies multimode, crossover, straight fiber cables up to 100-meters straight and 50-
 
      meters for splitters that enable linking transceivers directly together.
 
@@ -228,7 +228,7 @@ BlueField-3 contains both InfiniBand and Ethernet protocols which is activated u
 
 InfiniBand or Ethernet switch. This enables one set of cables, transceivers, adapters and DPUs to
 
-have multiple uses in a network ≠ especially in DGX systems where low-latency InfiniBand switching
+have multiple uses in a network ‚Äì especially in DGX systems where low-latency InfiniBand switching
 
 may be used for GPU-to-GPU networking and Ethernet switching systems for storage and cluster
 
@@ -243,7 +243,7 @@ The use cases include:
                                                                                                        5
 3.  Switch-to-four combinations of 200G ConnectX-7 and/or BlueField-3
 
-4.  Switch linked to the DGX H100 "Viking" CPU chassis to Cedar-7 complex
+4.  Switch linked to the DGX H100 ‚ÄúViking‚Äù CPU chassis to Cedar-7 complex
 
 1.  Switch-to-switch at 800Gb/s or to two switches at 400Gb/s
 
@@ -303,11 +303,11 @@ The use cases include:
 
 4.  Switch-to-DGX H100 GPU Systems
 
-    The DGX-H100 contains eight "Hopper" H100 GPUs in the top chassis section, two CPUs,
+    The DGX-H100 contains eight ‚ÄúHopper‚Äù H100 GPUs in the top chassis section, two CPUs,
 
     storage, and InfiniBand and/or Ethernet networking in the bottom server section. This
 
-    contains eight 400Gb/s ConnectX-7 ICs mounted on two mezzanine boards called "Cedar-7"
+    contains eight 400Gb/s ConnectX-7 ICs mounted on two mezzanine boards called ‚ÄúCedar-7‚Äù
 
     cards for GPU-to-GPU InfiniBand or Ethernet networking. The cards I/Os are routed internally
 
@@ -503,41 +503,41 @@ The transceiver supports the OSFP MSA specification and has the following key fe
 
 Physical layer link optimization:
 
-∑  Adaptive Tx input equalization
+‚Ä¢  Adaptive Tx input equalization
 
-∑  Programmable Rx output amplitude
+‚Ä¢  Programmable Rx output amplitude
 
-∑  Programmable Rx output pre-cursor
+‚Ä¢  Programmable Rx output pre-cursor
 
-∑  Programmable Rx output post-cursor
+‚Ä¢  Programmable Rx output post-cursor
 
 Digital Diagnostic Monitoring (DDM):
 
-∑  Rx receive optical power monitor for each lane
+‚Ä¢  Rx receive optical power monitor for each lane
 
-∑  Tx transmit optical power monitor for each lane
+‚Ä¢  Tx transmit optical power monitor for each lane
 
-∑  Tx bias current monitor for each lane
+‚Ä¢  Tx bias current monitor for each lane
 
-∑  Supply voltage monitor
+‚Ä¢  Supply voltage monitor
 
-∑  Transceiver case temperature monitor
+‚Ä¢  Transceiver case temperature monitor
 
-∑  Warning and Alarm thresholds for each DDM function (not user programmable)
+‚Ä¢  Warning and Alarm thresholds for each DDM function (not user programmable)
 
 Page 13h and 14h Module Diagnostics
 
-∑  Host side and line side loopback
+‚Ä¢  Host side and line side loopback
 
-∑  PRBS generator and checker on host and line interfaces
+‚Ä¢  PRBS generator and checker on host and line interfaces
 
 Interrupt indications:
 
-∑  Tx & Rx LOS indication
+‚Ä¢  Tx & Rx LOS indication
 
-∑  Tx & Rx LOL indication
+‚Ä¢  Tx & Rx LOL indication
 
-∑  Tx fault indication
+‚Ä¢  Tx fault indication
 
 Other CMIS 4.0 functions
 
@@ -556,23 +556,23 @@ intended and may cause permanent device degradation.
 
 Parameter                         Symbol                Min            Max         Units
 
-Storage Temperature               TS                    -40            85          ∞C
+Storage Temperature               TS                    -40            85          ¬∞C
 
-Operating Case Temperature        TOP                   0              70          ∞C
+Operating Case Temperature        TOP                   0              70          ¬∞C
 
 Supply Voltage                    Vcc                   -0.5           3.6         V
 
-Relative Humidity (non-           RH ≠ Option 1         5              95          %
+Relative Humidity (non-           RH ‚Äì Option 1         5              95          %
 
 condensing)
 
 Control Input Voltage             VI                    -0.3           Vcc+0.5     V
 
-           ∑  For Ethernet end-to-end, the transceiver performance is guaranteed above 15∞C.
+ÔÜ≥          ‚Ä¢  For Ethernet end-to-end, the transceiver performance is guaranteed above 15¬∞C.
 
-           ∑  Maximum switch ambient temperature for forward (back to front) airflow on QM9700
+           ‚Ä¢  Maximum switch ambient temperature for forward (back to front) airflow on QM9700
 
-              is 35∞C with all fans, and 30∞C in case of fan failure.
+              is 35¬∞C with all fans, and 30¬∞C in case of fan failure.
 
 4.2       Recommended Operating                         Conditions          and    Power
 
@@ -675,7 +675,7 @@ Parameter                           Symbol      Min         Typ     Max         
 
 Transmitter
 
-Wavelength                          C           844         850     863           nm
+Wavelength                          ŒªC          844         850     863           nm
 
 RMS spectral width                  Dl                              0.6
 
@@ -712,7 +712,7 @@ Transmitter Reflectance           TR        -     -                       -26   
 
 Receiver
 
-Wavelength                        C         842   850                     863   nm
+Wavelength                        ŒªC        842   850                     863   nm
 
 Damage Threshold, average         AOPD      5     -                       -     dBm
 
@@ -775,7 +775,7 @@ Minimum power is informative. AOP above the minimum does not ensure compliance
 
 4.5.1.3      Option 3:
 
-         1.  Front of the module. Pull tab and other components can extend 1.6mm max from the
+ÔÜ≥        1.  Front of the module. Pull tab and other components can extend 1.6mm max from the
 
              bottom of the module and can have up to 9.3mm width in the max envelope shown.
 
@@ -790,7 +790,7 @@ Minimum power is informative. AOP above the minimum does not ensure compliance
              Systems: Bottom, Side, and Top Views.
 
                                                                                                   14
-     Images are for illustration purposes only. Product labels, colors, and form may vary.
+ÔÜ≥    Images are for illustration purposes only. Product labels, colors, and form may vary.
 
 4.6     Labels
 
@@ -810,7 +810,7 @@ illustration purposes only. Labels look and placement may vary.
 
                                    Transceiver Label (Illustration)
 
-     Images are for illustration purposes only. Product labels, colors, and form may vary.
+ÔÜ≥    Images are for illustration purposes only. Product labels, colors, and form may vary.
 
 4.6.2.1  Transceiver Back-Shell Label        Serial Number Legend
 
@@ -827,9 +827,9 @@ WW              Week of manufacturing        2 digits (numeric)
                                                                                                         15
 JC                 Manufacturer Site:                          Two characters
 
-or                 JC ≠ Option 1 (China)
+or                 JC ‚Äì Option 1 (China)
 
-DM                 DM ≠ Option 2 (Malaysia)
+DM                 DM ‚Äì Option 2 (Malaysia)
 
 SSSSS              Serial number                               5 digits (decimal numeric) for serial  number,
 
@@ -847,7 +847,7 @@ Electrical Safety                 CB                           IEC 62368
 
 Electrical Safety                 UL/CSA                       UL 62368 and CAN/CSAN 62368
 
-       Warning: Exposure to the laser light can cause damage to the eyes. Use protective face gear
+ÔÖö      Warning: Exposure to the laser light can cause damage to the eyes. Use protective face gear
 
        while handling this product and keep the laser light away from the eyes and face.
 
@@ -865,25 +865,25 @@ NDR transceivers inside, each with its own MPO-12/APC optical connector operatin
 
 that can link to another Twin-port transceiver or to a single-port 400Gb/s NDR transceiver.
 
-The MPO-12 has a 12-fiber ribbon but only 8-fibers are used ≠ four transmit and four receive fibers
+The MPO-12 has a 12-fiber ribbon but only 8-fibers are used ‚Äì four transmit and four receive fibers
 
 for the 4-channels of 100G-PAM4 NDR.
 
-    ∑  The APC design minimizes back reflections and signal interference by diverting back reflected
+    ‚Ä¢  The APC design minimizes back reflections and signal interference by diverting back reflected
 
        light from the fiber face to be absorbed into the fiber cladding.
 
-    ∑  A positioning key on top of the connector together with the alignment pins define the fiber
+    ‚Ä¢  A positioning key on top of the connector together with the alignment pins define the fiber
 
        position numbering scheme to align pin 1 in the optical connector to pin 1 in the transceiver
 
-       also called "polarity"
+       also called ‚Äúpolarity‚Äù
 
-    ∑  Transceivers have alignment pins for precise positioning of the cable connector against the
+    ‚Ä¢  Transceivers have alignment pins for precise positioning of the cable connector against the
 
-       optical beams. The fiber cable has alignment holes matching the transceiver's pins.
+       optical beams. The fiber cable has alignment holes matching the transceiver‚Äôs pins.
 
-    ∑  It is important to note that transceivers have pins. Optical connectors have holes and are
+    ‚Ä¢  It is important to note that transceivers have pins. Optical connectors have holes and are
 
        used with transceivers. Optical connectors with pins are not compatible with transceivers and
 
@@ -916,7 +916,7 @@ connector that can link to two single-port 400Gb/s NDR transceiver. Two fiber ca
 
 each Twin-port transceiver.
 
-Fiber cables are crossover cable Type-B that aligns the transmit laser with the opposite transceiver's
+Fiber cables are crossover cable Type-B that aligns the transmit laser with the opposite transceiver‚Äôs
 
 receiver photodetector allowing to directly connect two transceivers together to maintain minimum
 
@@ -930,7 +930,7 @@ Note: Refer to the Recommended Fiber Cables table for more information.
 
 Transceivers have alignment pins for precise positioning of the cable connector against the optical
 
-beams. The fiber cable has alignment holes matching the transceiver's pins.
+beams. The fiber cable has alignment holes matching the transceiver‚Äôs pins.
 
 4.7.2    Handling and Cleaning
 
@@ -1053,7 +1053,7 @@ This document is provided for information purposes only and shall not be regarde
 
 functionality, condition, or quality of a product. Neither NVIDIA Corporation nor any of its direct or indirect subsidiaries
 
-and affiliates (collectively: "NVIDIA") make any representations or warranties, expressed or implied, as to the accuracy
+and affiliates (collectively: ‚ÄúNVIDIA‚Äù) make any representations or warranties, expressed or implied, as to the accuracy
 
 or completeness of the information contained in this document and assumes no responsibility for any errors contained
 
@@ -1073,7 +1073,7 @@ NVIDIA products are sold subject to the NVIDIA standard terms and conditions of 
 
 acknowledgement, unless otherwise agreed in an individual sales agreement signed by authorized representatives of
 
-NVIDIA and customer ("Terms of Sale"). NVIDIA hereby expressly objects to applying any customer general terms and
+NVIDIA and customer (‚ÄúTerms of Sale‚Äù). NVIDIA hereby expressly objects to applying any customer general terms and
 
 conditions with regards to the purchase of the NVIDIA product referenced in this document. No contractual obligations
 
@@ -1087,17 +1087,17 @@ expected to result in personal injury, death, or property or environmental damag
 
 inclusion and/or use of NVIDIA products in such equipment or applications and therefore such inclusion and/or use is at
 
-customer's own risk.
+customer‚Äôs own risk.
 
 NVIDIA makes no representation or warranty that products based on this document will be suitable for any specified use.
 
-Testing of all parameters of each product is not necessarily performed by NVIDIA. It is customer's sole responsibility to
+Testing of all parameters of each product is not necessarily performed by NVIDIA. It is customer‚Äôs sole responsibility to
 
 evaluate and determine the applicability of any information contained in this document, ensure the product is suitable
 
 and fit for the application planned by customer, and perform the necessary testing for the application in order to avoid a
 
-default of the application or the product. Weaknesses in customer's product designs may affect the quality and reliability
+default of the application or the product. Weaknesses in customer‚Äôs product designs may affect the quality and reliability
 
 of the NVIDIA product and may result in additional or different conditions and/or requirements beyond those contained in
 
@@ -1125,7 +1125,7 @@ associated conditions, limitations, and notices.
 
 THIS DOCUMENT AND ALL NVIDIA DESIGN SPECIFICATIONS, REFERENCE BOARDS, FILES, DRAWINGS, DIAGNOSTICS, LISTS,
 
-AND OTHER DOCUMENTS (TOGETHER AND SEPARATELY, "MATERIALS") ARE BEING PROVIDED "AS IS." NVIDIA MAKES NO
+AND OTHER DOCUMENTS (TOGETHER AND SEPARATELY, ‚ÄúMATERIALS‚Äù) ARE BEING PROVIDED ‚ÄúAS IS.‚Äù NVIDIA MAKES NO
 
 WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO THE MATERIALS, AND EXPRESSLY
 
@@ -1139,7 +1139,7 @@ REGARDLESS OF THE THEORY OF LIABILITY, ARISING OUT OF ANY USE OF THIS DOCUMENT, 
 
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. Notwithstanding any damages that customer might incur for any reason
 
-whatsoever, NVIDIA's aggregate and cumulative liability towards customer for the products described herein shall be
+whatsoever, NVIDIA‚Äôs aggregate and cumulative liability towards customer for the products described herein shall be
 
 limited in accordance with the Terms of Sale for the product.
 
@@ -1152,5 +1152,5 @@ of the respective companies with which they are associated.
 
 Copyright
 
-© 2024 NVIDIA Corporation & affiliates. All Rights Reserved.
+¬© 2024 NVIDIA Corporation & affiliates. All Rights Reserved.
 

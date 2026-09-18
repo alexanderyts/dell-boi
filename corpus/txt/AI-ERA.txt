@@ -16,13 +16,13 @@ Enterprise Reference Architectures (Enterprise RAs) aligned with 2-8-9-400 confi
 
 repeatable platforms for building and scaling high-performance AI infrastructure.
 
-∑  Up to 1,225% ROI over                     The Dell AI Factory with NVIDIA Difference
+‚Ä¢  Up to 1,225% ROI over                     The Dell AI Factory with NVIDIA Difference
 
    four years.1                              Multi-workload versatility, built-in automation, and scalable infrastructure
 
                                              provides modern enterprises the solution they need to support diverse AI
 
-∑  Up to 75% more cost-                      workloads, from model training to inference. The Dell AI Factory with
+‚Ä¢  Up to 75% more cost-                      workloads, from model training to inference. The Dell AI Factory with
 
    effective than public                     NVIDIA is engineered to handle this complexity with a modular architecture
 
@@ -48,7 +48,7 @@ repeatable platforms for building and scaling high-performance AI infrastructure
 
    vision                         assistant
 
-                Data for AI                  Dell AI Factory with NVIDIA
+                Immersive AI                 Dell AI Factory with NVIDIA
 
    Common infrastructure starting point      Scale quickly with validated, pre-    Deploy AI outcomes quickly and
 
@@ -66,14 +66,14 @@ repeatable platforms for building and scaling high-performance AI infrastructure
 
    thinking inference
 
-© Dell Inc. or its subsidiaries.
+¬© Dell Inc. or its subsidiaries.
 Aligned with NVIDIA 2-8-9-400 Enterprise Reference Architecture and Dell
 
                                                                 PowerEdge XE9680
 
 Dell AI Factory with NVIDIA AI Enterprise and Red Hat OpenShift AI
 
-This architecture leverages NVIDIA-Certified Dell PowerEdge XE9680 servers, aligning with the 2≠8≠9≠400
+This architecture leverages NVIDIA-Certified Dell PowerEdge XE9680 servers, aligning with the 2‚Äì8‚Äì9‚Äì400
 
 Enterprise RA design pattern to ensure optimal performance and validated scalability for enterprise AI workloads.
 
@@ -81,29 +81,13 @@ Endorsed as part of NVIDIA's Enterprise Reference Architectures, it is purpose-b
 
 workloads, such as machine learning, deep learning, and large language model training, with unmatched efficiency
 
-and scalability.It also enables seamless integration with NVIDIA and open source for AI workload deployment and
+and scalability. It also enables seamless integration with NVIDIA and open source for AI workload deployment and
 
 operational efficiency.
 
-                                                                                  Dell PowerScale Storage*
+Dell AI Factory with NVIDIA with                                                  Dell AI Factory with NVIDIA for
 
-Dell PowerEdge server for management
-
-                         and control plane
-
-Spectrum-4 SN5610                                                                    Spectrum-4 SN5610
-
-Networking                                                                           Networking
-
-                         Dell PowerEdge XE9680                                       Dell PowerEdge XE9680
-
-                         GPU Nodes                                                   GPU Nodes
-
-                         100 Gb                                 200 Gb  4 x 400 G b  Varies by
-
-                                                                                     cluster size
-
-* Dell PowerScale storage included as per ERA recommendations
+NVIDIA AI Enterprise, NeMo                                                        Red Hat OpenShift AI environments
 
 Accelerating inference workloads at scale requires scalable computational power, and that's exactly what this design
 
@@ -117,7 +101,7 @@ architecture combines dense GPU power with minimal physical footprint, ensuring 
 
 for both training and inference at scale.
 
-Effective management is key to maintaining a stable and responsive environment, and we ensure it doesn't compete
+Effective management is key to maintaining a stable and responsive environment, and we ensure it doesn‚Äôt compete
 
 with resources needed for your critical AI workloads. This is achieved with four PowerEdge R670 servers, which
 
@@ -137,7 +121,7 @@ potential. We use orchestration through Red Hat OpenShift or Upstream Kubernetes
 
 management of containerized AI applications.
 
-Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries.
+Copyright ¬© Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries.
 
 Other trademarks may be trademarks of their respective owners.
                     Aligned with NVIDIA 2-8-9-400 Enterprise Reference Architecture and Dell
@@ -146,7 +130,7 @@ Other trademarks may be trademarks of their respective owners.
 
 Salient Design points:
 
-∑  High-performance GPU network for distributed AI workloads: Spectrum-X provides a non-blocking, rail-optimized
+‚Ä¢  High-performance GPU network for distributed AI workloads: Spectrum-X provides a non-blocking, rail-optimized
 
    spine-leaf fabric that ensures deterministic, low-diameter GPU paths. With RDMA/RoCEv2, PFC, ECN, adaptive
 
@@ -154,7 +138,7 @@ Salient Design points:
 
    LLM training workloads.
 
-∑  Enterprise network architecture for data-center-scale operations: The platform uses an EVPN-VXLAN fabric that
+‚Ä¢  Enterprise network architecture for data-center-scale operations: The platform uses an EVPN-VXLAN fabric that
 
    supports scalable north-south traffic, workload mobility, and tenant segmentation through a modern BGP-based
 
@@ -162,9 +146,9 @@ Salient Design points:
 
    link utilization and failover behavior.
 
-∑  Cloud-native infrastructure deployment and configuration: Using Kubernetes operators--including the NVIDIA GPU
+‚Ä¢  Cloud-native infrastructure deployment and configuration: Using Kubernetes operators‚Äîincluding the NVIDIA GPU
 
-   Operator, NVIDIA Network Operator, NVIDIA NIM Operator and Dell CSI Operator--the environment can be
+   Operator, NVIDIA Network Operator, NVIDIA NIM Operator and Dell CSI Operator‚Äîthe environment can be
 
    provisioned, configured, and managed using declarative, cloud-native patterns. Cluster expansion, lifecycle
 
@@ -172,7 +156,7 @@ Salient Design points:
 
    and accelerate day-to-day management.
 
-∑  Validated solution stack: The Dell AI Factory with NVIDIA aligns directly with the NVIDIA AI Enterprise infrastructure
+‚Ä¢  Validated solution stack: The Dell AI Factory with NVIDIA aligns directly with the NVIDIA AI Enterprise infrastructure
 
    support matrix and the Spectrum-X validated solution stack, ensuring that all software components, drivers, and
 
@@ -202,7 +186,7 @@ Salient Design points:
 
 *Larger scale clusters supported and require  additional network switching
 
-Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries.
+Copyright ¬© Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries.
 
 Other trademarks may be trademarks of their respective owners.
 Streamline Enterprise AI innovation with outcome-first modular architectures
@@ -231,7 +215,7 @@ your needs and ambitions. By focusing on outcomes instead of components, Dell an
 
 potential into measurable business progress and impact.
 
-1 Enterprise Strategy Group, "Analyzing the Economic Benefits of the Dell AI Factory with NVIDIA," August 2025, commissioned by Dell
+1 Enterprise Strategy Group, ‚ÄúAnalyzing the Economic Benefits of the Dell AI Factory with NVIDIA,‚Äù August 2025, commissioned by Dell
 
 . Technologies
 
@@ -239,7 +223,7 @@ Learn more about                    Contact a Dell              View more resour
 
 Dell AI Factory with NVIDIA        Technologies Expert                                                                                #Dell #AIFactory with #NVIDIA
 
-Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries.
+Copyright ¬© Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries.
 
 Other trademarks may be trademarks of their respective owners.
 

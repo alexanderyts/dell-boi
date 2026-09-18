@@ -14,7 +14,7 @@ Specification  Sheet
 
                       global inline data reduction to provide unmatched adaptability, high availability, and
 
-                      performance--empowering your organization to stay ahead in a competitive
+                      performance‚Äîempowering your organization to stay ahead in a competitive
 
                       landscape.
 
@@ -22,9 +22,9 @@ Specification  Sheet
 
                       delivering up to 7x1 more capacity (8 PBe) in half the footprint of previous models.
 
-                      With the industry's most comprehensive data services, the 2500 is designed to
+                      With the industry‚Äôs most comprehensive data services, the 2500 is designed to
 
-                      handle demanding mixed workloads--block, file, and mainframe--while ensuring the
+                      handle demanding mixed workloads‚Äîblock, file, and mainframe‚Äîwhile ensuring the
 
                       highest levels of data availability and cyber resiliency. Both the PowerMax 2500 and
 
@@ -48,17 +48,17 @@ Array                 and features advanced cyber resiliency, including Cyber Re
 
                       scalable, flexible design that allows independent growth of nodes and storage
 
-                      capacity in single-drive increments. Leveraging IntelÆ XeonÆ Scalable processors
+                      capacity in single-drive increments. Leveraging Intel¬Æ Xeon¬Æ Scalable processors
 
-                      and the latest storage technologies--end-to-end NVMe, InfiniBand 100Gb/s, dual-
+                      and the latest storage technologies‚Äîend-to-end NVMe, InfiniBand 100Gb/s, dual-
 
                       ported NVMe flash drives, NVMe/TCP connectivity, and hardware-based data
 
-                      reduction--PowerMax is designed for 6 nines of availability. Additionally, it features
+                      reduction‚ÄîPowerMax is designed for 6 nines of availability. Additionally, it features
 
                       intelligent PDUs for real-time power monitoring and alerting, ensuring continuously
 
-                      modern storage through Dell's Future-Proof program.
+                      modern storage through Dell‚Äôs Future-Proof program.
 
                       Specifications
 
@@ -84,11 +84,11 @@ Array                 and features advanced cyber resiliency, including Cyber Re
 
                       follow:
 
-               1Based on Dell's internal analysis comparing Effective Storage Capacity of the PowerMax 2500 compared with the PowerMax 2000, April 2025.
+               1Based on Dell‚Äôs internal analysis comparing Effective Storage Capacity of the PowerMax 2500 compared with the PowerMax 2000, April 2025.
 
                Actual storage capacities will vary.
 
-Dell PowerMax © 2026 Dell Inc. subsidiaries.
+Dell PowerMax ¬© 2026 Dell Inc. subsidiaries.
 Array family                                   PowerMax 2500                                  PowerMax 8500
 
 Node Pairs
@@ -210,7 +210,7 @@ Support for Mixed Drive Capacities                 Yes3                         
 
 NVMe DYNAMIC MEDIA ENCLOSURE
 
-48 x 2.5" Drive DME                                Yes                                                  Yes
+48 x 2.5‚Äù Drive DME                                Yes                                                  Yes
 
 CABINET SETTINGS
 
@@ -222,7 +222,7 @@ Third-party rack mount option                      Yes                          
 
 DISPERSION
 
-Standard and third-party enclosures                N/A -- single floor tile system                      Yes
+Standard and third-party enclosures                N/A ‚Äî single floor tile system                       Yes
 
 PRE-CONFIGURATION FROM FACTORY
 
@@ -327,7 +327,7 @@ transfer/ports
 
 Maximum number of ports per array               64                                                    256
 
-Table 1 ≠ QLC/TLC 15 TB and 30 TB drives RAID support
+Table 1 ‚Äì QLC/TLC 15 TB and 30 TB drives RAID support
 
 Drive                R1(1+1)                    R5(4+1)  R5(8+1)                    R5(12+1)               R6(12+2)          R6(24+2)
 
@@ -389,7 +389,7 @@ Table 2 - 2.5" NVMe flash drives used in base systems and capacity pack upgrades
    desired. This is automatically optimized by the configuration tools.
 
 2  Formatted capacities shown are for RAID 5 (12+1). Values vary slightly with different RAID types.
-Table 3 - Energy consumption and heat dissipation at <26∞C and >35∞C
+Table 3 - Energy consumption and heat dissipation at <26¬∞C and >35¬∞C
 
 Component                                         PowerMax 2500                                                                PowerMax 8500
 
@@ -401,7 +401,7 @@ heat dissipation at             (kVA)                                           
 
 temperatures
 
-< 26∞C 2 and > 35∞C 3   < 26∞C         > 35∞C          < 26∞C             > 35∞C              < 26∞C                           > 35∞C  < 26∞C                           > 35∞C
+< 26¬∞C 2 and > 35¬∞C 3   < 26¬∞C         > 35¬∞C          < 26¬∞C             > 35¬∞C              < 26¬∞C                           > 35¬∞C  < 26¬∞C                           > 35¬∞C
 
 System Cabinet 1,
 
@@ -509,9 +509,9 @@ PowerMax 8500
 
 1 Power values for configurations with two, three, and four node pairs, placed in the System 2 Enclosure (PowerMax 8500 only)
 
-2 Values at <26 ∞C reflect the maximum values in a more stable state during normal operation
+2 Values at <26 ¬∞C reflect the maximum values in a more stable state during normal operation
 
-3 Power values and heat dissipations are shown at >35 ∞C to reflect the higher power levels associated with both the battery recharge cycle and the initiation of high
+3 Power values and heat dissipations are shown at >35 ¬∞C to reflect the higher power levels associated with both the battery recharge cycle and the initiation of high
 
 ambient temperature Adaptive Cooling algorithms.
 Table 4 - Physical specifications
@@ -570,7 +570,7 @@ Specification                                   connection                      
 
                                                 (2 L and 1 G)1                      (1 L, 1 N and 1 G)1
 
-Input nominal voltage                              200 - 240 VAC +/- 10% L ≠ L nom  220 - 240 VAC +/- 10% L ≠ N nom
+Input nominal voltage                              200 - 240 VAC +/- 10% L ‚Äì L nom  220 - 240 VAC +/- 10% L ‚Äì N nom
 
 Frequency                                          50 - 60 Hz                       50 - 60 Hz
 
@@ -603,7 +603,7 @@ Specification                                4-wire connection                  
 
                                              (3 L and 1 G)1
 
-Input voltage 2                              200 - 240 VAC +/- 10% L ≠ L nom      220 - 240 VAC +/- 10% L ≠ N nom
+Input voltage 2                              200 - 240 VAC +/- 10% L ‚Äì L nom      220 - 240 VAC +/- 10% L ‚Äì N nom
 
 Frequency                                    50 - 60 Hz                           50 - 60 Hz
 
@@ -623,9 +623,9 @@ customer site3                               power zone.                        
 
 2An imbalance of AC input currents may exist on the three-phase power source feeding the array, depending on the configuration.
 
-The customer's electrician must be alerted to this possible condition to balance the phase-by-phase loading conditions within the
+The customer‚Äôs electrician must be alerted to this possible condition to balance the phase-by-phase loading conditions within the
 
-customer's data center
+customer‚Äôs data center
 
 3A second input AC line cord must be added for each power zone when the total number of Node Pairs and DAEs (combined) in a
 
@@ -662,29 +662,29 @@ Repeater power level           Recommended minimum
 
 Dell Technologies World Class                            Services
 
-Implementation services                                                           ∑  Dell ProDeploy Enterprise Suite
+Implementation services                                                           ‚Ä¢  Dell ProDeploy Enterprise Suite
 
-                                                                                  ∑  Dell Data Migration Services
+                                                                                  ‚Ä¢  Dell Data Migration Services
 
-                                                                                  ∑  Dell Residency Services
+                                                                                  ‚Ä¢  Dell Residency Services
 
-                                                                                  ∑  Dell Data Sanitization Services for Enterprise
+                                                                                  ‚Ä¢  Dell Data Sanitization Services for Enterprise
 
-Support services                                                                  ∑  Dell ProSupport Enterprise Suite
+Support services                                                                  ‚Ä¢  Dell ProSupport Enterprise Suite
 
-                                                                                  ∑  Dell Keep Your Hard Drive for Enterprise
+                                                                                  ‚Ä¢  Dell Keep Your Hard Drive for Enterprise
 
-Managed services                                                                  ∑  Dell Managed Services for Storage
+Managed services                                                                  ‚Ä¢  Dell Managed Services for Storage
 
-Dell Technologies Consulting Services                                             ∑  Cyber Recovery Services for PowerMax (Cyber Vault)
+Dell Technologies Consulting Services                                             ‚Ä¢  Cyber Recovery Services for PowerMax (Cyber Vault)
 
-                                                                                  ∑  Advisory Services workshops
+                                                                                  ‚Ä¢  Advisory Services workshops
 
-Dell Technologies Education Services                                              ∑  PowerMax technical training courses and certifications
+Dell Technologies Education Services                                              ‚Ä¢  PowerMax technical training courses and certifications
 
-Support technology and services                                                   ∑  MyService360
+Support technology and services                                                   ‚Ä¢  MyService360
 
-                                                                                  ∑  Secure Remote Services, SupportAssist Enterprise
+                                                                                  ‚Ä¢  Secure Remote Services, SupportAssist Enterprise
 
 DECLARATION OF CONFORMITY
 
@@ -696,7 +696,7 @@ compliance verification are available on the Dell standards compliance website. 
 
 This product has been tested and verified whether it will work within the permitted range of environmental attributes of
 
-ashrae's 2-level operating condition class between 10∞C and 35∞C and within the corresponding relative humidity
+ashrae's 2-level operating condition class between 10¬∞C and 35¬∞C and within the corresponding relative humidity
 
 range.
 
@@ -706,7 +706,7 @@ Learn more about Dell                  Contact a Dell Expert                    
 
         PowerMax
 
-© 2022, 2023, 2024, 2025, 2026 Dell Inc. subsidiaries. All rights reserved.
+¬© 2022, 2023, 2024, 2025, 2026 Dell Inc. subsidiaries. All rights reserved.
 
 Dell and the other trademarks are the property of Dell Inc. or its subsidiaries.
 

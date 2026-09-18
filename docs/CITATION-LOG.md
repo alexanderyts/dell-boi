@@ -130,6 +130,56 @@ correct because it shipped first. Upgraded to STALE pending that check.
 
 ---
 
+## 2026-09-18 — comprehensive refresh pass (re-fetch + re-verify against live vendor sources)
+
+Ran `tools/harvest.js` against all 76 manifest rows (39 auto-fetchable after fixing the access bugs
+below; 37 remain Info Hub/login/manual and need a human). Two manifest defects were found and fixed
+BEFORE the fetch could be trusted (**GAPS G-045, G-046**), and the harvester was hardened
+(bot-challenge-page detector) so the G-046 class can't recur silently. A pre-existing, unrelated
+corpus-wide encoding defect was also found and fixed (**GAPS G-047**, 28 files). Full detail in
+GAPS.md; this section records what was RE-VERIFIED against the refreshed text.
+
+**Re-fetched and the PDF bytes changed, but every catalog-relevant fact checked is UNCHANGED
+(verbatim, byte-for-byte)** — re-verification date bumped, no code change needed:
+- **QRG-DC** (Dell Networking QRG) — the exact figures behind the 2026-09-18 rulings (Z9964F-ON
+  102.4 Tbps / 4987 W Max, Z9864F-ON 51.2 Tbps, Z9664F-ON 25.6 Tbps / 2125 max-500 normal,
+  Z9432F-ON 12.8 Tbps / 1404 max-900 normal) are identical in the new fetch. → **CURRENT, 2026-09-18**.
+- **NV-LINKX-400G-COMBO** — all 3 quotes this file backs in this log (QSFP-DD/QSFP112 cage
+  incompatibility, the SN5400/SN4700-only QSFP-DD DAC, the "100G-PAM4 cannot downshift" root
+  cause) verified verbatim present after re-extraction. → **CURRENT, 2026-09-18**.
+- **CO-POWEREDGE** (PowerEdge Rack Series spec sheet, 4.2MB/many models) — OCP 3.0 slot layout and
+  "NVIDIA BlueField-3 1x400" mentions unchanged (word-level diff was table/column reflow from a
+  different `pdftotext` pass, not content). → **CURRENT, 2026-09-18**.
+- **MG-DFM-BENET** (BE Networks Dell SONiC page) — Verity / Satori / SensAI product names and the
+  "Verity 6.6" version reference all still present; the large word-diff was page navigation
+  chrome. → **CURRENT, 2026-09-18**.
+
+**Re-fetched and genuinely changed (real vendor content, not extraction noise)** — logged, no
+engine/catalog action taken because nothing catalog-relevant moved:
+- **ST-POWERSTORE** (H18234 Data Sheet) — Dell republished this as a PowerStore 4.3-era marketing
+  sheet (new capacity/feature copy, "© 2025 Dell Inc."). It still does **not** contain a detailed
+  I/O-module/port-speed table — checked because `platforms.js`'s `source:` comment cites it for
+  "100GbE + end-to-end NVMe/TCP" — and neither did the OLD version (same absence, same `verify:
+  true` flag already on that catalog field). Not a regression; the citation was already this weak.
+- **NV-LINKX** (nvidia.com/networking/interconnect/) — NVIDIA renamed the page title "LinkX Cables
+  and Transceivers" → "Optical Transceivers and Cables for AI Networking." Informational only:
+  nothing in the catalog cites this bare page directly (specific facts come from NV-LINKX-GUIDE and
+  NV-LINKX-400G-COMBO, both separately re-verified above/unaffected).
+
+**Confirmed still broken (pre-existing, not caused by this pass):**
+- **NV-CX8-DS** — the manifest URL is a PDF.js viewer wrapper, not the document; both old and new
+  fetches captured only the viewer's UI chrome. Tracked as **G-048**; the ConnectX-8 speed facts it
+  would back are independently corroborated by `NV-CX8-UM.txt` and `NV-GB300.txt` (see the
+  "ConnectX generation → speed map" row above), so nothing downstream is unsourced.
+
+**Not re-verified this pass (fetched successfully, diff was small/table-reflow-shaped, but no
+specific cited fact was checked against it):** AI-ERA, AI-NV-FACTORY, NV-SN4700, HCI-AZLOCAL,
+CO-XE-AI, CO-XE9780, CO-XE9785, NV-GB300, NV-LINKX-GUIDE, STD-PFC, STD-ETS, STD-EVPN, STD-EVPNVXLAN
+(the four IEEE/RFC standards are extremely unlikely to have substantively changed). Flagged here so
+a future targeted pass knows these were fetched-but-not-fact-checked, not verified-current.
+
+---
+
 ## Process notes
 - When a citation is re-checked and confirmed unchanged, update `Verified`
   to the new date — don't leave the old date implying it's stale.

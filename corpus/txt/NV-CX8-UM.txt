@@ -5,7 +5,7 @@ User Manual - Docs
 NVIDIA ConnectX-8 SuperNIC User Manual
 
 28 May, 2026
-       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Table of Contents
 
@@ -68,7 +68,7 @@ Table of Contents
 3.4.2  Electrostatic Discharge (ESD) Prevention ....................................................................................... 42
 
                                                                                                                                                                 2
-        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3.4.3   Handle Components with Care ........................................................................................................ 42
 
@@ -135,7 +135,7 @@ Table of Contents
 6.1.2   UEFI.................................................................................................................................................... 72
 
                                                                                                                                                                      3
-        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.2     PCIe Bifurcation Configuration Options .......................................................................................... 72
 
@@ -202,7 +202,7 @@ Table of Contents
 11      General Cooling Recommendations for Partner-Cooled SuperNICs ........................................... 122
 
                                                                                                                                                                  4
-        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 11.1    General Notes ................................................................................................................................. 122
 
@@ -219,11 +219,11 @@ Table of Contents
 12      Document Revision History............................................................................................................ 128
 
                                                                                                                                                              5
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 About This Manual
 
-This User Manual describes NVIDIAÆ ConnectXÆ-8 SuperNICs. It provides details as to the interfaces
+This User Manual describes NVIDIA¬Æ ConnectX¬Æ-8 SuperNICs. It provides details as to the interfaces
 
 of the board, specifications, required software and firmware for operating the board, and relevant
 
@@ -251,7 +251,7 @@ del  A SKU      Type   Speed1       Factor   pr   n         p  Capabil          
 
                                                                                    t
 
-C82  900-9X     Dual-  InfiniBand:  Half-    PCI  -            PPS In/                       Tal    Prot
+C82  900-9X     Dual-  InfiniBand:  Half-    PCI  -         ‚úì  PPS In/             ‚úì         Tal    Prot
 
 20   81Q-00     port   200Gb/s IB   Height,  e5                Out,                          l      otyp
 
@@ -261,7 +261,7 @@ C82  900-9X     Dual-  InfiniBand:  Half-    PCI  -            PPS In/          
 
                        (Default)    (HHHL)                                                   et
 
-C82  900-9X     Dual-  InfiniBand:  Half-    PCI  x16 PCIe     PPS In/                       Tal    Mas
+C82  900-9X     Dual-  InfiniBand:  Half-    PCI  x16 PCIe  ‚úì  PPS In/             ‚úì         Tal    Mas
 
 40   81Q-00     port   NDR IB       Height,  e6   SocketDi     Out,                          l      s
 
@@ -271,7 +271,7 @@ C82  900-9X     Dual-  InfiniBand:  Half-    PCI  x16 PCIe     PPS In/          
 
                        (Default)    (HHHL)                                                   et     on
 
-C81  900-9X     Singl  InfiniBand:  Half-    PCI  x16 PCIe     PPS In/                       Tal    Mas
+C81  900-9X     Singl  InfiniBand:  Half-    PCI  x16 PCIe  ‚úì  PPS In/             ‚úì         Tal    Mas
 
 80   81E-00     e-     800Gbs       Height,  e6   SocketDi     Out,                          l      s
 
@@ -283,7 +283,7 @@ C81  900-9X     Singl  InfiniBand:  Half-    PCI  x16 PCIe     PPS In/          
 
                        2x400GbE
 
-     900-9X     Singl  InfiniBand:  Half-    PCI  x16 PCIe     PPS In/                       Tal    Mas
+     900-9X     Singl  InfiniBand:  Half-    PCI  x16 PCIe  ‚úì  PPS In/             ‚úì         Tal    Mas
 
      81E-00     e-     800Gbs       Height,  e6   Down         Out,                          l      s
 
@@ -295,18 +295,18 @@ C81  900-9X     Singl  InfiniBand:  Half-    PCI  x16 PCIe     PPS In/          
 
                        2x400GbE
 
-                                                                                                               ≠6
-                               NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                                               ‚Äì6
+                               NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
-C81   900-9X       Singl       InfiniBand:  Half-    PCI  x16 PCIe    PPS In/                   Tal            Mas
+C81   900-9X       Singl       InfiniBand:  Half-    PCI  x16 PCIe  ‚úì  PPS In/                ‚úì  Tal           Mas
 
-80L   81E-00       e-          800Gbs       Height,  e6   SocketDi    Out,                      l              s
+80L   81E-00       e-          800Gbs       Height,  e6   SocketDi     Out,                      l             s
 
-Part  EX-SL0       cage        XDR IB       Half-    x16  rect        SMAs,                     Bra            Prod
+Part  EX-SL0       cage        XDR IB       Half-    x16  rect         SMAs,                     Bra           Prod
 
-ner                OSFP        (Default)    Length                    SyncE                     ck             ucti
+ner                OSFP        (Default)    Length                     SyncE                     ck            ucti
 
-Coo                            Ethernet:    (HHHL)                                              et             on
+Coo                            Ethernet:    (HHHL)                                               et            on
 
 led                            2x400GbE
 
@@ -338,8 +338,8 @@ assistance through their reseller.
 
 2. mailto:enterprisesupport@nvidia.com
 
-                                                                                                                       ≠7
-                              NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                                                       ‚Äì7
+                              NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Related Documentation
 
@@ -385,7 +385,7 @@ LinkX          LinkX cables and transceivers are designed to maximize the perfor
 
 Interconnect   Performance Computing networks, requiring high-bandwidth, low-latency connections
 
-Solutions9     between compute nodes and switch nodes. NVIDIA offers one of the industry's most
+Solutions9     between compute nodes and switch nodes. NVIDIA offers one of the industry‚Äôs most
 
                complete line of 25, 100, 200, and 400GbE in Ethernet and EDR, HDR, NDR and XDR including
 
@@ -423,8 +423,8 @@ s
 
 9. https://www.nvidia.com/en-us/networking/interconnect/
 
-                                                                                                                      ≠8
-                  NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                                                      ‚Äì8
+                  NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 When discussing memory sizes, MB and MBytes are used in this document to mean size in
 
@@ -436,14 +436,14 @@ Revision History
 
 A list of the changes made to this document is provided in Document Revision History (see page 128).
 
-                                                                                                          ≠9
-                               NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                                          ‚Äì9
+                               NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 1  Introduction
 
 1.1    Product Overview
 
-The NVIDIAÆ ConnectXÆ-8 SuperNICTM is optimized to supercharge hyperscale AI computing
+The NVIDIA¬Æ ConnectX¬Æ-8 SuperNIC‚Ñ¢ is optimized to supercharge hyperscale AI computing
 
 workloads. With support for both InfiniBand and Ethernet networking at up to 800 gigabits per second
 
@@ -453,7 +453,7 @@ enhancing system performance for AI factories and cloud data center environments
 
 1.1.1  Powerful Networking for Generative AI
 
-Central to NVIDIA's AI networking portfolio, ConnectX-8 SuperNICs fuel the next wave of innovation in
+Central to NVIDIA‚Äôs AI networking portfolio, ConnectX-8 SuperNICs fuel the next wave of innovation in
 
 forming accelerated, massive-scale AI compute fabrics. They seamlessly integrate with next-gen
 
@@ -475,7 +475,7 @@ achieving the highest network performance and peak AI workload efficiency. Addit
 
 InfiniBand SuperNICs extend the
 
-capabilities of NVIDIAÆ Scalable Hierarchical Aggregation and Reduction Protocol (SHARP)TM to boost
+capabilities of NVIDIA¬Æ Scalable Hierarchical Aggregation and Reduction Protocol (SHARP)‚Ñ¢ to boost
 
 In-network computing in high-performance computing environments, further enhancing overall
 
@@ -507,12 +507,12 @@ There are two available extension options:
 
        connector is used as a root complex for storage devices (GPUs or SSDs).
 
-                                                                                      Introduction ≠ 10
-                        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                      Introduction ‚Äì 10
+                        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 1.2.1    Socket Direct SuperNICs
 
-The Socket DirectTM technology offers improved performance to dual-socket servers by enabling direct
+The Socket Direct‚Ñ¢ technology offers improved performance to dual-socket servers by enabling direct
 
 access from each CPU in a dual-socket server to the network through its dedicated PCIe interface.
 
@@ -576,8 +576,8 @@ System           Linux: RHEL, Ubuntu
 
            OpenFabrics Windows Distribution (WinOF-2)
 
-                                                                                              Introduction ≠ 11
-                          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                              Introduction ‚Äì 11
+                          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Item         Description
 
@@ -611,8 +611,8 @@ OPN              Description
 
 000              Connector
 
-                                                                                  Introduction ≠ 12
-             NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                  Introduction ‚Äì 12
+             NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 1.5  Features and Benefits
 
@@ -642,8 +642,8 @@ PCI Express  PCIe Gen6 (64GT/s) through x16 edge connector
 
              PCIe Gen5 ( SERDES @ 32GT/s ) through MCIO edge connector
 
-                                                                                   Introduction ≠ 13
-                     NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                   Introduction ‚Äì 13
+                     NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                 ConnectX-8 delivers low latency, high bandwidth, and computing efficiency for high-
 
@@ -699,8 +699,8 @@ v1.7 compliant
 
                 HDR       IBTA Vol2 1.4  212.5          106.25       53.125    PAM4
 
-                                                                               Introduction ≠ 14
-                  NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                               Introduction ‚Äì 14
+                  NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                   ConnectX-8 SuperNICs comply with the following IEEE 802.3 standards:
 
@@ -766,8 +766,8 @@ Gigabit Ethernet
 
                   Jumbo frame support (9.6KB)
 
-                                                                                        Introduction ≠ 15
-                NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                        Introduction ‚Äì 15
+                NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                 SPI - includes 512Mbit SPI Quad Flash device.
 
@@ -825,7 +825,7 @@ Secure Boot     intended to run on ConnectX-8. This is achieved using cryptograp
 
 Secure          the host, the network, or a Board Management Controller (BMC). The firmware of devices
 
-Firmware        with "secure firmware update" functionality (secure FW), restricts access to specific
+Firmware        with ‚Äúsecure firmware update‚Äù functionality (secure FW), restricts access to specific
 
 Update          commands and registers that can be used to modify the firmware binary image on the
 
@@ -835,8 +835,8 @@ Update          commands and registers that can be used to modify the firmware b
 
 10. http://www.mellanox.com/page/management_tools
 
-                                                                                       Introduction ≠ 16
-                 NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                       Introduction ‚Äì 16
+                 NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                  ConnectX-8 technology maintains support for host manageability through a BMC.
 
@@ -850,7 +850,7 @@ Update          commands and registers that can be used to modify the firmware b
 
                  Protocols: PLDM, NCSI
 
-                 Transport layer ≠ RBT, MCTP over SMBus, and MCTP over PCIe
+                 Transport layer ‚Äì RBT, MCTP over SMBus, and MCTP over PCIe
 
                  Physical layer: SMBus 2.0 / I2C interface for device control and configuration, PCIe
 
@@ -882,11 +882,11 @@ Ethernet (RoCE)  well as ConnectX-8 advanced congestion control hardware mechani
 
                  efficient low-latency RDMA services over Layer 2 and Layer 3 networks.
 
-                 PeerDirectTM communication provides high-efficiency RDMA access by eliminating
+                 PeerDirect‚Ñ¢ communication provides high-efficiency RDMA access by eliminating
 
 NVIDIA           unnecessary internal data copies between components on the PCIe bus (for example,
 
-PeerDirectTM     from GPU to CPU), and therefore significantly reduces application run time. ConnectX-8
+PeerDirect‚Ñ¢      from GPU to CPU), and therefore significantly reduces application run time. ConnectX-8
 
                  advanced acceleration technology enables higher cluster efficiency and scalability to tens
 
@@ -898,7 +898,7 @@ PeerDirectTM     from GPU to CPU), and therefore significantly reduces applicati
 
 CPU Offload      Flexible match-action flow tables
 
-                 Open VSwitch (OVS) offload using ASAP2Æ
+                 Open VSwitch (OVS) offload using ASAP2¬Æ
 
                  Tunneling encapsulation/decapsulation
 
@@ -908,8 +908,8 @@ Accelerations    hardware-based accelerations offload the crypto operations and 
 
                  reducing latency and enabling scalable crypto solutions.
 
-                                                                                         Introduction ≠ 17
-            NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                         Introduction ‚Äì 17
+            NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
             IEEE 1588, also known as the Precision Time Protocol (PTP), is a protocol that enables
 
@@ -925,7 +925,7 @@ Accelerations    hardware-based accelerations offload the crypto operations and 
 
             to achieve sub 10nsec accuracy and offers many timing-related functions such as time-
 
-            triggered scheduling or time-based SDN accelerations (time-based ASAP≤) and hardware-
+            triggered scheduling or time-based SDN accelerations (time-based ASAP¬≤) and hardware-
 
 PPS In/Out  based packet pacing. The PTP part supports the ordinary clock, master clock, and
 
@@ -953,8 +953,8 @@ SMAs        boundary clock.
 
             via PCIe allowing applications running on the CPU to benefit from accurate timing.
 
-                                                                    Introduction ≠ 18
-                   NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                    Introduction ‚Äì 18
+                   NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 2  Supported Interfaces
 
@@ -1006,12 +1006,12 @@ Cooled
 
      -00EX-SL0
 
-                                                            Supported Interfaces ≠ 19
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                            Supported Interfaces ‚Äì 19
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Item                     Interface                            Description
 
-                         ConnectX-8 IC     (see page 20)      ConnectX-8 Integrated Circuit
+                         ConnectX-8 IC    (see page 20)       ConnectX-8 Integrated Circuit
 
 1                        Host Interface (see page 20)         PCIe Gen6 through x16 edge
 
@@ -1059,14 +1059,14 @@ connector. The following lists host interface features:
 
       PCIe Gen6 or Gen5
 
-      NVIDIA Multi-HostTM (up to 4 hosts)
+      NVIDIA Multi-Host‚Ñ¢ (up to 4 hosts)
 
       PCIe switch downstream port containment (DPC) - Applies to 900-9X81E-00EX-DT0 only
 
       MSI/MSI-X
 
-                                                                           Supported Interfaces ≠ 20
-                            NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                           Supported Interfaces ‚Äì 20
+                            NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 2.2.3    Networking Interfaces
 
@@ -1116,8 +1116,8 @@ There is one bi-color (Yellow and Green) I/O LED per port that indicate port spe
 
 Release-1.7-2023-07-11.pdf
 
-                                                                                          Supported Interfaces ≠ 21
-                       NVIDIA        ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8  SuperNIC User Manual - Docs
+                                                                                          Supported Interfaces ‚Äì 21
+                       NVIDIA        ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8  SuperNIC User Manual - Docs
 
 State                                Bi-Color LED (Yellow/Green)
 
@@ -1147,8 +1147,8 @@ Link Up                              The Green LED will be solid.
 
 Physical Up (IB Only)                The Yellow LED will be solid.
 
-                                                                                          Supported Interfaces ≠ 22
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                          Supported Interfaces ‚Äì 22
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 2.2.4.2  Scheme 2: Two LEDs
 
@@ -1184,8 +1184,8 @@ Error                  4Hz blinking Yellow Indicates an error      with the link
 
                                            ports
 
-                                                                                       Supported Interfaces ≠ 23
-                           NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                       Supported Interfaces ‚Äì 23
+                           NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 State                      Bi-Color LED (Yellow/Green)                            Single Color LED
 
@@ -1225,8 +1225,8 @@ diagnostics, and maintenance capabilities, critical for high-availability enviro
 
 and cloud infrastructure.
 
-                                                                                  Supported Interfaces ≠ 24
-                           NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                  Supported Interfaces ‚Äì 24
+                           NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 The sideband management interface (a 30-pin IPEX connector) in ConnectX-8 SuperNICs enables out-
 
@@ -1272,8 +1272,8 @@ The kit includes the extender board and a 200mm IPEX cable (micro-coax, pin-to-p
 
 can be connected via the 30-pin connector on the ConnectX-8 SuperNIC.
 
-                                                                                     Supported Interfaces ≠ 25
-                   NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                     Supported Interfaces ‚Äì 25
+                   NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 OPN                Description
 
@@ -1303,8 +1303,8 @@ RBT_CRS_DV         Carrier sense/receive data validly
 
 GND                Ground
 
-                                                                                   Supported Interfaces  ≠  26
-                   NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                   Supported Interfaces  ‚Äì  26
+                   NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Pin Name           Pin Description
 
@@ -1350,8 +1350,8 @@ PPS OUT            PPS output for timing applications
 
 RSVD3              Reserved
 
-                                                                        Supported Interfaces ≠ 27
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                        Supported Interfaces ‚Äì 27
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Pin Name               Pin Description
 
@@ -1407,8 +1407,8 @@ Information                      Direction     n   n   Direction     Information
 
                                                6   6
 
-                                                                     Supported Interfaces ≠ 28
-                              NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                     Supported Interfaces ‚Äì 28
+                              NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                               GND          A   B   GND
 
@@ -1484,8 +1484,8 @@ level: PU 100k ohm
 
                                            20  20
 
-                                                               Supported Interfaces ≠ 29
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                               Supported Interfaces ‚Äì 29
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                        PERn4        A   B   PETn4
 
@@ -1555,8 +1555,8 @@ termination 42.2 ohm   (OUT)        30  30              termination 42.2 ohm
 
                                     36  36
 
-                                                        Supported Interfaces ≠ 30
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                        Supported Interfaces ‚Äì 30
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 GND     A   B   GND
 
@@ -1624,8 +1624,8 @@ PERn12  A   B   PETn12
 
         52  52
 
-                        Supported Interfaces ≠ 31
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                        Supported Interfaces ‚Äì 31
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                        GND                  A   B   GND
 
@@ -1695,8 +1695,8 @@ Information            ction  Direction         n   n    Direction     Electrica
 
                                                 5   5
 
-                                                                       Supported Interfaces ≠ 32
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                       Supported Interfaces ‚Äì 32
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                               PERn1        A   B   PETn1
 
@@ -1774,8 +1774,8 @@ Logic: PCIe REFCLK OUT   OUT  REFCLK_A_Dn          CBL_PRES_A   Logic: Active lo
 
                                            19  19
 
-                                                                Supported Interfaces ≠ 33
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                Supported Interfaces ‚Äì 33
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                             PERp4        A   B   PETp4
 
@@ -1849,8 +1849,8 @@ termination 42.2 ohm        USB2_A_Dn/   30  30                PD termination 42
 
                                          34  34
 
-                                                               Supported Interfaces ≠ 34
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                               Supported Interfaces ‚Äì 34
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 PERp7   A   B   PETp7
 
@@ -1918,8 +1918,8 @@ GND     A   B   GND
 
         50  50
 
-                        Supported Interfaces ≠ 35
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                        Supported Interfaces ‚Äì 35
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 PERp12  A   B   PETp12
 
@@ -1969,8 +1969,8 @@ GND     A   B   GND
 
         62  62
 
-                        Supported Interfaces ≠ 36
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                        Supported Interfaces ‚Äì 36
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3  Hardware Installation
 
@@ -2006,7 +2006,7 @@ Note that not all warnings are relevant to all models.
 
      This equipment should not be operated in an area with an ambient temperature exceeding the
 
-     maximum recommended: 55∞C (131∞F). An airflow of 200LFM at this maximum ambient
+     maximum recommended: 55¬∞C (131¬∞F). An airflow of 200LFM at this maximum ambient
 
      temperature is required for HCA cards and NICs. To guarantee proper airflow, allow at least 8cm (3
 
@@ -2018,8 +2018,8 @@ Note that not all warnings are relevant to all models.
 
 12. https://network.nvidia.com/related-docs/prod_adapter_cards/Adapter_Installation_Safety_Instructions.pdf
 
-                                                                Hardware Installation ≠ 37
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                Hardware Installation ‚Äì 37
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
      Copper Cable Connecting/Disconnecting
 
@@ -2043,7 +2043,7 @@ Note that not all warnings are relevant to all models.
 
      Hazardous Radiation Exposure
 
-                Caution ≠ Use of controls or adjustment or performance of procedures other than those
+                Caution ‚Äì Use of controls or adjustment or performance of procedures other than those
 
                 specified herein may result in hazardous radiation exposure.For products with optical
 
@@ -2061,14 +2061,14 @@ Ste  Procedure                              Direct Link
 
 p
 
-1    Check the system's requirements.       System Requirements (see page 39)
+1    Check the system‚Äôs requirements.       System Requirements (see page 39)
 
 2    Follow the safety precautions          Safety Precautions (see page 42)
 
 3    Unpack the package                     Unpack the package
 
-                                                                                  Hardware Installation ≠ 38
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                  Hardware Installation ‚Äì 38
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Ste  Procedure                                            Direct Link
 
@@ -2106,8 +2106,8 @@ requirements are met:
 
      contamination and ISO 14644-1 class 8 for cleanliness level.
 
-                                                                                      Hardware Installation ≠ 39
-              NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                      Hardware Installation ‚Äì 39
+              NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Hardware      Available PCIe Slot:
 
@@ -2123,7 +2123,7 @@ Requirements  Ensure the system has an available PCIe Gen6 x16 slot or two PCIe 
 
               Power Supply:
 
-              Ensure the system's power supply unit (PSU) can provide sufficient power for the
+              Ensure the system‚Äôs power supply unit (PSU) can provide sufficient power for the
 
               ConnectX-8 SuperNIC, typically requiring 75W from the PCIe slot.
 
@@ -2141,8 +2141,8 @@ Requirements  Ensure the system has an available PCIe Gen6 x16 slot or two PCIe 
 
               system supports the necessary MCIO harnesses for board interconnects.
 
-                                                                     Hardware Installation ≠ 40
-                  NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                     Hardware Installation ‚Äì 40
+                  NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
            ConnectX-8 SuperNICs are offered with two airflow patterns: from the heatsink to the
 
@@ -2182,8 +2182,8 @@ nts        the network ports, or from the network ports to the heatsink, as illu
 
                   routing (if applicable).
 
-                                                                     Hardware Installation ≠ 41
-                          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                     Hardware Installation ‚Äì 41
+                          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Software               Operating System:
 
@@ -2247,8 +2247,8 @@ to system components.
 
      touching the connectors or PCB surface to prevent damage from oils, dirt, or static electricity.
 
-                                                                                   Hardware Installation ≠ 42
-                NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                   Hardware Installation ‚Äì 42
+                NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
      Use Proper Tools: Use appropriate tools, such as a screwdrivers, to remove any screws or
 
@@ -2314,8 +2314,8 @@ this section and move to Installation Instructions. If you need to replace the h
 
 the short bracket that is included in the shipping box, please follow the instructions in this section.
 
-                                                                               Hardware Installation ≠ 43
-                            NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                               Hardware Installation ‚Äì 43
+                            NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
        During the bracket replacement procedure, do not pull, bend, or damage the EMI fingers cage. It is
 
@@ -2361,8 +2361,8 @@ Choose the installation instructions according to the ConnectX-8 configuration y
 
 Networking Cable Installation and Uninstallation
 
-                                                                                 Hardware Installation ≠ 44
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                 Hardware Installation ‚Äì 44
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Before connecting a cable to the SuperNIC, ensure that the bracket is fastened to the server chassis
 
@@ -2426,12 +2426,12 @@ extracted.
 
 On Linux
 
-Get the device location on the PCI bus by running  lspci          and locating lines with the string "Mellanox
+Get the device location on the PCI bus by running  lspci          and locating lines with the string ‚ÄúMellanox
 
-Technologies":
+Technologies‚Äù:
 
-                                                                              Hardware Installation ≠ 45
-                      NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                              Hardware Installation ‚Äì 45
+                      NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 ConnectX-8 Card       Output Example
 
@@ -2515,8 +2515,8 @@ On Windows
 
 2.    Expand System Devices and locate your ConnectX-8 SuperNIC.
 
-                                                                  Hardware Installation ≠ 46
-                        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                  Hardware Installation ‚Äì 46
+                        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3.  Right-click the mouse on your SuperNIC's row and select Properties to display the SuperNIC
 
@@ -2528,13 +2528,13 @@ On Windows
 
     PCI Device (Example)
 
-5.  In the Value display box, check the fields VEN and DEV (fields are separated by `&'). In the
+5.  In the Value display box, check the fields VEN and DEV (fields are separated by ‚Äò&‚Äô). In the
 
-    display example above, notice the sub-string "PCI\VEN_15B3&DEV_1021": VEN is equal to
+    display example above, notice the sub-string ‚ÄúPCI\VEN_15B3&DEV_1021‚Äù: VEN is equal to
 
-    0x15B3 ≠ this is the Vendor ID of Mellanox Technologies, and DEV is equal to 1023 (for
+    0x15B3 ‚Äì this is the Vendor ID of Mellanox Technologies, and DEV is equal to 1023 (for
 
-    ConnectX-8) ≠ this is a valid NVIDIA PCI Device ID.
+    ConnectX-8) ‚Äì this is a valid NVIDIA PCI Device ID.
 
     If the PCI device does not have a SuperNIC ID, return to Step 2 to check another device.
 
@@ -2542,8 +2542,8 @@ On Windows
 
 13. http://pci-ids.ucw.cz/read/PC/15b3
 
-                                                                                Hardware Installation ≠ 47
-                        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                Hardware Installation ‚Äì 47
+                        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3.9    ConnectX-8 PCIe x16 Installation Instructions
 
@@ -2587,8 +2587,8 @@ On Windows
 
      the card is lined up with the slot and the retention bracket aligns with the chassis screw holes.
 
-                                                                                  Hardware Installation ≠ 48
-             NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                  Hardware Installation ‚Äì 48
+             NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Insert the SuperNIC: Gently but firmly push the NIC straight down into the PCIe slot until it is
 
@@ -2612,8 +2612,8 @@ Install the network cables to the newly installed SuperNIC. For more information
 
 to Networking Cable Installation (see page 44).
 
-                                                 Hardware Installation ≠ 49
-                        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                 Hardware Installation ‚Äì 49
+                        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Ensure the connections are secure before powering on the chassis.
 
@@ -2639,7 +2639,7 @@ Power down the chassis:
 
          Shut down the system properly, then disconnect the power supply and all cables from the
 
-         chassis to ensure it's completely powered off.
+         chassis to ensure it‚Äôs completely powered off.
 
          Wait 30 seconds.
 
@@ -2665,12 +2665,12 @@ receptacle. The LED indicator will turn off when the cable is unseated. Note whi
 
 they will need to be reconnected later.
 
-                                                                        Hardware Installation ≠ 50
-         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                        Hardware Installation ‚Äì 50
+         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3.9.5.4  Uninstall the ConnectX-8 SuperNIC
 
-Locate the screw that secures the SuperNIC's metal bracket to the chassis. Use a screwdriver to
+Locate the screw that secures the SuperNIC‚Äôs metal bracket to the chassis. Use a screwdriver to
 
 remove this screw, setting it aside safely.
 
@@ -2690,8 +2690,8 @@ Once the SuperNIC is removed and any further maintenance is complete, replace th
 
 side panel and secure it with the screws you removed earlier.
 
-                                                                                Hardware Installation ≠ 51
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                Hardware Installation ‚Äì 51
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3.9.5.7   Reconnect Power and Cables
 
@@ -2745,8 +2745,8 @@ connection. A click sound will be heard once the MCIO harness is properly instal
 
 14. https://nvidia.atlassian.net/wiki/spaces/ConnectX6VPI/pages/3408691252/Specifications
 
-                                                                                  Hardware Installation ≠ 52
-          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                  Hardware Installation ‚Äì 52
+          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 cards.
 
@@ -2766,8 +2766,8 @@ Insert the Board: Gently insert the board into the slot, applying even pressure 
 
 seated.
 
-                                                             Hardware Installation ≠ 53
-                 NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                             Hardware Installation ‚Äì 53
+                 NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Secure the Board: Use the chassis retention mechanisms (e.g., screws or latches) to secure the
 
@@ -2785,7 +2785,7 @@ Power down the chassis:
 
           Shut down the system properly, then disconnect the power supply and all cables from the
 
-          chassis to ensure it's completely powered off.
+          chassis to ensure it‚Äôs completely powered off.
 
           Wait 30 seconds.
 
@@ -2803,8 +2803,8 @@ chassis design). Keep the screws in a safe place for reassembly later.
 
 Identify the ConnectX-8 SuperNIC you wish to remove. It will be seated in one of the PCIe slots.
 
-                                                                             Hardware Installation ≠ 54
-                           NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                             Hardware Installation ‚Äì 54
+                           NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3.10.2.3  Disconnect the Networking Cable
 
@@ -2830,8 +2830,8 @@ they will need to be reconnected later.
 
     d.    Once both ends are disconnected, carefully remove the MCIO harness from the system.
 
-                                                Hardware Installation ≠ 55
-              NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                Hardware Installation ‚Äì 55
+              NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3.  Release the Retention Mechanism: Disengage the hockey stick on the PCIe Auxiliary card
 
@@ -2847,8 +2847,8 @@ they will need to be reconnected later.
 
     network cables), disconnect them.
 
-                                                          Hardware Installation ≠ 56
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                          Hardware Installation ‚Äì 56
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 2.  Release the SuperNIC from the Slot: If the SuperNIC is secured in place with screws or latches
 
@@ -2870,12 +2870,12 @@ they will need to be reconnected later.
 
 3.10.2.6.1  Dispose of Components Properly
 
-If you plan on disposing of any of the hardware, make sure to follow your organization's disposal
+If you plan on disposing of any of the hardware, make sure to follow your organization‚Äôs disposal
 
 guidelines for electronic waste (e-waste).
 
-                                                   Hardware Installation ≠ 57
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                   Hardware Installation ‚Äì 57
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 4  Driver Installation
 
@@ -2919,8 +2919,8 @@ provides output examples per ConnectX-8 card configuration.
 
 15. https://docs.nvidia.com/doca/sdk/nvidia+doca+release+notes/index.html
 
-                                                                                  Driver Installation ≠ 58
-                    NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                  Driver Installation ‚Äì 58
+                    NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 ConnectX-8 Card     Output Examples
 
@@ -3002,8 +3002,8 @@ ST0                 82:00.1  Ethernet       controller:  Mellanox  Technologies 
 
                     [ConnectX-8]
 
-                                                                                 Driver Installation ≠ 59
-                  NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                 Driver Installation ‚Äì 59
+                  NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 ConnectX-8 Card   Output Examples
 
@@ -3063,8 +3063,8 @@ Server&deployment_package=DOCA-Host&target_os=Linux
 
 20. https://docs.nvidia.com/networking/software/adapter-software/index.html#winof-2
 
-                                                                                            Driver Installation ≠ 60
-                           NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                            Driver Installation ‚Äì 60
+                           NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
        a.  To go to the Start menu, position your mouse in the bottom-right corner of the Remote
 
@@ -3076,7 +3076,7 @@ Server&deployment_package=DOCA-Host&target_os=Linux
 
            echo  %PROCESSOR_ARCHITECTURE%
 
-                 On an x64 (64-bit) machine, the output will be "AMD64".
+                 On an x64 (64-bit) machine, the output will be ‚ÄúAMD64‚Äù.
 
 2.  Go to the WinOF-2 web page at: https://www.nvidia.com/en-us/networking/ > Products >
 
@@ -3092,9 +3092,9 @@ Server&deployment_package=DOCA-Host&target_os=Linux
 
            For example, if you install a 64-bit .exe on a 32-bit machine, the wizard will display the
 
-           following (or a similar) error message: "The installation package is not supported by this
+           following (or a similar) error message: ‚ÄúThe installation package is not supported by this
 
-           processor type. Contact your vendor"
+           processor type. Contact your vendor‚Äù
 
 4.2.3    Installing WinOF-2 Driver
 
@@ -3120,12 +3120,12 @@ The following is an example of an installation session.
 
 1.  Double click the .exe and follow the GUI instructions to install MLNX_WinOF2.
 
-2.  [Optional] Manually configure your setup to contain the logs option (replace "LogFile" with the
+2.  [Optional] Manually configure your setup to contain the logs option (replace ‚ÄúLogFile‚Äù with the
 
     relevant directory).
 
-                                                                                   Driver Installation ≠ 61
-                      NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                   Driver Installation ‚Äì 61
+                      NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
     MLNX_WinOF2_<revision_version>_All_Arch.exe  /v"/l*vx            [LogFile]"
 
@@ -3155,28 +3155,28 @@ The following is an example of an installation session.
 
 6.  Click Next in the Welcome screen.
 
-                                                                                 Driver Installation ≠ 62
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                 Driver Installation ‚Äì 62
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 7.  Read and accept    the license agreement and     click  Next.
 
 8.  Select the target  folder for the installation.
 
-                                                                   Driver Installation ≠ 63
-         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                   Driver Installation ‚Äì 63
+         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 9.  The  firmware upgrade screen will be displayed in the following cases:
 
          If the user has an OEM card. In this case, the firmware will not be displayed.
 
-         If the user has a standard NVIDIAÆ card with an older firmware version, the firmware will
+         If the user has a standard NVIDIA¬Æ card with an older firmware version, the firmware will
 
-         be updated accordingly. However, if the user has both an OEM card and a NVIDIAÆ card,
+         be updated accordingly. However, if the user has both an OEM card and a NVIDIA¬Æ card,
 
-         only the NVIDIAÆ card will be updated.
+         only the NVIDIA¬Æ card will be updated.
 
-                                                                                         Driver Installation ≠ 64
-         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                         Driver Installation ‚Äì 64
+         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 10.  Select a Complete or Custom installation, follow Step a (see page 65) onward.
 
@@ -3194,8 +3194,8 @@ The following is an example of an installation session.
 
      b.  Click Next to install the desired tools.
 
-                                                                                    Driver Installation ≠ 65
-     NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                    Driver Installation ‚Äì 65
+     NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 11.  Click Install to start the installation.
 
@@ -3203,13 +3203,13 @@ The following is an example of an installation session.
 
      firmware upgrade is required (see         ).
 
-                                                                                                  Driver Installation  ≠  66
-                        NVIDIA ConnectX-8 SuperNIC  User  Manual  ≠  NVIDIA  ConnectX-8  SuperNIC User Manual -  Docs
+                                                                                                  Driver Installation  ‚Äì  66
+                        NVIDIA ConnectX-8 SuperNIC  User  Manual  ‚Äì  NVIDIA  ConnectX-8  SuperNIC User Manual -  Docs
 
 13.  Click  Finish  to  complete the installation.
 
-                                                                                         Driver Installation     ≠ 67
-                              NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                         Driver Installation     ‚Äì 67
+                              NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 4.2.3.2  Unattended Installation
 
@@ -3229,7 +3229,7 @@ The following is an example of an unattended installation session.
 
 3.  [Optional] Manually configure your setup to contain the logs option:
 
-         MLNX_WinOF2-[Driver/Version]_<revision_version>_All_-Arch.exe    /S  /v/qn                  /v"/l*vx
+         MLNX_WinOF2-[Driver/Version]_<revision_version>_All_-Arch.exe    /S  /v/qn                  /v‚Äù/l*vx
 
          [LogFile]"
 
@@ -3253,8 +3253,8 @@ The following is an example of an unattended installation session.
 
          fail message will be displayed in the log:
 
-                                                                              Driver Installation ≠ 68
-                   NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                              Driver Installation ‚Äì 68
+                   NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
        "ERROR!!! Installation failed due to following errors: MlxRshim drivers installation disabled and
 
@@ -3274,9 +3274,9 @@ The following is an example of an unattended installation session.
 
 4.2.4  Firmware Upgrade
 
-If the machine has a standard NVIDIAÆ card with an older firmware version, the firmware will be
+If the machine has a standard NVIDIA¬Æ card with an older firmware version, the firmware will be
 
-automatically updated as part of the NVIDIAÆ WinOF-2 package installation. For information on how
+automatically updated as part of the NVIDIA¬Æ WinOF-2 package installation. For information on how
 
 to upgrade firmware manually, please refer to MFT User Manual21.
 
@@ -3294,8 +3294,8 @@ Therefore, to update the firmware, the following must be performed:
 
 22. https://docs.mellanox.com/category/mft
 
-                                                                                   Driver Installation ≠ 69
-                                NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                   Driver Installation ‚Äì 69
+                                NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 5  Firmware Upgrade
 
@@ -3369,8 +3369,8 @@ Firmware Update Example
 
 23. https://network.nvidia.com/support/firmware/mlxup-mft/
 
-                                                                                              Firmware Upgrade ≠ 70
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                              Firmware Upgrade ‚Äì 70
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6     SuperNIC Configurations
 
@@ -3438,8 +3438,8 @@ the below tools:
 
    qQ8v5WBiXTADJ3MVqkH%2BRwx%2FvXKnyoYOHfxjs%3D&reserved=0
 
-                                                                 SuperNIC Configurations ≠ 71
-                     NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                 SuperNIC Configurations ‚Äì 71
+                     NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.1.1     mlxconfig
 
@@ -3453,7 +3453,7 @@ Parameters26.
 
 6.1.2     UEFI
 
-PreBoot drivers initialize the SuperNIC, check the port protocol type ≠ Ethernet or InfiniBand - and
+PreBoot drivers initialize the SuperNIC, check the port protocol type ‚Äì Ethernet or InfiniBand - and
 
 bring up the port. Then, it connects to a DHCP server to obtain its assigned IP address and network
 
@@ -3491,7 +3491,7 @@ The various configuration scenarios listed in this section include a diagram and
 
 bifurcate the PCIe interface using the mlxconfig tool. For more information on the mlxconfig tool,
 
-please refer to mlxconfig ≠ Changing Device Configuration Tool28.
+please refer to mlxconfig ‚Äì Changing Device Configuration Tool28.
 
 26. https://nam11.safelinks.protection.outlook.com/?
 
@@ -3525,8 +3525,8 @@ qQ8v5WBiXTADJ3MVqkH%2BRwx%2FvXKnyoYOHfxjs%3D&reserved=0
 
 %E2%80%93+changing+device+configuration+tool
 
-                                                                    SuperNIC Configurations ≠ 72
-                    NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                    SuperNIC Configurations ‚Äì 72
+                    NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Before setting the desired configuration, take note of the following warnings:
 
@@ -3590,8 +3590,8 @@ network topology use cases.
 
 Key Features
 
-                                                                                SuperNIC Configurations ≠ 73
-              NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                SuperNIC Configurations ‚Äì 73
+              NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
    Flexibility and Improved Traffic Segmentation: Port splitting enables network administrators to
 
@@ -3633,7 +3633,7 @@ The configuration is also kept after reset. By default, mlxconfig shows the conf
 
 loaded in the next boot. For more information and instructions, refer to mlxconfig31.
 
-UEFI: PreBoot drivers initialize the adapter device, check the port protocol type ≠ Ethernet or InfiniBand
+UEFI: PreBoot drivers initialize the adapter device, check the port protocol type ‚Äì Ethernet or InfiniBand
 
 - and bring up the port. Then it connects to a DHCP server to obtain its assigned IP address and
 
@@ -3683,8 +3683,8 @@ CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXV
 
 0
 
-                                                                            SuperNIC Configurations ≠ 74
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                            SuperNIC Configurations ‚Äì 74
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 instructs the PreBoot drivers to access the kernel/OS through a TFTP server, an iSCSI target, or some
 
@@ -3702,8 +3702,8 @@ MC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata
 
 qQ8v5WBiXTADJ3MVqkH%2BRwx%2FvXKnyoYOHfxjs%3D&reserved=0
 
-                                                                        SuperNIC Configurations ≠ 75
-                NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                        SuperNIC Configurations ‚Äì 75
+                NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
           Before setting the desired configuration, take note of the following warnings:
 
@@ -3721,7 +3721,7 @@ qQ8v5WBiXTADJ3MVqkH%2BRwx%2FvXKnyoYOHfxjs%3D&reserved=0
 
           reset the device to its default configuration. This action deletes all current NVConfig settings.
 
-          For the reset command and further details, refer to the mlxconfig ≠ Changing Device
+          For the reset command and further details, refer to the mlxconfig ‚Äì Changing Device
 
           Configuration Tool33.
 
@@ -3761,8 +3761,8 @@ L                                page 79)
 
    %E2%80%93+changing+device+configuration+tool
 
-                                                                                          SuperNIC Configurations ≠ 76
-                             NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                          SuperNIC Configurations ‚Äì 76
+                             NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                                   Configuration #7 (see       Two InfiniBand ports supporting NDR 400Gb/s
 
@@ -3818,8 +3818,8 @@ see page    ST0                   (Default) (see page 91)
 
 Note1: For  higher radix (higher  host/HCA connections) with  Q3400 XDR Switch.
 
-                                                                                 SuperNIC Configurations ≠ 77
-                    NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                 SuperNIC Configurations ‚Äì 77
+                    NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.1    C8180 Port-Splitting Configurations
 
@@ -3837,8 +3837,8 @@ InfiniBand XDR rate of 800Gb/s that operates as four times 200G/s. The configura
 
 the diagram below.
 
-                                                                 SuperNIC Configurations ≠ 78
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                 SuperNIC Configurations ‚Äì 78
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.1.2  C8180 Configuration #2: Two Ethernet Ports, Each Supporting 400GbE
 
@@ -3858,8 +3858,8 @@ MODULE_SPLIT_M0[8..15]=FF
 
 mlxconfig  -d  <device>  set  NUM_OF_PF  =  2
 
-                                                                    SuperNIC Configurations ≠ 79
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                    SuperNIC Configurations ‚Äì 79
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.1.3  C8180 Configuration #3: Eight Ethernet Ports, Each Supporting
 
@@ -3883,8 +3883,8 @@ MODULE_SPLIT_M0[6]=7     MODULE_SPLIT_M0[7]=8       MODULE_SPLIT_M0[8..15]=FF
 
 mlxconfig  -d  <device>  set  NUM_OF_PF  =  8
 
-                                                                                SuperNIC Configurations ≠ 80
-                              NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                SuperNIC Configurations ‚Äì 80
+                              NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.1.4  C8180 Configuration #4: One InfiniBand Port Supporting XDR Lite
 
@@ -3908,8 +3908,8 @@ To  apply this  configuration, use the following mlxconfig commands:
 
     mlxconfig   -d  <device>  set  IB_PROTO_WIDTH_EN_MASK_P1  =  7847937
 
-                                                                          SuperNIC       Configurations  ≠            81
-                          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                          SuperNIC       Configurations  ‚Äì            81
+                          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.1.5  C8180 Configuration #5: Two InfiniBand Ports Supporting XDR Lite
 
@@ -3943,8 +3943,8 @@ mlxconfig  -d   <device>  set  IB_PROTO_WIDTH_EN_MASK_P2  =  7847937
 
 mlxconfig  -d   <device>  set  LINK_TYPE_P2=1
 
-                                                                      SuperNIC Configurations ≠ 82
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                      SuperNIC Configurations ‚Äì 82
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.1.6  C8180 Configuration #6: One InfiniBand Port supporting NDR 400Gb/s
 
@@ -3970,8 +3970,8 @@ In this configuration, the device can be reconfigured to two InfiniBand port sup
 
 s. The configuration is illustrated in the diagram below.
 
-                                                                    SuperNIC Configurations ≠ 83
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                    SuperNIC Configurations ‚Äì 83
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 To apply this configuration, use the following mlxconfig commands:
 
@@ -3991,8 +3991,8 @@ mlxconfig  -d  <device>  set  NUM_OF_PLANES_P2  =  0
 
 mlxconfig  -d  <device>  set  LINK_TYPE_P2=1
 
-                                                                    SuperNIC Configurations ≠ 84
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                    SuperNIC Configurations ‚Äì 84
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.1.8  C8180 Configuration #8: Four Ethernet Ports Supporting 200GbE
 
@@ -4022,8 +4022,8 @@ The C8240 ConnectX-8 SuperNIC, featuring dual QSFP modules, supports up to 400Gb
 
 the reconfiguration to take effect, please perform power cycle.
 
-                                                                               SuperNIC Configurations ≠ 85
-         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                               SuperNIC Configurations ‚Äì 85
+         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.2.1  C8240 Configuration #1 (Default): Two Ethernet Ports, Each
 
@@ -4033,8 +4033,8 @@ By default, the device is configured with two Ethernet ports, each supporting a 
 
 The configuration is illustrated in the diagram below.
 
-                                                        SuperNIC Configurations ≠ 86
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                        SuperNIC Configurations ‚Äì 86
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.2.2  C8240 Configuration #2: Eight Ethernet Ports, Each Supporting
 
@@ -4056,8 +4056,8 @@ MODULE_SPLIT_M1[2]=3     MODULE_SPLIT_M1[3]=4  MODULE_SPLIT_M1[4..15]=FF
 
 mlxconfig  -d  <device>  set  NUM_OF_PF  =  8
 
-                                                                          SuperNIC Configurations ≠ 87
-                          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                          SuperNIC Configurations ‚Äì 87
+                          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.2.3  C8240 Configuration #3: One InfiniBand Port Supporting XDR Lite
 
@@ -4081,8 +4081,8 @@ mlxconfig  -d   <device>  set  NUM_OF_PLANES_P1  =  4
 
 mlxconfig  -d   <device>  set  NUM_OF_PF  =  1
 
-                                                                      SuperNIC Configurations ≠ 88
-                              NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                      SuperNIC Configurations ‚Äì 88
+                              NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.2.4  C8240 Configuration #4: Two InfiniBand Ports Supporting XDR Lite
 
@@ -4108,8 +4108,8 @@ To  apply this  configuration, use the following mlxconfig commands:
 
     mlxconfig   -d  <device>  set  NUM_OF_PF  =  2
 
-                                                                                   SuperNIC Configurations ≠          89
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                   SuperNIC Configurations ‚Äì          89
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.2.5  C8240 Configuration #5: One InfiniBand Port Supporting NDR 400Gb/s
 
@@ -4133,8 +4133,8 @@ In this configuration, the device can be reconfigured to two InfiniBand port sup
 
 s. The configuration is illustrated in the diagram below.
 
-                                                                    SuperNIC Configurations ≠ 90
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                    SuperNIC Configurations ‚Äì 90
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 To apply this configuration, use the following mlxconfig commands:
 
@@ -4152,11 +4152,11 @@ As the default configuration, the device is configured with two ethernet ports, 
 
 200GbE. The configuration is illustrated in the diagram below.
 
-                                                                     SuperNIC Configurations ≠ 91
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                     SuperNIC Configurations ‚Äì 91
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
-SuperNIC Configurations ≠ 92
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+SuperNIC Configurations ‚Äì 92
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.3.2  C8220 Configuration #2: One Ethernet Port Supporting 400GbE
 
@@ -4172,8 +4172,8 @@ MODULE_SPLIT_M1[0..15]=FF
 
 mlxconfig  -d  <device>  set  NUM_OF_PF  =  1
 
-                                                                   SuperNIC Configurations ≠ 93
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                   SuperNIC Configurations ‚Äì 93
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.3.3  C8220 Configuration #3: Two InfiniBand Ports, Each Supporting IB
 
@@ -4189,8 +4189,8 @@ mlxconfig  -d  <device>  set  LINK_TYPE_P1=1   LINK_TYPE_P2=1
 
 mlxconfig  -d  <device>  set  NUM_OF_PF  =  2
 
-                                                                     SuperNIC Configurations ≠ 94
-                          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                     SuperNIC Configurations ‚Äì 94
+                          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 6.3.3.4  C8220 Configuration #4: One InfiniBand Port Supporting NDR 400Gb/s
 
@@ -4214,10 +4214,10 @@ mlxconfig  -d   <device>  set  NUM_OF_PF  =  1
 
 The adapter card incorporates the ConnectX IC, which operates in the range of temperatures  between
 
-0∞C and 105∞C.
+0¬∞C and 105¬∞C.
 
-                                                                    SuperNIC Configurations ≠ 95
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                    SuperNIC Configurations ‚Äì 95
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Three thermal threshold definitions impact the overall system operation state and are designed to
 
@@ -4225,7 +4225,7 @@ ensure timely application of server-level corrective actions, such as increased 
 
 device temperature in the working range:
 
-Warning ≠ 97∞C (default) When the device crosses this threshold, an Over-Temperature Warning
+Warning ‚Äì 97¬∞C (default) When the device crosses this threshold, an Over-Temperature Warning
 
 message is issued by the management SW. This may be used to increase the cooling of the
 
@@ -4233,17 +4233,17 @@ system (e.g. - by increased Fans RPM). Note that this temperature threshold does
 
 nor lead to any action by hardware (such as adapter card shutdown).
 
-Critical ≠ 102∞C (default): When the device crosses this threshold, an Over-Temperature Critical
+Critical ‚Äì 102¬∞C (default): When the device crosses this threshold, an Over-Temperature Critical
 
 message is issued by the management SW.
 
-Fatal ≠ 110∞C: Upon reaching this temperature, an Over-temperature Fatal message is issued. If
+Fatal ‚Äì 110¬∞C: Upon reaching this temperature, an Over-temperature Fatal message is issued. If
 
-the the device continues to heat-up, the FW will automatically shut down upon reaching 115∞C
+the the device continues to heat-up, the FW will automatically shut down upon reaching 115¬∞C
 
 threshold.
 
-The card's thermal sensors can be read through the system's SMBus. The user can read these thermal
+The card's thermal sensors can be read through the system‚Äôs SMBus. The user can read these thermal
 
 sensors and adapt the system airflow following the readouts and the needs of the above-mentioned IC
 
@@ -4261,8 +4261,8 @@ cases of high-temperature events, improper thermal coupling, or heatsink removal
 
 For the required airflow (LFM) per OPN, please refer to the Specifications (see page 102) chapter.
 
-                                                                     SuperNIC Configurations ≠ 96
-                             NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                     SuperNIC Configurations ‚Äì 96
+                             NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 7  Troubleshooting
 
@@ -4318,8 +4318,8 @@ no communication                    Check that both the SuperNIC and its link ar
 
 established                         duplex settings
 
-                                                                                              Troubleshooting ≠ 97
-                          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                              Troubleshooting ‚Äì 97
+                          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 7.2  Linux Troubleshooting
 
@@ -4327,7 +4327,7 @@ Environment Information   cat /etc/issue
 
                           uname -a
 
-                          cat /proc/cupinfo | grep `model name' | uniq
+                          cat /proc/cupinfo | grep ‚Äòmodel name‚Äô | uniq
 
                           ofed_info -s
 
@@ -4375,8 +4375,8 @@ Collect Log File          cat /var/log/messages
 
 35. https://www.mellanox.com/support/firmware/mlxup-mft
 
-                                                                                   Troubleshooting ≠ 98
-                          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                   Troubleshooting ‚Äì 98
+                          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 7.3  Windows Troubleshooting
 
@@ -4400,13 +4400,13 @@ Mellanox Firmware Tool    Download and install MFT: MFT Documentation36
 
                           mst status
 
-                          flint ≠d <mst_device> q
+                          flint ‚Äìd <mst_device> q
 
 Ports Information         vstat
 
 Firmware Version Upgrade  Download the latest firmware version using the PSID/board ID from here37.
 
-                          flint ≠d <mst_device> ≠i <firmware_bin_file> b
+                          flint ‚Äìd <mst_device> ‚Äìi <firmware_bin_file> b
 
 Collect Log File                 Event log viewer
 
@@ -4416,7 +4416,7 @@ Collect Log File                 Event log viewer
 
                                       mst status
 
-                                 flint ≠d <mst_device> dc > dump_configuration.log
+                                 flint ‚Äìd <mst_device> dc > dump_configuration.log
 
                                  mstdump <mst_device> dc > mstdump.log
 
@@ -4424,8 +4424,8 @@ Collect Log File                 Event log viewer
 
 37. https://www.mellanox.com/support/firmware/mlxup-mft
 
-                                                                                    Troubleshooting ≠ 99
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                    Troubleshooting ‚Äì 99
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 8  Finding the GUID/MAC on the SuperNIC
 
@@ -4465,8 +4465,8 @@ intended to prevent damaging the products, voiding the warranty, and/or creating
 
      not interfere with electronic components, cooling elements, or other features requiring
 
-                                                            Finding the GUID/MAC on the SuperNIC ≠ 100
-                   NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                            Finding the GUID/MAC on the SuperNIC ‚Äì 100
+                   NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
      ventilation, heat dissipation, or insulation. For example, avoid placing labels on fans, heatsinks,
 
@@ -4496,8 +4496,8 @@ intended to prevent damaging the products, voiding the warranty, and/or creating
 
 38.  https://docs.nvidia.com/networking/display/rmachecklistrev
 
-                                                                 Finding the GUID/MAC on the SuperNIC ≠ 101
-             NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                 Finding the GUID/MAC on the SuperNIC ‚Äì 101
+             NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 9  Specifications
 
@@ -4517,8 +4517,8 @@ intended to prevent damaging the products, voiding the warranty, and/or creating
 
    airflow.
 
-                                                                                  Specifications ≠ 102
-                        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                  Specifications ‚Äì 102
+                        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 9.1  C8180 SuperNICs Specifications
 
@@ -4578,8 +4578,8 @@ Capabilities
 
                                        Port Extension Option
 
-                                                                                             Specifications ≠ 103
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                             Specifications ‚Äì 103
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                Voltage: 12V, 3.3V, 3.3VAUX
 
@@ -4593,9 +4593,9 @@ s              SuperNIC Product Specifications" document. You can access the doc
 
                into NVOnline or by contacting your NVIDIA representative.
 
-               Temperature                  Operational      0∞C to 55∞C
+               Temperature                  Operational      0¬∞C to 55¬∞C
 
-                                            Non-operational  -40∞C to 70∞Cb
+                                            Non-operational  -40¬∞C to 70¬∞Cb
 
 Environment    Humidity                     Operational      10% to 85% relative humidity
 
@@ -4623,8 +4623,8 @@ InfiniBand product.
 
 b. The non-operational storage temperature specifications apply to the product without its package.
 
-                                                                             Specifications ≠ 104
-                        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                             Specifications ‚Äì 104
+                        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 9.2  C8180L Partner-Cooled SuperNIC Specifications
 
@@ -4678,8 +4678,8 @@ Capabilities  900-9X81E-00EX-SL0       with x16 PCIe SocketDirect Extension Opti
 
                                        Secure Boot Enabled, Partner Cooled
 
-                                                                                             Specifications ≠ 105
-                         NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                             Specifications ‚Äì 105
+                         NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
                Voltage: 12V, 3.3V, 3.3VAUX
 
@@ -4693,9 +4693,9 @@ s              SuperNIC Product Specifications" document. You can access the doc
 
                into NVOnline or by contacting your NVIDIA representative.
 
-               Temperature                  Operational      0∞C to 55∞C
+               Temperature                  Operational      0¬∞C to 55¬∞C
 
-                                            Non-operational  -40∞C to 70∞Cb
+                                            Non-operational  -40¬∞C to 70¬∞Cb
 
 Environment    Humidity                     Operational      10% to 85% relative humidity
 
@@ -4723,8 +4723,8 @@ InfiniBand product.
 
 b. The non-operational storage temperature specifications apply to the product without its package.
 
-                                                                             Specifications ≠ 106
-                           NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                             Specifications ‚Äì 106
+                           NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 9.3  C8240     SuperNICs Specifications
 
@@ -4786,14 +4786,14 @@ s              SuperNIC Product Specifications" document. You can access the doc
 
                into NVOnline or by contacting your NVIDIA representative.
 
-Environment    Temperature                  Operational              0∞C to 55∞C
+Environment    Temperature                  Operational              0¬∞C to 55¬∞C
 
 al
 
-                                                                                              Specifications ≠ 107
-                      NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                              Specifications ‚Äì 107
+                      NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
-                                      Non-operational  -40∞C to 70∞Cb
+                                      Non-operational  -40¬∞C to 70¬∞Cb
 
             Humidity                  Operational      10% to 85% relative humidity
 
@@ -4819,8 +4819,8 @@ InfiniBand product.
 
 b. The non-operational storage temperature specifications apply to the product without its package.
 
-                                                                       Specifications ≠ 108
-               NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                       Specifications ‚Äì 108
+               NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 9.4  C8220 SuperNICs Specifications
 
@@ -4878,14 +4878,14 @@ s              SuperNIC Product Specifications" document. You can access the doc
 
                into NVOnline or by contacting your NVIDIA representative.
 
-               Temperature                  Operational      0∞C to 55∞C
+               Temperature                  Operational      0¬∞C to 55¬∞C
 
 Environment
 
-al                                          Non-operational  -40∞C to 70∞Cb
+al                                          Non-operational  -40¬∞C to 70¬∞Cb
 
-                                                                                              Specifications ≠ 109
-                      NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                              Specifications ‚Äì 109
+                      NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
             Humidity                  Operational      10% to 85% relative humidity
 
@@ -4911,8 +4911,8 @@ InfiniBand product.
 
 b. The non-operational storage temperature specifications apply to the product without its package.
 
-                                                       Specifications ≠ 110
-                 NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                       Specifications ‚Äì 110
+                 NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Cards Mechanical Drawings and Dimensions
 
@@ -4922,8 +4922,8 @@ C8180 SuperNICs            C8180L SuperNICs
 
 C8240 and C8220 SuperNICs  Auxiliary PCIe Connection Card
 
-                                                                                Specifications ≠ 111
-                    NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                Specifications ‚Äì 111
+                    NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 9.5  Brackets Mechanical Drawings and Dimensions
 
@@ -4965,8 +4965,8 @@ Auxiliary PCIe
 
 Connection Card
 
-                                                                                      Specifications ≠ 112
-                   NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                      Specifications ‚Äì 112
+                   NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 10 PCIe Auxiliary Card Kit
 
@@ -5016,7 +5016,7 @@ There are two available PCIe auxiliary kit functionalities:
 
 10.2    Socket Direct SuperNICs
 
-The Socket DirectTM technology offers improved performance to dual-socket servers by enabling direct
+The Socket Direct‚Ñ¢ technology offers improved performance to dual-socket servers by enabling direct
 
 access from each CPU in a dual-socket server to the network through its dedicated PCIe interface.
 
@@ -5024,8 +5024,8 @@ Utilizing the Socket-Direct or the Multi-Host capability, the PCIe extension car
 
 SuperNIC and is used as an end-point extension.
 
-                                                                                 PCIe Auxiliary Card Kit ≠ 113
-                             NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                 PCIe Auxiliary Card Kit ‚Äì 113
+                             NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 NVIDIA offers ConnectX-8 Socket Direct, which enables 800Gb/s or 400Gb/s connectivity for servers
 
@@ -5081,8 +5081,8 @@ The table below lists the MCIO connector pinouts of the MCIO harness included in
 
 Kit. For the MCIO connector pinouts on the ConnectX-8 SuperNIC, refer to MCIO Interface (see page 28).
 
-                                                                                PCIe Auxiliary Card Kit ≠ 114
-                            NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                PCIe Auxiliary Card Kit ‚Äì 114
+                            NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Additional Electrical       Description  P  P  Description/  Additional Electrical
 
@@ -5156,8 +5156,8 @@ Logic: PCIe REFCLK IN       REFCLK_A_          CBL_PRES_A    Logic: Active low
 
                                                              on System level: PU 100k ohm
 
-                                                                  PCIe Auxiliary Card Kit ≠ 115
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                  PCIe Auxiliary Card Kit ‚Äì 115
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 GND    A  B  GND
 
@@ -5237,8 +5237,8 @@ GND    A  B  GND
 
        5  5
 
-                    PCIe Auxiliary Card Kit ≠ 116
-                       NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                    PCIe Auxiliary Card Kit ‚Äì 116
+                       NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Presence of PU/PD: PD  FLEXIO1_A/  A    B  FLEXIO3_A/   Presence of PU/PD: PD
 
@@ -5314,8 +5314,8 @@ termination 42.2 ohm               3    3  (OUT)        termination 42.2 ohm
 
                                    Key
 
-                                                        PCIe Auxiliary Card Kit ≠ 117
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                        PCIe Auxiliary Card Kit ‚Äì 117
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 GND     A  B  GND
 
@@ -5395,8 +5395,8 @@ GND     A  B  GND
 
         0  0
 
-                      PCIe Auxiliary Card Kit ≠ 118
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                      PCIe Auxiliary Card Kit ‚Äì 118
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 PETp12  A  B  PERp12
 
@@ -5470,8 +5470,8 @@ GND     A  B  GND
 
         2  2
 
-                      PCIe Auxiliary Card Kit ≠ 119
-               NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                      PCIe Auxiliary Card Kit ‚Äì 119
+               NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 10.6    PCIe Auxiliary Kit Technical Specifications
 
@@ -5489,9 +5489,9 @@ Power          Voltage: 12V, 3.3V_PCIe, 3.3V_AUX
 
 Consumption
 
-               Temperature               Operational      0∞C to 55∞C
+               Temperature               Operational      0¬∞C to 55¬∞C
 
-                                         Non-operational  -40∞C to 70∞C
+                                         Non-operational  -40¬∞C to 70¬∞C
 
 Environmental  Humidity                  Operational      10% to 85% relative humidity
 
@@ -5509,8 +5509,8 @@ Regulatory     EMC: CE / FCC / VCCI / ICES / RCM / KC
 
         All dimensions are in millimeters. The PCB mechanical tolerance is +/- 0.13mm.
 
-                                                                                        PCIe Auxiliary Card Kit ≠ 120
-           NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                                        PCIe Auxiliary Card Kit ‚Äì 120
+           NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 10.6.3     Bracket Mechanical Drawings and    Dimensions
 
@@ -5520,8 +5520,8 @@ Auxiliary  PCIe Connection Card Tall Bracket  Auxiliary PCIe Connection Card Sho
 
 TBD
 
-                                                          PCIe Auxiliary Card Kit ≠ 121
-                    NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                          PCIe Auxiliary Card Kit ‚Äì 121
+                    NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 11    General Cooling Recommendations for Partner-
 
@@ -5577,8 +5577,8 @@ area. Different thermal pad placement and size may require different force value
 
 NVIDIA support for further analysis.
 
-                                      General Cooling Recommendations for Partner-Cooled SuperNICs ≠ 122
-                   NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                      General Cooling Recommendations for Partner-Cooled SuperNICs ‚Äì 122
+                   NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Related Component  Area in Drawing  Maximum Allowed Force
 
@@ -5600,8 +5600,8 @@ Networking Cage    Area D           The thermal grease the comes in contact with
 
      Thermal Pad minimum allowable  conductivity is 2.5 W/mK.
 
-                                    General Cooling Recommendations for Partner-Cooled SuperNICs ≠ 123
-        NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                    General Cooling Recommendations for Partner-Cooled SuperNICs ‚Äì 123
+        NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 11.2.1  Suggested Server Connectivity Interfaces
 
@@ -5621,8 +5621,8 @@ To ensure proper SuperNIC connectivity to the server and TTP, the below figure d
 
 threads and holes and provides its size and tolerance.
 
-                                      General Cooling Recommendations for Partner-Cooled SuperNICs ≠ 124
-          NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                      General Cooling Recommendations for Partner-Cooled SuperNICs ‚Äì 124
+          NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 11.4      Bracket Replacement
 
@@ -5658,8 +5658,8 @@ Removing the Existing Bracket
 
           Be careful not to put stress on the LEDs on the SuperNIC.
 
-                                           General Cooling Recommendations for Partner-Cooled SuperNICs ≠ 125
-                            NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                           General Cooling Recommendations for Partner-Cooled SuperNICs ‚Äì 125
+                            NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 3.  Save the three screws and two standoffs, as shown below.
 
@@ -5675,11 +5675,11 @@ Installing the New Bracket
 
     Use a torque driver to apply up torque on the screws and standoffs as described in the below.
 
-                            General Cooling Recommendations for Partner-Cooled SuperNICs ≠ 126
-NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                            General Cooling Recommendations for Partner-Cooled SuperNICs ‚Äì 126
+NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
-General Cooling Recommendations for Partner-Cooled SuperNICs ≠ 127
-                 NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+General Cooling Recommendations for Partner-Cooled SuperNICs ‚Äì 127
+                 NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 12     Document Revision History
 
@@ -5741,8 +5741,8 @@ Dec.   Added Port Configurations (see page 73)
 
 2024
 
-                                                                            Document Revision History ≠ 128
-                     NVIDIA ConnectX-8 SuperNIC User Manual ≠ NVIDIA ConnectX-8 SuperNIC User Manual - Docs
+                                                                            Document Revision History ‚Äì 128
+                     NVIDIA ConnectX-8 SuperNIC User Manual ‚Äì NVIDIA ConnectX-8 SuperNIC User Manual - Docs
 
 Date  Comments/Changes
 
@@ -5750,5 +5750,5 @@ Aug.  First release
 
 2024
 
-                        Document Revision History ≠ 129
+                        Document Revision History ‚Äì 129
 

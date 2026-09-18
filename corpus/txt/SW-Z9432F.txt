@@ -8,11 +8,11 @@ Specification Sheet
 
                                                   multi-rate aggregation switch
 
-The Z9432F-ON 100/400GbE fixed switch comprises Dell Technologies' latest disaggregated hardware and
+The Z9432F-ON 100/400GbE fixed switch comprises Dell Technologiesâ€™ latest disaggregated hardware and
 
 software data center networking solutions, providing state-of-theart, high-density 100/400 GbE ports and a
 
-broad range of functionality to meet the growing demands of today's data center environment. This
+broad range of functionality to meet the growing demands of todayâ€™s data center environment. This
 
 innovative, next-generation open networking high-density aggregation switch offers optimum flexibility and
 
@@ -50,64 +50,64 @@ as of alternative network operating systems.
 
 Key applications
 
-·  Organizations looking to enter the software defined data center era with a choice of networking
+â€¢  Organizations looking to enter the software defined data center era with a choice of networking
 
    technologies designed to maximize flexibility
 
-·  High-density multi-rate 100/400GbE ToR server aggregation in high-performance data center
+â€¢  High-density multi-rate 100/400GbE ToR server aggregation in high-performance data center
 
    environments at the desired fabric speed
 
-·  Small-scale Fabric implementation via the Z9432FON switch in leaf and spine along with S-Series
+â€¢  Small-scale Fabric implementation via the Z9432FON switch in leaf and spine along with S-Series
 
    10/25/40/50/100GbE ToR switches enabling costeffective aggregation of 100/400 uplinks
 
-·  High-density 10/25/40/50/100GbE ToR server access in high-performance data center environments
+â€¢  High-density 10/25/40/50/100GbE ToR server access in high-performance data center environments
 
 Dell PowerSwitch Z9432F-ON
 
-© 2025 Dell Inc. or its subsidiaries.
-·     Multi-functional 10/25/40/50/100/400GbE switching in High Performance Computing Clusters or other
+Â© 2025 Dell Inc. or its subsidiaries.
+â€¢     Multi-functional 10/25/40/50/100/400GbE switching in High Performance Computing Clusters or other
 
       business-sensitive deployments requiring the highest bandwidth.
 
-·     iSCSI and FCOE deployment, including DCB converged lossless transactions
+â€¢     iSCSI and FCOE deployment, including DCB converged lossless transactions
 
 Key features
 
-·     1RU high-density 100/400GbE aggregation switch with up to 32 ports of 400GbE (QSFP56-DD) or up to
+â€¢     1RU high-density 100/400GbE aggregation switch with up to 32 ports of 400GbE (QSFP56-DD) or up to
 
       128 ports of 100GbE or up to 144 ports of 10/25/50GbE*(using breakout cable)
 
-·     Multi-rate 400GbE ports support 10/25/40/50/100GbE. 40GbE ports support 10/40GbE
+â€¢     Multi-rate 400GbE ports support 10/25/40/50/100GbE. 40GbE ports support 10/40GbE
 
-·     Scalable L2 and L3 Ethernet switching with QoS and a full complement of standards-based IPv4 and IPv6
+â€¢     Scalable L2 and L3 Ethernet switching with QoS and a full complement of standards-based IPv4 and IPv6
 
       features, including OSPF and BGP routing support
 
-·     25.6Tbps non-blocking (full duplex), switching fabric delivers line-rate performance under full load on
+â€¢     25.6Tbps non-blocking (full duplex), switching fabric delivers line-rate performance under full load on
 
       Z9432F-ON
 
-·     L2 multipath support via Virtual Link Trunking (VLT) and Routed VLT support
+â€¢     L2 multipath support via Virtual Link Trunking (VLT) and Routed VLT support
 
-·     Converged network support for DCB, with priority flow control (802.1Qbb), ETS (802.1Qaz), DCBx and
+â€¢     Converged network support for DCB, with priority flow control (802.1Qbb), ETS (802.1Qaz), DCBx and
 
       iSCSI TLV support
 
-·     Supports Routable RoCE to enable convergence of compute and storage on Active Fabric
+â€¢     Supports Routable RoCE to enable convergence of compute and storage on Active Fabric
 
-·     IO panel to PSU airflow or PSU to IO panel airflow
+â€¢     IO panel to PSU airflow or PSU to IO panel airflow
 
-·     Redundant, hot-swappable power supplies and fans
+â€¢     Redundant, hot-swappable power supplies and fans
 
-·     Supports the open source Open Network Install Environment (ONIE) for zero touch installation of
+â€¢     Supports the open source Open Network Install Environment (ONIE) for zero touch installation of
 
       alternate network operating systems
 
-·     Accelerated mounting kits reducing time and resources for switch rack installation
+â€¢     Accelerated mounting kits reducing time and resources for switch rack installation
 
-·     Power-efficient operation up to 45°C helping reduce cooling costs in temperature-constrained
+â€¢     Power-efficient operation up to 45Â°C helping reduce cooling costs in temperature-constrained
 
       deployments
 
@@ -145,7 +145,7 @@ Management                             Please refer to Dell Networking Transceiv
 
 2 | Dell PowerSwitch Z9432F-ON
 
-© 2025 Dell Inc. or its subsidiaries.
+Â© 2025 Dell Inc. or its subsidiaries.
 Technical specifications
 
 Physical                                              Performance                                                                                Emissions
@@ -190,9 +190,9 @@ Max Operating specifications:
 
 AC max. operating specifications:                     MSTP: 64 instances                                                                         EN 61000-4-3: Radiated Immunity
 
-Operating temperature: 0° to 45°C
+Operating temperature: 0Â° to 45Â°C
 
-(32° to 113°F)                                        LAG load balancing: Based on layer 2, IPv4 or                                              EN 61000-4-4: EFT
+(32Â° to 113Â°F)                                        LAG load balancing: Based on layer 2, IPv4 or                                              EN 61000-4-4: EFT
 
 Operating humidity: 5 to 90% (RH),                    IPv6 headers                                                                               EN 61000-4-5: Surge
 
@@ -200,9 +200,9 @@ non-condensing                                        Timing Card PTP/1588 and S
 
 Max. non-operating specifications:                    Trusted Platform Module                                                                    Conducted Immunity
 
-Storage temperature: ­40° to 70°C                     Supports up to 4 ports of 20W optics when in
+Storage temperature: â€“40Â° to 70Â°C                     Supports up to 4 ports of 20W optics when in
 
-(­40° to 158°F)                                       IO/PSU airflow direction
+(â€“40Â° to 158Â°F)                                       IO/PSU airflow direction
 
 Storage humidity: 5 to 95% (RH),                                                                                                                 RoHS
 
@@ -210,7 +210,7 @@ non-condensing                                        Supports up to 15W optics 
 
                                                       ports                                                                                      compliant.
 
-Fresh air compliant to 45°C                           For Network Operating System (NOS) specific
+Fresh air compliant to 45Â°C                           For Network Operating System (NOS) specific
 
 Support AC both lowline and highline power            features, refer to Dell SmartFabric OS10                                                   Certifications**
 
@@ -240,7 +240,7 @@ Hot swappable redundant fans (7 per switch,           UL/CSA 60950-1, Second Edi
 
                                                       Equipment Classification Requirements and
 
-                                                      User's Guide
+                                                      Userâ€™s Guide
 
                                                       EN 60825-2 Safety of Laser Products Part 2:
 
@@ -256,7 +256,7 @@ Hot swappable redundant fans (7 per switch,           UL/CSA 60950-1, Second Edi
 
 3 | Dell PowerSwitch Z9432F-ON
 
-© 2025 Dell Inc. or its subsidiaries.
+Â© 2025 Dell Inc. or its subsidiaries.
 IT Lifecycle Services for Networking
 
 Experts, insights and ease
@@ -307,7 +307,7 @@ Learn more about                         Contact a Dell  View more resources    
 
 Dell solutions                      Technologies Expert                                     #DellTechnologies
 
-© 2025 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of
+Â© 2025 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of
 
 their respective owners.
 

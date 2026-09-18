@@ -11,6 +11,31 @@ Structural redesign per docs/RESTRUCTURE-3.md (the plan of record).
 contracts are approved and landed; Phase 1 invariants + golden fixtures are live;
 the backtest defect meter (B1–B7) is at ZERO (all hard guards).
 
+### State at end of session 2026-09-18c — comprehensive corpus refresh (no version bump — corpus/tooling only)
+- **G-038's five decisions RULED** (see the research file) — ready to implement next session.
+- **Ran a full `tools/harvest.js` refresh against all 76 manifest sources.** Found and fixed TWO
+  manifest defects before trusting any of it: **G-045** — 7 rows (incl. the two most-cited docs,
+  QRG-DC and OPTICS) had the local file path baked into the `url` column, so they'd 404 forever;
+  restored from the initial commit's correct URLs. **G-046** — 3 Info Hub rows mis-tagged `direct`
+  (every sibling Info Hub row is `browser-check`) caused the harvester to save a Google reCAPTCHA
+  challenge page as if it were the document — it OVERWROTE two tracked, previously-verified PDFs
+  (`CO-MX-VCF.pdf`, `ST-PSTORE-HA.pdf`) before being caught by hand and restored from git. Hardened
+  `harvest.js` with a challenge-page detector so this can't happen silently again. **G-047** — while
+  chasing an encoding bug in a fresh fetch, found 28 PRE-EXISTING corpus files (QRG-DC, OPTICS, every
+  SW-* spec sheet, ST-POWERSCALE/PFLEX/POWERMAX, CO-POWEREDGE/XE9780/XE9785, AI-ERA, NV-GB200-RA,
+  NV-NVL72-RA, …) had invalid UTF-8 bytes (missing `-enc UTF-8` on `pdftotext`) — fixed the tool and
+  every file; corpus-wide sweep now 0/many invalid. **G-048** — NV-CX8-DS's URL is a PDF.js viewer
+  wrapper, not the document; logged, needs a human with a browser.
+  - **Verified no catalog-relevant fact changed:** QRG-DC's exact cited figures (Z9964F-ON/Z9864F/
+    Z9664F/Z9432F Tbps + watts) are byte-identical despite the PDF re-publishing; all 3
+    NV-LINKX-400G-COMBO quotes in CITATION-LOG survived. ST-POWERSTORE genuinely republished
+    (PowerStore 4.3 marketing copy) but still lacks the detailed I/O table the catalog's `verify:
+    true` field already flagged as unconfirmed — not a regression.
+  - Full detail: GAPS.md G-045–G-048; CITATION-LOG.md "2026-09-18 — comprehensive refresh pass".
+  - **Next automation step (the maintainer asked about this):** wire `tools/harvest.js` into a
+    scheduled job (e.g. monthly GitHub Actions) that opens an issue with the diff + the
+    still-manual Info Hub checklist — nothing does that yet, this session was the manual run.
+
 ### State at end of session 2026-09-18b — G-037 closed (v0.66.12) + G-038 researched
 - **Version 0.66.12. Suite 20/20 green.** Committed, pushed, hosted artifact republished.
 - **G-037 CLOSED — "no part, no port credit", host side.** Three places multiplied a leaf's ports

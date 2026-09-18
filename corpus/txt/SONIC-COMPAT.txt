@@ -7,7 +7,7 @@ August 2024
 Rev. A00
 Copyright
 
-� 2019 - 2024 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of
+© 2019 - 2024 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of
 
 Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their respective owners.
          Contents
@@ -84,13 +84,13 @@ fabrics.
 
 Benefits of SONiC include:
 
-    Hardware independence
+●   Hardware independence
 
-    Containerized architecture
+●   Containerized architecture
 
-    Open-sourced
+●   Open-sourced
 
-    Access to a growing community
+●   Access to a growing community
 
 SONiC and Dell Technologies
 
@@ -108,15 +108,15 @@ Enterprise SONiC Distribution by Dell Technologies
 
 Enterprise SONiC is offered in bundles to meet customer network requirements.
 
-    Cloud standard
+●   Cloud standard
 
-    Cloud premium
+●   Cloud premium
 
-    Enterprise standard
+●   Enterprise standard
 
-    Enterprise premium
+●   Enterprise premium
 
-    Lite
+●   Lite
 
     NOTE: For supported cables and optics support matrix, reach out to Dell Technologies designated sales representative.
 
@@ -181,7 +181,7 @@ ON*
 
     NOTE:
 
-       Platforms that are marked with the * symbol support PoE.
+    ●  Platforms that are marked with the * symbol support PoE.
 
 Dell PowerSwitches supported in each bundle
 
@@ -1528,35 +1528,35 @@ S3248T-ON  1x100G, 1x40G, 4x25G, 4x10G, 1x25G,                        The listed
 
            1x10G                                                      on ports 1/53 and 1/54.
 
-S5212F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The listed breakout modes are
+S5212F-ON  1x100G, 1x40G, 4x25G, 4x10G                                ●  The listed breakout modes are
 
                                                                          supported on port 1/13 - 1/15.
 
-                                                                         Port 1/1 to 1/12 do not support
+                                                                      ●  Port 1/1 to 1/12 do not support
 
                                                                          breakout and are 25G by default.
 
-                                                                         You can use them at 10G or 1G using
+                                                                      ●  You can use them at 10G or 1G using
 
                                                                          the speed command.
 
-S5224F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The listed breakout modes are
+S5224F-ON  1x100G, 1x40G, 4x25G, 4x10G                                ●  The listed breakout modes are
 
                                                                          supported on port 1/25 - 1/28.
 
-                                                                         Port 1/1 to 1/24 do not support
+                                                                      ●  Port 1/1 to 1/24 do not support
 
                                                                          breakout and are 25G by default.
 
-                                                                         You can use them at 10G or 1G using
+                                                                      ●  You can use them at 10G or 1G using
 
                                                                          the speed command.
 
-S5232F-ON  1x100G, 1x40G, 2x50, 4x25G, 4x10G                             Listed Breakout modes are supported
+S5232F-ON  1x100G, 1x40G, 2x50, 4x25G, 4x10G                          ●  Listed Breakout modes are supported
 
                                                                          on port 1/1 - 1/31.
 
-                                                                         Port 1/32 does not support 4x25G or
+                                                                      ●  Port 1/32 does not support 4x25G or
 
                                                                          4x10G modes. To configure Port1/32
 
@@ -1564,15 +1564,15 @@ S5232F-ON  1x100G, 1x40G, 2x50, 4x25G, 4x10G                             Listed 
 
                                                                          40000 command.
 
-                                                                         2x50G is validated only for a specific
+                                                                      ●  2x50G is validated only for a specific
 
                                                                          case with 100G DAC.
 
-S5248F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The listed breakout modes are
+S5248F-ON  1x100G, 1x40G, 4x25G, 4x10G                                ●  The listed breakout modes are
 
                                                                          supported on port 1/49 - 1/56.
 
-                                                                         Port 1/1 to 1/48 do not support
+                                                                      ●  Port 1/1 to 1/48 do not support
 
                                                                          breakout and are 25G by default.
 
@@ -1586,15 +1586,15 @@ S5248F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The lis
 
                                                                          User Guide.
 
-S5296F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The listed breakout modes are
+S5296F-ON  1x100G, 1x40G, 4x25G, 4x10G                                ●  The listed breakout modes are
 
                                                                          supported on port 1/97 - 1/104.
 
-                                                                         Port 1/1 to 1/96 do not support
+                                                                      ●  Port 1/1 to 1/96 do not support
 
                                                                          breakout and are 25G by default.
 
-                                                                         You can use them at 10G or 1G
+                                                                      ●  You can use them at 10G or 1G
 
                                                                          using the port-group command.
 
@@ -1604,26 +1604,26 @@ S5296F-ON  1x100G, 1x40G, 4x25G, 4x10G                                   The lis
 
                                                                          User Guide.
 
-S5448F-ON    Port 1/1 to 1/4 and 1/53 to                              -
+S5448F-ON  ●  Port 1/1 to 1/4 and 1/53 to                             -
 
-             1/56: 1x25G, 1x10G, 1x100G, 1x40G,
+              1/56: 1x25G, 1x10G, 1x100G, 1x40G,
 
 22  Breakout modes on Dell PowerSwitch platforms
 Table 11. Breakout  modes  on  Dell  PowerSwitch platforms (continued)
 
 Platform                             Breakout modes                         Default breakout mode
 
-                                       1x200G, 2x40G, 2x200G, 2x100G,
+                                        1x200G, 2x40G, 2x200G, 2x100G,
 
-                                       4x25G, 4x10G, 4x100G, 1x400G
+                                        4x25G, 4x10G, 4x100G, 1x400G
 
-                                       Port 1/5 to 1/52: 1x25G, 1x10G,
+                                     ●  Port 1/5 to 1/52: 1x25G, 1x10G,
 
-                                       1x100G, 1x40G, 1x200G, 1x400G,
+                                        1x100G, 1x40G, 1x200G, 1x400G,
 
-                                       2x40G, 2x200G, 2x100G, 4x25G,
+                                        2x40G, 2x200G, 2x100G, 4x25G,
 
-                                       4x10G, 2x50G, 4x100G
+                                        4x10G, 2x50G, 4x100G
 
 Z9264F-ON                            1x100G, 1x40G, 4x25G, 4x10G, 1x25G,    -
 

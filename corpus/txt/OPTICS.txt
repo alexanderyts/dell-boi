@@ -10,7 +10,7 @@ Features and benefits                    a wide range of data center and campus 
 
                                          connections, passive copper direct attach cable (DAC) is a simple and cost-
 
-�  Hot-swappable for simplified          effective solution.
+•  Hot-swappable for simplified          effective solution.
 
    maintenance (no power-down
 
@@ -18,23 +18,23 @@ Features and benefits                    a wide range of data center and campus 
 
    replacement)                          1GbE SFP optical transceivers include short-reach (SX), and long-reach
 
-�  Smallest and lowest power             (LX). A 1000BASE-T transceiver facilitates twisted-pair copper connections.
+•  Smallest and lowest power             (LX). A 1000BASE-T transceiver facilitates twisted-pair copper connections.
 
    10GbE, 25GbE, 40GbE,
 
-   100GbE, 2�100GbE, 400GbE              10GbE solutions
+   100GbE, 2×100GbE, 400GbE              10GbE solutions
 
    and 800GbE optical form
 
    factors in the industry               10GbE SFP+ optical transceivers include short-reach (SR), long-reach (LR)
 
-�  Optical interoperability of SFP,      and extended long-reach (ER and ZR). The 10GbE SFP+ receptacle will also
+•  Optical interoperability of SFP,      and extended long-reach (ER and ZR). The 10GbE SFP+ receptacle will also
 
    SFP+, SFP28 with selected             recognize 1GbE SFP transceivers. A 10Gbase-T transceiver facilitates twist-
 
    QSFP and QSFP-DD modules              ed-pair copper connections.
 
-�  Offers pay-as-you-use                 The 10GBase-T with rate adaptive feature can run at 10G on the host side
+•  Offers pay-as-you-use                 The 10GBase-T with rate adaptive feature can run at 10G on the host side
 
    model for lower total cost of         and can be negotiated to any speed at far end link partner or line side.
 
@@ -42,13 +42,13 @@ Features and benefits                    a wide range of data center and campus 
 
    technology migration                  25GbE solutions
 
-�  Reliability ensured by rigorous       25GbE SFP28 optical transceivers include short-reach (SR), extended short-
+•  Reliability ensured by rigorous       25GbE SFP28 optical transceivers include short-reach (SR), extended short-
 
    optics validation, qualification      reach (ESR) and long-reach (LR) variations. In 25GbE networking environ-
 
    and certification                     ments, the 100 and 400GBE ports can be broken out into four 25GbE lanes by
 
-�  Dell product specification            use of either active optical (AOC) or passive copper (DAC) breakout cables.
+•  Dell product specification            use of either active optical (AOC) or passive copper (DAC) breakout cables.
 
    encoding feature allows               You can utilize 25GbE optics in 100GbE and 400GbE ports using a (QSA28)
 
@@ -58,9 +58,9 @@ Features and benefits                    a wide range of data center and campus 
 
    supported transceivers
 
-�  Guaranteed to work with Dell          40GbE solutions
+•  Guaranteed to work with Dell          40GbE solutions
 
-   Networking platforms over             40GbE (4�10GbE) QSFP+ optical transceivers include short-reach (SR4),
+   Networking platforms over             40GbE (4×10GbE) QSFP+ optical transceivers include short-reach (SR4),
 
    temperature and process               and long-reach (LR4). In many cases, 1GbE SFP and 10GbE SFP+ optics can
 
@@ -74,7 +74,7 @@ Features and benefits                    a wide range of data center and campus 
 
 Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 40GbE QSFP+ ports support both optical and passive copper (DAC) breakout cables where the four 10GbE lanes are
 
 broken out into four individual 10GbE SFP+ interfaces. This solution can be deployed with a single active optical
@@ -89,7 +89,7 @@ multiplexing (BIDI) to transport 40GbE over a single (multimode) fiber pair.
 
 100GbE solutions
 
-100GbE (4�25GbE) QSFP28 optical transceivers include short-reach (SR4), intermediate-reach (CWDM4), long-reach
+100GbE (4×25GbE) QSFP28 optical transceivers include short-reach (SR4), intermediate-reach (CWDM4), long-reach
 
 (LR4), extended short-reach (ESR4), 2km intermediate reach (FR1), 10km long-reach (LR1), multimode SR1.2 (BiDi),
 
@@ -121,7 +121,7 @@ AOCs will facilitate shorter links as well as breakout applications.
 
 200GbE solutions
 
-There's a new 200G optic being released in FY25, QSFP56 short-reach SR4. This module can transport 50GbE over 4
+There’s a new 200G optic being released in FY25, QSFP56 short-reach SR4. This module can transport 50GbE over 4
 
 lanes.
 
@@ -133,7 +133,7 @@ VR4) over multimode fiber or intermediate-reach (FR4, EDR4, LR4, LDR4, and Open 
 
 DACs and AOCs are available.
 
-400GbE (8 � 50G PAM4) ports on one switch may be connected to 100GbE QSFP28 (4 � 25G NRZ) by taking advantage of the
+400GbE (8 × 50G PAM4) ports on one switch may be connected to 100GbE QSFP28 (4 × 25G NRZ) by taking advantage of the
 
 gearboxes embedded in the pluggable modules. As a result, a 400GbE QSFP56- DD EDR4 module may be broken out over sin-
 
@@ -169,7 +169,7 @@ ployed.
 
 2 | Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
           SFP+ DAC                     QSFP+ DAC              SFP SFP+                  QSFP+                 QSA28
 
             QSFP+                  QSFP+ DAC breakout         QSFP+ MPO pigtail         SFP RJ45              QSFP-DD
@@ -192,7 +192,7 @@ Fast Ethernet (100 Mb/s) SFP transceivers
 
              duplex LC                            MMF OM1                 -15.0 to      -31.0 to              operates up to
 
-SFP-100M-FX  PC/ UPC                   1310       MMF OM2     2 km        -20.0         -14.0         1.1     85�C
+SFP-100M-FX  PC/ UPC                   1310       MMF OM2     2 km        -20.0         -14.0         1.1     85°C
 
                                                   MMF OM3
 
@@ -204,17 +204,17 @@ Gigabit Ethernet SFP transceivers
 
 SFP-1G-SX    duplex LC                 850        MMF OM2     550 m       -9.0 to -2.5                0.5
 
-             PC/ UPC                              MMF OM3     550 m                     0.0                   85�C
+             PC/ UPC                              MMF OM3     550 m                     0.0                   85°C
 
                                                   MMF OM4     550 m
 
 SFP-1G-LX    duplex LC                 1310       SMF         10 km       -9.5 to -3.0  -19.0 to      1.1     operates up to
 
-             PC/ UPC                                                                    -3.0                  85�C
+             PC/ UPC                                                                    -3.0                  85°C
 
 SFP-1G-T     RJ-45                     N/A        CAT5        100 m       N/A           N/A           1.5     operates up to
 
-                                                                                                              85�C
+                                                                                                              85°C
 
 10-Gigabit Ethernet SFP+ transceivers
 
@@ -248,7 +248,7 @@ SFP-10G-T    RJ-45                     N/A        (10G)       100 m       N/A   
 
 3 | Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Model          Connec-               Wave-      Trans-      Dis-    Transmit-     Receiver      Power   Notes
 
                tor Type              length(s)  mission     tance   ter Power     Power         Dissi-
@@ -311,9 +311,9 @@ Quad 32G Fibre Channel QSFP28 transceivers
 
                                                                                   -10.4 to              Compatible
 
-Q28-128GFC-    MPO-12                850        MMF OM3     70 m    -8.5 to +2.4  +2.4          3.5     with 4�32GFC
+Q28-128GFC-    MPO-12                850        MMF OM3     70 m    -8.5 to +2.4  +2.4          3.5     with 4×32GFC
 
-SW4                                             MMF OM4     100 m   /lane         /lane                 or 4�16GFC
+SW4                                             MMF OM4     100 m   /lane         /lane                 or 4×16GFC
 
                                                                                                         breakout
 
@@ -321,7 +321,7 @@ SW4                                             MMF OM4     100 m   /lane       
 
 QSFP-40G-      MPO-12                           MMF OM3     100 m   -7.6 to +2.4  -9.0 to +2.4          Can operate in
 
-SR4            PC/ UPC               850        MMF OM4     150 m   /lane         /lane         1.5     1�4 breakout
+SR4            PC/ UPC               850        MMF OM4     150 m   /lane         /lane         1.5     1×4 breakout
 
                                                                                                         mode
 
@@ -333,7 +333,7 @@ SM4            PC/ UPC               910        MMF OM5     350 m   /lane       
 
                                      940
 
-QSFP-40G-      duplex LC             850        MMF OM3     100 m   -4.0 to +5.0  -7.5 to +5.0          +10�C minimum
+QSFP-40G-      duplex LC             850        MMF OM3     100 m   -4.0 to +5.0  -7.5 to +5.0          +10°C minimum
 
 BIDI           PC/ UPC               900        MMF OM4     150 m   /lane         /lane         3.5     operating
 
@@ -357,7 +357,7 @@ LR4                                  1311
 
 4 | Dell networking transceivers and cables
 
-      � 2026 Dell Inc. or its subsidiaries.
+      © 2026 Dell Inc. or its subsidiaries.
 Model          Connec-    Wave-           Trans-   Dis-    Transmit-     Receiver      Power   Notes
 
                tor Type   length(s)       mission  tance   ter Power     Power         Dissi-
@@ -388,7 +388,7 @@ SR1.2                     908             MMF OM5  150 m   lane          lane   
 
                                                                                                Can operate in
 
-Q28-100G-                                                                                      1�4 breakout
+Q28-100G-                                                                                      1×4 breakout
 
 SR4            MPO-12                     MMF OM3  70 m    -8.4 to +2.4  -10.3 to              mode; 10-12
 
@@ -402,7 +402,7 @@ operations)                                                                     
 
 Q28-100G-                                 MMF OM3  170 m   -8.3 to +2.4  -10.3 to              Can operate in
 
-ESR4           MPO-12     850             MMF OM4  300 m   /lane         +2.4          3.5     1�4 breakout
+ESR4           MPO-12     850             MMF OM4  300 m   /lane         +2.4          3.5     1×4 breakout
 
                                                                          /lane                 mode
 
@@ -464,13 +464,13 @@ Q28-100G-FR    UPC        1310            SMF      2 km    -2.4 to +4.0  -6.4 to
 
                                                                                                Q56DD-400G-
 
-                                                                                               DR4 for 1�4
+                                                                                               DR4 for 1×4
 
                                                                                                breakout
 
 5 | Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Model          Connec-    Wave-             Trans-   Dis-        Transmit-     Receiver       Power   Notes
 
                tor Type   length(s)         mission  tance       ter Power     Power          Dissi-
@@ -563,7 +563,7 @@ SR1.2          duplex LC  910               MMF OM4  100 m       lane          l
 
 6 | Dell networking transceivers and cables
 
-    � 2026 Dell Inc. or its subsidiaries.
+    © 2026 Dell Inc. or its subsidiaries.
 Model         Connec-    Wave-                    Trans-   Dis-    Transmit-     Receiver      Power       Notes
 
               tor Type   length(s)                mission  tance   ter Power     Power         Dissi-
@@ -692,7 +692,7 @@ SR4.2-ON      PC         908                      MMF OM4  100 m   /lane        
 
 7 | Dell networking transceivers and cables
 
-     � 2026 Dell Inc. or its subsidiaries.
+     © 2026 Dell Inc. or its subsidiaries.
 Model         Connec-    Wave-         Trans-   Dis-    Transmit-     Receiver      Power   Notes
 
               tor Type   length(s)     mission  tance   ter Power     Power         Dissi-
@@ -731,7 +731,7 @@ SR8 (Gen 2)   APC                      MMF OM4  100 m   /lane         /lane     
 
 EDR4 (Gen 2)                                            /lane         /lane                 for
 
-                                                                                            1�4 breakout
+                                                                                            1×4 breakout
 
                                                                                             Updated EDR4
 
@@ -779,7 +779,7 @@ LDR4          APC                                       /lane         /lane     
 
 8 | Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Model         Connec-    Wave-             Trans-   Dis-     Transmit-      Receiver      Power   Notes
 
               tor Type   length(s)         mission  tance    ter Power      Power         Dissi-
@@ -896,7 +896,7 @@ DR8-LPO       APC
 
 9 | Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Dell passive optical    cables
 
 Model                   Available                                  Connection                 Transmission   Notes
@@ -909,11 +909,11 @@ CBL-MTP12-OM4-xM        1, 3, 5, 10, 25                            MPO-12 to MPO
 
 CBL-LC-OM4-xM           1, 2, 3, 5, 10, 30                         LC to LC                   MMF OM4
 
-CBL-MTP12-4LC-OM4-xM    3, 5, 7, 15                                MPO-12 to 4 � LC           MMF OM4
+CBL-MTP12-4LC-OM4-xM    3, 5, 7, 15                                MPO-12 to 4 × LC           MMF OM4
 
-CBL-MPO12-4LC-SMF-5M    5                                          MPO-12 to 4 � LC           SMF
+CBL-MPO12-4LC-SMF-5M    5                                          MPO-12 to 4 × LC           SMF
 
-CBL-MPO12DD-2MPO12-     3, 7                                       MPO-12DD to 2 � MPO-12     MMF OM4
+CBL-MPO12DD-2MPO12-     3, 7                                       MPO-12DD to 2 × MPO-12     MMF OM4
 
 OM4-xM
 
@@ -925,7 +925,7 @@ CBL-MPO12-APC-SMF-xM    3, 5                                       MPO-12/APC to
 
 * Supported in upcoming software release
 
-All transceivers operate at 0 to 70�C unless otherwise indicated.
+All transceivers operate at 0 to 70ºC unless otherwise indicated.
 
 Dell Active Optical Cables (AOC), Active Electrical Cables (AEC), and Direct                                 Attach Cables  (DAC)
 
@@ -957,25 +957,25 @@ DAC-QSFP-40G-xM         0.5, 1, 3, 5                               QSFP+ to QSFP
 
 AOC-QSFP-40G-xM         3, 10                                      QSFP+ to QSFP+    optical       1.5
 
-DAC-QSFP-4SFP-10G-xM    1, 3, 5                                    QSFP+ to 4 �      copper
+DAC-QSFP-4SFP-10G-xM    1, 3, 5                                    QSFP+ to 4 ×      copper
 
                                                                    SFP+
 
-                                                                   QSFP+ to 4 �                                       Supports
+                                                                   QSFP+ to 4 ×                                       Supports
 
-AOC-QSFP-4SFP-10G-xM    10,30                                      SFP+              optical       1.5, 1.0           4�10G or
+AOC-QSFP-4SFP-10G-xM    10,30                                      SFP+              optical       1.5, 1.0           4×10G or
 
-                                                                                                                      4�1G
+                                                                                                                      4×1G
 
 Dual 40-Gigabit Ethernet Active Optical Cable
 
 AOC-Q28DD-8SFP-10G-xM   10                                         QSFP28-DD to 8    optical
 
-                                                                   � SFP+
+                                                                   × SFP+
 
 10| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Model                    Available           Connection                     Transmission   Power Dissipation  Notes
 
                          Lengths (m)                                        Medium         per end (max.; W)
@@ -998,29 +998,29 @@ AOC-QSFP-100G-xM         3, 7, 10, 30        QSFP28 to                      opti
 
                                              QSFP28
 
-DAC-QSFP-4SFP28-25G-     2, 3, 5             QSFP28 to 4 �                  copper
+DAC-QSFP-4SFP28-25G-     2, 3, 5             QSFP28 to 4 ×                  copper
 
 xM                                           SFP28
 
-AOC-QSFP- 4SFP28- 25G-   10                  QSFP28 to 4 �                  optical        3.5, 1.5
+AOC-QSFP- 4SFP28- 25G-   10                  QSFP28 to 4 ×                  optical        3.5, 1.5
 
 xM                                           SFP28
 
 Dual 100-Gigabit Ethernet Active Optical and Direct Attach Cable
 
-DAC-Q28DD-2Q28- 100G-    2, 3                QSFP28-DD to 2 �               copper
+DAC-Q28DD-2Q28- 100G-    2, 3                QSFP28-DD to 2 ×               copper
 
 xM                                           QSFP28
 
-AOC-Q28DD-2Q28- 100G-    5, 15               QSFP28-DD to 2 �               optical        5.0, 3.5
+AOC-Q28DD-2Q28- 100G-    5, 15               QSFP28-DD to 2 ×               optical        5.0, 3.5
 
 xM                                           QSFP28
 
-DAC-Q28DD-8S28-25G-xM    2, 3                QSFP28-DD to 8 �               copper
+DAC-Q28DD-8S28-25G-xM    2, 3                QSFP28-DD to 8 ×               copper
 
                                              SFP28
 
-AOC-Q28DD-8S28-25G-xM    10                  QSFP28-DD to 8 �               optical        5.0, 1.2
+AOC-Q28DD-8S28-25G-xM    10                  QSFP28-DD to 8 ×               optical        5.0, 1.2
 
                                              SFP28
 
@@ -1090,7 +1090,7 @@ AEC-Q56DD-400G-xM        3, 5                QSFP56-DD to                   acti
 
 11| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Model                  Available             Connection      Transmission  Power Dissipation  Notes
 
                        Lengths (m)                           Medium        per end (max.; W)
@@ -1099,7 +1099,7 @@ AEC-Q56DD-4Q28- 100G-  3                     QSFP56-DD to
 
 xM
 
-4 � QSFP28             active copper         8.0; 3.5
+4 × QSFP28             active copper         8.0; 3.5
 
 800-Gigabit Ethernet Active Optical and Direct Attach Cable
 
@@ -1133,158 +1133,158 @@ AEC-O112-800G-xM*      2, 3, 4               OSFP112 to      Copper cable  10.0
 
 12| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Product Support
 
 10GbE            SFP-10G-SR            SFP-10G-LR  SFP-10G-ER  SFP-10G-ZR  SFP-10G-T
 
-Z9100                                                                      
+Z9100                                                                  
 
-Z9264F                                                                     
+Z9264F                                                                 
 
-Z9332F                                                                     
+Z9332F                                                                 
 
-Z9664F                                                                     
+Z9664F                                                                 
 
-Z9432                                                                      
+Z9432                                                                  
 
-S5232F                                                                     
+S5232F                                                                 
 
-S5448F                                                                     
+S5448F                                                                 
 
-S6100                                                          
+S6100                                                       
 
-S6010                                                                      
+S6010                                                                  
 
-S4348F                                                                     
+S4348F                                                                  
 
-S41x8x                                                                     
+S41x8x                                                                 
 
-S4248                                                                      
+S4248                                                                  
 
-S4112                                                                      
+S4112                                                                  
 
-S4048x                                                                     
+S4048x                                                                 
 
-S5048                                                          
+S5048                                                       
 
-S52xx                                                                      
+S52xx                                                                  
 
-S3048                                                                      
+S3048                                                                  
 
-S3100                                                          
+S3100                                                       
 
-N3224/N3248x                                                               
+N3224/N3248x                                                           
 
-S3248T                                                                     
+S3248T                                                                 
 
-N32xx                                                                      
+N32xx                                                                    
 
-E3248x                                                                     
+E3248x                                                                 
 
-E3224F                                                                     
+E3224F                                                                  
 
-N20xx/N30xx                                                                
+N20xx/N30xx                                                            
 
-MX9116n                                                                    
+MX9116n                                                                
 
-S5148                                                                      
+S5148                                                                  
 
 13| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Product Support
 
 25GbE transceivers  SFP28-25G-SR                                                   SFP28-25G-ESR  SFP28-25G-LR
 
-Z9100                                                                                             
+Z9100                                                                                           
 
-Z9264F                                                                                            
+Z9264F                                                                                          
 
-Z9332F                                                                                            
+Z9332F                                                                                          
 
-Z9432F                                                                                            
+Z9432F                                                                                          
 
-S5232F                                                                                            
+S5232F                                                                                          
 
-S5448F                                                                                            
+S5448F                                                                                          
 
-S41x8                                                                                             
+S41x8                                                                                           
 
-S4248                                                                                             
+S4248                                                                                           
 
-S4112                                                                                             
+S4112                                                                                           
 
-S52xxF                                                                                            
+S52xxF                                                                                          
 
-N32xx                                                                                             
+N32xx                                                                                           
 
-MX9116n                                                                                           
+MX9116n                                                                                         
 
-MX5108n                                                                                           
+MX5108n                                                                                         
 
 *** Population of SFP-10G-T transceivers may be limited due to power constraints.
 
 14| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Product Support
 
 40GbE            SR4  ESR4                   LM4  SM4  BIDI  PSM4-  LR4  ER4
 
 transceivers                                                 LR
 
-Z9264                                                               
+Z9264                                                         
 
-Z9100                                                               
+Z9100                                                         
 
-Z9332                                                                    
+Z9332                                                             
 
-Z9432                                                                    
+Z9432                                                             
 
-Z9664F                                                                   
+Z9664F                                                             
 
-S52xx                                                                    
+S52xx                                                             
 
-S54xx                                                               
+S54xx                                                         
 
-S6100                                                                    
+S6100                                                             
 
-S4348F                                                              
+S4348F                                                            
 
-S41x8                                                                    
+S41x8                                                             
 
-S4248x                                                                   
+S4248x                                                            
 
-S4112x                                                                   
+S4112x                                                            
 
-S4048x                                                                   
+S4048x                                                            
 
-S5048                                                                    
+S5048                                                             
 
-S52xx                                                                    
+S52xx                                                             
 
-N22XX                                                               
+N22XX                                                          
 
-N32XX                                                               
+N32XX                                                          
 
-S3248T                                                              
+S3248T                                                           
 
-E3248                                                               
+E3248                                                            
 
-MX9116n                                                             
+MX9116n                                                        
 
-MX5108n                                                             
+MX5108n                                                        
 
-MXL IO Agg.                                                         
+MXL IO Agg.                                                     
 
-C7000            
+C7000            
 
-C9010                                                                    
+C9010                                                             
 
 15| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Ordering Information
 
 100GbE        SR4  ESR4  SWDM4         BIDI  SR1.2  CWDM4  FR  PSM4-  PSM4-  LR1  LR4  ER4-  QSA-QS
@@ -1293,86 +1293,86 @@ transceivers                                                   10     IR        
 
                                                                                              SFP28
 
-Z9100                                                                                        
+Z9100                                                                              
 
-Z9264                                                                                        
+Z9264                                                                             
 
-Z9332                                                                                        
+Z9332                                                                             
 
-Z9432                                                                                        
+Z9432                                                                            
 
-Z9664                                                                                        
+Z9664                                                                            
 
-S52xx                                                                                        
+S52xx                                                                            
 
-S5448X                                                                                       
+S5448X                                                                           
 
-S6100                                                                                        
+S6100                                                                                 
 
-S4348F                                                                                       
+S4348F                                                                           
 
-S41x8                                                                                        
+S41x8                                                                            
 
-S4248                                                                                        
+S4248                                                                             
 
-S4112                                                                                        
+S4112                                                                             
 
-S4048                                                                                        
+S4048                                                                                        
 
-S5048                                                                                        
+S5048                                                                             
 
-S52XXF                                                                                       
+S52XXF                                                                            
 
-N32xx                                                                                  
+N32xx                                                                       
 
-S3248T                                                                                       
+S3248T                                                                                 
 
-E32xx                                                                                        
+E32xx                                                                             
 
-MX9116n                                                                                      
+MX9116n                                                                           
 
-MX5108n                                                                                      
+MX5108n                                                                           
 
-S5148                                                                                  
+S5148                                                                            
 
-S5000                                                                                        
+S5000                                                                                        
 
-S6000                                                                                        
+S6000                                                                                        
 
-Z9500                                                                                        
+Z9500                                                                                        
 
 16| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Ordering Information
 
 Dual 100GbE              S56DD-100G-              S56DD-100G-  S56DD-100G-         Q28DD-             Q28DD- 200G-
 
 / 40GbE transceivers     FR                       LR           SR1.2               80G-2SR4           2SR4
 
-Z9332F                                                                                                      
+Z9332F                                                                                                    
 
-Z9432F                                                                                                      
+Z9432F                                                                                                    
 
-Z9664F                                                                                                      
+Z9664F                                                                                                     
 
-S5448F                                                                                                      
+S5448F                                                                                                  
 
-S5248                                                                                                       
+S5248                                                                                                      
 
-MX9116n                                                                                                     
+MX9116n                                                                                                    
 
-MX7116n                                                                                                     
+MX7116n                                                                                                    
 
 200GbE                   Q56-200G-SR4
 
 transceivers
 
-Z9432F                                    
+Z9432F                                    
 
-Z9332F                                    
+Z9332F                                    
 
-Z9664F                                    
+Z9664F                                    
 
 400GbE        400G-Q56-                   400G-   400G-        400G-        400G-          400G-      400G-
 
@@ -1380,27 +1380,27 @@ transceivers  DD-SR4.2-                   Q56DD-  Q56DD-       Q56DD-       Q56D
 
               ON                          EDR4    VR4          FR4          LDR4                      SR8
 
-Z9332F                                                                                       
+Z9332F                                                                                    
 
-Z9432F                                                                                                      
+Z9432F                                                                                                 
 
-Z9664F                                                                                                      
+Z9664F                                                                                                
 
-S5448                                                                                        
+S5448                                                                                     
 
-MX8116n               
+MX8116n               
 
 800GbE                   800G-O112-               800G-O112-   800G-O112-          Q28DD-             800G-O112-
 
 transceivers             2VR4                     2EDR4        2FR4                80G-2SR4           2DR4-DSPLPO
 
-Z9864F                                                                                                      
+Z9864F                                                                                                    
 
 *Supported in upcoming software releases
 
 17| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
+© 2026 Dell Inc. or its subsidiaries.
 Ordering Information
 
 Model                              Product description
@@ -1479,52 +1479,52 @@ Q28-100G-BIDI                      100GbE QSFP28 optical module, bi-directional,
 
 18| Dell networking transceivers and cables
 
-� 2026 Dell Inc. or its subsidiaries.
-Model                        Product description
+© 2026 Dell Inc. or its subsidiaries.
+Model                         Product description
 
-Q28-100G-LR4                 100GbE QSFP28 optical module, long-reach, up to 10 km over 2 parallel SMFs
+Q28-100G-LR4                  100GbE QSFP28 optical module, long-reach, up to 10 km over 2 parallel SMFs
 
-Q28-100G-ER4-lite            100GbE QSFP28 optical module, extended-reach, up to 35 km over 2 parallel SMFs
+Q28-100G-ER4-lite             100GbE QSFP28 optical module, extended-reach, up to 35 km over 2 parallel SMFs
 
-QSA-Q28-S28                  100GbE QSFP28 to 25GbE SFP28 adapter
+QSA-Q28-S28                   100GbE QSFP28 to 25GbE SFP28 adapter
 
 400-Gigabit Ethernet QSFP56-DD transceivers
 
-400G-Q56DD-SR8               400GbE QSFP56-DD optical module, short-reach up to 100 m over 16 parallel MMFs
+400G-Q56DD-SR8                400GbE QSFP56-DD optical module, short-reach up to 100 m over 16 parallel MMFs
 
-400G-Q56DD-SR4.2-ON          400GbE QSFP56-DD optical module, short-reach up to 150 m over 8 parallel MMFs - open networking
+400G-Q56DD-SR4.2-ON           400GbE QSFP56-DD optical module, short-reach up to 150 m over 8 parallel MMFs - open networking
 
-400G-Q56-DD-VR4              400GbE QSFP56-DD optical module, MPO12, very short-reach up to 50 m OM4/30 m OM3 MMF
+400G-Q56-DD-VR4               400GbE QSFP56-DD optical module, MPO12, very short-reach up to 50 m OM4/30 m OM3 MMF
 
-400G-Q56-DD-LR4              400GbE QSFP56-DD optical module, LC duplex, long-reach up to 10 km SMF
+400G-Q56-DD-LR4               400GbE QSFP56-DD optical module, LC duplex, long-reach up to 10 km SMF
 
-400G-Q56-DD-LDR4             400GbE QSFP56-DD optical module, MPO12, long-reach up to 10 km SMF
+400G-Q56-DD-LDR4              400GbE QSFP56-DD optical module, MPO12, long-reach up to 10 km SMF
 
-400G-Q56-DD-ZR+              400GbE QSFP56-DD optical module, open ZR+, LC duplex, reach up to 1000 km SMF
+400G-Q56-DD-ZR+               400GbE QSFP56-DD optical module, open ZR+, LC duplex, reach up to 1000 km SMF
 
-400G-Q56DD-EDR4              400GbE QSFP56-DD optical module, intermediate-reach up to 2 km over 8 parallel SMFs
+400G-Q56DD-EDR4               400GbE QSFP56-DD optical module, intermediate-reach up to 2 km over 8 parallel SMFs
 
-400G-Q56DD-FR4               400GbE QSFP56-DD optical module, intermediate-reach up to 2 km over 2 parallel SMFs
+400G-Q56DD-FR4                400GbE QSFP56-DD optical module, intermediate-reach up to 2 km over 2 parallel SMFs
 
 800-Gigabit Ethernet OSFP112 transceivers
 
-800G-O112-2EDR4              800GbE OSFP112 optical module, 2xMPO12, extended-reach up to 2 km SMF
+800G-O112-2EDR4               800GbE OSFP112 optical module, 2xMPO12, extended-reach up to 2 km SMF
 
-800G-O112-2VR4               800GbE OSFP112 optical module, 2xMPO12, very short-reach up to 50 m OM4/30 m OM3 MMF
+800G-O112-2VR4                800GbE OSFP112 optical module, 2xMPO12, very short-reach up to 50 m OM4/30 m OM3 MMF
 
-800G-O112-2FR4*              800GbE OSFP112 optical module, LC duplex, reach up to 2km SMF
+800G-O112-2FR4*               800GbE OSFP112 optical module, LC duplex, reach up to 2km SMF
 
-800G-O112-VR8                800GbE OSFP112 optical module, MPO-16, reach up to 50m OM5
+800G-O112-VR8                 800GbE OSFP112 optical module, MPO-16, reach up to 50m OM5
 
-800G-O112-2DR4-DSPLPO        800GbE OSFP112 optical module, 2xMPO12, reach up to 2km
+800G-O112-2DR4-DSPLPO         800GbE OSFP112 optical module, 2xMPO12, reach up to 2km
 
 Learn More at Dell.com/Networking
 
-Learn more about Dell                        Contact a Dell        View more resources                            Join the conversation
+Learn more about Dell                        Contact a Dell         View more resources                            Join the conversation
 
-Networking solutions         Technologies Expert
+Networking solutions          Technologies Expert
 
-Copyright � Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks
 
-of their respective owners.
+of their respective owners.​
 

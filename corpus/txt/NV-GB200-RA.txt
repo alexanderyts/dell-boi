@@ -109,7 +109,7 @@ ries with unparalleled performance, scalability, and innovation that supports al
 
 terprise, higher education, research, and the public sector.   It is a physical twin of the main NVIDIA
 
-research and development system, meaning the company's infrastructure software, applications, and
+research and development system, meaning the company’s infrastructure software, applications, and
 
 support are first tested and vetted on the same architecture.
 
@@ -131,32 +131,32 @@ AI factories. To achieve the most scalability, DGX SuperPOD is powered by severa
 
 nologies and solutions, including:
 
-    NVIDIA DGX GB200 systems: Powerful computational building block for AI and HPC.
+   ▶ NVIDIA DGX GB200 systems: Powerful computational building block for AI and HPC.
 
-    NVIDIA NDR (400 Gbps) InfiniBand: High performant, low latency, and scalable network intercon-
+   ▶ NVIDIA NDR (400 Gbps) InfiniBand: High performant, low latency, and scalable network intercon-
 
    nect.
 
 2
-  NVIDIA DGX SuperPOD: Next Generation Scalable Infrastructure for AI Leadership Reference
+   NVIDIA DGX SuperPOD: Next Generation Scalable Infrastructure for AI Leadership Reference
 
-                                   Architecture Featuring NVDIA DGX GB200, Release latest
+                                    Architecture Featuring NVDIA DGX GB200, Release latest
 
-  NVIDIA Spectrum-4 (800 Gbps) Ethernet: High performant, low latency, and scalable ethernet
+▶  NVIDIA Spectrum-4 (800 Gbps) Ethernet: High performant, low latency, and scalable ethernet
 
-  connectivity for storage.
+   connectivity for storage.
 
-  NVIDIA fifth-generation NVLink� technology: a high-speed interconnect for CPU and GPU pro-
+▶  NVIDIA fifth-generation NVLink® technology: a high-speed interconnect for CPU and GPU pro-
 
-  cessors in accelerated compute systems to provide unprecedented performance for most de-
+   cessors in accelerated compute systems to provide unprecedented performance for most de-
 
-  manding communication patterns.
+   manding communication patterns.
 
-  NVIDIA Mission Control: a unified operations and orchestration software stack for managing AI
+▶  NVIDIA Mission Control: a unified operations and orchestration software stack for managing AI
 
-  factories.
+   factories.
 
-                                                                                                 3
+                                                                                                  3
 Chapter 2. DGX SuperPOD Architecture
 
 The DGX SuperPOD architecture is a combination of DGX systems, InfiniBand and Ethernet network-
@@ -200,9 +200,9 @@ of reasoning. AI factories require specialized components like high-performance 
 
 vanced networking, and cooling systems to support the intensive computational needs of AI work-
 
-loads. These factories excel at AI reasoning--enabling faster, more accurate decision-making across
+loads. These factories excel at AI reasoning—enabling faster, more accurate decision-making across
 
-industries. And using NVIDIA's end-to-end accelerated computing platform, they're optimized for en-
+industries. And using NVIDIA’s end-to-end accelerated computing platform, they’re optimized for en-
 
 ergy efficiency while accelerating AI inference performance, helping enterprises deploy secure, future-
 
@@ -220,7 +220,7 @@ els and applications.
 
 DGX SuperPOD is to be deployed on-premises, meaning the customer owns and manages the hard-
 
-ware. This can be within a customer's data center or co-located at a commercial data center, but the
+ware. This can be within a customer’s data center or co-located at a commercial data center, but the
 
 customer owns the hardware, the service it provides, and is responsible for their cluster infrastructure.
 
@@ -228,11 +228,11 @@ The key components of DGX GB200 SuperPOD are shown below, each component will be
 
 detail:
 
- NVIDIA DGX GB200 NVL72 rack system
+▶ NVIDIA DGX GB200 NVL72 rack system
 
- NVIDIA InfiniBand
+▶ NVIDIA InfiniBand
 
- Mission Control software platform
+▶ Mission Control software platform
 
 3.1. NVIDIA DGX GB200 Rack System
 
@@ -259,7 +259,7 @@ intensive components, such as GPUs and CPUs, are liquid cooled. Other components
 
 Architecture Featuring NVDIA DGX GB200, Release latest
 
-NVIDIA's Infrastructure Specialist team can provide end-to-end assistance for datacenter planning,
+NVIDIA’s Infrastructure Specialist team can provide end-to-end assistance for datacenter planning,
 
 system deployment, and bring-up services.
 
@@ -394,7 +394,7 @@ computer for organizations that need the best of the best.
 
 DGX SuperPOD is to be deployed on-premises, meaning the customer owns and manages the hard-
 
-ware. This can be within a customer's data center or co-located at a commercial data center, but the
+ware. This can be within a customer’s data center or co-located at a commercial data center, but the
 
 customer owns the hardware, the service it provides, and is responsible for their cluster infrastructure
 
@@ -415,7 +415,7 @@ Architecture Featuring NVDIA DGX GB200, Release latest
 
 Component             Technology                     Description
 
-8x Compute Racks      NVIDIA DGX GB200 NVL72         The world's premier rack-scale, purpose-built
+8x Compute Racks      NVIDIA DGX GB200 NVL72         The world’s premier rack-scale, purpose-built
 
                                                      AI systems featuring NVIDIA Grace-Blackwell
 
@@ -516,29 +516,29 @@ be tailored to better integrate into existing data centers.
 
 3.5.1. System Design
 
-DGX SuperPOD is optimized for a customers' particular workload of multi-node AI and HPC applica-
+DGX SuperPOD is optimized for a customers’ particular workload of multi-node AI and HPC applica-
 
 tions:
 
- A modular architecture based on Scalable Units (SUs) of 8 DGX GB200 systems.NVL72 rack sys-
+▶ A modular architecture based on Scalable Units (SUs) of 8 DGX GB200 systems.NVL72 rack sys-
 
         tems.
 
- A fully tested system scales to two SUs, but larger deployments can be built based on customer
+▶ A fully tested system scales to two SUs, but larger deployments can be built based on customer
 
         requirements
 
- Rack-A fully tested system scales for a single SU, seamlessly.
+▶ Rack-A fully tested system scales for a single SU, seamlessly.
 
- level integrated design which allows rapid installation and deployment of liquid cooled, high den-
+▶ level integrated design which allows rapid installation and deployment of liquid cooled, high den-
 
         sity compute racks.
 
- Storage partner equipment that has been certified to work in DGX SuperPOD environment.
+▶ Storage partner equipment that has been certified to work in DGX SuperPOD environment.
 
- Storage partner equipment that has been certified to work in DGX SuperPOD environments.
+▶ Storage partner equipment that has been certified to work in DGX SuperPOD environments.
 
- Full system support--including compute, storage, network, and software--is provided by NVIDIA
+▶ Full system support—including compute, storage, network, and software—is provided by NVIDIA
 
         Enterprise Support (NVEX).
 
@@ -549,45 +549,45 @@ Architecture Featuring NVDIA DGX GB200, Release latest
 
 3.5.2. Compute Fabric
 
-      The compute fabric is rail-optimized to the top layer of the fabric.
+    ▶  The compute fabric is rail-optimized to the top layer of the fabric.
 
-      The compute fabric is a balanced, full-fat tree.
+    ▶  The compute fabric is a balanced, full-fat tree.
 
-      The compute fabric is designed with current state-of-the-art, top performing, high-performance,
+    ▶  The compute fabric is designed with current state-of-the-art, top performing, high-performance,
 
-      low-latency network switches, and supports future generation of networking hardware.
+       low-latency network switches, and supports future generation of networking hardware.
 
-      Managed NDR switches are used throughout the design to provide better management of the
+    ▶  Managed NDR switches are used throughout the design to provide better management of the
 
-      fabric.
+       fabric.
 
-      The fabric is designed to support the latest SHARPv3 features.
+    ▶  The fabric is designed to support the latest SHARPv3 features.
 
 3.5.3. Storage Fabric (High Speed Storage)
 
 The storage fabric provides high bandwidth to shared storage. It also has the following characteristics:
 
-     It is independent of the compute fabric to maximize performance of both storage and application
+    ▶ It is independent of the compute fabric to maximize performance of both storage and application
 
-      performance.
+       performance.
 
-     Provides single-node line-rate of 2x 200Gbps to each DGX GB200 compute tray.
+    ▶ Provides single-node line-rate of 2x 200Gbps to each DGX GB200 compute tray.
 
-     Storage is provided over RDMA over Converged Ethernet to provide maximum performance and
+    ▶ Storage is provided over RDMA over Converged Ethernet to provide maximum performance and
 
-      minimize CPU overhead.
+       minimize CPU overhead.
 
-     User-accessible management nodes provide access to shared storage.
+    ▶ User-accessible management nodes provide access to shared storage.
 
 3.5.4. In-Band Management Network
 
-      The in-band management network fabric is Ethernet-based and is used for node provisioning,
+    ▶  The in-band management network fabric is Ethernet-based and is used for node provisioning,
 
-      data movement, Internet access, and other services that must be accessible by the users.
+       data movement, Internet access, and other services that must be accessible by the users.
 
-      The in-band management network connections for compute and management nodes operate at
+    ▶  The in-band management network connections for compute and management nodes operate at
 
-      200 Gbps and are bonded for resiliency.
+       200 Gbps and are bonded for resiliency.
 
 3.5.5. Out-of-Band Management Network
 
@@ -601,7 +601,7 @@ vices that should be physically isolated from system users.
 
 The DGX SuperPOD compute architecture must be paired with a high-performance, balanced, storage
 
-system to maximize overall system performance.          DGX SuperPOD is designed to use two separate
+system to maximize overall system performance.           DGX SuperPOD is designed to use two separate
 
 storage systems, high-performance storage (HPS) and user storage, optimized for key operations of
 
@@ -620,17 +620,17 @@ storage from a DGX SuperPOD certified storage partner, and is engineered and tes
 
 lowing attributes in mind:
 
- High-performance, resilient, POSIX-style file system optimized for multi-threaded read and write
+▶ High-performance, resilient, POSIX-style file system optimized for multi-threaded read and write
 
       operations across multiple nodes.
 
- Certified for Grace-based systems.
+▶ Certified for Grace-based systems.
 
- Native RoCE support.
+▶ Native RoCE support.
 
- Local system RAM for transparent caching of data.
+▶ Local system RAM for transparent caching of data.
 
- Leverage local flash device transparently for read and write caching.
+▶ Leverage local flash device transparently for read and write caching.
 
 The specific storage fabric topology, capacity, and components are determined by the DGX SuperPOD
 
@@ -640,7 +640,7 @@ certified storage partner as part of the DGX SuperPOD design process.
 
 User Storage differs from High-Performance storage in that it exposes an NFS share on the in-band
 
-management fabric for multiple uses. It is typically used for "home directory" type usage (especially
+management fabric for multiple uses. It is typically used for “home directory” type usage (especially
 
 with clusters deployed with SLURM), administrative scratch space, and shared storage as needed by
 
@@ -650,19 +650,19 @@ for log files collection, and system configuration files.
 
 With that in mind, User Storage has the following requirements:
 
-      Designed for high metadata performance, IOPS, and key enterprise features such         as log collec-
+▶     Designed for high metadata performance, IOPS, and key enterprise features such         as log collec-
 
       tion, data capacity.  This is different than the HPS, which is optimized for parallel  I/O and large
 
       capacity.
 
- Communicate over Ethernet, using NFS.
+▶ Communicate over Ethernet, using NFS.
 
- 100GbE DR1 Connectivity.
+▶ 100GbE DR1 Connectivity.
 
 User storage in a DGX SuperPOD is often satisfied with existing NFS servers already deployed, such
 
-that a new export is created and made accessible to the DGX SuperPOD's in-band management net-
+that a new export is created and made accessible to the DGX SuperPOD’s in-band management net-
 
 work. User Storage is therefore not described in detail in this DGX SuperPOD reference architecture.
 
@@ -681,27 +681,27 @@ ensure that performance is consistent across all portions of the fabric.
 
 DGX SuperPOD configurations utilize five network fabrics:
 
-     NVLink 5
+    ▶ NVLink 5
 
-     Compute Fabric
+    ▶ Compute Fabric
 
-     Storage Fabric
+    ▶ Storage Fabric
 
-     In-Band Management Network
+    ▶ In-Band Management Network
 
-     Out-of-Band Management Network
+    ▶ Out-of-Band Management Network
 
 These network segments are carried by four different physical fabrics:
 
-     Multi-node NVLink Fabric (MN-NVL)
+    ▶ Multi-node NVLink Fabric (MN-NVL)
 
-     Compute InfiniBand Fabric
+    ▶ Compute InfiniBand Fabric
 
-     Storage and In-band Ethernet Fabric
+    ▶ Storage and In-band Ethernet Fabric
 
-     Out-of-Band network
+    ▶ Out-of-Band network
 
-     Each of these fabrics are discussed in this section.
+    ▶ Each of these fabrics are discussed in this section.
 
 4.1. Multi-node NVLink Fabric (NVL5)
 
@@ -752,7 +752,7 @@ bility for up to and including 16 SUs. Each SU contains 4 SLGs to match with the
 
 (which equals the number of GPUs per compute tray). There are 8 leaf switches (one for each compute
 
-rack) and 6 spine switches in each SLG � allowing a fully non-blocking fat tree topology for each SU to
+rack) and 6 spine switches in each SLG – allowing a fully non-blocking fat tree topology for each SU to
 
 be attached to 6 core groups. The details of this design for scale-out is presented in Figure 4.3. Table
 
@@ -813,7 +813,7 @@ Figure 4.6 shows the physical layout of a single SU. Figure 12 shows the physica
 
 Each SU features two SN5600 switches as the aggregation layer or spine layer for the physical network.
 
-Here � all the leaf level switches facing DGX, Storage, and the out-of-band connection are aggregated
+Here – all the leaf level switches facing DGX, Storage, and the out-of-band connection are aggregated
 
 on these pair of switches. On the leaf layer, DGX compute trays are connected at 4x 200GbE on their
 
@@ -823,11 +823,11 @@ Appliances and control plane nodes. One additional pair of SN2201 switches are t
 
 devices requiring RJ45 connections or QSFP based uplink connectivity.
 
-To achieve desired scale-out to up to and including 16 SUs, a third layer of switches � known as super
+To achieve desired scale-out to up to and including 16 SUs, a third layer of switches – known as super
 
-spine � are added. Figure 4.7 shows the scale-out design for SuperPOD. Similar to the compute fabric,
+spine – are added. Figure 4.7 shows the scale-out design for SuperPOD. Similar to the compute fabric,
 
-each SU in the SuperPOD can be implemented incrementally � given the super spine layer is built to
+each SU in the SuperPOD can be implemented incrementally – given the super spine layer is built to
 
 support the maximum number of spine switches in the SuperPOD. The super spine is designed with
 
@@ -872,11 +872,11 @@ GPUs  SUs  Groups          per Group               Switches            Switches 
 
 The ethernet fabric is segmented into these segments on the SuperPOD:
 
-    Storage Network
+   ▶ Storage Network
 
-    In-band Network
+   ▶ In-band Network
 
-    Out-of-Band Management Network
+   ▶ Out-of-Band Management Network
 
 In the following, we introduce these networks in detail.
 
@@ -897,7 +897,7 @@ for storage access.
 
 The physical ethernet fabric carries a dedicated VXLAN with termination points on the leaf switches
 
-for the DGX nodes' storage NIC ends on each SN5600 Leaf switches. In addition, one pair of SN5600
+for the DGX nodes’ storage NIC ends on each SN5600 Leaf switches. In addition, one pair of SN5600
 
 leaf in each SU provides the connectivity to the storage appliances. RoCE is a basic requirement for
 
@@ -917,17 +917,17 @@ factor of 5:3. Figure 4.8 shows the logical view of the storage fabric.
 
 The in-band management network provides several key functions:
 
-     Connects all the services that manage the cluster.
+    ▶ Connects all the services that manage the cluster.
 
-     Enables access to the lower-speed, NFS tier of storage.
+    ▶ Enables access to the lower-speed, NFS tier of storage.
 
-      Provides uplink (border) connectivity for the in-cluster services such as Mission Control, Base
+    ▶  Provides uplink (border) connectivity for the in-cluster services such as Mission Control, Base
 
-      Command Manager, Slurm, and Kubernetes to other services outside of the cluster such as the
+       Command Manager, Slurm, and Kubernetes to other services outside of the cluster such as the
 
-      NGC registry, code repositories, and data sources.
+       NGC registry, code repositories, and data sources.
 
-     Provides end user access to the Slurm head nodes and Kubernetes services.
+    ▶ Provides end user access to the Slurm head nodes and Kubernetes services.
 
 20                                                                       Chapter 4.  Network Fabrics
       NVIDIA DGX SuperPOD: Next Generation Scalable Infrastructure for AI Leadership Reference
@@ -945,19 +945,19 @@ Architecture Featuring NVDIA DGX GB200, Release latest
 
 The in-band network itself is split into 3 different segments:
 
-     A dedicated VTEP for uplink, the default hand over to customer edge is based on BGP peering
+    ▶ A dedicated VTEP for uplink, the default hand over to customer edge is based on BGP peering
 
-    and providing routes from in-band (and leaked routes from OOB) to customers' edge.
+    and providing routes from in-band (and leaked routes from OOB) to customers’ edge.
 
-     Customer is also expected to provide link to the building management system network (BMS) as
+    ▶ Customer is also expected to provide link to the building management system network (BMS) as
 
     part of their edge connectivity.
 
-     A dedicated VTEP for out-of-band network for the network management devices (NMX-Manager)
+    ▶ A dedicated VTEP for out-of-band network for the network management devices (NMX-Manager)
 
     and for BCM to access the telemetry and perform management functions to the OOB devices.
 
-     The in-band VTEP, which carries the network for user access, home-directory storage access via
+    ▶ The in-band VTEP, which carries the network for user access, home-directory storage access via
 
     NFS, service delivery, and general control traffic.
 
@@ -1004,7 +1004,7 @@ power requirement is the connection to the Building Management System (BMS). The
 
 the management plane of the operational technology (OT) side of the data center infrastructure.
 
-For route handover, we prepare eBGP protocol to peer with customer's network.  Routes to/from in-
+For route handover, we prepare eBGP protocol to peer with customer’s network.  Routes to/from in-
 
 band, out-of-band, and building management system are announced. Figure 4.12 shows an example
 
@@ -1051,7 +1051,7 @@ DGX SuperPOD is designed to support all workloads, but the storage performance r
 
 mize training performance can vary depending on the type of model and dataset.
 
-High-speed storage provides a shared view of an organization's data to all nodes.      It must be opti-
+High-speed storage provides a shared view of an organization’s data to all nodes.      It must be opti-
 
 mized for small, random I/O patterns, and provide high peak node performance and high aggregate
 
@@ -1073,7 +1073,7 @@ mance for reads and writes are needed for creating and reading checkpoint files.
 
 operation, and training stops during this phase. If you are looking for best end-to-end training perfor-
 
-mance, do not ignore I/O operations for checkpoints. Consider at least � of the read performance as
+mance, do not ignore I/O operations for checkpoints. Consider at least ½ of the read performance as
 
 recommended write performance for LLM and large model use cases.
 
@@ -1096,7 +1096,7 @@ Level          Work Description                                   Data Set Size
 
 Standard       Multiple      concurrent  LLM  or   fine-tuning    Most datasets can fit within the local com-
 
-               training  jobs  and       periodic  checkpoints,   pute systems' memory cache during train-
+               training  jobs  and       periodic  checkpoints,   pute systems’ memory cache during train-
 
                where     the  compute    requirements   dom-      ing.   The datasets are single modality, and
 
@@ -1106,7 +1106,7 @@ Standard       Multiple      concurrent  LLM  or   fine-tuning    Most datasets 
 
 Enhanced       Multiple      concurrent  multimodal    training   Datasets    are  too  large  to   fit  into  local
 
-               jobs and periodic checkpoints, where the           compute systems' memory cache requir-
+               jobs and periodic checkpoints, where the           compute systems’ memory cache requir-
 
                data I/O performance is an important fac-          ing more I/O during training, not enough
 
@@ -1174,11 +1174,11 @@ for monitoring & control of NVLINK Switch trays.
 
 NVIDIA Mission Control delivers critical innovations that directly impact DL and HPC environments,
 
-improving efficiency, reducing downtime, and optimizing resource utilization.  Here's how these ad-
+improving efficiency, reducing downtime, and optimizing resource utilization.  Here’s how these ad-
 
 vancements translate into tangible business value:
 
-      Automated Failure Detection & Self-Recovery: NVIDIA Mission Control's automated failure detec-
+▶     Automated Failure Detection & Self-Recovery: NVIDIA Mission Control’s automated failure detec-
 
       tion and recovery mechanisms significantly minimize downtime compared to manual interven-
 
@@ -1186,7 +1186,7 @@ vancements translate into tangible business value:
 
       in improved GPU utilization. This reduces the risk of resource wastage.
 
-      Optimized Workload Migration & Resource Allocation: NVIDIA Mission Control ensures that work-
+▶     Optimized Workload Migration & Resource Allocation: NVIDIA Mission Control ensures that work-
 
       loads are continuously reassigned to healthy nodes, preventing idle GPU time.           This leads to
 
@@ -1196,7 +1196,7 @@ vancements translate into tangible business value:
 
       achieve higher throughput for AI training tasks, thereby accelerating time-to-results.
 
-      Unified  Diagnostics  for   Infrastructure  &  Applications:  By  combining  infrastructure         and
+▶     Unified  Diagnostics  for   Infrastructure  &  Applications:  By  combining  infrastructure         and
 
       application-level diagnostics, NVIDIA Mission Control helps significantly reduce troubleshooting
 
@@ -1206,7 +1206,7 @@ vancements translate into tangible business value:
 
       in personnel costs and reducing the time to production.
 
-      In-Memory Checkpointing for Seamless Job Recovery: NVIDIA Mission Control enables recovery
+▶     In-Memory Checkpointing for Seamless Job Recovery: NVIDIA Mission Control enables recovery
 
       of training workloads by automatically restarting failed processes/ranks from the most recent
 
@@ -1228,7 +1228,7 @@ as the central management system, capable of orchestrating multiple Run:ai clust
 
 zation. For BCM-managed installations, the control plane is hosted on the control plane while cluster
 
-components are deployed directly onto the customer's Kubernetes infrastructure.      This separation
+components are deployed directly onto the customer’s Kubernetes infrastructure.      This separation
 
 of responsibilities allows for centralized management while maintaining workload execution close to
 
@@ -1268,7 +1268,7 @@ The combination of all these components keeps systems running reliably, with max
 
 and enables users to push the bounds of state-of-the-art. The platform is designed to both support
 
-the workloads of today and grow to support tomorrow's applications.  These are representatives of
+the workloads of today and grow to support tomorrow’s applications.  These are representatives of
 
 the configuration and must be finalized based on actual design. Your NVIDIA representative can work
 
@@ -1281,7 +1281,7 @@ with you to finalize the exact components list.
 
 This document is provided for information purposes only and shall not be regarded as a warranty of a
 
-certain functionality, condition, or quality of a product. NVIDIA Corporation ("NVIDIA") makes no repre-
+certain functionality, condition, or quality of a product. NVIDIA Corporation (“NVIDIA”) makes no repre-
 
 sentations or warranties, expressed or implied, as to the accuracy or completeness of the information
 
@@ -1305,7 +1305,7 @@ NVIDIA products are sold subject to the NVIDIA standard terms and conditions of 
 
 time of order acknowledgement, unless otherwise agreed in an individual sales agreement signed by
 
-authorized representatives of NVIDIA and customer ("Terms of Sale"). NVIDIA hereby expressly objects
+authorized representatives of NVIDIA and customer (“Terms of Sale”). NVIDIA hereby expressly objects
 
 to applying any customer general terms and conditions with regards to the purchase of the NVIDIA
 
@@ -1317,13 +1317,13 @@ NVIDIA makes no representation or warranty that products based on this document 
 
 any specified use. Testing of all parameters of each product is not necessarily performed by NVIDIA.
 
-It is customer's sole responsibility to evaluate and determine the applicability of any information con-
+It is customer’s sole responsibility to evaluate and determine the applicability of any information con-
 
 tained in this document, ensure the product is suitable and fit for the application planned by cus-
 
 tomer, and perform the necessary testing for the application to avoid a default of the application or
 
-the product. Weaknesses in customer's product designs may affect the quality and reliability of the
+the product. Weaknesses in customer’s product designs may affect the quality and reliability of the
 
 NVIDIA product and may result in additional or different conditions and/or requirements beyond those
 
@@ -1358,9 +1358,9 @@ regulations, and accompanied by all associated conditions, limitations, and noti
 
 THIS DOCUMENT AND ALL NVIDIA DESIGN SPECIFICATIONS, REFERENCE BOARDS, FILES, DRAWINGS,
 
-DIAGNOSTICS, LISTS, AND OTHER DOCUMENTS (TOGETHER AND SEPARATELY, "MATERIALS") ARE
+DIAGNOSTICS, LISTS, AND OTHER DOCUMENTS (TOGETHER AND SEPARATELY, “MATERIALS”) ARE
 
-BEING PROVIDED "AS IS." NVIDIA MAKES NO WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR
+BEING PROVIDED “AS IS.” NVIDIA MAKES NO WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR
 
 OTHERWISE WITH RESPECT TO THE MATERIALS, AND EXPRESSLY DISCLAIMS ALL IMPLIED WAR-
 
@@ -1376,7 +1376,7 @@ ING OUT OF ANY USE OF THIS DOCUMENT, EVEN IF NVIDIA HAS BEEN ADVISED OF THE POSS
 
 OF SUCH DAMAGES. Notwithstanding any damages that customer might incur for any reason whatso-
 
-ever, NVIDIA's aggregate and cumulative liability towards customer for the products described herein
+ever, NVIDIA’s aggregate and cumulative liability towards customer for the products described herein
 
 shall be limited in accordance with the Terms of Sale for the product.
 
@@ -1390,11 +1390,11 @@ may be trademarks of the respective companies with which they are associated.
 
 8.3. Copyright
 
-� 2024-2025, NVIDIA Corporation. All rights reserved.
+© 2024-2025, NVIDIA Corporation. All rights reserved.
 
 Copyright
 
-�2024-2025, NVIDIA Corporation
+©2024-2025, NVIDIA Corporation
 
 8.2.  Trademarks                                                                                      31
 

@@ -21,7 +21,7 @@ the problem.
 
 WARNING: A WARNING indicates a potential for property damage, personal injury, or death.
 
-© 2025 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its
+Â© 2025 Dell Inc. or its subsidiaries. All rights reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its
 
 subsidiaries. Other trademarks may be trademarks of their respective owners.
 Contents
@@ -155,15 +155,15 @@ of a VXLAN leaf-spine fabric is a best practice in the data center.
 
 Topics:
 
-·  Enterprise SONiC Distribution by Dell Technologies
+Â·  Enterprise SONiC Distribution by Dell Technologies
 
-·  SmartFabric Manager for SONiC
+Â·  SmartFabric Manager for SONiC
 
-·  PowerStore
+Â·  PowerStore
 
-·  Typographical conventions
+Â·  Typographical conventions
 
-·  We value your feedback
+Â·  We value your feedback
 
 Enterprise SONiC Distribution by Dell Technologies
 
@@ -251,15 +251,15 @@ switches that are supported for this deployment.
 
 Topics:
 
-·  Dell PowerSwitch S5248F-ON
+Â·  Dell PowerSwitch S5248F-ON
 
-·  Dell PowerSwitch S5232F-ON
+Â·  Dell PowerSwitch S5232F-ON
 
-·  Dell PowerSwitch S3248T-ON
+Â·  Dell PowerSwitch S3248T-ON
 
-·  Dell PowerStore enterprise storage appliance
+Â·  Dell PowerStore enterprise storage appliance
 
-·  Dell PowerEdge server
+Â·  Dell PowerEdge server
 
 Dell PowerSwitch S5248F-ON
 
@@ -321,13 +321,13 @@ OOB management network is an isolated network for hardware and PowerStore applia
 
 Topics:
 
-·   Production topology
+Â·   Production topology
 
-·   Production topology connection details
+Â·   Production topology connection details
 
-·   OOB management topology
+Â·   OOB management topology
 
-·   OOB management connection details
+Â·   OOB management connection details
 
 Production topology
 
@@ -493,11 +493,11 @@ This chapter covers items to consider before deploying SFM for PowerStore.
 
 Topics:
 
-·   Minimum networking requirements
+Â·   Minimum networking requirements
 
-·   Supported Dell PowerSwitch systems
+Â·   Supported Dell PowerSwitch systems
 
-·   PowerStore VLANs and IP addresses
+Â·   PowerStore VLANs and IP addresses
 
 Minimum networking requirements
 
@@ -718,17 +718,17 @@ additional information, see the SmartFabric Manager for SONiC User Guide.
 
 Topics:
 
-·   Prepare leaf and spine switches for SFM
+Â·   Prepare leaf and spine switches for SFM
 
-·   Add leaf and spine switches to SFM inventory
+Â·   Add leaf and spine switches to SFM inventory
 
-·   Create the fabric
+Â·   Create the fabric
 
-·   Create a nondefault tenant
+Â·   Create a nondefault tenant
 
-·   Create the networks
+Â·   Create the networks
 
-·   Create downlinks to PowerStore appliances and storage clients
+Â·   Create downlinks to PowerStore appliances and storage clients
 
 Prepare leaf and spine switches for SFM
 
@@ -978,7 +978,7 @@ VLANs and IP addresses that are used in this guide.
 
     The completed page looks like the following:
 
-    Figure 20. Add VXLAN Network dialog box ­ NVMe          network
+    Figure 20. Add VXLAN Network dialog box Â­ NVMe          network
 
 6.  Click SUBMIT. A green Success message displays, and     the NVMe  network is listed.
 
@@ -1014,7 +1014,7 @@ The values that are shown in the figure below are from VLANs and IP addresses th
     The completed page looks like the following:
 
 30  Use SFM to create the leaf-spine fabric
-    Figure 22. Add VXLAN Network dialog box ­ cluster network
+    Figure 22. Add VXLAN Network dialog box Â­ cluster network
 
 6.  Click SUBMIT. A green Success message displays, and the cluster network is added to the list.
 
@@ -1061,7 +1061,7 @@ The NVMe/TCP network downlinks to PowerStore appliances and storage clients are 
 
     f.  Click SUBMIT. A green Success message displays, and the new downlink     appears  in  the     list
 
-        Figure 25. Fabric downlinks tab ­ PowerStore downlink created
+        Figure 25. Fabric downlinks tab Â­ PowerStore downlink created
 
 32      Use SFM to create the leaf-spine fabric
 When SFM has configured the downlink on the switches, the Status changes from In Progress, as shown, to Success. The
@@ -1119,7 +1119,7 @@ the following
 
         NOTE: You might need to click REFRESH to see the LAG.
 
-        Figure 28. Fabric LAG tab ­ LAG created
+        Figure 28. Fabric LAG tab Â­ LAG created
 
 Repeat the above steps for each LAG on the cluster network from the fabric leaf switches to the PowerStore appliances. There
 
@@ -1153,7 +1153,7 @@ After creating the LAGs, they are placed in the PowerStore cluster network as fo
     e.  Click SUBMIT. A green Success message displays,   and the  new   downlink  appears  in the list.
 
                                                                          Use       SFM to   create the    leaf-spine  fabric  35
-    Figure 31. Fabric downlinks tab ­ PowerStore cluster downlink added
+    Figure 31. Fabric downlinks tab Â­ PowerStore cluster downlink added
 
 When SFM has configured the downlink on the switches, the Status changes from In Progress, as shown, to Success. The
 
@@ -1181,11 +1181,11 @@ details and OOB management network connection details.
 
 Topics:
 
-·   Initial configuration
+Â·   Initial configuration
 
-·   NVMe/TCP network configuration
+Â·   NVMe/TCP network configuration
 
-·   Cluster network
+Â·   Cluster network
 
 Initial configuration
 
@@ -1314,19 +1314,19 @@ to validate the fabric for this deployment.
 
 Topics:
 
-·  Dell Networking resources
+Â·  Dell Networking resources
 
-·  PowerStore resources
+Â·  PowerStore resources
 
-·  Technical support
+Â·  Technical support
 
 Dell Networking resources
 
-Dell Technologies Networking Solutions Info Hub ­ This site provides guides to assist with planning and deploying various
+Dell Technologies Networking Solutions Info Hub Â­ This site provides guides to assist with planning and deploying various
 
 solutions with Dell Networking.
 
-Dell Technologies Enterprise SONiC Distribution (account required) ­ This site includes SONiC user guides and software.
+Dell Technologies Enterprise SONiC Distribution (account required) Â­ This site includes SONiC user guides and software.
 
 SmartFabric Manager documentation (account required)
 
@@ -1369,13 +1369,13 @@ supported hardware, software, and firmware can be     used.
 
 Topics:
 
-·     Dell PowerSwitch systems
+Â·     Dell PowerSwitch systems
 
-·     SONiC SmartFabric Manager
+Â·     SONiC SmartFabric Manager
 
-·     PowerStore appliance software
+Â·     PowerStore appliance software
 
-·     PowerEdge servers
+Â·     PowerEdge servers
 
 Dell PowerSwitch systems
 

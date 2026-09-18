@@ -1344,6 +1344,76 @@ G-042, G-043).
 - **Fix:** correct the catalog entry, then re-check what the OOB uplink cabling quotes for an
   NVIDIA-stack design (QSFP28 parts, not SFP28) and the form-factor check (#23) on it.
 
+### G-045 — `docs/sources.csv` had 7 corrupted vendor URLs (local file path baked into the URL column) — CLOSED 2026-09-18
+- **Severity:** HIGH — silent. QRG-DC and OPTICS (the two most-cited documents in the whole corpus —
+  QRG-DC alone backs the G-039/G-042 rulings) plus 5 storage/compute spec sheets (ST-POWERSTORE,
+  ST-POWERSCALE, ST-PFLEX-SPEC, ST-POWERMAX, CO-POWEREDGE) had their `url` column overwritten with
+  the LOCAL file path (e.g. `.../selling-competitive/corpus/raw/QRG-DC.pdf` instead of the real
+  `.../selling-competitive/dell-networking-quick-reference-guide.pdf`). `tools/harvest.js` would
+  404 on every one of these forever — a refresh loop would have silently never re-checked the two
+  documents this catalog trusts most.
+- **Found:** running a comprehensive refresh check (`node tools/harvest.js --dry-run`) and noticing
+  the printed plan URLs ended in a local-path fragment. **Root cause, confirmed from git history:**
+  the 2026-07 corpus-intake commit (`75d78de`) meant to rewrite `local_file` from a bare filename to
+  `corpus/raw/<id>.pdf`, but the same substitution accidentally also clobbered the neighboring `url`
+  column for these 7 rows. The initial commit (`75e86c5`) still had the correct URLs — used as
+  ground truth to restore them.
+- **Fix:** the 7 `url` values restored verbatim from `75e86c5`; `local_file` values (already correct,
+  files verified present on disk) left untouched.
+
+### G-046 — 3 Info Hub URLs mis-tagged `access=direct`; harvester wrote a reCAPTCHA challenge page as if it were the document — CLOSED 2026-09-18
+- **Severity:** HIGH — silent, and would have overwritten good content. `AI-OVERVIEW`,
+  `ST-PSTORE-HA`, `CO-MX-VCF` are `infohub.delltechnologies.com` URLs — every OTHER Info Hub URL in
+  the manifest is correctly tagged `browser-check` (Info Hub reCAPTCHA-gates non-browser clients),
+  but these 3 were `direct`. The harvester fetched them, got a 200 with a Google reCAPTCHA
+  challenge-page body, and — because nothing checked the CONTENT of a 200 response — saved it to
+  `corpus/raw/*.pdf` as if it were the real document. `CO-MX-VCF.pdf` and `ST-PSTORE-HA.pdf` are
+  TRACKED files (real, previously-verified PDFs backing the G-006/R12 evidence) and were overwritten
+  in the working tree before being caught; `AI-OVERVIEW.pdf` was untracked (the real PDF lives under
+  a legacy filename, `H20082-dell-technologies-ai-fabrics-overview.pdf`, saved by hand previously).
+- **Found:** by hand, inspecting the harvester's "+ NEW" results — three ~20KB "PDFs" that failed
+  `pdftotext` extraction. Their header bytes were `<!doctype html>...recaptcha/challengepage`.
+- **Fix (two layers, so this class can't recur silently):**
+  1. Data: the 3 rows re-tagged `browser-check`, matching every sibling Info Hub row; `DELL-APD`
+     also re-tagged `manual` (its URL is `dell.com/en-us/shop/`, a generic homepage that was never a
+     meaningful single fetchable document for the hand-verified SKU data it's supposed to represent).
+  2. Tool: `tools/harvest.js` gained `detectChallengePage()` — checks the first 4KB of any "direct"
+     fetch against reCAPTCHA/Cloudflare/WAF challenge-page signatures BEFORE writing anything to
+     disk; a match is reported as `BLOCKED` (a new report bucket, distinct from NEW/CHANGED/FAILED)
+     and nothing is written. The two overwritten tracked PDFs were restored from git; the untracked
+     garbage (`AI-OVERVIEW.pdf`, `DELL-APD.html/txt`) deleted.
+
+### G-047 — 28 corpus text files (pre-existing, not just today's refresh) contained invalid UTF-8 bytes — CLOSED 2026-09-18
+- **Severity:** MEDIUM — a latent hygiene defect, not a wrong-fact defect. `tools/harvest.js`'s
+  `extractPdf()` called `pdftotext -table` with no explicit encoding; poppler's default is not
+  reliably UTF-8, so any PDF whose embedded font subset used Latin-1/CP1252 code points for a
+  special character (®, ©, an emoji glyph used as a bullet) came out as raw non-UTF-8 bytes in the
+  `.txt` file. Node's `fs.readFileSync(path, 'utf8')` doesn't throw on this — it silently substitutes
+  U+FFFD at that one byte — so the practical blast radius was confined to that one decorative
+  character, never a technical fact (checked: every load-bearing quote in `NV-LINKX-400G-COMBO.txt`
+  cited by CITATION-LOG survived byte-for-byte). Found while investigating an encoding error in the
+  freshly-refetched `ST-POWERSTORE.txt` (`Net Promoter System\xae`) and then swept the WHOLE corpus,
+  which surfaced 27 more pre-existing instances across QRG-DC, OPTICS, SONIC-COMPAT, every SW-* spec
+  sheet, ST-POWERSCALE, ST-PFLEX-SPEC, ST-POWERMAX, CO-POWEREDGE, CO-XE9780/85, CO-XE-AI, AI-ERA, the
+  NV-GB200-RA/NV-NVL72-RA reference architectures, and others.
+- **Fix:** `extractPdf()` now passes `-enc UTF-8`. Every affected PDF-sourced file re-extracted (26
+  of the 28 — confirmed clean afterward). The 2 files with no surviving raw PDF (`PS-SUPPORTABILITY`,
+  `ST-PSTORE-SFM-DG`) were repaired byte-by-byte (each invalid byte re-decoded as CP1252, the
+  historically-common cause, then re-encoded to UTF-8); one PDF (`MG-VERITY-DOC`) had a genuinely
+  malformed CESU-8 emoji sequence `-enc UTF-8` didn't fix — the 6 bad bytes (a corrupted 🔗-class
+  glyph used as a decorative marker before "GATEWAY MODES") were stripped rather than guessed at.
+  Corpus-wide sweep after all fixes: 0 files with invalid UTF-8 (was 28).
+
+### G-048 — `NV-CX8-DS`'s URL resolves to a PDF.js VIEWER page, not the document — OPEN 2026-09-18
+- **Severity:** LOW (one document; the fact it backs — ConnectX-8 800G specs — is corroborated
+  elsewhere). `https://resources.nvidia.com/en-us-accelerated-networking-resource-library/
+  connectx-datasheet-c` renders a JavaScript PDF.js viewer wrapper; both the old and freshly-refetched
+  extractions captured only the viewer's own UI chrome ("Thumbnails", "Zoom In", "Print", …), never
+  the datasheet's actual text. Pre-existing — not something today's refresh broke.
+- **Fix:** needs a human with a browser to find the real underlying PDF URL (or save it via
+  `--include-manual`-style hand capture) and update the manifest; not attempted here since guessing
+  a plausible-looking URL is exactly the kind of unverified fact this project's standards forbid.
+
 ### G-P01 — Citation staleness (PNs, table/page refs)
 - **Severity:** HIGH — see `CITATION-LOG.md`. Confirmed still relevant now
   that real PNs are visible in `optics.js` (many `dellPN: 'verify'`

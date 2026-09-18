@@ -58,7 +58,7 @@ minimum number of PowerScale nodes per cluster is three while the maximum cluste
 
 F710 is best suited for Generative AI and AI workloads, as well as high performing vertical workloads like, media
 
-and entertainment, healthcare and life sciences, high frequency trading, and EDA workloads ­ and is the world's
+and entertainment, healthcare and life sciences, high frequency trading, and EDA workloads â€“ and is the world's
 
 first ethernet-based storage appliance certified with NVIDIA DGX SuperPOD.
 
@@ -87,7 +87,7 @@ balance of performance and capacity.
 
 F910 ATTRIBUTES &               3.84 TB SSD  7.68 TB SSD         15.36 TB          30.7 TB SSD             61.4 TB      122 TB SSD3
 
-OPTIONS                                                          SSD                                       SSD²
+OPTIONS                                                          SSD                                       SSDÂ²
 
 Raw node capacity               92 TB        184 TB              368 TB                        736.8 TB    1.4 PB       2.9 PB
 
@@ -125,15 +125,15 @@ networking (per node)                                            Dual port 200G 
 
 Max Power
 
-Consumption @ 200­                                               877 Watts (@25°C), 913 Watts (@35°C)
+Consumption @ 200â€“                                               877 Watts (@25Â°C), 913 Watts (@35Â°C)
 
 240V
 
-Typical thermal rating                                           2992 BTU/hr (@25°C), 3115 BTU/hr (@35°C)
+Typical thermal rating                                           2992 BTU/hr (@25Â°C), 3115 BTU/hr (@35Â°C)
 
-¹Values at <25° C are reflective of more steady state maximum values during normal operations
+Â¹Values at <25Â° C are reflective of more steady state maximum values during normal operations
 
-²61TB ISE requires 9.10 or later and SED requires 9.11 or later
+Â²61TB ISE requires 9.10 or later and SED requires 9.11 or later
 
 3Requires OneFS 9.11.0.0
 
@@ -174,15 +174,15 @@ node)                                                            Dual port 200G 
 
                                                                  Dual port 200G InfiniBand NIC (HDR)
 
-Max Power Consumption @                                          769 Watts (@25°C), 887 Watts (@35°C)
+Max Power Consumption @                                          769 Watts (@25Â°C), 887 Watts (@35Â°C)
 
 200~240V (per node)1
 
-Typical thermal rating                                           2622 BTU/hr (@25°C), 3025 BTU/hr (@35°C)
+Typical thermal rating                                           2622 BTU/hr (@25Â°C), 3025 BTU/hr (@35Â°C)
 
-¹Values at <25° C are reflective of more steady state maximum values during normal operation
+Â¹Values at <25Â° C are reflective of more steady state maximum values during normal operation
 
-²61TB ISE requires 9.10 or later and SED requires 9.11 or later
+Â²61TB ISE requires 9.10 or later and SED requires 9.11 or later
 
 3 Requires OneFS 9.11.0.0
 
@@ -214,19 +214,19 @@ Infrastructure networking (per node)                             Dual port 25G N
 
                                                                  Dual port 200G InfiniBand NIC (HDR)
 
-Max Power Consumption @ 200­                                     286 Watts (@25°C), 309 Watts (@35°C)
+Max Power Consumption @ 200â€“                                     286 Watts (@25Â°C), 309 Watts (@35Â°C)
 
 240V (per node)
 
-Typical thermal rating                                           975 BTU/hr (@25°C), 1054 BTU/hr (@35°C)
+Typical thermal rating                                           975 BTU/hr (@25Â°C), 1054 BTU/hr (@35Â°C)
 
-Values at <25° C are reflective of more steady state maximum values during normal operation
+Values at <25Â° C are reflective of more steady state maximum values during normal operation
 
 CLUSTER ATTRIBUTES                          Number of nodes      Raw cluster capacity                  Rack units
 
-F910                                        3 to 252             276 TB ­ 737 PB                             3 to 252
+F910                                        3 to 252             276 TB â€“ 737 PB                             3 to 252
 
-F710                                        3 to 252             115 TB ­ 307 PB                             3 to 252
+F710                                        3 to 252             115 TB â€“ 307 PB                             3 to 252
 
 F210                                        3 to 252             23 TB to 15 PB                              3 to 252
 
@@ -297,15 +297,15 @@ Data replication             SyncIQ fast and flexible one-to-many file-based asy
 
                              clusters. SmartSync provides efficient file to file and file to object data movement.
 
-ENVIRONMENTAL SPECIFICATIONS ­ POWER
+ENVIRONMENTAL SPECIFICATIONS â€“ POWER
 
 Power factor is a measure of how effectively you are using electricity.  The power factor of an AC electrical power system is defined as the ratio of
 
-the real power absorbed by the load to the apparent power flowing in the circuit and is a dimensionless number in the closed interval of -1 to 1. A
+the real power absorbed by the load to the apparent power flowing in the circuit and is a dimensionless number in the closed interval of âˆ’1 to 1. A
 
 power factor of less than one indicates the voltage and current are not in phase, reducing the instantaneous product of the two.
 
-For max power consumption information during unexpected environmental conditions, please refer to the "Site Preparation and Planning Guide".
+For max power consumption information during unexpected environmental conditions, please refer to the â€œSite Preparation and Planning Guideâ€.
 
 POWER SUPPLY: Key Specifications and Efficiency for PowerScale F210, F710, and F910
 
@@ -315,11 +315,11 @@ Class              Platinum                 Platinum
 
 Frequency          50/60 Hz                 50/60 Hz
 
-Voltage            100-240V, F210: 9.2 A ­  100-240V, 12 A ­ 8A
+Voltage            100-240V, F210: 9.2 A â€“  100-240V, 12 A â€“ 8A
 
-                   4.7A, F710: 12 A ­ 8A
+                   4.7A, F710: 12 A â€“ 8A
 
-Operating Environment: 10°C to 35°C (50°F to 95°F) with no direct sunlight on the equipment
+Operating Environment: 10Â°C to 35Â°C (50Â°F to 95Â°F) with no direct sunlight on the equipment
 
 For additional information about environmental measurements for specific system configurations, see Dell.com/environmental_datasheets
 OPERATING ENVIRONMENT                                                                     Compliant with ASHRAE A3 data center
@@ -330,25 +330,25 @@ DIMENSIONS / WEIGHT:
 
 The following specifications apply to F910:
 
-·  Height: 86.8 mm (3.41 inches)
+â€¢  Height: 86.8 mm (3.41 inches)
 
-·  Width: 482 mm (18.97 inches)
+â€¢  Width: 482 mm (18.97 inches)
 
-·  Depth: 772.13 mm (30.39 inches) with bezel
+â€¢  Depth: 772.13 mm (30.39 inches) with bezel
 
-·  Weight: 72.2 lbs. (32.75 kg)
+â€¢  Weight: 72.2 lbs. (32.75 kg)
 
 The following specifications apply to F210 and F710
 
-·  Height: 42.8mm (1.68")
+â€¢  Height: 42.8mm (1.68â€)
 
-·  Width: 482mm (18.97")
+â€¢  Width: 482mm (18.97")
 
-·  Depth: 822.88mm (32.39") with bezel
+â€¢  Depth: 822.88mm (32.39â€) with bezel
 
-·  Weight: F210 - 44.8 lbs (20.3 kg), F710 - 49.6    lbs  (22.5        kg)
+â€¢  Weight: F210 - 44.8 lbs (20.3 kg), F710 - 49.6    lbs  (22.5        kg)
 
-MINIMUM SERVICE CLEARANCES                                                                        Front: 40" (88.9 cm), rear: 42"
+MINIMUM SERVICE CLEARANCES                                                                        Front: 40â€ (88.9 cm), rear: 42â€
 
                                                                                                              (106.7 cm)
 
@@ -386,7 +386,7 @@ can benefit your organization.
 
    Storage
 
-   © 2026 Dell Inc. or its subsidiaries. All Rights Reserved. Dell Technologies,  Dell and other
+   Â© 2026 Dell Inc. or its subsidiaries. All Rights Reserved. Dell Technologies,  Dell and other
 
    trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks   may be
 

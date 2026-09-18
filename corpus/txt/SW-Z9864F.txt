@@ -6,11 +6,11 @@ Z9864F-ON Spec Sheet
 
                                                          multi-rate AI fabric switch
 
-Dell PowerSwitch Z9864F-ON 800GbE fixed switch comprises Dell Technologies' latest disaggregated hardware
+Dell PowerSwitch Z9864F-ON 800GbE fixed switch comprises Dell Technologiesâ€™ latest disaggregated hardware
 
 and software data center networking solutions, providing state-of-the-art, high-density 100/200/400/800 GbE
 
-ports and a broad range of functionality to meet the growing demands of today's data center environment. This
+ports and a broad range of functionality to meet the growing demands of todayâ€™s data center environment. This
 
 innovative, next-generation open networking high-density aggregation switch offers optimum flexibility and
 
@@ -56,10 +56,10 @@ systems (when applicable).
 
 Dell PowerSwitch Z9864F-ON Spec Sheet
 
-© 2024 Dell Inc. or its subsidiaries.
+Â© 2024 Dell Inc. or its subsidiaries.
 Key applications                                       Key features
 
-·  Organizations looking to enter the software-        ·  2U high-density 100/200/400/800GbE
+â€¢  Organizations looking to enter the software-        â€¢  2U high-density 100/200/400/800GbE
 
    defined data center era with a choice of               aggregation switch with up to 64 ports of 800GbE
 
@@ -67,45 +67,45 @@ Dell PowerSwitch Z9864F-ON Spec Sheet
 
    maximize flexibility                                   PAM4, breakout mode), 256 ports of 200GbE
 
-·  High-capacity Ethernet fabrics for AI/ML training      (breakout mode)**, 320 ports of 100GbE (breakout
+â€¢  High-capacity Ethernet fabrics for AI/ML training      (breakout mode)**, 320 ports of 100GbE (breakout
 
    and inferencing clusters, with up-to 8K GPU nodes      mode), or 256x100G and either 32x800G or
 
    in a single two-tier 400G fabric                       64x400G**
 
-·  High density multi-rate 100/200/400/800GbE          ·  OSFP112 ports support 100/200/400/800GbE
+â€¢  High density multi-rate 100/200/400/800GbE          â€¢  OSFP112 ports support 100/200/400/800GbE
 
-   ToR/MoR server aggregation in high-performance      ·  102.4Tbps switching capacity (full duplex),
+   ToR/MoR server aggregation in high-performance      â€¢  102.4Tbps switching capacity (full duplex),
 
    data center environments at the desired                51.2Tbps non-blocking (half duplex)
 
-   fabric speed                                        ·  IO panel to PSU airflow or PSU to IO panel airflow
+   fabric speed                                        â€¢  IO panel to PSU airflow or PSU to IO panel airflow
 
-·  Fabric implementation in leaf and spine along       ·  AC or DC* PSU support
+â€¢  Fabric implementation in leaf and spine along       â€¢  AC or DC* PSU support
 
    with S-series ToR switches enabling cost-effective
 
-   aggregation of 100/200/400/800 uplinks              ·  Redundant, hot-swappable power supplies
+   aggregation of 100/200/400/800 uplinks              â€¢  Redundant, hot-swappable power supplies
 
-·  Multi-functional 100/200/400/800GbE switching          and fans
+â€¢  Multi-functional 100/200/400/800GbE switching          and fans
 
-   in High Performance Computing clusters or other     ·  Supports the open-source ONIE for zero-touch
+   in High Performance Computing clusters or other     â€¢  Supports the open-source ONIE for zero-touch
 
    business-sensitive deployments requiring the           installation of alternate network operating
 
    highest bandwidth                                      systems
 
-·  DCB* and RoCEv2 converged lossless                  ·  Power-efficient design, implemented in a
+â€¢  DCB* and RoCEv2 converged lossless                  â€¢  Power-efficient design, implemented in a
 
    transactions                                           monolithic 5nm die package
 
-·  NVMe/TCP and Dell SmartFabric Storage               ·  Power-efficient operation up to 45°C, helping
+â€¢  NVMe/TCP and Dell SmartFabric Storage               â€¢  Power-efficient operation up to 45Â°C, helping
 
    Software support for automation of storage             reduce cooling costs in temperature-constrained
 
    services on a wide range of existing IP fabrics        deployments
 
-·  Autonomous data center network fabric
+â€¢  Autonomous data center network fabric
 
    deployment, expansion and lifecycle management
 
@@ -117,20 +117,20 @@ Dell PowerSwitch Z9864F-ON Spec Sheet
 
 2 | Dell PowerSwitch Z9864F-ON Spec Sheet
 
-© 2024 Dell Inc. or its subsidiaries.
+Â© 2024 Dell Inc. or its subsidiaries.
 Product                                  Description
 
 Z9864F-ON                                Z9864F-ON, 64x 800GbE OSFP112, 2x SFP+, TAA Certified, with ONIE bootloader
 
 Network Operating System                 Enterprise SONiC Distribution by Dell Technologies
 
-                                         AC ­ IO Panel to PSU Airflow, 2 AC PSUs and 4 fans
+                                         AC â€“ IO Panel to PSU Airflow, 2 AC PSUs and 4 fans
 
-Airflow Kits                             AC ­ PSU to IO Panel Airflow, 2 AC PSUs and 4 fans
+Airflow Kits                             AC â€“ PSU to IO Panel Airflow, 2 AC PSUs and 4 fans
 
-                                         DC ­ IO Panel to PSU Airflow, 2 DC PSUs and 4 fans
+                                         DC â€“ IO Panel to PSU Airflow, 2 DC PSUs and 4 fans
 
-                                         DC ­ PSU to IO Panel Airflow, 2 DC PSUs and 4 fans
+                                         DC â€“ PSU to IO Panel Airflow, 2 DC PSUs and 4 fans
 
 Optics, Cables and Cable                 Please refer to Dell Networking Transceivers and Cables spec sheet for complete list of optics and cables.
 
@@ -152,11 +152,11 @@ management                                                  Ingress Traffic Mana
 
                                                             NPU)                                            Equipment Classification Requirements and
 
-1 RJ45 10/100/1000BaseT Ethernet for                        NPU Pipeline is programmable capable using      User's Guide
+1 RJ45 10/100/1000BaseT Ethernet for                        NPU Pipeline is programmable capable using      Userâ€™s Guide
 
 management                                                  NPL
 
-1 USB 3.0 Type A storage port                               CPU: Intel® Xeon® D-1714 4 core @               EN 60825-2 Safety of Laser Products Part
+1 USB 3.0 Type A storage port                               CPU: IntelÂ® XeonÂ® D-1714 4 core @               EN 60825-2 Safety of Laser Products Part
 
                                                                                                             2: Safety of Optical Fibre Communication
 
@@ -186,11 +186,11 @@ AC/DC inlet IEC60320 C20                                    Timing Card supporti
 
 Max. power available:                                       3E class OCXO                                   Immunity
 
-·  AC High Line: 3000W                                      Timing card supporting PTP/1588 providing       EN 300 386 EMC for Network Equipment
+â€¢  AC High Line: 3000W                                      Timing card supporting PTP/1588 providing       EN 300 386 EMC for Network Equipment
 
-·  AC Low Line: 1500W                                       Class C Phase performance or better             EN 55035
+â€¢  AC Low Line: 1500W                                       Class C Phase performance or better             EN 55035
 
-·  DC: 3200W                                                                                                EN 61000-3-2 Harmonic Current Emissions
+â€¢  DC: 3200W                                                                                                EN 61000-3-2 Harmonic Current Emissions
 
 Max. utilized: 2848W                                        Security                                        EN 61000-3-3
 
@@ -198,7 +198,7 @@ Typ. power consumption: 1500W***                            Hardware Root of Tru
 
 Max. operating specifications:                              Secure Boot                                     EN 61000-4-2 ESD
 
-Operating temperature: 32° to 113°F (0°to45°C)              Trusted Platform Module TPM 2.0                 EN 61000-4-3 Radiated Immunity
+Operating temperature: 32Â° to 113Â°F (0Â°to45Â°C)              Trusted Platform Module TPM 2.0                 EN 61000-4-3 Radiated Immunity
 
 Operating humidity: 8 to 90% (RH),                          Optics Performance                              EN 61000-4-4 EFT
 
@@ -208,15 +208,15 @@ non-condensing                                                                  
 
 Max. non-operating specifications:                          in IO/PSU airflow direction                     Immunity
 
-Storage temperature: -40° to 149°F                          Supports up to 32 ports of 17W optics when
+Storage temperature: -40Â° to 149Â°F                          Supports up to 32 ports of 17W optics when
 
-(­40° to 65°C)                                              in PSU/IO airflow direction operating at 35°C   RoHS
+(â€“40Â° to 65Â°C)                                              in PSU/IO airflow direction operating at 35Â°C   RoHS
 
 Storage humidity: 5 to 95% (RH),                            Supports up to 64 ports of DAC cable when       All Z-series components are EU RoHS
 
-non-condensing                                              in PSU/IO airflow direction operating at 45°C   compliant
+non-condensing                                              in PSU/IO airflow direction operating at 45Â°C   compliant
 
-Support lowline and highline AC power                       and no optics support when operating at 45°C
+Support lowline and highline AC power                       and no optics support when operating at 45Â°C
 
 modes                                                       For Network Operating System (NOS)              Certifications
 
@@ -234,13 +234,13 @@ redundant fan module). Each fan module                                          
 
 with one dual-stacked fan.
 
-*** Typical power consumption measured at 25°C ambient with 100% load on all ports with DAC
+*** Typical power consumption measured at 25Â°C ambient with 100% load on all ports with DAC
 
 **** Power redundancy is supported only in high power mode
 
 3 | Dell PowerSwitch Z9864F-ON Spec Sheet
 
-© 2024 Dell Inc. or its subsidiaries.
+Â© 2024 Dell Inc. or its subsidiaries.
 IT Lifecycle Services for Networking
 
 Experts, insights and ease
@@ -293,7 +293,7 @@ Dell Networking                  Technologies Expert                            
 
 solutions
 
-© 2024 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their
+Â© 2024 Dell Inc. or its subsidiaries. All Rights Reserved. Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of their
 
 respective owners.
 

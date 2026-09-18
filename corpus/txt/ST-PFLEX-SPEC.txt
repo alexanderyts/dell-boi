@@ -22,7 +22,7 @@ high performance applications and databases, building an agile private/hybrid cl
 
 heterogeneous environments.
 
-PowerFlex 5.0 begins a new generation of PowerFlex architecture with a major refactoring of PowerFlex's data
+PowerFlex 5.0 begins a new generation of PowerFlex architecture with a major refactoring of PowerFlex‚Äôs data
 
 distribution and protection mechanisms. 5.0 introduces the Scalable Availability Engine (SAE): a unique distributed
 
@@ -35,23 +35,23 @@ always been known for.
 SPECIFICATION SHEET                                                                                                        1
 Selected Definitions
 
-System ≠ A PowerFlex system is the collection of entities managed by the Metadata Management (MDM) cluster.
+System ‚Äì A PowerFlex system is the collection of entities managed by the Metadata Management (MDM) cluster.
 
-Protection Domain ≠ A protection domain (PD) is a logical entity comprising a group of Storage Nodes that provide
+Protection Domain ‚Äì A protection domain (PD) is a logical entity comprising a group of Storage Nodes that provide
 
 data protection for each other. Each Storage Node belongs to exactly one protection domain. Each protection
 
 domain is a unique set of Storage Nodes.
 
-MDM ≠ Metadata Manager. A highly-available storage management cluster that resides alongside other software
+MDM ‚Äì Metadata Manager. A highly-available storage management cluster that resides alongside other software
 
 components within the nodes but sits outside the data path and controls storage cluster health and
 
 configuration.
 
-Device ≠ Any local, direct attached block storage (DAS) in a Storage Node that contributes to a Device Group.
+Device ‚Äì Any local, direct attached block storage (DAS) in a Storage Node that contributes to a Device Group.
 
-Device Group ≠ A collection of devices residing in the Storage Nodes of a Protection Domain, with all devices managed
+Device Group ‚Äì A collection of devices residing in the Storage Nodes of a Protection Domain, with all devices managed
 
 together as a set of raw capacity. A Device Group is the underlying capacity for a Storage Pool.
 
@@ -59,62 +59,62 @@ Storage Pool - A volume container that leverages all the raw capacity of a Devic
 
 all devices supporting the storage pool.
 
-PDS ≠ PowerFlex Data Server. A software storage processing service. Working together, the PDSs in a protection
+PDS ‚Äì PowerFlex Data Server. A software storage processing service. Working together, the PDSs in a protection
 
 domain manage erasure coding protection schemes and storage pool capacity. They present volumes to the
 
-SDCs and every PDS manages a portion of each volume's address space.
+SDCs and every PDS manages a portion of each volume‚Äôs address space.
 
-DGWT ≠ Device Gateway Target. A software service running on nodes that contribute disks to the storage cluster. The
+DGWT ‚Äì Device Gateway Target. A software service running on nodes that contribute disks to the storage cluster. The
 
 DGWT facilitates I/O to the individual hardware devices (disks) both locally and over the network. The DGWTs
 
 communicate both with the PDSs on all storage nodes as well as with each other.
 
-Storage Node ≠ The entity that encompasses both the data processing and data storage resources in a single node.
+Storage Node ‚Äì The entity that encompasses both the data processing and data storage resources in a single node.
 
 Each Storage Node runs a single PDS and DGWT process and contributes a minimum of 5 storage devices. A
 
 Storage Node belongs to exactly one Protection Domain.
 
-Erasure Coding ≠ Erasure Coding (EC) protects data by dividing a unit of data into several fragments, calculating
+Erasure Coding ‚Äì Erasure Coding (EC) protects data by dividing a unit of data into several fragments, calculating
 
 redundant parity fragments using an erasure coding algorithm, and distributing all fragments across many
 
 locations. If any fragment is lost, the data is reconstructed from the remaining fragments.
 
-Protection Scheme ≠ PowerFlex 5.0 implements erasure coding in protection schemes, varying the number of data
+Protection Scheme ‚Äì PowerFlex 5.0 implements erasure coding in protection schemes, varying the number of data
 
 fragments and parity fragments according to the desired distribution width and failure resiliency. The initial
 
 supported protection schemes are: 2+2 and 8+2.
 
-Host ≠ A host is a compute client that consumes PowerFlex volumes. A host is either an SDC or an NVMe/TCP initiator
+Host ‚Äì A host is a compute client that consumes PowerFlex volumes. A host is either an SDC or an NVMe/TCP initiator
 
 connected to the SDTs.
 
-SDC ≠ Storage Data Client. A client kernel driver that provides front-end volume access to operating systems,
+SDC ‚Äì Storage Data Client. A client kernel driver that provides front-end volume access to operating systems,
 
 applications, or hypervisors. It presents PowerFlex volumes as local block devices. The SDC maintains peer-to-
 
 peer connections to every Storage Node contributing to a storage pool.
 
-Volume ≠ Analogous to a LUN, a volume is a subset of a storage pool's capacity presented by an SDC as a local block
+Volume ‚Äì Analogous to a LUN, a volume is a subset of a storage pool‚Äôs capacity presented by an SDC as a local block
 
 device. Volume data is distributed evenly across all disks in the device group supporting a storage pool.
 
-Snapshot ≠ A snapshot is a read-only point in time copy of a volume or thin clone. Snapshots are created individually or
+Snapshot ‚Äì A snapshot is a read-only point in time copy of a volume or thin clone. Snapshots are created individually or
 
-on a schedule. They may be marked as "secure" and given an expiration date before which they cannot be
+on a schedule. They may be marked as ‚Äúsecure‚Äù and given an expiration date before which they cannot be
 
 altered or deleted.
 
-Clone ≠ A thin clone is a read-write point in time copy of a volume, snapshot, or another thin clone.
+Clone ‚Äì A thin clone is a read-write point in time copy of a volume, snapshot, or another thin clone.
 
                                           Specification Sheet                                                             2
 
-                                          ∑  SOLUTION BRIEF
-SDT ≠ Storage Data Target. Enables NVMe initiator clients to map and use PowerFlex volumes using the NVMe/TCP
+                                          ‚Ä¢  SOLUTION BRIEF
+SDT ‚Äì Storage Data Target. Enables NVMe initiator clients to map and use PowerFlex volumes using the NVMe/TCP
 
 protocol. The SDT software service translates between the NVMe and proprietary PowerFlex protocols,
 
@@ -178,7 +178,7 @@ Maximum Storage Pools per Protection Domain                           1
 
                                              Specification Sheet                                                            3
 
-                                             ∑        SOLUTION BRIEF
+                                             ‚Ä¢        SOLUTION BRIEF
 PowerFlex Item                                             Product Limit
 
 Maximum Storage Pools per System                           8
@@ -205,7 +205,7 @@ of managed Hosts is therefore capped by this limit, but the unmanaged host count
 
 Flexible Deployment Topologies
 
-PowerFlex's extreme flexibility meets the diverse and rapidly evolving needs of modern enterprises, offering
+PowerFlex‚Äôs extreme flexibility meets the diverse and rapidly evolving needs of modern enterprises, offering
 
 unprecedented choice for customers to architect their mission-critical IT environments. Mix and match storage and
 
@@ -217,13 +217,13 @@ during transitions.
 
 The functional character of a node, its personality, is determined primarily by the installation/presence of software
 
-services running on the node. However, PowerFlex nodes are configured and purchased as either "storage" or
+services running on the node. However, PowerFlex nodes are configured and purchased as either ‚Äústorage‚Äù or
 
-"compute" nodes. This reflects the type and quantity of resources in the node, ensuring that resources align with
+‚Äúcompute‚Äù nodes. This reflects the type and quantity of resources in the node, ensuring that resources align with
 
                                       Specification Sheet                                                                      4
 
-                                      ∑  SOLUTION BRIEF
+                                      ‚Ä¢  SOLUTION BRIEF
 expected usage. For example, storage nodes have less RAM and compute nodes usually have no capacity disks in
 
 them.
@@ -232,19 +232,19 @@ PowerFlex Consumption Options
 
 With PowerFlex, you have choice and flexibility in how you choose to consume the PowerFlex architecture:
 
-∑        PowerFlex rack is a fully engineered system with integrated networking. It is designed to simplify deployment
+‚Ä¢        PowerFlex rack is a fully engineered system with integrated networking. It is designed to simplify deployment
 
          and accelerate time to value.
 
-∑        PowerFlex appliance is a flexible solution with a small starting point and massive scale potential. PowerFlex
+‚Ä¢        PowerFlex appliance is a flexible solution with a small starting point and massive scale potential. PowerFlex
 
          appliance provides a broad choice of supported networking with either full or partial network automation.
 
-∑        PowerFlex custom nodes have the same performance and scale potential as rack and appliance but leave the
+‚Ä¢        PowerFlex custom nodes have the same performance and scale potential as rack and appliance but leave the
 
          network management and hardware life-cycling up to the user.
 
-∑        Public cloud. This is a supported software-only deployment of the software-defined storage layer on
+‚Ä¢        Public cloud. This is a supported software-only deployment of the software-defined storage layer on
 
          recommended instances (with attached storage) in Amazon Web Services or Microsoft Azure.
 
@@ -272,7 +272,7 @@ CPU technology                                                5th Gen Intel Xeon
 
 CPU sockets                                                            Two
 
-CPU cores (per socket)                                        16 ≠ 32
+CPU cores (per socket)                                        16 ‚Äì 32
 
 CPU frequency                                              2.5 GHz - 2.8 GHz
 
@@ -282,7 +282,7 @@ Maximum storage                         154TB NVMe                              
 
 capacity (raw TB)
 
-Drive bays                              10 x 2.5"                                    24 x 2.5"
+Drive bays                              10 x 2.5‚Äù                                    24 x 2.5‚Äù
 
 Boot solution                                       960 GB SATA M.2 (RAID1) BOSS-N1
 
@@ -294,7 +294,7 @@ connectivity                            NVIDIA ConnectX-6 Lx                    
 
                                               Specification Sheet                                                         5
 
-                                              ∑     SOLUTION BRIEF
+                                              ‚Ä¢     SOLUTION BRIEF
 Management                                                    iDRAC 9 Out of Band Management
 
          * The current supported max capacity is 192TB per node. This number is based upon 12 drives of 15.36TB capacity in the R760-based
@@ -345,7 +345,7 @@ CPU sockets                                                                    T
 
 CPU cores (total)                                                              32 - 256
 
-CPU frequency                                                        2.20 GHz ≠ 4.10 GHz
+CPU frequency                                                        2.20 GHz ‚Äì 4.10 GHz
 
 Maximum memory                                                                 3072 GB
 
@@ -367,12 +367,12 @@ Management                                                    iDRAC 9 Out of Ban
 
                                                            Specification Sheet                                                              6
 
-                                                           ∑  SOLUTION BRIEF
+                                                           ‚Ä¢  SOLUTION BRIEF
 Consolidation: OS, Hypervisor, Platform Support
 
-The platform supports a broad range of operating environments ≠ bare metal operating systems, hypervisors, and
+The platform supports a broad range of operating environments ‚Äì bare metal operating systems, hypervisors, and
 
-container platforms ≠ coexisting within a unified infrastructure. By allowing users to flexibly mix these platforms in a
+container platforms ‚Äì coexisting within a unified infrastructure. By allowing users to flexibly mix these platforms in a
 
 single system, PowerFlex enables you to deploy, scale, and evolve all your applications to meet your business
 
@@ -416,34 +416,34 @@ Storage Nodes**      SLES 15 SP6
 
                                   Specification Sheet                                                                          7
 
-                                  ∑     SOLUTION BRIEF
+                                  ‚Ä¢     SOLUTION BRIEF
 PowerFlex Software Features and Functions
 
 Management Software:
 
-∑  PowerFlex Manager stack
+‚Ä¢  PowerFlex Manager stack
 
-∑  Thin Provisioning
+‚Ä¢  Thin Provisioning
 
-∑  Overprovisioning Control
+‚Ä¢  Overprovisioning Control
 
-∑  Distributed Erasure Coding - Dual parity protection
+‚Ä¢  Distributed Erasure Coding - Dual parity protection
 
-∑  Data Reduction: In-line compression and zero detection
+‚Ä¢  Data Reduction: In-line compression and zero detection
 
-∑  Capacity Accounting
+‚Ä¢  Capacity Accounting
 
 Local Protection:
 
-∑  SED Based Encryption with self-managed and external key  management
+‚Ä¢  SED Based Encryption with self-managed and external key  management
 
-∑  Data at Rest Software Encryption
+‚Ä¢  Data at Rest Software Encryption
 
-∑  Local Point-In-Time Copies (Snapshots and Thin Clones)
+‚Ä¢  Local Point-In-Time Copies (Snapshots and Thin Clones)
 
-∑  Immutable & Secure Snapshots
+‚Ä¢  Immutable & Secure Snapshots
 
-∑  Snapshot Policies
+‚Ä¢  Snapshot Policies
 
 Data Access Protocols
 
@@ -459,7 +459,7 @@ consumption by operating systems, hypervisors, and applications that can access 
 
                                      Specification Sheet                                                               8
 
-                                     ∑  SOLUTION BRIEF
+                                     ‚Ä¢  SOLUTION BRIEF
 PowerFlex also supports NVMe/TCP, enabling consumption of PowerFlex volumes without installing the proprietary
 
 kernel driver. The Storage Data Target (SDT) service enables support for NVMe/TCP. It runs on storage nodes
@@ -482,32 +482,32 @@ Maximum volumes mapped to a single NVMe host (ESXi)   256 (ESXi 8.0)
 
                                  Specification Sheet                                                                   9
 
-                                 ∑  SOLUTION BRIEF
-Maximum NVMe hosts connected to system                                      1K (included  in  total  Hosts  per  system)
+                                 ‚Ä¢  SOLUTION BRIEF
+Maximum NVMe hosts connected to system                                       1K (included  in  total  Hosts  per  system)
 
-Maximum SDTs per protection domain                                          128
+Maximum SDTs per protection domain                                           128
 
-Minimum SDTs per protection domain                                          2*
+Minimum SDTs per protection domain                                           2*
 
-Maximum SDTs per system                                                     128
+Maximum SDTs per system                                                      128
 
-Maximum paths in multipathing driver per volume                             8
+Maximum paths in multipathing driver per volume                              8
 
-Maximum connections per host per protection domain                          16
+Maximum connections per host per protection domain                           16
 
-Maximum NVMe host connections (I/O controllers) per SDT                     512
+Maximum NVMe host connections (I/O controllers) per SDT                      512
 
-Maximum NVMe host connections (I/O controllers) per system                  65,519
+Maximum NVMe host connections (I/O controllers) per system                   65,519
 
-Maximum I/O controller queue depth                                          128
+Maximum I/O controller queue depth                                           128‚Ä†
 
-Maximum I/O controller queues                                               32
+Maximum I/O controller queues                                                32‚Ä†
 
-Maximum volume-to-host mappings (SDC/NVMe) per system                       262,143
+Maximum volume-to-host mappings (SDC/NVMe) per system                        262,143
 
 * Using minimum SDTs may block the ability to reach maximum NVMe hosts.
 
- Number of queues + queue depth is automatically negotiated on connection.
+‚Ä† Number of queues + queue depth is automatically negotiated on connection.
 
 PowerFlex Manager (PFxM)
 
@@ -525,18 +525,18 @@ infrastructure monitoring and management, ensuring simplicity and consistency at
 
                                PowerFlex Clustering, Scaling and Management
 
-                                                 Specification Sheet                                                      10
+                                                 Specification Sheet                                                       10
 
-                                                 ∑  SOLUTION BRIEF
+                                                 ‚Ä¢  SOLUTION BRIEF
 Min Nodes Per Cluster          5 storage nodes minimum for 2+2 EC protection scheme
 
 (Two-layer only)               11 storage nodes minimum for 8+2 EC protection scheme.
 
                                1 to 3 compute nodes (depending on host OS / hypervisor)
 
-Scaling Increments             1 Node (storage or compute) 
+Scaling Increments             1 Node (storage or compute) ‚Ä†
 
-                               1 drive/device per Node 
+                               1 drive/device per Node ‚Ä†‚Ä†
 
                                PowerFlex Management VMs (3x)                           32GB RAM, 14 vCPU, 600GB storage (each)
 
@@ -546,17 +546,17 @@ PowerFlex                      EmbeddedOS Jump Server                           
 
 Management VM                  Secure Connect Gateway                                  4GB RAM, 2 vCPU, 16GB storage
 
-Requirements                   PowerFlex Enterprise Encryption and
+Requirements‚Ä°                  PowerFlex Enterprise Encryption and
 
                                KeyStore (optional)                                     6GB RAM, 4 vCPU, 64GB storage
 
                                               (Supplied as virtual machine images)
 
-              A single node is the minimum scaling unit required to expand an existing Protection Domain. Creation of a new (or additional)
+           ‚Ä†   A single node is the minimum scaling unit required to expand an existing Protection Domain. Creation of a new (or additional)
 
                   Protection Domain requires the addition of a minimum of 5 or 11 storage nodes, depending on the protection scheme.
 
-            Storage Nodes may be ordered partially populated (5 drives minimum) and drives may be added until the node is either fully
+           ‚Ä†‚Ä† Storage Nodes may be ordered partially populated (5 drives minimum) and drives may be added until the node is either fully
 
                   populated or reaches the maximum density allowed. Drives should be added to all nodes in a Protection Domain in equal
 
@@ -566,7 +566,7 @@ PowerFlex Manager: Supported Switches for                                 Full N
 
 Switch Model                                                              Switch Role
 
-                               Management     Management          Access  Aggregation     Spine  Border Leaf                                 Leaf
+                               Management     Management          Access  Aggregation     Spine  Border Leaf                                  Leaf
 
                                               Aggregation
 
@@ -574,9 +574,9 @@ Cisco N92348GC-X               X
 
 Cisco N93180YC-FX3                            X                   X
 
-Cisco N9336C-FX2                                                                  X       X           X                                            X
+Cisco N9336C-FX2                                                                  X       X           X                                             X
 
-Cisco N9364C-GX                                                                           X                                                        X
+Cisco N9364C-GX                                                                           X                                                         X
 
 Dell S4148T-ON                 X
 
@@ -594,11 +594,11 @@ Dell S5248F -ON                                                   X
 
 Power and Dimensions
 
-                               PowerFlex R660                             PowerFlex R760         PowerFlex                                   R860
+                               PowerFlex R660                             PowerFlex R760         PowerFlex                                    R860
 
-                                                           Specification Sheet                                                                        11
+                                                           Specification Sheet                                                                         11
 
-                                                           ∑      SOLUTION BRIEF
+                                                           ‚Ä¢      SOLUTION BRIEF
                              1100W 100-240Vac / 240Vdc                              1400W 100-240Vac / 240Vdc
 
 High-efficiency fully        1100W 48vDC                                            1800W 200-240Vac / 240Vdc
@@ -639,13 +639,13 @@ Environmental and Certificates
 
                                                PowerFlex  R660         PowerFlex         R760            PowerFlex        R860
 
-Ambient operating temperature  10∞C to 35∞C                            10∞C to 35∞C                    10∞C to 35∞C
+Ambient operating temperature  10¬∞C to 35¬∞C                            10¬∞C to 35¬∞C                    10¬∞C to 35¬∞C
 
-                               50∞F to 95∞F                            50∞F to 95∞F                    50∞F to 95∞F
+                               50¬∞F to 95¬∞F                            50¬∞F to 95¬∞F                    50¬∞F to 95¬∞F
 
-Storage temperature range      -40∞C to 65∞C                           -40∞C to 65∞C                   -40∞C to 65∞C
+Storage temperature range      -40¬∞C to 65¬∞C                           -40¬∞C to 65¬∞C                   -40¬∞C to 65¬∞C
 
-                               -40∞F to 149∞F                          -40∞F to 149∞F                  -40∞F to 149∞F
+                               -40¬∞F to 149¬∞F                          -40¬∞F to 149¬∞F                  -40¬∞F to 149¬∞F
 
 Operating relative humidity    8% to 80%                               8% to 80%                       8% to 80%
 
@@ -657,13 +657,13 @@ Maximum operational altitude   3048m                                   3048m    
 
                                                   PowerFlex R6625                              PowerFlex R7625
 
-Ambient operating temperature                     10∞C to 35∞C                                 10∞C to 35∞C
+Ambient operating temperature                     10¬∞C to 35¬∞C                                 10¬∞C to 35¬∞C
 
-                                                  50∞F to 95∞F                                 50∞F to 95∞F
+                                                  50¬∞F to 95¬∞F                                 50¬∞F to 95¬∞F
 
-Storage temperature range                         -40∞C to 65∞C                                -40∞C to 65∞C
+Storage temperature range                         -40¬∞C to 65¬∞C                                -40¬∞C to 65¬∞C
 
-                                                  -40∞F to 149∞F                               -40∞F to 149∞F
+                                                  -40¬∞F to 149¬∞F                               -40¬∞F to 149¬∞F
 
 Operating relative humidity                       8% to 80%                                    8% to 80%
 
@@ -675,7 +675,7 @@ Maximum operational altitude                      3048m                         
 
                                                           Specification Sheet                                                      12
 
-                                                          ∑  SOLUTION BRIEF
+                                                          ‚Ä¢  SOLUTION BRIEF
 Statement of Compliance
 
 Dell Information Technology Equipment is compliant with all currently applicable regulatory requirements for
@@ -692,8 +692,8 @@ PowerFlex and visit                           feedback and                      
 
                              the Info Hub     requests                                                                                                       news
 
-© 2025 Dell Inc. or its subsidiaries. All Rights Reserved. Dell Technologies, Dell, EMC, Dell EMC and                                                                       13
+¬© 2025 Dell Inc. or its subsidiaries. All Rights Reserved. Dell Technologies, Dell, EMC, Dell EMC and                                                                       13
 Specification Sheet other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks
 
-of their respective owners.                ∑  SOLUTION BRIEF
+of their respective owners.                ‚Ä¢  SOLUTION BRIEF
 

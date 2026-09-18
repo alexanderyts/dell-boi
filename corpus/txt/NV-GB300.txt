@@ -124,10 +124,6 @@ Designed for AI Reasoning Performance & Efficiency | NVIDIA GB300 NVL72
 
  Advance discovery with energy‑efficient high‑performance computing 
 
- Sustainable Computing 
-
- Save energy and reduce costs with sustainable, efficient computing 
-
  MLOps 
 
  Scale AI solutions with enterprise MLOps tools, automation, and software 
@@ -363,10 +359,6 @@ Designed for AI Reasoning Performance & Efficiency | NVIDIA GB300 NVL72
 
  Advance discovery with energy‑efficient high‑performance computing 
 
- Sustainable Computing 
-
- Save energy and reduce costs with sustainable, efficient computing 
-
  MLOps 
 
  Scale AI solutions with enterprise MLOps tools, automation, and software 
@@ -586,6 +578,12 @@ Designed for AI Reasoning Performance & Efficiency | NVIDIA GB300 NVL72
  Designed for AI Reasoning Performance
 
  The NVIDIA GB300 NVL72 features a fully liquid-cooled, rack-scale architecture that integrates 72 NVIDIA Blackwell Ultra GPUs and 36 Arm®-based NVIDIA Grace™ CPUs into a single platform. The system delivers 1.5x more dense FP4 Tensor Core FLOPS and 2x higher attention performance compared to NVIDIA Blackwell GPUs. It’s purpose-built for test-time scaling inference and AI reasoning tasks. AI factories accelerated by the GB300 NVL72—leveraging NVIDIA Quantum-X800 InfiniBand or Spectrum-X™ Ethernet, ConnectX-8 SuperNIC™s, and NVIDIA Mission Control management—deliver up to a 50x overall increase in AI factory output performance compared to NVIDIA Hopper-based platforms . 
+
+ Wistron Opens Advanced Manufacturing Plant to Produce NVIDIA AI Systems
+
+ The 324,000-square-foot Texas facility produces NVIDIA Grace Blackwell Ultra and will produce Vera Rubin Superchips — part of a combined $700 million investment in advanced American manufacturing. 
+
+ Read the Press Release
 
  Performance
 

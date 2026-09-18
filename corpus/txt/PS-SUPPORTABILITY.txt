@@ -13,7 +13,7 @@ the problem.
 
 WARNING: A WARNING indicates a potential for              property damage, personal injury, or death.
 
-Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other
+Copyright Â© Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other
 
 trademarks may be trademarks of their respective owners.
 Contents
@@ -105,13 +105,13 @@ Contents                                                                        
 
 Topics:
 
-·  Recent changes to this guide
+Â·  Recent changes to this guide
 
-·  Terminology
+Â·  Terminology
 
-·  General availability and RTS releases
+Â·  General availability and RTS releases
 
-·  Where to get help
+Â·  Where to get help
 
 Recent changes to this guide
 
@@ -276,33 +276,33 @@ Dell Knowledge Base (KB) articles  KB  articles are available on the Dell Techno
 
 Topics:
 
-·  OneFS
+Â·  OneFS
 
-·  Web Browser - OneFS
+Â·  Web Browser - OneFS
 
-·  Upgrading PowerScale OneFS
+Â·  Upgrading PowerScale OneFS
 
-·  InsightIQ
+Â·  InsightIQ
 
-·  SmartSync
+Â·  SmartSync
 
-·  Supported cloud providers and storage types
+Â·  Supported cloud providers and storage types
 
-·  ECS
+Â·  ECS
 
-·  SyncIQ
+Â·  SyncIQ
 
-·  Dell Technologies connectivity services
+Â·  Dell Technologies connectivity services
 
-·  Secure Remote Services (SRS) compatibility
+Â·  Secure Remote Services (SRS) compatibility
 
-·  Authentication providers
+Â·  Authentication providers
 
-·  Supported clients
+Â·  Supported clients
 
-·  OneFS Simulator
+Â·  OneFS Simulator
 
-·  OneFS Anti-virus compatibility
+Â·  OneFS Anti-virus compatibility
 
 OneFS
 
@@ -528,7 +528,7 @@ OneFS Version      Version
 
        x = Not supported .
 
-       ×*: OneFS does not support the File-to-Object Backup to Cloud feature in 9.8, but the generated V2 datasets are
+       Ã—*: OneFS does not support the File-to-Object Backup to Cloud feature in 9.8, but the generated V2 datasets are
 
        supported for datasets that are planned to be used in File-to-Object Backup to Cloud workflows in future releases.
 
@@ -954,11 +954,11 @@ PowerScale OneFS supports CAVA starting from 9.x
 
 Topics:
 
-·   File system protocols
+Â·   File system protocols
 
-·   HDFS (Hadoop)
+Â·   HDFS (Hadoop)
 
-·   SNMP
+Â·   SNMP
 
 File system protocols
 
@@ -1121,27 +1121,27 @@ SNMP 3
 
 Topics:
 
-·  Node Service and Support Life-cycle Dates
+Â·  Node Service and Support Life-cycle Dates
 
-·  OneFS and Node Compatibility
+Â·  OneFS and Node Compatibility
 
-·  Node Pool Compatibility
+Â·  Node Pool Compatibility
 
-·  Node and Drive Compatibility
+Â·  Node and Drive Compatibility
 
-·  Node Firmware Package (NFP)
+Â·  Node Firmware Package (NFP)
 
-·  Drive Support Package (DSP)
+Â·  Drive Support Package (DSP)
 
-·  Internal Network Switches and Life-cycle Dates
+Â·  Internal Network Switches and Life-cycle Dates
 
-·  CX6 100 GbE NIC and supported OneFS versions
+Â·  CX6 100 GbE NIC and supported OneFS versions
 
-·  PowerScale nodes NICs and Transceivers
+Â·  PowerScale nodes NICs and Transceivers
 
-·  Generation 6 NICs and Transceivers
+Â·  Generation 6 NICs and Transceivers
 
-·  Generation 5 NICs and Transceivers
+Â·  Generation 5 NICs and Transceivers
 
 Node Service and Support Life-cycle Dates
 
@@ -1366,7 +1366,7 @@ Isilon Generation 5 nodes
 
 The following are Isilon Generation 5 platforms.
 
-    X-Series ­ A balance between large capacity and      high performance for high throughput and  high concurrency applications.
+    X-Series Â­ A balance between large capacity and      high performance for high throughput and  high concurrency applications.
 
 Isilon X-Series nodes
 
@@ -1833,9 +1833,9 @@ Foxconn                   047-0002-01                   Yes                     
 
 Topics:
 
-·  Azure
+Â·  Azure
 
-·  AWS
+Â·  AWS
 
 Azure
 
@@ -1999,7 +1999,7 @@ EBS volume sizes                                                      4 TB or 10
 
                                                                       1 TB to 16 TB (gp3)
 
-Capacity scalability                                                  80 TB­360 TB on st1 (HDD)
+Capacity scalability                                                  80 TBÂ­360 TB on st1 (HDD)
 
                                                                       20 TB to 1.6 PB on gp3 (SSD)
 

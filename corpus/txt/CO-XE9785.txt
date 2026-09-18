@@ -19,7 +19,7 @@ the problem.
 
 WARNING: A WARNING indicates a potential for              property damage, personal injury, or death.
 
-Copyright � Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other
+Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell, and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other
 
 trademarks may be trademarks of their respective owners.
 Contents
@@ -80,9 +80,7 @@ Chapter 9: Power, thermal, and acoustics........................................
 
 Power................................................................................................................................................................................... 26
 
-PSU Specifications......................................................................................................................................................26
-
-Power Capping Configuration with MI355X GPU............................................................................................... 28
+PSU Specifications...................................................................................................................................................... 27
 
 Thermal................................................................................................................................................................................ 28
 
@@ -141,7 +139,7 @@ Contents                                                                        
 
    Supplemental Deployment Services ............................................................................................................................ 55
 
-   DAY 2 � Automation Services with Ansible................................................................................................................ 55
+   DAY 2 – Automation Services with Ansible................................................................................................................ 55
 
    Dell Technologies Consulting Services.........................................................................................................................56
 
@@ -152,27 +150,27 @@ Contents                                                                        
 
 The PowerEdge XE9785 system is a 2-socket, 10U server that supports:
 
-   Two 5th Generation AMD EPYC 9005 Series processor with up to 192 cores per processor.
+●  Two 5th Generation AMD EPYC 9005 Series processor with up to 192 cores per processor.
 
-   Up to 24 DDR5 DIMM slots
+●  Up to 24 DDR5 DIMM slots
 
-   12 redundant AC power supply units
+●  12 redundant AC power supply units
 
-   Five standard cold-swap cooling fans on the mid tray for the HPM sled, and 15 standard hot-swap cooling fans on the rear of
+●  Five standard cold-swap cooling fans on the mid tray for the HPM sled, and 15 standard hot-swap cooling fans on the rear of
 
    the system that is installed in the cooling fan sled designed to provide cooling for the GPU sled.
 
-   8 AMD InstinctTM MI355X 288 GB 1400 W OAM with AMD Infinity Fabric connectivity
+●  8 AMD Instinct™ MI355X 288 GB 1400 W OAM with AMD Infinity Fabric connectivity
 
-   8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs, fully interconnected with NVIDIA NVLink technology
+●  8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs, fully interconnected with NVIDIA NVLink technology
 
-   Up to 12 x 75 W Gen5 x16 FHHL cards with AMD MI355X GPU configuration
+●  Up to 12 x 75 W Gen5 x16 FHHL cards with AMD MI355X GPU configuration
 
-   Up to 4 x 150 W Gen5 x16 FHHL cards with NVIDIA B300 GPU configuration
+●  Up to 4 x 150 W Gen5 x16 FHHL cards with NVIDIA B300 GPU configuration
 
-   16 x EDSFF E3.S NVMe Gen5 SSD drives
+●  16 x EDSFF E3.S NVMe Gen5 SSD drives
 
-   10 x U.2 NVMe Gen5 SSD drives*
+●  10 x U.2 NVMe Gen5 SSD drives*
 
    NOTE: Feature not available at initial product launch. Refer to the product configurator page on Dell.com to confirm feature
 
@@ -196,23 +194,23 @@ The PowerEdge XE9785 system is a 2-socket, 10U server that supports:
 
 Topics:
 
-�  Key workloads
+•  Key workloads
 
-�  New technologies
+•  New technologies
 
 Key workloads
 
 The versatile XE9785 is designed to train the most demanding ML/DL large models including:
 
-   Generative AI Training and Fine-Tuning
+●  Generative AI Training and Fine-Tuning
 
-   Large natural language processing models, recommendation engines, speech recognition models, conversational AI, chatbots,
+●  Large natural language processing models, recommendation engines, speech recognition models, conversational AI, chatbots,
 
    and digital humans
 
-   AI/ML/DL Training - especially large model training with large datasets
+●  AI/ML/DL Training - especially large model training with large datasets
 
-   HPC - Accelerate compute and simulation workloads
+●  HPC - Accelerate compute and simulation workloads
 
 New technologies
 
@@ -255,15 +253,15 @@ Embedded BOSS:    HWRAID  1,  2  x  M.2  NVMe  SSDs  Support up to 2 x M.2 SSD d
 
 Flex I/O                                             Front I/O with:
 
-                                                       1 x USB 3.0
+                                                     ●  1 x USB 3.0
 
-                                                       1 x Mini-DisplayPort
+                                                     ●  1 x Mini-DisplayPort
 
-                                                       1 x USB 2.0 Type-C port
+                                                     ●  1 x USB 2.0 Type-C port
 
-                                                       2 x RJ45 dedicated iDRAC Ethernet port
+                                                     ●  2 x RJ45 dedicated iDRAC Ethernet port
 
-Accelerator GPUs                                     8 AMD InstinctTM MI355X 288 GB 1400 W OAM with AMD
+Accelerator GPUs                                     8 AMD Instinct™ MI355X 288 GB 1400 W OAM with AMD
 
                                                      Infinity Fabric connectivity or
 
@@ -277,24 +275,24 @@ Power Supplies                                       73.5 mm dimension is the ne
 
                                                      17G 54 V design
 
-                                                       12 Titanium 3200 W AC with 6 + 6 PSU redundancy
+                                                     ●  12 Titanium 3200 W AC with 6 + 6 PSU redundancy
 
 6  PowerEdge XE9785 System Overview
                                                                                                                     2
 
-                                                                     System Features
+                                                                      System Features
 
 Table 2. Comparison  of PowerEdge XE9785 and XE9680
 
 Features             PowerEdge XE9785                              PowerEdge XE9680
 
-Processors           Two 5th Generation AMD EPYC 9005 Series         Two 5th Generation Intel Xeon Scalable
+Processors           Two 5th Generation AMD EPYC 9005 Series       ●  Two 5th Generation Intel Xeon Scalable
 
-                     processor up to 192 cores                       processors with up to 64 cores or
+                     processor up to 192 cores                        processors with up to 64 cores or
 
-                                                                     Two 4th Generation Intel Xeon Scalable
+                                                                   ●  Two 4th Generation Intel Xeon Scalable
 
-                                                                     processors with up to 56 cores
+                                                                      processors with up to 56 cores
 
 Memory
 
@@ -304,45 +302,45 @@ Memory type          RDIMM                                         RDIMM
 
 Memory module slots  24 DDR5 DIMM slots                            32 DDR5 DIMM slots
 
-                       NOTE: Supports registered      ECC  DDR5      NOTE: Supports registered ECC DDR5
+                        NOTE: Supports registered     ECC  DDR5       NOTE: Supports registered ECC DDR5
 
-                       RDIMMs only.                                  RDIMMs only.
+                        RDIMMs only.                                  RDIMMs only.
 
-Storage Controllers  Direct-attach PCIe SSDs only                    PERC12 (SAS4/SATA)
+Storage Controllers  Direct-attach PCIe SSDs only                  ●  PERC12 (SAS4/SATA)
 
-                                                                     Internal Boot: Boot Optimized Storage
+                                                                   ●  Internal Boot: Boot Optimized Storage
 
-                                                                     Subsystem (NVMe BOSS-N1): HWRAID 2 x
+                                                                      Subsystem (NVMe BOSS-N1): HWRAID 2 x
 
-                                                                     M.2 SSDs
+                                                                      M.2 SSDs
 
-                                                                     NOTE: The XE9680-Gaudi3 configuration
+                                                                      NOTE: The XE9680-Gaudi3 configuration
 
-                                                                     does not support PERC H965i or Software
+                                                                      does not support PERC H965i or Software
 
-                                                                     RAID.
+                                                                      RAID.
 
-Drive Bays             16 x E3.S NVMe Gen5 SSD drives              Front bays:
+Drive Bays           ●  16 x E3.S NVMe Gen5 SSD drives             Front bays:
 
-                       10 x U.2 NVMe Gen5 SSD drives*                16 x E3.S EDSFF direct from PSB (x4 Gen5)
+                     ●  10 x U.2 NVMe Gen5 SSD drives*             ●  16 x E3.S EDSFF direct from PSB (x4 Gen5)
 
-                                                                     8 x U.2 SAS/SATA with fPERC
+                                                                   ●  8 x U.2 SAS/SATA with fPERC
 
-                                                                     8 x U.2 NVME direct from PSB
+                                                                   ●  8 x U.2 NVME direct from PSB
 
-                                                                     NOTE: The XE9680-Gaudi3 configuration
+                                                                      NOTE: The XE9680-Gaudi3 configuration
 
-                                                                     supports only 8 x 2.5-inch NVMe SSD drives.
+                                                                      supports only 8 x 2.5-inch NVMe SSD drives.
 
-Power Supplies       3200 W AC Titanium                              3200 W AC Titanium (available only in the US
+Power Supplies       3200 W AC Titanium                            ●  3200 W AC Titanium (available only in the US
 
-                                                                     & Canada)
+                                                                      & Canada)
 
-                                                                     3000 W AC Titanium (Multi-rated, supports
+                                                                   ●  3000 W AC Titanium (Multi-rated, supports
 
-                                                                     only XE9680-Gaudi3 configuration)
+                                                                      only XE9680-Gaudi3 configuration)
 
-                                                                     2800 W AC Titanium
+                                                                   ●  2800 W AC Titanium
 
 Cooling Options      Air Cooling                                   Air Cooling
 
@@ -364,28 +362,28 @@ Dimension            Height: 439.5 mm (17.30 inches)               Height: 263.2
 
                      1023 mm (40.27 inches) without bezel          995 mm (39.17 inches) without bezel
 
-                                                                                         System Features            7
+                                                                                          System Features           7
 Table 2. Comparison     of PowerEdge XE9785 and XE9680 (continued)
 
 Features                   PowerEdge XE9785                                PowerEdge XE9680
 
-Weight                       System fully populated with MI355X GPUs -     H100/H200/H800/H20 with 16    x  E3.S  SSDs:
+Weight                     ●  System fully populated with MI355X GPUs -    H100/H200/H800/H20 with 16     x  E3.S  SSDs:
 
-                             172.3 kg (379.86 lb)                          107.75 kg (237.55 lb)
+                              172.3 kg (379.86 lb)                         107.75 kg (237.55 lb)
 
-                             System fully populated with B300 GPUs -
+                           ●  System fully populated with B300 GPUs -
 
-                             163.65 kg (360.79 lb)
+                              163.65 kg (360.79 lb)
 
 Form Factor                10U rack server                                 6U rack server
 
-Embedded                     iDRAC10                                         iDRAC9
+Embedded                   ●  iDRAC10                                      ●  iDRAC9
 
-Management                   iDRAC Direct                                    iDRAC Direct
+Management                 ●  iDRAC Direct                                 ●  iDRAC Direct
 
-                             iDRAC RESTful with Redfish                      iDRAC RESTful with Redfish
+                           ●  iDRAC RESTful with Redfish                   ●  iDRAC RESTful with Redfish
 
-                             iDRAC Service Manual                            iDRAC Service Manual
+                           ●  iDRAC Service Manual                         ●  iDRAC Service Manual
 
                            The iDRAC direct Type C USB port can be
 
@@ -399,180 +397,180 @@ Management                   iDRAC Direct                                    iDR
 
                            able to access idrac webGUI/ssh.
 
-                             NOTE: To configure the Type-C USB port as
+                              NOTE: To configure the Type-C USB port as
 
-                             iDRAC management port see iDRAC10 User
+                              iDRAC management port see iDRAC10 User
 
-                             Guide.
+                              Guide.
 
 Bezel                      Optional security bezel                         Optional LCD bezel or security bezel
 
-OpenManage    Software       CloudIQ for PowerEdge plug-in                   CloudIQ for PowerEdge plug-in
+OpenManage    Software     ●  CloudIQ for PowerEdge plug-in                ●  CloudIQ for PowerEdge plug-in
 
-                             OpenManage Enterprise                           OpenManage Enterprise
+                           ●  OpenManage Enterprise                        ●  OpenManage Enterprise
 
-                             OpenManage Power Manager plug-in                OpenManage Power Manager plug-in
+                           ●  OpenManage Power Manager plug-in             ●  OpenManage Power Manager plug-in
 
-                             OpenManage Service plug-in                      OpenManage Service plug-in
+                           ●  OpenManage Service plug-in                   ●  OpenManage Service plug-in
 
-                             OpenManage Update Manager plug-in               OpenManage Update Manager plug-in
+                           ●  OpenManage Update Manager plug-in            ●  OpenManage Update Manager plug-in
 
 Mobility                   Not supported                                   Not supported
 
-OpenManage                   BMC TrueSight                                   BMC TrueSight
+OpenManage                 ●  BMC TrueSight                                ●  BMC TrueSight
 
-Integrations                 OpenManage Integration with ServiceNow          OpenManage Integration with ServiceNow
+Integrations               ●  OpenManage Integration with ServiceNow       ●  OpenManage Integration with ServiceNow
 
-                             Red Hat Ansible Modules                         Red Hat Ansible Modules
+                           ●  Red Hat Ansible Modules                      ●  Red Hat Ansible Modules
 
-                             Terraform Providers                             Terraform Providers
+                           ●  Terraform Providers                          ●  Terraform Providers
 
-Security                     AMD Secure Encrypted Virtualization (SEV)       Cryptographically signed firmware
+Security                   ●  AMD Secure Encrypted Virtualization (SEV)    ●  Cryptographically signed firmware
 
-                             AMD Secure Memory Encryption (SME)              Data at Rest Encryption (SEDs with local or
+                           ●  AMD Secure Memory Encryption (SME)           ●  Data at Rest Encryption (SEDs with local or
 
-                             Cryptographically signed firmware               external key mgmt)
+                           ●  Cryptographically signed firmware               external key mgmt)
 
-                             Data at Rest Encryption (SEDs with local or     Secure Boot
+                           ●  Data at Rest Encryption (SEDs with local or  ●  Secure Boot
 
-                             external key mgmt)                              Secured Component Verification (Hardware
+                              external key mgmt)                           ●  Secured Component Verification (Hardware
 
-                             Secure Boot                                     integrity check)
+                           ●  Secure Boot                                     integrity check)
 
-                             Secured Component Verification (Hardware        Secure Erase
+                           ●  Secured Component Verification (Hardware     ●  Secure Erase
 
-                             integrity check)                                Silicon Root of Trust
+                              integrity check)                             ●  Silicon Root of Trust
 
-                             Secure Erase                                    System Lockdown (requires iDRAC9
+                           ●  Secure Erase                                 ●  System Lockdown (requires iDRAC9
 
-                             Silicon Root of Trust                           Enterprise or Datacenter)
+                           ●  Silicon Root of Trust                           Enterprise or Datacenter)
 
-                             System Lockdown (requires iDRAC10               TPM 2.0 FIPS, CC-TCG certified, TPM 2.0
+                           ●  System Lockdown (requires iDRAC10            ●  TPM 2.0 FIPS, CC-TCG certified, TPM 2.0
 
-                             Enterprise or Datacenter)                       China
+                              Enterprise or Datacenter)                       China
 
-                             Soldered down TPM on Mezzanine DC-SCM
+                           ●  Soldered down TPM on Mezzanine DC-SCM
 
-                             Chassis Intrusion Detection
+                           ●  Chassis Intrusion Detection
 
 Embedded NIC               N/A                                             2 x 1 GbE LOM
 
 Embedded OSFP              8 x OSFP with B300 GPU                          6 x 800 Gb (available only with Intel Gaudi3)
 
-Networking Options           1 x OCP                                       OCP x8 Mezz 3.0
+Networking Options         ●  1 x OCP                                      OCP x8 Mezz 3.0
 
-                             2 x dedicated iDRAC RJ45 ports
+                           ●  2 x dedicated iDRAC RJ45 ports
 
 8         System Features
 Table 2. Comparison    of PowerEdge XE9785 and XE9680 (continued)
 
 Features               PowerEdge XE9785                                      PowerEdge XE9680
 
-GPU Options              8 AMD InstinctTM MI355X 288GB 1400W OAM               8x NVIDIA HGX H100/H800 80GB 700W
+GPU Options            ●  8 AMD Instinct™ MI355X 288GB 1400W OAM             ●  8x NVIDIA HGX H100/H800 80GB 700W
 
-                         with AMD Infinity Fabric connectivity GPUs or         SXM5 GPUs or
+                          with AMD Infinity Fabric connectivity GPUs or         SXM5 GPUs or
 
-                         8 NVIDIA HGX NVL8 270 GB 1100 W SXM6                  8x NVIDIA HGX H200 141GB 700W SXM5
+                       ●  8 NVIDIA HGX NVL8 270 GB 1100 W SXM6               ●  8x NVIDIA HGX H200 141GB 700W SXM5
 
-                         GPUs, fully interconnected with NVIDIA                GPUs or
+                          GPUs, fully interconnected with NVIDIA                GPUs or
 
-                         NVLink technology GPUs                                8x NVIDIA HGX H20 96GB 500W SXM5
+                          NVLink technology GPUs                             ●  8x NVIDIA HGX H20 96GB 500W SXM5
 
-                                                                               GPUs or
+                                                                                GPUs or
 
-                                                                               8x NVIDIA HGX A100 80GB 500W SXM4
+                                                                             ●  8x NVIDIA HGX A100 80GB 500W SXM4
 
-                                                                               GPUs or
+                                                                                GPUs or
 
-                                                                               8x AMD INSTINCT MI300X 192GB 750W
+                                                                             ●  8x AMD INSTINCT MI300X 192GB 750W
 
-                                                                               OAM GPUs or
+                                                                                OAM GPUs or
 
-                                                                               8x Intel Gaudi3 128GB 900W OAM GPUs
+                                                                             ●  8x Intel Gaudi3 128GB 900W OAM GPUs
 
-Ports                  Front Ports             Internal ports                Front Ports          Rear Ports
+Ports                  Front Ports              Internal ports               Front Ports           Rear Ports
 
-                         1 x iDRAC Direct           USB 3.1-compliant          1 x USB 2.0               1 x USB 2.0
+                       ●  1 x iDRAC Direct      ●    USB 3.1-compliant       ●  1 x USB 2.0        ●      1 x USB 2.0
 
-                         (USB C) port               Type-A port                1 x iDRAC Direct          1 x iDRAC Direct
+                          (USB C) port               Type-A port             ●  1 x iDRAC Direct   ●      1 x iDRAC Direct
 
-                         2 x RJ45 dedicated                                    (Micro-AB USB)            Ethernet port
+                       ●  2 x RJ45 dedicated                                    (Micro-AB USB)            Ethernet port
 
-                         iDRAC Ethernet                                        port                      1 x USB 3.0
+                          iDRAC Ethernet                                        port               ●      1 x USB 3.0
 
-                         ports                                                 1 x VGA                   1 x VGA
+                          ports                                              ●  1 x VGA            ●      1 x VGA
 
-                         1 x USB A
+                       ●  1 x USB A
 
-                         1 x Mini-DisplayPort
+                       ●  1 x Mini-DisplayPort
 
-                         NOTE: The
+                          NOTE: The
 
-                         iDRAC direct
+                          iDRAC direct
 
-                         Type C USB
+                          Type C USB
 
-                         port can be
+                          port can be
 
-                         used by
+                          used by
 
-                         connecting Dell
+                          connecting Dell
 
-                         USB-C to 2.5
+                          USB-C to 2.5
 
-                         Gbps Ethernet
+                          Gbps Ethernet
 
-                         Adapter dongle
+                          Adapter dongle
 
-                         (DP/N :
+                          (DP/N :
 
-                         HYRGV). Once
+                          HYRGV). Once
 
-                         connected,
+                          connected,
 
-                         laptop would be
+                          laptop would be
 
-                         assigned IP
+                          assigned IP
 
-                         169.254.0.4
+                          169.254.0.4
 
-                         automatically
+                          automatically
 
-                         and user will
+                          and user will
 
-                         now be able to
+                          now be able to
 
-                         access idrac
+                          access idrac
 
-                         webGUI/ssh.
+                          webGUI/ssh.
 
-PCIe                     Up to 12 x 75 W Gen5 x16 FHHL cards with            10 Gen5 PCIe slots
+PCIe                   ●  Up to 12 x 75 W Gen5 x16 FHHL cards with           10 Gen5 PCIe slots
 
-                         AMD MI355X GPU configuration                          8 x16 Gen5 (x16 PCIe) Full-height, Half-length
+                          AMD MI355X GPU configuration                       ●  8 x16 Gen5 (x16 PCIe) Full-height, Half-length
 
-                         Up to 4 x 150 Gen5 x16 FHHL cards with                2 x16 Gen5 (x16 PCIe) Full-height, Half-length
+                       ●  Up to 4 x 150 Gen5 x16 FHHL cards with             ●  2 x16 Gen5 (x16 PCIe) Full-height, Half-length
 
-                         NVIDIA B300 GPU configuration                         for SmartNIC/DPU
+                          NVIDIA B300 GPU configuration                         for SmartNIC/DPU
 
-                                                                               NOTE: 8 PCIe Gen5 slots with Intel Gaudi3.
+                                                                                NOTE: 8 PCIe Gen5 slots with Intel Gaudi3.
 
-                                                                               Slots 33 and 38 are unavailable due to
+                                                                                Slots 33 and 38 are unavailable due to
 
-                                                                               thermal concerns.
+                                                                                thermal concerns.
 
-Operating System  and    Canonical Ubuntu Server LTS                           Canonical Ubuntu Server LTS
+Operating System  and  ●  Canonical Ubuntu Server LTS                        ●  Canonical Ubuntu Server LTS
 
-Hypervisors              Red Hat Enterprise Linux*                             Red Hat Enterprise Linux
+Hypervisors            ●  Red Hat Enterprise Linux*                          ●  Red Hat Enterprise Linux
 
-                       For specifications and interoperability details, see    SUSE Linux Enterprise Server
+                       For specifications and interoperability details, see  ●  SUSE Linux Enterprise Server
 
-                       Dell Enterprise Operating Systems on Servers,           VMware ESXi
+                       Dell Enterprise Operating Systems on Servers,         ●  VMware ESXi
 
                        Storage, and Networking page at Dell.com/             For specifications and interoperability details, see
 
                        OSsupport.                                            Dell Enterprise Operating Systems on Servers,
 
-                                                                                                  System Features                  9
+                                                                                                   System Features                 9
 Table 2. Comparison of PowerEdge XE9785 and XE9680                    (continued)
 
 Features                   PowerEdge XE9785                           PowerEdge XE9680
@@ -592,9 +590,9 @@ Features                   PowerEdge XE9785                           PowerEdge 
 
 Topics:
 
-�     Chassis views
+•     Chassis views
 
-�     Electronic Piece Part Identification (ePPID)
+•     Electronic Piece Part Identification (ePPID)
 
 Chassis views
 
@@ -900,17 +898,17 @@ and makes it available for viewing by customers and/or service personnel.
 
 ePPID includes the following information:
 
-  Dell Part Number (DPN)
+●  Dell Part Number (DPN)
 
-  Part Revision Level
+●  Part Revision Level
 
-  Country of Origin
+●  Country of Origin
 
-  Supplied ID Code
+●  Supplied ID Code
 
-  Date Code (Date of Manufacture)
+●  Date Code (Date of Manufacture)
 
-  Unique Sequence Number
+●  Unique Sequence Number
 
                                                                                                Chassis views and features             19
                                                                                                                               4
@@ -919,45 +917,45 @@ ePPID includes the following information:
 
 Topics:
 
-�   Processor features
+•   Processor features
 
 Processor features
 
-The AMD EPYCTM 9005 system on a chip (SOC) is the next-generation data center CPU supporting socket compatibility with
+The AMD EPYC™ 9005 system on a chip (SOC) is the next-generation data center CPU supporting socket compatibility with
 
-EPYCTM 9004 series in the SP5 socket infrastructure. Based on AMD's new enhanced Zen5 CPU cores with integrated I/O
+EPYC™ 9004 series in the SP5 socket infrastructure. Based on AMD's new enhanced Zen5 CPU cores with integrated I/O
 
-controllers, AMD EPYCTM SOC offers significant performance improvement from current generation production and the best
+controllers, AMD EPYC™ SOC offers significant performance improvement from current generation production and the best
 
 performance per price and lowers TCO through an optimal balance of compute, memory, I/O, and security.
 
 The following lists the features and functions in the AMD Family 1 Ah Models 00h-0Fh and 10H-1FH Socket SP5 processors:
 
-    Compute
+●   Compute
 
-          Zen5 cores:
+    ○     Zen5 cores:
 
-            Up to 192 cores with 2 x threads per socket up to 500 W TDP
+          ￭  Up to 192 cores with 2 x threads per socket up to 500 W TDP
 
-            Up to 32 MB L3 shared by 16 cores/CCD
+          ￭  Up to 32 MB L3 shared by 16 cores/CCD
 
-            1 MB L2/core, 32/48 KB instruction/data L1 per core
+          ￭  1 MB L2/core, 32/48 KB instruction/data L1 per core
 
-    Memory
+●   Memory
 
-          24 DDR5 memory channels (12 channels per socket) up to 6400 MT/s
+    ○     24 DDR5 memory channels (12 channels per socket) up to 6400 MT/s
 
-          RDIMM
+    ○     RDIMM
 
-          Dynamic PPR for non-Chipkill DIMMs
+    ○     Dynamic PPR for non-Chipkill DIMMs
 
-    Integrated I/O
+●   Integrated I/O
 
-          PCIe5 supports, peak xGMI3 product speeds up to 32 Gbps.
+    ○     PCIe5 supports, peak xGMI3 product speeds up to 32 Gbps.
 
-          Up to 128 lanes of High Speed I /O
+    ○     Up to 128 lanes of High Speed I /O
 
-          Server Controller Hub (USB, UART, SPI, LPC, I2C, so on)
+    ○     Server Controller Hub (USB, UART, SPI, LPC, I2C, so on)
 
 Supported processors
 
@@ -986,14 +984,14 @@ Table 10. Supported     processors list
 
    9455          3.15   4.4                   256    48             96       Turbo        6400          6            300
 
-20          Processor
+20           Processor
                                                                                                                  5
 
                                                                   Memory subsystem
 
 Topics:
 
-�  Supported Memory
+•  Supported Memory
 
 Supported            Memory
 
@@ -1039,17 +1037,17 @@ Table 12. Supported DIMMs
 
 Topics:
 
-�       Drives
+•       Drives
 
-�       Internal storage configuration
+•       Internal storage configuration
 
 Drives
 
 The PowerEdge XE9785 system supports:
 
-    16 x E3.S Gen5 NVMe direct SSD drives
+●   16 x E3.S Gen5 NVMe direct SSD drives
 
-    10 x U.2 Gen5 NVMe SSD drives.*
+●   10 x U.2 Gen5 NVMe SSD drives.*
 
     NOTE: *Feature not available at product launch in November 2025.    Refer     to  the  product  configurator  page  on  Dell.com  to
 
@@ -1088,9 +1086,9 @@ Table 13. Internal Storage         Configuration  Matrix
 
 Topics:
 
-�  Overview
+•  Overview
 
-�  OCP 3.0 support
+•  OCP 3.0 support
 
 Overview
 
@@ -1204,7 +1202,7 @@ The process of installing the OCP card in the XE9785 system:
 
 Topics:
 
-�     PCIe Slot Mechanical Compatibility Matrix
+•     PCIe Slot Mechanical Compatibility Matrix
 
 PCIe Slot Mechanical Compatibility Matrix
 
@@ -1227,19 +1225,19 @@ Table 17. PCIe Riser Configurations
 
                                         Power, thermal, and acoustics
 
-PowerEdge servers have an extensive collection of sensors that automatically track thermal activity, which helps regulate
+PowerEdge servers have an extensive collection of sensors that automatically  track thermal activity, which helps regulate
 
-temperature thereby reducing server noise and power consumption. The table below lists the tools and technologies Dell offers
+temperature thereby reducing server noise and power consumption. The table    below lists the tools and technologies Dell offers
 
 to lower power consumption and increase energy efficiency.
 
 Topics:
 
-�   Power
+•   Power
 
-�   Thermal
+•   Thermal
 
-�   Acoustics
+•   Acoustics
 
 Power
 
@@ -1253,67 +1251,77 @@ Table 18. Power tools and technologies
 
                               section.
 
+   PSU redundancy options     ●  Full redundant (6+6) FR (System can get full performance)
+
+                              ●  A/B Grid Redundant (Supported in power configuration of iDRAC GUI)
+
+                              Figure 9. PSU redundancy options
+
    Tools for right sizing     Enterprise Infrastructure Planning Tool (EIPT) is a tool that can help you determine the most
 
                               efficient configuration possible. With Dell's EIPT, you can calculate the power consumption of
 
-                              your hardware, power infrastructure, and storage at a given workload. Learn more at Dell EIPT.
+                              your hardware, power infrastructure, and storage at a given workload. Learn more at Enterprise
+
+                              Infrastructure Planning Tool.
 
    Industry Compliance        Dell's servers are compliant with all relevant industry certifications and guide lines, including 80
 
-                              PLUS, Climate Savers and ENERGY STAR.
+                              PLUS.
 
    Power monitoring accuracy  PSU power monitoring improvements include:
 
-                                Dell's power monitoring accuracy is currently 1%, whereas the industry standard is 5%
+                              ●  Dell's power monitoring accuracy is currently 1%, whereas the industry standard is 5%.
 
-                                More accurate reporting of power
-
-                                Better performance under a power cap
-
-   Power capping              Use Dell's systems management to set the power cap limit for your systems to limit the output
-
-                              of a PSU and reduce system power consumption. Dell is the first hardware vendor to leverage
-
-                              Intel Node Manager for circuit-breaker fast capping.
+                              ●  More accurate reporting of power
 
    Systems Management         iDRAC Enterprise and Datacenter provides server-level management that monitors, reports and
 
                               controls power consumption at the processor, memory and system level.
 
-   Rack infrastructure        Dell offers some of the industry's highest-efficiency power infrastructure solutions, including:
+                              Dell OpenManage Power Center delivers group power management at the rack, row, and data
 
-                                Power distribution units (PDUs)
+                              center level for servers, power distribution units, and uninterruptible power supplies.
 
-                                Uninterruptible power supplies (UPSs)
+   Fresh Air cooling          Refer to ASHRAE A3/A4 Thermal Restriction.
 
-                                Energy Smart containment rack enclosures
+26  Power, thermal, and acoustics
+Table 18. Power tools        and technologies (continued)
 
-                                AC Blind Mate
+Feature                      Description
 
-                              Find additional information at: Power and Cooling
+Rack infrastructure          Dell offers some of the industry's highest-efficiency  power  infrastructure  solutions,  including:
+
+                             ●      Power distribution units (PDUs)
+
+                             ●      Uninterruptible power supplies (UPSs)
+
+                             ●      Energy Smart containment rack enclosures
+
+                             Find additional information at: Power and Cooling.
+
+NOTE: The PowerEdge XE9785 system does not support user power cap.
 
 PSU Specifications
 
-The PowerEdge XE9785 system supports 12 AC power supply units (PSUs).
+The PowerEdge XE9785 system supports 12 AC    power  supply units (PSUs).
 
-26  Power, thermal, and acoustics
-Table 19. PSU Specifications
+Table 19. PSU Specifications
 
-PSU            Power Ratings   Class     Heat                              Frequence   Input Voltage         Current (A)
-                                         dissipation                       (Hz)
+PSU                  Power Ratings  Class            Heat                  Frequence       Input Voltage   Current (A)
+                                                     dissipation           (Hz)
 
-3200 W         3200 W          Titanium  11,850 BTU/hr                     50/60       216.1-240 VAC         16
+3200 W               3200 W         Titanium         11,850 BTU/hr         50/60           216.1-240 VAC   16
 
-Mixed Mode                     N/A       11,850                            N/A         240 VDC               14.5
+Mixed Mode                          N/A              11,850                N/A             240 VDC         14.5
 
-(Multi-rated)  2900 W          N/A       10,750                            50/60       200-216 VAC           16
+(Multi-rated)        2900 W         N/A              10,750                50/60           200-216 VAC     16
 
 The power consumption of the system depends on its total power requirements, which vary based on the configuration (as in,
 
 number of GPUs, PSUs, and other components). Each PSU model (3200 W) can deliver power up to its rated capacity, but the
 
-actual power that is delivered will depend on the system's needs.
+actual power that is delivered will depend on the system’s needs.
 
 To determine how much power each PSU delivers, the total system power requirement is divided by the number of PSUs in the
 
@@ -1325,7 +1333,7 @@ options. Users can configure the power redundancy policy to PSU redundant or A/B
 
 center infrastructure.
 
-Figure 9. Power Configuration
+Figure 10. Power Configuration
 
 The PowerEdge XE9785 system also supports 6+6 FTR redundancy. When the Redundancy policy is set to PSU redundant, and
 
@@ -1349,32 +1357,18 @@ NOTE: Do not mix PSUs from different vendors within a single system configuratio
 
 reliability.
 
-Figure 10. PSU power cord
+                                                                                      Power, thermal, and acoustics                27
+Figure 11. PSU power cord
 
 Table 20. PSU power cables
 
-Form factor                                                        Output              Power         cable
+Form factor                                                       Output                    Power         cable
 
-Redundant 73.5 mm                                                  3200 W mixed mode   C19
+Redundant 73.5 mm                                                 3200 W mixed mode         C19
 
-NOTE: When selecting or upgrading the system configuration, to ensure optimum power    utilization,  verify  the       system
+    NOTE: When selecting or upgrading the system configuration, to ensure optimum power     utilization,  verify  the  system
 
-power consumption with the Enterprise Infrastructure Planning Tool available at calc.
-
-                                                                                       Power, thermal, and acoustics           27
-Power Capping Configuration with MI355X GPU
-
-The PowerEdge XE9785 system with MI355X GPU, with a standard thermal design power (TDP) of 1.4 kW per GPU, can be
-
-permanently power capped at 1 kW per GPU by the Dell factory upon request. Power capping is implemented through Dell
-
-firmware on systems that are ordered as power-limited systems.
-
-    CAUTION: Dell strongly advises against modifying or removing the power capping configuration on power-
-
-    limited systems. Reverting a power-limited system from 1 KW TDP to 1.4 KW TDP per GPU can pose significant
-
-    risks, including system failures and data center outages, which may result in downtime and data loss.
+    power consumption with the Enterprise Infrastructure Planning Tool available at calc.
 
 Thermal
 
@@ -1386,48 +1380,48 @@ Thermal design
 
 Thermal management of the platform helps deliver high performance with the right amount of cooling to components, while
 
-maintaining the lowest fan speeds possible. This is done across a wide range of ambient temperatures from 10�C to 35�C (50�F
+maintaining the lowest fan speeds possible. This is done across a wide range of ambient temperatures from 10°C to 35°C (50°F
 
-to 95�F) and to extended ambient temperature ranges.
+to 95°F) and to extended ambient temperature ranges.
 
-Figure 11. Thermal design characteristics
+Figure 12. Thermal design characteristics
 
 The thermal design of the PowerEdge XE9785 reflects the following:
 
-    Optimized thermal design: The system layout is architected for optimum thermal design.
+●   Optimized thermal design: The system layout is architected for optimum thermal design.
 
-    System component placement and layout are designed to provide maximum airflow coverage to critical components with
+●   System component placement and layout are designed to provide maximum airflow coverage to critical components with
 
     minimum expense of fan power.
 
-    Comprehensive thermal management: The thermal control system regulates the fan speed based on several different
+●   Comprehensive thermal management: The thermal control system regulates the fan speed based on several different
 
     responses from all system-component temperature sensors, and inventory for system configurations. Temperature
 
     monitoring includes components such as processors, DIMMs, chipset, the inlet air ambient, hard disk drives, and OCP.
 
-    Open and closed loop thermal fan speed control: Open loop thermal control uses system configuration to determine
+●   Open and closed loop thermal fan speed control: Open loop thermal control uses system configuration to determine
 
     fan speed based on inlet air ambient temperature. Closed loop thermal control method uses feedback temperatures to
 
     dynamically determine proper fan speeds.
 
-    User-configurable settings: With the understanding and realization that every customer has unique set of circumstances or
+●   User-configurable settings: With the understanding and realization that every customer has unique set of circumstances or
 
     expectations from the system. For more information, see the Dell PowerEdge XE9785 Installation and Service Manual at
 
-    PowerEdge Manuals and "Advanced Thermal Control: Optimizing across Environments and Power Goals" on Dell.com.
+    PowerEdge Manuals and “Advanced Thermal Control: Optimizing across Environments and Power Goals” on Dell.com.
 
-    Cooling redundancy: The XE9785 allows N+1 fan redundancy, allowing continuous operation with one fan failure in the
+●   Cooling redundancy: The XE9785 allows N+1 fan redundancy, allowing continuous operation with one fan failure in the
 
     system.
 
-    Environmental Specifications: The optimized thermal management makes the XE9785 reliable under a wide range of
+28  Power, thermal, and acoustics
+●   Environmental Specifications: The optimized thermal management makes the XE9785 reliable under a wide range of
 
     operating environments.
 
-28  Power, thermal, and acoustics
-Acoustics
+Acoustics
 
 Acoustical design
 
@@ -1453,7 +1447,7 @@ Table 21. Acoustical Reference         Points  and    Output  Comparisons
 
 Value measured at your ears                                   Equivalent familiar noise experience
 
-LpA, dBA, re 20Pa
+LpA, dBA, re 20μPa
 
 90                                                            Loud concert
 
@@ -1487,11 +1481,11 @@ of acoustical response, thus configurations, or operating conditions that includ
 
 and acoustical output of the server:
 
-    Ambient temperature: Dell evaluates the acoustical performance of servers in a 23�2�C environment. Ambient temperatures
+●   Ambient temperature: Dell evaluates the acoustical performance of servers in a 23±2°C environment. Ambient temperatures
 
-    more than 25�C has higher acoustical output and may experience larger fluctuations between state changes.
+    more than 25°C has higher acoustical output and may experience larger fluctuations between state changes.
 
-    GPU and Processor thermal design power (TDP): Higher-wattage GPUs and processors may require more airflows to cool
+●   GPU and Processor thermal design power (TDP): Higher-wattage GPUs and processors may require more airflows to cool
 
     under load and thus increase the potential acoustical output of the system.
 
@@ -1502,7 +1496,7 @@ and acoustical output of the server:
 
 Topics:
 
-�   Rails and cable management information
+•   Rails and cable management information
 
 Rails and cable management information
 
@@ -1512,95 +1506,95 @@ supported.
 
 See the Dell Enterprise Systems Rail Sizing and Rack Compatibility Matrix available at rail-rack-matrix for information regarding:
 
-    Specific details about rail types.
+●   Specific details about rail types.
 
-    Rail adjustability ranges for various rack mounting flange types
+●   Rail adjustability ranges for various rack mounting flange types
 
-    Rail depth without cable management accessories
+●   Rail depth without cable management accessories
 
-    Rack types that are supported for various rack mounting flange types.
+●   Rack types that are supported for various rack mounting flange types.
 
 Key factors governing proper rail selection include the following:
 
-    Identifying the type of rack in which they will be installed.
+●   Identifying the type of rack in which they will be installed.
 
-    The spacing between the front and rear mounting flanges of the rack.
+●   The spacing between the front and rear mounting flanges of the rack.
 
-    The type and location of any equipment that is mounted in the back of the rack such as power distribution units (PDUs), and
+●   The type and location of any equipment that is mounted in the back of the rack such as power distribution units (PDUs), and
 
     the overall depth of the rack.
 
-    Overall depth of the rack
+●   Overall depth of the rack
 
 Rack Installation
 
 Installing the rail for round and square hole racks
 
-Figure 12. Rail components for round and square hole rack
+Figure 13. Rail components for round and square hole rack
 
 30  Rack, rails, and cable management
-Figure  13.  Installing  the  rail  for  square holes rack  post  front
+Figure  14.  Installing  the  rail  for  square holes rack  post  front
 
-Figure  14.  Installing  the  rail  for  rear rack post
+Figure  15.  Installing  the  rail  for  rear rack post
 
                                                                          Rack, rails, and cable management  31
-Figure  15. Installing clips
+Figure  16. Installing clips
 
-Figure  16. Installing upper chassis rail member
+Figure  17. Installing upper chassis rail member
 
 32      Rack, rails, and cable management
-Figure  17.  Installing  the  clips  to  post
+Figure  18.  Installing  the  clips  to  post
 
-Figure  18.  Installing  the  clips  to  post
+Figure  19.  Installing  the  clips  to  post
 
                                                Rack, rails, and cable management  33
-Figure  19. Installing system to rack
+Figure  20. Installing system to rack
 
-Figure  20. Shipping
+Figure  21. Shipping
 
-34      Rack, rails, and  cable  management
-Figure  21. Installing  shipping  bracket  and  screws
+34      Rack, rails,  and  cable  management
+Figure  22.  Installing  shipping  bracket  and  screws
 
-Figure  22. Shipping
+Figure  23.  Shipping
 
-                                                        Rack, rails, and cable management  35
-Figure  23. Installing rail for front round hole  rack  post
+                                                         Rack, rails, and cable management  35
+Figure  24. Installing rail for front round hole  rack  post
 
-Figure  24. Installing the rail to the rear
+Figure  25. Installing the rail to the rear
 
 36      Rack, rails, and cable management
-Figure  25.  Installing clips
+Figure  26.  Installing clips
 
-Figure  26.  Shipping- Installing  the  clips
+Figure  27.  Shipping- Installing  the  clips
 
                                                Rack, rails, and cable management  37
-Figure  27. Installing system to the rack
+Figure  28. Installing system to the rack
 
-Figure  28. Shipping-Installing system to the  rack
+Figure  29. Shipping-Installing system to the  rack
 
 38      Rack, rails, and cable management
-Figure  29.  Installing shipping bracket and screws
+Figure  30.  Installing shipping  bracket and screws
 
-Figure  30.  Shipping-Installing shippinng bracket and  screws
+Figure  31.  Shipping-Installing  shippinng bracket and  screws
 
-                                                                Rack, rails, and cable management  39
+                                                                 Rack, rails, and cable management  39
                                                                                                                                 11
 
                    Operating Systems and Virtualization
 
 Topics:
 
-�   Supported operating systems
+•   Supported operating systems
 
 Supported operating systems
 
 The PowerEdge XE9785 system supports the following operating systems:
 
-    Canonical Ubuntu Server LTS
+●   Canonical Ubuntu Server LTS
 
-    Red Hat Enterprise Linux*
+●   Red Hat Enterprise Linux*
 
-    SUSE Linux Enterprise Server*
+●   SUSE Linux Enterprise Server*
 
 For specifications and interoperability details, see OS support.
 
@@ -1621,13 +1615,13 @@ virtual, local, and remote environments; all without the need to install an agen
 
 The OpenManage portfolio includes:
 
-   Innovative embedded management tools - integrated Dell Remote Access Controller (iDRAC)
+●  Innovative embedded management tools - integrated Dell Remote Access Controller (iDRAC)
 
-   Consoles - OpenManage Enterprise
+●  Consoles - OpenManage Enterprise
 
-   Extensible with plug-ins - OpenManage Power Manager
+●  Extensible with plug-ins - OpenManage Power Manager
 
-   Update tools - Repository Manager
+●  Update tools - Repository Manager
 
 Dell has developed comprehensive systems management solutions that are based on open standards and has integrated with
 
@@ -1641,13 +1635,13 @@ with powerful RESTful APIs to script or integrate with your choice of frameworks
 
 For more information about the entire OpenManage portfolio, see:
 
-   The latest Dell Systems Management Overview Guide.
+●  The latest Dell Systems Management Overview Guide.
 
 Topics:
 
-�  Integrated Dell Remote Access Controller (iDRAC)
+•  Integrated Dell Remote Access Controller (iDRAC)
 
-�  Systems Management software support matrix
+•  Systems Management software support matrix
 
 Integrated Dell Remote Access Controller (iDRAC)
 
@@ -1677,13 +1671,13 @@ PowerEdge server is connected to power and networking that system can be monitor
 
 standing in front of the server or remotely over a network. With no need for software agents, an IT administrator can:
 
-   Monitor
+●  Monitor
 
-   Manage
+●  Manage
 
-   Update
+●  Update
 
-   Troubleshoot, and remediate Dell servers.
+●  Troubleshoot, and remediate Dell servers.
 
 With features like zero-touch deployment and provisioning, and System Lockdown, iDRAC10 is purpose-built to simplify server
 
@@ -1706,27 +1700,27 @@ iDRAC10 offers the following license tiers:
 
 License       Description
 
-iDRAC10 Core          Available for all servers.
+iDRAC10 Core  ●       Available for all servers.
 
-                      Core system management features for users who are cost conscious.
+              ●       Core system management features for users who are cost conscious.
 
-iDRAC10               Available as an upsell on all servers.
+iDRAC10       ●       Available as an upsell on all servers.
 
-Enterprise            Includes all features of Core. Also, includes additional automation features and virtual console and security
+Enterprise    ●       Includes all features of Core. Also, includes additional automation features and virtual console and security
 
                       features.
 
-                      Bundled with Secure Enterprise Key Management (SEKM) and Secure Component Verification (SCV)
+              ●       Bundled with Secure Enterprise Key Management (SEKM) and Secure Component Verification (SCV)
 
                       licenses.
 
-iDRAC10               Available as an upsell on all servers.
+iDRAC10       ●       Available as an upsell on all servers.
 
-Datacenter            Includes all features of Core and Enterprise.
+Datacenter    ●       Includes all features of Core and Enterprise.
 
-                      Includes key features such as telemetry streaming and thermal management.
+              ●       Includes key features such as telemetry streaming and thermal management.
 
-                      Includes advanced accelerators (GPU and DPU) system management and advanced air and liquid cooling.
+              ●       Includes advanced accelerators (GPU and DPU) system management and advanced air and liquid cooling.
 
 For a full list of iDRAC features by license tier, see the Integrated Dell Remote Access Controller 10 User's Guide at
 
@@ -1734,7 +1728,7 @@ Dell.com.
 
 For more details on iDRAC10 including white papers and videos, see:
 
-    Support for Integrated Dell Remote Access Controller 10 (iDRAC10) is on the Knowledge Base page at Dell.com
+●   Support for Integrated Dell Remote Access Controller 10 (iDRAC10) is on the Knowledge Base page at Dell.com
 
 Systems Management software support matrix
 
@@ -1828,23 +1822,23 @@ availability.
 
 Topics:
 
-�   Chassis dimensions
+•   Chassis dimensions
 
-�   System Weight
+•   System Weight
 
-�   NIC port specifications
+•   NIC port specifications
 
-�   Mini-DisplayPort specifications
+•   Mini-DisplayPort specifications
 
-�   Video specifications
+•   Video specifications
 
-�   USB Ports Specifications
+•   USB Ports Specifications
 
-�   PSU Rating
+•   PSU Rating
 
 Chassis dimensions
 
-Figure  31. Chassis dimensions
+Figure  32. Chassis dimensions
 
 44      Appendix A. Additional       specifications
 Table 24. PowerEdge XE9785 chassis dimensions
@@ -1883,11 +1877,11 @@ Table 26. PowerEdge XE9785 weight handling recommendations
 
 Chassis Weight                                                Description
 
-40�70 lb                                                      Recommend two people to lift
+40–70 lb                                                      Recommend two people to lift
 
-70�120 lb                                                     Recommend three people to lift
+70–120 lb                                                     Recommend three people to lift
 
- 121 lb                                                       Recommend to use a server-lift
+≥ 121 lb                                                      Recommend to use a server-lift
 
 WARNING: The system is heavy, so ensure adequate support and balance during movement and installation; a
 
@@ -2035,7 +2029,7 @@ improvements by reducing Pixel Clock rates for VGA- Analog input devices.
 
 USB Ports Specifications
 
-Figure 32. Front USB Ports
+Figure 33. Front USB Ports
 
                                                                               Appendix A. Additional specifications       47
 Table 29. PowerEdge XE9785 USB Specifications
@@ -2151,7 +2145,7 @@ NVMe Command Set Specifications
 
     1.0c
 
-3.  NVM Express� Key Value Command Set. Revision 1.0c
+3.  NVM Express® Key Value Command Set. Revision 1.0c
 
 NVMe Transport Specifications
 
@@ -2168,7 +2162,7 @@ NVMe NVMe Boot Specification. Revision 1.0
                                                                                 Appendix B. Standards compliance  49
                                                                                                                             15
 
-                                   Appendix C Additional resources
+                                    Appendix C Additional resources
 
 Table 33. Additional resources
 
@@ -2178,25 +2172,25 @@ Installation and Service Manual  This manual, available in PDF format, provides 
 
                                  information:
 
-                                   Chassis features
+                                 ●  Chassis features
 
-                                   System Setup program
+                                 ●  System Setup program
 
-                                   System indicator codes
+                                 ●  System indicator codes
 
-                                   System BIOS
+                                 ●  System BIOS
 
-                                   Remove and replace procedures
+                                 ●  Remove and replace procedures
 
-                                   Diagnostics
+                                 ●  Diagnostics
 
-                                   Jumpers and connectors
+                                 ●  Jumpers and connectors
 
 Getting Started Guide            This guide ships with the system, and is also available in PDF  Dell.com/Support/Manuals
 
                                  format. This guide provides the following information:
 
-                                   Initial setup steps
+                                 ●  Initial setup steps
 
 Rack Installation Guide          This document ships with the rack kits, and provides            Dell.com/Support/Manuals
 
@@ -2235,19 +2229,19 @@ Planning Tool (EIPT)             estimates to help you determine the most effici
 
 Topics:
 
-�  Why attach service contracts
+•  Why attach service contracts
 
-�  ProSupport Infrastructure Suite
+•  ProSupport Infrastructure Suite
 
-�  Specialty Support Services
+•  Specialty Support Services
 
-�  ProDeploy Infrastructure Suite
+•  ProDeploy Infrastructure Suite
 
-�  Supplemental Deployment Services
+•  Supplemental Deployment Services
 
-�  DAY 2 � Automation Services with Ansible
+•  DAY 2 – Automation Services with Ansible
 
-�  Dell Technologies Consulting Services
+•  Dell Technologies Consulting Services
 
 Why attach service contracts
 
@@ -2279,7 +2273,7 @@ to evaluate and select the appropriate ProSupport Infrastructure Suite service b
 
 environment.
 
-Figure 33. ProSupport Infrastructure Suite
+Figure 34. ProSupport Infrastructure Suite
 
                                              Appendix D: Service and support                                                    51
 ProSupport Plus for Infrastructure
@@ -2296,7 +2290,7 @@ ProSupport Plus includes 4-hour onsite parts and labor response, all the feature
 
 ensure maximum uptime and system reliability:
 
-1.  Priority Access to Senior Support Experts: First in line access to Dell's most experienced support engineers for
+1.  Priority Access to Senior Support Experts: First in line access to Dell’s most experienced support engineers for
 
     advanced troubleshooting and issue resolution.
 
@@ -2326,39 +2320,39 @@ IT environment running smoothly with expert assistance and proactive solutions. 
 
 maximized availability of PowerEdge XE server workloads through:
 
-    24x7x365 Support: Immediate remote support routing to the next available technician (no waiting for a call back), with
+●   24x7x365 Support: Immediate remote support routing to the next available technician (no waiting for a call back), with
 
     4-hour and Next Business Day onsite parts and labor dispatch options.
 
-    Broad, Centralized Support: A single point of contact for hardware and software assistance, covering hypervisors,
+●   Broad, Centralized Support: A single point of contact for hardware and software assistance, covering hypervisors,
 
     operating systems, applications, and eligible third-party software purchased from Dell and installed on ProSupport-covered
 
     servers.
 
-    Incident Management: A dedicated Incident Manager for Severity 1 issues, collaborating with Dell experts and staying
+●   Incident Management: A dedicated Incident Manager for Severity 1 issues, collaborating with Dell experts and staying
 
     engaged until resolution.
 
-    Enhanced Proactive and Predictive Tools: AI-driven anomaly detection, automated case creation followed by proactive
+●   Enhanced Proactive and Predictive Tools: AI-driven anomaly detection, automated case creation followed by proactive
 
     outreach from Dell support, and infrastructure health/cybersecurity/energy monitoring via Dell AIOps and connectivity
 
     platforms.
 
-    Global Consistency: A seamless support experience, regardless of location or language.
+●   Global Consistency: A seamless support experience, regardless of location or language.
 
 Basic Hardware Support
 
 Basic Hardware Support provides foundational support for hardware issues, including:
 
-    Access to technical support during local business hours (phone, chat, online).
+●   Access to technical support during local business hours (phone, chat, online).
 
-    Next Business Day (NBD) onsite parts and labor response.
+●   Next Business Day (NBD) onsite parts and labor response.
 
-    Hardware troubleshooting only (no software troubleshooting, unless it's to confirm hardware functionality).
+●   Hardware troubleshooting only (no software troubleshooting, unless it’s to confirm hardware functionality).
 
-    Proactive automated issue detection and automated case creation if the system is connected (customer receives notification
+●   Proactive automated issue detection and automated case creation if the system is connected (customer receives notification
 
     and must contact Dell to proceed; unattended queue approach).
 
@@ -2370,115 +2364,115 @@ critical for modern data center operations.
 
 Hardware coverage add-ons to ProSupport or ProSupport Plus
 
-    Keep Your Hard Drive (KYHD), Keep Your Component (KYC), or Keep Your GPU (KYGPU):
+●   Keep Your Hard Drive (KYHD), Keep Your Component (KYC), or Keep Your GPU (KYGPU):
 
 52  Appendix D: Service and support
-  Normally if a device fails under warranty, Dell replaces it using a one-for-one exchange process.KYHD/KYCC/KYGPU gives
+   Normally if a device fails under warranty, Dell replaces it using a one-for-one exchange process.KYHD/KYCC/KYGPU gives
 
-  you the option to retain your device. It provides full control of sensitive data and minimizes security risk by letting you retain
+   you the option to retain your device. It provides full control of sensitive data and minimizes security risk by letting you retain
 
-  possession of failed drives, components, or GPU when receiving replacement parts without incurring additional cost.
+   possession of failed drives, components, or GPU when receiving replacement parts without incurring additional cost.
 
-  Onsite Diagnosis Service:
+●  Onsite Diagnosis Service:
 
-  Ideal for sites with non-technical staff. A Dell certified field technician performs initial troubleshooting diagnosis onsite and
+   Ideal for sites with non-technical staff. A Dell certified field technician performs initial troubleshooting diagnosis onsite and
 
-  collaborates with remote Dell support engineers to resolve the issue. Customers can request dispatch of an onsite technician
+   collaborates with remote Dell support engineers to resolve the issue. Customers can request dispatch of an onsite technician
 
-  at any time for any severity support incident.
+   at any time for any severity support incident.
 
-  ProSupport Add-on for HPC (High Performance Computing):
+●  ProSupport Add-on for HPC (High Performance Computing):
 
-  The ProSupport Add-on for HPC enhances a ProSupport Infrastructure Suite service contract by providing solution-aware
+   The ProSupport Add-on for HPC enhances a ProSupport Infrastructure Suite service contract by providing solution-aware
 
-  support tailored to the unique needs of maintaining an HPC environment. Key features include:
+   support tailored to the unique needs of maintaining an HPC environment. Key features include:
 
-    Access to Senior HPC Experts: Direct support from specialists with deep expertise in HPC systems.
+   ○  Access to Senior HPC Experts: Direct support from specialists with deep expertise in HPC systems.
 
-    Advanced HPC Cluster Assistance: Guidance on performance optimization, interoperability, and configuration.
+   ○  Advanced HPC Cluster Assistance: Guidance on performance optimization, interoperability, and configuration.
 
-    Enhanced End-to-End Support: Comprehensive solution-level support for HPC environments.
+   ○  Enhanced End-to-End Support: Comprehensive solution-level support for HPC environments.
 
-    Remote Pre-Support Engagement: Collaboration with HPC specialists during deployment implementation to ensure a
+   ○  Remote Pre-Support Engagement: Collaboration with HPC specialists during deployment implementation to ensure a
 
-    smooth setup process.
+      smooth setup process.
 
-  Carrier-Grade Support:
+●  Carrier-Grade Support:
 
-  Carrier-Grade Support service is designed for leading global telecommunications customers. It offers direct access to Dell
+   Carrier-Grade Support service is designed for leading global telecommunications customers. It offers direct access to Dell
 
-  solution experts specializing in telecommunications applications and outcomes. This service includes a hardware uptime
+   solution experts specializing in telecommunications applications and outcomes. This service includes a hardware uptime
 
-  guarantee, ensuring system restoration within 4 hours for Severity 1 issues. If service-level agreements (SLAs) are not met,
+   guarantee, ensuring system restoration within 4 hours for Severity 1 issues. If service-level agreements (SLAs) are not met,
 
-  Dell assumes penalties and fees, reinforcing its commitment to reliability and performance.
+   Dell assumes penalties and fees, reinforcing its commitment to reliability and performance.
 
 Personalized support and supplemental infrastructure expertise
 
-  Technical Account Manager (TAM): The Dell TAM service provides a designated technology expert who monitors and
+●  Technical Account Manager (TAM): The Dell TAM service provides a designated technology expert who monitors and
 
-  manages the performance and configuration of specific technology sets. TAMs strive to gain deep knowledge of your
+   manages the performance and configuration of specific technology sets. TAMs strive to gain deep knowledge of your
 
-  environment and business goals in order to deliver recommendations for Dell solutions that optimize IT performance and
+   environment and business goals in order to deliver recommendations for Dell solutions that optimize IT performance and
 
-  resilience.
+   resilience.
 
-  Designated Support Engineer (DSE): The Dell DSE service provides an assigned technical expert that delivers
+●  Designated Support Engineer (DSE): The Dell DSE service provides an assigned technical expert that delivers
 
-  personalized, hands-on troubleshooting expertise. Acting as your direct point of contact for all support needs, our DSEs
+   personalized, hands-on troubleshooting expertise. Acting as your direct point of contact for all support needs, our DSEs
 
-  ensure swift problem resolution, real-time communication and tailored recommendations to help you maintain a resilient and
+   ensure swift problem resolution, real-time communication and tailored recommendations to help you maintain a resilient and
 
-  efficient IT environment.
+   efficient IT environment.
 
-  Multivendor Support Service (MVS): Support your non-Dell infrastructure devices under one support contract serviced
+●  Multivendor Support Service (MVS): Support your non-Dell infrastructure devices under one support contract serviced
 
-  by Dell. An MVS support contract can include coverage for Broadcom, Cisco, Fujitsu, HPE, Hitachi, Huawei, IBM, Lenovo,
+   by Dell. An MVS support contract can include coverage for Broadcom, Cisco, Fujitsu, HPE, Hitachi, Huawei, IBM, Lenovo,
 
-  NetApp, Oracle, Quanta, Supermicro and others.
+   NetApp, Oracle, Quanta, Supermicro and others.
 
 Services for Large Enterprises
 
-  ProSupport One for Data Center:
+●  ProSupport One for Data Center:
 
-  ProSupport One for Data Center is designed to deliver scalable, efficient, and reliable support for complex IT environments.
+   ProSupport One for Data Center is designed to deliver scalable, efficient, and reliable support for complex IT environments.
 
-  ProSupport One for Data Center is available for large and distributed data centers with over 1,000 assets (including servers,
+   ProSupport One for Data Center is available for large and distributed data centers with over 1,000 assets (including servers,
 
-  storage, data protection, and networking devices) or a significant investment in Dell storage and HCI products. Built on the
+   storage, data protection, and networking devices) or a significant investment in Dell storage and HCI products. Built on the
 
-  foundation of ProSupport, this support offer is designed for Dell's largest customers, enabling them to customize a support
+   foundation of ProSupport, this support offer is designed for Dell’s largest customers, enabling them to customize a support
 
-  solution that meets their unique hardware and software needs. Key benefits include:
+   solution that meets their unique hardware and software needs. Key benefits include:
 
-    Customized Support: Tailor support services to address unique data center environments and existing IT systems and
+   ○  Customized Support: Tailor support services to address unique data center environments and existing IT systems and
 
-    capabilities.
+      capabilities.
 
-    Cost-Effective Options: Choose support that aligns with technical support consumption and budget, optimizing
+   ○  Cost-Effective Options: Choose support that aligns with technical support consumption and budget, optimizing
 
-    investments while maintaining required service levels.
+      investments while maintaining required service levels.
 
-    Resource Augmentation: Add a Technical Account Manager (TAM) or Designated Support Engineer (DSE) to augment
+   ○  Resource Augmentation: Add a Technical Account Manager (TAM) or Designated Support Engineer (DSE) to augment
 
-    your team. TAMs provide advanced knowledge and advice to help customers realize maximum value from their enterprise
+      your team. TAMs provide advanced knowledge and advice to help customers realize maximum value from their enterprise
 
-    investments and the DSE is a designated product-focused troubleshooting expert who understands the environment to
+      investments and the DSE is a designated product-focused troubleshooting expert who understands the environment to
 
-    enhance overall health.
+      enhance overall health.
 
-    Enhanced Infrastructure Management: Leverage advanced automation, real-time infrastructure monitoring, and AI-
+   ○  Enhanced Infrastructure Management: Leverage advanced automation, real-time infrastructure monitoring, and AI-
 
-    powered analytics to streamline operations, reduce risks, and minimize downtime.
+      powered analytics to streamline operations, reduce risks, and minimize downtime.
 
-  Onsite Parts Service (OPS)
+●  Onsite Parts Service (OPS)
 
-                                                                                       Appendix D: Service and support                53
+                                                                                        Appendix D: Service and support                53
     Ideal for large organizations that have their own staff to support their data center, OPS enables Dell and the customer to
 
-    collaboratively manage parts inventory located at the customer's designated facility. Dell Logistics Online Inventory Solution
+    collaboratively manage parts inventory located at the customer’s designated facility. Dell Logistics Online Inventory Solution
 
-    (LOIS) software program is used to monitor and automate replenishment of inventory in the customer's onsite parts locker.
+    (LOIS) software program is used to monitor and automate replenishment of inventory in the customer’s onsite parts locker.
 
     As a replacement part is scanned out of inventory for use, the LOIS software automatically initiates a replenishment order
 
@@ -2490,13 +2484,13 @@ Services for Large Enterprises
 
 End-of-Life Services
 
-    Asset Recovery Services are available on infrastructure products such as servers, storage and networking assets. The
+●   Asset Recovery Services are available on infrastructure products such as servers, storage and networking assets. The
 
-    service provides secure disposition, regulatory compliance, value recovery, and environmental reporting--helping customers
+    service provides secure disposition, regulatory compliance, value recovery, and environmental reporting—helping customers
 
     retire IT infrastructure with confidence while supporting sustainability goals.
 
-    Data Sanitization & Data Destruction services render data unrecoverable on repurposed or retired products such as
+●   Data Sanitization & Data Destruction services render data unrecoverable on repurposed or retired products such as
 
     servers, storage and data protection hardware. Data Sanitization is performed according to NIST SP 800-88 r1 guidelines
 
@@ -2504,7 +2498,7 @@ End-of-Life Services
 
     Destruction services provide physical destruction of hard drives. All activities are documented, with detailed compliance
 
-    reports provided for both data sanitization and data destruction outcomes--helping organizations retire infrastructure
+    reports provided for both data sanitization and data destruction outcomes—helping organizations retire infrastructure
 
     assets safely and in alignment with regulatory expectations.
 
@@ -2514,49 +2508,49 @@ ProDeploy Flex for factory rack integration and cluster services
 
 For small or large opportunities desiring preconfigured servers and/or networking delivered in fully or partially populated racks,
 
-our services for AI infrastructure deployment deliver end-to-end, rackscale deployment and validation for PowerEdge XE
+our services for AI infrastructure deployment deliver end-to-end, rack‑scale deployment and validation for PowerEdge XE
 
 platforms paired with options for AI networking. These services include factory rack integration (L11), cluster build (L12), and
 
-acceptance testing to ensure Day1 readiness and peak performance for AI workloads.
+acceptance testing to ensure Day‑1 readiness and peak performance for AI workloads.
 
-    Infrastructure Readiness Assessment to evaluate the data center prior to an AI deployment to include: datacenter layout,
+●   Infrastructure Readiness Assessment to evaluate the data center prior to an AI deployment to include: datacenter layout,
 
     power/cooling (including liquid cooling), cabling, airflow, and site logistics.
 
-    Factory rack integration (L11) of advanced PowerEdge XE servers integrated with NVIDIA InfiniBand switches or Ethernet
+●   Factory rack integration (L11) of advanced PowerEdge XE servers integrated with NVIDIA InfiniBand switches or Ethernet
 
     options from Dell or NVIDIA are put through a set of strenuous tests to validate functionality of the solution prior to shipping.
 
-    Rack placement, power connectivity, and liquid-cooling connectivity if applicable.
+●   Rack placement, power connectivity, and liquid-cooling connectivity if applicable.
 
-    Cluster build (L12) turns multiple integrated racks into a high-performance cluster: deploy all interrack cabling, configure the
+●   Cluster build (L12) turns multiple integrated racks into a high-performance cluster: deploy all inter‑rack cabling, configure the
 
     AI fabric, validate cluster, and perform acceptance testing.
 
-    Knowledge transfer and project documentation to equip your team for Day2 operations and ongoing improvements.
+●   Knowledge transfer and project documentation to equip your team for Day‑2 operations and ongoing improvements.
 
 ProDeploy Flex for factory rack integration is the most effective method to deploy rack solutions and optimize at scale.
 
 ProDeploy Plus for onsite builds
 
-For smaller quantity solutions that don't require factory rack integration, ProDeploy Plus is ideal. This service provides expert
+For smaller quantity solutions that don’t require factory rack integration, ProDeploy Plus is ideal. This service provides expert
 
 onsite installation and configuration for complex PowerEdge XE platforms. All implementations are performed by Dell-badged
 
 employees, not 3rd parties, to ensure the utmost care and expertise is maintained through the entire process.
 
-    Accelerate time to value with Dell engineers, site readiness and implementation planning, full onsite software installation and
+●   Accelerate time to value with Dell engineers, site readiness and implementation planning, full onsite software installation and
 
     configuration, and validation prior to handoff.
 
-    Proven speed: up to 3x faster planning and deployment versus in house admins with the ProDeploy Infrastructure Suite.
+●   Proven speed: up to 3x faster planning and deployment versus in house admins with the ProDeploy Infrastructure Suite.
 
-    Ideal for smaller XE deployments or unique proof-of-concept racks when factory services are not being used; complements
+●   Ideal for smaller XE deployments or unique proof-of-concept racks when factory services are not being used; complements
 
     rack integration for larger, rack scale AI builds.
 
-    Reduce risk on GPU dense systems with Dell's specialized XE deployment practices and testing rigor built for AI servers.
+●   Reduce risk on GPU dense systems with Dell’s specialized XE deployment practices and testing rigor built for AI servers.
 
 54  Appendix D: Service and support
 Supplemental Deployment Services
@@ -2575,13 +2569,13 @@ and knowledge transfer that is related to a new technology acquisition or day-to
 
 infrastructure.
 
-  Global experts available to serve in-person (onsite) or virtual (remote).
+●  Global experts available to serve in-person (onsite) or virtual (remote).
 
-  Engagements starting at 2 weeks with flexibility to adjust.
+●  Engagements starting at 2 weeks with flexibility to adjust.
 
-  Residency is available for project management needs, and many different technology skills sets such as: AI expertise,
+●  Residency is available for project management needs, and many different technology skills sets such as: AI expertise,
 
-  compute, storage, networking, security, multi-cloud, data management, and modern workforce applications.
+   compute, storage, networking, security, multi-cloud, data management, and modern workforce applications.
 
 Additional Deployment Time (ADT)
 
@@ -2605,9 +2599,9 @@ migration is part of every technology upgrade, platform change, and shift to the
 
 services to perform a seamless transition while our customers can keep their focus on their core business.
 
-DAY 2 � Automation Services with Ansible
+DAY 2 – Automation Services with Ansible
 
-Dell solutions are built as "automation ready" with integrated APIs (Application Programming Interfaces) to allow customers
+Dell solutions are built as “automation ready” with integrated APIs (Application Programming Interfaces) to allow customers
 
 to programmatically call actions on the product through code. Although Dell has published Ansible automation use cases,
 
@@ -2617,9 +2611,9 @@ components required to accelerate automation and understand how the programming 
 
 automation scripts (ansible modules), CI/CD tool (Jenkins), and Version control (Git).
 
-DAY 2 � Automation Services with Ansible
+DAY 2 – Automation Services with Ansible
 
-Dell solutions are built as "automation ready" with integrated APIs (Application Programming Interfaces) to allow customers
+Dell solutions are built as “automation ready” with integrated APIs (Application Programming Interfaces) to allow customers
 
 to programmatically call actions on the product through code. Although Dell has published Ansible automation use cases,
 
@@ -2680,13 +2674,13 @@ Cyber-Security Services
 
 Managed Detection and Response (MDR)
 
-Dell Managed Detection and Response Pro Plus is our fully-managed, 360 security operations solution comprised of our most
+Dell Managed Detection and Response Pro Plus is our fully-managed, 360⁰ security operations solution comprised of our most
 
 cutting-edge, preventive and responsive cybersecurity services. MDR Pro Plus was designed with your top security concerns in
 
 mind, allowing you to focus on your core business goals while Dell handles your security operations. First, we have Vulnerability
 
-Management. With this service, we'll do ongoing scanning of the customer's environment looking for software that needs to
+Management. With this service, we’ll do ongoing scanning of the customer’s environment looking for software that needs to
 
 be patched. Next is Pen Testing and Attack Simulation Management. This service will continuously validate security controls
 
@@ -2696,7 +2690,7 @@ an attacker can exploit. The service also includes an annual penetration test to
 
 exploit pathways leading to critical assets or data. Third, Managed Security Awareness Training. This service will educate the
 
-customer's end users so that they don't inadvertently put the customer at risk. If you think about our annual compliance
+customer’s end users so that they don’t inadvertently put the customer at risk. If you think about our annual compliance
 
 training modules, there is always a security module. This is the same type of thing, but rather than once a year, it will be
 

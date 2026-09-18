@@ -119,13 +119,33 @@ function findPdftotext() {
 }
 const PDFTOTEXT = findPdftotext();
 
-function extractPdf(pdf, txt) { execFileSync(PDFTOTEXT, ['-table', pdf, txt], { stdio: 'ignore' }); }
+// `-enc UTF-8` is NOT poppler's default despite what the flag name implies for some builds — without
+// it, a PDF whose font subset embeds Latin-1/CP1252 code points (e.g. "®") can come out as invalid
+// UTF-8 bytes in the .txt file, which corrupts anything downstream that assumes text-mode UTF-8
+// (found 2026-09-18 re-fetching ST-POWERSTORE.pdf: byte 0xAE from "System®" broke a plain read).
+function extractPdf(pdf, txt) { execFileSync(PDFTOTEXT, ['-table', '-enc', 'UTF-8', pdf, txt], { stdio: 'ignore' }); }
 function extractHtml(buf, txt) {
   const t = buf.toString('utf8')
     .replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&#\d+;/g, ' ')
     .replace(/[ \t]+/g, ' ').replace(/\n\s*\n\s*\n+/g, '\n\n').trim();
   fs.writeFileSync(txt, t);
+}
+
+/* ---------- challenge-page detector ---------- */
+// A "direct" URL can still land on a bot-challenge page (reCAPTCHA/Cloudflare/WAF) instead of the
+// real document — the server returns 200, so nothing above catches it, and it would otherwise be
+// silently saved as if it were the source (found 2026-09-18: three Info Hub URLs mis-tagged
+// `direct` did exactly this — a 20KB "PDF" that was actually a recaptcha challenge page). Checked
+// against a small byte prefix of the body, case-insensitively, before any bytes are written to disk.
+const CHALLENGE_SIGNS = [
+  /recaptcha\/challengepage/i, /g-recaptcha/i, /cf-challenge/i, /cf_chl_/i,
+  /<title>\s*(just a moment|attention required|access denied|are you a human)/i,
+  /checking your browser before accessing/i, /captcha-delivery\.com/i,
+];
+function detectChallengePage(body) {
+  const head = body.slice(0, 4096).toString('utf8');
+  return CHALLENGE_SIGNS.some(re => re.test(head));
 }
 
 /* ---------- state ---------- */
@@ -148,7 +168,7 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
   console.log(`pdftotext: ${PDFTOTEXT || 'NOT FOUND (raw PDFs saved, no text extraction)'}`);
   console.log(`mode: ${DRY ? 'DRY-RUN' : 'download'} · delay ${DELAY}ms · robots ${IGNORE_ROBOTS ? 'ignored' : 'respected'}\n`);
 
-  const report = { NEW: [], CHANGED: [], UNCHANGED: [], FAILED: [], ROBOTS: [] };
+  const report = { NEW: [], CHANGED: [], UNCHANGED: [], FAILED: [], ROBOTS: [], BLOCKED: [] };
   for (const r of direct) {
     const ext = r.type === 'pdf' ? 'pdf' : 'html';
     const rawPath = path.join(RAW, `${r.doc_id}.${ext}`), txtPath = path.join(TXT, `${r.doc_id}.txt`);
@@ -161,6 +181,11 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
       const res = await fetchUrl(r.url, cond, 0);
       if (res.status === 304) { report.UNCHANGED.push(r); console.log(`  = 304      ${r.doc_id}`); continue; }
       if (res.status >= 400 || !res.body.length) { report.FAILED.push({ r, why: 'HTTP ' + res.status }); console.log(`  ✗ HTTP ${res.status} ${r.doc_id} ${r.url}`); continue; }
+      if (detectChallengePage(res.body)) {
+        report.BLOCKED.push(r);
+        console.log(`  ⚠ blocked  ${r.doc_id} — got a bot-challenge page, not the document. Nothing written; re-tag this row 'browser-check' or 'manual' in sources.csv.`);
+        continue;
+      }
       const hash = sha(res.body);
       const unchanged = !FORCE && prev.sha256 === hash;
       fs.writeFileSync(rawPath, res.body);
@@ -182,7 +207,7 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
   /* ---------- summary + whats-new ---------- */
   const reaudit = report.NEW.concat(report.CHANGED);
   console.log(`\n── summary ──`);
-  console.log(`  NEW ${report.NEW.length} · CHANGED ${report.CHANGED.length} · UNCHANGED ${report.UNCHANGED.length} · FAILED ${report.FAILED.length} · robots-skipped ${report.ROBOTS.length}`);
+  console.log(`  NEW ${report.NEW.length} · CHANGED ${report.CHANGED.length} · UNCHANGED ${report.UNCHANGED.length} · FAILED ${report.FAILED.length} · robots-skipped ${report.ROBOTS.length} · blocked ${report.BLOCKED.length}`);
   if (!DRY) {
     const lines = ['# Harvest — new / changed since last run  (' + new Date().toISOString() + ')', ''];
     if (!reaudit.length) lines.push('(nothing new — corpus is current)');
@@ -195,5 +220,6 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
     manual.forEach(r => console.log(`     • ${r.doc_id.padEnd(16)} [${r.access}] ${r.url}`));
   }
   if (report.FAILED.length) { console.log(`\n  ✗ FAILED:`); report.FAILED.forEach(x => console.log(`     • ${x.r.doc_id}: ${x.why}  (${x.r.url})`)); }
+  if (report.BLOCKED.length) { console.log(`\n  ⚠ BLOCKED (bot-challenge page, not the document — nothing written, sources.csv needs re-tagging):`); report.BLOCKED.forEach(x => console.log(`     • ${x.doc_id}  (${x.url})`)); }
   console.log('');
 })().catch(e => { console.error('harvest fatal:', e); process.exit(1); });

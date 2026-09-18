@@ -6,16 +6,16 @@
     "sha256": "0b8959b08deb8c3ace87fd3e818642cc13e217e61e83dcd52905f460bc98215e",
     "bytes": 557160,
     "txtChars": 71682,
-    "fetchedAt": "2026-07-09T22:39:05.796Z"
+    "fetchedAt": "2026-09-18T06:35:30.608Z"
   },
   "HCI-AZLOCAL": {
     "url": "https://learn.microsoft.com/en-us/azure/azure-local/concepts/physical-network-requirements",
-    "etag": "\"DAo0cFDB8/rAQzNpXhy08Iv3RZY=\"",
-    "lastModified": "Thu, 25 Jun 2026 17:05:41 GMT",
-    "sha256": "2d5846b66585d592fdf641ecde0df905ee24f7a588a4d267b1fd4d156600f75d",
-    "bytes": 140400,
+    "etag": "\"mH46H2S3uMHPfCY46XJVrSE6psI=\"",
+    "lastModified": "Fri, 11 Sep 2026 22:01:50 GMT",
+    "sha256": "00ae347697b7c14da9e6b9e128c74bc2b546c44f2351081c0c51f3e923f728a7",
+    "bytes": 139229,
     "txtChars": 34102,
-    "fetchedAt": "2026-07-09T22:39:20.420Z"
+    "fetchedAt": "2026-09-18T06:36:32.790Z"
   },
   "SW-Z9664F": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/networking/technical-support/dell-powerswitch-z9664f-on-spec-sheet.pdf",
@@ -24,7 +24,7 @@
     "sha256": "fc1ccb28a4693f63aea134e721b203b90efc3f1cfa9527f1deca3ee56113eb5e",
     "bytes": 431273,
     "txtChars": 15987,
-    "fetchedAt": "2026-07-09T22:39:06.607Z"
+    "fetchedAt": "2026-09-18T06:35:32.653Z"
   },
   "SW-S5448F": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/networking/technical-support/dell-emc-powerswitch-s5448f-on-spec-sheet.pdf",
@@ -33,43 +33,43 @@
     "sha256": "78ba9e5fa27aefecc8bbfc8daf9462092edbdb4728feeb39b2441cac2be0d61d",
     "bytes": 384642,
     "txtChars": 14855,
-    "fetchedAt": "2026-07-09T22:39:07.404Z"
+    "fetchedAt": "2026-09-18T06:35:34.728Z"
   },
   "AI-ERA": {
     "url": "https://www.delltechnologies.com/asset/en-us/solutions/infrastructure-solutions/briefs-summaries/nvidia-2-8-9-400-configuration-era-endorsed-for-the-dell-ai-factory-with-nvidia-brief.pdf",
     "etag": "",
     "lastModified": "",
-    "sha256": "a92a9764b831d9c111ecb00e732323f200dc76218ed757c3531adfaef8c842e5",
-    "bytes": 459593,
-    "txtChars": 12389,
-    "fetchedAt": "2026-07-09T22:39:10.864Z"
+    "sha256": "336ab7e58f5023bd9bd0fe89026fee3b443a34695bb419d07e4f86053aa3e5bb",
+    "bytes": 551645,
+    "txtChars": 11753,
+    "fetchedAt": "2026-09-18T06:36:12.501Z"
   },
   "AI-NV-FACTORY": {
     "url": "https://docs.nvidia.com/ai-enterprise/planning-resource/ai-factory-white-paper/latest/ecosystem-architecture.html",
     "etag": "\"e0b4f646b9cf1212432a54d7c311fa1a\"",
     "lastModified": "Wed, 27 May 2026 19:30:31 GMT",
-    "sha256": "25becbea38132fdd2fef10fa2db1a025a0c9ea2574ce879c5278e8bf905c1d5e",
-    "bytes": 86916,
+    "sha256": "e23df24f1bd0fd171afb9e812425f6b58c73e1671eb2767d29cd60925cdfe4e1",
+    "bytes": 86548,
     "txtChars": 55927,
-    "fetchedAt": "2026-07-09T22:39:11.874Z"
+    "fetchedAt": "2026-09-18T06:36:14.204Z"
   },
   "NV-SN4700": {
     "url": "https://www.nvidia.com/en-us/networking/ethernet-switching/spectrum-sn4000/",
-    "etag": "W/\"4d941-6561c035ef50d\"",
-    "lastModified": "Wed, 08 Jul 2026 16:29:35 GMT",
-    "sha256": "db1b51f8a6050591d0861a3b203a2a4ded3a3d25e5df34c5b18400738483be76",
-    "bytes": 318127,
+    "etag": "\"4d9cd-65b91f58c75c6\"",
+    "lastModified": "Wed, 16 Sep 2026 04:18:28 GMT",
+    "sha256": "2e0065b7bab0ff417f206d26943771ecda14512eef773b2d39e79c2ab6923752",
+    "bytes": 317901,
     "txtChars": 15269,
-    "fetchedAt": "2026-07-09T22:39:13.052Z"
+    "fetchedAt": "2026-09-18T06:36:15.998Z"
   },
   "ST-POWERSTORE": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/storage/technical-support/h18234-dell-powerstore-data-sheet.pdf",
     "etag": "",
     "lastModified": "",
-    "sha256": "a1dd6ceb21ed3f826cf6468582f19e402b4c716bf7e5ca4a21d78d538d22ab08",
-    "bytes": 740528,
-    "txtChars": 27430,
-    "fetchedAt": "2026-07-09T22:39:14.094Z"
+    "sha256": "7a86adb005482462818868cf082d784d899079e59c504126be0df8f680389b70",
+    "bytes": 524979,
+    "txtChars": 24497,
+    "fetchedAt": "2026-09-18T06:36:18.222Z"
   },
   "ST-POWERSCALE": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/storage/technical-support/h15963-ss-powerscale-all-flash-nodes.pdf",
@@ -78,7 +78,7 @@
     "sha256": "b8dee0420bfb051808914612a77d0418d9e9336bb5eb702a1c62bab6622007af",
     "bytes": 333871,
     "txtChars": 16847,
-    "fetchedAt": "2026-07-09T22:39:15.125Z"
+    "fetchedAt": "2026-09-18T06:36:20.119Z"
   },
   "ST-PFLEX-SPEC": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/storage/technical-support/powerflex-5-0-specification-sheet.pdf",
@@ -87,7 +87,7 @@
     "sha256": "1dce804335696729bec31c23c6f17b5cd020c86aa521591db6bb555ec6f7b62a",
     "bytes": 1355637,
     "txtChars": 32538,
-    "fetchedAt": "2026-07-09T22:39:16.193Z"
+    "fetchedAt": "2026-09-18T06:36:24.526Z"
   },
   "ST-POWERMAX": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/storage/technical-support/powermax-2500-8500-spec-sheet.pdf",
@@ -96,70 +96,70 @@
     "sha256": "27488ce5a54b88457425cd626b92c5c2c92d6855e99c31eddaa0147f0c62860b",
     "bytes": 417654,
     "txtChars": 31741,
-    "fetchedAt": "2026-07-09T22:39:17.277Z"
+    "fetchedAt": "2026-09-18T06:36:28.103Z"
   },
   "CO-POWEREDGE": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/servers/technical-support/poweredge-rack-series-spec-sheet.pdf",
     "etag": "",
     "lastModified": "",
-    "sha256": "a4e1ec6cc3727a7a5ca97035e348bfa7efbf24907b8dc637bc4c77c034f04cd5",
-    "bytes": 4220480,
-    "txtChars": 113561,
-    "fetchedAt": "2026-07-09T22:39:19.066Z"
+    "sha256": "f3f6e582b2815c3e905b2a0dd7dd80a583a552f49960277e7652593a5bf8356b",
+    "bytes": 4217590,
+    "txtChars": 114089,
+    "fetchedAt": "2026-09-18T06:36:30.915Z"
   },
   "MG-VERITY-SS": {
     "url": "https://www.beyondedge.com/",
-    "etag": "W/\"d4a1625ed9c407a6f53568e5cee53bf6\"",
+    "etag": "W/\"e83fe59814d53b31f532622a474e8a7c\"",
     "lastModified": "",
-    "sha256": "021144ea51a25953a6f839734ec4524ae4548f618d3251da0923f3ca97f13012",
-    "bytes": 531667,
+    "sha256": "de9894965f185b028749aafdcf941e2d5e74c2919401ab45474bb8ebcb144426",
+    "bytes": 564090,
     "txtChars": 416,
-    "fetchedAt": "2026-07-09T21:52:31.775Z"
+    "fetchedAt": "2026-09-18T06:36:34.582Z"
   },
   "STD-PFC": {
     "url": "https://1.ieee802.org/dcb/802-1qbb/",
     "etag": "",
-    "lastModified": "Thu, 09 Jul 2026 22:39:22 GMT",
-    "sha256": "1379733732e7a4f72e1d1f4ccff12b7ebf427bb66d6b266e3373a19d847117d9",
-    "bytes": 63814,
-    "txtChars": 8660,
-    "fetchedAt": "2026-07-09T22:39:22.481Z"
+    "lastModified": "Fri, 18 Sep 2026 06:36:36 GMT",
+    "sha256": "036213eaa0b7d3626f5c1a9be8d57c07f557757f8ba04ff3ccbea9c6bee23825",
+    "bytes": 64142,
+    "txtChars": 8728,
+    "fetchedAt": "2026-09-18T06:36:36.307Z"
   },
   "STD-ETS": {
     "url": "https://1.ieee802.org/dcb/802-1qaz/",
     "etag": "",
-    "lastModified": "Thu, 09 Jul 2026 22:39:23 GMT",
-    "sha256": "a6a961c2467caadd3790708404b82e22db17c6fcab4091f9bdbc508155b68051",
-    "bytes": 74762,
-    "txtChars": 12009,
-    "fetchedAt": "2026-07-09T22:39:23.429Z"
+    "lastModified": "Fri, 18 Sep 2026 06:34:26 GMT",
+    "sha256": "2dc0893477d67290818e6ed0c57bd63d1885659115f93e3462d5e9397f29cfb5",
+    "bytes": 75090,
+    "txtChars": 12077,
+    "fetchedAt": "2026-09-18T06:36:37.846Z"
   },
   "STD-EVPN": {
     "url": "https://www.rfc-editor.org/rfc/rfc7432",
     "etag": "",
-    "lastModified": "Thu, 09 Jul 2026 22:39:24 GMT",
-    "sha256": "6edd650aa58920a01ae3c4051268350fb5ad5933da96a6455f9dd5b83b33e7cf",
-    "bytes": 593017,
-    "txtChars": 129932,
-    "fetchedAt": "2026-07-09T22:39:24.660Z"
+    "lastModified": "Fri, 18 Sep 2026 06:34:28 GMT",
+    "sha256": "05f0273f1a89d4c4e172372d2426f758844a8e02a45538266bff29f16741bb53",
+    "bytes": 601478,
+    "txtChars": 129859,
+    "fetchedAt": "2026-09-18T06:36:39.631Z"
   },
   "STD-EVPNVXLAN": {
     "url": "https://www.rfc-editor.org/rfc/rfc8365",
     "etag": "",
-    "lastModified": "Thu, 09 Jul 2026 22:39:25 GMT",
-    "sha256": "6a8c7306b896c3ec4c41f6046bc25eebb5e3cefda5f3dcd7e236d6d3dc44403e",
-    "bytes": 380443,
-    "txtChars": 74707,
-    "fetchedAt": "2026-07-09T22:39:25.615Z"
+    "lastModified": "Fri, 18 Sep 2026 06:34:30 GMT",
+    "sha256": "e6530dce22e7e5459f8d5c30bab932a09e355253f6f49de4ba0375745ead6ede",
+    "bytes": 388215,
+    "txtChars": 74594,
+    "fetchedAt": "2026-09-18T06:36:41.232Z"
   },
   "QRG-DC": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/networking/selling-competitive/dell-networking-quick-reference-guide.pdf",
     "etag": "",
     "lastModified": "",
-    "sha256": "8ece55ba334a04e8cc697225e231688e4e07f6af2fb24fb7044528a780eb4940",
-    "bytes": 606062,
-    "txtChars": 30889,
-    "fetchedAt": "2026-07-09T22:39:04.674Z"
+    "sha256": "f64b53687bc3d70f9fd890a143eafe9e611cc9d3a275cc915eeb145ccd2b5b72",
+    "bytes": 608708,
+    "txtChars": 30849,
+    "fetchedAt": "2026-09-18T06:35:20.041Z"
   },
   "SW-S5200": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/networking/technical-support/dell_emc_networking-s5200_on_spec_sheet.pdf",
@@ -168,7 +168,7 @@
     "sha256": "6e369119470fdc8f1a291ac87fc84027f38a2577ff3edf1dda36be3b9cfc3270",
     "bytes": 347665,
     "txtChars": 29592,
-    "fetchedAt": "2026-07-09T22:39:08.233Z"
+    "fetchedAt": "2026-09-18T06:35:38.857Z"
   },
   "SW-Z9432F": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/networking/technical-support/dell-emc-powerswitch-z9432f-spec-sheet.pdf",
@@ -177,7 +177,7 @@
     "sha256": "edcf9d2bf66c16e48397c7b7fe5614519621e5813f7dc88e9e1e905860c3cbf2",
     "bytes": 351669,
     "txtChars": 16068,
-    "fetchedAt": "2026-07-09T22:39:09.065Z"
+    "fetchedAt": "2026-09-18T06:35:43.517Z"
   },
   "SW-Z9864F": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/networking/technical-support/dell-powerswitch-z9864f-on-spec-sheet.pdf",
@@ -186,25 +186,25 @@
     "sha256": "d18ebdbe88f906e1e71352d88b4c9df8609773e62c9b71aee42117ba09d6a6f3",
     "bytes": 320351,
     "txtChars": 14600,
-    "fetchedAt": "2026-07-09T22:39:09.908Z"
+    "fetchedAt": "2026-09-18T06:35:55.592Z"
   },
   "NV-LINKX": {
     "url": "https://www.nvidia.com/en-us/networking/interconnect/",
-    "etag": "W/\"3edc0-656354be534b2\"",
-    "lastModified": "Thu, 09 Jul 2026 22:39:26 GMT",
-    "sha256": "0fe3e44e47515a547445a31394f06590bdbad658b1c87c7ede4d58613c8fba24",
-    "bytes": 257472,
-    "txtChars": 9793,
-    "fetchedAt": "2026-07-09T22:39:26.854Z"
+    "etag": "W/\"4db99-65bae5cdd4271\"",
+    "lastModified": "Thu, 17 Sep 2026 14:11:40 GMT",
+    "sha256": "da6dc144d176d8094d8db4c39ed3f69d2d235e75830b6e605582fdb58c85deff",
+    "bytes": 318361,
+    "txtChars": 20287,
+    "fetchedAt": "2026-09-18T06:36:43.005Z"
   },
   "NV-LINKX-GUIDE": {
     "url": "https://docs.nvidia.com/networking/display/CABLEOVpub",
-    "etag": "W/\"bcb7542fce9eb18f3f02c365f38c30f7\"",
+    "etag": "W/\"f53305c9a4148226dca8de049b5404c4\"",
     "lastModified": "",
-    "sha256": "9132b1f85fd728b1f30fd928d7b660c43c7da481e7342bd460db720aeca01a88",
-    "bytes": 41941,
-    "txtChars": 6402,
-    "fetchedAt": "2026-07-09T22:39:28.952Z"
+    "sha256": "c83d6b1390c73ffa9e107d7d4f78b6a6c78c3d525d376c89eb5ccfe78f0df834",
+    "bytes": 42152,
+    "txtChars": 6499,
+    "fetchedAt": "2026-09-18T06:36:45.115Z"
   },
   "NV-OPT-800G-SR8": {
     "url": "https://docs.nvidia.com/mma4z00-ns-800gb-s-twin-port-osfp-2x400gb-s-multimode-sr8-50m-12-07-2023.pdf",
@@ -213,7 +213,7 @@
     "sha256": "f373dd4ddad8aa10896c1f97ecc9dec6f1451cd787f1a5112d6c4d1efb5eb02f",
     "bytes": 169297,
     "txtChars": 45714,
-    "fetchedAt": "2026-07-09T22:39:30.399Z"
+    "fetchedAt": "2026-09-18T06:36:46.797Z"
   },
   "NV-OPT-800G-DR8": {
     "url": "https://docs.nvidia.com/nvidia-mms4x00-nm-800gbps-twin-port-osfp-2x400gb-s-single-mode-dr8-500m-12-07-2023.pdf",
@@ -222,16 +222,16 @@
     "sha256": "cec0f605bd64a5bba36f9b8aafbc13300d0a3e2be91cf8edba756a1ce5c8b129",
     "bytes": 113731,
     "txtChars": 39342,
-    "fetchedAt": "2026-07-09T22:39:31.658Z"
+    "fetchedAt": "2026-09-18T06:36:48.414Z"
   },
   "NV-CX8-DS": {
     "url": "https://resources.nvidia.com/en-us-accelerated-networking-resource-library/connectx-datasheet-c",
-    "etag": "W/\"452051ed3d988571510c0969f55d80b3\"",
+    "etag": "W/\"1be435b5a4741305975dfb498105e786\"",
     "lastModified": "",
-    "sha256": "452051ed3d988571510c0969f55d80b3f374a1f8e804b4e6ef0aa6a5f0204b5f",
-    "bytes": 217336,
-    "txtChars": 222,
-    "fetchedAt": "2026-07-09T22:39:33.039Z"
+    "sha256": "1be435b5a4741305975dfb498105e7861ee1c74385175fa49bd2f1a12f2fcd57",
+    "bytes": 694190,
+    "txtChars": 1543,
+    "fetchedAt": "2026-09-18T06:36:50.521Z"
   },
   "NV-CX8-UM": {
     "url": "https://docs.nvidia.com/networking/display/nvidia-connectx-8-supernic-user-manual.pdf",
@@ -240,7 +240,7 @@
     "sha256": "90f975b0901fcc854cda42a7589a53ca95a672cc2534c831be268220a7b0cbf8",
     "bytes": 6771360,
     "txtChars": 206399,
-    "fetchedAt": "2026-07-09T22:39:34.399Z"
+    "fetchedAt": "2026-09-18T06:36:52.525Z"
   },
   "NV-NVL72-RA": {
     "url": "https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory-with-gb300-nvl72-dual-plane-networking-architecture.pdf",
@@ -249,7 +249,7 @@
     "sha256": "9c9b807be9cc7d0a34e5857638692fa2dd23b55435c70bd5f0fd680e5ff0f96c",
     "bytes": 3945062,
     "txtChars": 66404,
-    "fetchedAt": "2026-07-09T22:39:35.358Z"
+    "fetchedAt": "2026-09-18T06:36:54.279Z"
   },
   "NV-GB200-RA": {
     "url": "https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-gb200/latest/_downloads/238ab33ee345a7241fc2f15eedc2ff6c/RA11338001-DSPGB200-ReferenceArch.pdf",
@@ -258,43 +258,43 @@
     "sha256": "9976935adfc1b343a89d250f0be8881a092f9d459f554b58f67aad29a0d6861a",
     "bytes": 4732505,
     "txtChars": 62024,
-    "fetchedAt": "2026-07-09T22:39:36.873Z"
+    "fetchedAt": "2026-09-18T06:36:56.007Z"
   },
   "NV-GB300": {
     "url": "https://www.nvidia.com/en-us/data-center/gb300-nvl72/",
-    "etag": "W/\"49141-656354c9d54fe\"",
-    "lastModified": "Thu, 09 Jul 2026 22:39:38 GMT",
-    "sha256": "b0f1e91d6f2cbe0303abecf3a1f5afd5775b4b11bb5e12b85785c49e8e9eea04",
-    "bytes": 299329,
-    "txtChars": 17600,
-    "fetchedAt": "2026-07-09T22:39:39.608Z"
+    "etag": "\"49382-65b8349189b7f\"",
+    "lastModified": "Tue, 15 Sep 2026 10:48:05 GMT",
+    "sha256": "60186e24492ff56a1060775a19e3f5f521f9c0047f3599e49817e13065ccd3f9",
+    "bytes": 299906,
+    "txtChars": 17711,
+    "fetchedAt": "2026-09-18T06:36:57.833Z"
   },
   "CO-XE-AI": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/servers/technical-support/poweredge-xe-ai-spec-sheet.pdf",
     "etag": "",
     "lastModified": "",
-    "sha256": "ed024562cab48f53080286623d1100a8258ae763091b41249f5d649cab2cac09",
-    "bytes": 1052067,
-    "txtChars": 43290,
-    "fetchedAt": "2026-07-09T22:39:41.156Z"
+    "sha256": "b949aaa116646a535bba8754662af0f2e4c7997e7b5d7cc79f3b19905e088e72",
+    "bytes": 1167386,
+    "txtChars": 43258,
+    "fetchedAt": "2026-09-18T06:37:00.234Z"
   },
   "CO-XE9780": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/servers/technical-support/poweredge-xe9780-technical-guide.pdf",
     "etag": "",
     "lastModified": "",
-    "sha256": "00b69a20317155f30c16deb02e940ba737578cc01398dc4fbd12e05266be80f8",
-    "bytes": 5502840,
-    "txtChars": 134417,
-    "fetchedAt": "2026-07-09T22:39:42.776Z"
+    "sha256": "fdfed8b19b9b5ae9f0eace7090b2071b815408450b14913f76c94833e9c73489",
+    "bytes": 5501344,
+    "txtChars": 133633,
+    "fetchedAt": "2026-09-18T06:37:03.198Z"
   },
   "CO-XE9785": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/servers/technical-support/poweredge-xe9785-technical-guide.pdf",
     "etag": "",
     "lastModified": "",
-    "sha256": "6b493299b023b2608346286362a73e4df225ad85b57a699f7c555d4a242422fb",
-    "bytes": 6437875,
-    "txtChars": 122928,
-    "fetchedAt": "2026-07-09T22:39:44.486Z"
+    "sha256": "b391bdd7847a46a6b3cf62ab6e107a149451e5c60173a91bf43d2ae0c2fb3d1c",
+    "bytes": 6468757,
+    "txtChars": 122469,
+    "fetchedAt": "2026-09-18T06:37:05.861Z"
   },
   "SW-E3200": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/networking/technical-support/dell-powerswitch-e3200-specsheet.pdf",
@@ -303,7 +303,7 @@
     "sha256": "e1cee5639f33fda71d981420803759497016b3e7bce654147a68100ce793c7de",
     "bytes": 207259,
     "txtChars": 16668,
-    "fetchedAt": "2026-07-10T01:10:48.323Z"
+    "fetchedAt": "2026-09-18T06:36:01.899Z"
   },
   "SONIC-COMPAT": {
     "url": "https://www.delltechnologies.com/asset/en-us/products/networking/technical-support/enterprise-sonic-features-and-supported-platforms-matrix.pdf",
@@ -312,6 +312,15 @@
     "sha256": "a40d0034a9e0c421b1049a558a481a143c6ec1fa335e0a360c9effab34c7238d",
     "bytes": 586125,
     "txtChars": 68104,
-    "fetchedAt": "2026-07-10T04:09:24.791Z"
+    "fetchedAt": "2026-09-18T06:36:22.370Z"
+  },
+  "MG-DFM-BENET": {
+    "url": "https://be-net.com/dell/",
+    "etag": "",
+    "lastModified": "",
+    "sha256": "6a2cf7118c00be03ccfdc328f89a55eeb36af8683dfcc53722f02de6dbd9651f",
+    "bytes": 781030,
+    "txtChars": 12025,
+    "fetchedAt": "2026-09-18T06:37:13.820Z"
   }
 }

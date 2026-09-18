@@ -1729,7 +1729,7 @@ Physical network requirements for Azure Local - Azure Local | Microsoft Learn
  Additional resources
 
  Last updated on 
- 2026-06-03
+ 2026-06-25
 
  In this article 
 

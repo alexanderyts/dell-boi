@@ -12,33 +12,33 @@ Spec Sheet
 
 Purpose Built                               demands of modern AI workloads.
 
-∑  The leader in AI infrastructure          Next-Level Performance
+‚Ä¢  The leader in AI infrastructure          Next-Level Performance
 
-   As noted in the ForresterÆ AI            Designed for those requiring unmatched reliability and disruptive
+   As noted in the Forrester¬Æ AI            Designed for those requiring unmatched reliability and disruptive
 
    Infrastructure Wave                      computational power, the PowerEdge XE Servers are engineered with
 
-∑  7:1 Consolidation capable*               cutting-edge hardware and optimized for intensive workloads. These
+‚Ä¢  7:1 Consolidation capable*               cutting-edge hardware and optimized for intensive workloads. These
 
-∑  Up to 73% Boost in power efficiency*     servers incorporate advanced processor and GPU architectures,
+‚Ä¢  Up to 73% Boost in power efficiency*     servers incorporate advanced processor and GPU architectures,
 
 Intelligent                                 expansive memory configurations, and high-bandwidth I/O
 
                                             capabilities to ensure exceptional performance in computationally
 
-∑  Up to $50k Savings through power and     demanding scenarios.
+‚Ä¢  Up to $50k Savings through power and     demanding scenarios.
 
    management optimization*1
 
-∑  80% of PowerEdge servers achieve                                          ∑  Tailored for AI model training
+‚Ä¢  80% of PowerEdge servers achieve                                          ‚Ä¢  Tailored for AI model training
 
    EPEAT Climate+ designation*1
 
-∑  Up to 150min Less time to manage per                                      ∑  High-performance computing
+‚Ä¢  Up to 150min Less time to manage per                                      ‚Ä¢  High-performance computing
 
    100 servers*1                                                                (HPC)
 
-∑  Industry leading intelligent management                                   ∑  Available as standalone units or
+‚Ä¢  Industry leading intelligent management                                   ‚Ä¢  Available as standalone units or
 
    - iDRAC 10 integrated controller and                                         as part of the latest Integrated
 
@@ -46,13 +46,13 @@ Intelligent                                 expansive memory configurations, and
 
 Cyber Resilient
 
-∑  3.5x More security features than         Cyber Resilient Architecture for Zero Trust
+‚Ä¢  3.5x More security features than         Cyber Resilient Architecture for Zero Trust
 
    competitor*1
 
-∑  Zero Trust Adoption Capable              IT environment & operations
+‚Ä¢  Zero Trust Adoption Capable              IT environment & operations
 
-∑  Factory-to-Site Assurance with Secured   Security is integrated into every phase of the PowerEdge lifecycle,
+‚Ä¢  Factory-to-Site Assurance with Secured   Security is integrated into every phase of the PowerEdge lifecycle,
 
    Component Verification                   including protected supply chain and factory-to-site integrity
 
@@ -60,13 +60,13 @@ Sustainability                              assurance. Silicon-based root of tru
 
                                             resilience while Multi-Factor Authentication (MFA) and role-based
 
-∑  Engineered for Efficiency PowerEdge      access controls ensure trusted operations.
+‚Ä¢  Engineered for Efficiency PowerEdge      access controls ensure trusted operations.
 
    servers have reduced Energy Intensity    Learn more
 
-   (EI) by 83% over the past 8 years
+   (EI) by 83% over the past 8 years‚Äã
 
-∑  Efficient Up to 73% boost in             Boost Productivity with Dell system management
+‚Ä¢  Efficient Up to 73% boost in             Boost Productivity with Dell system management
 
    power efficiency                         solutions
 
@@ -97,7 +97,7 @@ PowerEdge XE series
 
           chain                                                         for Future Growth.
 
-                                                                        ∑  Dell Technologies' Integrated Rack Systems
+                                                                        ‚Ä¢  Dell Technologies‚Äô Integrated Rack Systems
 
                       Secure server                                        are purpose-built to support scalable
 
@@ -105,7 +105,7 @@ PowerEdge XE series
 
    Root of Trust                                                           future growth.
 
-   and end-to-end                                                       ∑  Dell rack scale integration streamlines
+   and end-to-end                                                       ‚Ä¢  Dell rack scale integration streamlines
 
    verified boot                                                           deployment with pre-validated
 
@@ -121,15 +121,15 @@ PowerEdge XE series
 
                                                  ProSupport Plus for Infrastructure.
 
-                                                 ∑  Maximize server uptime with proactive and predictive support and
+                                                 ‚Ä¢  Maximize server uptime with proactive and predictive support and
 
                                                     24/7 access to senior engineers
 
-                                                 ∑  Benefit from an assigned customer advocate focused on your
+                                                 ‚Ä¢  Benefit from an assigned customer advocate focused on your
 
                                                     desired outcomes
 
-                                                 ∑  Rest easier knowing you have third-party collaboration and
+                                                 ‚Ä¢  Rest easier knowing you have third-party collaboration and
 
                                                     mission critical response for Severity 1 issues
 
@@ -158,19 +158,19 @@ PowerEdge XE series
                                                  that simplify capacity expansion for PowerEdge Servers
 
 2  | PowerEdge XE series
-      Feature                                          XE9712                                                             XE8712
+      Feature                 XE9712                                                        XE8712
 
       Systems
 
       Processors              Two NVIDIA Grace with 72 cores per processor                  Two NVIDIA Grace with 72 cores per processor
 
-      Memory                  ∑  480 GB of LP DDR5 memory with ECC / CPU                    ∑  480 GB of LP DDR5 memory with ECC/ CPU
+      Memory                  ‚Ä¢  480 GB of LP DDR5 memory with ECC / CPU                    ‚Ä¢  480 GB of LP DDR5 memory with ECC/ CPU
 
-                              ∑  288 GB HBM3e / GPU                                         ∑  192 GB HBM3e / GPU
+                              ‚Ä¢  288 GB HBM3e / GPU                                         ‚Ä¢  192 GB HBM3e / GPU
 
-      GPUs                    ∑  4 Blackwell Ultra GPU's                                    ∑  4 Blackwell Ultra GPU's
+      GPUs                    ‚Ä¢  4 Blackwell Ultra GPU‚Äôs                                    ‚Ä¢  4 Blackwell Ultra GPU‚Äôs
 
-                              ∑  900 GB/s of coherent memory through NVLINK CPU-            ∑  900 GB/s of coherent memory through NVLINK CPU-GPU
+                              ‚Ä¢  900 GB/s of coherent memory through NVLINK CPU-            ‚Ä¢  900 GB/s of coherent memory through NVLINK CPU-GPU
 
                                  GPU interconnect                                              interconnect
 
@@ -178,11 +178,11 @@ PowerEdge XE series
 
       solution
 
-      Rack and Sled Form      ∑  IR9048 is a 48 RU (Rack Units) rack                        ∑  IR7044 is a 44 OU (Open Rack Units) rack
+      Rack and Sled Form      ‚Ä¢  IR9048 is a 48 RU (Rack Units) rack                        ‚Ä¢  IR7044 is a 44 OU (Open Rack Units) rack
 
-      Factor                  ∑  Each XE9712 sled is 1 RU                                   ∑  IR7050 is a 50 OU (Open Rack Units) rack
+      Factor                  ‚Ä¢  Each XE9712 sled is 1 RU                                   ‚Ä¢  IR7050 is a 50 OU (Open Rack Units) rack
 
-                              Note: 1 RU = 44.45 mm (1.75 in.) height, and 482.6 mm         ∑  Each XE8712 sled is 1 OU
+                              Note: 1 RU = 44.45 mm (1.75 in.) height, and 482.6 mm         ‚Ä¢  Each XE8712 sled is 1 OU
 
                               (19 in.) width.                                               Note: 1 OU = 48 mm (1.88 inch) height, and 538.98 mm (21.22
 
@@ -194,29 +194,29 @@ PowerEdge XE series
 
       hot-swap
 
-      Power Supplies,         ∑  6 x 5500 W AC PSUs installed in the power shelf            ∑  6 x 5500 W AC PSUs installed in the power shelf (33 kW)
+      Power Supplies,         ‚Ä¢  6 x 5500 W AC PSUs installed in the power shelf            ‚Ä¢  6 x 5500 W AC PSUs installed in the power shelf (33 kW)
 
-      redundant, hot swap        (33 kW)                                                    ∑  Supply power is 54 VDC
+      redundant, hot swap        (33 kW)                                                    ‚Ä¢  Supply power is 54 VDC
 
-                              ∑  Supply power is 54 VDC
+                              ‚Ä¢  Supply power is 54 VDC
 
-      Cooling options         ∑  Air cooling                                                ∑  Direct Liquid Cooling (DLC)
+      Cooling options         ‚Ä¢  Air cooling                                                ‚Ä¢  Direct Liquid Cooling (DLC)
 
-                              ∑  Direct Liquid Cooling (DLC)
+                              ‚Ä¢  Direct Liquid Cooling (DLC)
 
-      PCIe slots              ∑  Up to 2 PCIe Gen5 x16 full-height, half-length slots,      ∑  Up to 4 PCIe Gen5 x16 full-height, half-length slots, front
+      PCIe slots              ‚Ä¢  Up to 2 PCIe Gen5 x16 full-height, half-length slots,      ‚Ä¢  Up to 4 PCIe Gen5 x16 full-height, half-length slots, front
 
                                  front risers only                                             risers only
 
-                              ∑  2 x Mezzanine - Gen5/Gen6
+                              ‚Ä¢  2 x Mezzanine - Gen5/Gen6
 
-      PCIe cards              ∑  1 x BF3 SuperNIC Full Height Half Length                   ∑  1 x BF3 SuperNIC Full Height Half Length
+      PCIe cards              ‚Ä¢  1 x BF3 SuperNIC Full Height Half Length                   ‚Ä¢  1 x BF3 SuperNIC Full Height Half Length
 
-      Boot Drives             ∑  1 x M.2 Boot                                               ∑  1 x M.2 Boot
+      Boot Drives             ‚Ä¢  1 x M.2 Boot                                               ‚Ä¢  1 x M.2 Boot
 
-      Network Options         ∑  1G integrated LOM                                          ∑  1x OCP 3.0 4x & 4x16 FHHL Gen5 PCIe
+      Network Options         ‚Ä¢  1G integrated LOM                                          ‚Ä¢  1x OCP 3.0 4x & 4x16 FHHL Gen5 PCIe
 
-                              ∑  4 x16 CX8 OSFP ports
+                              ‚Ä¢  4 x16 CX8 OSFP ports
 
       Cabled fans             8 STD                                                         8 HPR
 
@@ -230,52 +230,52 @@ PowerEdge XE series
 
       Maximum Weight          30 kg (66.14 lb)                                              33.07 kg (72.90 lb)
 
-      Embedded                For XE9712                      For XE9712 with iDRAC         ∑  iDRAC10
+      Embedded                For XE9712                      For XE9712 with iDRAC         ‚Ä¢  iDRAC10
 
-      Management              ∑  Aspeed AST2600 BMC           ∑  iDRAC 10 Arbel based
+      Management              ‚Ä¢  Aspeed AST2600 BMC           ‚Ä¢  iDRAC 10 Arbel based
 
                                  DC-SCI compatible               BMC
 
-                              ∑  Dell Customized              ∑  BMC-to-NVIDIA HMC for
+                              ‚Ä¢  Dell Customized              ‚Ä¢  BMC-to-NVIDIA HMC for
 
                                  Reference BMC and BIOS          HPM management
 
-                              ∑  BMC-to-NVIDIA HMC for
+                              ‚Ä¢  BMC-to-NVIDIA HMC for
 
                                  HPM management
 
-      Front Ports             For XE9712                      For XE9712 with iDRAC         ∑  1 x USB 3.0 Type - A port
+      Front Ports             For XE9712                      For XE9712 with iDRAC         ‚Ä¢  1 x USB 3.0 Type - A port
 
-                              ∑  1 x USB 3.0 Type - A port    ∑  1 x USB 3.0 Type - A port  ∑  1 x RJ45 dedicated BMC port
+                              ‚Ä¢  1 x USB 3.0 Type - A port    ‚Ä¢  1 x USB 3.0 Type - A port  ‚Ä¢  1 x RJ45 dedicated BMC port
 
-                              ∑  1 x RJ45 (BF3                ∑  1 x RJ45 (BF3              ∑  1 x DisplayPort
+                              ‚Ä¢  1 x RJ45 (BF3                ‚Ä¢  1 x RJ45 (BF3              ‚Ä¢  1 x DisplayPort
 
-                                 management port -               management port -          ∑  1 x OCP 3.0 Gen5
+                                 management port -               management port -          ‚Ä¢  1 x OCP 3.0 Gen5
 
-                                 optional                        optional)                  ∑  1 x RJ45 (BF3 management port)
+                                 optional                        optional)                  ‚Ä¢  1 x RJ45 (BF3 management port)
 
-                              ∑  1x Mini-DisplayPort          ∑  1x Mini-DisplayPort
+                              ‚Ä¢  1x Mini-DisplayPort          ‚Ä¢  1x Mini-DisplayPort
 
-                              ∑  1 x BIOS Serial out          ∑  1 x USB 2.0 Type-C
+                              ‚Ä¢  1 x BIOS Serial out          ‚Ä¢  1 x USB 2.0 Type-C
 
-                              ∑  4 x OSFP                     ∑  1x 1Gb LOM
+                              ‚Ä¢  4 x OSFP                     ‚Ä¢  1x 1Gb LOM
 
-                              ∑  1x 1Gb LOM                   ∑  1 x RJ45 dedicated
+                              ‚Ä¢  1x 1Gb LOM                   ‚Ä¢  1 x RJ45 dedicated
 
-                              ∑  1 x RJ45 dedicated BMC          iDRAC port
+                              ‚Ä¢  1 x RJ45 dedicated BMC          iDRAC port
 
                                  port
 
       Rail Support            Static rails for ORv3 IR9048 rack                             Static rails for ORv3 IR7000 rack
 
-      Operating Systems       ∑  Canonical Ubuntu Server LTS                                ∑  Canonical Ubuntu Server LTS
+      Operating Systems       ‚Ä¢  Canonical Ubuntu Server LTS                                ‚Ä¢  Canonical Ubuntu Server LTS
 
-                                                                                            ∑  Red Hat Enterprise Linux
+                                                                                            ‚Ä¢  Red Hat Enterprise Linux
 
       For specifications and interoperability details, see Dell.com/OSsupport.
 
 3  |  PowerEdge XE series
-   Feature                                       XE9785L                                                XE9780L/ XE9780LAP
+   Feature                XE9785L                                                   XE9780L/ XE9780LAP
 
    Systems
 
@@ -291,7 +291,7 @@ PowerEdge XE series
 
    (max capacity)                                                                   XE9780LAP: 24 (6 TB)*
 
-   GPUs                   8 AMD InstinctTM MI355X 288 GB 1400 W OAM with            8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs, fully
+   GPUs                   8 AMD Instinct‚Ñ¢ MI355X 288 GB 1400 W OAM with             8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs, fully
 
                           AMD Infinity Fabric connectivity                          interconnected with NVIDIA NVLink technology
 
@@ -384,7 +384,7 @@ PowerEdge XE series
    Note: * Feature not available at product launch. Refer to the product configurator page on Dell.com to confirm feature availability.
 
 4  | PowerEdge XE series
-   Feature                                              XE9785                                                   XE9780
+   Feature                XE9785                                                      XE9780
 
    Systems
 
@@ -396,7 +396,7 @@ PowerEdge XE series
 
    (max capacity)
 
-   GPUs                   8 AMD InstinctTM MI355X 288 GB 1400 W OAM with AMD          8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs, fully
+   GPUs                   8 AMD Instinct‚Ñ¢ MI355X 288 GB 1400 W OAM with AMD           8 NVIDIA HGX B300 NVL8 270 GB 1100 W SXM6 GPUs, fully
 
                           Infinity Fabric connectivity                                interconnected with NVIDIA NVLink technology
 
@@ -489,11 +489,11 @@ PowerEdge XE series
    Note: * Feature not available at product launch. Refer to the product configurator page on Dell.com to confirm feature availability.
 
 5  | PowerEdge XE series
-   Feature                                       XE9680L                                                     XE9685L
+   Feature                XE9680L                                                     XE9685L
 
    Systems
 
-   Processors             Two 5th Generation IntelÆ XeonÆ Scalable processors with    Two 5th Generation AMD EPYCTM 9005 Series processors
+   Processors             Two 5th Generation Intel¬Æ Xeon¬Æ Scalable processors with    Two 5th Generation AMD EPYC‚Ñ¢ 9005 Series processors
 
                           up to 64 cores per processor                                with up to 192 cores per processor
 
@@ -507,7 +507,7 @@ PowerEdge XE series
 
    Internal boot          BOSS-N1: HWRAID 1, 2 x M.2 NVMe SSDs
 
-   Drives (max capacity)  8 x 2.5" NVMe/SAS/SATA SSDs (122.88 TB)
+   Drives (max capacity)  8 x 2.5‚Äù NVMe/SAS/SATA SSDs (122.88 TB)
 
    Power Supplies,        3000 WTitanium 200-240 VAC or 240 VDC                       3000 W Titanium 200-240 VAC or 240 VDC
 
@@ -576,45 +576,47 @@ PowerEdge XE series
    For specifications and interoperability details, see Dell.com/OSsupport.
 
 6  | PowerEdge XE series
-   Feature                                            XE7745                                                XE7740
+   Feature                XE7745                                                  XE7740
 
    Systems
 
-   Processors             Two 5th Generation AMD EPYCTM 9005 Series processors     Two IntelÆ XeonÆ 6 series processors with up to 144 cores
+   Processors             Two 5th Generation AMD EPYC‚Ñ¢ 9005 Series processors     Two Intel¬Æ Xeon¬Æ 6 series processors with up to 144 cores
 
-                          with up to 192 cores per processor                       per processor
+                          with up to 192 cores per processor                      per processor
 
-   DDR5 RDIMM slots       24 (3 TB)                                                32 (4 TB)
+   DDR5 RDIMM slots       24 (6 TB)                                               32 (8 TB)
 
    (max capacity)
 
    GPUs                   8x PCIe Gen 5 x16 DW-FHFL up to 600 Wor 16x PCIe Gen 5 x16 SW-FHFL up to 75W
 
-                          ∑  NVIDIA RTX ProTM 6000 Blackwell Server Edition 600 W  ∑  NVIDIA RTX ProTM 6000 Blackwell Server Edition 600 W
+                          ‚Ä¢  NVIDIA RTX Pro‚Ñ¢ 6000 Blackwell Server Edition 600 W  ‚Ä¢  NVIDIA RTX Pro‚Ñ¢ 6000 Blackwell Server Edition 600 W
 
-                                (DW, 96 GB)                                           (DW, 96 GB)
+                                (DW, 96 GB)                                          (DW, 96 GB)
 
-                          ∑  NVIDIA H200 NVL 600 W (DW, 141 GB)                    ∑  NVIDIA H200 NVL 600 W (DW, 141 GB)
+                          ‚Ä¢  AMD MI350P 600 W (DW, 144GB)                         ‚Ä¢  NVIDIA H200 NVL 600 W (DW, 141 GB)
 
-                          ∑  NVIDIA H100 NVL 400 W (DW, 94 GB)                     ∑  NVIDIA H100 NVL 400 W (DW, 94 GB)
+                          ‚Ä¢  NVIDIA H200 NVL 600 W (DW, 141 GB)                   ‚Ä¢  NVIDIA H100 NVL 400 W (DW, 94 GB)
 
-                          ∑  NVIDIA L40S 350 W (DW, 48 GB)                         ∑  NVIDIA L40S 350 W (DW, 48 GB)
+                          ‚Ä¢  NVIDIA H100 NVL 400 W (DW, 94 GB)                    ‚Ä¢  NVIDIA L40S 350 W (DW, 48 GB)
 
-                          ∑  NVIDIA L4 72 W (SW, 24 GB)                            ∑  INTEL Gaudi3 600 W (DW, 128 GB)
+                          ‚Ä¢  NVIDIA L40S 350 W (DW, 48 GB)                        ‚Ä¢  INTEL Gaudi3 600 W (DW, 128 GB)
 
-                                                                                   ∑  NVIDIA L4 72 W (SW, 24 GB)
+                          ‚Ä¢  NVIDIA L4 72 W (SW, 24 GB)                           ‚Ä¢  NVIDIA L4 72 W (SW, 24 GB)
+
+                          ‚Ä¢  NVIDIA RTX Pro 4500 165 W (SW, 32 GB)                ‚Ä¢  NVIDIA RTX Pro 4500 165 W (SW, 32 GB)
 
    Internal boot          BOSS-N1: HWRAID 1, 2 x M.2 NVMe SSDs
 
-   Drives (max capacity)  8 x 2.5" NVMe/SAS/SATA SSDs (122.88 TB)
+   Drives (max capacity)  8 x 2.5‚Äù NVMe/SAS/SATA SSDs (122.88 TB)
 
-   Power Supplies,        ∑  3200 W Titanium 200-240 VAC or 240 VDC
+   Power Supplies,        ‚Ä¢  3200 W Titanium 200-240 VAC or 240 VDC
 
    redundant, hot swap    Multi capacity for 3200 W PSU:3200 W for 220.1-240 VAC or 2900 W for 200-220 VAC
 
-                          ∑  3200 W Titanium 277 VAC or 336 VDC
+                          ‚Ä¢  3200 W Titanium 277 VAC or 336 VDC
 
-                          ∑  2400 W Titanium 200-240 VAC or 240 VDC
+                          ‚Ä¢  2400 W Titanium 200-240 VAC or 240 VDC
 
    Cooling options        Air cooling
 
@@ -638,7 +640,7 @@ PowerEdge XE series
 
    Bezel                  Optional security bezel
 
-   Maximum Weight         68.5 Kg (151.02 lb)                                      71.35 Kg (157.30 lb)
+   Maximum Weight         68.5 Kg (151.02 lb)                                     71.35 Kg (157.30 lb)
 
    Embedded               iDRAC10, iDRAC Direct, iDRAC RESTful API with Redfish, iDRAC Service Module, RACADM CLI
 
@@ -683,15 +685,15 @@ PowerEdge XE series
    Note: * Feature not available at product launch. Refer to the product configurator page on Dell.com to confirm feature availability.
 
 7  | PowerEdge XE series
-   Feature                                 XE9680                                XE9640                                         XE8640
+   Feature                XE9680                                        XE9640                                   XE8640
 
    Systems
 
-   IntelÆ XeonÆ           Two 5th Generation IntelÆ XeonÆ Scalable processors with up to 64 cores per processor
+   Intel¬Æ Xeon¬Æ           Two 5th Generation Intel¬Æ Xeon¬Æ Scalable processors with up to 64 cores per processor
 
-   Scalable Processors    Two 4th Generation IntelÆ XeonÆ Scalable processors with up to 56 cores per processor
+   Scalable Processors    Two 4th Generation Intel¬Æ Xeon¬Æ Scalable processors with up to 56 cores per processor
 
-   with IntelÆ C741
+   with Intel¬Æ C741
 
    chipset:
 
@@ -747,7 +749,7 @@ PowerEdge XE series
 
    Software RAID          S160
 
-   Drives (max capacity)  8 x 2.5" NVMe/SAS/SATA SSDs                   4 x 2.5" NVMe SSDs (61.44 TB)            8 x 2.5" NVMe/SAS/SATA SSDs
+   Drives (max capacity)  8 x 2.5‚Äù NVMe/SAS/SATA SSDs                   4 x 2.5‚Äù NVMe SSDs (61.44 TB)            8 x 2.5‚Äù NVMe/SAS/SATA SSDs
 
                           (122.88 TB) , 16 x E3.S NVMe direct drives                                             (122.88 TB) ,
 
@@ -806,7 +808,7 @@ PowerEdge XE series
    Maximum Weight         114.05 kg (251.44 lb)                         46.3 kg (102.07 lb)                      61.4 kg (135.36 lb)
 
 8  | PowerEdge XE series
-Feature                                XE9680                                         XE9640                                XE8640
+Feature                   XE9680                                    XE9640                               XE8640
 
 Embedded                  iDRAC9, iDRAC Direct, iDRAC RESTful API with Redfish, iDRAC Service Module
 
@@ -870,9 +872,9 @@ your operation costs. We even make it easy to retire legacy systems responsibly 
 
               solutions                                                                                  #DellTechnologies
 
-Rev A05
+Rev A07
 
-Copyright © Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of
+Copyright ¬© Dell Inc. All Rights Reserved. Dell Technologies, Dell and other trademarks are trademarks of Dell Inc. or its subsidiaries. Other trademarks may be trademarks of
 
 their respective owners.
 
